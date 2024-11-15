@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -10,14 +9,22 @@ public class ButtonOptions : MonoBehaviour
     public class ButtonOptionsOption
     {
         public string Title;
+
+        public ButtonOptionsOption(string title) 
+        { 
+            Title = title;
+        }
     }
 
-    public List<ButtonOptionsOption> Options = new List<ButtonOptionsOption>();
 
+
+    public List<ButtonOptionsOption> Options = new List<ButtonOptionsOption>();
     [SerializeField]
     private TextMeshProUGUI _buttonText;
 
     private int _currentOptionIndex = 0;
+
+    public event EventHandler<int> ButtonOptions_OnOptionChanged;
 
     private void Start()
     {
@@ -41,6 +48,13 @@ public class ButtonOptions : MonoBehaviour
         return Options[_currentOptionIndex];
     }
 
+    public void SetOptionIndex(int newIndex)
+    {
+        if (newIndex < 0 || newIndex >= Options.Count) throw new IndexOutOfRangeException("trying set _currentOptionIndexout of index");
+        _currentOptionIndex = newIndex;
+        UpdateCurrentDisplayedOption();
+    }
+
     public void NextOption()
     {
         _currentOptionIndex++;
@@ -48,7 +62,10 @@ public class ButtonOptions : MonoBehaviour
         {
             _currentOptionIndex = 0;
         }
+
         UpdateCurrentDisplayedOption();
+
+        ButtonOptions_OnOptionChanged?.Invoke(this, _currentOptionIndex);
     }
 
     public void PrevOption()
@@ -58,6 +75,9 @@ public class ButtonOptions : MonoBehaviour
         {
             _currentOptionIndex = Options.Count - 1;
         }
+
         UpdateCurrentDisplayedOption();
+
+        ButtonOptions_OnOptionChanged?.Invoke(this, _currentOptionIndex);
     }
 }

@@ -29,12 +29,10 @@ public class ButtonOnHoverScaleUp : MonoBehaviour, IPointerEnterHandler, IPointe
     public void OnPointerEnter(PointerEventData eventData)
     {
         _scalingUp = true;
-        Debug.Log("SCALE UP");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         _scalingUp = false;
-        Debug.Log("SCALE DOWN");
     }
 }
