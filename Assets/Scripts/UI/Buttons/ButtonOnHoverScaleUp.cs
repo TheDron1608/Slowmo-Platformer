@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class ButtonOnHoverScaleUp : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     const float IMAGE_ON_HOVER_SCALE_MULTIPLIER = 1.1f;
-    const float IMAGE_ON_HOVER_MAX_SCALE_MULTIPLIER = 1.3f;
     const float IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER = 15.0f;
 
     private bool _scalingUp = false;
