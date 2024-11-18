@@ -12,11 +12,13 @@ public class ScenePreloader
     /// <summary>
     /// Preloads scence and awaits to activate it via TryLoadPreloadedScence(string scenceName) function
     /// </summary>
-    public static void PreloadScence (string sceneName, [DefaultValue("LoadSceneMode.Single")] LoadSceneMode mode)
+    public static AsyncOperation PreloadScence (string sceneName, [DefaultValue("LoadSceneMode.Single")] LoadSceneMode mode)
     {
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, mode);
         asyncOperation.allowSceneActivation = false;
         _loadingScences.Add(sceneName, asyncOperation);
+
+        return asyncOperation;
     }
 
     /// <summary>
@@ -26,12 +28,14 @@ public class ScenePreloader
     /// </summary>
     /// <returns>true if sucessfully loaded preloaded scene
     /// false if scene not preloaded or progress of preloading is not completed</returns>
-    public static bool TryLoadPreloadedScence(string scenceName)
+    public static bool TryLoadPreloadedScence(string sceneName)
     {
-        if (!_loadingScences.TryGetValue(scenceName, out AsyncOperation scene))
+        if (!_loadingScences.TryGetValue(sceneName, out AsyncOperation scene))
         {
             return false;
         }
+
+        //Debug.Log(sceneName + " : " + scene);
         if (scene.progress > 0.89f)
         {
             scene.allowSceneActivation = true;
@@ -70,7 +74,7 @@ public class ScenePreloader
     /// rreturn  progress of preloading scene
     /// </summary>
     /// <returns>true if preloaded, else false, returns null if scene not found</returns>
-    public static bool? GetScebcePreloadingIsDone(string sceneName)
+    public static bool? GetScencePreloadingIsDone(string sceneName)
     {
         if (!_loadingScences.TryGetValue(sceneName, out AsyncOperation scene))
         {

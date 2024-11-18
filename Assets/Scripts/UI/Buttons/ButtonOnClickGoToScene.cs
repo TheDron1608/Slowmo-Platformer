@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ButtonOnClickGoToScene : MonoBehaviour
 {
@@ -6,6 +7,6 @@ public class ButtonOnClickGoToScene : MonoBehaviour
 
     public void GoToScene()
     {
-        ScenePreloader.TryLoadPreloadedScenceElseLoadRegulary(GoToSceneName);
+        SceneManager.LoadScene(GoToSceneName);
     }
 }

@@ -10,6 +10,19 @@ public class BindedKey : MonoBehaviour
     public int ActionReferenceIndex = 0;
     [SerializeField] private TextMeshProUGUI _textContainer;
 
+    public string Text
+    {
+        get 
+        { 
+            return _textContainer.text; 
+        }
+        set 
+        { 
+            _textContainer.text = value; 
+        }
+    }
+
+
     private void Start()
     {
         InputSystem.onActionChange += InputSystem_OnActionChange;
@@ -27,8 +40,7 @@ public class BindedKey : MonoBehaviour
 
     public string GetCurrentInputBindingName()
     {
-        string fullBindPath = ActionReference.action.bindings[ActionReferenceIndex].path;
-        return fullBindPath.Substring(fullBindPath.LastIndexOf("/") + 1).FirstCharacterToUpper();
+        return ActionReference.action.GetBindingDisplayString(ActionReferenceIndex, InputBinding.DisplayStringOptions.DontIncludeInteractions);
     }
 
 

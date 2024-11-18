@@ -1,6 +1,3 @@
-using System.IO;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,16 +5,26 @@ public class ButtonOnClickAssignControl : MonoBehaviour
 {
     public InputActionReference ActionReference;
     public int ActionReferenceIndex = 0;
-    [SerializeField] private BindedKey _BindedKey;
+    [SerializeField] private BindedKey _bindedKey;
+
+    private string _oldBindedKeyText;
 
     private void Awake()
     {
-        _BindedKey.ActionReference = ActionReference;
-        _BindedKey.ActionReferenceIndex = ActionReferenceIndex;
+        _bindedKey.ActionReference = ActionReference;
+        _bindedKey.ActionReferenceIndex = ActionReferenceIndex;
     }
 
-    public void AssignButton(InputAction newAction)
+    public void AssignButton()
     {
-        ActionReference.Set(newAction);
+        ActionReference.action.actionMap.Disable();
+        UIManager.Instance.InputBindingScreenOverlay.Show();
+        ActionReference.action.PerformInteractiveRebinding(ActionReferenceIndex).OnComplete(
+            callback => { 
+                ActionReference.action.actionMap.Enable(); 
+                _oldBindedKeyText = null;
+                UIManager.Instance.InputBindingScreenOverlay.Hide();
+            }
+            ).Start();
     }
 }

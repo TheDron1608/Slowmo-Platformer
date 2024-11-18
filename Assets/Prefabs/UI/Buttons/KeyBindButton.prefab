@@ -215,7 +215,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8596928360304132669}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5289815107078722798}
+        m_TargetAssemblyTypeName: ButtonOnClickAssignControl, Assembly-CSharp
+        m_MethodName: AssignButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8596928360304132669 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2042351370274705452, guid: c8c11e43ca8e44840b167f258462092f, type: 3}
@@ -503,7 +515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionReference: {fileID: 0}
   ActionReferenceIndex: 0
-  _BindedKey: {fileID: 2000129434535061332}
+  _bindedKey: {fileID: 2000129434535061332}
 --- !u!224 &6917046924462026582 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2411774491265838264, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
