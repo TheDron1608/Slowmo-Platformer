@@ -7,8 +7,6 @@ public class ButtonOnClickAssignControl : MonoBehaviour
     public int ActionReferenceIndex = 0;
     [SerializeField] private BindedKey _bindedKey;
 
-    private string _oldBindedKeyText;
-
     private void Awake()
     {
         _bindedKey.ActionReference = ActionReference;
@@ -21,9 +19,12 @@ public class ButtonOnClickAssignControl : MonoBehaviour
         UIManager.Instance.InputBindingScreenOverlay.Show();
         ActionReference.action.PerformInteractiveRebinding(ActionReferenceIndex).OnComplete(
             callback => { 
+
                 ActionReference.action.actionMap.Enable(); 
-                _oldBindedKeyText = null;
                 UIManager.Instance.InputBindingScreenOverlay.Hide();
+                string newActionData = InputSystem.actions.SaveBindingOverridesAsJson();
+                JSONFileManager.SaveJSON(JSONFileManager.Instance.ControlsFileName, newActionData);
+
             }
             ).Start();
     }

@@ -88,9 +88,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4103994384758564580, guid: c9853eebb4b27264abd74c61a58344a5, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 1130637995040768
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103994384758564580, guid: c9853eebb4b27264abd74c61a58344a5, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:db26f42ef7305d24ba8bd4415d280a7f
+      objectReference: {fileID: 0}
     - target: {fileID: 6847416899795084661, guid: c9853eebb4b27264abd74c61a58344a5, type: 3}
       propertyPath: m_Name
-      value: GoToScenceButton
+      value: SettingButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

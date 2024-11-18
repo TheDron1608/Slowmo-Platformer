@@ -135,6 +135,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5096709826368842954}
     m_Modifications:
+    - target: {fileID: 2240393728488134951, guid: 72e183bc44091d94eb4c97293bf0167e, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 1114129289994240
+      objectReference: {fileID: 0}
+    - target: {fileID: 2240393728488134951, guid: 72e183bc44091d94eb4c97293bf0167e, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:db26f42ef7305d24ba8bd4415d280a7f
+      objectReference: {fileID: 0}
     - target: {fileID: 3437489959706759005, guid: 72e183bc44091d94eb4c97293bf0167e, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
