@@ -3,11 +3,13 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class BindedKey : MonoBehaviour
 {
     public InputActionReference ActionReference;
-    public int ActionReferenceIndex = 0;
+    public int ActionReferenceIndexKeyboard = 0;
+    public int ActionReferenceIndexGamePad = 1;
     [SerializeField] private TextMeshProUGUI _textContainer;
 
     public string Text
@@ -26,13 +28,20 @@ public class BindedKey : MonoBehaviour
     private void Start()
     {
         InputSystem.onActionChange += InputSystem_OnActionChange;
+        InputSystem.onDeviceChange += InputSystem_OnDeviceChange;
         UpdateKeyButtonText();
     }
 
     private void InputSystem_OnActionChange(object arg1, InputActionChange change)
     {
+        if (change != InputActionChange.BoundControlsChanged) return;
         UpdateKeyButtonText();
     }
+    private void InputSystem_OnDeviceChange(UnityEngine.InputSystem.InputDevice device, InputDeviceChange change)
+    {
+        UpdateKeyButtonText();
+    }
+
     private void UpdateKeyButtonText()
     {
         _textContainer.text = GetCurrentInputBindingName();
@@ -40,7 +49,9 @@ public class BindedKey : MonoBehaviour
 
     public string GetCurrentInputBindingName()
     {
-        return ActionReference.action.GetBindingDisplayString(ActionReferenceIndex, InputBinding.DisplayStringOptions.DontIncludeInteractions);
+        //Debug.Log(InputSystem.devices[^1].device.deviceId);
+
+        return ActionReference.action.GetBindingDisplayString(ActionReferenceIndexKeyboard, InputBinding.DisplayStringOptions.DontIncludeInteractions);
     }
 
 

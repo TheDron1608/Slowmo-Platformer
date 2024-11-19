@@ -10,8 +10,8 @@ public class ButtonOptions : MonoBehaviour
     {
         public string Title;
 
-        public ButtonOptionsOption(string title) 
-        { 
+        public ButtonOptionsOption(string title)
+        {
             Title = title;
         }
     }
@@ -22,7 +22,7 @@ public class ButtonOptions : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _buttonText;
 
-    private int _currentOptionIndex = 0;
+    public int CurrentOptionIndex { get; private set; } = 0;
 
     public event EventHandler<int> ButtonOptions_OnOptionChanged;
 
@@ -35,7 +35,7 @@ public class ButtonOptions : MonoBehaviour
     {
         if (Options.Count > 0)
         {
-            _buttonText.text = Options[_currentOptionIndex].Title;
+            _buttonText.text = Options[CurrentOptionIndex].Title;
         }
         else
         {
@@ -45,39 +45,40 @@ public class ButtonOptions : MonoBehaviour
 
     public ButtonOptionsOption GetCurrentOption()
     {
-        return Options[_currentOptionIndex];
+        return Options[CurrentOptionIndex];
     }
 
     public void SetOptionIndex(int newIndex)
     {
-        if (newIndex < 0 || newIndex >= Options.Count) throw new IndexOutOfRangeException("trying set _currentOptionIndexout of index");
-        _currentOptionIndex = newIndex;
+        if (newIndex < 0 || newIndex >= Options.Count) throw new IndexOutOfRangeException("trying set _currentOptionIndexout out of max index");
+        CurrentOptionIndex = newIndex;
+        ButtonOptions_OnOptionChanged?.Invoke(this, CurrentOptionIndex);
         UpdateCurrentDisplayedOption();
     }
 
     public void NextOption()
     {
-        _currentOptionIndex++;
-        if (_currentOptionIndex >= Options.Count)
+        CurrentOptionIndex++;
+        if (CurrentOptionIndex >= Options.Count)
         {
-            _currentOptionIndex = 0;
+            CurrentOptionIndex = 0;
         }
 
         UpdateCurrentDisplayedOption();
 
-        ButtonOptions_OnOptionChanged?.Invoke(this, _currentOptionIndex);
+        ButtonOptions_OnOptionChanged?.Invoke(this, CurrentOptionIndex);
     }
 
     public void PrevOption()
     {
-        _currentOptionIndex--;
-        if (_currentOptionIndex < 0)
+        CurrentOptionIndex--;
+        if (CurrentOptionIndex < 0)
         {
-            _currentOptionIndex = Options.Count - 1;
+            CurrentOptionIndex = Options.Count - 1;
         }
 
         UpdateCurrentDisplayedOption();
 
-        ButtonOptions_OnOptionChanged?.Invoke(this, _currentOptionIndex);
+        ButtonOptions_OnOptionChanged?.Invoke(this, CurrentOptionIndex);
     }
 }

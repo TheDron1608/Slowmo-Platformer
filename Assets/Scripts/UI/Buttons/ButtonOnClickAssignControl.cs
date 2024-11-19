@@ -10,7 +10,7 @@ public class ButtonOnClickAssignControl : MonoBehaviour
     private void Awake()
     {
         _bindedKey.ActionReference = ActionReference;
-        _bindedKey.ActionReferenceIndex = ActionReferenceIndex;
+        _bindedKey.ActionReferenceIndexKeyboard = ActionReferenceIndex;
     }
 
     public void AssignButton()
