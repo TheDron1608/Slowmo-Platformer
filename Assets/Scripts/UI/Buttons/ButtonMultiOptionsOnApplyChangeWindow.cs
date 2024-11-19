@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
 {
@@ -24,7 +22,7 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
     {
         WindowOptionsSaveData newSaveData = new WindowOptionsSaveData();
         
-        Vector2 currentResolution = _aspectRatioResolutions[_aspectRatioButtonOptions.CurrentOptionIndex].Resolutions[_resolutionButtonOptions.CurrentOptionIndex];
+        Vector2 currentResolution = _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[_resolutionButtonOptions.CurrentOptionIndex];
         newSaveData.resolutionX = currentResolution.x;
         newSaveData.resolutionY = currentResolution.y;
 
@@ -58,9 +56,8 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
     private ButtonOptions _windowModeButtonOptions;
     [SerializeField]
     private ButtonOptions _resolutionButtonOptions;
-    [SerializeField]
-    private ButtonOptions _aspectRatioButtonOptions;
 
+    private int _currentAspectRatioIndex;
 
 
     //localization updater
@@ -89,17 +86,14 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
     public void SetDefaultOptionText(string value)
     {
         _defaultOptionText = value;
-        UpdateAspectRaioOptions();
         UpdateResolutioOptions();
     }
 
     private void Awake()
     {
-        UpdateAspectRaioOptions();
+        InitializeCurrentAspectIndex();
         UpdateResolutioOptions();
         UpdateWindowModeOptions();
-
-        _aspectRatioButtonOptions.ButtonOptions_OnOptionChanged += AspectRaioOptionsButton_OnOptionChanged;
     }
 
     private void AspectRaioOptionsButton_OnOptionChanged(object sender, int e)
@@ -107,39 +101,14 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
         UpdateResolutioOptions();
     }
 
-    private void UpdateAspectRaioOptions()
+    private void InitializeCurrentAspectIndex()
     {
-        _aspectRatioButtonOptions.Options.Clear();
-
-        bool optionIndexUnsat = true;
         for (int i = 0; i < _aspectRatioResolutions.Count; i++)
         {
-            if (
-                _aspectRatioResolutions[i].Resolutions[0].x <= Screen.currentResolution.width &&
-                _aspectRatioResolutions[i].Resolutions[0].y <= Screen.currentResolution.height
-                )
+            if ((float)Screen.currentResolution.width / Screen.currentResolution.height > _aspectRatioResolutions[i].AspectRaio.x / _aspectRatioResolutions[i].AspectRaio.y - 0.05f)
             {
-                if (Math.Abs((float)Screen.currentResolution.width / Screen.currentResolution.height - _aspectRatioResolutions[i].AspectRaio.x / _aspectRatioResolutions[i].AspectRaio.y) < 0.05f)
-                {
-                    _aspectRatioButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(
-                        $"{_aspectRatioResolutions[i].GetAspectRatioSting()}\n({_defaultOptionText})"
-                        ));
-                    _aspectRatioButtonOptions.SetOptionIndex(i);
-                    optionIndexUnsat = false;
-                }
-                else
-                {
-                    _aspectRatioButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(
-                        _aspectRatioResolutions[i].GetAspectRatioSting()
-                        ));
-                }
+                _currentAspectRatioIndex = i;
             }
-
-        }
-
-        if (optionIndexUnsat)
-        {
-            _aspectRatioButtonOptions.SetOptionIndex(0);
         }
     }
 
@@ -148,28 +117,28 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
         _resolutionButtonOptions.Options.Clear();
 
         bool optionIndexUnsat = true;
-        for (int i = 0; i < _aspectRatioResolutions[_aspectRatioButtonOptions.CurrentOptionIndex].Resolutions.Count; i++)
+        for (int i = 0; i < _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions.Count; i++)
         {
             //check if real resolution equals to current option, then add (Default) prefix
             if (
-                _aspectRatioResolutions[_aspectRatioButtonOptions.CurrentOptionIndex].Resolutions[i].x == Screen.currentResolution.width &&
-                _aspectRatioResolutions[_aspectRatioButtonOptions.CurrentOptionIndex].Resolutions[i].y == Screen.currentResolution.height
+                Math.Abs(_aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[i].x - Screen.currentResolution.width) < 0.05f &&
+                Math.Abs(_aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[i].y - Screen.currentResolution.height) < 0.05f
                 )
             {
                 _resolutionButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(
-                    $"{_aspectRatioResolutions[_aspectRatioButtonOptions.CurrentOptionIndex].GetResolutionString(i)}\n({_defaultOptionText})"
+                    $"{_aspectRatioResolutions[_currentAspectRatioIndex].GetResolutionString(i)}\n({_defaultOptionText})"
                     ));
                 _resolutionButtonOptions.SetOptionIndex(i);
                 optionIndexUnsat = false;
             }
             //checks if real resolution is less than current option, else doesn't add this option
             else if (
-                _aspectRatioResolutions[_aspectRatioButtonOptions.CurrentOptionIndex].Resolutions[i].x < Screen.currentResolution.width &&
-                _aspectRatioResolutions[_aspectRatioButtonOptions.CurrentOptionIndex].Resolutions[i].y < Screen.currentResolution.height
+                _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[i].x < Screen.currentResolution.width &&
+                _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[i].y < Screen.currentResolution.height
                 )
             {
                 _resolutionButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(
-                    _aspectRatioResolutions[_aspectRatioButtonOptions.CurrentOptionIndex].GetResolutionString(i)
+                    _aspectRatioResolutions[_currentAspectRatioIndex].GetResolutionString(i)
                     ));
             }
         }
