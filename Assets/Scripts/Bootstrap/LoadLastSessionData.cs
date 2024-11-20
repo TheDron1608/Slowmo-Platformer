@@ -7,6 +7,7 @@ public class LoadLastSessionData : MonoBehaviour
 {
     private void Start()
     {
+        LoadCurrentWindowOptions();
         LoadCurrentLocalzation();
         LoadCurrentKeyBinding();
     }
@@ -31,5 +32,15 @@ public class LoadLastSessionData : MonoBehaviour
         if (keybindData == "") return;
 
         InputSystem.actions.LoadBindingOverridesFromJson(keybindData);
+    }
+
+    private void LoadCurrentWindowOptions()
+    {
+        string windowDataStr = JSONFileManager.ReadJSON(JSONFileManager.Instance.WindowFileName);
+        if (windowDataStr == "") return;
+
+        JSONFileManager.WindowOptionsSaveData windowDataObj = JsonUtility.FromJson<JSONFileManager.WindowOptionsSaveData>(windowDataStr);
+
+        windowDataObj.ApplyOptions();
     }
 }

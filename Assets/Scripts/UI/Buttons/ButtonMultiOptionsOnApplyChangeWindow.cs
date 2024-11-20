@@ -4,47 +4,11 @@ using UnityEngine;
 
 public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
 {
-    public class WindowOptionsSaveData
-    {
-        public string WindowMode;
-        public float resolutionX, resolutionY;
-    }
-
     enum WindowMode : int
     {
         WINDOWED = 0,
         BORDERLESS = 1,
         FULLSCREEN = 2
-    }
-
-
-    public void ApplyChangeWindow()
-    {
-        WindowOptionsSaveData newSaveData = new WindowOptionsSaveData();
-        
-        Vector2 currentResolution = _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[_resolutionButtonOptions.CurrentOptionIndex];
-        newSaveData.resolutionX = currentResolution.x;
-        newSaveData.resolutionY = currentResolution.y;
-
-        switch (_windowModeButtonOptions.CurrentOptionIndex)
-        {
-            case (int)WindowMode.WINDOWED:
-                newSaveData.WindowMode = "Windowed";
-                Screen.SetResolution((int)currentResolution.x, (int)currentResolution.y, false);
-                break;
-            case (int)WindowMode.BORDERLESS:
-#if !UNITY_STANDALONE_LINUX
-                newSaveData.WindowMode = "Borderless";
-                Screen.SetResolution((int)currentResolution.x, (int)currentResolution.y, FullScreenMode.MaximizedWindow);
-#endif
-                break;
-            case (int)WindowMode.FULLSCREEN:
-                newSaveData.WindowMode = "Fullscreen";
-                Screen.SetResolution((int)currentResolution.x, (int)currentResolution.y, FullScreenMode.FullScreenWindow);
-                break;
-        }
-
-        JSONFileManager.SaveJSON(JSONFileManager.Instance.WindowFileName, JsonUtility.ToJson(newSaveData));
     }
 
 
@@ -59,6 +23,36 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
 
     private int _currentAspectRatioIndex;
 
+
+
+    //called when press a submit button
+    public void ApplyChangeWindow()
+    {
+
+        JSONFileManager.WindowOptionsSaveData newSaveData = new JSONFileManager.WindowOptionsSaveData();
+        
+        Vector2 currentResolution = _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[_resolutionButtonOptions.CurrentOptionIndex];
+        newSaveData.resolutionX = (int)currentResolution.x;
+        newSaveData.resolutionY = (int)currentResolution.y;
+
+        switch (_windowModeButtonOptions.CurrentOptionIndex)
+        {
+            case (int)WindowMode.WINDOWED:
+                newSaveData.WindowMode = "Windowed";
+                break;
+            case (int)WindowMode.BORDERLESS:
+#if !UNITY_STANDALONE_LINUX
+                newSaveData.WindowMode = "Borderless";
+#endif
+                break;
+            case (int)WindowMode.FULLSCREEN:
+                newSaveData.WindowMode = "Fullscreen";
+                break;
+        }
+
+        JSONFileManager.SaveJSON(JSONFileManager.Instance.WindowFileName, JsonUtility.ToJson(newSaveData));
+        newSaveData.ApplyOptions();
+    }
 
     //localization updater
     private string _windowedOptionText;

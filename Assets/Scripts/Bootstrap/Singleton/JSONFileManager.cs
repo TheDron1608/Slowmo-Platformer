@@ -5,6 +5,33 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 
 public class JSONFileManager : MonoBehaviour
 {
+    public class WindowOptionsSaveData
+    {
+        public string WindowMode;
+        public int resolutionX, resolutionY;
+
+        public void ApplyOptions()
+        {
+            Debug.Log("applied");
+            switch (WindowMode)
+            {
+                case "Windowed":
+                    Screen.SetResolution(resolutionX, resolutionY, false);
+                    break;
+                case "Borderless":
+#if !UNITY_STANDALONE_LINUX
+                    Screen.SetResolution(resolutionX, resolutionY, FullScreenMode.MaximizedWindow);
+#endif
+                    break;
+                case "Fullscreen":
+                    Screen.SetResolution(resolutionX, resolutionY, FullScreenMode.FullScreenWindow);
+                    break;
+            }
+        }
+    }
+
+
+
     public static JSONFileManager Instance {  get; private set; }
 
     const string JSON_ROOT_FILES_PATH = "Json/";
