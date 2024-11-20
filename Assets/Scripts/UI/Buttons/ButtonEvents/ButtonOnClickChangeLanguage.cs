@@ -23,7 +23,7 @@ public class ButtonOnClickChangeLanguage : MonoBehaviour
             }
         }
 
-        _buttonOptions.ButtonOptions_OnOptionChanged += ChangeLanguage;
+        _buttonOptions.OnOptionChanged += ChangeLanguage;
     }
 
     private void ChangeLanguage(object sender, int e)

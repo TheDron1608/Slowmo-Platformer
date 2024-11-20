@@ -38,6 +38,7 @@ public class JSONFileManager : MonoBehaviour
     public string LanguageFileName;
     public string ControlsFileName;
     public string WindowFileName;
+    public string SoundFileName;
     
 
 

@@ -24,7 +24,7 @@ public class ButtonOptions : MonoBehaviour
 
     public int CurrentOptionIndex { get; private set; } = 0;
 
-    public event EventHandler<int> ButtonOptions_OnOptionChanged;
+    public event EventHandler<int> OnOptionChanged;
 
     private void Start()
     {
@@ -52,7 +52,7 @@ public class ButtonOptions : MonoBehaviour
     {
         if (newIndex < 0 || newIndex >= Options.Count) throw new IndexOutOfRangeException("trying set _currentOptionIndexout out of max index");
         CurrentOptionIndex = newIndex;
-        ButtonOptions_OnOptionChanged?.Invoke(this, CurrentOptionIndex);
+        OnOptionChanged?.Invoke(this, CurrentOptionIndex);
         UpdateCurrentDisplayedOption();
     }
 
@@ -66,7 +66,7 @@ public class ButtonOptions : MonoBehaviour
 
         UpdateCurrentDisplayedOption();
 
-        ButtonOptions_OnOptionChanged?.Invoke(this, CurrentOptionIndex);
+        OnOptionChanged?.Invoke(this, CurrentOptionIndex);
     }
 
     public void PrevOption()
@@ -79,6 +79,6 @@ public class ButtonOptions : MonoBehaviour
 
         UpdateCurrentDisplayedOption();
 
-        ButtonOptions_OnOptionChanged?.Invoke(this, CurrentOptionIndex);
+        OnOptionChanged?.Invoke(this, CurrentOptionIndex);
     }
 }

@@ -10,6 +10,7 @@ public class LoadLastSessionData : MonoBehaviour
         LoadCurrentWindowOptions();
         LoadCurrentLocalzation();
         LoadCurrentKeyBinding();
+        LoadCurrentSoundVolume();
     }
 
     private void LoadCurrentLocalzation()
@@ -42,5 +43,10 @@ public class LoadLastSessionData : MonoBehaviour
         JSONFileManager.WindowOptionsSaveData windowDataObj = JsonUtility.FromJson<JSONFileManager.WindowOptionsSaveData>(windowDataStr);
 
         windowDataObj.ApplyOptions();
+    }
+
+    private void LoadCurrentSoundVolume()
+    {
+        SoundManager.Instance.LoadSoundFromJSON();
     }
 }
