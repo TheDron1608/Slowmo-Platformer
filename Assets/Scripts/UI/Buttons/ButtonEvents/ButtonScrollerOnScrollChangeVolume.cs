@@ -17,6 +17,15 @@ public class ButtonScrollerOnScrollChangeVolume : MonoBehaviour
     private void Start()
     {
         _buttonScroller.OnScrollChanged += ButtonScroller_OnScrollChanged;
+        switch (_volumeType)
+        {
+            case VolumeType.MUSIC:
+                _buttonScroller.CurrentValue = SoundManager.Instance.SoundVolume.MusicVolume;
+                break;
+            case VolumeType.SFX:
+                _buttonScroller.CurrentValue = SoundManager.Instance.SoundVolume.SFXVolume;
+                break;
+        }
     }
 
     private void ButtonScroller_OnScrollChanged(object sender, int e)
