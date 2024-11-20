@@ -12,7 +12,6 @@ public class JSONFileManager : MonoBehaviour
 
         public void ApplyOptions()
         {
-            Debug.Log("applied");
             switch (WindowMode)
             {
                 case "Windowed":
