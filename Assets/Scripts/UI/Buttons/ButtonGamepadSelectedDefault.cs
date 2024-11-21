@@ -3,10 +3,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ButtonGamepadSelectedDefault : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]
+    private CanvasGroup _checkIfCanvasGroundInteractable;
+
+
+
     void Start()
     {
         UpdateReselect();
@@ -20,20 +25,17 @@ public class ButtonGamepadSelectedDefault : MonoBehaviour
 
     private void UpdateReselect()
     {
-        if (EventSystem.current.currentSelectedGameObject == null && GetGamepadIsConnected())
+        if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
-            EventSystem.current.SetSelectedGameObject(gameObject);
+            if (_checkIfCanvasGroundInteractable == null || _checkIfCanvasGroundInteractable.interactable)
+            {
+                EventSystem.current.SetSelectedGameObject(gameObject);
+            }
         }
-    }
-
-    private bool GetGamepadIsConnected()
-    {
-        string[] joystickNames = Input.GetJoystickNames();
-        for (int i = 0; i < joystickNames.Length; i++) 
+        else
         {
-            if (joystickNames[i] != "") return true;
+            EventSystem.current.SetSelectedGameObject(null);
         }
-        return false;
     }
 
     private void OnDestroy()
