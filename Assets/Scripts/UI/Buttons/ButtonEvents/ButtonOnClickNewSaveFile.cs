@@ -1,16 +1,45 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ButtonOnClickNewSaveFile : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    const int MAX_SAVE_FILES_LIMIT = 5;
+
+    public static event EventHandler OnNewSaveAdded;
+
+    private void Start()
     {
-        
+        transform.SetAsLastSibling();
+        UpdateHideIfLimitOfSavesReached();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateHideIfLimitOfSavesReached()
     {
-        
+        if (JSONFileManager.CountFilesInFolder(JSONFileManager.Instance.SavesFolder) >= MAX_SAVE_FILES_LIMIT)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void CreateNewSaveFile()
+    {
+        SessionManager.SessionData newSaveData = new SessionManager.SessionData();
+
+        int newSaveDataIndex = 1;
+        while (JSONFileManager.GetFileExist(JSONFileManager.Instance.SavesFolder, JSONFileManager.Instance.SaveFileRootName, newSaveDataIndex)) {
+            newSaveDataIndex++;
+        }
+
+        newSaveData.SaveFilePath = JSONFileManager.JSON_ROOT_FILES_PATH + JSONFileManager.Instance.SavesFolder + "/" + JSONFileManager.Instance.SaveFileRootName + newSaveDataIndex + ".json";
+        newSaveData.Id =  newSaveDataIndex;
+
+        string newSaveDataStr = JsonUtility.ToJson(newSaveData);    
+        JSONFileManager.SaveJSON(JSONFileManager.Instance.SavesFolder, JSONFileManager.Instance.SaveFileRootName, newSaveDataIndex, newSaveDataStr);
+
+        OnNewSaveAdded?.Invoke(this, EventArgs.Empty);
+
+        transform.SetAsLastSibling();
+        UpdateHideIfLimitOfSavesReached();
     }
 }
