@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 0c113091aed424e4c85008b01e1b596c, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 2052077329840865280
   m_TableData:
   - m_Id: 42011758592
     m_Localized: Quit
@@ -30,6 +31,40 @@ MonoBehaviour:
     m_Localized: Setting
     m_Metadata:
       m_Items: []
+  - m_Id: 648935688773632
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 649027921518592
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 649097244975104
+    m_Localized: 'Save {SaveId}
+
+
+      Level
+
+      {ZoneProgress}-{LevelProgress}
+
+
+      Deaths
+
+      {Deaths}
+
+
+      Playtime
+
+      {Playtime}'
+    m_Metadata:
+      m_Items:
+      - rid: 2052077329840865280
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2052077329840865280
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 649097244975104

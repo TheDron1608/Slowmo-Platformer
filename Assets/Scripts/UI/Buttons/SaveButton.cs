@@ -1,17 +1,23 @@
 using System;
 using TMPro;
+using UnityEditor.Localization.Editor;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class SaveButton : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI _textContaienr;
+    [SerializeField]
+    private LocalizeStringEvent _localizedText;
 
     //localization data
-    private string _saveText = "Save";
-    private string _levelText = "Level";
-    private string _deathsText = "Deaths";
-    private string _playtimeText = "Playtime";
+    public string SaveText;
+    public string ProgressText;
+    public string DeathsText;
+    public string PlaytimeText;
 
     private int _saveDataIndex;
     public int SaveDataIndex
@@ -40,15 +46,12 @@ public class SaveButton : MonoBehaviour
 
     private void UpdateText()
     {
-        SessionManager.SessionData currentSessionData = GetSessionData();
-        _textContaienr.text =
-@$"{_saveText} {currentSessionData.Id}
+        SessionManager.SessionData sessionData = GetSessionData();
 
-{_levelText}
-{currentSessionData.ZoneProgress}-{currentSessionData.LevelProgress}
-{_deathsText}
-{currentSessionData.Deaths}
-{_playtimeText}
-{currentSessionData.PlayTime.ToString("hh':'mm':'ss")}";
+        (_localizedText.StringReference["SaveId"] as StringVariable).Value = sessionData.Id.ToString();
+        (_localizedText.StringReference["ZoneProgress"] as StringVariable).Value = sessionData.ZoneProgress.ToString();
+        (_localizedText.StringReference["LevelProgress"] as StringVariable).Value = sessionData.LevelProgress.ToString();
+        (_localizedText.StringReference["Deaths"] as StringVariable).Value = sessionData.Deaths.ToString();
+        (_localizedText.StringReference["Playtime"] as StringVariable).Value = sessionData.PlayTime.ToString("hh':'mm':'ss");
     }
 }

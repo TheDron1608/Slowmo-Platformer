@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: ru
   m_SharedData: {fileID: 11400000, guid: 0c113091aed424e4c85008b01e1b596c, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 2052077329840865281
   m_TableData:
   - m_Id: 42011758592
     m_Localized: "\u0412\u044B\u0445\u043E\u0434"
@@ -30,6 +31,25 @@ MonoBehaviour:
     m_Localized: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
     m_Metadata:
       m_Items: []
+  - m_Id: 648935688773632
+    m_Localized: "\u041D\u0430\u0447\u0430\u0442\u044C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 649027921518592
+    m_Localized: "\u041D\u0430\u0437\u0430\u0434"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 649097244975104
+    m_Localized: "\u0421\u043E\u0445\u0440 {SaveId}\n\n\u0423\u0440\u043E\u0432\u0435\u043D\u044C\n{ZoneProgress}-{LevelProgress}\n\n\u0421\u043C\u0435\u0440\u0442\u0438\n{Deaths}\n\n\u0412\u0440\u0435\u043C\u044F\n{Playtime}"
+    m_Metadata:
+      m_Items:
+      - rid: 2052077329840865281
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2052077329840865281
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 649097244975104
