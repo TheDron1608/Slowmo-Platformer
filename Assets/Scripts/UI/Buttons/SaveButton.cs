@@ -1,9 +1,6 @@
-using System;
 using TMPro;
-using UnityEditor.Localization.Editor;
 using UnityEngine;
 using UnityEngine.Localization.Components;
-using UnityEngine.Localization.SmartFormat;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class SaveButton : MonoBehaviour
