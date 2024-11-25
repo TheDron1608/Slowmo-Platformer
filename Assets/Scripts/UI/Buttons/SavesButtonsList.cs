@@ -9,6 +9,17 @@ public class SavesButtonsList : MonoBehaviour
     [SerializeField]
     private SaveButton _saveButtonInstance;
 
+    [SerializeField]
+    private MoveBetweenTwoCoors _cardOnClickmovedObject;
+    [SerializeField]
+    private GameObject _cardOnClickMovedObjectTarget;
+
+    [SerializeField]
+    private List<ButtonOnClickSetCanvasGroupInteractable.CanvasGroupInteractableSet> _cardOnClickSettedCanvasGroupInteractables = new List<ButtonOnClickSetCanvasGroupInteractable.CanvasGroupInteractableSet>();
+
+    [SerializeField]
+    private GameObject _cardOnClickSettedSelectedGameObject;
+
     private void Awake()
     {
         LoadSaveList();
@@ -28,7 +39,29 @@ public class SavesButtonsList : MonoBehaviour
         {
             SaveButtonsList.Add(Instantiate(_saveButtonInstance, transform));
             SaveButtonsList[i].LoadData(i);
+            SetMoveComponent(SaveButtonsList[i]);
         }
+    }
+
+    public void SetMoveComponent(SaveButton saveButton)
+    {
+        if (!saveButton.TryGetComponent<ButtonOnClickMoveObject>(out ButtonOnClickMoveObject moveComponent)) {
+            throw new UnityException("ButtonOnClickMoveObject component not found in " + gameObject.name);
+        }
+        moveComponent.MovingObject = _cardOnClickmovedObject;
+        moveComponent.TargetObject = _cardOnClickMovedObjectTarget;
+
+        if (!saveButton.TryGetComponent<ButtonOnClickSetCanvasGroupInteractable>(out ButtonOnClickSetCanvasGroupInteractable setCanvasGroupComponent))
+        {
+            throw new UnityException("ButtonOnClickSetCanvasGroupInteractable component not found in " + gameObject.name);
+        }
+        setCanvasGroupComponent.CanvasGroupInteractables = _cardOnClickSettedCanvasGroupInteractables;
+
+        if (!saveButton.TryGetComponent<ButtonOnClickSetSelectedGameObject>(out ButtonOnClickSetSelectedGameObject setSelectedGameObject))
+        {
+            throw new UnityException("ButtonOnClickSetSelectedGameObject component not found in " + gameObject.name);
+        }
+        setSelectedGameObject.TargetGameObject = _cardOnClickSettedSelectedGameObject;
     }
 
     public void UpdateSaveList()

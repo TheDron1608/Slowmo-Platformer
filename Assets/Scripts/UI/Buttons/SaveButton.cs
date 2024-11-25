@@ -51,4 +51,10 @@ public class SaveButton : MonoBehaviour
         (_localizedText.StringReference["Deaths"] as StringVariable).Value = sessionData.Deaths.ToString();
         (_localizedText.StringReference["Playtime"] as StringVariable).Value = sessionData.PlayTime.ToString("hh':'mm':'ss");
     }
+
+    //called when clicked
+    public void SetCurrentSession()
+    {
+        SessionManager.Instance.CurrentSession = GetSessionData();
+    }
 }

@@ -7,13 +7,11 @@ using UnityEngine.UI;
 
 public class ButtonOnClickMoveObject : MonoBehaviour
 {
-    [SerializeField]
-    private MoveBetweenTwoCoors _moveObject;
-    [SerializeField]
-    private MoveBetweenTwoCoors.MoveMode _moveMode;
+    public MoveBetweenTwoCoors MovingObject;
+    public GameObject TargetObject;
 
     public void MoveObject()
     {
-        _moveObject.StartMoving(_moveMode);
+        MovingObject.StartMoving(TargetObject);
     }
 }

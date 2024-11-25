@@ -5,21 +5,21 @@ using UnityEngine;
 public class ButtonOnClickSetCanvasGroupInteractable : MonoBehaviour
 {
     [Serializable]
-    private class CanvasGroupInteractableSet
+    public class CanvasGroupInteractableSet
     {
         public CanvasGroup CanvasGroup;
-        public bool SetIncactableNewValue;
+        public bool SetInteractableNewValue;
     }
 
     [SerializeField]
-    private List<CanvasGroupInteractableSet> _canvasGroupInteractables = new List<CanvasGroupInteractableSet>();
+    public List<CanvasGroupInteractableSet> CanvasGroupInteractables = new List<CanvasGroupInteractableSet>();
     
-    //called when burron is clicked
+    //called when button is clicked
     public void SetCancasGroupInstactable ()
     {
-        for (int i = 0; i < _canvasGroupInteractables.Count; i++)
+        for (int i = 0; i < CanvasGroupInteractables.Count; i++)
         {
-            _canvasGroupInteractables[i].CanvasGroup.interactable = _canvasGroupInteractables[i].SetIncactableNewValue;
+            CanvasGroupInteractables[i].CanvasGroup.interactable = CanvasGroupInteractables[i].SetInteractableNewValue;
         }
     }
 }

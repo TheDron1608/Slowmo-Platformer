@@ -4,13 +4,13 @@ using UnityEngine.EventSystems;
 public class ButtonOnClickSetSelectedGameObject : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _targetGameObject;
+    public GameObject TargetGameObject;
 
     public void SetSelectedGameObject()
     {
         if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
-            EventSystem.current.SetSelectedGameObject(_targetGameObject);
+            EventSystem.current.SetSelectedGameObject(TargetGameObject);
         }
         else
         {
