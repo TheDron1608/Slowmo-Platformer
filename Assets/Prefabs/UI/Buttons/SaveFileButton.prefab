@@ -240,8 +240,20 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2474072038787906255, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474072038787906255, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474072038787906255, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474072038787906255, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2474072038787906255, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_SizeDelta.x
@@ -295,7 +307,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SaveFileButton
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9106385594721408497, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

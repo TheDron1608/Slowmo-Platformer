@@ -2080,6 +2080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571b7b599adec824992c2b21e7f746d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _checkIfCanvasGroundInteractable: {fileID: 0}
 --- !u!1 &1336811693
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,6 +2210,14 @@ PrefabInstance:
     - target: {fileID: 4879182824338422069, guid: 093c6e2cff0b5104da948107eee61233, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879182824338422069, guid: 093c6e2cff0b5104da948107eee61233, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879182824338422069, guid: 093c6e2cff0b5104da948107eee61233, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 4879182824338422069, guid: 093c6e2cff0b5104da948107eee61233, type: 3}
       propertyPath: m_LocalPosition.x
