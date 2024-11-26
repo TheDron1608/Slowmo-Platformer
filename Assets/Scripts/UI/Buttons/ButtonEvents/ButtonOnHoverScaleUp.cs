@@ -10,18 +10,27 @@ public class ButtonOnHoverScaleUp : MonoBehaviour, IPointerEnterHandler, IPointe
     const float IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER = 15.0f;
 
     private bool _scalingUp = false;
+    private Button _buttonComponent;
+
+    private void Start()
+    {
+        _buttonComponent = GetComponent<Button>();
+    }
 
     private void Update()
     {
-        if (_scalingUp)
+        if (_buttonComponent.interactable)
         {
-            float newScale = Mathf.LerpUnclamped(transform.localScale.x, IMAGE_ON_HOVER_SCALE_MULTIPLIER, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.deltaTime);
-            transform.localScale = new Vector3(newScale, newScale, newScale);
-        }
-        else
-        {
-            float newScale = Mathf.LerpUnclamped(transform.localScale.x, 1f, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.deltaTime);
-            transform.localScale = new Vector3(newScale, newScale, newScale);
+            if (_scalingUp)
+            {
+                float newScale = Mathf.LerpUnclamped(transform.localScale.x, IMAGE_ON_HOVER_SCALE_MULTIPLIER, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.deltaTime);
+                transform.localScale = new Vector3(newScale, newScale, newScale);
+            }
+            else
+            {
+                float newScale = Mathf.LerpUnclamped(transform.localScale.x, 1f, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.deltaTime);
+                transform.localScale = new Vector3(newScale, newScale, newScale);
+            }
         }
     }
 

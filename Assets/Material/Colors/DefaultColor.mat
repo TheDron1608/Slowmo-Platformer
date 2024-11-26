@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DarkGrey
+  m_Name: DefaultColor
   m_Shader: {fileID: -6465566751694194690, guid: a5fca5e0d3f385d428307af846e0e351, type: 3}
   m_Parent: {fileID: -876546973899608171, guid: a5fca5e0d3f385d428307af846e0e351, type: 3}
-  m_ModifiedSerializedProperties: 2
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -25,13 +25,12 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats:
-    - _QueueControl: 0
+    m_Floats: []
     m_Colors:
-    - _Color: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &1625025091578224088
+--- !u!114 &332953660846378369
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

@@ -7,39 +7,31 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Clouds3
-  m_Shader: {fileID: -6465566751694194690, guid: 59848efcaccdd784fbd976b130739366, type: 3}
-  m_Parent: {fileID: -876546973899608171, guid: 59848efcaccdd784fbd976b130739366, type: 3}
+  m_Name: SelectColor
+  m_Shader: {fileID: -6465566751694194690, guid: a5fca5e0d3f385d428307af846e0e351, type: 3}
+  m_Parent: {fileID: -876546973899608171, guid: a5fca5e0d3f385d428307af846e0e351, type: 3}
   m_ModifiedSerializedProperties: 2
-  m_ValidKeywords:
-  - _ALPHATEST_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: TransparentCutout
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _CloudTexture:
-        m_Texture: {fileID: 2800000, guid: 9483cb122459eea46b21fde3b42b9131, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
     - _QueueControl: 0
-    - _RandomSeed: 3
-    - _StartPosition: 0
-    - _WindSpeed: 0.006
-    m_Colors: []
+    m_Colors:
+    - _Color: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &5728941464564372574
+--- !u!114 &1625025091578224088
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

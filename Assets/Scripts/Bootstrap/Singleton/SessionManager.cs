@@ -11,7 +11,7 @@ public class SessionManager : MonoBehaviour
         public int Id;
         public string SaveFilePath;
         public int LevelProgress = 1;
-        public int ZoneProgress = 1;
+        public int FloorProgress = 1;
         public int Deaths = 0;
         public TimeSpan PlayTime = new TimeSpan(0, 0, 0); //0 seconds
     }
@@ -19,8 +19,22 @@ public class SessionManager : MonoBehaviour
 
     public static SessionManager Instance;
 
-    public SessionData CurrentSession;
+    private SessionData _currentSession;
+
+    public SessionData CurrentSession
+    {
+        get => _currentSession;
+        set
+        {
+            _currentSession = value;
+            CurrentSessionChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+
     public List<SessionData> Sessions;  
+
+    public event EventHandler CurrentSessionChanged;
 
     void Start()
     {
