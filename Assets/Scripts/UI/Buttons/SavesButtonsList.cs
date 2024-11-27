@@ -20,13 +20,22 @@ public class SavesButtonsList : MonoBehaviour
     [SerializeField]
     private GameObject _cardOnClickSettedSelectedGameObject;
 
+    [SerializeField]
+    private ButtonOnClickNewSaveFile _newSaveFileButton;
+
     private void Awake()
     {
         LoadSaveList();
         ButtonOnClickNewSaveFile.OnNewSaveAdded += ButtonOnClickNewSaveFile_OnNewSaveAdded;
+        SaveButton.OnSaveDeleted += SaveButton_OnSaveDeleted;
     }
 
     private void ButtonOnClickNewSaveFile_OnNewSaveAdded(object sender, EventArgs e)
+    {
+        UpdateSaveList();
+    }
+
+    private void SaveButton_OnSaveDeleted(object sender, EventArgs e)
     {
         UpdateSaveList();
     }
@@ -71,10 +80,16 @@ public class SavesButtonsList : MonoBehaviour
             Destroy(SaveButtonsList[i].gameObject);
         }
         LoadSaveList();
+        if (_newSaveFileButton != null)
+        {
+            _newSaveFileButton.transform.SetAsLastSibling();
+            _newSaveFileButton.UpdateHideIfLimitOfSavesReached();
+        }
     }
 
     private void OnDestroy()
     {
         ButtonOnClickNewSaveFile.OnNewSaveAdded -= ButtonOnClickNewSaveFile_OnNewSaveAdded;
+        SaveButton.OnSaveDeleted -= SaveButton_OnSaveDeleted;
     }
 }

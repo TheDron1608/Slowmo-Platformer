@@ -70,6 +70,18 @@ public class JSONFileManager : MonoBehaviour
         File.WriteAllText(JSON_ROOT_FILES_PATH + folderName + "/" + fileRootName + fileIndex + ".json", jsonData);
     }
 
+    public static void DeleteJSON(string fileName)
+    {
+        File.Delete(JSON_ROOT_FILES_PATH + fileName);
+    }
+
+    public static void DeleteJSON(string folderName, string fileRootName, int fileIndex)
+    {
+        File.Delete(JSON_ROOT_FILES_PATH + folderName + "/" + fileRootName + fileIndex + ".json");
+    }
+
+
+
     public static int CountFilesInFolder(string folderName)
     {
         return Directory.GetFiles(JSON_ROOT_FILES_PATH + folderName).Length;

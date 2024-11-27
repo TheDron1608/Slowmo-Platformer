@@ -17,6 +17,8 @@ public class ButtonOnClickSetCanvasGroupInteractable : MonoBehaviour
     //called when button is clicked
     public void SetCancasGroupInstactable ()
     {
+        if (ButtonOnClickToggleDeleteSaves.DeleteSaves) return;
+
         for (int i = 0; i < CanvasGroupInteractables.Count; i++)
         {
             CanvasGroupInteractables[i].CanvasGroup.interactable = CanvasGroupInteractables[i].SetInteractableNewValue;

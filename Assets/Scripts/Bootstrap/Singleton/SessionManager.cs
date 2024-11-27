@@ -52,7 +52,7 @@ public class SessionManager : MonoBehaviour
         UpdateSessions();
     }
 
-    private void UpdateSessions()
+    public void UpdateSessions()
     {
         Sessions = GetAllSessionFromJSON();
     }

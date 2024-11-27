@@ -14,11 +14,15 @@ public class ButtonOnClickNewSaveFile : MonoBehaviour
         UpdateHideIfLimitOfSavesReached();
     }
 
-    private void UpdateHideIfLimitOfSavesReached()
+    public void UpdateHideIfLimitOfSavesReached()
     {
         if (JSONFileManager.CountFilesInFolder(JSONFileManager.Instance.SavesFolder) >= MAX_SAVE_FILES_LIMIT)
         {
             gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
         }
     }
 

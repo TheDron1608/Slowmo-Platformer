@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: Floor4
   m_EditorClassIdentifier: 
   Floor: 4
-  FloorName: Server Room
+  LocalizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:0c113091aed424e4c85008b01e1b596c
+    m_TableEntryReference:
+      m_KeyId: 2537967271796736
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   Levels:
   - {fileID: 11400000, guid: e613ff8039eb05a4f90574dab82d7daf, type: 2}
   - {fileID: 11400000, guid: 07d588630969f5a4bbf5b407c0e5dc7d, type: 2}
@@ -30,3 +38,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d841f4ef000bac048a7d37b140a7c104, type: 2}
   - {fileID: 11400000, guid: 9cd34bb6eb713d64bae14d5f5fad90ef, type: 2}
   - {fileID: 11400000, guid: 71d62118eb7e4884eae2bea7c9a896f8, type: 2}
+  references:
+    version: 2
+    RefIds: []

@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: Floor2
   m_EditorClassIdentifier: 
   Floor: 2
-  FloorName: Office
+  LocalizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:0c113091aed424e4c85008b01e1b596c
+    m_TableEntryReference:
+      m_KeyId: 2537963010383872
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   Levels:
   - {fileID: 11400000, guid: a96adcfb17f3f4243b169adbef4130ae, type: 2}
   - {fileID: 11400000, guid: ef5c800b9d67e8045ae34836a424d7dd, type: 2}
@@ -30,3 +38,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c885fead696c0b24f8d7cbf1af78081a, type: 2}
   - {fileID: 11400000, guid: 66f4df493c4f4ce42a7284701c83781c, type: 2}
   - {fileID: 11400000, guid: 4818e24ef83db694f8c13777c4e6882c, type: 2}
+  references:
+    version: 2
+    RefIds: []
