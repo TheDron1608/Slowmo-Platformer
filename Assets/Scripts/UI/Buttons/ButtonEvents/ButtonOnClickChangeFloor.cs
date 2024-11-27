@@ -36,7 +36,7 @@ public class ButtonOnClickChangeFloor : MonoBehaviour
     {
         if (SessionManager.Instance.CurrentSession != null && SessionManager.Instance.CurrentSession.FloorProgress >= _floor.Floor)
         {
-            _textContainer.text = _floor.FloorName;
+            _textContainer.text = _floor.Name();
         }
     }
 
