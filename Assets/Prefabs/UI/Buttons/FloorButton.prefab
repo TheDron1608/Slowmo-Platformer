@@ -190,8 +190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859b951e17a313b46879754f69c8d5b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _floor: 0
+  _floor: {fileID: 0}
+  _textContainer: {fileID: 3080782699229662651}
   _cityAnimator: {fileID: 0}
+  _levelButtonsContainer: {fileID: 0}
+  _levelButtonSample: {fileID: 6585336971847499894, guid: 4f08cf3645dc2f44f813d9800ae8a495, type: 3}
 --- !u!114 &7302846701298133776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb852b6fa695e34e8e470fc5b7a1a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _requiredProgress: 0
+  ChangeTextOnly: 1
+  _requiredFloorProgress: -1
+  _requiredLevelProgress: -1
   _button: {fileID: 3087567135451628959}
   _textContainer: {fileID: 3080782699229662651}
   _disabledText: ???
