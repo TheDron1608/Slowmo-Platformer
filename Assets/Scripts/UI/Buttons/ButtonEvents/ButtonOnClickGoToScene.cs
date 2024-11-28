@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +9,6 @@ public class ButtonOnClickGoToScene : MonoBehaviour
 
     public void GoToScene()
     {
-        SceneManager.LoadScene(GoToSceneName);
+        UIManager.Instance.LoadSceneWithEffect(GoToSceneName);
     }
 }

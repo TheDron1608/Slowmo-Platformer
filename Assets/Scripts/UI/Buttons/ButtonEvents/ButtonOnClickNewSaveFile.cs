@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonOnClickNewSaveFile : MonoBehaviour
 {
@@ -8,10 +9,20 @@ public class ButtonOnClickNewSaveFile : MonoBehaviour
 
     public static event EventHandler OnNewSaveAdded;
 
+    [SerializeField]
+    private Button _button;
+
     private void Start()
     {
+        ButtonOnClickToggleDeleteSaves.OnDeleteSavesChanged += ButtonObClickToggleDeleteSaves_OnDeleteSavesChanged;
+
         transform.SetAsLastSibling();
         UpdateHideIfLimitOfSavesReached();
+    }
+
+    private void ButtonObClickToggleDeleteSaves_OnDeleteSavesChanged(object sender, bool e)
+    {
+        _button.interactable = !e;
     }
 
     public void UpdateHideIfLimitOfSavesReached()
@@ -45,5 +56,10 @@ public class ButtonOnClickNewSaveFile : MonoBehaviour
 
         transform.SetAsLastSibling();
         UpdateHideIfLimitOfSavesReached();
+    }
+
+    private void OnDestroy()
+    {
+        ButtonOnClickToggleDeleteSaves.OnDeleteSavesChanged -= ButtonObClickToggleDeleteSaves_OnDeleteSavesChanged;
     }
 }

@@ -9,8 +9,6 @@ public class ButtonOnClickToggleDeleteSaves : MonoBehaviour
     private TextMeshProUGUI _textContainer;
     [SerializeField]
     private TextMeshProUGUI _cancelTextContainer;
-    [SerializeField]
-    private Button _newSaveFileButton;
 
 
     public static event EventHandler<bool> OnDeleteSavesChanged;
@@ -37,8 +35,6 @@ public class ButtonOnClickToggleDeleteSaves : MonoBehaviour
         _cancelTextContainer.gameObject.SetActive(DeleteSaves);
 
         OnDeleteSavesChanged?.Invoke(this, DeleteSaves);
-
-        _newSaveFileButton.interactable = !DeleteSaves;
     }
 
 

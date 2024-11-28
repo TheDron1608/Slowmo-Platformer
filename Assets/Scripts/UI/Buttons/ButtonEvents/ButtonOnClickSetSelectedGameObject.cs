@@ -8,6 +8,8 @@ public class ButtonOnClickSetSelectedGameObject : MonoBehaviour
 
     public void SetSelectedGameObject()
     {
+        if (ButtonOnClickToggleDeleteSaves.DeleteSaves) return;
+
         if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
             EventSystem.current.SetSelectedGameObject(TargetGameObject);

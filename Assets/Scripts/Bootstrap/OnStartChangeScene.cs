@@ -8,6 +8,6 @@ public class OnStartChangeScene : MonoBehaviour
 
     private void Start()
     {
-        SceneManager.LoadScene(_changeSceneName);
+        UIManager.Instance.LoadSceneWithEffect(_changeSceneName);
     }
 }
