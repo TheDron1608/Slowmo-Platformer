@@ -385,6 +385,8 @@ MonoBehaviour:
   MaxSoundVolume:
     MusicVolume: 10
     SFXVolume: 10
+  ButtonClickSound: {fileID: 11400000, guid: 580b5bcc7fe2ba54e94cf818888d5e38, type: 2}
+  ButtonSelectSound: {fileID: 11400000, guid: d28f9c915534d104c86632777632e4f8, type: 2}
 --- !u!4 &162866865
 Transform:
   m_ObjectHideFlags: 0
@@ -1191,8 +1193,8 @@ SceneRoots:
   - {fileID: 107277468}
   - {fileID: 2094035846}
   - {fileID: 1587015529}
-  - {fileID: 490176639}
   - {fileID: 1683083105}
   - {fileID: 162866865}
   - {fileID: 292252848}
   - {fileID: 1529568596}
+  - {fileID: 490176639}

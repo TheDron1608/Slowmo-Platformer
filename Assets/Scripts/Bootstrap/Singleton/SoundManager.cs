@@ -1,6 +1,8 @@
-using System;
+using Unity.Mathematics;
 using UnityEngine;
-using static SoundManager;
+using System;
+using System.Collections;
+using Unity.VisualScripting;
 
 public class SoundManager : MonoBehaviour
 {
@@ -16,6 +18,10 @@ public class SoundManager : MonoBehaviour
     public SoundData SoundVolume = new SoundData();
     public SoundData MaxSoundVolume = new SoundData();
 
+    [Header("Sound references")]
+    public Sound ButtonClickSound;
+    public Sound ButtonSelectSound;
+
     void Start()
     {
         if (Instance != null) throw new UnityException("Limit of 1 Instance of SoundManager objects");
@@ -24,10 +30,27 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-
-    private void OnDestroy()
+    public void PlaySound(Sound sound)
     {
-        Instance = null;
+        AudioSource newSource = FindFirstObjectByType<AudioListener>().gameObject.AddComponent<AudioSource>();
+
+
+        newSource.resource = sound.AudioClips[UnityEngine.Random.Range(0, sound.AudioClips.Count - 1)];
+        newSource.pitch = UnityEngine.Random.Range(1f - sound.RandomPitchSpread, 1f + sound.RandomPitchSpread);
+        newSource.volume = (float)SoundVolume.SFXVolume / (float)MaxSoundVolume.SFXVolume;
+        newSource.Play();
+
+        StartCoroutine(AwaitSoundPlayerFinishAndDestroy(newSource));
+    }
+
+    private IEnumerator AwaitSoundPlayerFinishAndDestroy(AudioSource soundPlayer)
+    {
+
+        while (!soundPlayer.IsDestroyed() && soundPlayer.isPlaying)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        Destroy(soundPlayer);
     }
 
     public void SaveSoundToJSON()
@@ -41,4 +64,12 @@ public class SoundManager : MonoBehaviour
 
         SoundVolume = JsonUtility.FromJson<SoundData>(volumeDataStr);
     }
+
+
+
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+
 }

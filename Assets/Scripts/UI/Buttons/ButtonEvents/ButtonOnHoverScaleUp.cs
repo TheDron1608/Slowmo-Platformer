@@ -19,7 +19,7 @@ public class ButtonOnHoverScaleUp : MonoBehaviour, IPointerEnterHandler, IPointe
 
     private void Update()
     {
-        if (_buttonComponent.interactable)
+        if (_buttonComponent != null && _buttonComponent.interactable)
         {
             if (_scalingUp)
             {

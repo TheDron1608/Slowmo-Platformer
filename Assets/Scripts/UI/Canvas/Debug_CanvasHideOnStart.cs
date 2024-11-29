@@ -7,6 +7,7 @@ public class Debug_CanvasHideOnStart : MonoBehaviour
     {
         CanvasGroup cg;
         TryGetComponent<CanvasGroup>(out cg);
+        cg.interactable = false;
         cg.alpha = 0f;
     }
 }

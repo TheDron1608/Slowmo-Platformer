@@ -28,6 +28,7 @@ public class CanvasAplha : MonoBehaviour
     {
         if (turnVisible)
         {
+            _canvasGroupComponent.interactable = true;
             while (_canvasGroupComponent.alpha < 1)
             {
                 _canvasGroupComponent.alpha += Time.deltaTime * ALPHA_CHANGE_SPEED_MULTIPLIER;
@@ -41,6 +42,7 @@ public class CanvasAplha : MonoBehaviour
                 _canvasGroupComponent.alpha -= Time.deltaTime * ALPHA_CHANGE_SPEED_MULTIPLIER;
                 yield return new WaitForEndOfFrame();
             }
+            _canvasGroupComponent.interactable = false;
         }
     }
 }
