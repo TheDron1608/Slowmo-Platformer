@@ -16,7 +16,7 @@ public class LoadLastSessionData : MonoBehaviour
     private void LoadCurrentLocalzation()
     {
         string currentLanguageData = JSONFileManager.ReadJSON(JSONFileManager.Instance.LanguageFileName);
-        if (currentLanguageData == "") return;
+        if (currentLanguageData == null || currentLanguageData == "") return;
 
         for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; i++)
         {
@@ -30,7 +30,7 @@ public class LoadLastSessionData : MonoBehaviour
     private void LoadCurrentKeyBinding()
     {
         string keybindData = JSONFileManager.ReadJSON(JSONFileManager.Instance.ControlsFileName);
-        if (keybindData == "") return;
+        if (keybindData == null || keybindData == "") return;
 
         InputSystem.actions.LoadBindingOverridesFromJson(keybindData);
     }
@@ -38,7 +38,7 @@ public class LoadLastSessionData : MonoBehaviour
     private void LoadCurrentWindowOptions()
     {
         string windowDataStr = JSONFileManager.ReadJSON(JSONFileManager.Instance.WindowFileName);
-        if (windowDataStr == "") return;
+        if (windowDataStr == null || windowDataStr == "") return;
 
         JSONFileManager.WindowOptionsSaveData windowDataObj = JsonUtility.FromJson<JSONFileManager.WindowOptionsSaveData>(windowDataStr);
 

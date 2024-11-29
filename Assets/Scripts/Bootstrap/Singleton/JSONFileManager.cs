@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -34,7 +36,7 @@ public class JSONFileManager : MonoBehaviour
 
     public static JSONFileManager Instance {  get; private set; }
 
-    public const string JSON_ROOT_FILES_PATH = "Json/";
+    public const string JSON_ROOT_FILES_PATH = "Json\\";
 
     [Header("language")]
     public string LanguageFileName;
@@ -49,64 +51,91 @@ public class JSONFileManager : MonoBehaviour
     public string SaveFileRootName;
     
 
+    private static string GetJSONRootPath()
+    {
+        return Application.streamingAssetsPath + "\\" + JSON_ROOT_FILES_PATH;
+    }
 
     public static string ReadJSON(string fileName)
     {
-        return File.ReadAllText(JSON_ROOT_FILES_PATH + fileName);
+        if (!File.Exists(GetJSONRootPath() + fileName)) return null;
+
+        return File.ReadAllText(GetJSONRootPath() + fileName);
     }
 
     public static string ReadJSON(string folderName, string fileRootName, int fileIndex)
     {
-        return File.ReadAllText(JSON_ROOT_FILES_PATH + folderName + "/" + fileRootName + fileIndex + ".json");
+        if (!File.Exists(GetJSONRootPath() + folderName + "\\" + fileRootName + fileIndex + ".json")) return null;
+
+        return File.ReadAllText(GetJSONRootPath() + folderName + "\\" + fileRootName + fileIndex + ".json");
     }
 
     public static void SaveJSON(string fileName, string jsonData)
     {
-        File.WriteAllText(JSON_ROOT_FILES_PATH + fileName, jsonData);
+        File.WriteAllText(GetJSONRootPath() + fileName, jsonData);
     }
 
     public static void SaveJSON(string folderName, string fileRootName, int fileIndex, string jsonData)
     {
-        File.WriteAllText(JSON_ROOT_FILES_PATH + folderName + "/" + fileRootName + fileIndex + ".json", jsonData);
+        File.WriteAllText(GetJSONRootPath() + folderName + "\\" + fileRootName + fileIndex + ".json", jsonData);
     }
 
     public static void DeleteJSON(string fileName)
     {
-        File.Delete(JSON_ROOT_FILES_PATH + fileName);
+        File.Delete(GetJSONRootPath() + fileName);
     }
 
     public static void DeleteJSON(string folderName, string fileRootName, int fileIndex)
     {
-        File.Delete(JSON_ROOT_FILES_PATH + folderName + "/" + fileRootName + fileIndex + ".json");
+        File.Delete(GetJSONRootPath() + folderName + "\\" + fileRootName + fileIndex + ".json");
     }
 
 
 
     public static int CountFilesInFolder(string folderName)
     {
-        return Directory.GetFiles(JSON_ROOT_FILES_PATH + folderName).Length;
+        return Directory.GetFiles(GetJSONRootPath() + folderName).Length;
     }
 
     public static string[] ReadAllFiles(string folderName)
     {
         string[] result = new string[CountFilesInFolder(folderName)];
 
-        DirectoryInfo newDirInfo = new DirectoryInfo(JSON_ROOT_FILES_PATH + folderName);
+        DirectoryInfo newDirInfo = new DirectoryInfo(GetJSONRootPath() + folderName);
         FileInfo[] fileInfos = newDirInfo.GetFiles("*.json");
         for (int i = 0; i < fileInfos.Length; i++)
         {
+#if UNITY_EDITOR
+            if (fileInfos[i].Extension == "meta")
+            {
+                result[i] = null;
+                continue;
+            }
+#endif
             result[i] = File.ReadAllText(fileInfos[i].FullName);
         }
+#if UNITY_EDITOR
+        List<string> newResult = new List<string>();
+        foreach (string data in result)
+        {
+            if (data != null)
+            {
+                newResult.Add(data);
+            }
+        }
+        return newResult.ToArray();
+#else
         return result;
+#endif
     }
 
     public bool GetFileExist(string fileName)
     {
-        return File.Exists(JSON_ROOT_FILES_PATH + fileName);
+        return File.Exists(GetJSONRootPath() + fileName);
     }
     public static bool GetFileExist(string folderName, string fileRootName, int fileIndex)
     {
-        return File.Exists(JSON_ROOT_FILES_PATH + folderName + "/" + fileRootName + fileIndex + ".json");
+        return File.Exists(GetJSONRootPath() + folderName + "\\" + fileRootName + fileIndex + ".json");
     }
 
 

@@ -60,7 +60,7 @@ public class SoundManager : MonoBehaviour
     public void LoadSoundFromJSON()
     {
         string volumeDataStr = JSONFileManager.ReadJSON(JSONFileManager.Instance.SoundFileName);
-        if (volumeDataStr == "") return;
+        if (volumeDataStr == null || volumeDataStr == "") return;
 
         SoundVolume = JsonUtility.FromJson<SoundData>(volumeDataStr);
     }
