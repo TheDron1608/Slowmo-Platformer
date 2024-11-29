@@ -41,5 +41,6 @@ public class ButtonOnClickToggleDeleteSaves : MonoBehaviour
     private void OnDestroy()
     {
         DeleteSaves = false;
+        SaveButton.OnSaveDeleted -= SaveButton_OnSaveDeleted;
     }
 }
