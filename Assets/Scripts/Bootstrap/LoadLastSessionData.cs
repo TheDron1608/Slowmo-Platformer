@@ -8,23 +8,8 @@ public class LoadLastSessionData : MonoBehaviour
     private void Start()
     {
         LoadCurrentWindowOptions();
-        LoadCurrentLocalzation();
         LoadCurrentKeyBinding();
         LoadCurrentSoundVolume();
-    }
-
-    private void LoadCurrentLocalzation()
-    {
-        string currentLanguageData = JSONFileManager.ReadJSON(JSONFileManager.Instance.LanguageFileName);
-        if (currentLanguageData == null || currentLanguageData == "") return;
-
-        for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; i++)
-        {
-            if (currentLanguageData == LocalizationSettings.AvailableLocales.Locales[i].LocaleName)
-            {
-                LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[i];
-            }
-        }
     }
 
     private void LoadCurrentKeyBinding()

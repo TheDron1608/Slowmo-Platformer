@@ -29,7 +29,6 @@ public class ButtonOnClickChangeLanguage : MonoBehaviour
     private void ChangeLanguage(object sender, int e)
     {
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[e];
-
-        JSONFileManager.SaveJSON(JSONFileManager.Instance.LanguageFileName, LocalizationSettings.SelectedLocale.LocaleName);
+        PlayerPrefs.SetString("selected-locale", LocalizationSettings.SelectedLocale.Identifier.Code);
     }
 }

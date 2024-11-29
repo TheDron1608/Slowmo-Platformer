@@ -38,8 +38,6 @@ public class JSONFileManager : MonoBehaviour
 
     public const string JSON_ROOT_FILES_PATH = "Json\\";
 
-    [Header("language")]
-    public string LanguageFileName;
     [Header("controls")]
     public string ControlsFileName;
     [Header("window")]
@@ -97,36 +95,20 @@ public class JSONFileManager : MonoBehaviour
         return Directory.GetFiles(GetJSONRootPath() + folderName).Length;
     }
 
-    public static string[] ReadAllFiles(string folderName)
+    public static List<string> ReadAllFiles(string folderName)
     {
-        string[] result = new string[CountFilesInFolder(folderName)];
+        List<string> result = new List<string>();
 
         DirectoryInfo newDirInfo = new DirectoryInfo(GetJSONRootPath() + folderName);
         FileInfo[] fileInfos = newDirInfo.GetFiles("*.json");
         for (int i = 0; i < fileInfos.Length; i++)
         {
-#if UNITY_EDITOR
-            if (fileInfos[i].Extension == "meta")
+            if (fileInfos[i].Extension != "meta")
             {
-                result[i] = null;
-                continue;
-            }
-#endif
-            result[i] = File.ReadAllText(fileInfos[i].FullName);
-        }
-#if UNITY_EDITOR
-        List<string> newResult = new List<string>();
-        foreach (string data in result)
-        {
-            if (data != null)
-            {
-                newResult.Add(data);
+                result.Add(File.ReadAllText(fileInfos[i].FullName));
             }
         }
-        return newResult.ToArray();
-#else
         return result;
-#endif
     }
 
     public bool GetFileExist(string fileName)

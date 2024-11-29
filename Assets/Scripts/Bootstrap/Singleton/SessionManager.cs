@@ -62,9 +62,9 @@ public class SessionManager : MonoBehaviour
     {
         List<SessionData> result = new List<SessionData>();
 
-        string[] savesStr = JSONFileManager.ReadAllFiles(JSONFileManager.Instance.SavesFolder);
+        List<string> savesStr = JSONFileManager.ReadAllFiles(JSONFileManager.Instance.SavesFolder);
 
-        for (int i = 0; i < savesStr.Length; i++)
+        for (int i = 0; i < savesStr.Count; i++)
         {
             result.Add(JsonUtility.FromJson<SessionData>(savesStr[i]));
         }
