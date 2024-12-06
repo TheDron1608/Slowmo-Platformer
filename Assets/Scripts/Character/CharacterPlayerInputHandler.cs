@@ -10,6 +10,8 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     public InputActionReference MoveActionReference;
     public InputActionReference JumpActionReference;
 
+    private Coroutine MoveGamepadActionHandler;
+
     public float CoyoteJumpTooEarlyTimer = .33f;
     public float CoyoteJumpTooLateTimer = .125f;
 
@@ -59,9 +61,27 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (_characterActionsComponent.CharacterMovingAction == null) return;
 
-        _characterActionsComponent.CharacterMovingAction.Move(MoveActionReference.action.ReadValue<Vector2>().x);
+        if (CurrentDeviceTracker.GetGamepadIsConnected())
+        {
+            MoveGamepadActionHandler = StartCoroutine(MoveGamepadAction());
+        }
+        else
+        {
+            _characterActionsComponent.CharacterMovingAction.Move(MoveActionReference.action.ReadValue<Vector2>().x);
+        }
     }
-
+    private IEnumerator MoveGamepadAction()
+    {
+        float currentInputAxix;
+        do
+        {
+            currentInputAxix = MoveActionReference.action.ReadValue<Vector2>().x;
+            _characterActionsComponent.CharacterMovingAction.Move(currentInputAxix);
+            yield return new WaitForEndOfFrame();
+        }
+        while (currentInputAxix != 0f);
+    }
+    
     private void HandleStartJumpInput()
     {
         if (_characterActionsComponent.CharacterJumpingAction == null) return;

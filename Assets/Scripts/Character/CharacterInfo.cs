@@ -21,7 +21,7 @@ public class CharacterInfo : MonoBehaviour
     }
 
     /// <summary>
-    /// return true if velocityY is 0 in this frame and was 0 ain previous frame
+    /// return true if velocityY is 0 in this frame and was 0 in previous frame
     /// </summary>
     public bool IsGrounded()
     {

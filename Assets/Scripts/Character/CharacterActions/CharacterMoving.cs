@@ -51,22 +51,7 @@ public class CharacterMoving : MonoBehaviour
     /// <param name="direction">Value between -1 and 1</param>
     public void Move(float direction)
     {
-        if (_currentMoveDirection == 0f && direction != 0f)
-        {
-            _characterVisualComponent.MainState = CharacterPart.CharacterPartMainStates.MOVE;
-            if (_characterVisualComponent.SpritesFlipped && direction > 0)
-            {
-                _characterVisualComponent.SpritesFlipped = false;
-            }
-            else if (!_characterVisualComponent.SpritesFlipped && direction < 0)
-            {
-                _characterVisualComponent.SpritesFlipped = true;
-            }
-        }
-        else if (_currentMoveDirection != 0f && direction == 0f)
-        {
-            _characterVisualComponent.MainState = CharacterPart.CharacterPartMainStates.IDLE;
-        }
+        UpdateMoveAnimation(direction);
 
         OnMoveAlignChanged?.Invoke(this, direction);
 
@@ -85,6 +70,26 @@ public class CharacterMoving : MonoBehaviour
     public void MoveRight()
     {
         Move(1);
+    }
+
+    private void UpdateMoveAnimation(float direction)
+    {
+        if (_currentMoveDirection != 0f && direction == 0f)
+        {
+            _characterVisualComponent.MainState = CharacterPart.CharacterPartMainStates.IDLE;
+        }
+        else if (_currentMoveDirection != direction)
+        {
+            _characterVisualComponent.MainState = CharacterPart.CharacterPartMainStates.MOVE;
+            if (_characterVisualComponent.SpritesFlipped && direction > 0)
+            {
+                _characterVisualComponent.SpritesFlipped = false;
+            }
+            else if (!_characterVisualComponent.SpritesFlipped && direction < 0)
+            {
+                _characterVisualComponent.SpritesFlipped = true;
+            }
+        }
     }
 
     public bool GetIsMaxSpeed()
