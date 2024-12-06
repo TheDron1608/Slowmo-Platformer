@@ -12,6 +12,7 @@ public class CharacterMoving : MonoBehaviour
     }
 
     private Rigidbody2D _rigidBodyComponent;
+    private float _currentMoveDirection;
 
     public float Speed = 5f;
     public float SpeedAccelerationMultiplier = 5f;
@@ -24,22 +25,32 @@ public class CharacterMoving : MonoBehaviour
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
     }
 
+    private void Update()
+    {
+        UpdateMoving();
+    }
+
+    private void UpdateMoving()
+    {
+        bool isAlreadyReachedMaxSpeed = GetIsMaxSpeed();
+
+        _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationMultiplier * Time.deltaTime);
+
+        if (!isAlreadyReachedMaxSpeed && GetIsMaxSpeed())
+        {
+            OnReachedMaxSpeed?.Invoke(this, _currentMoveDirection);
+        }
+    }
+
     /// <summary>
     /// Character moves horizontally with "align" speed
     /// </summary>
     /// <param name="direction">Value between -1 and 1</param>
     public void Move(float direction)
     {
-        bool isAlreadyReachedMaxSpeed = GetIsMaxSped();
-
-        _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, direction * Speed, Speed * SpeedAccelerationMultiplier * Time.deltaTime);
-
         OnMoveAlignChanged?.Invoke(this, direction);
 
-        if (!isAlreadyReachedMaxSpeed && GetIsMaxSped())
-        {
-            OnReachedMaxSpeed?.Invoke(this, direction);
-        }
+        _currentMoveDirection = direction;
     }
 
     public void Move(MoveDirection direction)
@@ -56,7 +67,7 @@ public class CharacterMoving : MonoBehaviour
         Move(1);
     }
 
-    public bool GetIsMaxSped()
+    public bool GetIsMaxSpeed()
     {
         return _rigidBodyComponent.linearVelocityX > Speed - .05f || _rigidBodyComponent.linearVelocityX < -Speed + .05f;
     }

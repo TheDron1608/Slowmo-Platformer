@@ -96,6 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4213330836085406466}
+  - component: {fileID: 2002335163756146061}
   - component: {fileID: -3327571402814487819}
   - component: {fileID: -1858980390697622286}
   - component: {fileID: 3540175533123877220}
@@ -124,6 +125,18 @@ Transform:
   - {fileID: 6361758724505364088}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2002335163756146061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef52bca8727c03d459da1573921754a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-3327571402814487819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterMovingAction: {fileID: -1858980390697622286}
+  CharacterJumpingAction: {fileID: 0}
 --- !u!114 &-1858980390697622286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +180,7 @@ MonoBehaviour:
   JumpForce: 10
   JumpKeepForceMultiplier: 1.5
   JumpMaxTime: 0.5
+  AirJumps: 0
 --- !u!50 &3060050546533286939
 Rigidbody2D:
   serializedVersion: 5
