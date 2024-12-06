@@ -6,6 +6,8 @@ public class CharacterInfo : MonoBehaviour
 
     private float _timeInAir;
     private float _timeOnGround;
+    private bool _wasGroundedPrevFrame = true;
+
 
     public float TimeInAir
     {
@@ -17,6 +19,16 @@ public class CharacterInfo : MonoBehaviour
         get => _timeOnGround;
         private set => _timeOnGround = value;
     }
+
+    /// <summary>
+    /// return true if velocityY is 0 in this frame and was 0 ain previous frame
+    /// </summary>
+    public bool IsGrounded()
+    {
+        return _wasGroundedPrevFrame && _rigidBodyComponent.linearVelocityY == 0f;
+    }
+
+
 
     private void Awake()
     {
@@ -40,5 +52,10 @@ public class CharacterInfo : MonoBehaviour
             _timeInAir += Time.deltaTime;
             _timeOnGround = 0f;
         }
+    }
+
+    private void LateUpdate()
+    {
+        _wasGroundedPrevFrame = _rigidBodyComponent.linearVelocityY == 0f;
     }
 }

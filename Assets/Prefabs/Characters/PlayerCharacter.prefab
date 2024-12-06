@@ -64,9 +64,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 7515539461060809475, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: m_Size.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7515539461060809475, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7515539461060809475, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 7515539461060809475, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6740873504452267486, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
-    m_RemovedGameObjects: []
+    - {fileID: 7515539461060809475, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 5628630952008759624, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7466261371012752510, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}

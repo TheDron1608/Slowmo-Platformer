@@ -12,6 +12,8 @@ public class CharacterMoving : MonoBehaviour
     }
 
     private Rigidbody2D _rigidBodyComponent;
+    private CharacterVisual _characterVisualComponent;
+
     private float _currentMoveDirection;
 
     public float Speed = 5f;
@@ -23,6 +25,7 @@ public class CharacterMoving : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent<CharacterVisual>(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
     }
 
     private void Update()
@@ -48,6 +51,23 @@ public class CharacterMoving : MonoBehaviour
     /// <param name="direction">Value between -1 and 1</param>
     public void Move(float direction)
     {
+        if (_currentMoveDirection == 0f && direction != 0f)
+        {
+            _characterVisualComponent.MainState = CharacterPart.CharacterPartMainStates.MOVE;
+            if (_characterVisualComponent.SpritesFlipped && direction > 0)
+            {
+                _characterVisualComponent.SpritesFlipped = false;
+            }
+            else if (!_characterVisualComponent.SpritesFlipped && direction < 0)
+            {
+                _characterVisualComponent.SpritesFlipped = true;
+            }
+        }
+        else if (_currentMoveDirection != 0f && direction == 0f)
+        {
+            _characterVisualComponent.MainState = CharacterPart.CharacterPartMainStates.IDLE;
+        }
+
         OnMoveAlignChanged?.Invoke(this, direction);
 
         _currentMoveDirection = direction;
