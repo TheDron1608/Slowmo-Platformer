@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
@@ -12,9 +13,6 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
     }
 
 
-
-    [SerializeField]
-    private List<WindowResolutions> _aspectRatioResolutions = new List<WindowResolutions>();
 
     [SerializeField]
     private ButtonOptions _windowModeButtonOptions;
@@ -30,10 +28,6 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
     {
 
         JSONFileManager.WindowOptionsSaveData newSaveData = new JSONFileManager.WindowOptionsSaveData();
-        
-        Vector2 currentResolution = _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[_resolutionButtonOptions.CurrentOptionIndex];
-        newSaveData.resolutionX = (int)currentResolution.x;
-        newSaveData.resolutionY = (int)currentResolution.y;
 
         switch (_windowModeButtonOptions.CurrentOptionIndex)
         {
@@ -48,6 +42,17 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
             case (int)WindowMode.FULLSCREEN:
                 newSaveData.WindowMode = "Fullscreen";
                 break;
+        }
+
+        if (newSaveData.WindowMode != "Borderless")
+        {
+            string currentResolutionOption = _resolutionButtonOptions.GetCurrentOption().Title;
+            if (currentResolutionOption.IndexOf('(') != -1)
+            {
+                currentResolutionOption = currentResolutionOption.Substring(0, currentResolutionOption.IndexOf('(')); //converting 1920x1080 (default) into 1920x1080
+            }
+            newSaveData.resolutionX = Int32.Parse(currentResolutionOption.Substring(0, currentResolutionOption.IndexOf('x'))); //converting 1920x1080 into 1920
+            newSaveData.resolutionY = Int32.Parse(currentResolutionOption.Substring(currentResolutionOption.IndexOf('x') + 1)); //converting 1920x1080 into 1080
         }
 
         JSONFileManager.SaveJSON(JSONFileManager.Instance.WindowFileName, JsonUtility.ToJson(newSaveData));
@@ -85,61 +90,66 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
 
     private void Awake()
     {
-        InitializeCurrentAspectIndex();
-        UpdateResolutioOptions();
         UpdateWindowModeOptions();
+        UpdateResolutioOptions();
+
+        foreach (var res in Screen.resolutions)
+        {
+            Debug.Log(res.width + " : " + res.height);
+        }
     }
 
-    private void AspectRaioOptionsButton_OnOptionChanged(object sender, int e)
+    private void Start()
+    {
+        _windowModeButtonOptions.OnOptionChanged += WindowModeButtonOptions_OnOptionChanged;
+    }
+
+    private void WindowModeButtonOptions_OnOptionChanged(object sender, int e)
     {
         UpdateResolutioOptions();
-    }
-
-    private void InitializeCurrentAspectIndex()
-    {
-        for (int i = 0; i < _aspectRatioResolutions.Count; i++)
-        {
-            if ((float)Screen.currentResolution.width / Screen.currentResolution.height > _aspectRatioResolutions[i].AspectRaio.x / _aspectRatioResolutions[i].AspectRaio.y - 0.05f)
-            {
-                _currentAspectRatioIndex = i;
-            }
-        }
     }
 
     private void UpdateResolutioOptions()
     {
+        _resolutionButtonOptions.gameObject.SetActive(true);
         _resolutionButtonOptions.Options.Clear();
 
-        bool optionIndexUnsat = true;
-        for (int i = 0; i < _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions.Count; i++)
+        if (_windowModeButtonOptions.CurrentOptionIndex == (int)WindowMode.BORDERLESS)
         {
-            //check if real resolution equals to current option, then add (Default) prefix
-            if (
-                Math.Abs(_aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[i].x - Screen.currentResolution.width) < 0.05f &&
-                Math.Abs(_aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[i].y - Screen.currentResolution.height) < 0.05f
-                )
+            _resolutionButtonOptions.gameObject.SetActive(false);
+            return;
+        }
+
+        bool isResolutionDefaultIndexSat = false;
+        for (int i = 0; i < Screen.resolutions.Length; i++)
+        {
+            ButtonOptions.ButtonOptionsOption newButtonOption;
+
+            newButtonOption = new ButtonOptions.ButtonOptionsOption(
+                $"{Screen.resolutions[i].width}x{Screen.resolutions[i].height}"
+            );
+
+            //do not add option if it is a dupe of current last option
+            if (_resolutionButtonOptions.Options.Count == 0 || _resolutionButtonOptions.Options.Last().Title != newButtonOption.Title)
             {
-                _resolutionButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(
-                    $"{_aspectRatioResolutions[_currentAspectRatioIndex].GetResolutionString(i)}\n({_defaultOptionText})"
-                    ));
-                _resolutionButtonOptions.SetOptionIndex(i);
-                optionIndexUnsat = false;
-            }
-            //checks if real resolution is less than current option, else doesn't add this option
-            else if (
-                _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[i].x < Screen.currentResolution.width &&
-                _aspectRatioResolutions[_currentAspectRatioIndex].Resolutions[i].y < Screen.currentResolution.height
-                )
-            {
-                _resolutionButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(
-                    _aspectRatioResolutions[_currentAspectRatioIndex].GetResolutionString(i)
-                    ));
+                _resolutionButtonOptions.Options.Add(newButtonOption);
+
+                //check if real resolution equals to current option, then set as default option
+                if (
+                    Screen.resolutions[i].width == Screen.currentResolution.width &&
+                    Screen.resolutions[i].height == Screen.currentResolution.height
+                    )
+                {
+                    isResolutionDefaultIndexSat = true;
+                    _resolutionButtonOptions.SetOptionIndex(_resolutionButtonOptions.Options.Count - 1);
+                }
             }
         }
 
-        if (optionIndexUnsat )
+        //sets default option to max resolution if was not set before
+        if (!isResolutionDefaultIndexSat)
         {
-            _resolutionButtonOptions.SetOptionIndex(0);
+            _resolutionButtonOptions.SetOptionIndex(_resolutionButtonOptions.Options.Count - 1);
         }
     }
 
@@ -149,6 +159,19 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
         _windowModeButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(_windowedOptionText));
         _windowModeButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(_borderLessOptionText));
         _windowModeButtonOptions.Options.Add(new ButtonOptions.ButtonOptionsOption(_fullsreenOptionText));
+
+        switch (Screen.fullScreenMode)
+        {
+            case (FullScreenMode.Windowed):
+                _windowModeButtonOptions.SetOptionIndex((int)WindowMode.WINDOWED);
+                break;
+            case (FullScreenMode.MaximizedWindow):
+                _windowModeButtonOptions.SetOptionIndex((int)WindowMode.BORDERLESS);
+                break;
+            case (FullScreenMode.FullScreenWindow):
+                _windowModeButtonOptions.SetOptionIndex((int)WindowMode.FULLSCREEN);
+                break;
+        }
 
         _windowModeButtonOptions.SetOptionIndex(_windowModeButtonOptions.CurrentOptionIndex);
     }

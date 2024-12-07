@@ -22,7 +22,7 @@ public class JSONFileManager : MonoBehaviour
                     break;
                 case "Borderless":
 #if !UNITY_STANDALONE_LINUX
-                    Screen.SetResolution(resolutionX, resolutionY, FullScreenMode.MaximizedWindow);
+                    Screen.SetResolution(Screen.currentResolution.height, Screen.currentResolution.width, FullScreenMode.MaximizedWindow);
 #endif
                     break;
                 case "Fullscreen":
