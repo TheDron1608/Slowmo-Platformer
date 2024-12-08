@@ -9,6 +9,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 {
     public InputActionReference MoveActionReference;
     public InputActionReference JumpActionReference;
+    public float MinMoveSpeed = 0.5f;
 
     private Coroutine MoveGamepadActionHandler;
 
@@ -73,10 +74,22 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private IEnumerator MoveGamepadAction()
     {
         float currentInputAxix;
+        float roundedInputAxis;
         do
         {
             currentInputAxix = MoveActionReference.action.ReadValue<Vector2>().x;
-            _characterActionsComponent.CharacterMovingAction.Move(currentInputAxix);
+            if (
+                (currentInputAxix > 0 && currentInputAxix < MinMoveSpeed) ||
+                (currentInputAxix < 0 && currentInputAxix > -MinMoveSpeed)
+                )
+            {
+                roundedInputAxis = 0f;
+            }
+            else
+            {
+                roundedInputAxis = currentInputAxix;
+            }
+            _characterActionsComponent.CharacterMovingAction.Move(roundedInputAxis);
             yield return new WaitForEndOfFrame();
         }
         while (currentInputAxix != 0f);

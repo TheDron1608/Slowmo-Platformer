@@ -8,6 +8,14 @@ public class CharacterVisual : MonoBehaviour
     /// Required Y velocity to change jump sprite
     /// </summary>
     public float JumpStateVelocityRange = 8f;
+    /// <summary>
+    /// Required X velocity to set move animation speed multiplier to 1.0,
+    /// Example1:
+    /// if chracter MoveSpeedVelocityRange = 10f, and character's vecloityX is 5f, then move animation speed multiplier is 0.5f (5f / 10f)
+    /// Example2:
+    /// if chracter MoveSpeedVelocityRange = 10f, and character's vecloityX is 20f, then move animation speed multiplier is 2f (20f / 10f)
+    /// </summary>
+    public float MoveSpeedVelocityRange = 8f;
 
     private Rigidbody2D _rigidBodyComponent;
 
@@ -15,6 +23,7 @@ public class CharacterVisual : MonoBehaviour
     private CharacterPart.CharacterPartMainStates _mainState = CharacterPart.CharacterPartMainStates.IDLE;
     private bool _isGrounded = true;
     private float _jumpState = 0f;
+    private float _moveSpeed = 1f;
 
     public bool SpritesFlipped
     {
@@ -95,6 +104,26 @@ public class CharacterVisual : MonoBehaviour
         }
     }
 
+    public float MoveSpeed
+    {
+        get => _moveSpeed;
+        set
+        {
+            _moveSpeed = value;
+            UpdateMoveSpeed();
+        }
+    }
+    private void UpdateMoveSpeed()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            {
+                currentCharPart.SetMoveSpeed(_moveSpeed);
+            }
+        }
+    }
+
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
@@ -103,6 +132,7 @@ public class CharacterVisual : MonoBehaviour
     private void Update()
     {
         UpdateJumpVisual();
+        UpdateMoveVisual();
     }
 
     private void UpdateJumpVisual()
@@ -123,6 +153,10 @@ public class CharacterVisual : MonoBehaviour
 
             JumpState = _rigidBodyComponent.linearVelocityY / JumpStateVelocityRange;
         }
+    }
 
+    private void UpdateMoveVisual()
+    {
+        MoveSpeed = _rigidBodyComponent.linearVelocityX / MoveSpeedVelocityRange * (SpritesFlipped ? -1f : 1f);
     }
 }

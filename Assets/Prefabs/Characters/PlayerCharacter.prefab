@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 7466261371012752510, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7515539461060809475, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: m_Size.x
       value: 0.75
@@ -121,5 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveActionReference: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   JumpActionReference: {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  MinMoveSpeed: 0.5
   CoyoteJumpTooEarlyTimer: 0.1
   CoyoteJumpTooLateTimer: 0.1

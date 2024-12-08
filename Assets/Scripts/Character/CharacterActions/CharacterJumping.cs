@@ -14,6 +14,7 @@ public class CharacterJumping : MonoBehaviour
     private bool _isJumping = false;
 
     private Rigidbody2D _rigidBodyComponent;
+    private CharacterInfo _characterInfoComponent;
 
     public event EventHandler OnStartedJumping;
     public event EventHandler OnStopedJumping;
@@ -26,11 +27,12 @@ public class CharacterJumping : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent<CharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
     }
 
     private void Update()
     {
-        if (_rigidBodyComponent.linearVelocityY == 0f)
+        if (_characterInfoComponent.IsCollidingFloor())
         {
             _jumpTimeLeft = JumpMaxTime;
             _airJumpsLeft = AirJumps;
@@ -59,7 +61,7 @@ public class CharacterJumping : MonoBehaviour
     {
         if (_isJumping) return;
 
-        if (_rigidBodyComponent.linearVelocityY == 0f) 
+        if (_characterInfoComponent.IsCollidingFloor()) 
         {
             _rigidBodyComponent.linearVelocityY = JumpForce;
         }
@@ -110,12 +112,12 @@ public class CharacterJumping : MonoBehaviour
 
     public bool GetIsAbleToJump()
     {
-        return _rigidBodyComponent.linearVelocityY == 0f || _airJumpsLeft > 0;
+        return _characterInfoComponent.IsCollidingFloor() || _airJumpsLeft > 0;
     }
 
 
     public bool GetIsAbleToJumpFromFloor()
     {
-        return _rigidBodyComponent.linearVelocityY == 0f;
+        return _characterInfoComponent.IsCollidingFloor();
     }
 }
