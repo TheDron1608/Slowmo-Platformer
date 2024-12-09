@@ -18,6 +18,8 @@ public class CharacterVisual : MonoBehaviour
     public float MoveSpeedVelocityRange = 8f;
 
     private Rigidbody2D _rigidBodyComponent;
+    private CharacterInfo _characterInfoComponent;
+    private CharacterActions _characterActionsComponent;
 
     private bool _spritesFlipped = false;
     private CharacterPart.CharacterPartMainStates _mainState = CharacterPart.CharacterPartMainStates.IDLE;
@@ -127,17 +129,20 @@ public class CharacterVisual : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent<CharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
+        if (!TryGetComponent<CharacterActions>(out _characterActionsComponent)) throw new UnityException("CharacterActions component not found");
     }
 
     private void Update()
     {
         UpdateJumpVisual();
+        UpdateMainStateVisual();
         UpdateMoveVisual();
     }
 
     private void UpdateJumpVisual()
     {
-        if (_rigidBodyComponent.linearVelocityY == 0f)
+        if (_characterInfoComponent.IsCollidingFloor())
         {
             if (!_isGrounded)
             {
@@ -152,6 +157,35 @@ public class CharacterVisual : MonoBehaviour
             }
 
             JumpState = _rigidBodyComponent.linearVelocityY / JumpStateVelocityRange;
+        }
+    }
+
+    private void UpdateMainStateVisual()
+    {
+        if (_characterActionsComponent.CharacterMovingAction == null) return;
+
+        if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() == 0f || !_characterActionsComponent.CharacterMovingAction.IsAbleToMoveThisFrame)
+        {
+            if (MainState != CharacterPart.CharacterPartMainStates.IDLE)
+            {
+                MainState = CharacterPart.CharacterPartMainStates.IDLE;
+            }
+        }
+        else
+        {
+            if (MainState != CharacterPart.CharacterPartMainStates.MOVE)
+            {
+                MainState = CharacterPart.CharacterPartMainStates.MOVE;
+            }
+
+            if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() > 0f && SpritesFlipped)
+            {
+                SpritesFlipped = false;
+            }
+            else if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() < 0f && !SpritesFlipped)
+            {
+                SpritesFlipped = true;
+            }
         }
     }
 

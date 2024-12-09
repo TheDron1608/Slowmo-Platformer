@@ -13,8 +13,16 @@ public class CharacterMoving : MonoBehaviour
 
     private Rigidbody2D _rigidBodyComponent;
     private CharacterVisual _characterVisualComponent;
+    private CharacterInfo _characterInfoComponent;
 
     private float _currentMoveDirection;
+    private bool _isAbleToMoveThisFrame = true;
+
+    public bool IsAbleToMoveThisFrame
+    {
+        get => _isAbleToMoveThisFrame;
+        private set => _isAbleToMoveThisFrame = value;  
+    }
 
     public float Speed = 5f;
     public float SpeedAccelerationMultiplier = 5f;
@@ -26,6 +34,7 @@ public class CharacterMoving : MonoBehaviour
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent<CharacterVisual>(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
+        if (!TryGetComponent<CharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
     }
 
     private void Update()
@@ -37,7 +46,23 @@ public class CharacterMoving : MonoBehaviour
     {
         bool isAlreadyReachedMaxSpeed = GetIsMaxSpeed();
 
-        _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationMultiplier * Time.deltaTime);
+        if (_currentMoveDirection > 0f && _characterInfoComponent.IsCollidingRightWall())
+        {
+            if (_rigidBodyComponent.linearVelocityX > 0) _rigidBodyComponent.linearVelocityX = 0f;
+            _isAbleToMoveThisFrame = false;
+            OnMoveAlignChanged?.Invoke(this, 0f);
+        }
+        else if (_currentMoveDirection < 0f && _characterInfoComponent.IsCollidingLeftWall())
+        {
+            if (_rigidBodyComponent.linearVelocityX < 0) _rigidBodyComponent.linearVelocityX = 0f;
+            _isAbleToMoveThisFrame = false;
+            OnMoveAlignChanged?.Invoke(this, 0f);
+        }
+        else
+        {
+            _isAbleToMoveThisFrame = true;
+            _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationMultiplier * Time.deltaTime);
+        }
 
         if (!isAlreadyReachedMaxSpeed && GetIsMaxSpeed())
         {
@@ -51,7 +76,7 @@ public class CharacterMoving : MonoBehaviour
     /// <param name="direction">Value between -1 and 1</param>
     public void Move(float direction)
     {
-        UpdateMoveAnimation(direction);
+        if (_currentMoveDirection == direction) return;
 
         OnMoveAlignChanged?.Invoke(this, direction);
 
@@ -72,24 +97,9 @@ public class CharacterMoving : MonoBehaviour
         Move(1);
     }
 
-    private void UpdateMoveAnimation(float direction)
+    public float GetCurrentMoveDirection()
     {
-        if (_currentMoveDirection != 0f && direction == 0f)
-        {
-            _characterVisualComponent.MainState = CharacterPart.CharacterPartMainStates.IDLE;
-        }
-        else if (_currentMoveDirection != direction)
-        {
-            _characterVisualComponent.MainState = CharacterPart.CharacterPartMainStates.MOVE;
-            if (_characterVisualComponent.SpritesFlipped && direction > 0)
-            {
-                _characterVisualComponent.SpritesFlipped = false;
-            }
-            else if (!_characterVisualComponent.SpritesFlipped && direction < 0)
-            {
-                _characterVisualComponent.SpritesFlipped = true;
-            }
-        }
+        return _currentMoveDirection;
     }
 
     public bool GetIsMaxSpeed()
