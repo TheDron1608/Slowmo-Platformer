@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +9,7 @@ public class CharacterJumping : MonoBehaviour
     public float JumpForce = 5f;
     public float JumpKeepForceMultiplier = 2f;
     public float JumpMaxTime = 1f;
+    public bool CanForceStopJump = false;
     public int AirJumps = 0;
 
     private float _jumpTimeLeft = 0f;
@@ -107,7 +110,30 @@ public class CharacterJumping : MonoBehaviour
 
         _isJumping = false;
 
+        if (CanForceStopJump)
+        {
+            StartCoroutine(ForceStopJumpProcess());
+        }
+
         OnStopedJumping?.Invoke(this, EventArgs.Empty);
+    }
+
+    private IEnumerator ForceStopJumpProcess()
+    {
+        while (_rigidBodyComponent.linearVelocityY > 0f)
+        {
+            float limitedStopJumpForce = math.lerp(_rigidBodyComponent.linearVelocityY, 0f, Time.deltaTime);
+            if (limitedStopJumpForce > JumpKeepForceMultiplier)
+            {
+                _rigidBodyComponent.linearVelocityY -= JumpKeepForceMultiplier;
+            }
+            else
+            {
+                _rigidBodyComponent.linearVelocityY = limitedStopJumpForce;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     public bool GetIsAbleToJump()
