@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterPart : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class CharacterPart : MonoBehaviour
     const string ANIMATOR_IS_GROUNDE_PARAM_NAME = "IsGrounded";
     const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";
     const string ANIMATOR_JUMP_STATE_PARAM_NAME = "JumpState";
+    const string ANIMATION_JUST_GROUNDED_TRIGGER_NAME = "JustGrounded";
 
     public enum CharacterPartMainStates
     {
@@ -54,5 +56,11 @@ public class CharacterPart : MonoBehaviour
     public void SetMoveSpeed(float value)
     {
         _animatorComponent.SetFloat(ANIMATOR_MOVE_SPEED_PARAM_NAME, value);
+    }
+
+    public void CallJustGroudedTrigger()
+    {
+        _animatorComponent.SetTrigger(ANIMATION_JUST_GROUNDED_TRIGGER_NAME);
+        Debug.Log("grounded");
     }
 }

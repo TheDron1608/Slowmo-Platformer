@@ -115,6 +115,7 @@ public class CharacterVisual : MonoBehaviour
             UpdateMoveSpeed();
         }
     }
+
     private void UpdateMoveSpeed()
     {
         for (int i = 0; i < transform.childCount; i++)
@@ -122,6 +123,17 @@ public class CharacterVisual : MonoBehaviour
             if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
             {
                 currentCharPart.SetMoveSpeed(_moveSpeed);
+            }
+        }
+    }
+
+    public void CallJustGroundedTrigger()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            {
+                currentCharPart.CallJustGroudedTrigger();
             }
         }
     }
@@ -147,6 +159,7 @@ public class CharacterVisual : MonoBehaviour
             if (!_isGrounded)
             {
                 IsGrounded = true;
+                CallJustGroundedTrigger();
             }
         }
         else

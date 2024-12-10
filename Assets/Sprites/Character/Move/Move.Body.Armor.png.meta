@@ -113,9 +113,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9526565f854aa7700800000000000000
+      spriteID: 834630f6e140d6b4baa14f7a94c8faa7
       internalID: 538923807405335129
       vertices: []
       indices: 
@@ -137,7 +137,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4fdb46a0d239e9f45b0315807cdc5036
+      spriteID: a525f570797b4d244a250aa48f915693
       internalID: -1675403705
       vertices: []
       indices: 
@@ -159,7 +159,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b69d2c74d94ddda4bb8b38fc4c80fe3a
+      spriteID: 274e372e86ab3024197d135ce880d2c9
       internalID: -1892151815
       vertices: []
       indices: 
@@ -181,8 +181,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d76b7e04f5906684e981c936d050e5f3
+      spriteID: 53a1ccbbd42cd9647a69324037bb6d28
       internalID: 1629964317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Move.Body.Armor_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 777caf187e2483244a8237c90570767b
+      internalID: 953781672
       vertices: []
       indices: 
       edges: []
@@ -205,6 +227,7 @@ TextureImporter:
       Move.Body.Armor_1: -1675403705
       Move.Body.Armor_2: -1892151815
       Move.Body.Armor_3: 1629964317
+      Move.Body.Armor_4: 953781672
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
