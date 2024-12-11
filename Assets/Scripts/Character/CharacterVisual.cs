@@ -158,8 +158,8 @@ public class CharacterVisual : MonoBehaviour
         {
             if (!_isGrounded)
             {
-                IsGrounded = true;
                 CallJustGroundedTrigger();
+                IsGrounded = true;
             }
         }
         else
