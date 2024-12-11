@@ -61,6 +61,5 @@ public class CharacterPart : MonoBehaviour
     public void CallJustGroudedTrigger()
     {
         _animatorComponent.SetTrigger(ANIMATION_JUST_GROUNDED_TRIGGER_NAME);
-        Debug.Log("grounded");
     }
 }
