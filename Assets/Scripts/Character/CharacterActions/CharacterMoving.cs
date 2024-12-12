@@ -13,7 +13,7 @@ public class CharacterMoving : MonoBehaviour
 
     private Rigidbody2D _rigidBodyComponent;
     private CharacterVisual _characterVisualComponent;
-    private CharacterInfo _characterInfoComponent;
+    private CollisionCharacterInfo _collisionCharacterInfoComponent;
 
     private float _currentMoveDirection;
     private bool _isAbleToMoveThisFrame = true;
@@ -34,7 +34,7 @@ public class CharacterMoving : MonoBehaviour
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent<CharacterVisual>(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
-        if (!TryGetComponent<CharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
+        if (!TryGetComponent<CollisionCharacterInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
     }
 
     private void Update()
@@ -46,13 +46,13 @@ public class CharacterMoving : MonoBehaviour
     {
         bool isAlreadyReachedMaxSpeed = GetIsMaxSpeed();
 
-        if (_currentMoveDirection > 0f && _characterInfoComponent.IsCollidingRightWall())
+        if (_currentMoveDirection > 0f && _collisionCharacterInfoComponent.IsCollidingRightWall())
         {
             if (_rigidBodyComponent.linearVelocityX > 0) _rigidBodyComponent.linearVelocityX = 0f;
             _isAbleToMoveThisFrame = false;
             OnMoveAlignChanged?.Invoke(this, 0f);
         }
-        else if (_currentMoveDirection < 0f && _characterInfoComponent.IsCollidingLeftWall())
+        else if (_currentMoveDirection < 0f && _collisionCharacterInfoComponent.IsCollidingLeftWall())
         {
             if (_rigidBodyComponent.linearVelocityX < 0) _rigidBodyComponent.linearVelocityX = 0f;
             _isAbleToMoveThisFrame = false;

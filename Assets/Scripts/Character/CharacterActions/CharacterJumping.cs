@@ -17,7 +17,8 @@ public class CharacterJumping : MonoBehaviour
     private bool _isJumping = false;
 
     private Rigidbody2D _rigidBodyComponent;
-    private CharacterInfo _characterInfoComponent;
+    private CollisionCharacterInfo _collisionCharacterInfoComponent;
+    private CharacterInteractionWithTiles _characterInteractionWithTilesComponent;
 
     public event EventHandler OnStartedJumping;
     public event EventHandler OnStopedJumping;
@@ -29,13 +30,20 @@ public class CharacterJumping : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent<CharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
+        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
+        if (!TryGetComponent(out _characterInteractionWithTilesComponent)) throw new UnityException("CharacterInteractionWithTiles component not found");
     }
 
     private void Update()
     {
-        if (_characterInfoComponent.IsCollidingFloor())
+        UpdateJumTimeLeft();
+        UpdateJump();
+    }
+
+    private void UpdateJumTimeLeft()
+    {
+        if (GetIsAbleToJumpFromFloorOrWall())
         {
             _jumpTimeLeft = JumpMaxTime;
             _airJumpsLeft = AirJumps;
@@ -53,22 +61,27 @@ public class CharacterJumping : MonoBehaviour
                 _jumpTimeLeft -= Time.deltaTime;
             }
         }
+    }
 
+    private void UpdateJump()
+    {
         if (_isJumping && _jumpTimeLeft > 0f)
         {
             _rigidBodyComponent.linearVelocityY += JumpForce * JumpKeepForceMultiplier * Time.deltaTime;
         }
     }
 
+
+
     public void StartJump()
     {
         if (_isJumping) return;
 
-        if (_characterInfoComponent.IsCollidingFloor()) 
+        if (GetIsAbleToJumpFromFloorOrWall()) 
         {
             _rigidBodyComponent.linearVelocityY = JumpForce;
         }
-        else if (_airJumpsLeft > 0)
+        else if (GetIsAbleToJumpFromAir())
         {
             if (_rigidBodyComponent.linearVelocityY < JumpForce)
             {
@@ -138,12 +151,36 @@ public class CharacterJumping : MonoBehaviour
 
     public bool GetIsAbleToJump()
     {
-        return _characterInfoComponent.IsCollidingFloor() || _airJumpsLeft > 0;
+        return
+            GetIsAbleToJumpFromFloor() ||
+            GetIsAbleToJumpFromWall() ||
+            GetIsAbleToJumpFromAir();
     }
 
+    public bool GetIsAbleToJumpFromFloorOrWall()
+    {
+        return
+            GetIsAbleToJumpFromFloor() ||
+            GetIsAbleToJumpFromWall();
+    }
 
     public bool GetIsAbleToJumpFromFloor()
     {
-        return _characterInfoComponent.IsCollidingFloor();
+        return _collisionCharacterInfoComponent.IsCollidingFloor();
+    }
+
+    public bool GetIsAbleToJumpFromWall()
+    {
+        return
+            _characterInteractionWithTilesComponent.CanStickOnWalls && 
+            (
+                _collisionCharacterInfoComponent.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY || 
+                _collisionCharacterInfoComponent.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
+            );
+    }
+
+    public bool GetIsAbleToJumpFromAir()
+    {
+        return _airJumpsLeft > 0;
     }
 }

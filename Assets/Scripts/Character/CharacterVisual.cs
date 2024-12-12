@@ -18,7 +18,7 @@ public class CharacterVisual : MonoBehaviour
     public float MoveSpeedVelocityRange = 8f;
 
     private Rigidbody2D _rigidBodyComponent;
-    private CharacterInfo _characterInfoComponent;
+    private CollisionCharacterInfo _collisionCharacterInfoComponent;
     private CharacterActions _characterActionsComponent;
 
     private bool _spritesFlipped = false;
@@ -141,7 +141,7 @@ public class CharacterVisual : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent<CharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
+        if (!TryGetComponent<CollisionCharacterInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
         if (!TryGetComponent<CharacterActions>(out _characterActionsComponent)) throw new UnityException("CharacterActions component not found");
     }
 
@@ -154,7 +154,7 @@ public class CharacterVisual : MonoBehaviour
 
     private void UpdateJumpVisual()
     {
-        if (_characterInfoComponent.IsCollidingFloor())
+        if (_collisionCharacterInfoComponent.IsCollidingFloor())
         {
             if (!_isGrounded)
             {

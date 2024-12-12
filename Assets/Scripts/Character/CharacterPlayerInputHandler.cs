@@ -21,13 +21,13 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
-    private CharacterInfo _characterInfoComponent;
+    private CollisionCharacterInfo _characterInfoComponent;
 
     private void Awake()
     {
         if (!TryGetComponent<CharacterActions>(out _characterActionsComponent)) throw new UnityException("ChracterActions component not found");
         if (!TryGetComponent<Rigidbody2D>(out _rigidbodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent<CharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
+        if (!TryGetComponent<CollisionCharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
     }
 
     private void Start()
@@ -99,7 +99,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (_characterActionsComponent.CharacterJumpingAction == null) return;
         
-        if (_characterActionsComponent.CharacterJumpingAction.GetIsAbleToJumpFromFloor())
+        if (_characterActionsComponent.CharacterJumpingAction.GetIsAbleToJumpFromFloorOrWall())
         {
             _characterActionsComponent.CharacterJumpingAction.StartJump();
         }
@@ -132,7 +132,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         {
             _coyoteJumpTooEarlyTimeLeft -= Time.deltaTime;
 
-            if (_characterActionsComponent.CharacterJumpingAction.GetIsAbleToJumpFromFloor())
+            if (_characterActionsComponent.CharacterJumpingAction.GetIsAbleToJumpFromFloorOrWall())
             {
                 _characterActionsComponent.CharacterJumpingAction.StartJump();
                 break;
