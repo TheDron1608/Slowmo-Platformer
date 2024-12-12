@@ -79,7 +79,10 @@ public class CharacterJumping : MonoBehaviour
 
         if (GetIsAbleToJumpFromFloorOrWall()) 
         {
-            _rigidBodyComponent.linearVelocityY = JumpForce;
+            if (_rigidBodyComponent.linearVelocityY < JumpForce)
+            {
+                _rigidBodyComponent.linearVelocityY = JumpForce;
+            }
         }
         else if (GetIsAbleToJumpFromAir())
         {
@@ -171,12 +174,7 @@ public class CharacterJumping : MonoBehaviour
 
     public bool GetIsAbleToJumpFromWall()
     {
-        return
-            _characterInteractionWithTilesComponent.CanStickOnWalls && 
-            (
-                _collisionCharacterInfoComponent.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY || 
-                _collisionCharacterInfoComponent.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
-            );
+        return _collisionCharacterInfoComponent.GetIsStickingOnWall();
     }
 
     public bool GetIsAbleToJumpFromAir()

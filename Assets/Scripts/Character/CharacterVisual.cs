@@ -23,7 +23,6 @@ public class CharacterVisual : MonoBehaviour
 
     private bool _spritesFlipped = false;
     private CharacterPart.CharacterPartMainStates _mainState = CharacterPart.CharacterPartMainStates.IDLE;
-    private bool _isGrounded = true;
     private float _jumpState = 0f;
     private float _moveSpeed = 1f;
 
@@ -62,26 +61,6 @@ public class CharacterVisual : MonoBehaviour
             if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
             {
                 currentCharPart.SetMainState(_mainState);
-            }
-        }
-    }
-
-    public bool IsGrounded
-    {
-        get => _isGrounded;
-        set
-        {
-            _isGrounded = value;
-            UpdateIsGrounded();
-        }
-    }
-    private void UpdateIsGrounded()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
-            {
-                currentCharPart.SetIsGrounded(_isGrounded);
             }
         }
     }
@@ -127,17 +106,6 @@ public class CharacterVisual : MonoBehaviour
         }
     }
 
-    public void CallJustGroundedTrigger()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
-            {
-                currentCharPart.CallJustGroudedTrigger();
-            }
-        }
-    }
-
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
@@ -147,62 +115,81 @@ public class CharacterVisual : MonoBehaviour
 
     private void Update()
     {
-        UpdateJumpVisual();
-        UpdateMainStateVisual();
-        UpdateMoveVisual();
+        UpdateMainStateParam();
+        UpdateJumpStateParam();
+        UpdateMoveSpeedParam();
     }
 
-    private void UpdateJumpVisual()
+    private void UpdateJumpStateParam()
     {
-        if (_collisionCharacterInfoComponent.IsCollidingFloor())
+        if (!_collisionCharacterInfoComponent.IsCollidingFloor())
         {
-            if (!_isGrounded)
-            {
-                CallJustGroundedTrigger();
-                IsGrounded = true;
-            }
-        }
-        else
-        {
-            if (_isGrounded)
-            {
-                IsGrounded = false;
-            }
-
             JumpState = _rigidBodyComponent.linearVelocityY / JumpStateVelocityRange;
         }
     }
 
-    private void UpdateMainStateVisual()
+    private void UpdateMainStateParam()
     {
         if (_characterActionsComponent.CharacterMovingAction == null) return;
 
-        if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() == 0f || !_characterActionsComponent.CharacterMovingAction.IsAbleToMoveThisFrame)
+        if (_collisionCharacterInfoComponent.IsCollidingFloor())
         {
-            if (MainState != CharacterPart.CharacterPartMainStates.IDLE)
+            if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() == 0f || !_characterActionsComponent.CharacterMovingAction.IsAbleToMoveThisFrame)
             {
-                MainState = CharacterPart.CharacterPartMainStates.IDLE;
+                if (MainState != CharacterPart.CharacterPartMainStates.IDLE)
+                {
+                    MainState = CharacterPart.CharacterPartMainStates.IDLE;
+                }
+            }
+            else
+            {
+                if (MainState != CharacterPart.CharacterPartMainStates.MOVE)
+                {
+                    MainState = CharacterPart.CharacterPartMainStates.MOVE;
+                }
+
+                if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() > 0f && SpritesFlipped)
+                {
+                    SpritesFlipped = false;
+                }
+                else if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() < 0f && !SpritesFlipped)
+                {
+                    SpritesFlipped = true;
+                }
             }
         }
         else
         {
-            if (MainState != CharacterPart.CharacterPartMainStates.MOVE)
+            if (_collisionCharacterInfoComponent.GetIsStickingOnWall())
             {
-                MainState = CharacterPart.CharacterPartMainStates.MOVE;
-            }
+                MainState = CharacterPart.CharacterPartMainStates.SLIDE_ON_WALL;
 
-            if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() > 0f && SpritesFlipped)
-            {
-                SpritesFlipped = false;
+                if (_collisionCharacterInfoComponent.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY && !SpritesFlipped)
+                {
+                    SpritesFlipped = false;
+                }
+                else if (_collisionCharacterInfoComponent.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY && SpritesFlipped)
+                {
+                    SpritesFlipped = true;
+                }
             }
-            else if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() < 0f && !SpritesFlipped)
+            else
             {
-                SpritesFlipped = true;
+                MainState = CharacterPart.CharacterPartMainStates.JUMP;
+
+                if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() > 0f && SpritesFlipped)
+                {
+                    SpritesFlipped = false;
+                }
+                else if (_characterActionsComponent.CharacterMovingAction.GetCurrentMoveDirection() < 0f && !SpritesFlipped)
+                {
+                    SpritesFlipped = true;
+                }
             }
         }
     }
 
-    private void UpdateMoveVisual()
+    private void UpdateMoveSpeedParam()
     {
         MoveSpeed = _rigidBodyComponent.linearVelocityX / MoveSpeedVelocityRange * (SpritesFlipped ? -1f : 1f);
     }

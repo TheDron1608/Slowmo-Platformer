@@ -38,6 +38,7 @@ public class CollisionCharacterInfo : MonoBehaviour
 
     private Rigidbody2D _rigidBodyComponent;
     private CapsuleCollider2D _capsuleColliderComponent;
+    private CharacterInteractionWithTiles _characterInteractionWithTilesComponent;
 
     private float _timeInAir;
     private float _timeOnGround;
@@ -99,6 +100,18 @@ public class CollisionCharacterInfo : MonoBehaviour
     {
         return _behaviourTypeFromRightWall;
     }
+
+    public bool GetIsStickingOnWall()
+    {
+        return
+            _characterInteractionWithTilesComponent.CanStickOnWalls &&
+            (
+                GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
+                GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
+            );
+    }
+
+
 
     private RaycastHit2D RaycastHitFromCollider(Vector2 from, Vector2 align)
     {
@@ -184,8 +197,10 @@ public class CollisionCharacterInfo : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent<CapsuleCollider2D>(out _capsuleColliderComponent)) throw new UnityException("CapsuleCollider2D component not found");
+        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent(out _capsuleColliderComponent)) throw new UnityException("CapsuleCollider2D component not found");
+        if (!TryGetComponent(out _characterInteractionWithTilesComponent)) throw new UnityException("CharacterInteractionWithTilesComponent component not found");
+        
         _collisionDetectionLayerMask = 1 << LayerMask.NameToLayer(COLLISION_HIT_DETECTION_LAYER_NAME);
     }
 

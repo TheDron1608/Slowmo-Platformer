@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class CharacterInteractionWithTiles : MonoBehaviour
 {
+    const float BASE_STICK_ON_WALL_STRINGHT_MULTIPLIER = 15f;
+
     public bool CanStickOnWalls = true;
+    public float StickOnWallStringhtMultiplier = 1f;
 
     private CollisionCharacterInfo _collisionCharacterInfoComponent;
     private Rigidbody2D _rigidBodyComponent;
@@ -46,14 +49,11 @@ public class CharacterInteractionWithTiles : MonoBehaviour
 
     private IEnumerator UpdateStickyTileInteractionProcess()
     {
-        while (
-            _collisionCharacterInfoComponent.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
-            _collisionCharacterInfoComponent.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
-            )
+        while (_collisionCharacterInfoComponent.GetIsStickingOnWall())
         {
             if (_rigidBodyComponent.linearVelocityY < 0f)
             {
-                _rigidBodyComponent.linearVelocityY = math.lerp(_rigidBodyComponent.linearVelocityY, 0f, Time.deltaTime * 100f);
+                _rigidBodyComponent.linearVelocityY = math.lerp(_rigidBodyComponent.linearVelocityY, 0f, Time.deltaTime * BASE_STICK_ON_WALL_STRINGHT_MULTIPLIER * StickOnWallStringhtMultiplier);
             }
 
             yield return new WaitForEndOfFrame();

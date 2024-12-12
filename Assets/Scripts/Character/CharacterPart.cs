@@ -6,15 +6,15 @@ using static UnityEngine.Rendering.DebugUI;
 public class CharacterPart : MonoBehaviour
 {
     const string ANIMATOR_MAIN_STATE_PARAM_NAME = "MainState";
-    const string ANIMATOR_IS_GROUNDE_PARAM_NAME = "IsGrounded";
     const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";
     const string ANIMATOR_JUMP_STATE_PARAM_NAME = "JumpState";
-    const string ANIMATION_JUST_GROUNDED_TRIGGER_NAME = "JustGrounded";
 
     public enum CharacterPartMainStates
     {
         IDLE = 0,
         MOVE = 1,
+        JUMP = 2,
+        SLIDE_ON_WALL = 3
     }
 
 
@@ -35,11 +35,6 @@ public class CharacterPart : MonoBehaviour
         _animatorComponent.SetInteger(ANIMATOR_MAIN_STATE_PARAM_NAME, newState);
     }
 
-    public void SetIsGrounded(bool value)
-    {
-        _animatorComponent.SetBool(ANIMATOR_IS_GROUNDE_PARAM_NAME, value);
-    }
-
     public void SetJumpState(float value)
     {
         float normalizedTime = value;
@@ -56,10 +51,5 @@ public class CharacterPart : MonoBehaviour
     public void SetMoveSpeed(float value)
     {
         _animatorComponent.SetFloat(ANIMATOR_MOVE_SPEED_PARAM_NAME, value);
-    }
-
-    public void CallJustGroudedTrigger()
-    {
-        _animatorComponent.SetTrigger(ANIMATION_JUST_GROUNDED_TRIGGER_NAME);
     }
 }
