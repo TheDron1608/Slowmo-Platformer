@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2002335163756146061}
   - component: {fileID: 3206245827804919803}
   - component: {fileID: -3327571402814487819}
+  - component: {fileID: 7261639660243465350}
   - component: {fileID: -1858980390697622286}
   - component: {fileID: 3540175533123877220}
   - component: {fileID: 1964864157782877518}
@@ -80,6 +81,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterMovingAction: {fileID: -1858980390697622286}
   CharacterJumpingAction: {fileID: 3540175533123877220}
+  CharacterInteractAction: {fileID: 7261639660243465350}
+--- !u!114 &7261639660243465350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c72b61d6e876743a27baca51f91cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InteractRange: 1
 --- !u!114 &-1858980390697622286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 8
-  SpeedAccelerationMultiplier: 5
+  SpeedAccelerationOnGroundMultiplier: 5
+  SpeedAccelerationOnAirMulitplier: 1
 --- !u!114 &3540175533123877220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JumpForce: 10
   JumpKeepForceMultiplier: 1.5
+  JumpOffWallForce: 20
   JumpMaxTime: 0.5
   CanForceStopJump: 0
   AirJumps: 0

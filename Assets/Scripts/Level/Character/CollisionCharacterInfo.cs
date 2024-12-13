@@ -33,6 +33,8 @@ public class CollisionCharacterInfo : MonoBehaviour
     const float COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET = 0.7f; //value between 0 and 1
     const string COLLISION_HIT_DETECTION_LAYER_NAME = "EnviromentColliders";
 
+    private static int CollisionDetectionLayerMask = -1;
+
     public event EventHandler<OnCollisionChangedEventArgs> OnCollisionChanged;
     public event EventHandler<OnTileBehavioutTypeCollisionChangedEventArgs> OnTileBehavioutTypeCollisionChanged;
 
@@ -43,7 +45,6 @@ public class CollisionCharacterInfo : MonoBehaviour
     private float _timeInAir;
     private float _timeOnGround;
     private bool _wasGroundedPrevFrame = true;
-    private int _collisionDetectionLayerMask;
 
     private bool _isCollidingFloor = false;
     private bool _isCollidingRoof = false;
@@ -116,10 +117,10 @@ public class CollisionCharacterInfo : MonoBehaviour
     private RaycastHit2D RaycastHitFromCollider(Vector2 from, Vector2 align)
     {
         float rayCastHitRange = (align.x != 0 ? _capsuleColliderComponent.size.x : _capsuleColliderComponent.size.y) / 2 + COLLISION_HIT_DETECION_THICKNESS;
-        RaycastHit2D rayCastHit = Physics2D.Raycast(from, align, rayCastHitRange, _collisionDetectionLayerMask);
+        RaycastHit2D rayCastHit = Physics2D.Raycast(from, align, rayCastHitRange, CollisionDetectionLayerMask);
         return rayCastHit;
     }
-        
+
     private RaycastHit2D RaycastHitFromCenter(Vector2 align)
     {
         Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y) + _capsuleColliderComponent.offset;
@@ -200,8 +201,15 @@ public class CollisionCharacterInfo : MonoBehaviour
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent(out _capsuleColliderComponent)) throw new UnityException("CapsuleCollider2D component not found");
         if (!TryGetComponent(out _characterInteractionWithTilesComponent)) throw new UnityException("CharacterInteractionWithTilesComponent component not found");
-        
-        _collisionDetectionLayerMask = 1 << LayerMask.NameToLayer(COLLISION_HIT_DETECTION_LAYER_NAME);
+
+        InitializeCollisionDetectionLayerMask();
+    }
+
+    private void InitializeCollisionDetectionLayerMask()
+    {
+        if (CollisionDetectionLayerMask != -1) return;
+
+        CollisionDetectionLayerMask = 1 << LayerMask.NameToLayer(COLLISION_HIT_DETECTION_LAYER_NAME);
     }
 
     private void FixedUpdate()

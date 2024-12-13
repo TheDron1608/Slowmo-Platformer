@@ -9,6 +9,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 {
     public InputActionReference MoveActionReference;
     public InputActionReference JumpActionReference;
+    public InputActionReference AimActionReference;
     public float MinMoveSpeed = 0.5f;
 
     private Coroutine MoveGamepadActionHandler;
@@ -18,6 +19,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private float _coyoteJumpTooEarlyTimeLeft = 0f;
     private Coroutine _coyoteJumpTooEarlyHandler;
+    private InteractableObject _lastSelectedObject = null;
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
@@ -58,6 +60,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         HandleStopJumpInput();
     }
 
+    //MOVE INPUT
     private void HandleMoveInput()
     {
         if (_characterActionsComponent.CharacterMovingAction == null) return;
@@ -95,6 +98,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         while (currentInputAxix != 0f);
     }
     
+    //JUMP INPUT
     private void HandleStartJumpInput()
     {
         if (_characterActionsComponent.CharacterJumpingAction == null) return;
@@ -142,7 +146,46 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         _coyoteJumpTooEarlyTimeLeft = 0f;
     }
 
+    private void Update()
+    {
+        HandleAimInput();
+    }
 
+    private void HandleAimInput()
+    {
+        Vector2 aimDirection;
+
+        if (CurrentDeviceTracker.GetGamepadIsConnected())
+        {
+            aimDirection = AimActionReference.action.ReadValue<Vector2>();
+        }
+        else
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            aimDirection = new Vector2(
+                mousePos.x - transform.position.x,
+                mousePos.y - transform.position.y
+            ).normalized;
+        }
+
+        if (_characterActionsComponent.CharacterInteractAction != null)
+        {
+            var currentSelectedObj = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(aimDirection);
+
+            if (_lastSelectedObject != null && _lastSelectedObject != currentSelectedObj)
+            {
+                _lastSelectedObject.Selected = false;
+            }
+
+            if (currentSelectedObj != null)
+            {
+                currentSelectedObj.Selected = true;
+
+                _lastSelectedObject = currentSelectedObj;
+            }
+        }
+    }
 
     private void OnDestroy()
     {
