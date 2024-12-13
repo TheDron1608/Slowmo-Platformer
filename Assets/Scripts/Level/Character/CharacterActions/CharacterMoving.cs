@@ -25,7 +25,8 @@ public class CharacterMoving : MonoBehaviour
     }
 
     public float Speed = 5f;
-    public float SpeedAccelerationMultiplier = 5f;
+    public float SpeedAccelerationOnGroundMultiplier = 5f;
+    public float SpeedAccelerationOnAirMulitplier = 1f;
 
     public event EventHandler<float> OnMoveAlignChanged;
     public event EventHandler<float> OnReachedMaxSpeed;
@@ -61,7 +62,14 @@ public class CharacterMoving : MonoBehaviour
         else
         {
             _isAbleToMoveThisFrame = true;
-            _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationMultiplier * Time.deltaTime);
+            if (_collisionCharacterInfoComponent.IsCollidingFloor())
+            {
+                _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.deltaTime);
+            }
+            else
+            {
+                _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnAirMulitplier * Time.deltaTime);
+            }
         }
 
         if (!isAlreadyReachedMaxSpeed && GetIsMaxSpeed())

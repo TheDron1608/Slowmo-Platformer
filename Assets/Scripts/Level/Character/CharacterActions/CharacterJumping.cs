@@ -8,6 +8,7 @@ public class CharacterJumping : MonoBehaviour
 {
     public float JumpForce = 5f;
     public float JumpKeepForceMultiplier = 2f;
+    public float JumpOffWallForce = 7.5f;
     public float JumpMaxTime = 1f;
     public bool CanForceStopJump = false;
     public int AirJumps = 0;
@@ -82,6 +83,15 @@ public class CharacterJumping : MonoBehaviour
             if (_rigidBodyComponent.linearVelocityY < JumpForce)
             {
                 _rigidBodyComponent.linearVelocityY = JumpForce;
+            }
+
+            if (_collisionCharacterInfoComponent.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY)
+            {
+                _rigidBodyComponent.linearVelocityX += JumpOffWallForce;
+            }
+            else if (_collisionCharacterInfoComponent.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY)
+            {
+                _rigidBodyComponent.linearVelocityX -= JumpOffWallForce;
             }
         }
         else if (GetIsAbleToJumpFromAir())

@@ -7333,6 +7333,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2421663312032792793, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
   m_PrefabInstance: {fileID: 32272158}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &189502952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5225945479333914668, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+  m_PrefabInstance: {fileID: 1754794450}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &475663880
 GameObject:
   m_ObjectHideFlags: 0
@@ -7505,6 +7510,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5198372404950219954, guid: 954c136752f997b4f9d06b6833bf5b8f, type: 3}
+      propertyPath: TrackObject
+      value: 
+      objectReference: {fileID: 189502952}
     - target: {fileID: 7212635690638980574, guid: 954c136752f997b4f9d06b6833bf5b8f, type: 3}
       propertyPath: m_Name
       value: MainCamera
