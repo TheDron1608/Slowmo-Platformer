@@ -204,7 +204,7 @@ public class CollisionCharacterInfo : MonoBehaviour
         _collisionDetectionLayerMask = 1 << LayerMask.NameToLayer(COLLISION_HIT_DETECTION_LAYER_NAME);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdateCollidingInfo();
         UpdateTileCollidingInfo();
@@ -215,12 +215,12 @@ public class CollisionCharacterInfo : MonoBehaviour
     {
         if (IsCollidingFloor())
         {
-            _timeOnGround += Time.deltaTime;
+            _timeOnGround += Time.fixedDeltaTime;
             _timeInAir = 0f;
         }
         else
         {
-            _timeInAir += Time.deltaTime;
+            _timeInAir += Time.fixedDeltaTime;
             _timeOnGround = 0f;
         }
     }

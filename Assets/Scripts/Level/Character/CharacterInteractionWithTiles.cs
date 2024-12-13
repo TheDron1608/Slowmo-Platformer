@@ -56,7 +56,7 @@ public class CharacterInteractionWithTiles : MonoBehaviour
                 _rigidBodyComponent.linearVelocityY = math.lerp(_rigidBodyComponent.linearVelocityY, 0f, Time.deltaTime * BASE_STICK_ON_WALL_STRINGHT_MULTIPLIER * StickOnWallStringhtMultiplier);
             }
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
     }
 }

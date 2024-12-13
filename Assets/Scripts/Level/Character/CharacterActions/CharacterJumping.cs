@@ -36,7 +36,7 @@ public class CharacterJumping : MonoBehaviour
         if (!TryGetComponent(out _characterInteractionWithTilesComponent)) throw new UnityException("CharacterInteractionWithTiles component not found");
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdateJumTimeLeft();
         UpdateJump();
@@ -59,7 +59,7 @@ public class CharacterJumping : MonoBehaviour
             }
             else
             {
-                _jumpTimeLeft -= Time.deltaTime;
+                _jumpTimeLeft -= Time.fixedDeltaTime;
             }
         }
     }
@@ -68,7 +68,7 @@ public class CharacterJumping : MonoBehaviour
     {
         if (_isJumping && _jumpTimeLeft > 0f)
         {
-            _rigidBodyComponent.linearVelocityY += JumpForce * JumpKeepForceMultiplier * Time.deltaTime;
+            _rigidBodyComponent.linearVelocityY += JumpForce * JumpKeepForceMultiplier * Time.fixedDeltaTime;
         }
     }
 
@@ -148,7 +148,7 @@ public class CharacterJumping : MonoBehaviour
     {
         while (_rigidBodyComponent.linearVelocityY > 0f)
         {
-            float limitedStopJumpForce = math.lerp(_rigidBodyComponent.linearVelocityY, 0f, Time.deltaTime);
+            float limitedStopJumpForce = math.lerp(_rigidBodyComponent.linearVelocityY, 0f, Time.fixedDeltaTime);
             if (limitedStopJumpForce > JumpKeepForceMultiplier)
             {
                 _rigidBodyComponent.linearVelocityY -= JumpKeepForceMultiplier;
@@ -158,7 +158,7 @@ public class CharacterJumping : MonoBehaviour
                 _rigidBodyComponent.linearVelocityY = limitedStopJumpForce;
             }
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
     }
 

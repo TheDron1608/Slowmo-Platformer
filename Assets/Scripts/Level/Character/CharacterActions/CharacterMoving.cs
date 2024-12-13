@@ -38,7 +38,7 @@ public class CharacterMoving : MonoBehaviour
         if (!TryGetComponent<CollisionCharacterInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdateMoving();
     }
@@ -64,11 +64,11 @@ public class CharacterMoving : MonoBehaviour
             _isAbleToMoveThisFrame = true;
             if (_collisionCharacterInfoComponent.IsCollidingFloor())
             {
-                _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.deltaTime);
+                _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime);
             }
             else
             {
-                _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnAirMulitplier * Time.deltaTime);
+                _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime);
             }
         }
 
