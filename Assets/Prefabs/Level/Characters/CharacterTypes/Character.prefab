@@ -203,8 +203,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.15}
-  m_Size: {x: 0.5, y: 1.2}
+  m_Offset: {x: 0, y: -0.1}
+  m_Size: {x: 0.375, y: 0.8}
   m_Direction: 0
 --- !u!1001 &1954994473127023812
 PrefabInstance:
@@ -253,6 +253,18 @@ PrefabInstance:
     - target: {fileID: 7001579501217784546, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7001579501217784546, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7001579501217784546, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7001579501217784546, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7001579501217784546, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
       propertyPath: m_LocalPosition.x
