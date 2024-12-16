@@ -5,21 +5,55 @@ using UnityEngine;
 
 public class ZIndexLayer : MonoBehaviour
 {
-    public static List<ZIndexLayer> ZLayers = new();
+    public int ZIndex = 1;
 
-    public int GetZLayer()
+    private GameObject _enviromentContainer;
+    public GameObject EnviromentContainer
     {
-        return gameObject.layer;
+        get => _enviromentContainer;
+        private set => _enviromentContainer = value;
+    }
+
+    private GameObject _charactersContainer;
+    public GameObject CharacterContainer
+    {
+        get => _charactersContainer;
+        private set => _charactersContainer = value;
+    }
+
+    private GameObject _holdablesContainer;
+    public GameObject HoldablesContainer
+    {
+        get => _holdablesContainer;
+        private set => _holdablesContainer = value;
+    }
+
+    private GameObject _furnitureContainer;
+    public GameObject FurnitureContainer
+    {
+        get => _furnitureContainer; 
+        private set => _furnitureContainer = value;
     }
 
     private void Awake()
     {
-        ZLayers.Add(this);
-    }
-
-
-    private void OnDestroy()
-    {
-        ZLayers.Remove(this);
+        foreach (Transform t in transform)
+        {
+            switch (t.gameObject.name)
+            {
+                case LayerManager.ENVIROMENT_TAG_NAME:
+                    EnviromentContainer = t.gameObject;
+                    break;
+                case LayerManager.CHARACTER_TAG_NAME:
+                    CharacterContainer = t.gameObject;
+                    break;
+                case LayerManager.HOLDABLE_TAG_NAME:
+                    HoldablesContainer = t.gameObject;
+                    break;
+                case LayerManager.FURNITURE_TAG_NAME:
+                    FurnitureContainer = t.gameObject;
+                    break;
+            }
+        }
     }
 }

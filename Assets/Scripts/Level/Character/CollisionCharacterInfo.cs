@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class CollisionCharacterInfo : MonoBehaviour
 {
+    const string ENVIROMENT_TAG_NAME = "Enviroment";
+
     public class OnCollisionChangedEventArgs
     {
         public OnCollisionChangedEventArgs(bool enterOrReleasedCollision, Vector2 collisionAlign)
@@ -31,8 +33,6 @@ public class CollisionCharacterInfo : MonoBehaviour
 
     const float COLLISION_HIT_DETECION_THICKNESS = 0.075f;
     const float COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET = 0.7f; //value between 0 and 1
-
-    private static int CollisionDetectionLayerMask = -1;
 
     public event EventHandler<OnCollisionChangedEventArgs> OnCollisionChanged;
     public event EventHandler<OnTileBehavioutTypeCollisionChangedEventArgs> OnTileBehavioutTypeCollisionChanged;
@@ -119,7 +119,7 @@ public class CollisionCharacterInfo : MonoBehaviour
         RaycastHit2D[] rayCastHits = Physics2D.RaycastAll(from, align, rayCastHitRange, 1 << gameObject.layer);
         for (int i = 0; i < rayCastHits.Length; i++)
         {
-            if (rayCastHits[i].collider.tag == "EnviromentCollider") return rayCastHits[i];
+            if (rayCastHits[i].collider.tag == ENVIROMENT_TAG_NAME) return rayCastHits[i];
         }
         return null;
     }

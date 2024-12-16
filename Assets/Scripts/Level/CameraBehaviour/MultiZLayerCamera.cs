@@ -29,14 +29,14 @@ public class MultiZLayerCamera : MonoBehaviour
 
     private void Awake()
     {
-        _currentIndex = _startZLayer.GetZLayer();
+        _currentIndex = _startZLayer.ZIndex;
     }
 
     public ZIndexLayer GetCurrentZIndexLayer()
     {
-        for (int i = 0; i < ZIndexLayer.ZLayers.Count; i++)
+        for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
         {
-            if (ZIndexLayer.ZLayers[i].GetZLayer() == CurrentZIndex) return ZIndexLayer.ZLayers[i];
+            if (LayerManager.Instance.ZLayers[i].ZIndex == CurrentZIndex) return LayerManager.Instance.ZLayers[i];
         }
         throw new UnityException($"ZIndex {CurrentZIndex} not found");
     }
