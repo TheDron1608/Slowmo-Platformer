@@ -31,7 +31,6 @@ public class CollisionCharacterInfo : MonoBehaviour
 
     const float COLLISION_HIT_DETECION_THICKNESS = 0.075f;
     const float COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET = 0.7f; //value between 0 and 1
-    const string COLLISION_HIT_DETECTION_LAYER_NAME = "EnviromentColliders";
 
     private static int CollisionDetectionLayerMask = -1;
 
@@ -114,61 +113,65 @@ public class CollisionCharacterInfo : MonoBehaviour
 
 
 
-    private RaycastHit2D RaycastHitFromCollider(Vector2 from, Vector2 align)
+    private RaycastHit2D? RaycastHitFromCollider(Vector2 from, Vector2 align)
     {
         float rayCastHitRange = (align.x != 0 ? _capsuleColliderComponent.size.x : _capsuleColliderComponent.size.y) / 2 + COLLISION_HIT_DETECION_THICKNESS;
-        RaycastHit2D rayCastHit = Physics2D.Raycast(from, align, rayCastHitRange, CollisionDetectionLayerMask);
-        return rayCastHit;
+        RaycastHit2D[] rayCastHits = Physics2D.RaycastAll(from, align, rayCastHitRange, 1 << gameObject.layer);
+        for (int i = 0; i < rayCastHits.Length; i++)
+        {
+            if (rayCastHits[i].collider.tag == "EnviromentCollider") return rayCastHits[i];
+        }
+        return null;
     }
 
-    private RaycastHit2D RaycastHitFromCenter(Vector2 align)
+    private RaycastHit2D? RaycastHitFromCenter(Vector2 align)
     {
         Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y) + _capsuleColliderComponent.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
 
-    private RaycastHit2D RaycastHitFromHead(Vector2 align)
+    private RaycastHit2D? RaycastHitFromHead(Vector2 align)
     {
         Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y + (_capsuleColliderComponent.size.y - _capsuleColliderComponent.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + _capsuleColliderComponent.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
 
-    private RaycastHit2D RaycastHitFromLegs(Vector2 align)
+    private RaycastHit2D? RaycastHitFromLegs(Vector2 align)
     {
         Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y - (_capsuleColliderComponent.size.y - _capsuleColliderComponent.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + _capsuleColliderComponent.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
     private bool UpdateIsCollidingFloor()
     {
-        return RaycastHitFromCenter(Vector2.down).collider != null;
+        return RaycastHitFromCenter(Vector2.down) != null;
     }
     private bool UpdateIsCollidingRoof()
     {
-        return RaycastHitFromCenter(Vector2.up).collider != null;
+        return RaycastHitFromCenter(Vector2.up) != null;
     }
     private bool UpdateIsCollidingLeftWall()
     {
         return (
-            RaycastHitFromCenter(Vector2.left).collider != null ||
-            RaycastHitFromHead(Vector2.left).collider != null ||
-            RaycastHitFromLegs(Vector2.left).collider != null
+            RaycastHitFromCenter(Vector2.left) != null ||
+            RaycastHitFromHead(Vector2.left) != null ||
+            RaycastHitFromLegs(Vector2.left) != null
             );
     }
     private bool UpdateIsCollidingRightWall()
     {
         return (
-            RaycastHitFromCenter(Vector2.right).collider != null ||
-            RaycastHitFromHead(Vector2.right).collider != null ||
-            RaycastHitFromLegs(Vector2.right).collider != null
+            RaycastHitFromCenter(Vector2.right) != null ||
+            RaycastHitFromHead(Vector2.right) != null ||
+            RaycastHitFromLegs(Vector2.right) != null
             );
     }
 
 
     private TileBehaviour.TileBehaviourType? UpdateTileCollidingFromDirection(Vector2 direction)
     {
-        Collider2D hitGameObject = RaycastHitFromCenter(direction).collider;
+        RaycastHit2D? hitGameObject = RaycastHitFromCenter(direction);
 
-        if (hitGameObject == null || !hitGameObject.gameObject.TryGetComponent<TileBehaviour>(out TileBehaviour hitGameObjectTileBehaviour))
+        if (hitGameObject == null || !hitGameObject.Value.collider.gameObject.TryGetComponent<TileBehaviour>(out TileBehaviour hitGameObjectTileBehaviour))
         {
             return null;
         }
@@ -201,15 +204,6 @@ public class CollisionCharacterInfo : MonoBehaviour
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent(out _capsuleColliderComponent)) throw new UnityException("CapsuleCollider2D component not found");
         if (!TryGetComponent(out _characterInteractionWithTilesComponent)) throw new UnityException("CharacterInteractionWithTilesComponent component not found");
-
-        InitializeCollisionDetectionLayerMask();
-    }
-
-    private void InitializeCollisionDetectionLayerMask()
-    {
-        if (CollisionDetectionLayerMask != -1) return;
-
-        CollisionDetectionLayerMask = 1 << LayerMask.NameToLayer(COLLISION_HIT_DETECTION_LAYER_NAME);
     }
 
     private void FixedUpdate()

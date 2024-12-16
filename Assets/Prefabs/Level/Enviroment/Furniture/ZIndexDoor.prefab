@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2165248998872009777, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      propertyPath: SelectMaxRangeMultiplier
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2656287805449882121, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_Size.x
       value: 2.6666667
@@ -110,11 +114,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 4467a00c0bfd95245921442a9df7474c, type: 3}
     - target: {fileID: 7083484541001434667, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_Size.x
-      value: 1.667
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7083484541001434667, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_Size.y
-      value: 2.15
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 7083484541001434667, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_Offset.x
@@ -122,7 +126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7083484541001434667, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_Offset.y
-      value: -0.25
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: 7083484541001434667, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_IsTrigger
@@ -146,11 +150,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7083484541001434667, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 2.6666667
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7083484541001434667, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2.6666667
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7083484541001434667, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
@@ -183,5 +187,26 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 7658498708895953526}
   m_SourcePrefab: {fileID: 100100000, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+--- !u!1 &1613800193327848316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+  m_PrefabInstance: {fileID: 8075963982441030500}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7658498708895953526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613800193327848316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d815901173a3f4d933aabc442e4570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetZIndex: 1

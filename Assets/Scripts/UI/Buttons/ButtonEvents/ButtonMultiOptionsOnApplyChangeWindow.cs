@@ -92,11 +92,6 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
     {
         UpdateWindowModeOptions();
         UpdateResolutioOptions();
-
-        foreach (var res in Screen.resolutions)
-        {
-            Debug.Log(res.width + " : " + res.height);
-        }
     }
 
     private void Start()

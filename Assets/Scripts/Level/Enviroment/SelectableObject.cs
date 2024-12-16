@@ -3,11 +3,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class InteractableObject : MonoBehaviour
+public class SelectableObject : MonoBehaviour
 {
-    const string INTERACTABLE_OBJECTS_LAYER_NAME = "InteracableObjectsColliders";
     const float SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER = 5f;
 
+    public float SelectMaxRangeMultiplier = 1f; //value between 0 and 1
     public float SelectedColorDarkness = 0.64f; //value between 0 and 256
 
     public static int InteractableObjectsLayerMask = -1;
@@ -59,13 +59,5 @@ public class InteractableObject : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent(out _spriteRendererComponent)) throw new UnityException("SpriteRenderer component not found");
-        InitializeInteractableObjectsLayerMask();
-    }
-
-    private void InitializeInteractableObjectsLayerMask()
-    {
-        if (InteractableObjectsLayerMask != -1) return;
-
-        InteractableObjectsLayerMask = 1 << LayerMask.NameToLayer(INTERACTABLE_OBJECTS_LAYER_NAME);
     }
 }

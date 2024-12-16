@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7948331553360016925}
   - component: {fileID: 7083484541001434667}
   m_Layer: 8
-  m_Name: Funiture
-  m_TagString: Untagged
+  m_Name: Interactable
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95024142911c040419ec9405b2f9db8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectMaxRangeMultiplier: 1
+  SelectedColorDarkness: 0.64
 --- !u!212 &7948331553360016925
 SpriteRenderer:
   m_ObjectHideFlags: 0

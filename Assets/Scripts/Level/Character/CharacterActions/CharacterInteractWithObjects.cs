@@ -6,15 +6,15 @@ public class CharacterInteractWithObjects : MonoBehaviour
 
     public float InteractRange = 1f;
 
-    public List<InteractableObject> GetAvaibleInteractableObjects()
+    public List<SelectableObject> GetAvaibleInteractableObjects()
     {
-        var result = new List<InteractableObject>();
+        var result = new List<SelectableObject>();
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, InteractRange, InteractableObject.InteractableObjectsLayerMask);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, InteractRange, SelectableObject.InteractableObjectsLayerMask);
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (!colliders[i].gameObject.TryGetComponent(out InteractableObject interactableObjectComponent)) continue;
+            if (!colliders[i].gameObject.TryGetComponent(out SelectableObject interactableObjectComponent)) continue;
 
             result.Add(interactableObjectComponent);
         }
@@ -22,24 +22,15 @@ public class CharacterInteractWithObjects : MonoBehaviour
         return result;
     }
 
-    public InteractableObject GetNearestAvaibleInteractableObject()
+    public SelectableObject GetInteractableObjectAtDirection(Vector2 direction)
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, InteractRange, InteractableObject.InteractableObjectsLayerMask);
-
-        for (int i = 0; i < colliders.Length; i++)
+        foreach (var raycastHit in Physics2D.RaycastAll(transform.position, direction, InteractRange, SelectableObject.InteractableObjectsLayerMask))
         {
-            if (!colliders[i].gameObject.TryGetComponent(out InteractableObject interactableObjectComponent)) continue;
-
-            return interactableObjectComponent;
-        }
-        return null;
-    }
-
-    public InteractableObject GetInteractableObjectAtDirection(Vector2 direction)
-    {
-        foreach (var raycastHit in Physics2D.RaycastAll(transform.position, direction, InteractRange, InteractableObject.InteractableObjectsLayerMask))
-        {
-            if (raycastHit.collider.TryGetComponent(out InteractableObject interactableObjectComponent)) return interactableObjectComponent;
+            if (
+                raycastHit.collider.TryGetComponent(out SelectableObject interactableObjectComponent) && 
+                raycastHit.distance <= InteractRange * interactableObjectComponent.SelectMaxRangeMultiplier
+                ) 
+                return interactableObjectComponent;
         }
         return null;
     }

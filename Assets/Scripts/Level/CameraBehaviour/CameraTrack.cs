@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class CameraTrack : MonoBehaviour
@@ -6,6 +7,7 @@ public class CameraTrack : MonoBehaviour
     public GameObject TrackObject;
     public float TrackSpeed = 5f;
 
+    public float TrackMouseVelocity = 0.1625f;
     public bool FreezeXTransform = false;
     public bool FreezeYTransform = false;
 
@@ -28,13 +30,15 @@ public class CameraTrack : MonoBehaviour
     {
         if (TrackObject == null) return;
 
+        Vector2 trackTargetPosition = TrackObject.transform.position - (TrackObject.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition)) * TrackMouseVelocity * (1920f / Screen.width);
+
         if (!FreezeXTransform)
         {
-            _rigidBodyComponent.linearVelocityX = (TrackObject.transform.position.x - transform.position.x) * TrackSpeed;
+            _rigidBodyComponent.linearVelocityX = (trackTargetPosition.x - transform.position.x) * TrackSpeed;
         }
         if (!FreezeYTransform)
         {
-            _rigidBodyComponent.linearVelocityY = (TrackObject.transform.position.y - transform.position.y) * TrackSpeed;
+            _rigidBodyComponent.linearVelocityY = (trackTargetPosition.y - transform.position.y) * TrackSpeed;
         }
     }
 

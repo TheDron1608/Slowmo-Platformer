@@ -10,6 +10,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     public InputActionReference MoveActionReference;
     public InputActionReference JumpActionReference;
     public InputActionReference AimActionReference;
+    public InputActionReference InteractActionReference;
     public float MinMoveSpeed = 0.5f;
 
     private Coroutine MoveGamepadActionHandler;
@@ -19,7 +20,8 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private float _coyoteJumpTooEarlyTimeLeft = 0f;
     private Coroutine _coyoteJumpTooEarlyHandler;
-    private InteractableObject _lastSelectedObject = null;
+    private SelectableObject _currentSelectedObject = null;
+    private SelectableObject _lastSelectedObject = null;
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
@@ -38,26 +40,28 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         MoveActionReference.action.canceled += MoveActionReference_OnActionCanceled;
         JumpActionReference.action.started += JumpActionReference_OnActionStarted;
         JumpActionReference.action.canceled += JumpActionReference_OnActionCanceled;
+        InteractActionReference.action.started += InteractActionReference_OnActionStarted;
     }
 
     private void MoveActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
         HandleMoveInput();
     }
-
     private void MoveActionReference_OnActionCanceled(InputAction.CallbackContext context)
     {
         HandleMoveInput();
     }
-
     private void JumpActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
         HandleStartJumpInput();
     }
-
     private void JumpActionReference_OnActionCanceled(InputAction.CallbackContext context)
     {
         HandleStopJumpInput();
+    }
+    private void InteractActionReference_OnActionStarted(InputAction.CallbackContext context)
+    {
+        HandleInteract();
     }
 
     //MOVE INPUT
@@ -146,6 +150,16 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         _coyoteJumpTooEarlyTimeLeft = 0f;
     }
 
+    //INTERACT
+    private void HandleInteract()
+    {
+        if (_currentSelectedObject != null && _currentSelectedObject.gameObject.TryGetComponent(out IInteractable interactComponent))
+        {
+            interactComponent.Interact(gameObject);
+        }
+    }
+
+    //AIM
     private void Update()
     {
         HandleAimInput();
@@ -171,18 +185,18 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
         if (_characterActionsComponent.CharacterInteractAction != null)
         {
-            var currentSelectedObj = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(aimDirection);
+            _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(aimDirection);
 
-            if (_lastSelectedObject != null && _lastSelectedObject != currentSelectedObj)
+            if (_lastSelectedObject != null && _lastSelectedObject != _currentSelectedObject)
             {
                 _lastSelectedObject.Selected = false;
             }
 
-            if (currentSelectedObj != null)
+            if (_currentSelectedObject != null)
             {
-                currentSelectedObj.Selected = true;
+                _currentSelectedObject.Selected = true;
 
-                _lastSelectedObject = currentSelectedObj;
+                _lastSelectedObject = _currentSelectedObject;
             }
         }
     }
@@ -193,5 +207,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         MoveActionReference.action.canceled -= MoveActionReference_OnActionCanceled;
         JumpActionReference.action.started -= JumpActionReference_OnActionStarted;
         JumpActionReference.action.canceled -= JumpActionReference_OnActionCanceled;
+        InteractActionReference.action.started -= InteractActionReference_OnActionStarted;
     }
 }

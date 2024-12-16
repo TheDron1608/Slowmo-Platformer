@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 201eb258524073440baf725af61ada9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 8
-  SpeedAccelerationOnGroundMultiplier: 5
+  Speed: 5
+  SpeedAccelerationOnGroundMultiplier: 4
   SpeedAccelerationOnAirMulitplier: 1
 --- !u!114 &3540175533123877220
 MonoBehaviour:
@@ -122,10 +122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf19cb91635009146a3fd457a8c53313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpForce: 10
+  JumpForce: 7.5
   JumpKeepForceMultiplier: 1.5
-  JumpOffWallForce: 20
-  JumpMaxTime: 0.5
+  JumpOffWallForce: 10
+  JumpMaxTime: 1.5
   CanForceStopJump: 0
   AirJumps: 0
 --- !u!114 &1964864157782877518
@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 406350f30be1be84cbef10d1791be909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpStateVelocityRange: 8
-  MoveSpeedVelocityRange: 8
+  JumpStateVelocityRange: 5
+  MoveSpeedVelocityRange: 5
 --- !u!50 &3060050546533286939
 Rigidbody2D:
   serializedVersion: 5

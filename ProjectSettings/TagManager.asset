@@ -6,6 +6,9 @@ TagManager:
   tags:
   - MainCanvas
   - ScreenOverlayContainer
+  - Interactable
+  - CharacterCollider
+  - EnviromentCollider
   layers:
   - Default
   - TransparentFX
@@ -13,9 +16,6 @@ TagManager:
   - 
   - Water
   - UI
-  - CharactersColliders
-  - EnviromentColliders
-  - InteracableObjectsColliders
   - 
   - 
   - 
@@ -30,13 +30,16 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Z1
+  - Z2
+  - Z3
+  - Z4
+  - Z5
+  - Z6
+  - Z7
+  - Z8
+  - Z9
+  - Z10
   - 
   - 
   m_SortingLayers:
