@@ -7337,6 +7337,38 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2421663312032792793, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
   m_PrefabInstance: {fileID: 32272158}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &90658439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 90658440}
+  m_Layer: 0
+  m_Name: Furniture
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &90658440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90658439}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1065863751}
+  m_Father: {fileID: 793992976}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &189502952 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5225945479333914668, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
@@ -7381,7 +7413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4645117052403701288, guid: 711c2ee413b26b54b8cecb63b2bf750f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4645117052403701288, guid: 711c2ee413b26b54b8cecb63b2bf750f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7433,7 +7465,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 793992976}
+    m_TransformParent: {fileID: 90658440}
     m_Modifications:
     - target: {fileID: 1288288934212243627, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
       propertyPath: SelectColor.a
@@ -7745,6 +7777,10 @@ PrefabInstance:
       value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 8883288890940901592, guid: 954c136752f997b4f9d06b6833bf5b8f, type: 3}
+      propertyPath: near clip plane
+      value: 14.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883288890940901592, guid: 954c136752f997b4f9d06b6833bf5b8f, type: 3}
       propertyPath: orthographic size
       value: 3.75
       objectReference: {fileID: 0}
@@ -7831,7 +7867,7 @@ PrefabInstance:
       addedObject: {fileID: 1576318881}
     - targetCorrespondingSourceObject: {fileID: 4645117052403701288, guid: 711c2ee413b26b54b8cecb63b2bf750f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1065863751}
+      addedObject: {fileID: 90658440}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 711c2ee413b26b54b8cecb63b2bf750f, type: 3}
 --- !u!4 &793992976 stripped
