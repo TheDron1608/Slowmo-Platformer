@@ -10,8 +10,6 @@ public class SelectableObject : MonoBehaviour
     public float SelectMaxRangeMultiplier = 1f; //value between 0 and 1
     public float SelectedColorDarkness = 0.64f; //value between 0 and 256
 
-    public static int InteractableObjectsLayerMask = -1;
-
     private SpriteRenderer _spriteRendererComponent;
 
     private bool _selected = false;

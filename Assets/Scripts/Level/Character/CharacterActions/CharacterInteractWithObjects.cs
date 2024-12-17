@@ -10,13 +10,13 @@ public class CharacterInteractWithObjects : MonoBehaviour
     {
         var result = new List<SelectableObject>();
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, InteractRange, SelectableObject.InteractableObjectsLayerMask);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, InteractRange);
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (!colliders[i].gameObject.TryGetComponent(out SelectableObject interactableObjectComponent)) continue;
+            if (!colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent)) continue;
 
-            result.Add(interactableObjectComponent);
+            result.Add(selectableObjectComponent);
         }
 
         return result;
@@ -24,13 +24,13 @@ public class CharacterInteractWithObjects : MonoBehaviour
 
     public SelectableObject GetInteractableObjectAtDirection(Vector2 direction)
     {
-        foreach (var raycastHit in Physics2D.RaycastAll(transform.position, direction, InteractRange, SelectableObject.InteractableObjectsLayerMask))
+        foreach (var raycastHit in Physics2D.RaycastAll(transform.position, direction, InteractRange, 1 << gameObject.layer))
         {
             if (
-                raycastHit.collider.TryGetComponent(out SelectableObject interactableObjectComponent) && 
-                raycastHit.distance <= InteractRange * interactableObjectComponent.SelectMaxRangeMultiplier
+                raycastHit.collider.TryGetComponent(out SelectableObject selectableObjectComponent) && 
+                raycastHit.distance <= InteractRange * selectableObjectComponent.SelectMaxRangeMultiplier
                 ) 
-                return interactableObjectComponent;
+                return selectableObjectComponent;
         }
         return null;
     }
