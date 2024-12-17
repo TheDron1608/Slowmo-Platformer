@@ -27,7 +27,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private Rigidbody2D _rigidbodyComponent;
     private CollisionCharacterInfo _characterInfoComponent;
 
-    public Vector3 GetMouseWorldPositionOnCharacterLayer()
+    public Vector3? GetMouseWorldPositionOnCharacterLayer()
     {
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(mouseRay, out RaycastHit hit, 9999, 1 << gameObject.layer))
@@ -36,7 +36,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         }
         else
         {
-            throw new UnityException($"failed hit layer {gameObject.layer} with camera raycast");
+            return null;
         }
     }
 
@@ -188,11 +188,14 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         }
         else
         {
-            Vector3 mousePos = GetMouseWorldPositionOnCharacterLayer();
+            Vector3? mousePos = GetMouseWorldPositionOnCharacterLayer();
+
+            if (!mousePos.HasValue) return;
+
 
             aimDirection = new Vector2(
-                mousePos.x - transform.position.x,
-                mousePos.y - transform.position.y
+                mousePos.Value.x - transform.position.x,
+                mousePos.Value.y - transform.position.y
             ).normalized;
         }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MultiZLayerCamera : MonoBehaviour
 {
-    const float ZOOM_LAYER_DISTANCE = 15f;
+    public float ZoomOutDistance = 15f;
 
     [SerializeField]
     private ZIndexLayer _startZLayer;
@@ -17,7 +17,7 @@ public class MultiZLayerCamera : MonoBehaviour
             transform.position = new Vector3(
                 transform.position.x,
                 transform.position.y,
-                GetCurrentZIndexLayer().transform.position.z - ZOOM_LAYER_DISTANCE
+                GetCurrentZIndexLayer().transform.position.z - ZoomOutDistance
                 );
 
             //for (int i = 0; i < ZIndexLayer.ZLayers.Count; i++)

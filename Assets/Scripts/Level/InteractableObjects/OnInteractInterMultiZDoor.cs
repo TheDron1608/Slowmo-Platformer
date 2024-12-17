@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-public class OnInteractChangeZIndex : MonoBehaviour, IInteractable
+public class OnInteractInterMultiZDoor : MonoBehaviour, IInteractable
 {
     private MultiZLayerCamera _multiZLayerCameraComponent;
     private ZIndexLayer _zLayer;
@@ -12,7 +12,7 @@ public class OnInteractChangeZIndex : MonoBehaviour, IInteractable
         private set => _zLayer = value;
     }
 
-    public OnInteractChangeZIndex Exit;
+    public OnInteractInterMultiZDoor Exit;
 
     private void Awake()
     {
@@ -24,6 +24,6 @@ public class OnInteractChangeZIndex : MonoBehaviour, IInteractable
     {
         LayerManager.Instance.ChangeZIndexForGameObject(Exit.ZLayer, interactor, Exit.gameObject);
 
-        _multiZLayerCameraComponent.CurrentZIndex = Exit.ZLayer.ZIndex;
+        //_multiZLayerCameraComponent.CurrentZIndex = Exit.ZLayer.ZIndex;
     }
 }
