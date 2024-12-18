@@ -51,27 +51,9 @@ public class LayerManager : MonoBehaviour
 
     public void ChangeZIndexForGameObject(ZIndexLayer targetLayer, GameObject moveGameObject, GameObject newPosition = null)
     {
-        Transform parentTransform;
+        if (moveGameObject == null) return;
 
-        switch (moveGameObject.tag)
-        {
-            case LayerManager.ENVIROMENT_TAG_NAME:
-                parentTransform = targetLayer.EnviromentContainer.transform;
-                break;
-            case LayerManager.CHARACTER_TAG_NAME:
-                parentTransform = targetLayer.CharacterContainer.transform;
-                break;
-            case LayerManager.HOLDABLE_TAG_NAME:
-                parentTransform = targetLayer.HoldablesContainer.transform;
-                break;
-            case LayerManager.FURNITURE_TAG_NAME:
-                parentTransform = targetLayer.FurnitureContainer.transform;
-                break;
-            default:
-                throw new UnityException($"{moveGameObject.tag} tag is not valid");
-        }
-
-        moveGameObject.transform.parent = parentTransform;
+        moveGameObject.transform.parent = targetLayer.transform;
 
         if (newPosition == null)
         {
@@ -86,11 +68,12 @@ public class LayerManager : MonoBehaviour
             moveGameObject.transform.position = new Vector3(
                 newPosition.transform.position.x,
                 newPosition.transform.position.y,
-                parentTransform.position.z
+                targetLayer.transform.position.z
                 );
         }
 
         moveGameObject.layer = targetLayer.gameObject.layer;
+        targetLayer.UpdateOrderInLayerForAllChildren(moveGameObject.transform);
     }
 
     private void OnDestroy()

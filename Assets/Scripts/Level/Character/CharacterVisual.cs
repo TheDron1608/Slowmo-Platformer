@@ -1,9 +1,10 @@
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 public class CharacterVisual : MonoBehaviour
 {
+    const string CHARACTER_PARTS_GAMEOBJECT_NAME = "CharacterParts";
+
     /// <summary>
     /// Required Y velocity to change jump sprite
     /// </summary>
@@ -18,13 +19,19 @@ public class CharacterVisual : MonoBehaviour
     public float MoveSpeedVelocityRange = 8f;
 
     private Rigidbody2D _rigidBodyComponent;
-    private CollisionCharacterInfo _collisionCharacterInfoComponent;
+    private CharacterCollisionInfo _collisionCharacterInfoComponent;
     private CharacterActions _characterActionsComponent;
 
     private bool _spritesFlipped = false;
     private CharacterPart.CharacterPartMainStates _mainState = CharacterPart.CharacterPartMainStates.IDLE;
     private float _jumpState = 0f;
     private float _moveSpeed = 1f;
+    private CharacterPart.CharacterParnBusyStates _currentBusyAnimation = CharacterPart.CharacterParnBusyStates.NONE; //when busy animation is played, character is unable to do most actions
+    private Transform _characterPartsContainer;
+
+    public event EventHandler<CharacterPart.CharacterPartMainStates> OnMainStateChanged;
+    public event EventHandler<CharacterPart.CharacterParnBusyStates> OnBusyStateChanged;
+    public event EventHandler<bool> OnIsBusyChanged;
 
     public bool SpritesFlipped
     {
@@ -36,9 +43,9 @@ public class CharacterVisual : MonoBehaviour
     }
     private void UpdateSpritesFlipped()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
             {
                 currentCharPart.GetComponent<SpriteRenderer>().flipX = _spritesFlipped;
             }
@@ -50,19 +57,51 @@ public class CharacterVisual : MonoBehaviour
         get => _mainState;
         set
         {
+            if (_mainState == value) return;
+
             _mainState = value;
             UpdateMainState();
+            OnMainStateChanged?.Invoke(this, _mainState);
         }
     }
     private void UpdateMainState()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
             {
                 currentCharPart.SetMainState(_mainState);
             }
         }
+    }
+
+    public CharacterPart.CharacterParnBusyStates CurrentBusyAnimation
+    {
+        get => _currentBusyAnimation;
+        set
+        {
+            if (_currentBusyAnimation == value) return;
+
+            _currentBusyAnimation = value;
+            UpdateBusyState();
+            OnBusyStateChanged?.Invoke(this, _currentBusyAnimation);
+            OnIsBusyChanged?.Invoke(this, IsBusy());
+        }
+    }
+    private void UpdateBusyState()
+    {
+        for (int i = 0; i < _characterPartsContainer.childCount; i++)
+        {
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            {
+                currentCharPart.SetBusyState(_currentBusyAnimation);
+            }
+        }
+    }
+
+    public bool IsBusy()
+    {
+        return _currentBusyAnimation != CharacterPart.CharacterParnBusyStates.NONE;
     }
 
     public float JumpState
@@ -76,9 +115,9 @@ public class CharacterVisual : MonoBehaviour
     }
     private void UpdateJumpState()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
             {
                 currentCharPart.SetJumpState(_jumpState);
             }
@@ -97,9 +136,9 @@ public class CharacterVisual : MonoBehaviour
 
     private void UpdateMoveSpeed()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (transform.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
             {
                 currentCharPart.SetMoveSpeed(_moveSpeed);
             }
@@ -109,8 +148,10 @@ public class CharacterVisual : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent<CollisionCharacterInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
+        if (!TryGetComponent<CharacterCollisionInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
         if (!TryGetComponent<CharacterActions>(out _characterActionsComponent)) throw new UnityException("CharacterActions component not found");
+
+        _characterPartsContainer = transform.Find(CHARACTER_PARTS_GAMEOBJECT_NAME);
     }
 
     private void Update()

@@ -5,16 +5,25 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterPart : MonoBehaviour
 {
-    const string ANIMATOR_MAIN_STATE_PARAM_NAME = "MainState";
-    const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";
-    const string ANIMATOR_JUMP_STATE_PARAM_NAME = "JumpState";
+    public const string ANIMATOR_MAIN_STATE_PARAM_NAME = "MainState";
+    public const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";
+    public const string ANIMATOR_JUMP_STATE_PARAM_NAME = "JumpState";
+    public const string ANIMATOR_BUSY_STATE_PARAM_NAME = "BusyState";
 
     public enum CharacterPartMainStates
     {
         IDLE = 0,
         MOVE = 1,
         JUMP = 2,
-        SLIDE_ON_WALL = 3
+        SLIDE_ON_WALL = 3,
+    }
+    public enum CharacterParnBusyStates
+    {
+        NONE = 0,
+        LOOK_FORWARD = 1,
+        LOOK_BACKWARD = 2,
+        LOOK_FORWARD_REVERSED = 3,
+        LOOK_BACKWARD_REVERSED = 4
     }
 
 
@@ -28,11 +37,6 @@ public class CharacterPart : MonoBehaviour
     public void SetMainState(CharacterPartMainStates newState)
     {
         _animatorComponent.SetInteger(ANIMATOR_MAIN_STATE_PARAM_NAME, (int)newState);
-    }
-
-    public void SetMainState(int newState)
-    {
-        _animatorComponent.SetInteger(ANIMATOR_MAIN_STATE_PARAM_NAME, newState);
     }
 
     public void SetJumpState(float value)
@@ -51,5 +55,10 @@ public class CharacterPart : MonoBehaviour
     public void SetMoveSpeed(float value)
     {
         _animatorComponent.SetFloat(ANIMATOR_MOVE_SPEED_PARAM_NAME, value);
+    }
+
+    public void SetBusyState(CharacterParnBusyStates value)
+    {
+        _animatorComponent.SetInteger(ANIMATOR_BUSY_STATE_PARAM_NAME, (int)value);
     }
 }

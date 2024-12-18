@@ -9,54 +9,9 @@ public class ZIndexLayer : MonoBehaviour
 {
     public int ZIndex = 1;
 
-    private GameObject _enviromentContainer;
-    public GameObject EnviromentContainer
-    {
-        get => _enviromentContainer;
-        private set => _enviromentContainer = value;
-    }
-
-    private GameObject _charactersContainer;
-    public GameObject CharacterContainer
-    {
-        get => _charactersContainer;
-        private set => _charactersContainer = value;
-    }
-
-    private GameObject _holdablesContainer;
-    public GameObject HoldablesContainer
-    {
-        get => _holdablesContainer;
-        private set => _holdablesContainer = value;
-    }
-
-    private GameObject _furnitureContainer;
-    public GameObject FurnitureContainer
-    {
-        get => _furnitureContainer; 
-        private set => _furnitureContainer = value;
-    }
-
     private void Awake()
     {
-        foreach (Transform t in transform)
-        {
-            switch (t.gameObject.name)
-            {
-                case LayerManager.ENVIROMENT_TAG_NAME:
-                    EnviromentContainer = t.gameObject;
-                    break;
-                case LayerManager.CHARACTER_TAG_NAME:
-                    CharacterContainer = t.gameObject;
-                    break;
-                case LayerManager.HOLDABLE_TAG_NAME:
-                    HoldablesContainer = t.gameObject;
-                    break;
-                case LayerManager.FURNITURE_TAG_NAME:
-                    FurnitureContainer = t.gameObject;
-                    break;
-            }
-        }
+        UpdateOrderInLayerForAllChildren();
     }
 
     private float _alpha = 1f;
@@ -79,7 +34,7 @@ public class ZIndexLayer : MonoBehaviour
         {
             SetAlphaForAllChildren(alpha, t.GetChild(i));
 
-            if (t.GetChild(i).gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
+            if (t.GetChild(i).TryGetComponent(out SpriteRenderer spriteRenderer))
             {
                 spriteRenderer.color = new Color(
                     spriteRenderer.color.r,
@@ -88,7 +43,7 @@ public class ZIndexLayer : MonoBehaviour
                     alpha
                     );
             }
-            else if (t.GetChild(i).gameObject.TryGetComponent(out Tilemap tilemap))
+            else if (t.GetChild(i).TryGetComponent(out Tilemap tilemap))
             {
                 tilemap.color = new Color(
                     tilemap.color.r,
@@ -97,6 +52,32 @@ public class ZIndexLayer : MonoBehaviour
                     alpha
                     );
             }
+        }
+    }
+
+    public void UpdateOrderInLayerForAllChildren()
+    {
+        UpdateOrderInLayerForAllChildren(transform);
+    }
+    public void UpdateOrderInLayerForAllChildren(Transform t)
+    {
+        for (int i = 0; i < t.childCount; i++)
+        {
+            UpdateOrderInLayerForAllChildren(t.GetChild(i));
+
+            UpdateOrderLayerForGameObject(t.GetChild(i).gameObject);
+        }
+    }
+
+    public void UpdateOrderLayerForGameObject(GameObject gameObject)
+    {
+        if (gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
+        {
+            spriteRenderer.sortingOrder = spriteRenderer.sortingOrder % 100 + ZIndex * 100;
+        }
+        else if (gameObject.TryGetComponent(out TilemapRenderer tileMapRenderer))
+        {
+            tileMapRenderer.sortingOrder = tileMapRenderer.sortingOrder % 100 + ZIndex * 100;
         }
     }
 }

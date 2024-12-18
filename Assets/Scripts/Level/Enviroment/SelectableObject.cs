@@ -10,6 +10,7 @@ public class SelectableObject : MonoBehaviour
     public float SelectMaxRangeMultiplier = 1f; //value between 0 and 1
     public float SelectedColorDarkness = 0.64f; //value between 0 and 256
 
+    [SerializeField]
     private SpriteRenderer _spriteRendererComponent;
 
     private bool _selected = false;
@@ -56,6 +57,9 @@ public class SelectableObject : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent(out _spriteRendererComponent)) throw new UnityException("SpriteRenderer component not found");
+        if (_spriteRendererComponent == null)
+        {
+            if (!TryGetComponent(out _spriteRendererComponent)) throw new UnityException("SpriteRenderer component not found");
+        }
     }
 }

@@ -25,7 +25,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
-    private CollisionCharacterInfo _characterInfoComponent;
+    private CharacterCollisionInfo _characterInfoComponent;
 
     public Vector3? GetMouseWorldPositionOnCharacterLayer()
     {
@@ -44,7 +44,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (!TryGetComponent<CharacterActions>(out _characterActionsComponent)) throw new UnityException("ChracterActions component not found");
         if (!TryGetComponent<Rigidbody2D>(out _rigidbodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent<CollisionCharacterInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
+        if (!TryGetComponent<CharacterCollisionInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
     }
 
     private void Start()
@@ -78,7 +78,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     }
 
     //MOVE INPUT
-    private void HandleMoveInput()
+    public void HandleMoveInput()
     {
         if (_characterActionsComponent.CharacterMovingAction == null) return;
 
@@ -116,7 +116,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     }
     
     //JUMP INPUT
-    private void HandleStartJumpInput()
+    public void HandleStartJumpInput()
     {
         if (_characterActionsComponent.CharacterJumpingAction == null) return;
         
@@ -164,9 +164,9 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     }
 
     //INTERACT
-    private void HandleInteract()
+    public void HandleInteract()
     {
-        if (_currentSelectedObject != null && _currentSelectedObject.gameObject.TryGetComponent(out IInteractable interactComponent))
+        if (_currentSelectedObject != null && _currentSelectedObject.gameObject.TryGetComponent(out Interactable interactComponent))
         {
             interactComponent.Interact(gameObject);
         }

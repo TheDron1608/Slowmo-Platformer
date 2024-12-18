@@ -4,7 +4,7 @@ using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class CollisionCharacterInfo : MonoBehaviour
+public class CharacterCollisionInfo : MonoBehaviour
 {
     const string ENVIROMENT_TAG_NAME = "Enviroment";
 
@@ -40,6 +40,7 @@ public class CollisionCharacterInfo : MonoBehaviour
     private Rigidbody2D _rigidBodyComponent;
     private CapsuleCollider2D _capsuleColliderComponent;
     private CharacterInteractionWithTiles _characterInteractionWithTilesComponent;
+
 
     private float _timeInAir;
     private float _timeOnGround;

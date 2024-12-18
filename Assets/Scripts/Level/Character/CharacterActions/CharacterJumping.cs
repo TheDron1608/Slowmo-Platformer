@@ -18,7 +18,7 @@ public class CharacterJumping : MonoBehaviour
     private bool _isJumping = false;
 
     private Rigidbody2D _rigidBodyComponent;
-    private CollisionCharacterInfo _collisionCharacterInfoComponent;
+    private CharacterCollisionInfo _collisionCharacterInfoComponent;
     private CharacterInteractionWithTiles _characterInteractionWithTilesComponent;
 
     public event EventHandler OnStartedJumping;

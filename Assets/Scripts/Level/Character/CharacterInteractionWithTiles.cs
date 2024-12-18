@@ -10,12 +10,12 @@ public class CharacterInteractionWithTiles : MonoBehaviour
     public bool CanStickOnWalls = true;
     public float StickOnWallStringhtMultiplier = 1f;
 
-    private CollisionCharacterInfo _collisionCharacterInfoComponent;
+    private CharacterCollisionInfo _collisionCharacterInfoComponent;
     private Rigidbody2D _rigidBodyComponent;
 
     private void Awake()
     {
-        if (!TryGetComponent<CollisionCharacterInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
+        if (!TryGetComponent<CharacterCollisionInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
     }
 
@@ -24,7 +24,7 @@ public class CharacterInteractionWithTiles : MonoBehaviour
         _collisionCharacterInfoComponent.OnTileBehavioutTypeCollisionChanged += CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged;
     }
 
-    private void CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged(object sender, CollisionCharacterInfo.OnTileBehavioutTypeCollisionChangedEventArgs e)
+    private void CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged(object sender, CharacterCollisionInfo.OnTileBehavioutTypeCollisionChangedEventArgs e)
     {
         UpdateTileInteractions();
     }

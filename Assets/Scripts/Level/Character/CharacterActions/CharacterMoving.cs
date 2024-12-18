@@ -13,10 +13,11 @@ public class CharacterMoving : MonoBehaviour
 
     private Rigidbody2D _rigidBodyComponent;
     private CharacterVisual _characterVisualComponent;
-    private CollisionCharacterInfo _collisionCharacterInfoComponent;
+    private CharacterCollisionInfo _collisionCharacterInfoComponent;
 
     private float _currentMoveDirection;
     private bool _isAbleToMoveThisFrame = true;
+    private float? _lastMoveDirectrion = null;
 
     public bool IsAbleToMoveThisFrame
     {
@@ -35,7 +36,23 @@ public class CharacterMoving : MonoBehaviour
     {
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent<CharacterVisual>(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
-        if (!TryGetComponent<CollisionCharacterInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
+        if (!TryGetComponent<CharacterCollisionInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
+
+        _characterVisualComponent.OnIsBusyChanged += CharacterVisualComponent_OnIsBusyChanged;
+    }
+
+    private void CharacterVisualComponent_OnIsBusyChanged(object sender, bool e)
+    {
+        if (e)
+        {
+            _lastMoveDirectrion = _currentMoveDirection;
+            _currentMoveDirection = 0f;
+        }
+        else if (_lastMoveDirectrion.HasValue)
+        {
+            Move(_lastMoveDirectrion.Value);
+            _lastMoveDirectrion = null;
+        }
     }
 
     private void FixedUpdate()
@@ -84,10 +101,11 @@ public class CharacterMoving : MonoBehaviour
     /// <param name="direction">Value between -1 and 1</param>
     public void Move(float direction)
     {
-        if (_currentMoveDirection == direction) return;
+        if (_currentMoveDirection == direction && _lastMoveDirectrion == direction) return;
 
         OnMoveAlignChanged?.Invoke(this, direction);
 
+        _lastMoveDirectrion =  direction;
         _currentMoveDirection = direction;
     }
 
