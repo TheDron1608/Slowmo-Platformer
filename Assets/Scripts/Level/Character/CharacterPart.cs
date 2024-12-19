@@ -17,7 +17,7 @@ public class CharacterPart : MonoBehaviour
         JUMP = 2,
         SLIDE_ON_WALL = 3,
     }
-    public enum CharacterParnBusyStates
+    public enum CharacterPartBusyStates
     {
         NONE = 0,
         LOOK_FORWARD = 1,
@@ -57,7 +57,7 @@ public class CharacterPart : MonoBehaviour
         _animatorComponent.SetFloat(ANIMATOR_MOVE_SPEED_PARAM_NAME, value);
     }
 
-    public void SetBusyState(CharacterParnBusyStates value)
+    public void SetBusyState(CharacterPartBusyStates value)
     {
         _animatorComponent.SetInteger(ANIMATOR_BUSY_STATE_PARAM_NAME, (int)value);
     }

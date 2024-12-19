@@ -26,12 +26,12 @@ public class CharacterVisual : MonoBehaviour
     private CharacterPart.CharacterPartMainStates _mainState = CharacterPart.CharacterPartMainStates.IDLE;
     private float _jumpState = 0f;
     private float _moveSpeed = 1f;
-    private CharacterPart.CharacterParnBusyStates _currentBusyAnimation = CharacterPart.CharacterParnBusyStates.NONE; //when busy animation is played, character is unable to do most actions
+    private CharacterPart.CharacterPartBusyStates _currentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE; //when busy animation is played, character is unable to do most actions
     private Transform _characterPartsContainer;
 
     public event EventHandler<CharacterPart.CharacterPartMainStates> OnMainStateChanged;
-    public event EventHandler<CharacterPart.CharacterParnBusyStates> OnBusyStateChanged;
-    public event EventHandler<bool> OnIsBusyChanged;
+    public event EventHandler<CharacterPart.CharacterPartBusyStates> OnBusyStateChanged;
+    public event EventHandler OnBusyAnimationFinished;
 
     public bool SpritesFlipped
     {
@@ -75,7 +75,7 @@ public class CharacterVisual : MonoBehaviour
         }
     }
 
-    public CharacterPart.CharacterParnBusyStates CurrentBusyAnimation
+    public CharacterPart.CharacterPartBusyStates CurrentBusyAnimation
     {
         get => _currentBusyAnimation;
         set
@@ -85,7 +85,7 @@ public class CharacterVisual : MonoBehaviour
             _currentBusyAnimation = value;
             UpdateBusyState();
             OnBusyStateChanged?.Invoke(this, _currentBusyAnimation);
-            OnIsBusyChanged?.Invoke(this, IsBusy());
+            OnBusyAnimationFinished?.Invoke(this, EventArgs.Empty);
         }
     }
     private void UpdateBusyState()
@@ -101,7 +101,7 @@ public class CharacterVisual : MonoBehaviour
 
     public bool IsBusy()
     {
-        return _currentBusyAnimation != CharacterPart.CharacterParnBusyStates.NONE;
+        return _currentBusyAnimation != CharacterPart.CharacterPartBusyStates.NONE;
     }
 
     public float JumpState

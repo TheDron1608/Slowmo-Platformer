@@ -27,15 +27,7 @@ public class OnInteractEnterMultiZDoor : Interactable
         return interactor.GetComponent<CharacterCollisionInfo>().IsCollidingFloor();
     }
 
-    protected override void OnStartInteact(GameObject interactor)
-    {
-        if (interactor.TryGetComponent(out CharacterActions characterActions) && characterActions.CharacterMovingAction != null) 
-        {
-            characterActions.CharacterMovingAction.Move(CharacterMoving.MoveDirection.None);
-        }
-    }
-
-    protected override void OnMiddleInteract(GameObject interactor)
+    protected override void OnFinishInteract(GameObject interactor)
     {
         LayerManager.Instance.ChangeZIndexForGameObject(Exit.ZLayer, interactor, Exit.gameObject);
     }

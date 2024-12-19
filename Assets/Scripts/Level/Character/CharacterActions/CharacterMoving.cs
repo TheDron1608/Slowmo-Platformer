@@ -38,12 +38,12 @@ public class CharacterMoving : MonoBehaviour
         if (!TryGetComponent<CharacterVisual>(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
         if (!TryGetComponent<CharacterCollisionInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
 
-        _characterVisualComponent.OnIsBusyChanged += CharacterVisualComponent_OnIsBusyChanged;
+        _characterVisualComponent.OnBusyStateChanged += CharacterVisualComponent_OnBusyStateChanged;
     }
 
-    private void CharacterVisualComponent_OnIsBusyChanged(object sender, bool e)
+    private void CharacterVisualComponent_OnBusyStateChanged(object sender, CharacterPart.CharacterPartBusyStates e)
     {
-        if (e)
+        if (e != CharacterPart.CharacterPartBusyStates.NONE)
         {
             _lastMoveDirectrion = _currentMoveDirection;
             _currentMoveDirection = 0f;
