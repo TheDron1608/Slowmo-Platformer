@@ -17,12 +17,31 @@ public class CharacterMoving : MonoBehaviour
 
     private float _currentMoveDirection;
     private bool _isAbleToMoveThisFrame = true;
-    private float? _lastMoveDirectrion = null;
+    private bool _isAbleToMove = true;
+    private float _lastMoveDirectrion = 0f;
 
     public bool IsAbleToMoveThisFrame
     {
         get => _isAbleToMoveThisFrame;
         private set => _isAbleToMoveThisFrame = value;  
+    }
+    public bool IsAbleToMove
+    {
+        get => _isAbleToMove;
+        set
+        {
+            _isAbleToMove = value;
+
+            if (value)
+            {
+                Move(_lastMoveDirectrion);
+            }
+            else
+            {
+                _currentMoveDirection = 0f;
+                OnMoveAlignChanged?.Invoke(this, _currentMoveDirection);
+            }
+        }
     }
 
     public float Speed = 5f;
@@ -37,22 +56,6 @@ public class CharacterMoving : MonoBehaviour
         if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent<CharacterVisual>(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
         if (!TryGetComponent<CharacterCollisionInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
-
-        _characterVisualComponent.OnBusyStateChanged += CharacterVisualComponent_OnBusyStateChanged;
-    }
-
-    private void CharacterVisualComponent_OnBusyStateChanged(object sender, CharacterPart.CharacterPartBusyStates e)
-    {
-        if (e != CharacterPart.CharacterPartBusyStates.NONE)
-        {
-            _lastMoveDirectrion = _currentMoveDirection;
-            _currentMoveDirection = 0f;
-        }
-        else if (_lastMoveDirectrion.HasValue)
-        {
-            Move(_lastMoveDirectrion.Value);
-            _lastMoveDirectrion = null;
-        }
     }
 
     private void FixedUpdate()
@@ -101,11 +104,12 @@ public class CharacterMoving : MonoBehaviour
     /// <param name="direction">Value between -1 and 1</param>
     public void Move(float direction)
     {
+        if (!_isAbleToMove) return;
         if (_currentMoveDirection == direction && _lastMoveDirectrion == direction) return;
 
         OnMoveAlignChanged?.Invoke(this, direction);
 
-        _lastMoveDirectrion =  direction;
+        _lastMoveDirectrion = direction;
         _currentMoveDirection = direction;
     }
 
@@ -116,16 +120,24 @@ public class CharacterMoving : MonoBehaviour
 
     public void MoveLeft()
     {
-        Move(-1);
+        Move(-1f);
     }
     public void MoveRight()
     {
-        Move(1);
+        Move(1f);
+    }
+    public void StopMove()
+    {
+        Move(0f);
     }
 
     public float GetCurrentMoveDirection()
     {
         return _currentMoveDirection;
+    }
+    public float GetLastMoveDirection()
+    {
+        return _lastMoveDirectrion;
     }
 
     public bool GetIsMaxSpeed()

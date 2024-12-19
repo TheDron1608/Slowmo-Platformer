@@ -9,6 +9,7 @@ public class CharacterPart : MonoBehaviour
     public const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";
     public const string ANIMATOR_JUMP_STATE_PARAM_NAME = "JumpState";
     public const string ANIMATOR_BUSY_STATE_PARAM_NAME = "BusyState";
+    public const string ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME = "BreakBusyAnimation";
 
     public enum CharacterPartMainStates
     {
@@ -60,5 +61,10 @@ public class CharacterPart : MonoBehaviour
     public void SetBusyState(CharacterPartBusyStates value)
     {
         _animatorComponent.SetInteger(ANIMATOR_BUSY_STATE_PARAM_NAME, (int)value);
+    }
+
+    public void SetBreakBusyAnimationTrigger()
+    {
+        _animatorComponent.SetTrigger(ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME);
     }
 }

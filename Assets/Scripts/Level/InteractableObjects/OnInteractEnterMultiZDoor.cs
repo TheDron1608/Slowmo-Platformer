@@ -1,10 +1,8 @@
 using System;
 using UnityEngine;
 
-public class OnInteractEnterMultiZDoor : Interactable
+public class OnInteractEnterMultiZDoor : LockActionsInteractable
 {
-    const float MAX_SPEED_NOT_BREAKING_INTERACTION = .5f;
-
     private MultiZLayerCamera _multiZLayerCameraComponent;
     private ZIndexLayer _zLayer;
 
@@ -22,13 +20,14 @@ public class OnInteractEnterMultiZDoor : Interactable
         ZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
     }
 
-    protected override bool InteractCondition(GameObject interactor)
+    protected override bool StartInteractCondition(GameObject interactor)
     {
         return interactor.GetComponent<CharacterCollisionInfo>().IsCollidingFloor();
     }
 
     protected override void OnFinishInteract(GameObject interactor)
     {
+        base.OnFinishInteract(interactor);
         LayerManager.Instance.ChangeZIndexForGameObject(Exit.ZLayer, interactor, Exit.gameObject);
     }
 }

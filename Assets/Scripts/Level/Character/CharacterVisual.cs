@@ -104,6 +104,17 @@ public class CharacterVisual : MonoBehaviour
         return _currentBusyAnimation != CharacterPart.CharacterPartBusyStates.NONE;
     }
 
+    public void BreakBusyAnimation()
+    {
+        for (int i = 0; i < _characterPartsContainer.childCount; i++)
+        {
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            {
+                currentCharPart.SetBreakBusyAnimationTrigger();
+            }
+        }
+    }
+
     public float JumpState
     {
         get => _jumpState;

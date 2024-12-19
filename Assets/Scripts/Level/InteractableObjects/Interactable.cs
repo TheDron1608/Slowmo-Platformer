@@ -16,7 +16,11 @@ public abstract class Interactable : MonoBehaviour
 
     public CharacterPart.CharacterPartBusyStates AnimationOnStartInteract = CharacterPart.CharacterPartBusyStates.NONE;
     public CharacterPart.CharacterPartBusyStates AnimationOnFinishInteract = CharacterPart.CharacterPartBusyStates.NONE;
-    public bool CanBreakInteractionWhileInteracting = true;
+
+    public bool GetIsOccured()
+    {
+        return _currentInteractor != null;
+    }
 
     public void ForceInteract(GameObject interactor)
     {
@@ -28,7 +32,7 @@ public abstract class Interactable : MonoBehaviour
     {
         OnPreInteract(interactor);
 
-        if (!InteractCondition(interactor)) return;
+        if (!StartInteractCondition(interactor)) return;
 
         OnStartInteact(interactor);
 
@@ -77,6 +81,15 @@ public abstract class Interactable : MonoBehaviour
     public void StopInteract()
     {
         OnStopInteract(_currentInteractor);
+
+        CharacterVisual charVisual = _currentInteractor.GetComponent<CharacterVisual>();
+        if (charVisual == null) return;
+
+        charVisual.OnBusyAnimationFinished -= CharacterVisual_OnFirstBusyAnimationFinished;
+        charVisual.OnBusyAnimationFinished -= CharacterVisual_OnSecondBusyAnimationFinished;
+
+        charVisual.BreakBusyAnimation();
+
         _currentInteractor = null;
     }
 
@@ -112,13 +125,14 @@ public abstract class Interactable : MonoBehaviour
     }
 
     /// <summary>
-    /// called before OnStartInteract and every frame while is interacting
+    /// called before OnStartInteract
     /// if returns false calls OnStopInteract
     /// </summary>
-    protected virtual bool InteractCondition(GameObject interactor)
+    protected virtual bool StartInteractCondition(GameObject interactor)
     {
         return true;
     }
+
     /// <summary>
     /// called when interact condinting returns false
     /// </summary>

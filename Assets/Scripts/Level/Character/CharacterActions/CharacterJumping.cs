@@ -16,6 +16,7 @@ public class CharacterJumping : MonoBehaviour
     private float _jumpTimeLeft = 0f;
     private int _airJumpsLeft = 0;
     private bool _isJumping = false;
+    private bool _isAbleToJump = false;
 
     private Rigidbody2D _rigidBodyComponent;
     private CharacterCollisionInfo _collisionCharacterInfoComponent;
@@ -23,6 +24,16 @@ public class CharacterJumping : MonoBehaviour
 
     public event EventHandler OnStartedJumping;
     public event EventHandler OnStopedJumping;
+
+    public bool IsAbleToJump
+    {
+        get => _isAbleToJump;
+        set
+        {
+            _isAbleToJump = value;
+            StopJump();
+        }
+    }
 
     public bool GetIsJumping()
     {

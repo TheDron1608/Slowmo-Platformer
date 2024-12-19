@@ -178,7 +178,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         HandleAimInput();
     }
 
-    private void HandleAimInput()
+    public void HandleAimInput()
     {
         Vector2 aimDirection;
 
