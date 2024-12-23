@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class CharacterPlayerInputHandler : MonoBehaviour
@@ -22,6 +23,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private Coroutine _coyoteJumpTooEarlyHandler;
     private SelectableObject _currentSelectedObject = null;
     private SelectableObject _lastSelectedObject = null;
+    private Vector2 _currentAimDirection = Vector2.zero;
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
@@ -175,10 +177,10 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     //AIM
     private void Update()
     {
-        HandleAimInput();
+        UpdateAimInput();
     }
 
-    public void HandleAimInput()
+    public void UpdateAimInput()
     {
         Vector2 aimDirection;
 
@@ -202,6 +204,35 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         if (_characterActionsComponent.CharacterInteractAction != null)
         {
             _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(aimDirection);
+
+            if (_lastSelectedObject != null && _lastSelectedObject != _currentSelectedObject)
+            {
+                _lastSelectedObject.Selected = false;
+            }
+
+            if (_currentSelectedObject != null)
+            {
+                _currentSelectedObject.Selected = true;
+
+                _lastSelectedObject = _currentSelectedObject;
+            }
+        }
+
+        _currentAimDirection = aimDirection;
+    }
+
+    private void UpdateSelectedObject()
+    {
+        if (_characterActionsComponent.CharacterInteractAction != null)
+        {
+            if (_characterActionsComponent.CharacterInteractAction.IsAbleToInteractWithObjects)
+            {
+                _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(_currentAimDirection);
+            }
+            else
+            {
+                _currentSelectedObject = null;
+            }
 
             if (_lastSelectedObject != null && _lastSelectedObject != _currentSelectedObject)
             {
