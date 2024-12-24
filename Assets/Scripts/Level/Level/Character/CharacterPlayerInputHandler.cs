@@ -12,6 +12,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     public InputActionReference JumpActionReference;
     public InputActionReference AimActionReference;
     public InputActionReference InteractActionReference;
+    public InputActionReference GrabActionReference;
     public float MinMoveSpeed = 0.5f;
 
     private Coroutine MoveGamepadActionHandler;
@@ -56,6 +57,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         JumpActionReference.action.started += JumpActionReference_OnActionStarted;
         JumpActionReference.action.canceled += JumpActionReference_OnActionCanceled;
         InteractActionReference.action.started += InteractActionReference_OnActionStarted;
+        GrabActionReference.action.started += GrabActionReference_OnActionStarted;
     }
 
     private void MoveActionReference_OnActionStarted(InputAction.CallbackContext context)
@@ -77,6 +79,10 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private void InteractActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
         HandleInteract();
+    }
+    private void GrabActionReference_OnActionStarted(InputAction.CallbackContext context)
+    {
+        HandleGrabThrow();
     }
 
     //MOVE INPUT
@@ -174,10 +180,29 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         }
     }
 
+    //GRAB
+    public void HandleGrabThrow()
+    {
+        Debug.Log("grab?");
+        if (_characterActionsComponent.CharacterHoldingAction.CurrentHoldObject == null)
+        {
+            if (_currentSelectedObject != null && _currentSelectedObject.TryGetComponent(out Holdable holdableObj))
+            {
+                Debug.Log("trying grab obj");
+                _characterActionsComponent.CharacterHoldingAction.TryGrab(holdableObj);
+            }
+        }
+        else
+        {
+            _characterActionsComponent.CharacterHoldingAction.TryThrow(_currentAimDirection);
+        }
+    }
+
     //AIM
     private void Update()
     {
         UpdateAimInput();
+        UpdateSelectedObject();
     }
 
     public void UpdateAimInput()
@@ -201,23 +226,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             ).normalized;
         }
 
-        if (_characterActionsComponent.CharacterInteractAction != null)
-        {
-            _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(aimDirection);
-
-            if (_lastSelectedObject != null && _lastSelectedObject != _currentSelectedObject)
-            {
-                _lastSelectedObject.Selected = false;
-            }
-
-            if (_currentSelectedObject != null)
-            {
-                _currentSelectedObject.Selected = true;
-
-                _lastSelectedObject = _currentSelectedObject;
-            }
-        }
-
         _currentAimDirection = aimDirection;
     }
 
@@ -225,14 +233,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (_characterActionsComponent.CharacterInteractAction != null)
         {
-            if (_characterActionsComponent.CharacterInteractAction.IsAbleToInteractWithObjects)
-            {
-                _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(_currentAimDirection);
-            }
-            else
-            {
-                _currentSelectedObject = null;
-            }
+            _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(_currentAimDirection);
 
             if (_lastSelectedObject != null && _lastSelectedObject != _currentSelectedObject)
             {
