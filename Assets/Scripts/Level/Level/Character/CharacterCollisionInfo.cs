@@ -117,7 +117,7 @@ public class CharacterCollisionInfo : MonoBehaviour
     private RaycastHit2D? RaycastHitFromCollider(Vector2 from, Vector2 align)
     {
         float rayCastHitRange = (align.x != 0 ? _capsuleColliderComponent.size.x : _capsuleColliderComponent.size.y) / 2 + COLLISION_HIT_DETECION_THICKNESS;
-        RaycastHit2D[] rayCastHits = Physics2D.RaycastAll(from, align, rayCastHitRange, 1 << gameObject.layer);
+        RaycastHit2D[] rayCastHits = Physics2D.RaycastAll(from, align, rayCastHitRange);
         for (int i = 0; i < rayCastHits.Length; i++)
         {
             if (rayCastHits[i].collider.tag == ENVIROMENT_TAG_NAME) return rayCastHits[i];

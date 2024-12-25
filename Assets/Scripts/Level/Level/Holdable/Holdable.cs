@@ -1,4 +1,8 @@
+using System;
+using System.Collections;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Holdable : Interactable
 {
@@ -6,10 +10,12 @@ public class Holdable : Interactable
     private CharacterHoldingObjects _lastHolder = null;
 
     private Rigidbody2D _rigidBodyComponent;
+    private Collider2D _colliderComponent;
 
     private void Awake()
     {
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
     }
 
     public CharacterHoldingObjects CurrentHolder

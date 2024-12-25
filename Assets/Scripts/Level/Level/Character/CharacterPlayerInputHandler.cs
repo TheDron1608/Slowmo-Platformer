@@ -32,15 +32,15 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     public Vector3? GetMouseWorldPositionOnCharacterLayer()
     {
-        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(mouseRay, out RaycastHit hit, 9999, 1 << gameObject.layer))
+        RaycastHit[] mouseHits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+        for (int i = 0; i < mouseHits.Length; i++)
         {
-            return hit.point;
+            if (mouseHits[i].collider.gameObject == LayerManager.Instance.GetZLayerOfGameObject(gameObject).gameObject)
+            {
+                return mouseHits[i].point;
+            }
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     private void Awake()
@@ -183,7 +183,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     //GRAB
     public void HandleGrabThrow()
     {
-        Debug.Log("grab?");
         if (_characterActionsComponent.CharacterHoldingAction.CurrentHoldObject == null)
         {
             if (_currentSelectedObject != null && _currentSelectedObject.TryGetComponent(out Holdable holdableObj))

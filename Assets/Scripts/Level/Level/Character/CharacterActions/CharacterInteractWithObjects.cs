@@ -8,6 +8,13 @@ public class CharacterInteractWithObjects : MonoBehaviour
 
     private bool _isAbleToInteractWithObjects = true;
 
+    private CharacterChildNodes _characterChildNodesComponent;
+
+    private void Awake()
+    {
+        if (!TryGetComponent(out _characterChildNodesComponent)) throw new UnityException("CharacterChildNodes component not found");
+    }
+
     public bool IsAbleToInteractWithObjects
     {
         get => _isAbleToInteractWithObjects;
@@ -20,7 +27,11 @@ public class CharacterInteractWithObjects : MonoBehaviour
 
         var result = new List<SelectableObject>();
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, InteractRange);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(
+            _characterChildNodesComponent.Center.transform.position, 
+            InteractRange, 
+            1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).ObjectsLayer
+            );
 
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -36,13 +47,21 @@ public class CharacterInteractWithObjects : MonoBehaviour
     {
         if (!_isAbleToInteractWithObjects) return null;
 
-        foreach (var raycastHit in Physics2D.RaycastAll(transform.position, direction, InteractRange, 1 << gameObject.layer))
+        foreach (var raycastHit in Physics2D.RaycastAll(
+                _characterChildNodesComponent.Center.transform.position, 
+                direction, 
+                InteractRange,
+                1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).ObjectsLayer
+                )
+            )
         {
             if (
-                raycastHit.collider.TryGetComponent(out SelectableObject selectableObjectComponent) && 
+                raycastHit.collider.TryGetComponent(out SelectableObject selectableObjectComponent) &&
                 raycastHit.distance <= InteractRange * selectableObjectComponent.SelectMaxRangeMultiplier
-                ) 
+                )
+            {
                 return selectableObjectComponent;
+            }
         }
         return null;
     }

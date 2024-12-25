@@ -72,8 +72,7 @@ public class LayerManager : MonoBehaviour
                 );
         }
 
-        moveGameObject.layer = targetLayer.gameObject.layer;
-        targetLayer.UpdateOrderInLayerForAllChildren(moveGameObject.transform);
+        targetLayer.UpdateLayerForAllChildren(moveGameObject.transform);
     }
 
     private void OnDestroy()

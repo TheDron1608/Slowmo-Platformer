@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,12 +8,16 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ZIndexLayer : MonoBehaviour
 {
+    private const string ENVIROMENT_LAYER_NAME = "Enviroment";
+    private const string CHARACTERS_LAYER_NAME = "Characters";
+    private const string OBJECTS_LAYER_NAME = "Objects";
+
     public int ZIndex = 1;
 
-    private void Awake()
-    {
-        UpdateOrderInLayerForAllChildren();
-    }
+    public int EnviromentLayer;
+    public int CharactersLayer;
+    public int ObjectsLayer;
+
 
     private float _alpha = 1f;
 
@@ -26,6 +31,19 @@ public class ZIndexLayer : MonoBehaviour
             _alpha = value;
             SetAlphaForAllChildren(_alpha, transform);
         }
+    }
+
+    private void Awake()
+    {
+        InitializeEnviromoentLayers();
+        UpdateLayerForAllChildren();
+    }
+
+    private void InitializeEnviromoentLayers()
+    {
+        EnviromentLayer = LayerMask.NameToLayer($"Z{ZIndex}{ENVIROMENT_LAYER_NAME}");
+        CharactersLayer = LayerMask.NameToLayer($"Z{ZIndex}{CHARACTERS_LAYER_NAME}");
+        ObjectsLayer = LayerMask.NameToLayer($"Z{ZIndex}{OBJECTS_LAYER_NAME}");
     }
 
     private void SetAlphaForAllChildren(float alpha, Transform t)
@@ -55,21 +73,23 @@ public class ZIndexLayer : MonoBehaviour
         }
     }
 
-    public void UpdateOrderInLayerForAllChildren()
+    public void UpdateLayerForAllChildren()
     {
-        UpdateOrderInLayerForAllChildren(transform);
+        UpdateLayerForAllChildren(transform);
     }
-    public void UpdateOrderInLayerForAllChildren(Transform t)
+    public void UpdateLayerForAllChildren(Transform t)
     {
+        UpdateLayerForGameObject(t.gameObject);
+
         for (int i = 0; i < t.childCount; i++)
         {
-            UpdateOrderInLayerForAllChildren(t.GetChild(i));
+            UpdateLayerForGameObject(t.GetChild(i).gameObject);
 
-            UpdateOrderLayerForGameObject(t.GetChild(i).gameObject);
+            UpdateLayerForAllChildren(t.GetChild(i));
         }
     }
 
-    public void UpdateOrderLayerForGameObject(GameObject gameObject)
+    public void UpdateLayerForGameObject(GameObject gameObject)
     {
         if (gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
         {
@@ -78,6 +98,29 @@ public class ZIndexLayer : MonoBehaviour
         else if (gameObject.TryGetComponent(out TilemapRenderer tileMapRenderer))
         {
             tileMapRenderer.sortingOrder = tileMapRenderer.sortingOrder % 100 + ZIndex * 100;
+        }
+
+        switch (gameObject.tag)
+        {
+            case LayerManager.ZLAYER_TAG_NAME:
+                break;
+
+            case LayerManager.ENVIROMENT_TAG_NAME:
+                gameObject.layer = EnviromentLayer;
+                break;
+
+            case LayerManager.CHARACTER_TAG_NAME:
+                gameObject.layer = CharactersLayer;
+                break;
+
+            case LayerManager.FURNITURE_TAG_NAME:
+            case LayerManager.HOLDABLE_TAG_NAME:
+                gameObject.layer = ObjectsLayer;
+                break;
+
+            default:
+                gameObject.layer = gameObject.transform.parent.gameObject.layer;
+                break;
         }
     }
 }
