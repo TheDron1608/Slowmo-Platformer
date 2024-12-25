@@ -11,12 +11,16 @@ public class CharacterHoldingObjects : MonoBehaviour
     private bool _isAbleToGrabObjects;
 
     private CharacterInteractWithObjects _characterInteractWithObjectsComponent;
+    private Rigidbody2D _rigidBodyComponent;
+    private CharacterVisual _characterVisualComponent;
 
     public event EventHandler<Holdable> OnHoldableChanged;
 
     private void Awake()
     {
         if (!TryGetComponent(out _characterInteractWithObjectsComponent)) throw new UnityException("CharacterInteractWithObjects component not found");
+        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
     }
 
     public Holdable CurrentHoldObject
@@ -48,7 +52,14 @@ public class CharacterHoldingObjects : MonoBehaviour
         {
             if (!value)
             {
-                TryThrow(Vector2.zero, 0.25f);
+                if (_rigidBodyComponent.linearVelocity != Vector2.zero)
+                {
+                    TryThrow(_rigidBodyComponent.linearVelocity.normalized);
+                }
+                else
+                {
+                    TryThrow(_characterVisualComponent.SpritesFlipped ? Vector2.left : Vector2.right, 0.25f);
+                }
             }
             _isAbleToGrabObjects = value;
         }
@@ -69,7 +80,8 @@ public class CharacterHoldingObjects : MonoBehaviour
 
         if (_currentHoldObject.TryGetComponent(out Rigidbody2D holdObjectRigidBody))
         {
-            holdObjectRigidBody.linearVelocity = align * ThrowForce * throwForceMultiplier;
+            holdObjectRigidBody.linearVelocity = align * ThrowForce * throwForceMultiplier * _currentHoldObject.ThrowForceMultiplier;
+            holdObjectRigidBody.angularVelocity = _currentHoldObject.ThrowRotationForce * (_characterVisualComponent.SpritesFlipped ? -1f : 1f);
         }
 
         _lastHoldObject = _currentHoldObject;

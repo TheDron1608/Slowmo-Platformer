@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Holdable : Interactable
 {
+    public float ThrowForceMultiplier = 1.0f;
+    public float ThrowRotationForce = 12.5f;
+
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;
 

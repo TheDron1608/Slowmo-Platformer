@@ -42,6 +42,8 @@ public class CharacterCollisionInfo : MonoBehaviour
     private CharacterInteractionWithTiles _characterInteractionWithTilesComponent;
 
 
+    private ZIndexLayer _currentZLayer;
+
     private float _timeInAir;
     private float _timeOnGround;
     private bool _wasGroundedPrevFrame = true;
@@ -66,6 +68,11 @@ public class CharacterCollisionInfo : MonoBehaviour
     {
         get => _timeOnGround;
         private set => _timeOnGround = value;
+    }
+    public ZIndexLayer CurrentZLayer
+    {
+        get => _currentZLayer;
+        private set => _currentZLayer = value;
     }
 
     public bool IsCollidingFloor()
@@ -117,7 +124,7 @@ public class CharacterCollisionInfo : MonoBehaviour
     private RaycastHit2D? RaycastHitFromCollider(Vector2 from, Vector2 align)
     {
         float rayCastHitRange = (align.x != 0 ? _capsuleColliderComponent.size.x : _capsuleColliderComponent.size.y) / 2 + COLLISION_HIT_DETECION_THICKNESS;
-        RaycastHit2D[] rayCastHits = Physics2D.RaycastAll(from, align, rayCastHitRange);
+        RaycastHit2D[] rayCastHits = Physics2D.RaycastAll(from, align, rayCastHitRange, 1 << _currentZLayer.EnviromentLayer);
         for (int i = 0; i < rayCastHits.Length; i++)
         {
             if (rayCastHits[i].collider.tag == ENVIROMENT_TAG_NAME) return rayCastHits[i];
@@ -209,9 +216,15 @@ public class CharacterCollisionInfo : MonoBehaviour
 
     private void FixedUpdate()
     {
+        UpdateCurrentZLayer();
         UpdateCollidingInfo();
         UpdateTileCollidingInfo();
         UpdateTimeOnAirOrGround();
+    }
+
+    private void UpdateCurrentZLayer()
+    {
+        _currentZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
     }
 
     private void UpdateTimeOnAirOrGround()

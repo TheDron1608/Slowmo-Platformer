@@ -41,9 +41,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4213330836085406466}
   - component: {fileID: 2002335163756146061}
-  - component: {fileID: 3206245827804919803}
   - component: {fileID: -3327571402814487819}
   - component: {fileID: 7261639660243465350}
+  - component: {fileID: 3206245827804919803}
   - component: {fileID: -1858980390697622286}
   - component: {fileID: 3540175533123877220}
   - component: {fileID: 7285514816818632256}
@@ -87,20 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdec2ed032847354385bd07d44ecd9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3206245827804919803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7466261371012752510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbc992a211b94c24082c99abf803e7c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CanStickOnWalls: 1
-  StickOnWallStringhtMultiplier: 1
 --- !u!114 &-3327571402814487819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +116,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractRange: 1
+--- !u!114 &3206245827804919803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc992a211b94c24082c99abf803e7c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanStickOnWalls: 1
+  StickOnWallStringhtMultiplier: 1
 --- !u!114 &-1858980390697622286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 423c0abd16c28ec46ba77c4095243de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThrowForce: 25
+  ThrowForce: 15
   MaxGrabRangeMultiplier: 1
 --- !u!114 &1964864157782877518
 MonoBehaviour:
@@ -203,7 +203,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
+  m_Mass: 10
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 3
@@ -230,8 +230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dab17020762b4d408ecaecaa0716197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Center: {fileID: 0}
-  CharacterParts: {fileID: 0}
 --- !u!70 &8015870745668218154
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
