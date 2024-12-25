@@ -48,8 +48,8 @@ public abstract class Interactable : MonoBehaviour
     {
         OnFinishInteract(_currentInteractor);
 
-        CharacterVisual charVisual = _currentInteractor.GetComponent<CharacterVisual>();
-        if (charVisual == null) return;
+        CharacterVisual charVisual;
+        if (!_currentInteractor.TryGetComponent(out charVisual)) return;
 
 
         charVisual.OnBusyAnimationFinished -= CharacterVisual_OnFirstBusyAnimationFinished;

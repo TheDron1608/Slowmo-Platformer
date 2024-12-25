@@ -187,7 +187,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         {
             if (_currentSelectedObject != null && _currentSelectedObject.TryGetComponent(out Holdable holdableObj))
             {
-                Debug.Log("trying grab obj");
                 _characterActionsComponent.CharacterHoldingAction.TryGrab(holdableObj);
             }
         }

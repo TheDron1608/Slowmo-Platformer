@@ -104,12 +104,13 @@ public class CharacterMoving : MonoBehaviour
     /// <param name="direction">Value between -1 and 1</param>
     public void Move(float direction)
     {
+        _lastMoveDirectrion = direction;
+
         if (!_isAbleToMove) return;
         if (_currentMoveDirection == direction && _lastMoveDirectrion == direction) return;
 
         OnMoveAlignChanged?.Invoke(this, direction);
 
-        _lastMoveDirectrion = direction;
         _currentMoveDirection = direction;
     }
 
