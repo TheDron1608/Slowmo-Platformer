@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Interactable : SelectableObject
+public abstract class Interactable : SelectableObject
 {
    
     const string INTERACTABLE_TAG_NAME = "Interactable";
@@ -48,6 +48,8 @@ public class Interactable : SelectableObject
 
     private void CharacterVisual_OnFirstBusyAnimationFinished(object sender, System.EventArgs e)
     {
+        if (_currentInteractor == null) return;
+
         OnFinishInteract(_currentInteractor);
 
         CharacterVisual charVisual;
@@ -70,6 +72,8 @@ public class Interactable : SelectableObject
 
     private void CharacterVisual_OnSecondBusyAnimationFinished(object sender, System.EventArgs e)
     {
+        if (_currentInteractor == null) return;
+
         OnFinishInteractAnimationFinished(_currentInteractor);
 
         CharacterVisual charVisual = _currentInteractor.GetComponent<CharacterVisual>();
