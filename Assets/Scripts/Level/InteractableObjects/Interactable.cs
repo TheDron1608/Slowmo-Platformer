@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public abstract class Interactable : MonoBehaviour
+public class Interactable : SelectableObject
 {
+   
     const string INTERACTABLE_TAG_NAME = "Interactable";
 
     private GameObject _currentInteractor = null;

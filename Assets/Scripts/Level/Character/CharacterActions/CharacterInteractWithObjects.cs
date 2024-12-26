@@ -21,7 +21,15 @@ public class CharacterInteractWithObjects : MonoBehaviour
         set => _isAbleToInteractWithObjects = value;
     }
 
-    public List<SelectableObject> GetAvaibleInteractableObjects()
+    /// <summary>
+    /// Returns all objects in a circle with randius of InteractRange property
+    /// </summary>
+    /// <param name="sortInteractType">
+    /// If not null, returns a list of Selectable objects with equal InteractType property to this argument,
+    /// else returns all Selectable objects
+    /// </param>
+    /// <returns></returns>
+    public List<SelectableObject> GetAvaibleInteractableObjects(SelectableObject.SelectableObjectType? sortInteractType = null)
     {
         if (!_isAbleToInteractWithObjects) return new List<SelectableObject>();
 
@@ -35,8 +43,12 @@ public class CharacterInteractWithObjects : MonoBehaviour
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (!colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent)) continue;
+            if (
+                !colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent) ||
+                Vector3.Distance(_characterChildNodesComponent.Center.transform.position, colliders[i].transform.position) > selectableObjectComponent.SelectMaxRangeMultiplier  * InteractRange
+                ) continue;
 
+            if (sortInteractType is null || sortInteractType.Value == selectableObjectComponent.ObjectType)
             result.Add(selectableObjectComponent);
         }
 

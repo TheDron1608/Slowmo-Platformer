@@ -103,6 +103,18 @@ PrefabInstance:
       propertyPath: _spriteRendererComponent
       value: 
       objectReference: {fileID: 4638608704075905683}
+    - target: {fileID: 12449352400664447, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      propertyPath: AnimationOnStartInteract
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 12449352400664447, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      propertyPath: _spriteRendererComponent
+      value: 
+      objectReference: {fileID: 4638608704075905683}
+    - target: {fileID: 12449352400664447, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      propertyPath: AnimationOnFinishInteract
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2656287805449882121, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_Size.x
       value: 2.6666667
@@ -276,7 +288,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 7948331553360016925, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4407704257481491346, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
@@ -304,9 +316,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d815901173a3f4d933aabc442e4570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectType: 0
+  PlayerInputToInteract: {fileID: 3882781433251131672, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  SelectMaxRangeMultiplier: 0
+  SelectedColorDarkness: 0.64
+  _spriteRendererComponent: {fileID: 4638608704075905683}
   AnimationOnStartInteract: 2
   AnimationOnFinishInteract: 3
-  CanBreakInteractionWhileInteracting: 1
   Exit: {fileID: 0}
 --- !u!224 &5564436893129924854 stripped
 RectTransform:

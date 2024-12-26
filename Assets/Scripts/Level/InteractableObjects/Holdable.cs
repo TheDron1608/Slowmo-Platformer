@@ -15,8 +15,10 @@ public class Holdable : Interactable
     private Rigidbody2D _rigidBodyComponent;
     private Collider2D _colliderComponent;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
     }

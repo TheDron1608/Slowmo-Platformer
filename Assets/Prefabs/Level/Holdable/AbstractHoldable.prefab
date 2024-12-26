@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 9170132568465265866}
   - component: {fileID: 7194316829583383013}
   - component: {fileID: 668012051540842779}
-  - component: {fileID: 6362245400624754432}
   - component: {fileID: 3991735836254190343}
   m_Layer: 0
   m_Name: AbstractHoldable
@@ -48,8 +47,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4807c6aa6f463064faf004e105dbf088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectType: 0
+  PlayerInputToInteract: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  SelectMaxRangeMultiplier: 1
+  SelectedColorDarkness: 0.64
+  _spriteRendererComponent: {fileID: 0}
   AnimationOnStartInteract: 0
   AnimationOnFinishInteract: 0
+  ThrowForceMultiplier: 1
+  ThrowRotationForce: 12.5
 --- !u!50 &7194316829583383013
 Rigidbody2D:
   serializedVersion: 5
@@ -132,21 +138,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6362245400624754432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784046987221869979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95024142911c040419ec9405b2f9db8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SelectMaxRangeMultiplier: 1
-  SelectedColorDarkness: 0.64
-  _spriteRendererComponent: {fileID: 668012051540842779}
 --- !u!61 &3991735836254190343
 BoxCollider2D:
   m_ObjectHideFlags: 0

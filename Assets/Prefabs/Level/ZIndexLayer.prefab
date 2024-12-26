@@ -42,10 +42,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 11556181032504572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd97d9fb33f45e428fbd4ec20ad8dc8, type: 3}
+  m_Script: {fileID: 11500000, guid: f06ab86d33eff0243b1c4c0365e35845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ZIndex: 1
+  EnviromentLayer: 0
+  CharactersLayer: 0
+  ObjectsLayer: 0
 --- !u!65 &1935265379690982033
 BoxCollider:
   m_ObjectHideFlags: 0

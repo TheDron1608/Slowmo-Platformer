@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -172,12 +175,40 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     }
 
     //INTERACT
-    public void HandleInteract()
+    private void InteractWithObjects(InputActionReference playerInputType)
     {
-        if (_currentSelectedObject != null && _currentSelectedObject.gameObject.TryGetComponent(out Interactable interactComponent))
+        if (
+            _currentSelectedObject != null &&
+            _currentSelectedObject.gameObject.TryGetComponent(out Interactable interactComponent) &&
+            interactComponent.PlayerInputToInteract == playerInputType
+            )
         {
             interactComponent.Interact(gameObject);
         }
+        else
+        {
+            List<SelectableObject> avaibleObjects = _characterActionsComponent.CharacterInteractAction.GetAvaibleInteractableObjects();
+            if (avaibleObjects.Count == 0) return;
+
+            var sortedEvaibleObject =
+                    from selectableObj in avaibleObjects
+                    where selectableObj.PlayerInputToInteract == playerInputType
+                    orderby Vector3.Distance(transform.position, selectableObj.transform.position)
+                    select selectableObj;
+
+            if (sortedEvaibleObject.Count() != 0)
+            {
+                if (sortedEvaibleObject.First().TryGetComponent(out Interactable interactableObject))
+                {
+                    interactableObject.Interact(gameObject);
+                }
+            }
+        }
+    }
+
+    public void HandleInteract()
+    {
+        InteractWithObjects(InteractActionReference);
     }
 
     //GRAB
@@ -185,10 +216,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (_characterActionsComponent.CharacterHoldingAction.CurrentHoldObject == null)
         {
-            if (_currentSelectedObject != null && _currentSelectedObject.TryGetComponent(out Holdable holdableObj))
-            {
-                _characterActionsComponent.CharacterHoldingAction.TryGrab(holdableObj);
-            }
+            InteractWithObjects(GrabActionReference);
         }
         else
         {
