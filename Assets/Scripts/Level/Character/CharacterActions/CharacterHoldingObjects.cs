@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class CharacterHoldingObjects : MonoBehaviour
@@ -10,17 +11,19 @@ public class CharacterHoldingObjects : MonoBehaviour
     private Holdable _lastHoldObject = null;
     private bool _isAbleToGrabObjects;
 
-    private CharacterInteractWithObjects _characterInteractWithObjectsComponent;
     private Rigidbody2D _rigidBodyComponent;
     private CharacterVisual _characterVisualComponent;
+    private CharacterActions _characterActionsComponent;
+    private CharacterChildNodes _characterChildNodes;
 
     public event EventHandler<Holdable> OnHoldableChanged;
 
     private void Awake()
     {
-        if (!TryGetComponent(out _characterInteractWithObjectsComponent)) throw new UnityException("CharacterInteractWithObjects component not found");
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
+        if (!TryGetComponent(out _characterActionsComponent)) throw new UnityException("CharacterActions component not found");
+        if (!TryGetComponent(out _characterChildNodes)) throw new UnityException("CharacterChildNodes component not found");
     }
 
     public Holdable CurrentHoldObject
@@ -71,12 +74,107 @@ public class CharacterHoldingObjects : MonoBehaviour
         set => _isAbleToGrabObjects = value;
     }
 
+    private void Update()
+    {
+        if (_currentHoldObject == null) return;
+        if (_characterActionsComponent.CharacterAimingAction == null || !_characterActionsComponent.CharacterAimingAction.IsAbleToAim) return;
+
+        Vector2 targetHoldablePosition = new();
+        Quaternion targetHoldableRotation = new();
+
+        bool targetAimIsNegative = _characterActionsComponent.CharacterAimingAction.TargetAimPoint.x < _characterChildNodes.Center.transform.position.x;
+        bool currentAimIsNegative = _characterActionsComponent.CharacterAimingAction.CurrentAimPoint.x < _characterChildNodes.Center.transform.position.x;
+        bool aimHorizontalAlignChanged = (targetAimIsNegative ^ currentAimIsNegative);
+
+        //set current holdable's rotation
+        targetHoldableRotation = Quaternion.LookRotation(
+            VectorMath.Vec2ToVec3(_characterActionsComponent.CharacterAimingAction.CurrentAimPoint,
+                _characterChildNodes.Center.transform.position.z) - _characterChildNodes.Center.transform.position
+            );
+
+        if (_currentHoldObject.RotatableWhenIsHolded)
+        {
+            //UNUSED
+
+            /*float rotationDelta = _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime;
+            Debug.Log("X " + targetHoldableRotation.x);
+            Debug.Log("Y " + targetHoldableRotation.y);
+
+            float rotationZ;
+            if (math.abs(targetHoldableRotation.x) > 0.45f)
+            {
+                float invertRotation = targetHoldableRotation.x < 0f ^ targetHoldableRotation.y < 0f ? 1f : -1f;
+                rotationZ = math.lerp(
+                    math.abs(_currentHoldObject.transform.rotation.z),
+                    math.abs(targetHoldableRotation.z),
+                    rotationDelta
+                    ) * invertRotation;
+            }
+            else
+            {
+                rotationZ = math.lerp(_currentHoldObject.transform.rotation.z, targetHoldableRotation.z, rotationDelta);
+            }
+
+            float rotationW = math.lerp(_currentHoldObject.transform.rotation.w, targetHoldableRotation.w, rotationDelta);
+
+            float rotationX = 0f;
+            float rotationY = 0f;
+
+            if (!aimHorizontalAlignChanged)
+            {
+                if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
+                {
+                    spriteRenderer.flipX = currentAimIsNegative;
+                }
+            }
+            else
+            {
+                rotationX = math.lerp(_currentHoldObject.transform.rotation.x, targetHoldableRotation.x, rotationDelta * _characterActionsComponent.CharacterAimingAction.AimSpeed);
+                rotationY = math.lerp(_currentHoldObject.transform.rotation.y, targetHoldableRotation.y, rotationDelta);
+            }
+
+            _currentHoldObject.transform.rotation = new Quaternion(
+                rotationX,
+                rotationY,
+                rotationZ,
+                rotationW
+                );*/
+
+            targetHoldableRotation.x = 0f;
+            targetHoldableRotation.y = 0f;
+            if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
+            {
+                spriteRenderer.flipX = currentAimIsNegative;
+            }
+
+            _currentHoldObject.transform.rotation = targetHoldableRotation;                                                             
+        }
+
+        //set current holdable's position
+        targetHoldablePosition =
+            _characterChildNodes.Center.transform.position +
+            VectorMath.Vec2ToVec3(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized()) * _currentHoldObject.HoldDistanceWhenIsHolded;
+
+        if (aimHorizontalAlignChanged)
+        {
+            targetHoldablePosition.y = _characterChildNodes.Center.transform.position.y;
+        }
+
+        _currentHoldObject.transform.position = Vector3.Lerp(
+            _currentHoldObject.transform.position,
+            targetHoldablePosition,
+            _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime
+        );
+    }
+
     public bool TryThrow(Vector2 align, float throwForceMultiplier = 1f)
     {
         if (_currentHoldObject == null) return false;
 
         _currentHoldObject.CurrentHolder = null;
         _currentHoldObject.transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform;
+
+        _currentHoldObject.transform.rotation.Set(0f, 0f, _currentHoldObject.transform.rotation.z, _currentHoldObject.transform.rotation.w);
 
         if (_currentHoldObject.TryGetComponent(out Rigidbody2D holdObjectRigidBody))
         {
@@ -95,7 +193,7 @@ public class CharacterHoldingObjects : MonoBehaviour
         if (
             _isAbleToGrabObjects &&
             _currentHoldObject != null &&
-            Vector3.Distance(holdable.transform.position, transform.position) > _characterInteractWithObjectsComponent.InteractRange * MaxGrabRangeMultiplier
+            Vector3.Distance(holdable.transform.position, transform.position) > _characterActionsComponent.CharacterInteractAction.InteractRange * MaxGrabRangeMultiplier
             )
         {
             return false;
@@ -105,7 +203,6 @@ public class CharacterHoldingObjects : MonoBehaviour
 
         _currentHoldObject.CurrentHolder = this;
         _currentHoldObject.transform.parent = transform;
-        _currentHoldObject.transform.localPosition = Vector3.zero;
 
         return true;
     }

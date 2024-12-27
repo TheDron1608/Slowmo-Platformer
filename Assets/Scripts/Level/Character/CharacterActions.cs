@@ -6,7 +6,8 @@ public class CharacterActions : MonoBehaviour
     public CharacterMoving CharacterMovingAction;
     public CharacterJumping CharacterJumpingAction;
     public CharacterInteractWithObjects CharacterInteractAction;
-    public CharacterHoldingObjects CharacterHoldingAction;  
+    public CharacterHoldingObjects CharacterHoldingAction;
+    public CharacterAiming CharacterAimingAction;
 
     public void SetIsAbleToDoAnyActions(bool freezeAllActions)
     {
@@ -14,5 +15,6 @@ public class CharacterActions : MonoBehaviour
         CharacterJumpingAction.IsAbleToJump = freezeAllActions;
         CharacterInteractAction.IsAbleToInteractWithObjects = freezeAllActions;
         CharacterHoldingAction.IsAbleToGrabObjects = freezeAllActions;
+        CharacterAimingAction.IsAbleToAim = freezeAllActions;
     }
 }

@@ -27,11 +27,11 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private Coroutine _coyoteJumpTooEarlyHandler;
     private SelectableObject _currentSelectedObject = null;
     private SelectableObject _lastSelectedObject = null;
-    private Vector2 _currentAimDirection = Vector2.zero;
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
     private CharacterCollisionInfo _characterInfoComponent;
+    private CharacterChildNodes _characterChildNodesComponent;
 
     public Vector3? GetMouseWorldPositionOnCharacterLayer()
     {
@@ -48,9 +48,10 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<CharacterActions>(out _characterActionsComponent)) throw new UnityException("ChracterActions component not found");
-        if (!TryGetComponent<Rigidbody2D>(out _rigidbodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent<CharacterCollisionInfo>(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
+        if (!TryGetComponent(out _characterActionsComponent)) throw new UnityException("ChracterActions component not found");
+        if (!TryGetComponent(out _rigidbodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
+        if (!TryGetComponent(out _characterChildNodesComponent)) throw new UnityException("CharacterChildNodes component not found");
     }
 
     private void Start()
@@ -220,7 +221,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         }
         else
         {
-            _characterActionsComponent.CharacterHoldingAction.TryThrow(_currentAimDirection);
+            _characterActionsComponent.CharacterHoldingAction.TryThrow(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
         }
     }
 
@@ -237,29 +238,23 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
         if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
-            aimDirection = AimActionReference.action.ReadValue<Vector2>();
+            aimDirection = _characterChildNodesComponent.Center.transform.position + VectorMath.Vec2ToVec3( AimActionReference.action.ReadValue<Vector2>(), _characterChildNodesComponent.Center.transform.position.z );
         }
         else
         {
             Vector3? mousePos = GetMouseWorldPositionOnCharacterLayer();
-
-            if (!mousePos.HasValue) return;
-
-
-            aimDirection = new Vector2(
-                mousePos.Value.x - transform.position.x,
-                mousePos.Value.y - transform.position.y
-            ).normalized;
+            if (mousePos.HasValue)
+            {
+                _characterActionsComponent.CharacterAimingAction.TargetAimPoint = mousePos.Value;
+            }
         }
-
-        _currentAimDirection = aimDirection;
     }
 
     private void UpdateSelectedObject()
     {
         if (_characterActionsComponent.CharacterInteractAction != null)
         {
-            _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(_currentAimDirection);
+            _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
 
             if (_lastSelectedObject != null && _lastSelectedObject != _currentSelectedObject)
             {
