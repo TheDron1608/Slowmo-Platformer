@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2145560924, guid: ae70041c2d0d48549ac4155e1f56fb56, type: 3}
     - target: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_Name
-      value: AbstractHoldable
+      value: Sword
       objectReference: {fileID: 0}
     - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_Pivot.x
@@ -92,8 +96,92 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Size.x
+      value: 1.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Size.y
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.22
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 4494163275079818199}
+    - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4187143155799548641}
   m_SourcePrefab: {fileID: 100100000, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+--- !u!212 &650264814705451401 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+  m_PrefabInstance: {fileID: 18987520921548946}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1765763193470622985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+  m_PrefabInstance: {fileID: 18987520921548946}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4494163275079818199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765763193470622985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947a90f8372bb4f4fa043ae7ef9b4f8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectType: 3
+  PlayerInputToInteract: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  SelectMaxRangeMultiplier: 1
+  SelectedColorDarkness: 0.64
+  _spriteRendererComponent: {fileID: 650264814705451401}
+  AnimationOnStartInteract: 0
+  AnimationOnFinishInteract: 0
+  RotatableWhenIsHolded: 0
+  ResetRotationWhenIsHolded: 1
+  HoldDistanceWhenIsHolded: 0
+  ThrowForceMultiplier: 1
+  ThrowRotationForce: 12.5
+  Damage: 1
+  AttackCooldownSeconds: 0.5
+  PlayerInputAutoAttackOnPress: 0
+  Pierce: 0
+  AttackRangeMultiplier: 1
+  TimeToHolsterBackSeconds: 6.5
+--- !u!95 &4187143155799548641
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765763193470622985}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c0bbdccc8a67c5e4b8106d0f4fa7cb2d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

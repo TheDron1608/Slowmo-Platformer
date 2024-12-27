@@ -14,6 +14,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     public InputActionReference MoveActionReference;
     public InputActionReference JumpActionReference;
     public InputActionReference AimActionReference;
+    public InputActionReference AttackActionReference;
     public InputActionReference InteractActionReference;
     public InputActionReference GrabActionReference;
     public float MinMoveSpeed = 0.5f;
@@ -32,6 +33,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private Rigidbody2D _rigidbodyComponent;
     private CharacterCollisionInfo _characterInfoComponent;
     private CharacterChildNodes _characterChildNodesComponent;
+    private CharacterHoldingObjects _characterHoldingObjectsComponent;
 
     public Vector3? GetMouseWorldPositionOnCharacterLayer()
     {
@@ -52,6 +54,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         if (!TryGetComponent(out _rigidbodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
         if (!TryGetComponent(out _characterChildNodesComponent)) throw new UnityException("CharacterChildNodes component not found");
+        if (!TryGetComponent(out _characterHoldingObjectsComponent)) throw new UnityException("CharacterHoldingObject component not found");
     }
 
     private void Start()
@@ -62,6 +65,8 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         JumpActionReference.action.canceled += JumpActionReference_OnActionCanceled;
         InteractActionReference.action.started += InteractActionReference_OnActionStarted;
         GrabActionReference.action.started += GrabActionReference_OnActionStarted;
+        AttackActionReference.action.started += AttackActionRereference_OnActionStarted;
+        AttackActionReference.action.canceled += AttackActionReference_OnActionCanceled;
     }
 
     private void MoveActionReference_OnActionStarted(InputAction.CallbackContext context)
@@ -87,6 +92,14 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private void GrabActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
         HandleGrabThrow();
+    }
+    private void AttackActionRereference_OnActionStarted(InputAction.CallbackContext context)
+    {
+        HandleStartAttacking();
+    }
+    private void AttackActionReference_OnActionCanceled(InputAction.CallbackContext context)
+    {
+        HandleStopAttacking();
     }
 
     //MOVE INPUT
@@ -194,7 +207,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             var sortedEvaibleObject =
                     from selectableObj in avaibleObjects
                     where selectableObj.PlayerInputToInteract == playerInputType
-                    orderby Vector3.Distance(transform.position, selectableObj.transform.position)
+                    orderby Vector3.Distance(transform.position, selectableObj.transform.position) ascending
                     select selectableObj;
 
             if (sortedEvaibleObject.Count() != 0)
@@ -207,13 +220,13 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         }
     }
 
-    public void HandleInteract()
+    private void HandleInteract()
     {
         InteractWithObjects(InteractActionReference);
     }
 
     //GRAB
-    public void HandleGrabThrow()
+    private void HandleGrabThrow()
     {
         if (_characterActionsComponent.CharacterHoldingAction.CurrentHoldObject == null)
         {
@@ -223,6 +236,28 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         {
             _characterActionsComponent.CharacterHoldingAction.TryThrow(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
         }
+    }
+
+    //ATTACK
+    private void HandleStartAttacking()
+    {
+        if (_characterHoldingObjectsComponent.CurrentHoldObject != null && _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+        {
+            if (weapon.PlayerInputAutoAttackOnPress)
+            {
+                _characterActionsComponent.CharacterAttackingAction.AutoAttack = true;
+                _characterActionsComponent.CharacterAttackingAction.AutoAttackDirection = _characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized();
+            }
+            else
+            {
+                _characterActionsComponent.CharacterAttackingAction.Attack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            }
+        }
+    }
+
+    private void HandleStopAttacking()
+    {
+        _characterActionsComponent.CharacterAttackingAction.AutoAttack = false;
     }
 
     //AIM

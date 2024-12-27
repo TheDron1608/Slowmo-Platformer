@@ -14,9 +14,9 @@ public class OnInteractEnterMultiZDoor : LockActionsInteractable
 
     public OnInteractEnterMultiZDoor Exit;
 
-    protected override void Awake()
+    protected override void OnAwake()
     {
-        base.Awake();
+        base.OnAwake();
 
         if (!Camera.main.TryGetComponent(out _multiZLayerCameraComponent)) throw new UnityException("MainCamera does not has MultiZLayerCamera component");
         ZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);

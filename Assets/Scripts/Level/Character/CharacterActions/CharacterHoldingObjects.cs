@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class CharacterHoldingObjects : MonoBehaviour
 {
+    public class OnThewEventArgs
+    {
+        public OnThewEventArgs(Holdable thrownObject, Vector2 direction)
+        {
+            ThrownObject = thrownObject;
+            Direction = direction;
+        }
+
+        Holdable ThrownObject;
+        public Vector2 Direction;
+    }
+
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
 
@@ -16,7 +28,9 @@ public class CharacterHoldingObjects : MonoBehaviour
     private CharacterActions _characterActionsComponent;
     private CharacterChildNodes _characterChildNodes;
 
-    public event EventHandler<Holdable> OnHoldableChanged;
+    public event EventHandler<OnThewEventArgs> OnThrewHoldable;
+    public event EventHandler<Holdable> OnPickedUpHoldable;
+
 
     private void Awake()
     {
@@ -83,18 +97,28 @@ public class CharacterHoldingObjects : MonoBehaviour
         Vector2 currentAim = _characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized();
 
         //setting current holded object's rotation
-        Quaternion targetAngle = new();
-        targetAngle.eulerAngles = new Vector3(
-            0f,
-            math.lerp(
-                _currentHoldObject.transform.rotation.eulerAngles.y,
-                currentAim.x < 0f ? 180f : 0f,
-                aimDelta
-                ),
-            currentAim.y * 90f
-            );
+        if (_currentHoldObject.RotatableWhenIsHolded)
+        {
+            Quaternion targetAngle = new();
+            targetAngle.eulerAngles = new Vector3(
+                0f,
+                math.lerp(
+                    _currentHoldObject.transform.rotation.eulerAngles.y,
+                    currentAim.x < 0f ? 180f : 0f,
+                    aimDelta
+                    ),
+                currentAim.y * 90f
+                );
 
-        _currentHoldObject.transform.rotation = targetAngle;
+            _currentHoldObject.transform.rotation = targetAngle;
+        }
+        else
+        {
+            if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
+            {
+                spriteRenderer.flipX = _characterVisualComponent.SpritesFlipped;
+            }
+        }
 
         //setting current holded object's location
         Vector2 holdObjectPositionXY = Vector2.Lerp(
@@ -114,19 +138,9 @@ public class CharacterHoldingObjects : MonoBehaviour
     {
         if (_currentHoldObject == null) return false;
 
-        _currentHoldObject.CurrentHolder = null;
-        _currentHoldObject.transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform;
+        _currentHoldObject.Throw(align, throwForceMultiplier);
 
-        _currentHoldObject.transform.rotation.Set(0f, 0f, _currentHoldObject.transform.rotation.z, _currentHoldObject.transform.rotation.w);
-
-        if (_currentHoldObject.TryGetComponent(out Rigidbody2D holdObjectRigidBody))
-        {
-            holdObjectRigidBody.linearVelocity = align * ThrowForce * throwForceMultiplier * _currentHoldObject.ThrowForceMultiplier;
-            holdObjectRigidBody.angularVelocity = _currentHoldObject.ThrowRotationForce * (_characterVisualComponent.SpritesFlipped ? -1f : 1f);
-        }
-
-        _lastHoldObject = _currentHoldObject;
-        _currentHoldObject = null;
+        OnThrewHoldable?.Invoke(this, new OnThewEventArgs(_currentHoldObject, align));
 
         return true;
     }
@@ -142,10 +156,9 @@ public class CharacterHoldingObjects : MonoBehaviour
             return false;
         }
 
-        _currentHoldObject = holdable;
+        holdable.Give(this);
 
-        _currentHoldObject.CurrentHolder = this;
-        _currentHoldObject.transform.parent = transform;
+        OnPickedUpHoldable?.Invoke(this, holdable);
 
         return true;
     }

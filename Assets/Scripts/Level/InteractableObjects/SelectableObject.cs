@@ -30,7 +30,7 @@ public class SelectableObject : MonoBehaviour
     public float SelectedColorDarkness = 0.64f; //value between 0 and 256
 
     [SerializeField]
-    private SpriteRenderer _spriteRendererComponent;
+    protected SpriteRenderer _spriteRendererComponent;
 
     private bool _selected = false;
     public bool Selected
@@ -73,8 +73,12 @@ public class SelectableObject : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+    private void Awake()
+    {
+        OnAwake();
+    }
 
-    protected virtual void Awake()
+    protected virtual void OnAwake()
     {
         if (PlayerInputToInteract == null) throw new UnityException("PlayerInputToInteract waws not sat, set it in the instector");
 

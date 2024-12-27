@@ -8,6 +8,7 @@ public class CharacterActions : MonoBehaviour
     public CharacterInteractWithObjects CharacterInteractAction;
     public CharacterHoldingObjects CharacterHoldingAction;
     public CharacterAiming CharacterAimingAction;
+    public CharacterAttacking CharacterAttackingAction;
 
     public void SetIsAbleToDoAnyActions(bool freezeAllActions)
     {
@@ -16,5 +17,6 @@ public class CharacterActions : MonoBehaviour
         CharacterInteractAction.IsAbleToInteractWithObjects = freezeAllActions;
         CharacterHoldingAction.IsAbleToGrabObjects = freezeAllActions;
         CharacterAimingAction.IsAbleToAim = freezeAllActions;
+        CharacterAttackingAction.IsAbleToAttack = freezeAllActions;
     }
 }
