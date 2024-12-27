@@ -94,52 +94,6 @@ public class CharacterHoldingObjects : MonoBehaviour
 
         if (_currentHoldObject.RotatableWhenIsHolded)
         {
-            //UNUSED
-
-            /*float rotationDelta = _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime;
-            Debug.Log("X " + targetHoldableRotation.x);
-            Debug.Log("Y " + targetHoldableRotation.y);
-
-            float rotationZ;
-            if (math.abs(targetHoldableRotation.x) > 0.45f)
-            {
-                float invertRotation = targetHoldableRotation.x < 0f ^ targetHoldableRotation.y < 0f ? 1f : -1f;
-                rotationZ = math.lerp(
-                    math.abs(_currentHoldObject.transform.rotation.z),
-                    math.abs(targetHoldableRotation.z),
-                    rotationDelta
-                    ) * invertRotation;
-            }
-            else
-            {
-                rotationZ = math.lerp(_currentHoldObject.transform.rotation.z, targetHoldableRotation.z, rotationDelta);
-            }
-
-            float rotationW = math.lerp(_currentHoldObject.transform.rotation.w, targetHoldableRotation.w, rotationDelta);
-
-            float rotationX = 0f;
-            float rotationY = 0f;
-
-            if (!aimHorizontalAlignChanged)
-            {
-                if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
-                {
-                    spriteRenderer.flipX = currentAimIsNegative;
-                }
-            }
-            else
-            {
-                rotationX = math.lerp(_currentHoldObject.transform.rotation.x, targetHoldableRotation.x, rotationDelta * _characterActionsComponent.CharacterAimingAction.AimSpeed);
-                rotationY = math.lerp(_currentHoldObject.transform.rotation.y, targetHoldableRotation.y, rotationDelta);
-            }
-
-            _currentHoldObject.transform.rotation = new Quaternion(
-                rotationX,
-                rotationY,
-                rotationZ,
-                rotationW
-                );*/
-
             targetHoldableRotation.x = 0f;
             targetHoldableRotation.y = 0f;
             if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
@@ -160,11 +114,13 @@ public class CharacterHoldingObjects : MonoBehaviour
             targetHoldablePosition.y = _characterChildNodes.Center.transform.position.y;
         }
 
-        _currentHoldObject.transform.position = Vector3.Lerp(
-            _currentHoldObject.transform.position,
-            targetHoldablePosition,
-            _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime
-        );
+        float rotationDelta = _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime;
+
+        _currentHoldObject.transform.position = new Vector3(
+            math.lerp(_currentHoldObject.transform.position.x, targetHoldablePosition.x, rotationDelta),
+            math.lerp(_currentHoldObject.transform.position.y, targetHoldablePosition.y, rotationDelta),
+            _characterChildNodes.Center.transform.position.z
+            );
     }
 
     public bool TryThrow(Vector2 align, float throwForceMultiplier = 1f)
