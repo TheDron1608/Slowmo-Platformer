@@ -10172,6 +10172,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 283198008}
     m_Modifications:
+    - target: {fileID: 908922303103816504, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
+      propertyPath: Exit
+      value: 
+      objectReference: {fileID: 2093278246}
     - target: {fileID: 1613800193327848316, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
       propertyPath: m_Name
       value: Z6Door
@@ -10263,7 +10267,7 @@ PrefabInstance:
     - target: {fileID: 7658498708895953526, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
       propertyPath: Exit
       value: 
-      objectReference: {fileID: 2093278247}
+      objectReference: {fileID: 0}
     - target: {fileID: 7658498708895953526, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
       propertyPath: ExitObject
       value: 
@@ -10284,7 +10288,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2058766531 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7658498708895953526, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 908922303103816504, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
   m_PrefabInstance: {fileID: 2058766529}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -10301,6 +10305,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 793992976}
     m_Modifications:
+    - target: {fileID: 908922303103816504, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
+      propertyPath: Exit
+      value: 
+      objectReference: {fileID: 2058766531}
     - target: {fileID: 1613800193327848316, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
       propertyPath: m_Name
       value: Z5Door
@@ -10392,7 +10400,7 @@ PrefabInstance:
     - target: {fileID: 7658498708895953526, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
       propertyPath: Exit
       value: 
-      objectReference: {fileID: 2058766531}
+      objectReference: {fileID: 0}
     - target: {fileID: 7658498708895953526, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
       propertyPath: ExitObject
       value: 
@@ -10411,9 +10419,9 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5564436893129924854, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
   m_PrefabInstance: {fileID: 2093278243}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2093278247 stripped
+--- !u!114 &2093278246 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7658498708895953526, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 908922303103816504, guid: 2fbf64eea0ed5b24397101771e97a92b, type: 3}
   m_PrefabInstance: {fileID: 2093278243}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 452251659}

@@ -79,46 +79,33 @@ public class CharacterHoldingObjects : MonoBehaviour
         if (_currentHoldObject == null) return;
         if (_characterActionsComponent.CharacterAimingAction == null || !_characterActionsComponent.CharacterAimingAction.IsAbleToAim) return;
 
-        Vector2 targetHoldablePosition = new();
-        Quaternion targetHoldableRotation = new();
+        float aimDelta = _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime;
+        Vector2 currentAim = _characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized();
 
-        bool targetAimIsNegative = _characterActionsComponent.CharacterAimingAction.TargetAimPoint.x < _characterChildNodes.Center.transform.position.x;
-        bool currentAimIsNegative = _characterActionsComponent.CharacterAimingAction.CurrentAimPoint.x < _characterChildNodes.Center.transform.position.x;
-        bool aimHorizontalAlignChanged = (targetAimIsNegative ^ currentAimIsNegative);
-
-        //set current holdable's rotation
-        targetHoldableRotation = Quaternion.LookRotation(
-            VectorMath.Vec2ToVec3(_characterActionsComponent.CharacterAimingAction.CurrentAimPoint,
-                _characterChildNodes.Center.transform.position.z) - _characterChildNodes.Center.transform.position
+        //setting current holded object's rotation
+        Quaternion targetAngle = new();
+        targetAngle.eulerAngles = new Vector3(
+            0f,
+            math.lerp(
+                _currentHoldObject.transform.rotation.eulerAngles.y,
+                currentAim.x < 0f ? 180f : 0f,
+                aimDelta
+                ),
+            currentAim.y * 90f
             );
 
-        if (_currentHoldObject.RotatableWhenIsHolded)
-        {
-            targetHoldableRotation.x = 0f;
-            targetHoldableRotation.y = 0f;
-            if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
-            {
-                spriteRenderer.flipX = currentAimIsNegative;
-            }
+        _currentHoldObject.transform.rotation = targetAngle;
 
-            _currentHoldObject.transform.rotation = targetHoldableRotation;                                                             
-        }
-
-        //set current holdable's position
-        targetHoldablePosition =
-            _characterChildNodes.Center.transform.position +
-            VectorMath.Vec2ToVec3(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized()) * _currentHoldObject.HoldDistanceWhenIsHolded;
-
-        if (aimHorizontalAlignChanged)
-        {
-            targetHoldablePosition.y = _characterChildNodes.Center.transform.position.y;
-        }
-
-        float rotationDelta = _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime;
+        //setting current holded object's location
+        Vector2 holdObjectPositionXY = Vector2.Lerp(
+            _currentHoldObject.transform.position,
+            VectorMath.Vec3ToVec2(_characterChildNodes.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
+            aimDelta
+            );
 
         _currentHoldObject.transform.position = new Vector3(
-            math.lerp(_currentHoldObject.transform.position.x, targetHoldablePosition.x, rotationDelta),
-            math.lerp(_currentHoldObject.transform.position.y, targetHoldablePosition.y, rotationDelta),
+            holdObjectPositionXY.x,
+            holdObjectPositionXY.y,
             _characterChildNodes.Center.transform.position.z
             );
     }

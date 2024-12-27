@@ -297,14 +297,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 7658498708895953526}
+      addedObject: {fileID: 908922303103816504}
   m_SourcePrefab: {fileID: 100100000, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
 --- !u!1 &1613800193327848316 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
   m_PrefabInstance: {fileID: 8075963982441030500}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7658498708895953526
+--- !u!114 &908922303103816504
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,13 +316,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d815901173a3f4d933aabc442e4570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectType: 0
+  ObjectType: 6
   PlayerInputToInteract: {fileID: 3882781433251131672, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   SelectMaxRangeMultiplier: 0
   SelectedColorDarkness: 0.64
   _spriteRendererComponent: {fileID: 4638608704075905683}
   AnimationOnStartInteract: 2
-  AnimationOnFinishInteract: 3
+  AnimationOnFinishInteract: 1
   Exit: {fileID: 0}
 --- !u!224 &5564436893129924854 stripped
 RectTransform:
