@@ -37,7 +37,10 @@ public class HolsterableMeleeWeapon : MeleeWeapon
     {
         base.OnThrow();
 
-        StopCoroutine(_currentHolsterBackCoroutine);
+        if (_currentHolsterBackCoroutine != null)
+        {
+            StopCoroutine(_currentHolsterBackCoroutine);
+        }
     }
 
     protected override void OnPickedUp()

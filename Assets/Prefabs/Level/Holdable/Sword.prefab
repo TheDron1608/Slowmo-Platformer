@@ -159,8 +159,9 @@ MonoBehaviour:
   RotatableWhenIsHolded: 0
   ResetRotationWhenIsHolded: 1
   HoldDistanceWhenIsHolded: 0
-  ThrowForceMultiplier: 1
-  ThrowRotationForce: 12.5
+  ThrowForceMultiplier: 1.5
+  ThrowRotationForce: 360
+  SpeedToGetThroughWall: 7
   Damage: 1
   KnockBack: 10
   BaseAttackCoolDownSeconds: 0.5

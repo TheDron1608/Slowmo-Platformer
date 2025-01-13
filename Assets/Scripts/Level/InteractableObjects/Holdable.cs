@@ -5,10 +5,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static CharacterHoldingObjects;
 using UnityEngine.UIElements;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 
 public class Holdable : Interactable
 {
     const int ON_GRAB_SORTING_ORDER_ADD = 50;
+    const float STUCK_IN_WALL_STRINGHT = 40f;
 
     public class OnThrownEventArgs
     {
@@ -26,12 +29,16 @@ public class Holdable : Interactable
     public float HoldDistanceWhenIsHolded = 0.75f;
     public float ThrowForceMultiplier = 1.0f;
     public float ThrowRotationForce = 12.5f;
+    public float SpeedToGetThroughWall = 15f;
 
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;
 
     private Rigidbody2D _rigidBodyComponent;
     private Collider2D _colliderComponent;
+
+    private bool _isStuck = false;
+    private Coroutine _stuckCoroutine = null;
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
     public event EventHandler<OnThrownEventArgs> OnThrown;
@@ -40,6 +47,10 @@ public class Holdable : Interactable
     {
         OnAwake();
     }
+    private void Update()
+    {
+        OnUpdate();
+    }
 
     protected override void OnAwake()
     {
@@ -47,6 +58,43 @@ public class Holdable : Interactable
 
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
+    }
+
+    protected virtual void OnUpdate()
+    {
+        if (VectorMath.RigidBodyVelocityToSpeed(_rigidBodyComponent) > SpeedToGetThroughWall)
+        {
+            _colliderComponent.isTrigger = true;
+        }
+        else if (!_isStuck)
+        {
+            _colliderComponent.isTrigger = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        _isStuck = true;
+        _stuckCoroutine = StartCoroutine(StuckCoroutine());
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _isStuck = false;
+        if (_stuckCoroutine != null)
+        {
+            StopCoroutine(_stuckCoroutine);
+        }
+    }
+
+    private IEnumerator StuckCoroutine()
+    {
+        while (VectorMath.RigidBodyVelocityToSpeed(_rigidBodyComponent) > 0.5f)
+        {
+            _rigidBodyComponent.linearVelocity = math.lerp(_rigidBodyComponent.linearVelocity, Vector2.zero, Time.fixedDeltaTime * STUCK_IN_WALL_STRINGHT);
+            yield return new WaitForFixedUpdate();
+        }
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
     }
 
     public CharacterHoldingObjects CurrentHolder
@@ -74,6 +122,8 @@ public class Holdable : Interactable
     {
         newHolder.CurrentHoldObject = this;
 
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+        _colliderComponent.isTrigger = false;
         CurrentHolder = newHolder;
         transform.parent = newHolder.transform;
         if (ResetRotationWhenIsHolded)

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1163025002504969349}
   - component: {fileID: 4638608704075905683}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ZIndexDoorSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,6 +266,10 @@ PrefabInstance:
     - target: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_Name
       value: ZIndexDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7948331553360016925, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       propertyPath: m_Size.x

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Unity.Mathematics;
 
 public static class VectorMath
 {
@@ -52,5 +53,10 @@ public static class VectorMath
             );
 
         return result;
+    }
+
+    public static float RigidBodyVelocityToSpeed(Rigidbody2D rb)
+    {
+        return (math.abs(rb.linearVelocityX) + math.abs(rb.linearVelocityY)) / 2;
     }
 }
