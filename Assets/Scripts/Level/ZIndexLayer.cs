@@ -10,13 +10,15 @@ public class ZIndexLayer : MonoBehaviour
 {
     private const string ENVIROMENT_LAYER_NAME = "Enviroment";
     private const string CHARACTERS_LAYER_NAME = "Characters";
-    private const string OBJECTS_LAYER_NAME = "Objects";
+    private const string HOLDABLES_LAYER_NAME = "Holdables";
+    private const string FURNITURE_LAYER_NAME = "Furniture";
 
     public int ZIndex = 1;
 
     public int EnviromentLayer;
     public int CharactersLayer;
-    public int ObjectsLayer;
+    public int HoldablesLayer;
+    public int FurnituresLayer;
 
 
     private float _alpha = 1f;
@@ -35,6 +37,8 @@ public class ZIndexLayer : MonoBehaviour
 
     private void Awake()
     {
+        if (ZIndex < 1 || ZIndex > 5) throw new UnityException("ZIndexLayer ZIndex max value is 5 and min value is 1");
+
         InitializeEnviromoentLayers();
         UpdateLayerForAllChildren();
     }
@@ -43,7 +47,8 @@ public class ZIndexLayer : MonoBehaviour
     {
         EnviromentLayer = LayerMask.NameToLayer($"Z{ZIndex}{ENVIROMENT_LAYER_NAME}");
         CharactersLayer = LayerMask.NameToLayer($"Z{ZIndex}{CHARACTERS_LAYER_NAME}");
-        ObjectsLayer = LayerMask.NameToLayer($"Z{ZIndex}{OBJECTS_LAYER_NAME}");
+        HoldablesLayer = LayerMask.NameToLayer($"Z{ZIndex}{HOLDABLES_LAYER_NAME}");
+        FurnituresLayer = LayerMask.NameToLayer($"Z{ZIndex}{FURNITURE_LAYER_NAME}");
     }
 
     private void SetAlphaForAllChildren(float alpha, Transform t)
@@ -114,8 +119,11 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.FURNITURE_TAG_NAME:
+                gameObject.layer = FurnituresLayer;
+                break;
+
             case LayerManager.HOLDABLE_TAG_NAME:
-                gameObject.layer = ObjectsLayer;
+                gameObject.layer = HoldablesLayer;
                 break;
 
             default:

@@ -37,8 +37,7 @@ public class CharacterInteractWithObjects : MonoBehaviour
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(
             _characterChildNodesComponent.Center.transform.position, 
-            InteractRange, 
-            1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).ObjectsLayer
+            InteractRange
             );
 
         for (int i = 0; i < colliders.Length; i++)
@@ -62,8 +61,7 @@ public class CharacterInteractWithObjects : MonoBehaviour
         foreach (var raycastHit in Physics2D.RaycastAll(
                 _characterChildNodesComponent.Center.transform.position, 
                 direction, 
-                InteractRange,
-                1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).ObjectsLayer
+                InteractRange
                 )
             )
         {
