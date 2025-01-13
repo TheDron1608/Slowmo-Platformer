@@ -41,4 +41,16 @@ public static class VectorMath
             z
             );
     }
+
+    public static Quaternion Vec3ToQuarterninon2D(Vector3 target)
+    {
+        Quaternion result = new();
+        result.eulerAngles = new Vector3(
+            0f,
+            target.x < 0f ? 180f : 0f,
+            target.y * 90f
+            );
+
+        return result;
+    }
 }

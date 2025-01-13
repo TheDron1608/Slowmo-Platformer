@@ -15,9 +15,11 @@ public abstract class Weapon : Holdable
     }
 
     public float Damage = 1f;
-    public float AttackCooldownSeconds = 0.5f;
+    public float KnockBack = 0f;
+    public float BaseAttackCoolDownSeconds = 0.5f;
     public bool PlayerInputAutoAttackOnPress = false;
     public AttackPiercing Pierce = AttackPiercing.NO_PIERCE;
+    public Projectile Projectile;
 
     private float _attackCooldown = 0f;
 
@@ -88,6 +90,7 @@ public abstract class Weapon : Holdable
     {
         if (_attackCooldown > 0f) return;
 
+        _attackCooldown = BaseAttackCoolDownSeconds;
         OnAttack();
 
         StartCoroutine(AwaitAttackCooldownFinish());
@@ -96,6 +99,14 @@ public abstract class Weapon : Holdable
     protected virtual void OnAttack()
     {
         _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
+
+        Projectile projectile = Instantiate(Projectile, transform);
+
+        if (CurrentHolder.TryGetComponent(out CharacterAiming characterAiming))
+        {
+            projectile.transform.LookAt(characterAiming.CurrentAimPoint);
+            projectile.transform.rotation = VectorMath.Vec3ToQuarterninon2D(characterAiming.GetCurrentAimNormalized());
+        }
     }
     protected virtual void OnFinishAttack()
     {

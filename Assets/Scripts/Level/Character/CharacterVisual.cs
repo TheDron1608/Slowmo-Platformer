@@ -37,6 +37,7 @@ public class CharacterVisual : MonoBehaviour
     {
         get => _spritesFlipped;
         set {
+            if (_spritesFlipped == value) return;
             _spritesFlipped = value;
             UpdateSpritesFlipped();
         }
