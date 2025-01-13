@@ -33,6 +33,23 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         _currentHolsterBackCoroutine = StartCoroutine(AwaitTimeAndHolsterBack());
     }
 
+    protected override void OnThrow()
+    {
+        base.OnThrow();
+
+        StopCoroutine(_currentHolsterBackCoroutine);
+    }
+
+    protected override void OnPickedUp()
+    {
+        base.OnPickedUp();
+
+        if (LastHolder != CurrentHolder)
+        {
+            IsHolstered = false;
+        }
+    }
+
     private IEnumerator AwaitTimeAndHolsterBack()
     {
         _timeToHolsterBack = TimeToHolsterBackSeconds;
