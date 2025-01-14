@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3361148892383058289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2538550170822758693}
+  m_Layer: 0
+  m_Name: ProjectileSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2538550170822758693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3361148892383058289}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5, y: -0.0625, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8600440846446370773}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6070347781375733267
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86,7 +117,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2538550170822758693}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       insertIndex: 1
@@ -130,10 +164,14 @@ MonoBehaviour:
   BaseAttackCoolDownSeconds: 0.5
   PlayerInputAutoAttackOnPress: 0
   Pierce: 0
-  Projectile: {fileID: 0}
-  AmmoLeft: 16
-  MaxAmmo: 2
-  LoadedAmmoLeft: 2
+  AmmoLeft: 4
+  MaxAmmo: 16
+  MaxLoadedAmmo: 2
+  LoadedLivingAmmoLeft: 2
+  LoadedSpentAmmoLeft: 0
+  AmmoAmountPerReload: 2
+  AmmoAmountPerUnload: 2
+  BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
 --- !u!95 &8313430353429500397
 Animator:
   serializedVersion: 7
@@ -159,5 +197,10 @@ Animator:
 --- !u!212 &6736105549479196424 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+  m_PrefabInstance: {fileID: 6070347781375733267}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8600440846446370773 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
   m_PrefabInstance: {fileID: 6070347781375733267}
   m_PrefabAsset: {fileID: 0}

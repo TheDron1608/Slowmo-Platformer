@@ -3,8 +3,10 @@ using UnityEngine;
 public class MeleeWeapon : Weapon
 {
     const string ANIMATOR_IS_THROWN_PROP_NAME = "IsThrown";
+    const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
 
     public float AttackRangeMultiplier = 1f;
+    public Projectile Projectile;
 
     private bool _isThrown = true;
 
@@ -20,9 +22,17 @@ public class MeleeWeapon : Weapon
 
     protected override void OnAttack()
     {
-        base.OnAttack();
+        _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
-        if (CurrentHolder.TryGetComponent(out CharacterAiming characterAiming) && CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
+        Projectile projectile = Instantiate(Projectile, transform);
+
+        if (CurrentHolder.TryGetComponent(out CharacterAiming characterAiming))
+        {
+            projectile.transform.LookAt(characterAiming.CurrentAimPoint);
+            projectile.transform.rotation = VectorMath.Vec3ToQuarterninon2D(characterAiming.GetCurrentAimNormalized());
+        }
+
+        if (CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
         {
             Vector2 charAimNormalized = characterAiming.GetCurrentAimNormalized();
 
