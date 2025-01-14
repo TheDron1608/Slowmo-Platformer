@@ -11,10 +11,8 @@ public class RangedWeapon : Weapon
 
     public bool TryReload()
     {
-        Debug.Log("r1load");
         if (AmmoLeft > 0 && LoadedAmmoLeft < MaxAmmo)
         {
-            Debug.Log("r2load");
             OnReload();
             return true;
         }

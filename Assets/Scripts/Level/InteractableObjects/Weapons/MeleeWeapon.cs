@@ -1,8 +1,22 @@
 using UnityEngine;
 
-public abstract class MeleeWeapon : Weapon
+public class MeleeWeapon : Weapon
 {
+    const string ANIMATOR_IS_THROWN_PROP_NAME = "IsThrown";
+
     public float AttackRangeMultiplier = 1f;
+
+    private bool _isThrown = true;
+
+    public bool IsThrown
+    {
+        get => _isThrown;
+        set
+        {
+            _animator.SetBool(ANIMATOR_IS_THROWN_PROP_NAME, value);
+            _isThrown = value;
+        }
+    }
 
     protected override void OnAttack()
     {
@@ -19,5 +33,17 @@ public abstract class MeleeWeapon : Weapon
                 charVisual.SpritesFlipped = charAimNormalized.x < 0f;
             }
         }
+    }
+
+    protected override void OnThrow()
+    {
+        base.OnThrow();
+        IsThrown = true;
+    }
+
+    protected override void OnPickedUp()
+    {
+        base.OnPickedUp();
+        IsThrown = false;
     }
 }

@@ -5,7 +5,6 @@ public abstract class Weapon : Holdable
 {
     const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
     const string ANIMATOR_AUTO_ATTACK_PROP_NAME = "AutoAttack";
-    const string ANIMATOR_IS_THROWN_PROP_NAME = "IsThrown";
 
     public enum AttackPiercing
     {
@@ -24,7 +23,6 @@ public abstract class Weapon : Holdable
     private float _attackCooldown = 0f;
 
     private bool _autoAttack = false;
-    private bool _isThrown = true;
 
     public float AttackCooldown
     {
@@ -46,16 +44,6 @@ public abstract class Weapon : Holdable
         }
     }
 
-    public bool IsThrown
-    {
-        get => _isThrown;
-        set
-        {
-            _animator.SetBool(ANIMATOR_IS_THROWN_PROP_NAME, value);
-            _isThrown = value;
-        }
-    }
-
     protected Animator _animator;
 
     private void Awake()
@@ -73,13 +61,11 @@ public abstract class Weapon : Holdable
     protected override void OnThrow()
     {
         base.OnThrow();
-        IsThrown = true;
     }
 
     protected override void OnPickedUp()
     {
         base.OnPickedUp();
-        IsThrown = false;
         if (LastHolder != CurrentHolder)
         {
             _attackCooldown = 0f;

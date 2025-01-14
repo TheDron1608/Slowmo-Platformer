@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: ca82ca9963547534f87734fa2c703c1a
+guid: dcd64392468dfd540b571e730f327100
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8618385230216728486
-    second: UnloadMag_0
-  - first:
-      213: 3239456434374648654
-    second: UnloadMag_1
+      213: -3493800513094080222
+    second: CloseMag_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UnloadMag_0
+      name: CloseMag_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 16
+        x: 1
+        y: 3
+        width: 15
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6af8a8864b7aa9770800000000000000
-      internalID: 8618385230216728486
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: UnloadMag_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e432144b67cd4fc20800000000000000
-      internalID: 3239456434374648654
+      spriteID: 22923fcb1f6838fc0800000000000000
+      internalID: -3493800513094080222
       vertices: []
       indices: 
       edges: []
@@ -150,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0ac0d6ad18ea71e4da37341ed34c87c3
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UnloadMag_0: 8618385230216728486
-      UnloadMag_1: 3239456434374648654
+      CloseMag_0: -3493800513094080222
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
