@@ -38,18 +38,29 @@ public class CharacterReloading : MonoBehaviour
 
         if (
             _characterHoldingObjectsComponent.CurrentHoldObject != null &&
-            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon)
+            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
+            rangedWeapon.TryReload()
             )
         {
-            if (rangedWeapon.TryReload())
-            {
-                OnReload?.Invoke(this, EventArgs.Empty);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            OnReload?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool TryUnload()
+    {
+        if (
+            _characterHoldingObjectsComponent.CurrentHoldObject != null &&
+            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
+            rangedWeapon.TryReload()
+            )
+        {
+            OnReload?.Invoke(this, EventArgs.Empty);
+            return true;
         }
         else
         {
