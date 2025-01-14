@@ -37,12 +37,19 @@ public class Holdable : Interactable
 
     private Rigidbody2D _rigidBodyComponent;
     private Collider2D _colliderComponent;
+    private Collider2D _stuckedToCollider = null;
 
     private bool _isStuck = false;
     private Coroutine _stuckCoroutine = null;
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
     public event EventHandler<OnThrownEventArgs> OnThrown;
+
+    public Collider2D StuckedToCollider
+    {
+        get => _stuckedToCollider;
+        private set => _stuckedToCollider = value;
+    }
 
     private void Awake()
     {
@@ -76,7 +83,7 @@ public class Holdable : Interactable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         _isStuck = true;
-        _stuckCoroutine = StartCoroutine(StuckCoroutine());
+        _stuckCoroutine = StartCoroutine(StuckCoroutine(collision));
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -88,14 +95,33 @@ public class Holdable : Interactable
         }
     }
 
-    private IEnumerator StuckCoroutine()
+    private IEnumerator StuckCoroutine(Collider2D stuckWho)
     {
         while (VectorMath.RigidBodyVelocityToSpeed(_rigidBodyComponent) > 0.5f)
         {
             _rigidBodyComponent.linearVelocity = math.lerp(_rigidBodyComponent.linearVelocity, Vector2.zero, Time.fixedDeltaTime * STUCK_IN_WALL_STRINGHT);
             yield return new WaitForFixedUpdate();
         }
-        _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+        if (!(stuckWho.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) && stuckWhoRigidBody.bodyType != RigidbodyType2D.Static))
+        {
+            _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+
+            StuckedToCollider = stuckWho;
+            if (StuckedToCollider.TryGetComponent(out Holdable stuckWhoHoldable))
+            {
+                stuckWhoHoldable.OnGiven += StuckedObject_OnGiven;
+            }
+        }
+    }
+
+    private void StuckedObject_OnGiven(object sender, CharacterHoldingObjects e)
+    {
+        if (StuckedToCollider.TryGetComponent(out Holdable stuckWhoHoldable))
+        {
+            stuckWhoHoldable.OnGiven -= StuckedObject_OnGiven;
+        }
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+        _isStuck = false;
     }
 
     public CharacterHoldingObjects CurrentHolder
