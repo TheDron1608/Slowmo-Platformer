@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6070347781375733267
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4723107735738678597, guid: ee307a5d692f74648b9efa0826e0d87f, type: 3}
+    - target: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Name
+      value: BarrelShotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Size.y
+      value: 0.185
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0925
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 8994388983496123228}
+    - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 8313430353429500397}
+  m_SourcePrefab: {fileID: 100100000, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+--- !u!1 &5547309311111990152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+  m_PrefabInstance: {fileID: 6070347781375733267}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8994388983496123228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5547309311111990152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6877f4e4549aa654e9b62d33436059da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectType: 4
+  PlayerInputToInteract: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  SelectMaxRangeMultiplier: 1
+  SelectedColorDarkness: 0.64
+  _spriteRendererComponent: {fileID: 6736105549479196424}
+  AnimationOnStartInteract: 0
+  AnimationOnFinishInteract: 0
+  RotatableWhenIsHolded: 1
+  ResetRotationWhenIsHolded: 0
+  HoldDistanceWhenIsHolded: 0.25
+  ThrowForceMultiplier: 1
+  ThrowRotationForce: 12.5
+  SpeedToGetThroughWall: 20
+  Damage: 1
+  KnockBack: 0
+  BaseAttackCoolDownSeconds: 0.5
+  PlayerInputAutoAttackOnPress: 0
+  Pierce: 0
+  Projectile: {fileID: 0}
+  AmmoLeft: 16
+  MaxAmmo: 2
+  LoadedAmmoLeft: 2
+--- !u!95 &8313430353429500397
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5547309311111990152}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a69e0f9bf76f6064191e1e48577c8afe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &6736105549479196424 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+  m_PrefabInstance: {fileID: 6070347781375733267}
+  m_PrefabAsset: {fileID: 0}

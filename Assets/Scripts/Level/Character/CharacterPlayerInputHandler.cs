@@ -17,6 +17,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     public InputActionReference AttackActionReference;
     public InputActionReference InteractActionReference;
     public InputActionReference GrabActionReference;
+    public InputActionReference ReloadActionReference;
     public float MinMoveSpeed = 0.5f;
 
     private Coroutine MoveGamepadActionHandler;
@@ -67,6 +68,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         GrabActionReference.action.started += GrabActionReference_OnActionStarted;
         AttackActionReference.action.started += AttackActionRereference_OnActionStarted;
         AttackActionReference.action.canceled += AttackActionReference_OnActionCanceled;
+        ReloadActionReference.action.started += ReloadActionReference_OnActionStarted;
     }
 
     private void MoveActionReference_OnActionStarted(InputAction.CallbackContext context)
@@ -100,6 +102,10 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private void AttackActionReference_OnActionCanceled(InputAction.CallbackContext context)
     {
         HandleStopAttacking();
+    }
+    private void ReloadActionReference_OnActionStarted(InputAction.CallbackContext context)
+    {
+        HandleReload();
     }
 
     //MOVE INPUT
@@ -258,6 +264,15 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private void HandleStopAttacking()
     {
         _characterActionsComponent.CharacterAttackingAction.AutoAttack = false;
+    }
+
+    //RELOAD
+    private void HandleReload()
+    {
+        if (TryGetComponent(out CharacterReloading charReloading))
+        {
+            charReloading.TryReload();
+        }
     }
 
     //AIM

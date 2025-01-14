@@ -9,6 +9,7 @@ public class CharacterActions : MonoBehaviour
     public CharacterHoldingObjects CharacterHoldingAction;
     public CharacterAiming CharacterAimingAction;
     public CharacterAttacking CharacterAttackingAction;
+    public CharacterReloading CharacterReloadingAction;
 
     public void SetIsAbleToDoAnyActions(bool freezeAllActions)
     {
@@ -18,5 +19,6 @@ public class CharacterActions : MonoBehaviour
         CharacterHoldingAction.IsAbleToGrabObjects = freezeAllActions;
         CharacterAimingAction.IsAbleToAim = freezeAllActions;
         CharacterAttackingAction.IsAbleToAttack = freezeAllActions;
+        CharacterReloadingAction.IsAbleToReload = freezeAllActions;
     }
 }
