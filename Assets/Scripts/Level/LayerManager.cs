@@ -9,6 +9,7 @@ public class LayerManager : MonoBehaviour
 {
     public const string ZLAYER_TAG_NAME = "ZLayer";
     public const string ENVIROMENT_TAG_NAME = "Enviroment";
+    public const string PROJECTILE_TAG_NAME = "Projectile";
     public const string CHARACTER_TAG_NAME = "Character";
     public const string HOLDABLE_TAG_NAME = "Holdable";
     public const string FURNITURE_TAG_NAME = "Furniture";

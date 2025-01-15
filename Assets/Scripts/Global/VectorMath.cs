@@ -63,8 +63,6 @@ public static class VectorMath
             (1f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.y > 90f ? 1f : -1f),
             (2f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.z < 180f ? 1f : -1f)
             );
-        Debug.Log(targetEuler);
-        Debug.Log(result);
         return result;
     }
 

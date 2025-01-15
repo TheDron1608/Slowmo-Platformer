@@ -114,6 +114,7 @@ public class ZIndexLayer : MonoBehaviour
                 gameObject.layer = EnviromentLayer;
                 break;
 
+            case LayerManager.PROJECTILE_TAG_NAME:
             case LayerManager.CHARACTER_TAG_NAME:
                 gameObject.layer = CharactersLayer;
                 break;
