@@ -61,8 +61,10 @@ public static class VectorMath
         Vector2 result = new
             (
             (1f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.y > 90f ? 1f : -1f),
-            (2f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.z < 90f ? 1f : -1f)
+            (2f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.z < 180f ? 1f : -1f)
             );
+        Debug.Log(targetEuler);
+        Debug.Log(result);
         return result;
     }
 
@@ -80,7 +82,6 @@ public static class VectorMath
             eulerAngles.y,
             eulerAngles.z + 360f * (UnityEngine.Random.value - 0.5f) * accuracy
             );
-        Debug.Log(quaternion);
         return quaternion;
     }
 }
