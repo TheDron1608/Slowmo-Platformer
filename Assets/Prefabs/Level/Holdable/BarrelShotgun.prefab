@@ -160,8 +160,8 @@ MonoBehaviour:
   ThrowRotationForce: 12.5
   SpeedToGetThroughWall: 20
   Damage: 1
-  KnockBack: 0
-  BaseAttackCoolDownSeconds: 0.5
+  KnockBack: -15
+  BaseAttackCoolDownSeconds: 0.1
   PlayerInputAutoAttackOnPress: 0
   Pierce: 0
   AmmoLeft: 4
@@ -176,8 +176,8 @@ MonoBehaviour:
   AttackType: 1
   BulletAccuracy: 0
   BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.175
-  DurationBetweenBurstProjectiles: 0.05
+  BuckshotAccuracy: 0.1
+  DurationBetweenBurstProjectiles: 0.025
   BurstProjectilesAmount: 3
   BurstAccuracy: 0.1
 --- !u!95 &8313430353429500397

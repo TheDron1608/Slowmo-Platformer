@@ -54,6 +54,16 @@ public class RangedWeapon : Weapon
         _projectileSpawnPosition = transform.Find(PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME);
     }
 
+    public bool Unloaded
+    {
+        get => _unloaded;
+        set
+        {
+            _animator.SetBool(ANIMATOR_UNLOADED_PROP_NAME, value);
+            _unloaded = value;
+        }
+    }
+
     public bool TryReload()
     {
         if (LoadedLivingAmmoLeft < MaxLoadedAmmo && AmmoLeft > 0 && LoadedLivingAmmoLeft < MaxAmmo)
@@ -69,18 +79,25 @@ public class RangedWeapon : Weapon
         return false;
     }
 
+    public bool TryCloseMag()
+    {
+        if (!_unloaded) return false;
+
+        Unloaded = false;
+        return true;
+    }
+
     public bool TryUnload()
     {
         if (_unloaded) return false;
 
-        _animator.SetBool(ANIMATOR_UNLOADED_PROP_NAME, true);
-        _unloaded = true;
+        Unloaded = true;
         return true;
     }
 
     protected virtual void OnReload()
     {
-        _animator.SetBool(ANIMATOR_UNLOADED_PROP_NAME, true);
+        Unloaded = false;
         _animator.SetTrigger(ANIMATOR_RELOAD_TRIGGER_NAME);
     }
 
@@ -101,13 +118,18 @@ public class RangedWeapon : Weapon
         base.OnPickedUp();
 
         _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, false);
+
+        if (_unloaded && LoadedLivingAmmoLeft > 0)
+        {
+            TryCloseMag();
+        }
     }
 
     protected override void OnAttack()
     {
         base.OnAttack();
 
-        if (LoadedLivingAmmoLeft <= 0) return;
+        if (LoadedLivingAmmoLeft <= 0 || Unloaded) return;
 
         //spawning projectiles
         switch (AttackType)
