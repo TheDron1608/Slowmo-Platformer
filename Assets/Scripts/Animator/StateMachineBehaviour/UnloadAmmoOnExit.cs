@@ -6,10 +6,18 @@ public class UnloadAmmoOnExit : StateMachineBehaviour
     {
         RangedWeapon weapon = animator.GetComponent<RangedWeapon>();
 
-        weapon.LoadedSpentAmmoLeft -= weapon.AmmoAmountPerUnload;
-        if (weapon.LoadedSpentAmmoLeft < 0)
+        if (weapon.MagReload)
         {
+            weapon.LoadedLivingAmmoLeft = 0;
             weapon.LoadedSpentAmmoLeft = 0;
+        }
+        else
+        {
+            weapon.LoadedSpentAmmoLeft -= weapon.AmmoAmountPerUnload;
+            if (weapon.LoadedSpentAmmoLeft < 0)
+            {
+                weapon.LoadedSpentAmmoLeft = 0;
+            }
         }
     }
 }

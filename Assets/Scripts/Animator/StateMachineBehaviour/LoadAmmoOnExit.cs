@@ -6,17 +6,22 @@ public class LoadAmmoOnExit : StateMachineBehaviour
     {
         RangedWeapon weapon = animator.GetComponent<RangedWeapon>();
 
-        if (weapon.AmmoLeft >= weapon.AmmoAmountPerReload)
+        int loadAmount = weapon.AmmoAmountPerReload;
+        if (!weapon.MagReload)
         {
-            weapon.LoadedLivingAmmoLeft += weapon.AmmoAmountPerReload;
-            weapon.AmmoLeft -= weapon.AmmoAmountPerReload;
+            loadAmount -= weapon.LoadedLivingAmmoLeft;
         }
-        else if (weapon.AmmoLeft > 0)
+        if (loadAmount > weapon.AmmoLeft)
         {
-            weapon.LoadedLivingAmmoLeft = weapon.AmmoAmountPerReload;
-            weapon.AmmoLeft = 0;
+            loadAmount = weapon.AmmoLeft;
         }
-        else
+
+        if (loadAmount > 0)
+        {
+            weapon.AmmoLeft -= loadAmount;
+            weapon.LoadedLivingAmmoLeft += loadAmount;
+        }
+        else if (weapon.LoadedLivingAmmoLeft <= 0)
         {
             weapon.TryUnload();
         }

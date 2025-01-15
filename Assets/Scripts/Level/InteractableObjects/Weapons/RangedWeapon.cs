@@ -16,6 +16,7 @@ public class RangedWeapon : Weapon
     public int LoadedSpentAmmoLeft = 0;
     public int AmmoAmountPerReload = 1;
     public int AmmoAmountPerUnload = 1;
+    public bool MagReload = false;
     public BulletProjectile BulletProjectile;
 
     private bool _unloaded = false;
@@ -30,17 +31,17 @@ public class RangedWeapon : Weapon
 
     public bool TryReload()
     {
-        if (AmmoLeft > 0 && LoadedLivingAmmoLeft < MaxAmmo)
+        if (LoadedLivingAmmoLeft < MaxLoadedAmmo && AmmoLeft > 0 && LoadedLivingAmmoLeft < MaxAmmo)
         {
             _unloaded = false;
             OnReload();
             return true;
         }
-        else
+        else if (LoadedLivingAmmoLeft <= 0)
         {
             TryUnload();
-            return false;
         }
+        return false;
     }
 
     public bool TryUnload()
