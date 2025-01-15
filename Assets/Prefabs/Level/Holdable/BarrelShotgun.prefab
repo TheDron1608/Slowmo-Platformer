@@ -171,7 +171,15 @@ MonoBehaviour:
   LoadedSpentAmmoLeft: 0
   AmmoAmountPerReload: 2
   AmmoAmountPerUnload: 2
+  MagReload: 0
   BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+  AttackType: 1
+  BulletAccuracy: 0
+  BuckshotProjectilesAmount: 6
+  BuckshotAccuracy: 0.175
+  DurationBetweenBurstProjectiles: 0.05
+  BurstProjectilesAmount: 3
+  BurstAccuracy: 0.1
 --- !u!95 &8313430353429500397
 Animator:
   serializedVersion: 7

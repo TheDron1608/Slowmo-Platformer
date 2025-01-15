@@ -43,7 +43,7 @@ public static class VectorMath
             );
     }
 
-    public static Quaternion Vec3ToQuarterninon2D(Vector3 target)
+    public static Quaternion Vec2ToQuarterninon2D(Vector2 target)
     {
         Quaternion result = new();
         result.eulerAngles = new Vector3(
@@ -55,8 +55,32 @@ public static class VectorMath
         return result;
     }
 
+    public static Vector2 Quartenion2DToVec2(Quaternion target)
+    {
+        Vector3 targetEuler = target.eulerAngles;
+        Vector2 result = new
+            (
+            (1f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.y > 90f ? 1f : -1f),
+            (2f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.z < 90f ? 1f : -1f)
+            );
+        return result;
+    }
+
     public static float RigidBodyVelocityToSpeed(Rigidbody2D rb)
     {
         return (math.abs(rb.linearVelocityX) + math.abs(rb.linearVelocityY)) / 2;
+    }
+
+    public static Quaternion RandomizeQuarternion(Quaternion quaternion, float accuracy)
+    {
+        Vector3 eulerAngles =  quaternion.eulerAngles;
+
+        quaternion.eulerAngles = new Vector3(
+            eulerAngles.x,
+            eulerAngles.y,
+            eulerAngles.z + 360f * (UnityEngine.Random.value - 0.5f) * accuracy
+            );
+        Debug.Log(quaternion);
+        return quaternion;
     }
 }

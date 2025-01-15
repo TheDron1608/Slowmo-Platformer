@@ -29,7 +29,7 @@ public class MeleeWeapon : Weapon
         if (CurrentHolder.TryGetComponent(out CharacterAiming characterAiming))
         {
             projectile.transform.LookAt(characterAiming.CurrentAimPoint);
-            projectile.transform.rotation = VectorMath.Vec3ToQuarterninon2D(characterAiming.GetCurrentAimNormalized());
+            projectile.transform.rotation = VectorMath.Vec2ToQuarterninon2D(characterAiming.GetCurrentAimNormalized());
         }
 
         if (CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
