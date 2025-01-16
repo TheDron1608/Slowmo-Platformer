@@ -162,6 +162,7 @@ MonoBehaviour:
   Damage: 1
   KnockBack: -15
   BaseAttackCoolDownSeconds: 0.1
+  MaxRange: 5
   PlayerInputAutoAttackOnPress: 0
   Pierce: 0
   AmmoLeft: 4
@@ -176,7 +177,7 @@ MonoBehaviour:
   AttackType: 1
   BulletAccuracy: 0
   BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.1
+  BuckshotAccuracy: 0.2
   DurationBetweenBurstProjectiles: 0.025
   BurstProjectilesAmount: 3
   BurstAccuracy: 0.1

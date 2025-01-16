@@ -1,13 +1,7 @@
 using System;
 using System.Collections;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static CharacterHoldingObjects;
-using UnityEngine.UIElements;
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Holdable : Interactable
 {
@@ -102,7 +96,13 @@ public class Holdable : Interactable
             _rigidBodyComponent.linearVelocity = math.lerp(_rigidBodyComponent.linearVelocity, Vector2.zero, Time.fixedDeltaTime * STUCK_IN_WALL_STRINGHT);
             yield return new WaitForFixedUpdate();
         }
-        if (!(stuckWho.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) && stuckWhoRigidBody.bodyType != RigidbodyType2D.Static))
+        if (
+            stuckWho.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) && 
+            (
+                stuckWhoRigidBody.bodyType == RigidbodyType2D.Static ||
+                stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic
+            )
+            )
         {
             _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
 

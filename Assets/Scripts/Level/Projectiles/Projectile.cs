@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
         LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForGameObject(gameObject);
     }
 
-    public void InitializeOwner(Weapon owner)
+    public virtual void InitializeOwner(Weapon owner)
     {
         Weapon = owner;
         Pierce =  owner.Pierce;
@@ -21,11 +21,5 @@ public class Projectile : MonoBehaviour
     public void Remove()
     {
         Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("enter");
-        Remove();
     }
 }

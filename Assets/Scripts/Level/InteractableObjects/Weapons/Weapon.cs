@@ -15,6 +15,7 @@ public abstract class Weapon : Holdable
     public float Damage = 1f;
     public float KnockBack = 0f;
     public float BaseAttackCoolDownSeconds = 0.5f;
+    public float MaxRange = 350f;
     public bool PlayerInputAutoAttackOnPress = false;
     public AttackPiercing Pierce = AttackPiercing.NO_PIERCE;
 

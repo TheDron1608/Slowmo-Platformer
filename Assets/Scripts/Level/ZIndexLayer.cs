@@ -12,6 +12,7 @@ public class ZIndexLayer : MonoBehaviour
     private const string CHARACTERS_LAYER_NAME = "Characters";
     private const string HOLDABLES_LAYER_NAME = "Holdables";
     private const string FURNITURE_LAYER_NAME = "Furniture";
+    private const string PROJECTILES_LAYER_NAME = "Projectiles";
 
     public int ZIndex = 1;
 
@@ -19,7 +20,7 @@ public class ZIndexLayer : MonoBehaviour
     public int CharactersLayer;
     public int HoldablesLayer;
     public int FurnituresLayer;
-
+    public int ProjectilesLayer;
 
     private float _alpha = 1f;
 
@@ -49,6 +50,7 @@ public class ZIndexLayer : MonoBehaviour
         CharactersLayer = LayerMask.NameToLayer($"Z{ZIndex}{CHARACTERS_LAYER_NAME}");
         HoldablesLayer = LayerMask.NameToLayer($"Z{ZIndex}{HOLDABLES_LAYER_NAME}");
         FurnituresLayer = LayerMask.NameToLayer($"Z{ZIndex}{FURNITURE_LAYER_NAME}");
+        ProjectilesLayer = LayerMask.NameToLayer($"Z{ZIndex}{PROJECTILES_LAYER_NAME}");
     }
 
     private void SetAlphaForAllChildren(float alpha, Transform t)
@@ -114,7 +116,6 @@ public class ZIndexLayer : MonoBehaviour
                 gameObject.layer = EnviromentLayer;
                 break;
 
-            case LayerManager.PROJECTILE_TAG_NAME:
             case LayerManager.CHARACTER_TAG_NAME:
                 gameObject.layer = CharactersLayer;
                 break;
@@ -125,6 +126,10 @@ public class ZIndexLayer : MonoBehaviour
 
             case LayerManager.HOLDABLE_TAG_NAME:
                 gameObject.layer = HoldablesLayer;
+                break;
+
+            case LayerManager.PROJECTILE_TAG_NAME:
+                gameObject.layer = ProjectilesLayer;
                 break;
 
             default:

@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class BulletProjectile : Projectile
 {
+    const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
+
     public float BulletSpeed = 35f;
+    public float MaxRange = 350f;
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
+
+    private float _rangeMoved = 0f;
 
     public Quaternion MoveAlign
     {
@@ -36,5 +41,23 @@ public class BulletProjectile : Projectile
             transform.position.y + deltaRange * _moveAlignVec2.y,
             transform.position.z
             );
+
+        _rangeMoved += deltaRange;
+        if (_rangeMoved > MaxRange )
+        {
+            Remove();
+        }
+    }
+
+    public override void InitializeOwner(Weapon owner)
+    {
+        base.InitializeOwner(owner);
+
+        MaxRange = Weapon.GetComponent<RangedWeapon>().MaxRange + (Random.value - 0.5f) * MAX_RANGE_RADOMIZED_EXTRA_VALUE;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Remove();
     }
 }

@@ -167,6 +167,7 @@ public class RangedWeapon : Weapon
         BulletProjectile projectile = Instantiate(BulletProjectile, _projectileSpawnPosition);
         projectile.MoveAlign = VectorMath.RandomizeQuarternion(projectile.transform.rotation, accuracity);
         projectile.transform.parent = LayerManager.Instance.GetZLayerOfGameObject(projectile.gameObject).transform;
+        projectile.InitializeOwner(this);
     }
 
     private void SpawnBullet()
@@ -180,9 +181,11 @@ public class RangedWeapon : Weapon
     {
         LoadedLivingAmmoLeft--;
         LoadedSpentAmmoLeft++;
-        for (int i = 0; i < BuckshotProjectilesAmount; i++)
+
+        float currentBuckshotAccuracystep = BuckshotAccuracy / BuckshotProjectilesAmount;
+        for (int i = 1; i <= BuckshotProjectilesAmount; i++)
         {
-            SpawnProjectile(BuckshotAccuracy);
+            SpawnProjectile(currentBuckshotAccuracystep * i);
         }
     }
 
