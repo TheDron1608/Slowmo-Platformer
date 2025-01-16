@@ -8,7 +8,6 @@ public abstract class Interactable : SelectableObject
     const string INTERACTABLE_TAG_NAME = "Interactable";
 
     private GameObject _currentInteractor = null;
-    private bool _isDoingInteraction = false;
 
     public GameObject CurrentInteractor
     {

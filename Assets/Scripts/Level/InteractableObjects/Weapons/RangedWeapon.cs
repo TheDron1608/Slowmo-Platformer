@@ -46,12 +46,14 @@ public class RangedWeapon : Weapon
 
     private bool _unloaded = false;
     private Transform _projectileSpawnPosition;
+    private ParticleSpawner _particleSpawner;
 
     protected override void OnAwake()
     {
         base.OnAwake();
 
         _projectileSpawnPosition = transform.Find(PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME);
+        _particleSpawner = transform.GetComponentInChildren<ParticleSpawner>(true);
     }
 
     public bool Unloaded
@@ -93,6 +95,11 @@ public class RangedWeapon : Weapon
 
         Unloaded = true;
         return true;
+    }
+
+    public void SpawnBulletParticles()
+    {
+        _particleSpawner.SpawnParticle(LoadedSpentAmmoLeft);
     }
 
     protected virtual void OnReload()
