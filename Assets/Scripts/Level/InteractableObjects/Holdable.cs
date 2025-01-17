@@ -187,7 +187,7 @@ public class Holdable : Interactable
         _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
 
         Quaternion newRotation = new();
-        newRotation.eulerAngles = new Vector3(0f, 0f, direction.y * 90f);
+        newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
         transform.rotation = newRotation;
 
         _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
