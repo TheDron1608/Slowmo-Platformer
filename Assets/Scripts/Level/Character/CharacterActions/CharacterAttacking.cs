@@ -30,7 +30,7 @@ public class CharacterAttacking : MonoBehaviour
     {
         if (_characterHoldingObjects != null && _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
-            weapon.Attack(direction);
+            weapon.TryAttack(direction);
         }
     }
 }

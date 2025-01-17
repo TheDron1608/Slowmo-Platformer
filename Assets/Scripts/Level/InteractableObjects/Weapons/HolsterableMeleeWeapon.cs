@@ -21,9 +21,9 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         }
     }
 
-    protected override void OnAttack()
+    protected override bool OnTryAttack()
     {
-        base.OnAttack();
+        if (!base.OnTryAttack()) return false;
 
         if (_currentHolsterBackCoroutine != null)
         {
@@ -31,6 +31,8 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         }
         IsHolstered = false;
         _currentHolsterBackCoroutine = StartCoroutine(AwaitTimeAndHolsterBack());
+
+        return true;
     }
 
     protected override void OnThrow()

@@ -71,19 +71,26 @@ public abstract class Weapon : Holdable
         }
     }
 
-    public void Attack(Vector2 direction)
+    public void TryAttack(Vector2 direction)
     {
         if (_attackCooldown > 0f) return;
 
         _attackCooldown = BaseAttackCoolDownSeconds;
-        OnAttack();
+        OnTryAttack();
 
         StartCoroutine(AwaitAttackCooldownFinish());
     }
 
-    protected virtual void OnAttack()
+    protected virtual bool OnTryAttack()
     {
+        return AttackCondition();
     }
+
+    protected virtual bool AttackCondition()
+    {
+        return true;
+    }
+
     protected virtual void OnFinishAttack()
     {
 

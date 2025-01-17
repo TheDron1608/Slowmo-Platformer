@@ -23,6 +23,15 @@ public class LoadAmmoOnExit : StateMachineBehaviour
             {
                 weapon.LoadedLivingAmmoLeft = weapon.MaxLoadedAmmo;
             }
+
+            if (
+                animator.gameObject.TryGetComponent(out PumpReloadingWeapon pumpReloadingWeapon) &&
+                pumpReloadingWeapon.LoadedLivingAmmoLeft >= pumpReloadingWeapon.MaxLoadedAmmo
+                )
+            {
+                pumpReloadingWeapon.FinishReload();
+                pumpReloadingWeapon.OutOfAmmo = false;
+            }
         }
-        }
+    }
 }

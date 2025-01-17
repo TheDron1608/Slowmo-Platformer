@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2601126423724529111
+--- !u!1001 &3768366400741258456
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,27 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0925
+      value: -0.125
       objectReference: {fileID: 0}
     - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1875
-      objectReference: {fileID: 0}
-    - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.38268343
-      objectReference: {fileID: 0}
-    - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.92387956
+      value: -0.0625
       objectReference: {fileID: 0}
     - target: {fileID: 2311740839178814593, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -42,27 +26,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Name
-      value: BarrelShotgun
+      value: PumpShotgun
       objectReference: {fileID: 0}
     - target: {fileID: 4879266326353555721, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: a69e0f9bf76f6064191e1e48577c8afe, type: 2}
+      objectReference: {fileID: 9100000, guid: 778e2e54e5a1e7641a102f2125782399, type: 2}
+    - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: SpawnAngle
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: SpawnVelocity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: SpawnAngularVeclocity
+      value: 360
+      objectReference: {fileID: 0}
     - target: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 4723107735738678597, guid: ee307a5d692f74648b9efa0826e0d87f, type: 3}
+      objectReference: {fileID: 21300000, guid: 81c9bee8b711f894e94eea49250fc335, type: 3}
     - target: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8020580446226427116, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Size.x
-      value: 0.5
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 8020580446226427116, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Size.y
       value: 0.185
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020580446226427116, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: 8020580446226427116, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Offset.y
@@ -121,31 +121,36 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 9212557048076053585}
+      insertIndex: 1
+      addedObject: {fileID: 7079308623672919533}
   m_SourcePrefab: {fileID: 100100000, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
---- !u!1 &7273478363248404391 stripped
+--- !u!212 &7288233628160703016 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+  m_PrefabInstance: {fileID: 3768366400741258456}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8404409584191637160 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-  m_PrefabInstance: {fileID: 2601126423724529111}
+  m_PrefabInstance: {fileID: 3768366400741258456}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9212557048076053585
+--- !u!114 &7079308623672919533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7273478363248404391}
+  m_GameObject: {fileID: 8404409584191637160}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6877f4e4549aa654e9b62d33436059da, type: 3}
+  m_Script: {fileID: 11500000, guid: 01233931bd2c4164796c77c1808333dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 4
   PlayerInputToInteract: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   SelectMaxRangeMultiplier: 1
   SelectedColorDarkness: 0.64
-  _spriteRendererComponent: {fileID: 0}
+  _spriteRendererComponent: {fileID: 7288233628160703016}
   AnimationOnStartInteract: 0
   AnimationOnFinishInteract: 0
   RotatableWhenIsHolded: 1
@@ -153,25 +158,25 @@ MonoBehaviour:
   HoldDistanceWhenIsHolded: 0.25
   ThrowForceMultiplier: 1
   ThrowRotationForce: 12.5
-  SpeedToGetThroughWall: 20
+  SpeedToGetThroughWall: 15
   Damage: 1
-  KnockBack: -15
-  BaseAttackCoolDownSeconds: 0.1
-  MaxRange: 5
+  KnockBack: -10
+  BaseAttackCoolDownSeconds: 0.5
+  MaxRange: 350
   PlayerInputAutoAttackOnPress: 0
   Pierce: 0
-  AmmoLeft: 4
+  AmmoLeft: 5
   MaxAmmo: 16
   BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
   AttackType: 1
   BulletAccuracy: 0
   BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.2
-  DurationBetweenBurstProjectiles: 0.025
+  BuckshotAccuracy: 0.15
+  DurationBetweenBurstProjectiles: 0.167
   BurstProjectilesAmount: 3
   BurstAccuracy: 0.1
-  LoadedLivingAmmoLeft: 2
+  LoadedLivingAmmoLeft: 5
   LoadedSpentAmmoLeft: 0
-  AmmoAmountPerReload: 2
-  AmmoAmountPerUnload: 2
-  MaxLoadedAmmo: 2
+  AmmoAmountPerReload: 1
+  AmmoAmountPerUnload: 1
+  MaxLoadedAmmo: 5

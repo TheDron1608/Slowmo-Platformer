@@ -16,6 +16,14 @@ public class UnloadAmmoOnExit : StateMachineBehaviour
                     weapon.LoadedSpentAmmoLeft = 0;
                 }
             }
+
+            if (animator.gameObject.TryGetComponent(out PumpReloadingWeapon pumpWeapon))
+            {
+                if (pumpWeapon.AmmoLeft <= 0 && pumpWeapon.LoadedLivingAmmoLeft <= 0)
+                {
+                    pumpWeapon.OutOfAmmo = true;
+                }
+            }
         }
     }
 }

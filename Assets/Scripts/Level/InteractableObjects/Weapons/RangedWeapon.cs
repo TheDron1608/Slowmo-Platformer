@@ -133,11 +133,11 @@ public class RangedWeapon : Weapon
         _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, false);
     }
 
-    protected override void OnAttack()
+    protected override bool OnTryAttack()
     {
-        base.OnAttack();
+        base.OnTryAttack();
 
-        if (!AttackCondition()) return;
+        if (!AttackCondition()) return false;
 
         //spawning projectiles
         switch (AttackType)
@@ -168,11 +168,13 @@ public class RangedWeapon : Weapon
                 charVisual.SpritesFlipped = aimDirection.x < 0f;
             }
         }
+
+        return true;
     }
 
-    protected virtual bool AttackCondition()
+    protected override bool AttackCondition()
     {
-        return !Unloaded;
+        return base.AttackCondition() && !Unloaded;
     }
 
     protected void SpawnProjectile(float accuracity)

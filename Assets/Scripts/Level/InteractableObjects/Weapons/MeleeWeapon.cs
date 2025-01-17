@@ -20,7 +20,7 @@ public class MeleeWeapon : Weapon
         }
     }
 
-    protected override void OnAttack()
+    protected override bool OnTryAttack()
     {
         _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
@@ -43,6 +43,8 @@ public class MeleeWeapon : Weapon
                 charVisual.SpritesFlipped = charAimNormalized.x < 0f;
             }
         }
+
+        return true;
     }
 
     protected override void OnThrow()
