@@ -55,6 +55,13 @@ public class BulletProjectile : Projectile
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Remove();
+        if (
+            collision.gameObject != Weapon.gameObject && 
+            (Weapon.CurrentHolder.gameObject == null || collision.gameObject != Weapon.CurrentHolder.gameObject)
+            )
+        {
+            Remove();
+        }
+
     }
 }

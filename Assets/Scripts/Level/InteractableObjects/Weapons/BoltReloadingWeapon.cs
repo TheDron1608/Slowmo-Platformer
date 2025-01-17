@@ -51,6 +51,11 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
         return base.AttackCondition() && LoadedSpentAmmoLeft < 1;
     }
 
+    protected override bool ReloadCondition()
+    {
+        return base.ReloadCondition();
+    }
+
     private IEnumerator UnloadBulletAfterDelay()
     {
         yield return new WaitForSeconds(WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK);
@@ -61,8 +66,9 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     {
         base.OnLoadFinish();
 
-        if (LoadedLivingAmmoLeft >= MaxLoadedAmmo)
+        if (LoadedLivingAmmoLeft >= MaxLoadedAmmo || AmmoLeft <= 1)
         {
+            Debug.Log("finish");
             FinishReload();
             OutOfAmmo = false;
         }
