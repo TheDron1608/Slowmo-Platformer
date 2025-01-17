@@ -13,6 +13,7 @@ public class RangedWeapon : Weapon
     }
 
     const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
+    const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
 
     public const string ANIMATOR_RELOAD_TRIGGER_NAME = "Reload";
     public const string ANIMATOR_UNLOADED_PROP_NAME = "Unloaded";
@@ -42,14 +43,14 @@ public class RangedWeapon : Weapon
 
     private bool _unloaded = false;
     private Transform _projectileSpawnPosition;
-    private ParticleSpawner _particleSpawner;
+    private ParticleSpawner _bulletParticleSpawner;
 
     protected override void OnAwake()
     {
         base.OnAwake();
 
         _projectileSpawnPosition = transform.Find(PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME);
-        _particleSpawner = transform.GetComponentInChildren<ParticleSpawner>(true);
+        _bulletParticleSpawner = transform.Find(BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
     }
 
     public bool Unloaded
@@ -105,13 +106,29 @@ public class RangedWeapon : Weapon
 
     public void SpawnBulletParticles(int amount)
     {
-        _particleSpawner.SpawnParticle(amount);
+        _bulletParticleSpawner.SpawnParticle(amount);
     }
 
     protected virtual void OnReload()
     {
         Unloaded = true;
         _animator.SetTrigger(ANIMATOR_RELOAD_TRIGGER_NAME);
+    }
+
+    /// <summary>
+    /// must be called only from animation controllers
+    /// </summary>
+    public virtual void OnLoadFinish()
+    {
+        Unloaded = false;
+    }
+
+    /// <summary>
+    /// must be called only from animation controllers
+    /// </summary>
+    public virtual void OnUnloadFinish()
+    {
+        Unloaded = true;
     }
 
     public void SetReloadSpeed(float value)

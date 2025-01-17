@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class BulletReloadingWeapon : RangedWeapon
@@ -66,6 +67,44 @@ public class BulletReloadingWeapon : RangedWeapon
         if (Unloaded && LoadedLivingAmmoLeft > 0)
         {
             TryCloseMag();
+        }
+    }
+
+    public override void OnLoadFinish()
+    {
+        base.OnLoadFinish();
+
+        Unloaded = true;
+
+        int loadAmount = AmmoAmountPerReload;
+        if (loadAmount > 0)
+        {
+            AmmoLeft -= loadAmount;
+            LoadedLivingAmmoLeft += loadAmount;
+        }
+        else if (LoadedLivingAmmoLeft <= 0)
+        {
+            TryUnload();
+        }
+
+        if (LoadedLivingAmmoLeft > MaxLoadedAmmo)
+        {
+            LoadedLivingAmmoLeft = MaxLoadedAmmo;
+        }
+    }
+
+    public override void OnUnloadFinish()
+    {
+        base.OnUnloadFinish();
+
+        Unloaded = true;
+        {
+            GetComponent<RangedWeapon>().SpawnBulletParticles(math.min(AmmoAmountPerUnload, LoadedSpentAmmoLeft));
+            LoadedSpentAmmoLeft -= AmmoAmountPerUnload;
+            if (LoadedSpentAmmoLeft < 0)
+            {
+               LoadedSpentAmmoLeft = 0;
+            }
         }
     }
 }

@@ -33,4 +33,12 @@ public class CharacterAttacking : MonoBehaviour
             weapon.TryAttack(direction);
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (AutoAttack)
+        {
+            Attack(AutoAttackDirection);
+        }
+    }
 }

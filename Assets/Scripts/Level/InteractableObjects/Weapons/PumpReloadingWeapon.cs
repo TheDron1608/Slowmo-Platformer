@@ -53,4 +53,25 @@ public class PumpReloadingWeapon : BulletReloadingWeapon
         yield return new WaitForSeconds(WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK);
         UnloadBullet();
     }
+
+    public override void OnLoadFinish()
+    {
+        base.OnLoadFinish();
+
+        if (LoadedLivingAmmoLeft >= MaxLoadedAmmo)
+        {
+            FinishReload();
+            OutOfAmmo = false;
+        }
+    }
+
+    public override void OnUnloadFinish()
+    {
+        base.OnUnloadFinish();
+
+        if (AmmoLeft <= 0 && LoadedLivingAmmoLeft <= 0)
+        {
+            OutOfAmmo = true;
+        }
+    }
 }
