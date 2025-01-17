@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class RangedWeapon : Weapon
@@ -99,7 +100,7 @@ public class RangedWeapon : Weapon
 
     public void SpawnBulletParticles()
     {
-        _particleSpawner.SpawnParticle(LoadedSpentAmmoLeft);
+        _particleSpawner.SpawnParticle(math.min(LoadedSpentAmmoLeft, AmmoAmountPerUnload));
     }
 
     protected virtual void OnReload()

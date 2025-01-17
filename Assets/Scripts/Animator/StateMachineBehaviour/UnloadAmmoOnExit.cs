@@ -6,6 +6,7 @@ public class UnloadAmmoOnExit : StateMachineBehaviour
     {
         RangedWeapon weapon = animator.GetComponent<RangedWeapon>();
 
+        weapon.Unloaded = true;
         if (weapon.MagReload)
         {
             animator.GetComponent<RangedWeapon>().SpawnBulletParticles();

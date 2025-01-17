@@ -6,6 +6,8 @@ public class LoadAmmoOnExit : StateMachineBehaviour
     {
         RangedWeapon weapon = animator.GetComponent<RangedWeapon>();
 
+        weapon.Unloaded = true;
+
         int loadAmount = weapon.AmmoAmountPerReload;
         if (!weapon.MagReload)
         {
