@@ -88,6 +88,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 906f771c7bb58c04f86155ac3af331af, type: 3}
+    - target: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_Name
       value: AbstractWeapon
@@ -131,6 +139,14 @@ PrefabInstance:
     - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

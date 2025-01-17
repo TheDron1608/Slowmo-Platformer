@@ -131,7 +131,7 @@ AnimatorState:
   - {fileID: 1809401410867042656}
   m_StateMachineBehaviours:
   - {fileID: 8303248256740404660}
-  - {fileID: 938971421429265568}
+  - {fileID: 6999632866577669667}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -140,7 +140,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5b6732966531d4c4090b66758df0681d, type: 2}
+  m_Motion: {fileID: 7400000, guid: bac3e0ea7c5f6b749a35a44f29cf208c, type: 2}
   m_Tag: 
   m_SpeedParameter: ReloadSpeed
   m_MirrorParameter: 
@@ -218,7 +218,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c928ada2f141b2046b14f923338b4e1e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 686c1fb7e450118468a60ec167a46260, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -240,7 +240,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0
+  m_ExitTime: 0.99
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -355,7 +355,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PumpShotgun
+  m_Name: SniperRifle
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Reload
@@ -426,18 +426,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 1
---- !u!114 &938971421429265568
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 144b6d0d21bc88f468cac9d719e250aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1498234302947919082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -542,7 +530,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PumpFinish
+  m_Name: ReloadFinish
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -558,7 +546,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c928ada2f141b2046b14f923338b4e1e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 686c1fb7e450118468a60ec167a46260, type: 2}
   m_Tag: 
   m_SpeedParameter: ReloadSpeed
   m_MirrorParameter: 
@@ -593,7 +581,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PumpStart
+  m_Name: ReloadStart
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -610,7 +598,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d9f2646cdaa871a4bb5b0e38fc5e2492, type: 2}
+  m_Motion: {fileID: 7400000, guid: 884ffb37484f3fa46b922bfccddcf73d, type: 2}
   m_Tag: 
   m_SpeedParameter: ReloadSpeed
   m_MirrorParameter: 
@@ -696,7 +684,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5b6732966531d4c4090b66758df0681d, type: 2}
+  m_Motion: {fileID: 7400000, guid: bac3e0ea7c5f6b749a35a44f29cf208c, type: 2}
   m_Tag: 
   m_SpeedParameter: ReloadSpeed
   m_MirrorParameter: 
@@ -828,7 +816,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d9f2646cdaa871a4bb5b0e38fc5e2492, type: 2}
+  m_Motion: {fileID: 7400000, guid: 884ffb37484f3fa46b922bfccddcf73d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -856,7 +844,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5cbe0af16e424d445ac11737bee356ab, type: 2}
+  m_Motion: {fileID: 7400000, guid: 76a344c3beb42974d9241dcbcce54262, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -910,7 +898,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d9f2646cdaa871a4bb5b0e38fc5e2492, type: 2}
+  m_Motion: {fileID: 7400000, guid: 884ffb37484f3fa46b922bfccddcf73d, type: 2}
   m_Tag: 
   m_SpeedParameter: ReloadSpeed
   m_MirrorParameter: 
@@ -985,6 +973,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a11fe55e25f6f04b9c2af1727e7bf73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6999632866577669667
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144b6d0d21bc88f468cac9d719e250aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7002592314171856889
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1057,7 +1057,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c928ada2f141b2046b14f923338b4e1e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 686c1fb7e450118468a60ec167a46260, type: 2}
   m_Tag: 
   m_SpeedParameter: ReloadSpeed
   m_MirrorParameter: 
@@ -1120,7 +1120,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ec7fe9c7c64ba6445ae43853bea6a01e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 50135f95f4f4360429da32e7e6e41589, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

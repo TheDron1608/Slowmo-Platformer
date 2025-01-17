@@ -2,6 +2,9 @@ using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
+/// <summary>
+/// used for barrel shotgun and revelovers
+/// </summary>
 public class BulletReloadingWeapon : RangedWeapon
 {
     public int LoadedLivingAmmoLeft = 1;

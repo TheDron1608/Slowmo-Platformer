@@ -2,7 +2,10 @@ using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class AutoShotgun : RangedWeapon
+/// <summary>
+/// used for weapon with manazines link assault rifle or auto shotgun
+/// </summary>
+public class MagReloadingWeapon : RangedWeapon
 {
     const float AWAIT_TIME_TO_SPAWN_BULLET_PARTICLE_ON_ATTACK = 0.1f; //in seconds
     const string MAGS_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "MagParticleSpawner";

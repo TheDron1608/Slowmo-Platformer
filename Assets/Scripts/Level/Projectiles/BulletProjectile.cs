@@ -11,6 +11,7 @@ public class BulletProjectile : Projectile
     private Vector2 _moveAlignVec2;
 
     private float _rangeMoved = 0f;
+    private bool _isFirstFrame = true;
 
     public Quaternion MoveAlign
     {
@@ -23,18 +24,14 @@ public class BulletProjectile : Projectile
         }
     }
 
-    private void Start()
-    {
-        float deltaRange = BulletSpeed * Time.deltaTime;
-        transform.position = new Vector3(
-            transform.position.x - deltaRange * _moveAlignVec2.x,
-            transform.position.y - deltaRange * _moveAlignVec2.y,
-            transform.position.z
-            );
-    }
-
     private void Update()
     {
+        if (_isFirstFrame)
+        {
+            _isFirstFrame = false;
+            return;
+        }
+
         float deltaRange = BulletSpeed * Time.deltaTime;
         transform.position = new Vector3(
             transform.position.x + deltaRange * _moveAlignVec2.x,

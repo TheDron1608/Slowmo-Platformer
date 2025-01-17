@@ -1,7 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class PumpReloadingWeapon : BulletReloadingWeapon
+/// <summary>
+/// used for pump shotguns and sniper rifles
+/// </summary>
+public class BoltReloadingWeapon : BulletReloadingWeapon
 {
     const string ANIMATOR_FINISH_REALOAD_TRIGGER_NAME = "FinishReload";
     const string ANIMATOR_UNLOAD_BULLET_TRIGGER_NAME = "UnloadBullet";
