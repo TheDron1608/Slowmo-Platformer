@@ -1,25 +1,20 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class UnloadAmmoOnExit : StateMachineBehaviour
 {
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        RangedWeapon weapon = animator.GetComponent<RangedWeapon>();
-
-        weapon.Unloaded = true;
-        if (weapon.MagReload)
+        if (animator.gameObject.TryGetComponent(out BulletReloadingWeapon weapon))
         {
-            animator.GetComponent<RangedWeapon>().SpawnBulletParticles();
-            weapon.LoadedLivingAmmoLeft = 0;
-            weapon.LoadedSpentAmmoLeft = 0;
-        }
-        else
-        {
-            animator.GetComponent<RangedWeapon>().SpawnBulletParticles();
-            weapon.LoadedSpentAmmoLeft -= weapon.AmmoAmountPerUnload;
-            if (weapon.LoadedSpentAmmoLeft < 0)
+            weapon.Unloaded = true;
             {
-                weapon.LoadedSpentAmmoLeft = 0;
+                animator.GetComponent<RangedWeapon>().SpawnBulletParticles(math.min(weapon.AmmoAmountPerUnload, weapon.LoadedSpentAmmoLeft));
+                weapon.LoadedSpentAmmoLeft -= weapon.AmmoAmountPerUnload;
+                if (weapon.LoadedSpentAmmoLeft < 0)
+                {
+                    weapon.LoadedSpentAmmoLeft = 0;
+                }
             }
         }
     }

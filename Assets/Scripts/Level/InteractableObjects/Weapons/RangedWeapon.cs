@@ -21,12 +21,7 @@ public class RangedWeapon : Weapon
 
     public int AmmoLeft = 10;
     public int MaxAmmo = 10;
-    public int MaxLoadedAmmo = 1;
-    public int LoadedLivingAmmoLeft = 1;
-    public int LoadedSpentAmmoLeft = 0;
-    public int AmmoAmountPerReload = 1;
-    public int AmmoAmountPerUnload = 1;
-    public bool MagReload = false;
+
     public BulletProjectile BulletProjectile;
     public ProjectileType AttackType = ProjectileType.BULLET;
     /// <summary>
@@ -69,16 +64,26 @@ public class RangedWeapon : Weapon
 
     public bool TryReload()
     {
-        if (LoadedLivingAmmoLeft < MaxLoadedAmmo && AmmoLeft > 0 && LoadedLivingAmmoLeft < MaxAmmo)
+        if (ReloadCondition())
         {
             _unloaded = false;
             OnReload();
             return true;
         }
-        else if (LoadedLivingAmmoLeft <= 0)
+        else if (UnloadCondition())
         {
             TryUnload();
         }
+        return false;
+    }
+
+    protected virtual bool ReloadCondition()
+    {
+        return AmmoLeft > 0;
+    }
+
+    protected virtual bool UnloadCondition()
+    {
         return false;
     }
 
@@ -98,14 +103,14 @@ public class RangedWeapon : Weapon
         return true;
     }
 
-    public void SpawnBulletParticles()
+    public void SpawnBulletParticles(int amount)
     {
-        _particleSpawner.SpawnParticle(math.min(LoadedSpentAmmoLeft, AmmoAmountPerUnload));
+        _particleSpawner.SpawnParticle(amount);
     }
 
     protected virtual void OnReload()
     {
-        Unloaded = false;
+        Unloaded = true;
         _animator.SetTrigger(ANIMATOR_RELOAD_TRIGGER_NAME);
     }
 
@@ -126,18 +131,13 @@ public class RangedWeapon : Weapon
         base.OnPickedUp();
 
         _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, false);
-
-        if (_unloaded && LoadedLivingAmmoLeft > 0)
-        {
-            TryCloseMag();
-        }
     }
 
     protected override void OnAttack()
     {
         base.OnAttack();
 
-        if (LoadedLivingAmmoLeft <= 0 || Unloaded) return;
+        if (!AttackCondition()) return;
 
         //spawning projectiles
         switch (AttackType)
@@ -170,7 +170,12 @@ public class RangedWeapon : Weapon
         }
     }
 
-    private void SpawnProjectile(float accuracity)
+    protected virtual bool AttackCondition()
+    {
+        return !Unloaded;
+    }
+
+    protected void SpawnProjectile(float accuracity)
     {
         BulletProjectile projectile = Instantiate(BulletProjectile, _projectileSpawnPosition);
         projectile.MoveAlign = VectorMath.RandomizeQuarternion(projectile.transform.rotation, accuracity);
@@ -178,18 +183,13 @@ public class RangedWeapon : Weapon
         projectile.InitializeOwner(this);
     }
 
-    private void SpawnBullet()
+    protected virtual void SpawnBullet()
     {
-        LoadedLivingAmmoLeft--;
-        LoadedSpentAmmoLeft++;
         SpawnProjectile(BurstAccuracy);
     }
 
-    private void SpawnBuckshot()
+    protected virtual void SpawnBuckshot()
     {
-        LoadedLivingAmmoLeft--;
-        LoadedSpentAmmoLeft++;
-
         float currentBuckshotAccuracystep = BuckshotAccuracy / BuckshotProjectilesAmount;
         for (int i = 1; i <= BuckshotProjectilesAmount; i++)
         {
@@ -197,21 +197,19 @@ public class RangedWeapon : Weapon
         }
     }
 
-    private IEnumerator SpawnBurst()
+    protected virtual IEnumerator SpawnBurst()
     {
         for (int i = 0; i < BuckshotProjectilesAmount; i++)
         {
-            if (LoadedLivingAmmoLeft <= 0) break;
             SpawnBullet();
             yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
         }
     }
 
-    private IEnumerator SpawnBuckshotBurst()
+    protected virtual IEnumerator SpawnBuckshotBurst()
     {
         for (int i = 0; i < BuckshotProjectilesAmount; i++)
         {
-            if (LoadedLivingAmmoLeft <= 0) break;
             SpawnBuckshot();
             yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
         }
