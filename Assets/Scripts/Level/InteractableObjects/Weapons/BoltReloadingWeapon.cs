@@ -53,7 +53,6 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
                 _loadBulletAnimationClipsDuration += clipInfos[i].length;
             }
         }
-        Debug.Log(_loadBulletAnimationClipsDuration);
     }
     private void UpdateAnimatorAttackCooldownMultiplier()
     {
@@ -67,9 +66,10 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
 
     protected override bool OnTryAttack()
     {
-        if (Unloaded)
+        if (IsReloading)
         {
             TryFinishReload();
+            return false;
         }
 
         if (!base.OnTryAttack()) return false;

@@ -6,6 +6,9 @@ public class SetUnloadedOnExit : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.GetComponent<RangedWeapon>().Unloaded = Value;
+        if (animator.TryGetComponent(out RangedWeapon rangedWeapon))
+        {
+            rangedWeapon.Unloaded = Value;
+        }
     }
 }

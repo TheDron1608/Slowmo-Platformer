@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -24,8 +25,6 @@ public abstract class Weapon : Holdable
 
     private float _attackCooldown = 0f;
     private bool _isAbleToAttack = true;
-
-    private bool _autoAttack = false;
 
     public float AttackCooldown
     {
@@ -56,16 +55,11 @@ public abstract class Weapon : Holdable
         OnAwake();
     }
 
-    protected new virtual void OnAwake()
+    protected override void OnAwake()
     {
         base.OnAwake();
 
         if (!TryGetComponent(out _animator)) throw new UnityException("Animator component not found");
-    }
-
-    protected override void OnThrow()
-    {
-        base.OnThrow();
     }
 
     protected override void OnPickedUp()

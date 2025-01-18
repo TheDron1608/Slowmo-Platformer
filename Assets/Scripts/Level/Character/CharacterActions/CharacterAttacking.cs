@@ -39,7 +39,10 @@ public class CharacterAttacking : MonoBehaviour
     {
         if (AutoAttack)
         {
-            Attack(AutoAttackDirection);
+            if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon) && weapon.IsAbleToAttack)
+            {
+                Attack(_autoAttackDirection);
+            }
         }
     }
 }

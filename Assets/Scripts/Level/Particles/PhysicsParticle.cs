@@ -16,7 +16,6 @@ public class PhysicsParticle : MonoBehaviour
 
     private Coroutine _removeWhenMaxParticleLifeIsOutCoroutine;
     private bool _enabledPhysics = true;
-    private bool _wasStillPreviousFrame = false;
 
     private void Awake()
     {
@@ -52,7 +51,6 @@ public class PhysicsParticle : MonoBehaviour
                 _rigidBodyComponent.simulated = false;
                 _enabledPhysics = false;
                 StopCoroutine(_removeWhenMaxParticleLifeIsOutCoroutine);
-                _wasStillPreviousFrame = true;
             }
         }
     }

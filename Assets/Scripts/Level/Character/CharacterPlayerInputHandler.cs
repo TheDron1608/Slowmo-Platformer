@@ -280,6 +280,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         UpdateAimInput();
         UpdateSelectedObject();
+        UpdateAutoReload();
     }
 
     public void UpdateAimInput()
@@ -317,6 +318,19 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
                 _lastSelectedObject = _currentSelectedObject;
             }
+        }
+    }
+
+    private void UpdateAutoReload()
+    {
+        if (
+            _characterHoldingObjectsComponent.CurrentHoldObject != null &&
+            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && 
+            !rangedWeapon.IsReloading &&
+            rangedWeapon.GetIsNeedReload()
+            )
+        {
+            _characterActionsComponent.CharacterReloadingAction.TryReload();
         }
     }
 

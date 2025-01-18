@@ -63,6 +63,7 @@ public class RangedWeapon : Weapon
         {
             _animator.SetBool(ANIMATOR_UNLOADED_PROP_NAME, value);
             _unloaded = value;
+            IsAbleToAttack = !value && !IsReloading;
         }
     }
 
@@ -70,6 +71,11 @@ public class RangedWeapon : Weapon
     {
         get => _isReloading;
         set => _isReloading = value;
+    }
+
+    public virtual bool GetIsNeedReload()
+    {
+        return false;
     }
 
     public bool TryReload()
@@ -226,7 +232,7 @@ public class RangedWeapon : Weapon
 
     protected override bool AttackCondition()
     {
-        return base.AttackCondition() && IsAbleToAttack;
+        return base.AttackCondition();
     }
 
     protected void SpawnProjectile(float accuracity)

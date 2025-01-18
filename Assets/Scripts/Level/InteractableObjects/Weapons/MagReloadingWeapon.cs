@@ -45,6 +45,11 @@ public class MagReloadingWeapon : RangedWeapon
         }
     }
 
+    public override bool GetIsNeedReload()
+    {
+        return AmmoLeft <= 0;
+    }
+
     protected override void OnAwake()
     {
         base.OnAwake();

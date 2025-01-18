@@ -29,6 +29,11 @@ public class BulletReloadingWeapon : RangedWeapon
         return base.AttackCondition() && LoadedLivingAmmoLeft > 0;
     }
 
+    public override bool GetIsNeedReload()
+    {
+        return LoadedLivingAmmoLeft <= 0;
+    }
+
     protected override void SpawnBullet()
     {
         LoadedLivingAmmoLeft--;
