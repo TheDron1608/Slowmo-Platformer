@@ -3,7 +3,6 @@ using UnityEngine;
 public class MeleeWeapon : Weapon
 {
     const string ANIMATOR_IS_THROWN_PROP_NAME = "IsThrown";
-    const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
 
     [Header("Melee weapon")]
     public float AttackRangeMultiplier = 1f;
@@ -23,8 +22,6 @@ public class MeleeWeapon : Weapon
 
     protected override bool OnTryAttack()
     {
-        _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
-
         Projectile projectile = Instantiate(Projectile, transform);
 
         if (CurrentHolder.TryGetComponent(out CharacterAiming characterAiming))

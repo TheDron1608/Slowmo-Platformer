@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Weapon : Holdable
 {
-    const string ANIMATOR_AUTO_ATTACK_PROP_NAME = "AutoAttack";
+    const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
 
     public enum AttackPiercing
     {
@@ -49,16 +49,6 @@ public abstract class Weapon : Holdable
         set => _isAbleToAttack = value;
     }
 
-    public bool AutoAttack
-    {
-        get => _autoAttack;
-        set
-        {
-            _animator.SetBool(ANIMATOR_AUTO_ATTACK_PROP_NAME, value);
-            _autoAttack = value;
-        }
-    }
-
     protected Animator _animator;
 
     private void Awake()
@@ -99,7 +89,10 @@ public abstract class Weapon : Holdable
 
     protected virtual bool OnTryAttack()
     {
-        return AttackCondition();
+        if (!AttackCondition()) return false;
+
+        _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
+        return true;
     }
 
     protected virtual bool AttackCondition()
