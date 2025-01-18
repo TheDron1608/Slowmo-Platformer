@@ -19,6 +19,7 @@ public class Holdable : Interactable
         public Vector2 Direction;
     }
 
+    [Header("Holdable")]
     public bool RotatableWhenIsHolded = true;
     public bool ResetRotationWhenIsHolded = false;
     public float HoldDistanceWhenIsHolded = 0.75f;
@@ -149,14 +150,6 @@ public class Holdable : Interactable
     {
         newHolder.CurrentHoldObject = this;
 
-        if (
-            TryGetComponent(out RangedWeapon rangedWeapon) && 
-            newHolder.TryGetComponent(out CharacterReloading newHolderReloadAction)
-            )
-        {
-            rangedWeapon.SetReloadSpeed(newHolderReloadAction.ReloadSpeed);
-        }
-
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         _colliderComponent.isTrigger = false;
         CurrentHolder = newHolder;
@@ -176,11 +169,6 @@ public class Holdable : Interactable
     public void Throw(Vector2 direction, float throwForceMultiplier = 1f)
     {
         if (CurrentHolder == null) return;
-
-        if (TryGetComponent(out RangedWeapon rangedWeapon))
-        {
-            rangedWeapon.SetReloadSpeed(1f);
-        }
 
         CurrentHolder.CurrentHoldObject = null;
         transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform;

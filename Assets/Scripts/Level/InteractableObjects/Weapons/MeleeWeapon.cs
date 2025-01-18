@@ -5,6 +5,7 @@ public class MeleeWeapon : Weapon
     const string ANIMATOR_IS_THROWN_PROP_NAME = "IsThrown";
     const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
 
+    [Header("Melee weapon")]
     public float AttackRangeMultiplier = 1f;
     public Projectile Projectile;
 

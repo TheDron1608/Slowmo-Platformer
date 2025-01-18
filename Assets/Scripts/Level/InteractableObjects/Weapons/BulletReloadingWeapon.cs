@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class BulletReloadingWeapon : RangedWeapon
 {
+    [Header("Bullet reloading weapon")]
     public int LoadedLivingAmmoLeft = 1;
     public int LoadedSpentAmmoLeft = 0;
     public int AmmoAmountPerReload = 1;
@@ -100,7 +101,6 @@ public class BulletReloadingWeapon : RangedWeapon
     {
         base.OnUnloadFinish();
 
-        Unloaded = true;
         {
             GetComponent<RangedWeapon>().SpawnBulletParticles(math.min(AmmoAmountPerUnload, LoadedSpentAmmoLeft));
             LoadedSpentAmmoLeft -= AmmoAmountPerUnload;

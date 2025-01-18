@@ -19,6 +19,7 @@ public class SelectableObject : MonoBehaviour
 
     const float SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER = 5f;
 
+    [Header("Selectable")]
     /// <summary>
     /// Used to make AI bettwe undertand how to interact with object
     /// </summary>

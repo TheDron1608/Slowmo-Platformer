@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -6,12 +7,14 @@ using UnityEngine;
 /// </summary>
 public class BoltReloadingWeapon : BulletReloadingWeapon
 {
-    const string ANIMATOR_FINISH_REALOAD_TRIGGER_NAME = "FinishReload";
     const string ANIMATOR_UNLOAD_BULLET_TRIGGER_NAME = "UnloadBullet";
     const string ANIMATOR_OUT_OF_AMMO_PROP_NAME = "OutOfAmmo";
+    const string ANIMATOR_ATTACK_COOLDOWN_MULTIPLIER_PROP_NAME = "AttackCooldownMultiplier";
     const float WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK = 0.25f; //in seconds
+    private static readonly string[] ATTACK_COOLDOWN_ANIMATON_CLIP_NAMES = new string[] { "Load", "Unload" };
 
     private bool _outOfAmmo = false;
+    private float _loadBulletAnimationClipsDuration; //in seconds
 
     public bool OutOfAmmo
     {
@@ -23,9 +26,38 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
         }
     }
 
-    public void FinishReload()
+    public override float AttackCooldownMultiplier
+    { 
+        get => base.AttackCooldownMultiplier;
+        set
+        {
+            base.AttackCooldownMultiplier = value;
+            UpdateAnimatorAttackCooldownMultiplier();
+        }
+    }
+
+    protected override void OnAwake()
     {
-        _animator.SetTrigger(ANIMATOR_FINISH_REALOAD_TRIGGER_NAME);
+        base.OnAwake();
+        UpdateLoadBulletAnimatioClipsDuration();
+        UpdateAnimatorAttackCooldownMultiplier();
+    }
+    private void UpdateLoadBulletAnimatioClipsDuration()
+    {
+        _loadBulletAnimationClipsDuration = 0f;
+        AnimationClip[] clipInfos = _animator.runtimeAnimatorController.animationClips;
+        for (int i = 0; i < clipInfos.Length; i++)
+        {
+            if (ATTACK_COOLDOWN_ANIMATON_CLIP_NAMES.Contains(clipInfos[i].name))
+            {
+                _loadBulletAnimationClipsDuration += clipInfos[i].length;
+            }
+        }
+        Debug.Log(_loadBulletAnimationClipsDuration);
+    }
+    private void UpdateAnimatorAttackCooldownMultiplier()
+    {
+        _animator.SetFloat(ANIMATOR_ATTACK_COOLDOWN_MULTIPLIER_PROP_NAME, 1 / ((AttackCooldownMultiplier * BaseAttackCoolDownSeconds) / _loadBulletAnimationClipsDuration) - WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK);
     }
 
     public void UnloadBullet()
@@ -37,7 +69,7 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     {
         if (Unloaded)
         {
-            FinishReload();
+            TryFinishReload();
         }
 
         if (!base.OnTryAttack()) return false;
@@ -49,11 +81,6 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     protected override bool AttackCondition()
     {
         return base.AttackCondition() && LoadedSpentAmmoLeft < 1;
-    }
-
-    protected override bool ReloadCondition()
-    {
-        return base.ReloadCondition();
     }
 
     private IEnumerator UnloadBulletAfterDelay()
@@ -68,8 +95,7 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
 
         if (LoadedLivingAmmoLeft >= MaxLoadedAmmo || AmmoLeft <= 1)
         {
-            Debug.Log("finish");
-            FinishReload();
+            TryFinishReload();
             OutOfAmmo = false;
         }
     }

@@ -14,12 +14,14 @@ public class RangedWeapon : Weapon
 
     const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
     const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
+    const string ANIMATOR_FINISH_RELOAD_TRIGGER_NAME = "FinishReload";
 
     public const string ANIMATOR_RELOAD_TRIGGER_NAME = "Reload";
     public const string ANIMATOR_UNLOADED_PROP_NAME = "Unloaded";
     public const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";
     public const string ANIMATOR_RELOAD_SPEED_PROP_NAME = "ReloadSpeed";
 
+    [Header("Ranged weapon")]
     public int AmmoLeft = 10;
     public int MaxAmmo = 10;
 
@@ -41,6 +43,7 @@ public class RangedWeapon : Weapon
     public int BurstProjectilesAmount = 3;
     public float BurstAccuracy = 0.1f;
 
+    private bool _isReloading = false;
     private bool _unloaded = false;
     private Transform _projectileSpawnPosition;
     private ParticleSpawner _bulletParticleSpawner;
@@ -63,11 +66,16 @@ public class RangedWeapon : Weapon
         }
     }
 
+    public bool IsReloading
+    {
+        get => _isReloading;
+        set => _isReloading = value;
+    }
+
     public bool TryReload()
     {
         if (ReloadCondition())
         {
-            _unloaded = false;
             OnReload();
             return true;
         }
@@ -76,6 +84,17 @@ public class RangedWeapon : Weapon
             TryUnload();
         }
         return false;
+    }
+
+    public bool TryFinishReload()
+    {
+        if (!IsReloading) return false;
+
+        IsAbleToAttack = true;
+        IsReloading = false;
+        _animator.SetTrigger(ANIMATOR_FINISH_RELOAD_TRIGGER_NAME);
+
+        return true;
     }
 
     protected virtual bool ReloadCondition()
@@ -111,8 +130,16 @@ public class RangedWeapon : Weapon
 
     protected virtual void OnReload()
     {
+        IsReloading = true;
+        IsAbleToAttack = false;
         Unloaded = true;
         _animator.SetTrigger(ANIMATOR_RELOAD_TRIGGER_NAME);
+    }
+
+    protected virtual void OnReloadFinish()
+    {
+        IsReloading = false;
+        IsAbleToAttack = true;
     }
 
     /// <summary>
@@ -120,6 +147,7 @@ public class RangedWeapon : Weapon
     /// </summary>
     public virtual void OnLoadFinish()
     {
+        IsAbleToAttack = !IsReloading;
         Unloaded = false;
     }
 
@@ -128,6 +156,7 @@ public class RangedWeapon : Weapon
     /// </summary>
     public virtual void OnUnloadFinish()
     {
+        IsAbleToAttack = false;
         Unloaded = true;
     }
 
@@ -141,6 +170,7 @@ public class RangedWeapon : Weapon
         base.OnThrow();
 
         _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, true);
+        SetReloadSpeed(1f);
     }
 
     protected override void OnPickedUp()
@@ -148,6 +178,11 @@ public class RangedWeapon : Weapon
         base.OnPickedUp();
 
         _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, false);
+
+        if (CurrentHolder.TryGetComponent(out CharacterReloading currentHolderReloadingComponent))
+        {
+            SetReloadSpeed(currentHolderReloadingComponent.ReloadSpeed);
+        }
     }
 
     protected override bool OnTryAttack()
@@ -191,7 +226,7 @@ public class RangedWeapon : Weapon
 
     protected override bool AttackCondition()
     {
-        return base.AttackCondition() && !Unloaded;
+        return base.AttackCondition() && IsAbleToAttack;
     }
 
     protected void SpawnProjectile(float accuracity)

@@ -10,6 +10,7 @@ public class MagReloadingWeapon : RangedWeapon
     const float AWAIT_TIME_TO_SPAWN_BULLET_PARTICLE_ON_ATTACK = 0.1f; //in seconds
     const string MAGS_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "MagParticleSpawner";
 
+    [Header("Mag reloading weapon")]
     [SerializeField] private int _magSize = 16;
     [SerializeField] private int _maxMags = 2;
     [SerializeField] private int _mags = 1;

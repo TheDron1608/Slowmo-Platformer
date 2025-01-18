@@ -5,6 +5,7 @@ public class HolsterableMeleeWeapon : MeleeWeapon
 {
     const string ANIMATOR_IS_HOLSTERED_PROP_NAME = "IsHolstered";
 
+    [Header("holsterable melee weapon")]
     public float TimeToHolsterBackSeconds = 6.5f;
 
     private bool _isHolstered = false;

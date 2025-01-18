@@ -15,6 +15,7 @@ public abstract class Interactable : SelectableObject
         private set => _currentInteractor = value;
     }
 
+    [Header("Interactalbe")]
     public CharacterPart.CharacterPartBusyStates AnimationOnStartInteract = CharacterPart.CharacterPartBusyStates.NONE;
     public CharacterPart.CharacterPartBusyStates AnimationOnFinishInteract = CharacterPart.CharacterPartBusyStates.NONE;
 

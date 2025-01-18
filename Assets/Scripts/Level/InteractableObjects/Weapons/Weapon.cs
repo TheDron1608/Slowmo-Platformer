@@ -12,14 +12,18 @@ public abstract class Weapon : Holdable
         PIERCE_HEAVY_ARMOR
     }
 
+    [Header("Weapon")]
     public float Damage = 1f;
     public float KnockBack = 0f;
     public float BaseAttackCoolDownSeconds = 0.5f;
+    [SerializeField] private float _attackCooldownMultiplier = 1f;
     public float MaxRange = 350f;
     public bool PlayerInputAutoAttackOnPress = false;
     public AttackPiercing Pierce = AttackPiercing.NO_PIERCE;
 
+
     private float _attackCooldown = 0f;
+    private bool _isAbleToAttack = true;
 
     private bool _autoAttack = false;
 
@@ -31,6 +35,18 @@ public abstract class Weapon : Holdable
             if (_attackCooldown > 0f && value <= 0f) OnFinishAttack();
             _attackCooldown = value;
         }
+    }
+
+    public virtual float AttackCooldownMultiplier
+    {
+        get => _attackCooldownMultiplier;
+        set => _attackCooldownMultiplier = value;
+    }
+
+    public bool IsAbleToAttack
+    {
+        get => _isAbleToAttack;
+        set => _isAbleToAttack = value;
     }
 
     public bool AutoAttack
@@ -73,9 +89,9 @@ public abstract class Weapon : Holdable
 
     public void TryAttack(Vector2 direction)
     {
-        if (_attackCooldown > 0f) return;
+        if (!AttackCondition()) return;
 
-        _attackCooldown = BaseAttackCoolDownSeconds;
+        _attackCooldown = BaseAttackCoolDownSeconds * AttackCooldownMultiplier;
         OnTryAttack();
 
         StartCoroutine(AwaitAttackCooldownFinish());
@@ -88,7 +104,7 @@ public abstract class Weapon : Holdable
 
     protected virtual bool AttackCondition()
     {
-        return true;
+        return IsAbleToAttack;
     }
 
     protected virtual void OnFinishAttack()
@@ -98,6 +114,7 @@ public abstract class Weapon : Holdable
 
     private IEnumerator AwaitAttackCooldownFinish()
     {
+        IsAbleToAttack = false;
         while (_attackCooldown > 0f)
         {
             yield return new WaitForEndOfFrame();
@@ -105,6 +122,7 @@ public abstract class Weapon : Holdable
             _attackCooldown -= Time.deltaTime;
         }
         _attackCooldown = 0f;
+        IsAbleToAttack = true;
         OnFinishAttack();
     }
 }

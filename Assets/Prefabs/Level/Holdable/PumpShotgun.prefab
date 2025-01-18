@@ -161,7 +161,8 @@ MonoBehaviour:
   SpeedToGetThroughWall: 15
   Damage: 1
   KnockBack: -10
-  BaseAttackCoolDownSeconds: 0.5
+  BaseAttackCoolDownSeconds: 0.66
+  _attackCooldownMultiplier: 1
   MaxRange: 6
   PlayerInputAutoAttackOnPress: 0
   Pierce: 0

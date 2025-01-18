@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PumpStart
+  m_Name: Load
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -2413051884191776450, guid: 9da7ac97c6a0b08478fbaf0774956974, type: 3}
+      value: {fileID: -222409286, guid: 02edbe832fc1f25458b1481569835050, type: 3}
     - time: 0.083333336
-      value: {fileID: 6755045133783558632, guid: 9da7ac97c6a0b08478fbaf0774956974, type: 3}
+      value: {fileID: -1885076197, guid: 02edbe832fc1f25458b1481569835050, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -2413051884191776450, guid: 9da7ac97c6a0b08478fbaf0774956974, type: 3}
-    - {fileID: 6755045133783558632, guid: 9da7ac97c6a0b08478fbaf0774956974, type: 3}
+    - {fileID: -222409286, guid: 02edbe832fc1f25458b1481569835050, type: 3}
+    - {fileID: -1885076197, guid: 02edbe832fc1f25458b1481569835050, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

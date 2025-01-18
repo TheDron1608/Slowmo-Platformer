@@ -3,6 +3,7 @@ using UnityEngine;
 public class CharacterAttacking : MonoBehaviour
 {
     public bool IsAbleToAttack = true;
+    public float AttackCooldownMultiplier = 1f;
 
     private bool _autoAttack = false;
     private Vector2 _autoAttackDirection = Vector2.right;
