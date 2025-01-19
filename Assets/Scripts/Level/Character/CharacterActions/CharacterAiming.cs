@@ -6,6 +6,7 @@ public class CharacterAiming : MonoBehaviour
 {
     public bool IsAbleToAim = true;
     public float AimSpeed = 35f;
+    public GameObject Debug_CurrentAimIcon;
 
     private Vector2 _targetAimPoint;
     private Vector2 _currentAimPoint;
@@ -26,13 +27,18 @@ public class CharacterAiming : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent(out _characterChildNodesComponent)) throw new UnityException("CharacterChildNodes component not found");
-        _targetAimPoint = transform.position;
-        _currentAimPoint = transform.position;
+        _targetAimPoint = _characterChildNodesComponent.Center.transform.position;
+        _currentAimPoint = _characterChildNodesComponent.Center.transform.position;
     }
 
     private void Update()
     {
         if (!IsAbleToAim) return;
+
+        if (Debug_CurrentAimIcon != null)
+        {
+            Debug_CurrentAimIcon.transform.position = _targetAimPoint;
+        }
 
         _currentAimPoint = Vector2.Lerp(_currentAimPoint, TargetAimPoint, AimSpeed * Time.deltaTime);
     }

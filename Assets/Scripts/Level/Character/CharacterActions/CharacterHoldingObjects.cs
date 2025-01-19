@@ -95,19 +95,22 @@ public class CharacterHoldingObjects : MonoBehaviour
 
         float aimDelta = _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime;
         Vector2 currentAim = _characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized();
+        Vector3 targetRotation = VectorMath.Vec2ToQuarterninon2D(currentAim).eulerAngles;
 
         //setting current holded object's rotation
         if (_currentHoldObject.RotatableWhenIsHolded)
         {
-            Quaternion targetAngle = new();
+
+            Quaternion targetAngle = VectorMath.Vec2ToQuarterninon2D(currentAim);
+            Vector3 targetEulerAngle = targetAngle.eulerAngles;
             targetAngle.eulerAngles = new Vector3(
-                0f,
+                targetEulerAngle.x,
                 math.lerp(
                     _currentHoldObject.transform.rotation.eulerAngles.y,
                     currentAim.x < 0f ? 180f : 0f,
                     aimDelta
                     ),
-                currentAim.y * 90f
+                targetEulerAngle.z
                 );
 
             _currentHoldObject.transform.rotation = targetAngle;

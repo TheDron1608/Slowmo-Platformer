@@ -285,11 +285,9 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     public void UpdateAimInput()
     {
-        Vector2 aimDirection;
-
         if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
-            aimDirection = _characterChildNodesComponent.Center.transform.position + VectorMath.Vec2ToVec3( AimActionReference.action.ReadValue<Vector2>(), _characterChildNodesComponent.Center.transform.position.z );
+            _characterActionsComponent.CharacterAimingAction.TargetAimPoint = _characterChildNodesComponent.Center.transform.position + VectorMath.Vec2ToVec3( AimActionReference.action.ReadValue<Vector2>(), _characterChildNodesComponent.Center.transform.position.z );
         }
         else
         {

@@ -49,21 +49,15 @@ public static class VectorMath
         result.eulerAngles = new Vector3(
             0f,
             target.x < 0f ? 180f : 0f,
-            target.y * 90f
+            Mathf.Atan2(target.x, target.y) * Mathf.Rad2Deg * (target.x > 0f ? -1 : 1) + 90f
             );
 
         return result;
     }
 
-    public static Vector2 Quartenion2DToVec2(Quaternion target)
+    public static Vector3 Quartenion2DToVec2(Quaternion target)
     {
-        Vector3 targetEuler = target.eulerAngles;
-        Vector2 result = new
-            (
-            (1f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.y > 90f ? 1f : -1f),
-            (2f - math.abs(targetEuler.z - 180f) / 90f) * (targetEuler.z < 180f ? 1f : -1f)
-            );
-        return result;
+        return math.mul(target, Vector3.right);
     }
 
     public static float RigidBodyVelocityToSpeed(Rigidbody2D rb)
