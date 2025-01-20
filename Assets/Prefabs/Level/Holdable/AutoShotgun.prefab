@@ -218,22 +218,23 @@ MonoBehaviour:
   Damage: 1
   KnockBack: -15
   BaseAttackCoolDownSeconds: 0.1667
+  _attackCooldownMultiplier: 1
   MaxRange: 6
   PlayerInputAutoAttackOnPress: 1
   Pierce: 0
   AmmoLeft: 17
   MaxAmmo: 32
+  LoadedLivingAmmoLeft: 17
+  LoadedSpentAmmoLeft: 0
   BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
   AttackType: 1
-  BulletAccuracy: 0
+  BulletAccuracy: 1
   BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.15
+  BuckshotAccuracy: 0.85
   DurationBetweenBurstProjectiles: 0.167
   BurstProjectilesAmount: 3
-  BurstAccuracy: 0.1
+  BurstAccuracy: 0.9
   _magSize: 16
-  _maxMags: 2
-  _mags: 1
 --- !u!212 &9167989227018845274 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}

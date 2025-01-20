@@ -8,8 +8,6 @@ using UnityEngine;
 public class BulletReloadingWeapon : RangedWeapon
 {
     [Header("Bullet reloading weapon")]
-    public int LoadedLivingAmmoLeft = 1;
-    public int LoadedSpentAmmoLeft = 0;
     public int AmmoAmountPerReload = 1;
     public int AmmoAmountPerUnload = 1;
     public int MaxLoadedAmmo = 1;
@@ -24,49 +22,9 @@ public class BulletReloadingWeapon : RangedWeapon
         return LoadedLivingAmmoLeft <= 0 && LoadedSpentAmmoLeft > 0;
     }
 
-    protected override bool AttackCondition()
-    {
-        return base.AttackCondition() && LoadedLivingAmmoLeft > 0;
-    }
-
     public override bool GetIsNeedReload()
     {
         return LoadedLivingAmmoLeft <= 0;
-    }
-
-    protected override void SpawnBullet()
-    {
-        LoadedLivingAmmoLeft--;
-        LoadedSpentAmmoLeft++;
-        base.SpawnBullet();
-    }
-
-    protected override void SpawnBuckshot()
-    {
-        LoadedLivingAmmoLeft--;
-        LoadedSpentAmmoLeft++;
-
-        base.SpawnBuckshot();
-    }
-
-    protected override IEnumerator SpawnBurst()
-    {
-        for (int i = 0; i < BuckshotProjectilesAmount; i++)
-        {
-            if (LoadedLivingAmmoLeft <= 0) break;
-            SpawnBullet();
-            yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
-        }
-    }
-
-    protected override IEnumerator SpawnBuckshotBurst()
-    {
-        for (int i = 0; i < BuckshotProjectilesAmount; i++)
-        {
-            if (LoadedLivingAmmoLeft <= 0) break;
-            SpawnBuckshot();
-            yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
-        }
     }
 
     protected override void OnPickedUp()
@@ -85,7 +43,7 @@ public class BulletReloadingWeapon : RangedWeapon
 
         Unloaded = true;
 
-        int loadAmount = AmmoAmountPerReload;
+        int loadAmount = math.min(AmmoAmountPerReload, MaxLoadedAmmo - LoadedLivingAmmoLeft - LoadedSpentAmmoLeft);
         if (loadAmount > 0)
         {
             AmmoLeft -= loadAmount;

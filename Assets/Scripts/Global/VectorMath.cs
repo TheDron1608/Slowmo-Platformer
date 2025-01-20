@@ -72,7 +72,7 @@ public static class VectorMath
         quaternion.eulerAngles = new Vector3(
             eulerAngles.x,
             eulerAngles.y,
-            eulerAngles.z + 360f * (UnityEngine.Random.value - 0.5f) * accuracy
+            eulerAngles.z + 360f * (UnityEngine.Random.value - 0.5f) * (1 - accuracy)
             );
         return quaternion;
     }

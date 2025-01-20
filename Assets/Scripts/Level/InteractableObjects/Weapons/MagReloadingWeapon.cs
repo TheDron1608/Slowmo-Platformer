@@ -7,13 +7,13 @@ using UnityEngine;
 /// </summary>
 public class MagReloadingWeapon : RangedWeapon
 {
-    const float AWAIT_TIME_TO_SPAWN_BULLET_PARTICLE_ON_ATTACK = 0.1f; //in seconds
+    const string ANIMATOR_RELOAD_BULLET_TRIGGER_NAME = "ReloadBullet";
     const string MAGS_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "MagParticleSpawner";
+    const float AWAIT_TIME_TO_SPAWN_BULLET_PARTICLE_ON_ATTACK = 0.1f; //in seconds
 
     [Header("Mag reloading weapon")]
     [SerializeField] private int _magSize = 16;
-    [SerializeField] private int _maxMags = 2;
-    [SerializeField] private int _mags = 1;
+    [SerializeField] private bool _bulletLoadedInChamber = true;
 
     private ParticleSpawner _magsPraticleSpawner;
 
@@ -22,32 +22,50 @@ public class MagReloadingWeapon : RangedWeapon
         get => _magSize;
         set
         {
+            MaxAmmo = MaxAmmo / _magSize * value;
             _magSize = value;
-            MaxAmmo = _maxMags * _magSize;
         }
     }
+
     public int MaxMags
     {
-        get => _maxMags;
+        get => MaxAmmo / MagSize;
         set
         {
-            _maxMags = value;
-            MaxAmmo = _maxMags * _magSize;
+            MaxAmmo = value * MagSize;
         }
     }
     public int Mags
     {
-        get => _mags;
+        get => AmmoLeft / MagSize;
         set
         {
-            _mags = value;
-            AmmoLeft = _magSize + (AmmoLeft > 0 ? 1 : 0);
+            AmmoLeft = MagSize * value + (AmmoLeft > 0 ? 1 : 0);
+        }
+    }
+
+    public bool BulletLoadedInChamber
+    {
+        get => _bulletLoadedInChamber;
+        set
+        {
+            if (_bulletLoadedInChamber)
+            {
+                LoadedLivingAmmoLeft--;
+                SpawnBulletParticles(1);
+            }
+            _bulletLoadedInChamber = value;
         }
     }
 
     public override bool GetIsNeedReload()
     {
-        return AmmoLeft <= 0;
+        return LoadedLivingAmmoLeft <= 0 && !Unloaded && !IsReloading;
+    }
+
+    public void ReloadBullet()
+    {
+        _animator.SetTrigger(ANIMATOR_RELOAD_BULLET_TRIGGER_NAME);
     }
 
     protected override void OnAwake()
@@ -64,12 +82,7 @@ public class MagReloadingWeapon : RangedWeapon
 
     protected override bool ReloadCondition()
     {
-        return AmmoLeft <= MagSize;
-    }
-
-    protected override bool AttackCondition()
-    {
-        return base.AttackCondition() && AmmoLeft > 0;
+        return LoadedLivingAmmoLeft - (BulletLoadedInChamber ? 1 : 0) < MagSize;
     }
 
     protected override void OnReload()
@@ -81,6 +94,21 @@ public class MagReloadingWeapon : RangedWeapon
         }
 
         base.OnReload();
+
+        if (!BulletLoadedInChamber)
+        {
+            ReloadBullet();
+        }
+    }
+
+    protected override void OnUnload()
+    {
+        base.OnUnload();
+
+        LoadedLivingAmmoLeft = BulletLoadedInChamber ? 1 : 0;
+        LoadedSpentAmmoLeft = 0;
+
+        ReloadBullet();
     }
 
     protected override bool OnTryAttack()
@@ -88,6 +116,12 @@ public class MagReloadingWeapon : RangedWeapon
         if (!base.OnTryAttack()) return false;
 
         StartCoroutine(SpawnParticleAfterDuration());
+
+        if (LoadedLivingAmmoLeft <= 0)
+        {
+            BulletLoadedInChamber = false;
+        }
+
         return true;
     }
 
@@ -102,6 +136,8 @@ public class MagReloadingWeapon : RangedWeapon
     {
         base.OnLoadFinish();
 
+        LoadedLivingAmmoLeft = MagSize + (BulletLoadedInChamber ? 1 : 0);
+        LoadedSpentAmmoLeft = 0;
         Mags--;
     }
 
@@ -119,38 +155,5 @@ public class MagReloadingWeapon : RangedWeapon
     {
         yield return new WaitForSeconds(AWAIT_TIME_TO_SPAWN_BULLET_PARTICLE_ON_ATTACK);
         SpawnBulletParticles(1);
-    }
-
-
-    protected override void SpawnBullet()
-    {
-        base.SpawnBullet();
-        AmmoLeft--;
-    }
-
-    protected override void SpawnBuckshot()
-    {
-        base.SpawnBuckshot();
-        AmmoLeft--;
-    }
-
-    protected override IEnumerator SpawnBurst()
-    {
-        for (int i = 0; i < BuckshotProjectilesAmount; i++)
-        {
-            if (AmmoLeft <= 0) break;
-            SpawnBullet();
-            yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
-        }
-    }
-
-    protected override IEnumerator SpawnBuckshotBurst()
-    {
-        for (int i = 0; i < BuckshotProjectilesAmount; i++)
-        {
-            if (AmmoLeft <= 0) break;
-            SpawnBuckshot();
-            yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
-        }
     }
 }

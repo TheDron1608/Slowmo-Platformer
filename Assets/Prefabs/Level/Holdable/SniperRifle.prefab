@@ -152,16 +152,16 @@ MonoBehaviour:
   Pierce: 1
   AmmoLeft: 3
   MaxAmmo: 9
-  BulletProjectile: {fileID: 5573227536712375423, guid: 261098ad0a9f87846ae64f26f69e9885, type: 3}
-  AttackType: 0
-  BulletAccuracy: 0
-  BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.05
-  DurationBetweenBurstProjectiles: 0.167
-  BurstProjectilesAmount: 3
-  BurstAccuracy: 0
   LoadedLivingAmmoLeft: 3
   LoadedSpentAmmoLeft: 0
+  BulletProjectile: {fileID: 5573227536712375423, guid: 261098ad0a9f87846ae64f26f69e9885, type: 3}
+  AttackType: 0
+  BulletAccuracy: 1
+  BuckshotProjectilesAmount: 6
+  BuckshotAccuracy: 0.95
+  DurationBetweenBurstProjectiles: 0.167
+  BurstProjectilesAmount: 3
+  BurstAccuracy: 0.985
   AmmoAmountPerReload: 1
   AmmoAmountPerUnload: 1
   MaxLoadedAmmo: 3

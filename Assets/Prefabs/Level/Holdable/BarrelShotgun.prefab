@@ -157,21 +157,22 @@ MonoBehaviour:
   Damage: 1
   KnockBack: -15
   BaseAttackCoolDownSeconds: 0.1
+  _attackCooldownMultiplier: 1
   MaxRange: 5
   PlayerInputAutoAttackOnPress: 0
   Pierce: 0
   AmmoLeft: 4
   MaxAmmo: 16
-  BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
-  AttackType: 1
-  BulletAccuracy: 0
-  BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.2
-  DurationBetweenBurstProjectiles: 0.025
-  BurstProjectilesAmount: 3
-  BurstAccuracy: 0.1
   LoadedLivingAmmoLeft: 2
   LoadedSpentAmmoLeft: 0
+  BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+  AttackType: 1
+  BulletAccuracy: 1
+  BuckshotProjectilesAmount: 6
+  BuckshotAccuracy: 0.8
+  DurationBetweenBurstProjectiles: 0.025
+  BurstProjectilesAmount: 3
+  BurstAccuracy: 0.9
   AmmoAmountPerReload: 2
   AmmoAmountPerUnload: 2
   MaxLoadedAmmo: 2

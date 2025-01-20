@@ -24,30 +24,33 @@ public class RangedWeapon : Weapon
     [Header("Ranged weapon")]
     public int AmmoLeft = 10;
     public int MaxAmmo = 10;
+    public int LoadedLivingAmmoLeft = 1;
+    public int LoadedSpentAmmoLeft = 0;
 
     public BulletProjectile BulletProjectile;
     public ProjectileType AttackType = ProjectileType.BULLET;
     /// <summary>
     /// 0 is perfect accuracy, 1 is 360deg spread
     /// </summary>
-    public float BulletAccuracy = 0;
+    public float BulletAccuracy = 1;
     /// <summary>
     /// 0 is perfect accuracy, 1 is 360deg spread
     /// </summary>
     public int BuckshotProjectilesAmount = 6;
-    public float BuckshotAccuracy = 0.5f;
+    public float BuckshotAccuracy = 0.75f;
     /// <summary>
     /// if higher than 0, each projectile will spawn DurationBetweenBurstProjectiles seconds after previous spawned projectile
     /// </summary>
     public float DurationBetweenBurstProjectiles = 0.167f;
     public int BurstProjectilesAmount = 3;
-    public float BurstAccuracy = 0.1f;
+    public float BurstAccuracy = 0.9f;
 
     private bool _isReloading = false;
     private bool _unloaded = false;
     private Transform _projectileSpawnPosition;
     private ParticleSpawner _bulletParticleSpawner;
 
+    //INITIALIZER
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -56,6 +59,7 @@ public class RangedWeapon : Weapon
         _bulletParticleSpawner = transform.Find(BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
     }
 
+    //PUBLIC PROPERTIES
     public bool Unloaded
     {
         get => _unloaded;
@@ -73,6 +77,8 @@ public class RangedWeapon : Weapon
         set => _isReloading = value;
     }
 
+
+    //PUBLIC METHODS
     public virtual bool GetIsNeedReload()
     {
         return false;
@@ -103,16 +109,6 @@ public class RangedWeapon : Weapon
         return true;
     }
 
-    protected virtual bool ReloadCondition()
-    {
-        return AmmoLeft > 0;
-    }
-
-    protected virtual bool UnloadCondition()
-    {
-        return false;
-    }
-
     public bool TryCloseMag()
     {
         if (!_unloaded) return false;
@@ -125,13 +121,41 @@ public class RangedWeapon : Weapon
     {
         if (_unloaded) return false;
 
-        Unloaded = true;
+        OnUnload();
         return true;
+    }
+
+    protected virtual void OnUnload()
+    {
+        Unloaded = true;
     }
 
     public void SpawnBulletParticles(int amount)
     {
         _bulletParticleSpawner.SpawnParticle(amount);
+    }
+
+    public void SetReloadSpeed(float value)
+    {
+        _animator.SetFloat(ANIMATOR_RELOAD_SPEED_PROP_NAME, value);
+    }
+
+
+
+    //OVERRIDES
+    protected override bool AttackCondition()
+    {
+        return base.AttackCondition() && LoadedLivingAmmoLeft > 0;
+    }
+
+    protected virtual bool ReloadCondition()
+    {
+        return AmmoLeft > 0;
+    }
+
+    protected virtual bool UnloadCondition()
+    {
+        return false;
     }
 
     protected virtual void OnReload()
@@ -146,29 +170,6 @@ public class RangedWeapon : Weapon
     {
         IsReloading = false;
         IsAbleToAttack = true;
-    }
-
-    /// <summary>
-    /// must be called only from animation controllers
-    /// </summary>
-    public virtual void OnLoadFinish()
-    {
-        IsAbleToAttack = !IsReloading;
-        Unloaded = false;
-    }
-
-    /// <summary>
-    /// must be called only from animation controllers
-    /// </summary>
-    public virtual void OnUnloadFinish()
-    {
-        IsAbleToAttack = false;
-        Unloaded = true;
-    }
-
-    public void SetReloadSpeed(float value)
-    {
-        _animator.SetFloat(ANIMATOR_RELOAD_SPEED_PROP_NAME, value);
     }
 
     protected override void OnThrow()
@@ -230,12 +231,26 @@ public class RangedWeapon : Weapon
         return true;
     }
 
-    protected override bool AttackCondition()
+    /// <summary>
+    /// must be called only from animation controllers
+    /// </summary>
+    public virtual void OnLoadFinish()
     {
-        return base.AttackCondition();
+        IsAbleToAttack = !IsReloading;
+        Unloaded = false;
     }
 
-    protected void SpawnProjectile(float accuracity)
+    /// <summary>
+    /// must be called only from animation controllers
+    /// </summary>
+    public virtual void OnUnloadFinish()
+    {
+        IsAbleToAttack = false;
+        Unloaded = true;
+    }
+
+    //PROJECTILE SPAWNER METHODS
+    private void SpawnProjectile(float accuracity)
     {
         BulletProjectile projectile = Instantiate(BulletProjectile, _projectileSpawnPosition);
         projectile.MoveAlign = VectorMath.RandomizeQuarternion(projectile.transform.rotation, accuracity);
@@ -243,33 +258,38 @@ public class RangedWeapon : Weapon
         projectile.InitializeOwner(this);
     }
 
-    protected virtual void SpawnBullet()
+    private void SpawnBullet()
     {
-        SpawnProjectile(BurstAccuracy);
+        LoadedLivingAmmoLeft--;
+        LoadedSpentAmmoLeft++;
+        SpawnProjectile(BulletAccuracy);
     }
 
-    protected virtual void SpawnBuckshot()
+    private void SpawnBuckshot()
     {
-        float currentBuckshotAccuracystep = BuckshotAccuracy / BuckshotProjectilesAmount;
-        for (int i = 1; i <= BuckshotProjectilesAmount; i++)
+        LoadedLivingAmmoLeft--;
+        LoadedSpentAmmoLeft++;
+        for (int i = 0; i < BuckshotProjectilesAmount; i++)
         {
-            SpawnProjectile(currentBuckshotAccuracystep * i);
+            SpawnProjectile(BuckshotAccuracy + (1 - BuckshotAccuracy) * i / BuckshotProjectilesAmount);
         }
     }
 
-    protected virtual IEnumerator SpawnBurst()
+    private IEnumerator SpawnBurst()
     {
         for (int i = 0; i < BuckshotProjectilesAmount; i++)
         {
+            if (LoadedLivingAmmoLeft <= 0) break;
             SpawnBullet();
             yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
         }
     }
 
-    protected virtual IEnumerator SpawnBuckshotBurst()
+    private IEnumerator SpawnBuckshotBurst()
     {
         for (int i = 0; i < BuckshotProjectilesAmount; i++)
         {
+            if (LoadedLivingAmmoLeft <= 0) break;
             SpawnBuckshot();
             yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
         }
