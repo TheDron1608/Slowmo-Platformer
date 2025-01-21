@@ -14,7 +14,7 @@ public class BulletReloadingWeapon : RangedWeapon
 
     protected override bool ReloadCondition()
     {
-        return base.ReloadCondition() && LoadedLivingAmmoLeft < MaxLoadedAmmo && AmmoLeft > 0;
+        return base.ReloadCondition() && LoadedLivingAmmoLeft < MaxLoadedAmmo;
     }
 
     protected override bool UnloadCondition()
