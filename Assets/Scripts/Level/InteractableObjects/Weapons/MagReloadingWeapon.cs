@@ -63,6 +63,11 @@ public class MagReloadingWeapon : RangedWeapon
         return LoadedLivingAmmoLeft <= 0 && !Unloaded && !IsReloading;
     }
 
+    public override bool GetIsOutOfAmmo()
+    {
+        return AmmoLeft <= MagSize && LoadedLivingAmmoLeft <= 0;
+    }
+
     public void ReloadBullet()
     {
         _animator.SetTrigger(ANIMATOR_RELOAD_BULLET_TRIGGER_NAME);
@@ -80,6 +85,11 @@ public class MagReloadingWeapon : RangedWeapon
         _magsPraticleSpawner.SpawnParticle(1);
     }
 
+    protected override bool AttackCondition()
+    {
+        return base.AttackCondition() && BulletLoadedInChamber;
+    }
+
     protected override bool ReloadCondition()
     {
         return LoadedLivingAmmoLeft - (BulletLoadedInChamber ? 1 : 0) < MagSize;
@@ -87,9 +97,13 @@ public class MagReloadingWeapon : RangedWeapon
 
     protected override void OnReload()
     {
-        if (Mags <= 0)
+        if (Mags <= 0 && LoadedLivingAmmoLeft <= 0)
         {
             TryUnload();
+            return;
+        }
+        else if (Mags <=  0)
+        {
             return;
         }
 
@@ -111,9 +125,9 @@ public class MagReloadingWeapon : RangedWeapon
         ReloadBullet();
     }
 
-    protected override bool OnTryAttack()
+    protected override bool OnTryAttackSuccess()
     {
-        if (!base.OnTryAttack()) return false;
+        base.OnTryAttackSuccess();
 
         StartCoroutine(SpawnParticleAfterDuration());
 

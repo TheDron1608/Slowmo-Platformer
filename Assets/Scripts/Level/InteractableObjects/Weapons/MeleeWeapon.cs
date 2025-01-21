@@ -20,7 +20,7 @@ public class MeleeWeapon : Weapon
         }
     }
 
-    protected override bool OnTryAttack()
+    protected override bool OnTryAttackSuccess()
     {
         Projectile projectile = Instantiate(Projectile, transform);
 

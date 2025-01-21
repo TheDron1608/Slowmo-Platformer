@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.0625
       objectReference: {fileID: 0}
+    - target: {fileID: 3769416955781755694, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Name
       value: PumpShotgun
@@ -32,6 +36,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 778e2e54e5a1e7641a102f2125782399, type: 2}
+    - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: Particle
+      value: 
+      objectReference: {fileID: 6019177567979709644, guid: 21fe314279d42a247901a48f5bdbecb6, type: 3}
     - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: SpawnAngle
       value: 120

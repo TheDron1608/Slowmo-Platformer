@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ParticleSpawner : MonoBehaviour
 {
-    public PhysicsParticle Particle;
+    public GameObject Particle;
     public float SpawnVelocity = 1f;
     public float SpawnAngle = 0f;
     public float SpawnAngularVeclocity = 0f;
@@ -13,14 +13,26 @@ public class ParticleSpawner : MonoBehaviour
 
     public void SpawnParticle(int amount = 1)
     {
-        StartCoroutine(SpawnParticleProcess(amount));
+        SpawnParticleProcess(amount);
     }
 
-    private IEnumerator SpawnParticleProcess(int amount)
+    private void SpawnParticleProcess(int amount)
+    {
+        if (Particle.TryGetComponent(out PhysicsParticle physicsParticle))
+        {
+            StartCoroutine(SpawnPhysicsParticles(physicsParticle, amount));
+        }
+        else if (Particle.TryGetComponent(out ParticleSystem particleSystemParticle))
+        {
+            StartCoroutine(SpawnPaticleSystemParticle(particleSystemParticle, amount));
+        }
+    }
+
+    private IEnumerator SpawnPhysicsParticles(PhysicsParticle physicsParticle, int amount)
     {
         for (int i = 0; i < amount; i++)
         {
-            PhysicsParticle newParticle = Instantiate(Particle, LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform);
+            PhysicsParticle newParticle = Instantiate(physicsParticle, LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform);
 
             newParticle.transform.position = transform.position;
             newParticle.transform.rotation = transform.rotation;
@@ -41,5 +53,19 @@ public class ParticleSpawner : MonoBehaviour
 
             yield return new WaitForSeconds(DurationBetweenSpawningParticles);
         }
+    }
+
+    private IEnumerator SpawnPaticleSystemParticle(ParticleSystem particleSystemParticle, int amount)
+    {
+        ParticleSystem newParticle = Instantiate(particleSystemParticle, LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform);
+
+        ParticleSystem.Burst firstBurst = newParticle.emission.GetBurst(0);
+        firstBurst.count = amount;
+        newParticle.emission.SetBurst(0, firstBurst);
+
+        newParticle.transform.position = transform.position;
+        newParticle.transform.rotation = transform.rotation;
+
+        yield return new WaitForSeconds(DurationBetweenSpawningParticles);
     }
 }

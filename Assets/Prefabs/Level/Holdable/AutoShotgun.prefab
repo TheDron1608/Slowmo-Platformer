@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Particle: {fileID: 5247884511073857507, guid: 72a0cc45b5d20e0499eadc7625fea378, type: 3}
+  Particle: {fileID: 3108160054792827033, guid: 72a0cc45b5d20e0499eadc7625fea378, type: 3}
   SpawnVelocity: 1
   SpawnAngle: -90
   SpawnAngularVeclocity: 0
@@ -73,6 +73,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.0625
       objectReference: {fileID: 0}
+    - target: {fileID: 3769416955781755694, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Name
       value: AutoShotgun
@@ -84,7 +88,7 @@ PrefabInstance:
     - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: Particle
       value: 
-      objectReference: {fileID: 3494289913850297270, guid: 21fe314279d42a247901a48f5bdbecb6, type: 3}
+      objectReference: {fileID: 6019177567979709644, guid: 21fe314279d42a247901a48f5bdbecb6, type: 3}
     - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: SpawnAngle
       value: 110
@@ -222,7 +226,7 @@ MonoBehaviour:
   MaxRange: 6
   PlayerInputAutoAttackOnPress: 1
   Pierce: 0
-  AmmoLeft: 17
+  AmmoLeft: 16
   MaxAmmo: 32
   LoadedLivingAmmoLeft: 17
   LoadedSpentAmmoLeft: 0
@@ -235,6 +239,7 @@ MonoBehaviour:
   BurstProjectilesAmount: 3
   BurstAccuracy: 0.9
   _magSize: 16
+  _bulletLoadedInChamber: 1
 --- !u!212 &9167989227018845274 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}

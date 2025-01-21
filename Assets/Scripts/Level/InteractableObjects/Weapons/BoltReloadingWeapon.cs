@@ -64,7 +64,7 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
         _animator.SetTrigger(ANIMATOR_UNLOAD_BULLET_TRIGGER_NAME);
     }
 
-    protected override bool OnTryAttack()
+    protected override bool OnTryAttackSuccess()
     {
         if (IsReloading)
         {
@@ -72,7 +72,7 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
             return false;
         }
 
-        if (!base.OnTryAttack()) return false;
+        base.OnTryAttackSuccess();
 
         StartCoroutine(UnloadBulletAfterDelay());
         return true;

@@ -71,22 +71,33 @@ public abstract class Weapon : Holdable
         }
     }
 
-    public void TryAttack(Vector2 direction)
+    public bool TryAttack(Vector2 direction)
     {
-        if (!AttackCondition()) return;
-
-        _attackCooldown = BaseAttackCoolDownSeconds * AttackCooldownMultiplier;
-        OnTryAttack();
-
-        StartCoroutine(AwaitAttackCooldownFinish());
+        if (AttackCondition())
+        {
+            OnTryAttackSuccess();
+            return true;
+        }
+        else
+        {
+            OnTryAttackFail();
+            return false;
+        }
     }
 
-    protected virtual bool OnTryAttack()
+    protected virtual bool OnTryAttackSuccess()
     {
-        if (!AttackCondition()) return false;
-
         _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
+
+        _attackCooldown = BaseAttackCoolDownSeconds * AttackCooldownMultiplier;
+        StartCoroutine(AwaitAttackCooldownFinish());
+
         return true;
+    }
+
+    protected virtual void OnTryAttackFail()
+    {
+
     }
 
     protected virtual bool AttackCondition()

@@ -29,7 +29,7 @@ public class CharacterAttacking : MonoBehaviour
 
     public void Attack(Vector2 direction)
     {
-        if (_characterHoldingObjects != null && _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+        if (_characterHoldingObjects.CurrentHoldObject != null && _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
             weapon.TryAttack(direction);
         }
@@ -37,11 +37,20 @@ public class CharacterAttacking : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (AutoAttack)
+        if (
+            AutoAttack &&
+            _characterHoldingObjects.CurrentHoldObject != null &&
+            _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon) 
+            )
         {
-            if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon) && weapon.IsAbleToAttack)
+
+            if (weapon.IsAbleToAttack)
             {
                 Attack(_autoAttackDirection);
+            }
+            else if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
+            {
+                AutoAttack = false;
             }
         }
     }

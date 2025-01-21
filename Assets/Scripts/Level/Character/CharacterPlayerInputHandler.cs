@@ -249,14 +249,12 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (_characterHoldingObjectsComponent.CurrentHoldObject != null && _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
+            _characterActionsComponent.CharacterAttackingAction.Attack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+
             if (weapon.PlayerInputAutoAttackOnPress)
             {
                 _characterActionsComponent.CharacterAttackingAction.AutoAttack = true;
                 _characterActionsComponent.CharacterAttackingAction.AutoAttackDirection = _characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized();
-            }
-            else
-            {
-                _characterActionsComponent.CharacterAttackingAction.Attack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
             }
         }
     }

@@ -14,6 +14,7 @@ public class RangedWeapon : Weapon
 
     const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
     const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
+    const string CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudParticleSpawner";
     const string ANIMATOR_FINISH_RELOAD_TRIGGER_NAME = "FinishReload";
 
     public const string ANIMATOR_RELOAD_TRIGGER_NAME = "Reload";
@@ -49,6 +50,7 @@ public class RangedWeapon : Weapon
     private bool _unloaded = false;
     private Transform _projectileSpawnPosition;
     private ParticleSpawner _bulletParticleSpawner;
+    private ParticleSpawner _cloudParticleSpawner;
 
     //INITIALIZER
     protected override void OnAwake()
@@ -57,6 +59,7 @@ public class RangedWeapon : Weapon
 
         _projectileSpawnPosition = transform.Find(PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME);
         _bulletParticleSpawner = transform.Find(BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
+        _cloudParticleSpawner = transform.Find(CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
     }
 
     //PUBLIC PROPERTIES
@@ -82,6 +85,11 @@ public class RangedWeapon : Weapon
     public virtual bool GetIsNeedReload()
     {
         return false;
+    }
+
+    public virtual bool GetIsOutOfAmmo()
+    {
+        return AmmoLeft <= 0 && LoadedLivingAmmoLeft <= 0;
     }
 
     public bool TryReload()
@@ -192,11 +200,9 @@ public class RangedWeapon : Weapon
         }
     }
 
-    protected override bool OnTryAttack()
+    protected override bool OnTryAttackSuccess()
     {
-        base.OnTryAttack();
-
-        if (!AttackCondition()) return false;
+        base.OnTryAttackSuccess();
 
         //spawning projectiles
         switch (AttackType)
@@ -229,6 +235,17 @@ public class RangedWeapon : Weapon
         }
 
         return true;
+    }
+
+    protected override void OnTryAttackFail()
+    {
+        base.OnTryAttackFail();
+
+        Debug.Log("fail");
+        if (GetIsOutOfAmmo())
+        {
+            _cloudParticleSpawner.SpawnParticle(1);
+        }
     }
 
     /// <summary>

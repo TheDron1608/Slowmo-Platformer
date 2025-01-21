@@ -22,9 +22,9 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         }
     }
 
-    protected override bool OnTryAttack()
+    protected override bool OnTryAttackSuccess()
     {
-        if (!base.OnTryAttack()) return false;
+        if (!base.OnTryAttackSuccess()) return false;
 
         if (_currentHolsterBackCoroutine != null)
         {
