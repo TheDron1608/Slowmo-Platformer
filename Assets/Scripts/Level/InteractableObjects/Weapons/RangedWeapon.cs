@@ -241,7 +241,6 @@ public class RangedWeapon : Weapon
     {
         base.OnTryAttackFail();
 
-        Debug.Log("fail");
         if (GetIsOutOfAmmo())
         {
             _cloudParticleSpawner.SpawnParticle(1);
