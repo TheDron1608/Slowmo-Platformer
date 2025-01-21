@@ -22,51 +22,40 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         }
     }
 
-    protected override bool OnTryAttackSuccess()
+    protected override bool OnTryAttackSuccess(Vector2 direction)
     {
-        if (!base.OnTryAttackSuccess()) return false;
+        if (!base.OnTryAttackSuccess(direction)) return false;
 
         if (_currentHolsterBackCoroutine != null)
         {
             StopCoroutine(_currentHolsterBackCoroutine);
         }
-        IsHolstered = false;
-        _currentHolsterBackCoroutine = StartCoroutine(AwaitTimeAndHolsterBack());
 
         return true;
     }
 
-    protected override void OnThrow()
+    public override void OnFinishAttack()
     {
-        base.OnThrow();
+        base.OnFinishAttack();
 
-        if (_currentHolsterBackCoroutine != null)
-        {
-            StopCoroutine(_currentHolsterBackCoroutine);
-        }
+        IsHolstered = false;
     }
 
-    protected override void OnPickedUp()
-    {
-        base.OnPickedUp();
-
-        if (LastHolder != CurrentHolder)
-        {
-            IsHolstered = false;
-        }
-    }
-
+    //unused for now
     private IEnumerator AwaitTimeAndHolsterBack()
     {
         _timeToHolsterBack = TimeToHolsterBackSeconds;
         while (_timeToHolsterBack > 0f)
         {
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
 
-            _timeToHolsterBack -= Time.deltaTime;
+            _timeToHolsterBack -= Time.fixedDeltaTime;
         }
-        IsHolstered = true;
 
-        _currentHolsterBackCoroutine = null;
+        if (TryGetComponent(out Holdable holdable) && holdable.CurrentHolder != null)
+        {
+            IsHolstered = true;
+            _currentHolsterBackCoroutine = null;
+        }
     }
 }

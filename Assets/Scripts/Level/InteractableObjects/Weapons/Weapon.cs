@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public abstract class Weapon : Holdable
+public abstract class Weapon : MonoBehaviour
 {
     const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
+    public const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";
 
     public enum AttackPiercing
     {
@@ -25,6 +26,7 @@ public abstract class Weapon : Holdable
 
     private float _attackCooldown = 0f;
     private bool _isAbleToAttack = true;
+    private bool _isThrown = true;
 
     public float AttackCooldown
     {
@@ -48,6 +50,16 @@ public abstract class Weapon : Holdable
         set => _isAbleToAttack = value;
     }
 
+    public bool IsThrown
+    {
+        get => _isThrown;
+        set
+        {
+            _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, value);
+            _isThrown = value;
+        }
+    }
+
     protected Animator _animator;
 
     private void Awake()
@@ -55,47 +67,55 @@ public abstract class Weapon : Holdable
         OnAwake();
     }
 
-    protected override void OnAwake()
+    protected virtual void OnAwake()
     {
-        base.OnAwake();
-
         if (!TryGetComponent(out _animator)) throw new UnityException("Animator component not found");
-    }
-
-    protected override void OnPickedUp()
-    {
-        base.OnPickedUp();
-        if (LastHolder != CurrentHolder)
-        {
-            _attackCooldown = 0f;
-        }
     }
 
     public bool TryAttack(Vector2 direction)
     {
         if (AttackCondition())
         {
-            OnTryAttackSuccess();
+            OnTryAttackSuccess(direction);
             return true;
         }
         else
         {
-            OnTryAttackFail();
+            OnTryAttackFail(direction);
             return false;
         }
     }
 
-    protected virtual bool OnTryAttackSuccess()
+    protected virtual bool OnTryAttackSuccess(Vector2 direction)
     {
+        //animation
         _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
+        //attack cooldown
         _attackCooldown = BaseAttackCoolDownSeconds * AttackCooldownMultiplier;
         StartCoroutine(AwaitAttackCooldownFinish());
+
+        //knockback
+        if (TryGetComponent(out Holdable holdable))
+        {
+            if (holdable.CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
+            {
+
+                Vector2 aimDirection = direction;
+
+                rigidBody.linearVelocity += aimDirection * KnockBack;
+
+                if (holdable.CurrentHolder.TryGetComponent(out CharacterVisual charVisual))
+                {
+                    charVisual.SpritesFlipped = aimDirection.x < 0f;
+                }
+            }
+        }
 
         return true;
     }
 
-    protected virtual void OnTryAttackFail()
+    protected virtual void OnTryAttackFail(Vector2 direction)
     {
 
     }
@@ -105,7 +125,10 @@ public abstract class Weapon : Holdable
         return IsAbleToAttack;
     }
 
-    protected virtual void OnFinishAttack()
+    /// <summary>
+    /// Call only from animator or as private
+    /// </summary>
+    public virtual void OnFinishAttack()
     {
 
     }

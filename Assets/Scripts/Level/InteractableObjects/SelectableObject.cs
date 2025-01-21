@@ -81,7 +81,7 @@ public class SelectableObject : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        if (PlayerInputToInteract == null) throw new UnityException("PlayerInputToInteract waws not sat, set it in the instector");
+        if (PlayerInputToInteract == null) throw new UnityException("PlayerInputToInteract was not sat, set it in the instector");
 
         if (_spriteRendererComponent == null)
         {

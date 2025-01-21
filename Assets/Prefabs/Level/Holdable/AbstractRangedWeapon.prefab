@@ -138,10 +138,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 906f771c7bb58c04f86155ac3af331af, type: 3}
-    - target: {fileID: 668012051540842779, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
@@ -196,6 +192,14 @@ PrefabInstance:
     - target: {fileID: 3991735836254190343, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: ObjectType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: HoldDistanceWhenIsHolded
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

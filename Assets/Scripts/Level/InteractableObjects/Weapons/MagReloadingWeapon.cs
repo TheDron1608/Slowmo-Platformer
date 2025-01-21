@@ -125,9 +125,9 @@ public class MagReloadingWeapon : RangedWeapon
         ReloadBullet();
     }
 
-    protected override bool OnTryAttackSuccess()
+    protected override bool OnTryAttackSuccess(Vector2 direction)
     {
-        base.OnTryAttackSuccess();
+        base.OnTryAttackSuccess(direction);
 
         StartCoroutine(SpawnParticleAfterDuration());
 
@@ -153,16 +153,6 @@ public class MagReloadingWeapon : RangedWeapon
         LoadedLivingAmmoLeft = MagSize + (BulletLoadedInChamber ? 1 : 0);
         LoadedSpentAmmoLeft = 0;
         Mags--;
-    }
-
-    protected override void OnPickedUp()
-    {
-        base.OnPickedUp();
-
-        if (Unloaded && Mags > 0)
-        {
-            TryCloseMag();
-        }
     }
 
     private IEnumerator SpawnParticleAfterDuration()

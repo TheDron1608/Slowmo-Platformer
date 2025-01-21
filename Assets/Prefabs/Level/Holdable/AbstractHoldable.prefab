@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2550394482252657094}
+  - component: {fileID: 8470629837770933128}
   - component: {fileID: 7194316829583383013}
   - component: {fileID: 668012051540842779}
   - component: {fileID: 3991735836254190343}
@@ -34,6 +35,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8470629837770933128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784046987221869979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4807c6aa6f463064faf004e105dbf088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectType: 1
+  PlayerInputToInteract: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  SelectMaxRangeMultiplier: 1
+  SelectedColorDarkness: 0.64
+  _spriteRendererComponent: {fileID: 668012051540842779}
+  AnimationOnStartInteract: 0
+  AnimationOnFinishInteract: 0
+  RotatableWhenIsHolded: 1
+  ResetRotationWhenIsHolded: 0
+  HoldDistanceWhenIsHolded: 0.75
+  ThrowForceMultiplier: 1
+  ThrowRotationForce: 12.5
+  SpeedToGetThroughWall: 15
 --- !u!50 &7194316829583383013
 Rigidbody2D:
   serializedVersion: 5
@@ -104,8 +130,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 4370522529329959621, guid: 92a4588cbb56fd7428312f40eca97c69, type: 3}
+  m_SortingOrder: 25
+  m_Sprite: {fileID: 4329407632164072968, guid: 06ae8d003292baf479c2dc0c6228339a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -113,7 +139,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &3991735836254190343
@@ -154,7 +180,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 3}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

@@ -19,7 +19,6 @@ public class RangedWeapon : Weapon
 
     public const string ANIMATOR_RELOAD_TRIGGER_NAME = "Reload";
     public const string ANIMATOR_UNLOADED_PROP_NAME = "Unloaded";
-    public const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";
     public const string ANIMATOR_RELOAD_SPEED_PROP_NAME = "ReloadSpeed";
 
     [Header("Ranged weapon")]
@@ -180,29 +179,9 @@ public class RangedWeapon : Weapon
         IsAbleToAttack = true;
     }
 
-    protected override void OnThrow()
+    protected override bool OnTryAttackSuccess(Vector2 direction)
     {
-        base.OnThrow();
-
-        _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, true);
-        SetReloadSpeed(1f);
-    }
-
-    protected override void OnPickedUp()
-    {
-        base.OnPickedUp();
-
-        _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, false);
-
-        if (CurrentHolder.TryGetComponent(out CharacterReloading currentHolderReloadingComponent))
-        {
-            SetReloadSpeed(currentHolderReloadingComponent.ReloadSpeed);
-        }
-    }
-
-    protected override bool OnTryAttackSuccess()
-    {
-        base.OnTryAttackSuccess();
+        base.OnTryAttackSuccess(direction);
 
         //spawning projectiles
         switch (AttackType)
@@ -220,26 +199,12 @@ public class RangedWeapon : Weapon
                 SpawnBuckshotBurst();
                 break;
         }
-
-        //knockback
-        if (CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
-        {
-            Vector2 aimDirection = transform.right;
-
-            rigidBody.linearVelocity += aimDirection * KnockBack;
-
-            if (CurrentHolder.TryGetComponent(out CharacterVisual charVisual))
-            {
-                charVisual.SpritesFlipped = aimDirection.x < 0f;
-            }
-        }
-
         return true;
     }
 
-    protected override void OnTryAttackFail()
+    protected override void OnTryAttackFail(Vector2 direction)
     {
-        base.OnTryAttackFail();
+        base.OnTryAttackFail(direction);
 
         if (GetIsOutOfAmmo())
         {

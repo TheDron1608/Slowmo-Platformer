@@ -73,6 +73,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.0625
       objectReference: {fileID: 0}
+    - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: ThrowForceMultiplier
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: SpeedToGetThroughWall
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3769416955781755694, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -206,19 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ad6293b8a87054697907484c171337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectType: 4
-  PlayerInputToInteract: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  SelectMaxRangeMultiplier: 1
-  SelectedColorDarkness: 0.64
-  _spriteRendererComponent: {fileID: 9167989227018845274}
-  AnimationOnStartInteract: 0
-  AnimationOnFinishInteract: 0
-  RotatableWhenIsHolded: 1
-  ResetRotationWhenIsHolded: 0
-  HoldDistanceWhenIsHolded: 0.25
-  ThrowForceMultiplier: 0.25
-  ThrowRotationForce: 0
-  SpeedToGetThroughWall: 25
   Damage: 1
   KnockBack: -15
   BaseAttackCoolDownSeconds: 0.1667
@@ -240,8 +235,3 @@ MonoBehaviour:
   BurstAccuracy: 0.9
   _magSize: 16
   _bulletLoadedInChamber: 1
---- !u!212 &9167989227018845274 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-  m_PrefabInstance: {fileID: 3338804739766809258}
-  m_PrefabAsset: {fileID: 0}

@@ -27,16 +27,6 @@ public class BulletReloadingWeapon : RangedWeapon
         return LoadedLivingAmmoLeft <= 0;
     }
 
-    protected override void OnPickedUp()
-    {
-        base.OnPickedUp();
-
-        if (Unloaded && LoadedLivingAmmoLeft > 0)
-        {
-            TryCloseMag();
-        }
-    }
-
     public override void OnLoadFinish()
     {
         base.OnLoadFinish();

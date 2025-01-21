@@ -148,28 +148,26 @@ public class Holdable : Interactable
 
     public void Give(CharacterHoldingObjects newHolder)
     {
-        newHolder.CurrentHoldObject = this;
-
-        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
-        _colliderComponent.isTrigger = false;
-        CurrentHolder = newHolder;
-        transform.parent = newHolder.transform;
-        if (ResetRotationWhenIsHolded)
-        {
-            Quaternion baseRotation = new();
-            baseRotation.eulerAngles = Vector3.zero;
-            transform.rotation = baseRotation;
-        }
-        _spriteRendererComponent.sortingOrder += ON_GRAB_SORTING_ORDER_ADD;
-
         OnGiven?.Invoke(this, newHolder);
-        OnPickedUp();
+        OnPickedUp(newHolder);
     }
 
     public void Throw(Vector2 direction, float throwForceMultiplier = 1f)
     {
-        if (CurrentHolder == null) return;
+        OnThrown?.Invoke(this, new OnThrownEventArgs(CurrentHolder, direction));
+        OnThrow(direction, throwForceMultiplier);
+    }
 
+    protected override void OnStartInteact(GameObject interactor)
+    {
+        if (interactor.TryGetComponent(out CharacterHoldingObjects charHoldingObjects))
+        {
+            charHoldingObjects.TryGrab(this);
+        }
+    }
+
+    protected virtual void OnThrow(Vector2 direction, float throwForceMultiplier = 1f)
+    {
         CurrentHolder.CurrentHoldObject = null;
         transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform;
         _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
@@ -191,25 +189,59 @@ public class Holdable : Interactable
         CurrentHolder.CurrentHoldObject = null;
         CurrentHolder = null;
 
-        OnThrown?.Invoke(this, new OnThrownEventArgs(CurrentHolder, direction));
-        OnThrow();
-    }
-
-    protected override void OnStartInteact(GameObject interactor)
-    {
-        if (interactor.TryGetComponent(out CharacterHoldingObjects charHoldingObjects))
+        //logic for weapon component and weapon class children classes
+        if (TryGetComponent(out Weapon weapon)) 
         {
-            charHoldingObjects.TryGrab(this);
+            weapon.IsThrown = true;
+        }
+        if (TryGetComponent(out RangedWeapon rangedWeapon))
+        {
+            rangedWeapon.SetReloadSpeed(1f);
         }
     }
 
-    protected virtual void OnThrow()
+    protected virtual void OnPickedUp(CharacterHoldingObjects newHolder)
     {
+        newHolder.CurrentHoldObject = this;
 
-    }
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+        _colliderComponent.isTrigger = false;
+        CurrentHolder = newHolder;
+        transform.parent = newHolder.transform;
+        if (ResetRotationWhenIsHolded)
+        {
+            Quaternion baseRotation = new();
+            baseRotation.eulerAngles = Vector3.zero;
+            transform.rotation = baseRotation;
+        }
+        _spriteRendererComponent.sortingOrder += ON_GRAB_SORTING_ORDER_ADD;
 
-    protected virtual void OnPickedUp()
-    {
+        //logic for weapon component and weapon class children classes
+        if (TryGetComponent(out Weapon weapon))
+        {
+            weapon.AttackCooldown = 0f;
+            weapon.IsThrown = false;
 
+            if (TryGetComponent(out RangedWeapon rangedWeapon) && CurrentHolder.TryGetComponent(out CharacterReloading holderReloading))
+            {
+                rangedWeapon.SetReloadSpeed(holderReloading.ReloadSpeed);
+            }
+
+            if (TryGetComponent(out MagReloadingWeapon magReloadingWeapon))
+            {
+                if (magReloadingWeapon.Unloaded && magReloadingWeapon.Mags > 0)
+                {
+                    magReloadingWeapon.TryCloseMag();
+                }
+            }
+
+            if (TryGetComponent(out BulletReloadingWeapon bulletReloadWeapon))
+            {
+                if (bulletReloadWeapon.Unloaded && bulletReloadWeapon.LoadedLivingAmmoLeft > 0)
+                {
+                    bulletReloadWeapon.TryCloseMag();
+                }
+            }
+        }
     }
 }

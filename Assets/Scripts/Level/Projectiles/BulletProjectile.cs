@@ -57,7 +57,8 @@ public class BulletProjectile : Projectile
     {
         if (
             collision.gameObject != Weapon.gameObject && 
-            (Weapon.CurrentHolder.gameObject == null || collision.gameObject != Weapon.CurrentHolder.gameObject)
+            Weapon.TryGetComponent(out Holdable weaponHoldableComponent) &&
+            (weaponHoldableComponent.CurrentHolder.gameObject == null || collision.gameObject != weaponHoldableComponent.CurrentHolder.gameObject)
             )
         {
             Remove();
