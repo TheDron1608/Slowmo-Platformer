@@ -23,6 +23,7 @@ public abstract class Weapon : MonoBehaviour
     public bool PlayerInputAutoAttackOnPress = false;
     public AttackPiercing Pierce = AttackPiercing.NO_PIERCE;
 
+    protected Animator _animator;
 
     private float _attackCooldown = 0f;
     private bool _isAbleToAttack = true;
@@ -60,12 +61,11 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    public void CallAnimatorAttackTrigger()
+    protected void CallAnimatorAttackTrigger()
     {
         _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
     }
 
-    protected Animator _animator;
 
     private void Awake()
     {
