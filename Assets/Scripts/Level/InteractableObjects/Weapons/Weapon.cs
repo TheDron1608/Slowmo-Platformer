@@ -60,6 +60,11 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
+    public void CallAnimatorAttackTrigger()
+    {
+        _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
+    }
+
     protected Animator _animator;
 
     private void Awake()
@@ -88,8 +93,6 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual bool OnTryAttackSuccess(Vector2 direction)
     {
-        //animation
-        _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
         //attack cooldown
         _attackCooldown = BaseAttackCoolDownSeconds * AttackCooldownMultiplier;

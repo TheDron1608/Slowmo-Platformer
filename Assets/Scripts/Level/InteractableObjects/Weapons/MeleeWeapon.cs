@@ -10,6 +10,8 @@ public class MeleeWeapon : Weapon
     {
         base.OnTryAttackSuccess(direction);
 
+        CallAnimatorAttackTrigger();
+
         Projectile projectile = Instantiate(Projectile, transform);
 
         if (TryGetComponent(out Holdable holdable) && holdable.CurrentHolder.TryGetComponent(out CharacterAiming characterAiming))

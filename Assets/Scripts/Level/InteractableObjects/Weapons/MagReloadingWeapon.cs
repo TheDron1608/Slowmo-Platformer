@@ -129,7 +129,11 @@ public class MagReloadingWeapon : RangedWeapon
     {
         base.OnTryAttackSuccess(direction);
 
-        StartCoroutine(SpawnParticleAfterDuration());
+        StartCoroutine(SpawnParticleAfterDuration(
+            (
+                AttackType == ProjectileType.BURST || AttackType == ProjectileType.BUCKSHOT_BURST) ? 
+                BurstProjectilesAmount : 1
+            ));
 
         if (LoadedLivingAmmoLeft <= 0)
         {
@@ -155,9 +159,9 @@ public class MagReloadingWeapon : RangedWeapon
         Mags--;
     }
 
-    private IEnumerator SpawnParticleAfterDuration()
+    private IEnumerator SpawnParticleAfterDuration(int amount)
     {
         yield return new WaitForSeconds(AWAIT_TIME_TO_SPAWN_BULLET_PARTICLE_ON_ATTACK);
-        SpawnBulletParticles(1);
+        SpawnBulletParticles(amount);
     }
 }

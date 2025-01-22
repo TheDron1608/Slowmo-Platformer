@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: 7ec30f465f41f874a8f2c1189725f7ac
+guid: 6b295af6d9c01364abaf18cba2dd3bc3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8618385230216728486
-    second: UnloadMag_0
+      213: -189230132033014987
+    second: ReloadBulletUnloaded_0
   - first:
-      213: 3239456434374648654
-    second: UnloadMag_1
+      213: 4429732852328368156
+    second: ReloadBulletUnloaded_1
+  - first:
+      213: -262527711147380015
+    second: ReloadBulletUnloaded_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,7 +106,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UnloadMag_0
+      name: ReloadBulletUnloaded_0
       rect:
         serializedVersion: 2
         x: 0
@@ -116,16 +119,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6af8a8864b7aa9770800000000000000
-      internalID: 8618385230216728486
+      spriteID: ce4834216ccd6fc4b869fc019a7e71f5
+      internalID: 877619212
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UnloadMag_1
+      name: ReloadBulletUnloaded_1
       rect:
         serializedVersion: 2
         x: 16
@@ -138,16 +141,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e432144b67cd4fc20800000000000000
-      internalID: 3239456434374648654
+      spriteID: 50d4e3f3877907b4faefbdffdf66eb9c
+      internalID: 655100735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UnloadMag_2
+      name: ReloadBulletUnloaded_2
       rect:
         serializedVersion: 2
         x: 32
@@ -162,8 +165,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1754f3476e9aa3c4cb72a1249a20c50e
-      internalID: 1146350574
+      spriteID: 2e930700166618a469fd343996583e56
+      internalID: 194660188
       vertices: []
       indices: 
       edges: []
@@ -172,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 37a9c57f8f39043498e090e9b668a6fe
+    spriteID: eca1cee5127c51349b0a1cd0f3c23386
     internalID: 0
     vertices: []
     indices: 
@@ -182,9 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UnloadMag_0: 8618385230216728486
-      UnloadMag_1: 3239456434374648654
-      UnloadMag_2: 1146350574
+      ReloadBulletUnloaded_0: 877619212
+      ReloadBulletUnloaded_1: 655100735
+      ReloadBulletUnloaded_2: 194660188
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

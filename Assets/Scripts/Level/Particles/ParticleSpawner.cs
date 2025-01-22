@@ -9,26 +9,25 @@ public class ParticleSpawner : MonoBehaviour
     public float SpawnVelocity = 1f;
     public float SpawnAngle = 0f;
     public float SpawnAngularVeclocity = 0f;
-    public float DurationBetweenSpawningParticles = 0.05f; //in seconds
 
-    public void SpawnParticle(int amount = 1)
+    public void SpawnParticle(int amount = 1, float duration = 0.05f)
     {
-        SpawnParticleProcess(amount);
+        SpawnParticleProcess(amount, duration);
     }
 
-    private void SpawnParticleProcess(int amount)
+    private void SpawnParticleProcess(int amount, float duration)
     {
         if (Particle.TryGetComponent(out PhysicsParticle physicsParticle))
         {
-            StartCoroutine(SpawnPhysicsParticles(physicsParticle, amount));
+            StartCoroutine(SpawnPhysicsParticles(physicsParticle, amount, duration));
         }
         else if (Particle.TryGetComponent(out ParticleSystem particleSystemParticle))
         {
-            StartCoroutine(SpawnPaticleSystemParticle(particleSystemParticle, amount));
+            StartCoroutine(SpawnPaticleSystemParticle(particleSystemParticle, amount, duration));
         }
     }
 
-    private IEnumerator SpawnPhysicsParticles(PhysicsParticle physicsParticle, int amount)
+    private IEnumerator SpawnPhysicsParticles(PhysicsParticle physicsParticle, int amount, float duration)
     {
         for (int i = 0; i < amount; i++)
         {
@@ -51,11 +50,11 @@ public class ParticleSpawner : MonoBehaviour
                 newParticleRigidBody.angularVelocity = SpawnAngularVeclocity;
             }
 
-            yield return new WaitForSeconds(DurationBetweenSpawningParticles);
+            yield return new WaitForSeconds(duration);
         }
     }
 
-    private IEnumerator SpawnPaticleSystemParticle(ParticleSystem particleSystemParticle, int amount)
+    private IEnumerator SpawnPaticleSystemParticle(ParticleSystem particleSystemParticle, int amount, float duration)
     {
         ParticleSystem newParticle = Instantiate(particleSystemParticle, LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform);
 
@@ -66,6 +65,6 @@ public class ParticleSpawner : MonoBehaviour
         newParticle.transform.position = transform.position;
         newParticle.transform.rotation = transform.rotation;
 
-        yield return new WaitForSeconds(DurationBetweenSpawningParticles);
+        yield return new WaitForSeconds(duration);
     }
 }

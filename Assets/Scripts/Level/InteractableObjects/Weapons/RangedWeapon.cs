@@ -41,7 +41,7 @@ public class RangedWeapon : Weapon
     /// <summary>
     /// if higher than 0, each projectile will spawn DurationBetweenBurstProjectiles seconds after previous spawned projectile
     /// </summary>
-    public float DurationBetweenBurstProjectiles = 0.167f;
+    public float DurationBetweenBurstProjectiles = 0.0667f;
     public int BurstProjectilesAmount = 3;
     public float BurstAccuracy = 0.9f;
 
@@ -139,7 +139,7 @@ public class RangedWeapon : Weapon
 
     public void SpawnBulletParticles(int amount)
     {
-        _bulletParticleSpawner.SpawnParticle(amount);
+        _bulletParticleSpawner.SpawnParticle(amount, DurationBetweenBurstProjectiles);
     }
 
     public void SetReloadSpeed(float value)
@@ -243,6 +243,7 @@ public class RangedWeapon : Weapon
     {
         LoadedLivingAmmoLeft--;
         LoadedSpentAmmoLeft++;
+        CallAnimatorAttackTrigger();
         SpawnProjectile(BulletAccuracy);
     }
 
@@ -250,15 +251,21 @@ public class RangedWeapon : Weapon
     {
         LoadedLivingAmmoLeft--;
         LoadedSpentAmmoLeft++;
+        CallAnimatorAttackTrigger();
         for (int i = 0; i < BuckshotProjectilesAmount; i++)
         {
             SpawnProjectile(BuckshotAccuracy + (1 - BuckshotAccuracy) * i / BuckshotProjectilesAmount);
         }
     }
 
-    private IEnumerator SpawnBurst()
+    private void SpawnBurst()
     {
-        for (int i = 0; i < BuckshotProjectilesAmount; i++)
+        StartCoroutine(SpawnBurstCoroutine());
+    }
+
+    private IEnumerator SpawnBurstCoroutine()
+    {
+        for (int i = 0; i < BurstProjectilesAmount; i++)
         {
             if (LoadedLivingAmmoLeft <= 0) break;
             SpawnBullet();
@@ -266,9 +273,14 @@ public class RangedWeapon : Weapon
         }
     }
 
-    private IEnumerator SpawnBuckshotBurst()
+    private void SpawnBuckshotBurst()
     {
-        for (int i = 0; i < BuckshotProjectilesAmount; i++)
+        StartCoroutine(SpawnBuckshotBurstCoroutine());
+    }
+
+    private IEnumerator SpawnBuckshotBurstCoroutine()
+    {
+        for (int i = 0; i < BurstProjectilesAmount; i++)
         {
             if (LoadedLivingAmmoLeft <= 0) break;
             SpawnBuckshot();

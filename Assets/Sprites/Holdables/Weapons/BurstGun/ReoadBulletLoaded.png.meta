@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: 7ec30f465f41f874a8f2c1189725f7ac
+guid: 2a4d7377d8cfa6840bdc6056b3919349
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8618385230216728486
-    second: UnloadMag_0
+      213: -1315477614823420182
+    second: LoadBulletLoaded_0
   - first:
-      213: 3239456434374648654
-    second: UnloadMag_1
+      213: 7138269599327928859
+    second: LoadBulletLoaded_1
+  - first:
+      213: 3624194770397823599
+    second: LoadBulletLoaded_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -54,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UnloadMag_0
+      name: LoadBulletLoaded_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 16
-        height: 16
+        y: 4
+        width: 17
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +121,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6af8a8864b7aa9770800000000000000
-      internalID: 8618385230216728486
+      spriteID: aeec87a341c7ebde0800000000000000
+      internalID: -1315477614823420182
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UnloadMag_1
+      name: LoadBulletLoaded_1
       rect:
         serializedVersion: 2
         x: 16
-        y: 0
-        width: 16
-        height: 16
+        y: 4
+        width: 17
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,30 +143,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e432144b67cd4fc20800000000000000
-      internalID: 3239456434374648654
+      spriteID: b1249e2616a301360800000000000000
+      internalID: 7138269599327928859
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UnloadMag_2
+      name: LoadBulletLoaded_2
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 4
         width: 16
-        height: 16
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1754f3476e9aa3c4cb72a1249a20c50e
-      internalID: 1146350574
+      spriteID: f62046e11f9bb4230800000000000000
+      internalID: 3624194770397823599
       vertices: []
       indices: 
       edges: []
@@ -172,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 37a9c57f8f39043498e090e9b668a6fe
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -182,9 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UnloadMag_0: 8618385230216728486
-      UnloadMag_1: 3239456434374648654
-      UnloadMag_2: 1146350574
+      LoadBulletLoaded_0: -1315477614823420182
+      LoadBulletLoaded_1: 7138269599327928859
+      LoadBulletLoaded_2: 3624194770397823599
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
