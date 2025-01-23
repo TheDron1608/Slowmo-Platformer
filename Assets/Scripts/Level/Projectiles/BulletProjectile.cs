@@ -56,9 +56,10 @@ public class BulletProjectile : Projectile
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (
+            Weapon != null &&
             collision.gameObject != Weapon.gameObject && 
             Weapon.TryGetComponent(out Holdable weaponHoldableComponent) &&
-            (weaponHoldableComponent.CurrentHolder.gameObject == null || collision.gameObject != weaponHoldableComponent.CurrentHolder.gameObject)
+            (weaponHoldableComponent.CurrentHolder == null || collision.gameObject != weaponHoldableComponent.CurrentHolder)
             )
         {
             Remove();
