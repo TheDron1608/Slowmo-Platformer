@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6942984168664574907
+--- !u!1001 &8584201181448365675
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,19 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2897689074190581752, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
       propertyPath: m_Size.x
-      value: 0.24472332
+      value: 0.1238341
       objectReference: {fileID: 0}
     - target: {fileID: 2897689074190581752, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
       propertyPath: m_Size.y
-      value: 0.121364176
+      value: 0.05961766
       objectReference: {fileID: 0}
     - target: {fileID: 2897689074190581752, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
       propertyPath: m_Offset.x
-      value: 0.062112033
+      value: 0.000000014901161
       objectReference: {fileID: 0}
     - target: {fileID: 2897689074190581752, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
       propertyPath: m_Offset.y
-      value: -0.0017850548
+      value: 0.030541945
       objectReference: {fileID: 0}
     - target: {fileID: 2897689074190581752, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
@@ -94,12 +94,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5854523041205717934, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
       propertyPath: m_Name
-      value: BurstGunMagParticle
+      value: LowCaliberBullet
       objectReference: {fileID: 0}
     - target: {fileID: 8734845165792374824, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: e968656ed1af6d94ca8ce634f255e706, type: 3}
+      objectReference: {fileID: 21300000, guid: b4479cc08cc07f846a68553ee3abf2db, type: 3}
     - target: {fileID: 8734845165792374824, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1

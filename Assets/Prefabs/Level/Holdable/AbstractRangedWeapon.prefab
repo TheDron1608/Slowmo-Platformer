@@ -44,11 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Particle: {fileID: 0}
+  Particle: {fileID: 7597030459040477674, guid: e53acd43f68216446a0ac0047b099071, type: 3}
   SpawnVelocity: 1
   SpawnAngle: -90
   SpawnAngularVeclocity: 180
-  DurationBetweenSpawningParticles: 0.005
 --- !u!1 &1945173843759797023
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +96,6 @@ MonoBehaviour:
   SpawnVelocity: 3
   SpawnAngle: 135
   SpawnAngularVeclocity: 540
-  DurationBetweenSpawningParticles: 0.05
 --- !u!1 &7119773556913674607
 GameObject:
   m_ObjectHideFlags: 0
