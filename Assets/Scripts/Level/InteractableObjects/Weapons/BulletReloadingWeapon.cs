@@ -12,6 +12,19 @@ public class BulletReloadingWeapon : RangedWeapon
     public int AmmoAmountPerUnload = 1;
     public int MaxLoadedAmmo = 1;
 
+    protected override bool OnTryAttackSuccess(Vector2 direction)
+    {
+        if (IsReloading)
+        {
+            TryFinishReload();
+            return false;
+        }
+
+        base.OnTryAttackSuccess(direction);
+
+        return true;
+    }
+
     protected override bool ReloadCondition()
     {
         return base.ReloadCondition() && LoadedLivingAmmoLeft < MaxLoadedAmmo;
@@ -31,8 +44,6 @@ public class BulletReloadingWeapon : RangedWeapon
     {
         base.OnLoadFinish();
 
-        Unloaded = true;
-
         int loadAmount = math.min(AmmoAmountPerReload, MaxLoadedAmmo - LoadedLivingAmmoLeft - LoadedSpentAmmoLeft);
         if (loadAmount > 0)
         {
@@ -48,19 +59,22 @@ public class BulletReloadingWeapon : RangedWeapon
         {
             LoadedLivingAmmoLeft = MaxLoadedAmmo;
         }
+
+        if (LoadedLivingAmmoLeft >= MaxLoadedAmmo || AmmoLeft <= 1)
+        {
+            TryFinishReload();
+        }
     }
 
     public override void OnUnloadFinish()
     {
         base.OnUnloadFinish();
 
+        SpawnBulletParticles(math.min(AmmoAmountPerUnload, LoadedSpentAmmoLeft));
+        LoadedSpentAmmoLeft -= AmmoAmountPerUnload;
+        if (LoadedSpentAmmoLeft < 0)
         {
-            GetComponent<RangedWeapon>().SpawnBulletParticles(math.min(AmmoAmountPerUnload, LoadedSpentAmmoLeft));
-            LoadedSpentAmmoLeft -= AmmoAmountPerUnload;
-            if (LoadedSpentAmmoLeft < 0)
-            {
-               LoadedSpentAmmoLeft = 0;
-            }
+            LoadedSpentAmmoLeft = 0;
         }
     }
 }

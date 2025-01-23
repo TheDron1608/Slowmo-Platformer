@@ -66,12 +66,6 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
 
     protected override bool OnTryAttackSuccess(Vector2 direction)
     {
-        if (IsReloading)
-        {
-            TryFinishReload();
-            return false;
-        }
-
         base.OnTryAttackSuccess(direction);
 
         StartCoroutine(UnloadBulletAfterDelay());
@@ -95,7 +89,6 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
 
         if (LoadedLivingAmmoLeft >= MaxLoadedAmmo || AmmoLeft <= 1)
         {
-            TryFinishReload();
             OutOfAmmo = false;
         }
     }
