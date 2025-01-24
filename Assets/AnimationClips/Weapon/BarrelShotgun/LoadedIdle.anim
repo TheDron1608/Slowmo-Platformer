@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CloseMag
+  m_Name: LoadedIdle
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -3493800513094080222, guid: dcd64392468dfd540b571e730f327100, type: 3}
+      value: {fileID: 21300000, guid: ee307a5d692f74648b9efa0826e0d87f, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,7 +44,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -3493800513094080222, guid: dcd64392468dfd540b571e730f327100, type: 3}
+    - {fileID: 21300000, guid: ee307a5d692f74648b9efa0826e0d87f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
