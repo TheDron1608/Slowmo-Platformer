@@ -29,12 +29,19 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private Coroutine _coyoteJumpTooEarlyHandler;
     private SelectableObject _currentSelectedObject = null;
     private SelectableObject _lastSelectedObject = null;
+    private bool _autoAttack = false;
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
     private CharacterCollisionInfo _characterInfoComponent;
     private CharacterChildNodes _characterChildNodesComponent;
     private CharacterHoldingObjects _characterHoldingObjectsComponent;
+
+    public bool AutoAttack
+    {
+        get => _autoAttack;
+        set => _autoAttack = value;
+    }
 
     public Vector3? GetMouseWorldPositionOnCharacterLayer()
     {
@@ -253,8 +260,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
             if (weapon.PlayerInputAutoAttackOnPress)
             {
-                _characterActionsComponent.CharacterAttackingAction.AutoAttack = true;
-                _characterActionsComponent.CharacterAttackingAction.AutoAttackDirection = _characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized();
+                AutoAttack = true;
             }
         }
     }
@@ -269,7 +275,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             _characterActionsComponent.CharacterAttackingAction.TryAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
         }
 
-        _characterActionsComponent.CharacterAttackingAction.AutoAttack = false;
+        AutoAttack = false;
     }
 
     //RELOAD
@@ -285,11 +291,12 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private void Update()
     {
         UpdateAimInput();
+        UpdateAutoAttack();
         UpdateSelectedObject();
         UpdateAutoReload();
     }
 
-    public void UpdateAimInput()
+    private void UpdateAimInput()
     {
         if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
@@ -301,6 +308,27 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             if (mousePos.HasValue)
             {
                 _characterActionsComponent.CharacterAimingAction.TargetAimPoint = mousePos.Value;
+            }
+        }
+    }
+
+    private void UpdateAutoAttack()
+    {
+        if (
+            AutoAttack &&
+            _characterHoldingObjectsComponent.CurrentHoldObject != null &&
+            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out Weapon weapon) &&
+            _characterActionsComponent.CharacterAttackingAction != null
+            )
+        {
+
+            if (weapon.IsAbleToAttack)
+            {
+                _characterActionsComponent.CharacterAttackingAction.TryHammerElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            }
+            else if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
+            {
+                AutoAttack = false;
             }
         }
     }

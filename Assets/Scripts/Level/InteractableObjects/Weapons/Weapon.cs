@@ -104,13 +104,11 @@ public abstract class Weapon : MonoBehaviour
             if (holdable.CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
             {
 
-                Vector2 aimDirection = direction;
-
-                rigidBody.linearVelocity += aimDirection * KnockBack;
+                rigidBody.linearVelocity += direction * KnockBack;
 
                 if (holdable.CurrentHolder.TryGetComponent(out CharacterVisual charVisual))
                 {
-                    charVisual.SpritesFlipped = aimDirection.x < 0f;
+                    charVisual.SpritesFlipped = direction.x < 0f;
                 }
             }
         }

@@ -5,22 +5,7 @@ public class CharacterAttacking : MonoBehaviour
     public bool IsAbleToAttack = true;
     public float AttackCooldownMultiplier = 1f;
 
-    private bool _autoAttack = false;
-    private Vector2 _autoAttackDirection = Vector2.right;
-
     private CharacterHoldingObjects _characterHoldingObjects;
-
-    public bool AutoAttack
-    {
-        get => _autoAttack;
-        set => _autoAttack = value;
-    }
-
-    public Vector2 AutoAttackDirection
-    {
-        get => _autoAttackDirection;
-        set => _autoAttackDirection = value;
-    }
 
     private void Awake()
     {
@@ -73,25 +58,5 @@ public class CharacterAttacking : MonoBehaviour
         }
 
         return false;
-    }
-
-    private void FixedUpdate()
-    {
-        if (
-            AutoAttack &&
-            _characterHoldingObjects.CurrentHoldObject != null &&
-            _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon) 
-            )
-        {
-
-            if (weapon.IsAbleToAttack)
-            {
-                TryHammerElseAttack(_autoAttackDirection);
-            }
-            else if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
-            {
-                AutoAttack = false;
-            }
-        }
     }
 }
