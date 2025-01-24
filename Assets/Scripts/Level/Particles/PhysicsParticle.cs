@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PhysicsParticle : MonoBehaviour
@@ -57,7 +58,10 @@ public class PhysicsParticle : MonoBehaviour
 
     public void RemoveParticle()
     {
-        StartCoroutine(RemoveParticleProcess());
+        if (!gameObject.IsDestroyed())
+        {
+            StartCoroutine(RemoveParticleProcess());
+        }
     }
 
     private IEnumerator RemoveParticleProcess()
@@ -72,7 +76,10 @@ public class PhysicsParticle : MonoBehaviour
                 );
             yield return new WaitForEndOfFrame();
         }
-        Destroy(gameObject);
+        if (gameObject != null && !gameObject.IsDestroyed())
+        {
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator RemoveWhenMaxParticleLifeIsOutCoroutine()

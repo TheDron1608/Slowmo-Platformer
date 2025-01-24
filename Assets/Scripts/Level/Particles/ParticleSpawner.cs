@@ -1,6 +1,4 @@
 using System.Collections;
-using Unity.Mathematics;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 public class ParticleSpawner : MonoBehaviour
