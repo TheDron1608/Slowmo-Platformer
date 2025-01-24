@@ -60,10 +60,17 @@ public class BulletReloadingWeapon : RangedWeapon
             LoadedLivingAmmoLeft = MaxLoadedAmmo;
         }
 
-        if (LoadedLivingAmmoLeft >= MaxLoadedAmmo || AmmoLeft <= 1)
+        if (LoadedLivingAmmoLeft >= MaxLoadedAmmo)
         {
             TryFinishReload();
         }
+    }
+
+    protected override void OnUnload()
+    {
+        base.OnUnload();
+
+        TryFinishReload();
     }
 
     public override void OnUnloadFinish()
