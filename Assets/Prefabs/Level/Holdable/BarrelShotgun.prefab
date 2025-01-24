@@ -63,7 +63,7 @@ PrefabInstance:
     - target: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 4723107735738678597, guid: ee307a5d692f74648b9efa0826e0d87f, type: 3}
+      objectReference: {fileID: 21300000, guid: ee307a5d692f74648b9efa0826e0d87f, type: 3}
     - target: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -172,6 +172,7 @@ MonoBehaviour:
   DurationBetweenBurstProjectiles: 0.025
   BurstProjectilesAmount: 3
   BurstAccuracy: 0.9
+  AccuracyMultiplier: 1
   AmmoAmountPerReload: 1
   AmmoAmountPerUnload: 2
   MaxLoadedAmmo: 2
