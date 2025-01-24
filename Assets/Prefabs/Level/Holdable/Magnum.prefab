@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &217382841057965121
+--- !u!1001 &6827173177351561835
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,9 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0625
+      objectReference: {fileID: 0}
+    - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.125
+      objectReference: {fileID: 0}
     - target: {fileID: 2311740839178814593, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2311740839178814593, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3769416955781755694, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3769416955781755694, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26,43 +34,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Name
-      value: Revolver
+      value: Magnum
       objectReference: {fileID: 0}
     - target: {fileID: 4879266326353555721, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 1b2fab8f36e19954d958b607ebd4b4eb, type: 2}
+      objectReference: {fileID: 9100000, guid: 8c75c051a7ec121418fa6ae241425d42, type: 2}
     - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: Particle
       value: 
-      objectReference: {fileID: 2746708490081791429, guid: 9374cf061e0d4b24b8f38260ec25ef47, type: 3}
+      objectReference: {fileID: 6540641054074291503, guid: f09f84c364d419846bacf6f0239c99fb, type: 3}
     - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: SpawnAngle
-      value: 180
+      value: -135
       objectReference: {fileID: 0}
     - target: {fileID: 5271871053917435675, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-      propertyPath: SpawnVelocity
-      value: 4.5
+      propertyPath: SpawnAngularVeclocity
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 10f89eac3cc748d47864e0ea9c171249, type: 3}
+      objectReference: {fileID: 21300000, guid: 0b59e94be90155c458bf369488acddc6, type: 3}
     - target: {fileID: 8020580446226427116, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Size.x
-      value: 0.36837623
+      value: 0.55394846
       objectReference: {fileID: 0}
     - target: {fileID: 8020580446226427116, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Size.y
-      value: 0.17959556
+      value: 0.18014488
       objectReference: {fileID: 0}
     - target: {fileID: 8020580446226427116, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Offset.x
-      value: 0.061923966
+      value: 0.21674338
       objectReference: {fileID: 0}
     - target: {fileID: 8020580446226427116, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Offset.y
-      value: 0.030524567
+      value: 0.029841498
       objectReference: {fileID: 0}
     - target: {fileID: 8885461014169822765, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -110,44 +118,46 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 6962797215059946587}
+      addedObject: {fileID: 8380070762760831825}
   m_SourcePrefab: {fileID: 100100000, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
---- !u!1 &4894801678325564977 stripped
+--- !u!1 &2186327670035304475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-  m_PrefabInstance: {fileID: 217382841057965121}
+  m_PrefabInstance: {fileID: 6827173177351561835}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6962797215059946587
+--- !u!114 &8380070762760831825
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4894801678325564977}
+  m_GameObject: {fileID: 2186327670035304475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6877f4e4549aa654e9b62d33436059da, type: 3}
+  m_Script: {fileID: 11500000, guid: 079f59a53e91d27429dd8f1642de6270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 1
-  KnockBack: -6.5
-  BaseAttackCoolDownSeconds: 0.2
+  KnockBack: -20
+  BaseAttackCoolDownSeconds: 0.15
   _attackCooldownMultiplier: 1
-  MaxRange: 50
+  MaxRange: 350
   PlayerInputAutoAttackOnPress: 0
-  Pierce: 0
+  Pierce: 1
   AmmoLeft: 6
-  MaxAmmo: 18
+  MaxAmmo: 12
   LoadedLivingAmmoLeft: 6
   LoadedSpentAmmoLeft: 0
-  BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+  BulletProjectile: {fileID: 5573227536712375423, guid: 261098ad0a9f87846ae64f26f69e9885, type: 3}
   AttackType: 0
   BulletAccuracy: 1
   BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.9
-  DurationBetweenBurstProjectiles: 0.025
+  BuckshotAccuracy: 0.95
+  DurationBetweenBurstProjectiles: 0.05
   BurstProjectilesAmount: 6
-  BurstAccuracy: 0.9
+  BurstAccuracy: 0.99
+  AccuracyMultiplier: 1
   AmmoAmountPerReload: 1
   AmmoAmountPerUnload: 6
   MaxLoadedAmmo: 6
+  UnhammeredAttackAttcuracyMultplier: 0.85

@@ -44,6 +44,7 @@ public class RangedWeapon : Weapon
     public float DurationBetweenBurstProjectiles = 0.0667f;
     public int BurstProjectilesAmount = 3;
     public float BurstAccuracy = 0.9f;
+    public float AccuracyMultiplier = 1f;
 
     private bool _isReloading = false;
     private bool _unloaded = false;
@@ -244,7 +245,7 @@ public class RangedWeapon : Weapon
         LoadedLivingAmmoLeft--;
         LoadedSpentAmmoLeft++;
         CallAnimatorAttackTrigger();
-        SpawnProjectile(BulletAccuracy);
+        SpawnProjectile(BulletAccuracy * AccuracyMultiplier);
     }
 
     private void SpawnBuckshot()
@@ -254,7 +255,7 @@ public class RangedWeapon : Weapon
         CallAnimatorAttackTrigger();
         for (int i = 0; i < BuckshotProjectilesAmount; i++)
         {
-            SpawnProjectile(BuckshotAccuracy + (1 - BuckshotAccuracy) * i / BuckshotProjectilesAmount);
+            SpawnProjectile((BuckshotAccuracy + (1 - BuckshotAccuracy) * i / BuckshotProjectilesAmount) * AccuracyMultiplier);
         }
     }
 

@@ -198,6 +198,13 @@ public class Holdable : Interactable
         {
             rangedWeapon.SetReloadSpeed(1f);
         }
+        if (TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon))
+        {
+            if (hammerWeapon.IsHammerring)
+            {
+                hammerWeapon.TrySetHammered(false);
+            }
+        }
     }
 
     protected virtual void OnPickedUp(CharacterHoldingObjects newHolder)

@@ -27,12 +27,52 @@ public class CharacterAttacking : MonoBehaviour
         _characterHoldingObjects = GetComponent<CharacterHoldingObjects>();
     }
 
-    public void Attack(Vector2 direction)
+    public bool TryHammerWeapon()
+    {
+        if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+        {
+            return hammerWeapon.TrySetHammered(true);
+        }
+        return false;
+    }
+
+    public bool TryStopHammerringWeapon()
+    {
+        if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+        {
+            return hammerWeapon.TrySetHammered(false);
+        }
+        return false;
+    }
+
+    public bool TryAttack(Vector2 direction)
     {
         if (_characterHoldingObjects.CurrentHoldObject != null && _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
-            weapon.TryAttack(direction);
+            return weapon.TryAttack(direction);
         }
+        return false;
+    }
+
+    public bool TryHammerElseAttack(Vector2 direction)
+    {
+        if (_characterHoldingObjects.CurrentHoldObject != null)
+        {
+            if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+            {
+                hammerWeapon.TrySetHammered(true);
+                return true;
+            }
+
+            else if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+            {
+                weapon.TryAttack(direction);
+                return true;
+            }
+            return false;
+        }
+
+        return false;
     }
 
     private void FixedUpdate()
@@ -46,7 +86,7 @@ public class CharacterAttacking : MonoBehaviour
 
             if (weapon.IsAbleToAttack)
             {
-                Attack(_autoAttackDirection);
+                TryHammerElseAttack(_autoAttackDirection);
             }
             else if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
             {

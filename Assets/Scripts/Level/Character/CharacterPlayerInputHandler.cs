@@ -249,7 +249,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (_characterHoldingObjectsComponent.CurrentHoldObject != null && _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
-            _characterActionsComponent.CharacterAttackingAction.Attack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            _characterActionsComponent.CharacterAttackingAction.TryHammerElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
 
             if (weapon.PlayerInputAutoAttackOnPress)
             {
@@ -261,6 +261,14 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private void HandleStopAttacking()
     {
+        if (
+            _characterHoldingObjectsComponent.CurrentHoldObject != null && 
+            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon)
+            )
+        {
+            _characterActionsComponent.CharacterAttackingAction.TryAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+        }
+
         _characterActionsComponent.CharacterAttackingAction.AutoAttack = false;
     }
 
