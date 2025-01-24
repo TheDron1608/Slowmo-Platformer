@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public class ParticleSpawner : MonoBehaviour
     public float SpawnVelocity = 1f;
     public float SpawnAngle = 0f;
     public float SpawnAngularVeclocity = 0f;
+
+    public static event EventHandler<PhysicsParticle> OnPhysicsParticleSpawned;
+    public static event EventHandler<ParticleSystem> OnParticleSystemSpawned;
 
     public void SpawnParticle(int amount = 1, float duration = 0.05f)
     {
@@ -48,6 +52,8 @@ public class ParticleSpawner : MonoBehaviour
                 newParticleRigidBody.angularVelocity = SpawnAngularVeclocity;
             }
 
+            OnPhysicsParticleSpawned?.Invoke(this, newParticle);
+
             yield return new WaitForSeconds(duration);
         }
     }
@@ -62,6 +68,8 @@ public class ParticleSpawner : MonoBehaviour
 
         newParticle.transform.position = transform.position;
         newParticle.transform.rotation = transform.rotation;
+
+        OnParticleSystemSpawned?.Invoke(this, newParticle);
 
         yield return new WaitForSeconds(duration);
     }

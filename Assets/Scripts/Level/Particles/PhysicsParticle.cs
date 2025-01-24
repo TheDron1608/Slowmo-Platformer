@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,18 +6,21 @@ using UnityEngine;
 
 public class PhysicsParticle : MonoBehaviour
 {
-    const int MAX_PARTICLES = 128;
-    const float MAX_SIMULATED_PARTICLE_LIFE_SECONDS = 15f;
-    const float PARTICLE_DISSAPEAR_TIME_SECONDS = 2f;
-
-    public static List<PhysicsParticle> ParticlesOnLevel = new();
-
     private Rigidbody2D _rigidBodyComponent;
     private Collider2D _collider;
     private SpriteRenderer _spriteRenderer;
 
-    private Coroutine _removeWhenMaxParticleLifeIsOutCoroutine;
     private bool _enabledPhysics = true;
+
+    public bool EnabledPhysics
+    {
+        get => _enabledPhysics;
+        set
+        {
+            _rigidBodyComponent.simulated = value;
+            _enabledPhysics = value;
+        }
+    }
 
     private void Awake()
     {
@@ -26,14 +30,7 @@ public class PhysicsParticle : MonoBehaviour
 
         LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForGameObject(gameObject);
 
-        ParticlesOnLevel.Add(this);
-        if (ParticlesOnLevel.Count > MAX_PARTICLES)
-        {
-            ParticlesOnLevel[0].RemoveParticle();
-            ParticlesOnLevel.RemoveAt(0);
-        }
-
-        _removeWhenMaxParticleLifeIsOutCoroutine = StartCoroutine(RemoveWhenMaxParticleLifeIsOutCoroutine());
+        
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -51,40 +48,7 @@ public class PhysicsParticle : MonoBehaviour
             {
                 _rigidBodyComponent.simulated = false;
                 _enabledPhysics = false;
-                StopCoroutine(_removeWhenMaxParticleLifeIsOutCoroutine);
             }
         }
-    }
-
-    public void RemoveParticle()
-    {
-        if (!gameObject.IsDestroyed())
-        {
-            StartCoroutine(RemoveParticleProcess());
-        }
-    }
-
-    private IEnumerator RemoveParticleProcess()
-    {
-        while (_spriteRenderer.color.a > 0f)
-        {
-            _spriteRenderer.color = new Color(
-                _spriteRenderer.color.r,
-                _spriteRenderer.color.g,
-                _spriteRenderer.color.b,
-                _spriteRenderer.color.a - Time.deltaTime
-                );
-            yield return new WaitForEndOfFrame();
-        }
-        if (gameObject != null && !gameObject.IsDestroyed())
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private IEnumerator RemoveWhenMaxParticleLifeIsOutCoroutine()
-    {
-        yield return new WaitForSeconds(MAX_SIMULATED_PARTICLE_LIFE_SECONDS);
-        RemoveParticle();
     }
 }

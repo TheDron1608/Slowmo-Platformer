@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5385443437079559187}
   - component: {fileID: 2288510536422220207}
+  - component: {fileID: 7857507522207618143}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -45,3 +46,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ZLayers: []
+--- !u!114 &7857507522207618143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360252234397813454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e640cae4b38b740bcabaca9c894dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxParticles: 128
+  MaxSimulatedParticlesLife: 15
+  ParticleDissapearDuration: 2
+  ParticlesOnLevel: []
+  Instance: {fileID: 0}
