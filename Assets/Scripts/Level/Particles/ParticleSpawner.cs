@@ -60,14 +60,25 @@ public class ParticleSpawner : MonoBehaviour
 
     private IEnumerator SpawnPaticleSystemParticle(ParticleSystem particleSystemParticle, int amount, float duration)
     {
+        Vector3 eulerAngle = transform.rotation.eulerAngles;
+
         ParticleSystem newParticle = Instantiate(particleSystemParticle, LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform);
 
         ParticleSystem.Burst firstBurst = newParticle.emission.GetBurst(0);
         firstBurst.count = amount;
         newParticle.emission.SetBurst(0, firstBurst);
+        if (eulerAngle.y > 90f)
+        {
+            var main = newParticle.main;
+            main.startSpeedMultiplier = -1;
+        }
 
         newParticle.transform.position = transform.position;
-        newParticle.transform.rotation = transform.rotation;
+        newParticle.transform.eulerAngles = new Vector3(
+            eulerAngle.x,
+            0f,
+            eulerAngle.z
+            );
 
         OnParticleSystemSpawned?.Invoke(this, newParticle);
 
