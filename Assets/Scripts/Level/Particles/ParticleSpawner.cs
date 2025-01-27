@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ParticleSpawner : MonoBehaviour
 {
+    const float SPAWN_VELOCITY_EXTRA_RANOM_MULTIPLIER = .25f;
+
     public GameObject Particle;
     public float SpawnVelocity = 1f;
     public float SpawnAngle = 0f;
@@ -48,8 +50,12 @@ public class ParticleSpawner : MonoBehaviour
                     );
 
                 newParticleRigidBody.linearVelocity = VectorMath.Quartenion2DToVec2(spawnAnleQuarternion) * SpawnVelocity;
+                newParticleRigidBody.linearVelocity = new Vector2(
+                    newParticleRigidBody.linearVelocity.x + (UnityEngine.Random.value * SPAWN_VELOCITY_EXTRA_RANOM_MULTIPLIER * SpawnVelocity),
+                    newParticleRigidBody.linearVelocity.y + (UnityEngine.Random.value * SPAWN_VELOCITY_EXTRA_RANOM_MULTIPLIER * SpawnVelocity)
+                    );
 
-                newParticleRigidBody.angularVelocity = SpawnAngularVeclocity;
+                newParticleRigidBody.angularVelocity = SpawnAngularVeclocity * (UnityEngine.Random.value * 2 - 1);
             }
 
             OnPhysicsParticleSpawned?.Invoke(this, newParticle);
