@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsAbleToAim: 0
   AimSpeed: 35
+  Debug_CurrentAimIcon: {fileID: 0}
 --- !u!114 &7261639660243465350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsAbleToAttack: 1
+  AttackCooldownMultiplier: 1
 --- !u!114 &-1858980390697622286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +198,7 @@ MonoBehaviour:
   JumpMaxTime: 1.5
   CanForceStopJump: 0
   AirJumps: 0
+  JumpLimitForceMultiplier: 10
 --- !u!114 &7285514816818632256
 MonoBehaviour:
   m_ObjectHideFlags: 0

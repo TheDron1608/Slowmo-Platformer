@@ -53,9 +53,9 @@ public class CharacterMoving : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent<CharacterVisual>(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
-        if (!TryGetComponent<CharacterCollisionInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
+        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        if (!TryGetComponent(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
+        if (!TryGetComponent(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
     }
 
     private void FixedUpdate()

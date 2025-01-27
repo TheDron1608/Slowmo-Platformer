@@ -12,6 +12,7 @@ public class CharacterJumping : MonoBehaviour
     public float JumpMaxTime = 1f;
     public bool CanForceStopJump = false;
     public int AirJumps = 0;
+    public float JumpLimitForceMultiplier = 10f;
 
     private float _jumpTimeLeft = 0f;
     private int _airJumpsLeft = 0;
@@ -51,6 +52,7 @@ public class CharacterJumping : MonoBehaviour
     {
         UpdateJumTimeLeft();
         UpdateJump();
+        UpdateJumpLimit();
     }
 
     private void UpdateJumTimeLeft()
@@ -83,6 +85,17 @@ public class CharacterJumping : MonoBehaviour
         }
     }
 
+    private void UpdateJumpLimit()
+    {
+        if (_rigidBodyComponent.linearVelocityY > JumpForce)
+        {
+            _rigidBodyComponent.linearVelocityY = math.lerp(
+                _rigidBodyComponent.linearVelocityY,
+                JumpForce,
+                Time.fixedDeltaTime * JumpLimitForceMultiplier
+                );
+        }
+    }
 
 
     public void StartJump()
