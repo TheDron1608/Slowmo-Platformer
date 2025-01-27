@@ -12,14 +12,12 @@ public class RangedWeapon : Weapon
         BUCKSHOT_BURST
     }
 
-    const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
-    const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
-    const string CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudParticleSpawner";
-    const string ANIMATOR_FINISH_RELOAD_TRIGGER_NAME = "FinishReload";
-
-    public const string ANIMATOR_RELOAD_TRIGGER_NAME = "Reload";
-    public const string ANIMATOR_UNLOADED_PROP_NAME = "Unloaded";
-    public const string ANIMATOR_RELOAD_SPEED_PROP_NAME = "ReloadSpeed";
+    protected const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
+    protected const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
+    protected const string CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudParticleSpawner";
+    protected const string ANIMATOR_IS_RELOADING_PROP_NAME = "IsReloading";
+    protected const string ANIMATOR_UNLOADED_PROP_NAME = "Unloaded";
+    protected const string ANIMATOR_RELOAD_SPEED_PROP_NAME = "ReloadSpeed";
 
     [Header("Ranged weapon")]
     public int AmmoLeft = 10;
@@ -112,7 +110,7 @@ public class RangedWeapon : Weapon
 
         IsAbleToAttack = true;
         IsReloading = false;
-        _animator.SetTrigger(ANIMATOR_FINISH_RELOAD_TRIGGER_NAME);
+        _animator.SetBool(ANIMATOR_IS_RELOADING_PROP_NAME, false);
 
         return true;
     }
@@ -171,7 +169,7 @@ public class RangedWeapon : Weapon
         IsReloading = true;
         IsAbleToAttack = false;
         Unloaded = true;
-        _animator.SetTrigger(ANIMATOR_RELOAD_TRIGGER_NAME);
+        _animator.SetBool(ANIMATOR_IS_RELOADING_PROP_NAME, true);
     }
 
     protected virtual void OnReloadFinish()
