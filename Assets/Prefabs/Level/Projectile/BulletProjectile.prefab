@@ -51,6 +51,7 @@ MonoBehaviour:
   Pierce: 0
   Damage: 1
   BulletSpeed: 35
+  MaxRange: 350
 --- !u!95 &7245158024817414800
 Animator:
   serializedVersion: 7
@@ -116,7 +117,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 30
   m_Sprite: {fileID: -1355517167, guid: 94b281da68759684e9bd19f290651137, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
