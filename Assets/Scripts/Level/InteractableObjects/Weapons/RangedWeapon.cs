@@ -151,7 +151,7 @@ public class RangedWeapon : Weapon
     //OVERRIDES
     protected override bool AttackCondition()
     {
-        return base.AttackCondition() && LoadedLivingAmmoLeft > 0;
+        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading;
     }
 
     protected virtual bool ReloadCondition()
