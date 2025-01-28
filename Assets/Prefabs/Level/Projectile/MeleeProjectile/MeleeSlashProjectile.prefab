@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Name
-      value: SlashProjectile
+      value: MeleeSlashProjectile
       objectReference: {fileID: 0}
     - target: {fileID: 2411588291250371948, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -105,7 +105,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b75ed1f04389a4e9db9917141964b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
-  AttackCooldown: 0.25
-  KnockBack: -25
-  Pierce: 0
+  Accuracy: 1
+  KnockBack: -12.5
