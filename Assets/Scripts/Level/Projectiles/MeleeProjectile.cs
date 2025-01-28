@@ -19,7 +19,6 @@ public class MeleeProjectile : AbstractProjectile
 
     public override List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
-        Debug.Log("created");
         MeleeProjectile newProjectile = Instantiate(this, weapon.transform);
 
         newProjectile.transform.rotation = VectorMath.RandomizeQuarternion(direction, Accuracy);
