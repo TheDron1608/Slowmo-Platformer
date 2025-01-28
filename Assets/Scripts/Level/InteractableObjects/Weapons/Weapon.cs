@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    public const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
-    public const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";
+    const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
+    const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";
 
     [Header("Weapon")]
     [SerializeField] private float _attackCooldown = .25f;
@@ -49,11 +49,6 @@ public abstract class Weapon : MonoBehaviour
             _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, value);
             _isThrown = value;
         }
-    }
-
-    protected void CallAnimatorAttackTrigger()
-    {
-        _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
     }
 
 
@@ -113,6 +108,7 @@ public abstract class Weapon : MonoBehaviour
         }
 
         Projectile.SpawnProjectile(direction, AccuracyMultiplier, gameObject.GetComponent<Weapon>());
+        _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
         return true;
     }
