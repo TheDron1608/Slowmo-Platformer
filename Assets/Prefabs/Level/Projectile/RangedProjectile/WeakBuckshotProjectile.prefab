@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144806725262324000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.95593894
       objectReference: {fileID: 0}
     - target: {fileID: 6144806725262324000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_LocalRotation.x
@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144806725262324000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.2935656
       objectReference: {fileID: 0}
     - target: {fileID: 6144806725262324000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -77,7 +77,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3893da5e396a5fe46a8b273199569edc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Accuracy: 0.85
+  AttackCooldown: 0.25
+  KnockBack: 15
+  BulletSpeed: 35
+  MaxRange: 350
   BulletCasingParticle: {fileID: 3494289913850297270, guid: 21fe314279d42a247901a48f5bdbecb6, type: 3}
-  SubProjectilesAmountOnSpawn: 6
-  SubProjectileInstance: {fileID: 8595916496294346050, guid: 7908c3f67bb807448806e40f9942d5c3, type: 3}
-  BuckshotAccuracyMultiplier: 0.85
+  BuckshotSubProjectilesAmount: 6

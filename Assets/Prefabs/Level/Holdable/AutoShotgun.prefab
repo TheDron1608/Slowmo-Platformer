@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: Particle
       value: 
       objectReference: {fileID: 3108160054792827033, guid: 72a0cc45b5d20e0499eadc7625fea378, type: 3}
+    - target: {fileID: 1638512053977861497, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultParticle
+      value: 
+      objectReference: {fileID: 3108160054792827033, guid: 72a0cc45b5d20e0499eadc7625fea378, type: 3}
     - target: {fileID: 2360972246015209950, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0625
@@ -148,10 +152,10 @@ MonoBehaviour:
   _attackCooldownMultiplier: 1
   PlayerInputAutoAttackOnPress: 1
   Projectile: {fileID: 5761298586488775488, guid: 7dd751ad5561421499df69afc1d301fe, type: 3}
+  AccuracyMultiplier: 1
   AmmoLeft: 16
   MaxAmmo: 32
   LoadedLivingAmmoLeft: 17
   LoadedSpentAmmoLeft: 0
-  AccuracyMultiplier: 1
   _magSize: 16
   _bulletLoadedInChamber: 1

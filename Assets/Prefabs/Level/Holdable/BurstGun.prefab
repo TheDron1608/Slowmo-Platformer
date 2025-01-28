@@ -29,6 +29,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1638512053977861497, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultParticle
+      value: 
+      objectReference: {fileID: 3559285161709379605, guid: fee66759f98670146b09f3afa1940992, type: 3}
+    - target: {fileID: 1638512053977861497, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: SpawnAngularVeclocity
       value: 480
       objectReference: {fileID: 0}
@@ -152,10 +156,10 @@ MonoBehaviour:
   _attackCooldownMultiplier: 1
   PlayerInputAutoAttackOnPress: 0
   Projectile: {fileID: 4553151161468422786, guid: d20e367e6ca81ba4494733a074f24b54, type: 3}
+  AccuracyMultiplier: 1
   AmmoLeft: 18
   MaxAmmo: 36
   LoadedLivingAmmoLeft: 19
   LoadedSpentAmmoLeft: 0
-  AccuracyMultiplier: 1
   _magSize: 18
   _bulletLoadedInChamber: 1

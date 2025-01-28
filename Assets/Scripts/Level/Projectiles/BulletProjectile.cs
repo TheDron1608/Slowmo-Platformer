@@ -3,10 +3,8 @@ using UnityEngine;
 
 public class BulletProjectile : AbstractRangedProjectile
 {
-    public override AbstractProjectile SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
+    public override List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
-        base.SpawnProjectile(direction, accuracityMultiplier, weapon);
-
         if (weapon != null && weapon.TryGetComponent(out RangedWeapon rangedWeapon))
         {
             rangedWeapon.SpendAmmo(1);
@@ -15,6 +13,12 @@ public class BulletProjectile : AbstractRangedProjectile
         BulletProjectile newProjectile = Instantiate(this, weapon.transform);
         newProjectile.MoveAlign = VectorMath.RandomizeQuarternion(direction, Accuracy * accuracityMultiplier);
 
-        return newProjectile;
+        newProjectile.Weapon = weapon;
+        if (weapon != null && weapon.TryGetComponent(out Holdable holdableWeapon))
+        {
+            newProjectile.Owner = holdableWeapon.CurrentHolder;
+        }
+
+        return new List<AbstractProjectile>() { newProjectile };
     }
 }

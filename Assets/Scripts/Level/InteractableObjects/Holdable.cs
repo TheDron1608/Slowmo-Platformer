@@ -226,7 +226,6 @@ public class Holdable : Interactable
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out Weapon weapon))
         {
-            weapon.AttackCooldown = 0f;
             weapon.IsThrown = false;
 
             if (TryGetComponent(out RangedWeapon rangedWeapon) && CurrentHolder.TryGetComponent(out CharacterReloading holderReloading))

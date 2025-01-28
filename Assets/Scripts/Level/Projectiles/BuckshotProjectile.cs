@@ -1,33 +1,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuckshotProjectile : AbstractCompositeProjectile
+public class BuckshotProjectile : AbstractRangedProjectile
 {
-    public float BuckshotAccuracyMultiplier = 0.85f;
+    public int BuckshotSubProjectilesAmount = 6;
 
-    public override AbstractProjectile SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
+    public override List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
         if (weapon != null && weapon.TryGetComponent(out RangedWeapon rangedWeapon))
         {
             rangedWeapon.SpendAmmo(1);
         }
 
-        BuckshotProjectile newBuckshotProjectile = Instantiate(this, weapon.transform);
-        for (int i = 0; i < SubProjectilesAmountOnSpawn; i++)
+        List<AbstractProjectile> result = new();
+        for (int i = 0; i < BuckshotSubProjectilesAmount; i++)
         {
-            AbstractSingleProjectile newProjectile = Instantiate(SubProjectileInstance, newBuckshotProjectile.transform);
+            BuckshotProjectile newProjectile = Instantiate(this, weapon.transform);
 
-            if (newProjectile.TryGetComponent(out AbstractRangedProjectile rangedProjectile))
+            newProjectile.MoveAlign = VectorMath.RandomizeQuarternion(
+                direction,
+                (Accuracy + (1 - Accuracy) * i / BuckshotSubProjectilesAmount) * accuracityMultiplier
+            );
+
+            newProjectile.Weapon = weapon;
+            if (weapon != null && weapon.TryGetComponent(out Holdable holdableWeapon))
             {
-                rangedProjectile.MoveAlign = VectorMath.RandomizeQuarternion(
-                    direction,
-                    (SubProjectileInstance.Accuracy * BuckshotAccuracyMultiplier + (1 - SubProjectileInstance.Accuracy * BuckshotAccuracyMultiplier) * i / SubProjectilesAmountOnSpawn) * accuracityMultiplier
-                    );
+                newProjectile.Owner = holdableWeapon.CurrentHolder;
             }
 
-            Debug.Log(newBuckshotProjectile);
+            result.Add(newProjectile);
         }
 
-        return newBuckshotProjectile;
+        return result;
     }
 }

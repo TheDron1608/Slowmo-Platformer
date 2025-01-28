@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbstractRangedProjectile : AbstractSingleProjectile
+public abstract class AbstractRangedProjectile : AbstractProjectile
 {
     const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
 
     public float BulletSpeed = 35f;
     public float MaxRange = 350f;
+    public PhysicsParticle BulletCasingParticle;
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
@@ -36,15 +37,6 @@ public abstract class AbstractRangedProjectile : AbstractSingleProjectile
         }
     }
 
-    public override AbstractProjectile SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null)
-    {
-        base.SpawnProjectile(direction, accuracityMultiplier, weapon);
-
-        MoveAlign = direction;
-
-        return null;
-    }
-
     private void Update()
     {
         if (_isFirstFrame)
@@ -63,7 +55,7 @@ public abstract class AbstractRangedProjectile : AbstractSingleProjectile
         _rangeMoved += deltaRange;
         if (_rangeMoved > MaxRange )
         {
-            Remove();
+            RemoveSelf();
         }
     }
 
@@ -76,8 +68,14 @@ public abstract class AbstractRangedProjectile : AbstractSingleProjectile
             (weaponHoldableComponent.CurrentHolder == null || collision.gameObject != weaponHoldableComponent.CurrentHolder.gameObject)
             )
         {
-            Remove();
+            RemoveSelf();
         }
+    }
 
+    private void Awake()
+    {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        layer.UpdateLayerForGameObject(gameObject);
+        transform.parent = layer.transform;
     }
 }

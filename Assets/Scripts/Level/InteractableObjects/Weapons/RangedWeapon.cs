@@ -24,7 +24,6 @@ public class RangedWeapon : Weapon
     public int MaxAmmo = 10;
     public int LoadedLivingAmmoLeft = 1;
     public int LoadedSpentAmmoLeft = 0;
-    public float AccuracyMultiplier = 1f;
 
     private bool _isReloading = false;
     private bool _unloaded = false;
@@ -171,15 +170,6 @@ public class RangedWeapon : Weapon
     {
         IsReloading = false;
         IsAbleToAttack = true;
-    }
-
-    protected override bool OnTryAttackSuccess(Vector2 direction)
-    {
-        base.OnTryAttackSuccess(direction);
-
-        Projectile.SpawnProjectile(direction, AccuracyMultiplier, gameObject.GetComponent<Weapon>());
-
-        return true;
     }
 
     protected override void OnTryAttackFail(Vector2 direction)

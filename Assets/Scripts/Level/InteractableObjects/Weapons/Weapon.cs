@@ -8,13 +8,14 @@ public abstract class Weapon : MonoBehaviour
     public const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";
 
     [Header("Weapon")]
+    [SerializeField] private float _attackCooldown = .25f;
     [SerializeField] private float _attackCooldownMultiplier = 1f;
     public bool PlayerInputAutoAttackOnPress = false;
     public AbstractProjectile Projectile;
+    public float AccuracyMultiplier = 1f;
 
     protected Animator _animator;
 
-    private float _attackCooldown = 0f;
     private bool _isAbleToAttack = true;
     private bool _isThrown = true;
 
@@ -94,7 +95,6 @@ public abstract class Weapon : MonoBehaviour
     {
 
         //attack cooldown
-        _attackCooldown = Projectile.AttackCooldown * AttackCooldownMultiplier;
         StartCoroutine(AwaitAttackCooldownFinish());
 
         //knockback
@@ -111,6 +111,8 @@ public abstract class Weapon : MonoBehaviour
                 }
             }
         }
+
+        Projectile.SpawnProjectile(direction, AccuracyMultiplier, gameObject.GetComponent<Weapon>());
 
         return true;
     }
@@ -136,14 +138,7 @@ public abstract class Weapon : MonoBehaviour
     private IEnumerator AwaitAttackCooldownFinish()
     {
         IsAbleToAttack = false;
-        while (_attackCooldown > 0f)
-        {
-            yield return new WaitForEndOfFrame();
-
-            _attackCooldown -= Time.deltaTime;
-        }
-        _attackCooldown = 0f;
+        yield return new WaitForSeconds(AttackCooldown * AttackCooldownMultiplier);
         IsAbleToAttack = true;
-        OnFinishAttack();
     }
 }
