@@ -24,24 +24,6 @@ public class RangedWeapon : Weapon
     public int MaxAmmo = 10;
     public int LoadedLivingAmmoLeft = 1;
     public int LoadedSpentAmmoLeft = 0;
-
-    public BulletProjectile BulletProjectile;
-    public ProjectileType AttackType = ProjectileType.BULLET;
-    /// <summary>
-    /// 0 is perfect accuracy, 1 is 360deg spread
-    /// </summary>
-    public float BulletAccuracy = 1;
-    /// <summary>
-    /// 0 is perfect accuracy, 1 is 360deg spread
-    /// </summary>
-    public int BuckshotProjectilesAmount = 6;
-    public float BuckshotAccuracy = 0.75f;
-    /// <summary>
-    /// if higher than 0, each projectile will spawn DurationBetweenBurstProjectiles seconds after previous spawned projectile
-    /// </summary>
-    public float DurationBetweenBurstProjectiles = 0.0667f;
-    public int BurstProjectilesAmount = 3;
-    public float BurstAccuracy = 0.9f;
     public float AccuracyMultiplier = 1f;
 
     private bool _isReloading = false;
@@ -88,6 +70,12 @@ public class RangedWeapon : Weapon
     public virtual bool GetIsOutOfAmmo()
     {
         return AmmoLeft <= 0 && LoadedLivingAmmoLeft <= 0;
+    }
+
+    public virtual void SpendAmmo(int spendAmount = 1)
+    {
+        LoadedLivingAmmoLeft -= spendAmount;
+        LoadedSpentAmmoLeft += spendAmount;
     }
 
     public bool TryReload()
@@ -138,7 +126,14 @@ public class RangedWeapon : Weapon
 
     public void SpawnBulletParticles(int amount)
     {
-        _bulletParticleSpawner.SpawnParticle(amount, DurationBetweenBurstProjectiles);
+        if (Projectile is AbstractRangedProjectile rangedProjectile)
+        {
+            _bulletParticleSpawner.SpawnParticle(amount, 0.05f, rangedProjectile.BulletCasingParticle.gameObject);
+        }
+        else
+        {
+            _bulletParticleSpawner.SpawnParticle(amount);
+        }
     }
 
     public void SetReloadSpeed(float value)
@@ -182,22 +177,8 @@ public class RangedWeapon : Weapon
     {
         base.OnTryAttackSuccess(direction);
 
-        //spawning projectiles
-        switch (AttackType)
-        {
-            case ProjectileType.BULLET:
-                SpawnBullet();
-                break;
-            case ProjectileType.BUCKSHOT:
-                SpawnBuckshot();
-                break;
-            case ProjectileType.BURST:
-                SpawnBurst();
-                break;
-            case ProjectileType.BUCKSHOT_BURST:
-                SpawnBuckshotBurst();
-                break;
-        }
+        Projectile.SpawnProjectile(direction, AccuracyMultiplier, gameObject.GetComponent<Weapon>());
+
         return true;
     }
 
@@ -227,63 +208,5 @@ public class RangedWeapon : Weapon
     {
         IsAbleToAttack = false;
         Unloaded = true;
-    }
-
-    //PROJECTILE SPAWNER METHODS
-    private void SpawnProjectile(float accuracity)
-    {
-        BulletProjectile projectile = Instantiate(BulletProjectile, _projectileSpawnPosition);
-        projectile.MoveAlign = VectorMath.RandomizeQuarternion(projectile.transform.rotation, accuracity);
-        projectile.transform.parent = LayerManager.Instance.GetZLayerOfGameObject(projectile.gameObject).transform;
-        projectile.InitializeOwner(this);
-    }
-
-    private void SpawnBullet()
-    {
-        LoadedLivingAmmoLeft--;
-        LoadedSpentAmmoLeft++;
-        CallAnimatorAttackTrigger();
-        SpawnProjectile(BulletAccuracy * AccuracyMultiplier);
-    }
-
-    private void SpawnBuckshot()
-    {
-        LoadedLivingAmmoLeft--;
-        LoadedSpentAmmoLeft++;
-        CallAnimatorAttackTrigger();
-        for (int i = 0; i < BuckshotProjectilesAmount; i++)
-        {
-            SpawnProjectile((BuckshotAccuracy + (1 - BuckshotAccuracy) * i / BuckshotProjectilesAmount) * AccuracyMultiplier);
-        }
-    }
-
-    private void SpawnBurst()
-    {
-        StartCoroutine(SpawnBurstCoroutine());
-    }
-
-    private IEnumerator SpawnBurstCoroutine()
-    {
-        for (int i = 0; i < BurstProjectilesAmount; i++)
-        {
-            if (LoadedLivingAmmoLeft <= 0) break;
-            SpawnBullet();
-            yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
-        }
-    }
-
-    private void SpawnBuckshotBurst()
-    {
-        StartCoroutine(SpawnBuckshotBurstCoroutine());
-    }
-
-    private IEnumerator SpawnBuckshotBurstCoroutine()
-    {
-        for (int i = 0; i < BurstProjectilesAmount; i++)
-        {
-            if (LoadedLivingAmmoLeft <= 0) break;
-            SpawnBuckshot();
-            yield return new WaitForSeconds(DurationBetweenBurstProjectiles);
-        }
     }
 }

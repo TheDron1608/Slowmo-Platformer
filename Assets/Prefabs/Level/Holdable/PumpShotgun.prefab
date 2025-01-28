@@ -132,11 +132,6 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 7079308623672919533}
   m_SourcePrefab: {fileID: 100100000, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
---- !u!212 &7288233628160703016 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
-  m_PrefabInstance: {fileID: 3768366400741258456}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8404409584191637160 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
@@ -154,38 +149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01233931bd2c4164796c77c1808333dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectType: 4
-  PlayerInputToInteract: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  SelectMaxRangeMultiplier: 1
-  SelectedColorDarkness: 0.64
-  _spriteRendererComponent: {fileID: 7288233628160703016}
-  AnimationOnStartInteract: 0
-  AnimationOnFinishInteract: 0
-  RotatableWhenIsHolded: 1
-  ResetRotationWhenIsHolded: 0
-  HoldDistanceWhenIsHolded: 0.25
-  ThrowForceMultiplier: 1
-  ThrowRotationForce: 12.5
-  SpeedToGetThroughWall: 15
-  Damage: 1
-  KnockBack: -10
-  BaseAttackCoolDownSeconds: 0.66
   _attackCooldownMultiplier: 1
-  MaxRange: 6
   PlayerInputAutoAttackOnPress: 0
-  Pierce: 0
+  Projectile: {fileID: 5761298586488775488, guid: 7dd751ad5561421499df69afc1d301fe, type: 3}
   AmmoLeft: 5
   MaxAmmo: 16
   LoadedLivingAmmoLeft: 5
   LoadedSpentAmmoLeft: 0
-  BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
-  AttackType: 1
-  BulletAccuracy: 1
-  BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.85
-  DurationBetweenBurstProjectiles: 0.167
-  BurstProjectilesAmount: 3
-  BurstAccuracy: 0.9
+  AccuracyMultiplier: 1
   AmmoAmountPerReload: 1
   AmmoAmountPerUnload: 1
   MaxLoadedAmmo: 5

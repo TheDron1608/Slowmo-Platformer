@@ -9,12 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1176369955813481343}
-  - component: {fileID: 8452405715146043639}
-  - component: {fileID: 7245158024817414800}
+  - component: {fileID: 1144781636253479490}
   - component: {fileID: 3398433313020528201}
   - component: {fileID: 5403247039622281927}
   m_Layer: 0
-  m_Name: BulletProjectile
+  m_Name: AbstractProjectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,24 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8452405715146043639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1287883283165750693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8919d77e88212a4799b62da8e63108c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Weapon: {fileID: 0}
-  Pierce: 0
-  Damage: 1
-  BulletSpeed: 35
-  MaxRange: 350
---- !u!95 &7245158024817414800
+--- !u!95 &1144781636253479490
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -62,7 +44,7 @@ Animator:
   m_GameObject: {fileID: 1287883283165750693}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 15198361cb44ece419019d2d0d287861, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -118,7 +100,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 30
-  m_Sprite: {fileID: -1355517167, guid: 94b281da68759684e9bd19f290651137, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -126,7 +108,7 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &5403247039622281927
@@ -163,7 +145,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.5625, y: 0.0315}
+  m_Offset: {x: 0.028221905, y: 0.031500004}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -173,5 +155,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.15, y: 0.075}
+  m_Size: {x: 0.08144367, y: 0.075}
   m_EdgeRadius: 0

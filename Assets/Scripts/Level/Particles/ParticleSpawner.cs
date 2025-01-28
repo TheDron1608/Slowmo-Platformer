@@ -6,7 +6,7 @@ public class ParticleSpawner : MonoBehaviour
 {
     const float SPAWN_VELOCITY_EXTRA_RANOM_MULTIPLIER = .25f;
 
-    public GameObject Particle;
+    public GameObject DefaultParticle;
     public float SpawnVelocity = 1f;
     public float SpawnAngle = 0f;
     public float SpawnAngularVeclocity = 0f;
@@ -14,18 +14,18 @@ public class ParticleSpawner : MonoBehaviour
     public static event EventHandler<PhysicsParticle> OnPhysicsParticleSpawned;
     public static event EventHandler<ParticleSystem> OnParticleSystemSpawned;
 
-    public void SpawnParticle(int amount = 1, float duration = 0.05f)
+    public void SpawnParticle(int amount = 1, float duration = 0.05f, GameObject particle = null)
     {
-        SpawnParticleProcess(amount, duration);
+        SpawnParticleProcess(amount, duration, particle ?? DefaultParticle);
     }
 
-    private void SpawnParticleProcess(int amount, float duration)
+    private void SpawnParticleProcess(int amount, float duration, GameObject particle)
     {
-        if (Particle.TryGetComponent(out PhysicsParticle physicsParticle))
+        if (particle.TryGetComponent(out PhysicsParticle physicsParticle))
         {
             StartCoroutine(SpawnPhysicsParticles(physicsParticle, amount, duration));
         }
-        else if (Particle.TryGetComponent(out ParticleSystem particleSystemParticle))
+        else if (particle.TryGetComponent(out ParticleSystem particleSystemParticle))
         {
             StartCoroutine(SpawnPaticleSystemParticle(particleSystemParticle, amount, duration));
         }

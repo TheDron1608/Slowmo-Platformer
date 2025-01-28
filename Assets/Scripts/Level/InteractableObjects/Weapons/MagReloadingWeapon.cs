@@ -68,6 +68,13 @@ public class MagReloadingWeapon : RangedWeapon
         return AmmoLeft <= MagSize && LoadedLivingAmmoLeft <= 0;
     }
 
+    public override void SpendAmmo(int spendAmount = 1)
+    {
+        base.SpendAmmo(spendAmount);
+
+        SpawnBulletParticles(1);
+    }
+
     public void ReloadBullet()
     {
         _animator.SetTrigger(ANIMATOR_RELOAD_BULLET_TRIGGER_NAME);
@@ -128,12 +135,6 @@ public class MagReloadingWeapon : RangedWeapon
     protected override bool OnTryAttackSuccess(Vector2 direction)
     {
         base.OnTryAttackSuccess(direction);
-
-        StartCoroutine(SpawnParticleAfterDuration(
-            (
-                AttackType == ProjectileType.BURST || AttackType == ProjectileType.BUCKSHOT_BURST) ? 
-                BurstProjectilesAmount : 1
-            ));
 
         if (LoadedLivingAmmoLeft <= 0)
         {

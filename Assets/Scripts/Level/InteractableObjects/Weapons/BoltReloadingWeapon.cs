@@ -56,7 +56,8 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     }
     private void UpdateAnimatorAttackCooldownMultiplier()
     {
-        _animator.SetFloat(ANIMATOR_ATTACK_COOLDOWN_MULTIPLIER_PROP_NAME, 1 / ((AttackCooldownMultiplier * BaseAttackCoolDownSeconds) / _loadBulletAnimationClipsDuration) - WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK);
+        Debug.Log(gameObject.name);
+        _animator.SetFloat(ANIMATOR_ATTACK_COOLDOWN_MULTIPLIER_PROP_NAME, 1 / ((AttackCooldownMultiplier * Projectile.AttackCooldown) / _loadBulletAnimationClipsDuration) - WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK);
     }
 
     public void UnloadBullet()

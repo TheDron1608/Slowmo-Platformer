@@ -180,15 +180,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947a90f8372bb4f4fa043ae7ef9b4f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
-  KnockBack: 15
-  BaseAttackCoolDownSeconds: 0.5
   _attackCooldownMultiplier: 1
-  MaxRange: 350
   PlayerInputAutoAttackOnPress: 0
-  Pierce: 0
+  Projectile: {fileID: 8179383447119305257, guid: f62ab6dd4c736094db948d27b15e3f73, type: 3}
   AttackRangeMultiplier: 1
-  Projectile: {fileID: 6637311317996157931, guid: ca74001ecf6738b40ad75cf09fa313bc, type: 3}
   TimeToHolsterBackSeconds: 6.5
 --- !u!95 &4187143155799548641
 Animator:

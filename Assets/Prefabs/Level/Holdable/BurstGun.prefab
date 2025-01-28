@@ -149,24 +149,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ad6293b8a87054697907484c171337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
-  KnockBack: -5
-  BaseAttackCoolDownSeconds: 0.75
   _attackCooldownMultiplier: 1
-  MaxRange: 350
   PlayerInputAutoAttackOnPress: 0
-  Pierce: 0
+  Projectile: {fileID: 4553151161468422786, guid: d20e367e6ca81ba4494733a074f24b54, type: 3}
   AmmoLeft: 18
   MaxAmmo: 36
   LoadedLivingAmmoLeft: 19
   LoadedSpentAmmoLeft: 0
-  BulletProjectile: {fileID: 8452405715146043639, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
-  AttackType: 2
-  BulletAccuracy: 1
-  BuckshotProjectilesAmount: 6
-  BuckshotAccuracy: 0.25
-  DurationBetweenBurstProjectiles: 0.05
-  BurstProjectilesAmount: 3
-  BurstAccuracy: 0.9
+  AccuracyMultiplier: 1
   _magSize: 18
   _bulletLoadedInChamber: 1

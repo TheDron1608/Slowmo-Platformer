@@ -4,24 +4,13 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
+    public const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
     public const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";
 
-    public enum AttackPiercing
-    {
-        NO_PIERCE,
-        PIERCE_ARMOR,
-        PIERCE_HEAVY_ARMOR
-    }
-
     [Header("Weapon")]
-    public float Damage = 1f;
-    public float KnockBack = 0f;
-    public float BaseAttackCoolDownSeconds = 0.5f;
     [SerializeField] private float _attackCooldownMultiplier = 1f;
-    public float MaxRange = 350f;
     public bool PlayerInputAutoAttackOnPress = false;
-    public AttackPiercing Pierce = AttackPiercing.NO_PIERCE;
+    public AbstractProjectile Projectile;
 
     protected Animator _animator;
 
@@ -79,6 +68,16 @@ public abstract class Weapon : MonoBehaviour
 
     public bool TryAttack(Vector2 direction)
     {
+        Vector2 currentDirection;
+        if (TryGetComponent(out Holdable holdable) && holdable.RotatableWhenIsHolded)
+        {
+            currentDirection = VectorMath.Quartenion2DToVec2(holdable.transform.rotation);
+        }
+        else
+        {
+            currentDirection = direction;
+        }
+
         if (AttackCondition())
         {
             OnTryAttackSuccess(direction);
@@ -95,7 +94,7 @@ public abstract class Weapon : MonoBehaviour
     {
 
         //attack cooldown
-        _attackCooldown = BaseAttackCoolDownSeconds * AttackCooldownMultiplier;
+        _attackCooldown = Projectile.AttackCooldown * AttackCooldownMultiplier;
         StartCoroutine(AwaitAttackCooldownFinish());
 
         //knockback
@@ -104,7 +103,7 @@ public abstract class Weapon : MonoBehaviour
             if (holdable.CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
             {
 
-                rigidBody.linearVelocity += direction * KnockBack;
+                rigidBody.linearVelocity -= direction * Projectile.KnockBack;
 
                 if (holdable.CurrentHolder.TryGetComponent(out CharacterVisual charVisual))
                 {
