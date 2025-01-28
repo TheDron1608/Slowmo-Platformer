@@ -322,7 +322,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             )
         {
 
-            if (weapon.IsAbleToAttack)
+            if (weapon.IsAttacking)
             {
                 _characterActionsComponent.CharacterAttackingAction.TryHammerElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
             }

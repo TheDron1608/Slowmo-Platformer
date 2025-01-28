@@ -49,7 +49,6 @@ public class RangedWeapon : Weapon
         {
             _animator.SetBool(ANIMATOR_UNLOADED_PROP_NAME, value);
             _unloaded = value;
-            IsAbleToAttack = !value && !IsReloading;
         }
     }
 
@@ -95,7 +94,6 @@ public class RangedWeapon : Weapon
     {
         if (!IsReloading) return false;
 
-        IsAbleToAttack = true;
         IsReloading = false;
         _animator.SetBool(ANIMATOR_IS_RELOADING_PROP_NAME, false);
 
@@ -145,7 +143,7 @@ public class RangedWeapon : Weapon
     //OVERRIDES
     protected override bool AttackCondition()
     {
-        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading;
+        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded;
     }
 
     protected virtual bool ReloadCondition()
@@ -161,7 +159,6 @@ public class RangedWeapon : Weapon
     protected virtual void OnReload()
     {
         IsReloading = true;
-        IsAbleToAttack = false;
         Unloaded = true;
         _animator.SetBool(ANIMATOR_IS_RELOADING_PROP_NAME, true);
     }
@@ -169,7 +166,6 @@ public class RangedWeapon : Weapon
     protected virtual void OnReloadFinish()
     {
         IsReloading = false;
-        IsAbleToAttack = true;
     }
 
     protected override void OnTryAttackFail(Vector2 direction)
@@ -187,7 +183,6 @@ public class RangedWeapon : Weapon
     /// </summary>
     public virtual void OnLoadFinish()
     {
-        IsAbleToAttack = !IsReloading;
         Unloaded = false;
     }
 
@@ -196,7 +191,6 @@ public class RangedWeapon : Weapon
     /// </summary>
     public virtual void OnUnloadFinish()
     {
-        IsAbleToAttack = false;
         Unloaded = true;
     }
 }
