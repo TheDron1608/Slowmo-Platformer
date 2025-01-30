@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6458639643088314710
+--- !u!1001 &555786682304151848
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: ThrowForceMultiplier
-      value: 1.5
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: RotatableWhenIsHolded
@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: SpeedToGetThroughWall
-      value: 7.5
+      value: 7.55
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: HoldDistanceWhenIsHolded
@@ -35,22 +35,22 @@ PrefabInstance:
     - target: {fileID: 3049281706012927928, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: c0bbdccc8a67c5e4b8106d0f4fa7cb2d, type: 2}
+      objectReference: {fileID: 9100000, guid: 4bd74a9cd49c4b740bcfabcf2acdbf40, type: 2}
+    - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: m_Size.x
+      value: 0.9266045
+      objectReference: {fileID: 0}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.y
-      value: 0.051326096
+      value: 0.17307232
+      objectReference: {fileID: 0}
+    - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.029753447
       objectReference: {fileID: 0}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Offset.y
-      value: -0.21863183
-      objectReference: {fileID: 0}
-    - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 3
+      value: -0.09149634
       objectReference: {fileID: 0}
     - target: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -94,38 +94,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7456881602955135124, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Name
-      value: Sword
+      value: Axe
       objectReference: {fileID: 0}
     - target: {fileID: 8573550137848886292, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2145560924, guid: ae70041c2d0d48549ac4155e1f56fb56, type: 3}
+      objectReference: {fileID: 21300000, guid: beeb2dae57f299d41b3d33169542966e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7456881602955135124, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 1730843304787257890}
+      addedObject: {fileID: 1218550853478665722}
   m_SourcePrefab: {fileID: 100100000, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
---- !u!1 &4529944778502154690 stripped
+--- !u!1 &6974570890917349820 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7456881602955135124, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-  m_PrefabInstance: {fileID: 6458639643088314710}
+  m_PrefabInstance: {fileID: 555786682304151848}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1730843304787257890
+--- !u!114 &1218550853478665722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4529944778502154690}
+  m_GameObject: {fileID: 6974570890917349820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 947a90f8372bb4f4fa043ae7ef9b4f8e, type: 3}
+  m_Script: {fileID: 11500000, guid: ff72446f98c20e64494db2d164f99aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackCooldown: 0.5
+  _attackCooldown: 0.75
   _attackCooldownMultiplier: 1
   PlayerInputAutoAttackOnPress: 0
   Projectile: {fileID: 8179383447119305257, guid: f62ab6dd4c736094db948d27b15e3f73, type: 3}
@@ -133,4 +133,3 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   AttackRangeMultiplier: 1
-  TimeToHolsterBackSeconds: 6.5
