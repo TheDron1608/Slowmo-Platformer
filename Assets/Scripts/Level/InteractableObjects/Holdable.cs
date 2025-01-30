@@ -248,6 +248,11 @@ public class Holdable : Interactable
                     bulletReloadWeapon.TryCloseMag();
                 }
             }
+
+            if (TryGetComponent(out SpinableMeleeWeapon spinableMeleeWeapon))
+            {
+                spinableMeleeWeapon.Spin();
+            }
         }
     }
 }
