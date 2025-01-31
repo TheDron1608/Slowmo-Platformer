@@ -21,11 +21,13 @@ public class Chainsaw : MeleeWeapon
     private bool _isStarting = false;
     private bool _started = false;
 
+    private Collider2D _colliderComponent;
     private Rigidbody2D _rigidBodyComponent;
 
     protected override void OnAwake()
     {
         base.OnAwake();
+        if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
     }
 
@@ -50,6 +52,12 @@ public class Chainsaw : MeleeWeapon
             ChainsawPowerLeft = 1f;
             _animator.SetBool(ANIMATOR_STARTED_PROP_NAME, value);
         }
+    }
+
+    public void SetEnableKnockbackOnWalls(bool value)
+    {
+        _colliderComponent.isTrigger = value && !IsThrown;
+        _rigidBodyComponent.simulated = value || IsThrown;
     }
 
     public bool TryStart()
@@ -86,6 +94,21 @@ public class Chainsaw : MeleeWeapon
         return base.AttackCondition() && Started && !IsStarting;
     }
 
+    protected override bool OnTryAttackSuccess(Vector2 direction)
+    {
+        if (!base.OnTryAttackSuccess(direction)) return false;
+        SetEnableKnockbackOnWalls(true);
+        return true;
+    }
+    public override void OnFinishAttack()
+    {
+        base.OnFinishAttack();
+        if (IsIdle)
+        {
+            SetEnableKnockbackOnWalls(false);
+        }
+    }
+
     private void FixedUpdate()
     {
         UpdateChainsawPower();
@@ -104,7 +127,7 @@ public class Chainsaw : MeleeWeapon
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (
             collision.gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME && 
@@ -114,6 +137,19 @@ public class Chainsaw : MeleeWeapon
             )
         {
             holderRigidBody.linearVelocity -= GetCurrentAvaibleAim() * WallHitKnockback;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (
+            collision.gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME &&
+            TryGetComponent(out Holdable holdableWeapon) &&
+            holdableWeapon.CurrentHolder != null &&
+            holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody)
+            )
+        {
+            holderRigidBody.linearVelocity -= GetCurrentAvaibleAim() * WallHitKnockback * Time.deltaTime;
         }
     }
 }

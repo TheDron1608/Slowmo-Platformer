@@ -179,6 +179,7 @@ public class Holdable : Interactable
         newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
         transform.rotation = newRotation;
 
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
         if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))
         {
