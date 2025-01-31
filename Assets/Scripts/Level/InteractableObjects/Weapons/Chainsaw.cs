@@ -1,9 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class Chainsaw : MeleeWeapon
 {
     const string ANIMATOR_STARTED_PROP_NAME = "Started";
     const string ANIMATOR_START_TRIGGER_NAME = "Start";
+
+    const float CLOUDS_PARTICLE_SPAWN_DURATION = 0.5f;
+    const float CLOUDS_PARTICLE_SPAWN_CHANCE = 0.75f;
+
+    const string CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudsParticleSpawner";
 
     [Header("Chainsaw")]
     public float FullUnpowerRequiredTime = 5f; //in seconds
@@ -23,12 +29,15 @@ public class Chainsaw : MeleeWeapon
 
     private Collider2D _colliderComponent;
     private Rigidbody2D _rigidBodyComponent;
+    private ParticleSpawner _cloudsParticleSpawner;
+    private Coroutine _passiveCloudsSpawnerCoroutine;
 
     protected override void OnAwake()
     {
         base.OnAwake();
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+        _cloudsParticleSpawner = transform.Find(CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
     }
 
     public float ChainsawPowerLeft
@@ -51,6 +60,17 @@ public class Chainsaw : MeleeWeapon
             _started = value;
             ChainsawPowerLeft = 1f;
             _animator.SetBool(ANIMATOR_STARTED_PROP_NAME, value);
+            if (value)
+            {
+                _passiveCloudsSpawnerCoroutine = StartCoroutine(PassiveCloudsSpawn());
+            }
+            else
+            {
+                if (_passiveCloudsSpawnerCoroutine != null)
+                {
+                    StopCoroutine(_passiveCloudsSpawnerCoroutine);
+                }
+            }
         }
     }
 
@@ -106,6 +126,18 @@ public class Chainsaw : MeleeWeapon
         if (IsIdle)
         {
             SetEnableKnockbackOnWalls(false);
+        }
+    }
+
+    private IEnumerator PassiveCloudsSpawn()
+    {
+        while (true)
+        {
+            if (Random.value < CLOUDS_PARTICLE_SPAWN_CHANCE)
+            {
+                _cloudsParticleSpawner.SpawnParticle();
+            }
+            yield return new WaitForSeconds(CLOUDS_PARTICLE_SPAWN_DURATION);
         }
     }
 
