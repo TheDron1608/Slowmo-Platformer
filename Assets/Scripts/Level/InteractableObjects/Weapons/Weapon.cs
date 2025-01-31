@@ -37,7 +37,7 @@ public abstract class Weapon : MonoBehaviour
         set => _attackCooldownMultiplier = value;
     }
 
-    public bool IsAttacking
+    public bool IsIdle
     {
         get => _isAttacking;
         set => _isAttacking = value;
@@ -160,7 +160,7 @@ public abstract class Weapon : MonoBehaviour
         int attackRepeatsLeft = RepeatAttacksTimes;
         while (attackRepeatsLeft > 0)
         {
-            IsAttacking = true;
+            IsIdle = true;
             if (!TrySingleAttack(GetCurrentAvaibleAim()))
             {
                 break;
@@ -174,7 +174,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual bool AttackCondition()
     {
-        return IsAttacking;
+        return IsIdle;
     }
 
     /// <summary>
@@ -187,8 +187,8 @@ public abstract class Weapon : MonoBehaviour
 
     private IEnumerator AwaitAttackCooldownFinish()
     {
-        IsAttacking = false;
+        IsIdle = false;
         yield return new WaitForSeconds(AttackCooldown * AttackCooldownMultiplier);
-        IsAttacking = true;
+        IsIdle = true;
     }
 }

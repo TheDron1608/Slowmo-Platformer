@@ -65,13 +65,16 @@ public class Holdable : Interactable
 
     protected virtual void OnUpdate()
     {
-        if (VectorMath.RigidBodyVelocityToSpeed(_rigidBodyComponent) > SpeedToGetThroughWall)
+        if (CurrentHolder == null)
         {
-            _colliderComponent.isTrigger = true;
-        }
-        else if (!_isStuck)
-        {
-            _colliderComponent.isTrigger = false;
+            if (VectorMath.RigidBodyVelocityToSpeed(_rigidBodyComponent) > SpeedToGetThroughWall)
+            {
+                _colliderComponent.isTrigger = true;
+            }
+            else if (!_isStuck)
+            {
+                _colliderComponent.isTrigger = false;
+            }
         }
     }
 
@@ -204,6 +207,10 @@ public class Holdable : Interactable
             {
                 hammerWeapon.TrySetHammered(false);
             }
+        }
+        if (TryGetComponent(out Chainsaw chainsaw))
+        {
+            chainsaw.Started = false;
         }
     }
 

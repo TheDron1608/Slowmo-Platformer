@@ -256,7 +256,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (_characterHoldingObjectsComponent.CurrentHoldObject != null && _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
-            _characterActionsComponent.CharacterAttackingAction.TryHammerElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            _characterActionsComponent.CharacterAttackingAction.TryLoadElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
 
             if (weapon.PlayerInputAutoAttackOnPress)
             {
@@ -322,9 +322,9 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             )
         {
 
-            if (weapon.IsAttacking)
+            if (weapon.IsIdle)
             {
-                _characterActionsComponent.CharacterAttackingAction.TryHammerElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+                _characterActionsComponent.CharacterAttackingAction.TryLoadElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
             }
             else if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
             {

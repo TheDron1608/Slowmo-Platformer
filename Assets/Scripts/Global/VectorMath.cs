@@ -76,4 +76,9 @@ public static class VectorMath
             );
         return quaternion;
     }
+
+    public static Vector2 GetAngleToAsNormalizedVec2(Vector2 from, Vector2 to)
+    {
+        return (to - from).normalized;
+    }
 }

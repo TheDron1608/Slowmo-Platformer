@@ -30,6 +30,15 @@ public class CharacterAttacking : MonoBehaviour
         return false;
     }
 
+    public bool TryStartChainsaw()
+    {
+        if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) && !chainsaw.Started)
+        {
+            return chainsaw.TryStart();
+        }
+        return false;
+    }
+
     public bool TryAttack(Vector2 direction)
     {
         if (_characterHoldingObjects.CurrentHoldObject != null && _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
@@ -39,21 +48,16 @@ public class CharacterAttacking : MonoBehaviour
         return false;
     }
 
-    public bool TryHammerElseAttack(Vector2 direction)
+    public bool TryLoadElseAttack(Vector2 direction)
     {
         if (_characterHoldingObjects.CurrentHoldObject != null)
         {
-            if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
-            {
-                hammerWeapon.TrySetHammered(true);
-                return true;
-            }
+            if (TryHammerWeapon()) return true;
 
-            else if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
-            {
-                weapon.TryAttack(direction);
-                return true;
-            }
+            if (TryStartChainsaw()) return true;
+
+            if (TryAttack(direction)) return true;
+
             return false;
         }
 
