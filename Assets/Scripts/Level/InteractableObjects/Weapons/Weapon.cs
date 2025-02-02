@@ -81,7 +81,7 @@ public abstract class Weapon : MonoBehaviour
         }
         else
         {
-            return VectorMath.Quartenion2DToVec2(transform.rotation);
+            return VectorMath.Quartenion2DToVec3(transform.rotation);
         }
     }
 
@@ -97,7 +97,7 @@ public abstract class Weapon : MonoBehaviour
             Vector2 currentDirection;
             if (TryGetComponent(out Holdable holdable) && holdable.RotatableWhenIsHolded)
             {
-                currentDirection = VectorMath.Quartenion2DToVec2(holdable.transform.rotation);
+                currentDirection = VectorMath.Quartenion2DToVec3(holdable.transform.rotation);
             }
             else
             {
@@ -114,7 +114,7 @@ public abstract class Weapon : MonoBehaviour
         Vector2 currentDirection;
         if (TryGetComponent(out Holdable holdable) && holdable.RotatableWhenIsHolded)
         {
-            currentDirection = VectorMath.Quartenion2DToVec2(holdable.transform.rotation);
+            currentDirection = VectorMath.Quartenion2DToVec3(holdable.transform.rotation);
         }
         else
         {

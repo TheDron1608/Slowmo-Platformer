@@ -22,7 +22,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         {
             transform.rotation = value;
             _moveAlign = value.normalized;
-            _moveAlignVec2 = VectorMath.Quartenion2DToVec2(_moveAlign);
+            _moveAlignVec2 = VectorMath.Quartenion2DToVec3(_moveAlign);
         }
     }
 

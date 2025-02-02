@@ -55,9 +55,14 @@ public static class VectorMath
         return result;
     }
 
-    public static Vector3 Quartenion2DToVec2(Quaternion target)
+    public static Vector3 Quartenion2DToVec3(Quaternion target)
     {
         return math.mul(target, Vector3.right);
+    }
+
+    public static Vector2 Quartenion2DToVec2(Quaternion target)
+    {
+        return Vec3ToVec2(math.mul(target, Vector3.right));
     }
 
     public static float RigidBodyVelocityToSpeed(Rigidbody2D rb)

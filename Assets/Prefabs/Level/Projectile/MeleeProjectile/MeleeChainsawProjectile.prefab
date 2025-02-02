@@ -66,19 +66,19 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 1c80394c3bcae8b4dbd22f4cfad04823, type: 2}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Size.x
-      value: 1.1973948
+      value: 0.9318046
       objectReference: {fileID: 0}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Size.y
-      value: 0.73513997
+      value: 0.36888275
       objectReference: {fileID: 0}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Offset.x
-      value: 0.5861976
+      value: 0.47267917
       objectReference: {fileID: 0}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Offset.y
-      value: -0.005174458
+      value: 0.0023220032
       objectReference: {fileID: 0}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_IncludeLayers.m_Bits
@@ -112,3 +112,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Accuracy: 0.9
   KnockBack: 0
+  WallKnockback: 7.5

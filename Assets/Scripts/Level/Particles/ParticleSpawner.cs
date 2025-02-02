@@ -49,7 +49,7 @@ public class ParticleSpawner : MonoBehaviour
                     spawnAnleQuarternion.eulerAngles.z + SpawnAngle
                     );
 
-                newParticleRigidBody.linearVelocity = VectorMath.Quartenion2DToVec2(spawnAnleQuarternion) * SpawnVelocity;
+                newParticleRigidBody.linearVelocity = VectorMath.Quartenion2DToVec3(spawnAnleQuarternion) * SpawnVelocity;
                 newParticleRigidBody.linearVelocity = new Vector2(
                     newParticleRigidBody.linearVelocity.x + (UnityEngine.Random.value * SPAWN_VELOCITY_EXTRA_RANOM_MULTIPLIER * SpawnVelocity),
                     newParticleRigidBody.linearVelocity.y + (UnityEngine.Random.value * SPAWN_VELOCITY_EXTRA_RANOM_MULTIPLIER * SpawnVelocity)

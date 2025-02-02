@@ -17,6 +17,10 @@ public class MeleeProjectile : AbstractProjectile
         DISARM
     }
 
+    public float WallKnockback = 5f;
+
+    private bool _didHitAnyWallOnce = false;
+
     public override List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
         MeleeProjectile newProjectile = Instantiate(this, weapon.transform);
@@ -36,5 +40,23 @@ public class MeleeProjectile : AbstractProjectile
     {
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         layer.UpdateLayerForGameObject(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (_didHitAnyWallOnce) return;
+
+        if (collision.gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null) 
+        {
+            if (Weapon.TryGetComponent(out Holdable holdableWeapon) && holdableWeapon.CurrentHolder != null && holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody))
+            {
+                holderRigidBody.linearVelocity -= VectorMath.Quartenion2DToVec2(transform.rotation) * WallKnockback;
+            }
+            else if (Weapon.TryGetComponent(out Rigidbody2D weaponRigidBody) && weaponRigidBody.simulated)
+            {
+                weaponRigidBody.linearVelocity -= VectorMath.Quartenion2DToVec2(transform.rotation) * WallKnockback;
+            }
+            _didHitAnyWallOnce = true;
+        }
     }
 }
