@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
@@ -18,8 +20,9 @@ public abstract class Weapon : MonoBehaviour
 
     protected Animator _animator;
 
-    private bool _isAttacking = true;
+    private bool _isInCooldown = false;
     private bool _isThrown = true;
+    private List<AbstractProjectile> _projectiles = new();
 
     public float AttackCooldown
     {
@@ -37,10 +40,10 @@ public abstract class Weapon : MonoBehaviour
         set => _attackCooldownMultiplier = value;
     }
 
-    public bool IsIdle
+    public bool IsInCooldown
     {
-        get => _isAttacking;
-        set => _isAttacking = value;
+        get => _isInCooldown;
+        set => _isInCooldown = value;
     }
 
     public bool IsThrown
@@ -51,6 +54,12 @@ public abstract class Weapon : MonoBehaviour
             _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, value);
             _isThrown = value;
         }
+    }
+
+    public List<AbstractProjectile> Projectiles
+    {
+        get => _projectiles;
+        set => _projectiles = value;
     }
 
 
@@ -76,9 +85,9 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    public bool TryAttack(Vector2 direction)
+    public bool TryAttack(Vector2 direction, bool ignoreCooldown = false)
     {
-        if (AttackCondition())
+        if (AttackCondition() && (ignoreCooldown || !IsInCooldown))
         {
             StartCoroutine(AttackMultipleTimes());
             return true;
@@ -100,7 +109,7 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    public bool TrySingleAttack(Vector2 direction)
+    public bool TrySingleAttack(Vector2 direction, bool ignoreCooldown = false)
     {
         Vector2 currentDirection;
         if (TryGetComponent(out Holdable holdable) && holdable.RotatableWhenIsHolded)
@@ -112,7 +121,7 @@ public abstract class Weapon : MonoBehaviour
             currentDirection = direction;
         }
 
-        if (AttackCondition())
+        if (AttackCondition() && (ignoreCooldown || !IsInCooldown))
         {
             OnTryAttackSuccess(direction);
             return true;
@@ -127,7 +136,7 @@ public abstract class Weapon : MonoBehaviour
     protected virtual bool OnTryAttackSuccess(Vector2 direction)
     {
         //attack cooldown
-        StartCoroutine(AwaitAttackCooldownFinish());
+        IsInCooldown = true;
 
         //knockback
         if (TryGetComponent(out Holdable holdable))
@@ -144,7 +153,7 @@ public abstract class Weapon : MonoBehaviour
             }
         }
 
-        Projectile.SpawnProjectile(direction, AccuracyMultiplier, gameObject.GetComponent<Weapon>());
+        _projectiles.AddRange(Projectile.SpawnProjectile(direction, AccuracyMultiplier, gameObject.GetComponent<Weapon>()));
         _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
         return true;
@@ -158,23 +167,22 @@ public abstract class Weapon : MonoBehaviour
     private IEnumerator AttackMultipleTimes()
     {
         int attackRepeatsLeft = RepeatAttacksTimes;
-        while (attackRepeatsLeft > 0)
+        while (true)
         {
-            IsIdle = true;
-            if (!TrySingleAttack(GetCurrentAvaibleAim()))
-            {
-                break;
-            }
+            if (!TrySingleAttack(GetCurrentAvaibleAim(), true)) break;
 
             attackRepeatsLeft--;
 
+            if (attackRepeatsLeft <= 0) break;
+
             yield return new WaitForSeconds(DurationBetweenRepeatAttacks);
         }
+        StartCoroutine(AwaitAttackCooldownFinish());
     }
 
     protected virtual bool AttackCondition()
     {
-        return IsIdle;
+        return true;
     }
 
     /// <summary>
@@ -187,8 +195,7 @@ public abstract class Weapon : MonoBehaviour
 
     private IEnumerator AwaitAttackCooldownFinish()
     {
-        IsIdle = false;
         yield return new WaitForSeconds(AttackCooldown * AttackCooldownMultiplier);
-        IsIdle = true;
+        IsInCooldown = false;
     }
 }

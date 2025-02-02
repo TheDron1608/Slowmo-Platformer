@@ -29,6 +29,10 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     public void RemoveSelf()
     {
+        if (Weapon != null)
+        {
+            Weapon.Projectiles.Remove(this);
+        }
         Destroy(gameObject);
     }
 }

@@ -10,11 +10,11 @@ public class Chainsaw : MeleeWeapon
     const float CLOUDS_PARTICLE_SPAWN_CHANCE = 0.75f;
 
     const string CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudsParticleSpawner";
+    const string KNOCKBACK_COLLIDER_GAMEOBJECT_NAME = "KnockbackCollider";
 
     [Header("Chainsaw")]
     public float FullUnpowerRequiredTime = 5f; //in seconds
     public float ChanceToSucessStart = 0.1f;
-    public float WallHitKnockback = 5f;
 
     /// <summary>
     /// Value between 1 and 0, recreases every frame, when reaches 0 unloads  itself
@@ -74,12 +74,6 @@ public class Chainsaw : MeleeWeapon
         }
     }
 
-    public void SetEnableKnockbackOnWalls(bool value)
-    {
-        _colliderComponent.isTrigger = value && !IsThrown;
-        _rigidBodyComponent.simulated = value || IsThrown;
-    }
-
     public bool TryStart()
     {
         if (Started || IsStarting) return false;
@@ -114,21 +108,6 @@ public class Chainsaw : MeleeWeapon
         return base.AttackCondition() && Started && !IsStarting;
     }
 
-    protected override bool OnTryAttackSuccess(Vector2 direction)
-    {
-        if (!base.OnTryAttackSuccess(direction)) return false;
-        SetEnableKnockbackOnWalls(true);
-        return true;
-    }
-    public override void OnFinishAttack()
-    {
-        base.OnFinishAttack();
-        if (IsIdle)
-        {
-            SetEnableKnockbackOnWalls(false);
-        }
-    }
-
     private IEnumerator PassiveCloudsSpawn()
     {
         while (true)
@@ -148,7 +127,7 @@ public class Chainsaw : MeleeWeapon
 
     private void UpdateChainsawPower()
     {
-        if (ChainsawPowerLeft > 0f && !IsIdle)
+        if (ChainsawPowerLeft > 0f && !IsInCooldown)
         {
             ChainsawPowerLeft -= Time.fixedDeltaTime / FullUnpowerRequiredTime;
             if (_chainsawPowerLeft < 0f)
@@ -156,32 +135,6 @@ public class Chainsaw : MeleeWeapon
                 ChainsawPowerLeft = 0f;
                 Started = false;
             }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (
-            collision.gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME && 
-            TryGetComponent(out Holdable holdableWeapon) &&
-            holdableWeapon.CurrentHolder != null &&
-            holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody)
-            )
-        {
-            holderRigidBody.linearVelocity -= GetCurrentAvaibleAim() * WallHitKnockback;
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (
-            collision.gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME &&
-            TryGetComponent(out Holdable holdableWeapon) &&
-            holdableWeapon.CurrentHolder != null &&
-            holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody)
-            )
-        {
-            holderRigidBody.linearVelocity -= GetCurrentAvaibleAim() * WallHitKnockback * Time.deltaTime;
         }
     }
 }

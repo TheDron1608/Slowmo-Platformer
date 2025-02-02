@@ -321,12 +321,9 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             _characterActionsComponent.CharacterAttackingAction != null
             )
         {
-
-            if (weapon.IsIdle)
-            {
-                _characterActionsComponent.CharacterAttackingAction.TryLoadElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
-            }
-            else if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
+            _characterActionsComponent.CharacterAttackingAction.TryLoadElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+                
+            if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
             {
                 AutoAttack = false;
             }
