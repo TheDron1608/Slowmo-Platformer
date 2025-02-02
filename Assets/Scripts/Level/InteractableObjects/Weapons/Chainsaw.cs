@@ -16,9 +16,6 @@ public class Chainsaw : MeleeWeapon
     public float FullUnpowerRequiredTime = 5f; //in seconds
     public float ChanceToSucessStart = 0.1f;
 
-    /// <summary>
-    /// Value between 1 and 0, recreases every frame, when reaches 0 unloads  itself
-    /// </summary>
     private float _chainsawPowerLeft = 0f;
     /// <summary>
     /// Value between 1 and 0, increases by ChanceToSucessLoad if previous attempt to load was failed
@@ -40,6 +37,9 @@ public class Chainsaw : MeleeWeapon
         _cloudsParticleSpawner = transform.Find(CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
     }
 
+    /// <summary>
+    /// Value between 1 and 0, recreases every frame, when reaches 0 unloads  itself
+    /// </summary>
     public float ChainsawPowerLeft
     {
         get => _chainsawPowerLeft;
@@ -127,13 +127,21 @@ public class Chainsaw : MeleeWeapon
 
     private void UpdateChainsawPower()
     {
-        if (ChainsawPowerLeft > 0f && !IsInCooldown)
+        if (ChainsawPowerLeft > 0f && IsInCooldown)
         {
             ChainsawPowerLeft -= Time.fixedDeltaTime / FullUnpowerRequiredTime;
             if (_chainsawPowerLeft < 0f)
             {
                 ChainsawPowerLeft = 0f;
                 Started = false;
+            }
+        }
+        else if (ChainsawPowerLeft <= 1f && !IsInCooldown)
+        {
+            ChainsawPowerLeft += Time.fixedDeltaTime / FullUnpowerRequiredTime;
+            if (ChainsawPowerLeft > 1f)
+            {
+                ChainsawPowerLeft = 1f;
             }
         }
     }
