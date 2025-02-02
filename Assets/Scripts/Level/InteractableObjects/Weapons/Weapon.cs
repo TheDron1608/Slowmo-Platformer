@@ -146,7 +146,10 @@ public abstract class Weapon : MonoBehaviour
 
                 rigidBody.linearVelocity -= direction * Projectile.KnockBack;
 
-                if (holdable.CurrentHolder.TryGetComponent(out CharacterVisual charVisual))
+                if (
+                    holdable.CurrentHolder.TryGetComponent(out CharacterVisual charVisual) && 
+                    (rigidBody.linearVelocityX < 0 ^ direction.x > 0f)
+                    )
                 {
                     charVisual.SpritesFlipped = direction.x < 0f;
                 }
