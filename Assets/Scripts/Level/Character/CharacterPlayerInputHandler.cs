@@ -22,8 +22,8 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private Coroutine MoveGamepadActionHandler;
 
-    public float CoyoteJumpTooEarlyTimer = .33f;
-    public float CoyoteJumpTooLateTimer = .125f;
+    public float CoyoteEarlyTimer = .33f;
+    public float CoyoteLateTimer = .125f;
 
     private float _coyoteJumpTooEarlyTimeLeft = 0f;
     private Coroutine _coyoteJumpTooEarlyHandler;
@@ -115,13 +115,13 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         {
             _characterActionsComponent.CharacterJumpingAction.StartJump();
         }
-        else if (_characterInfoComponent.TimeInAir <= CoyoteJumpTooLateTimer)
+        else if (_characterInfoComponent.TimeInAir <= CoyoteLateTimer)
         {
             _characterActionsComponent.CharacterJumpingAction.ForceStartJump();
         }
         else
         {
-            _coyoteJumpTooEarlyTimeLeft = CoyoteJumpTooEarlyTimer;
+            _coyoteJumpTooEarlyTimeLeft = CoyoteEarlyTimer;
             _coyoteJumpTooEarlyHandler = StartCoroutine(HandleCoyoteJumpTooEarly());
         }
     }
@@ -282,7 +282,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     //ROLL
     private void UpdateRollInput()
     {
-
         if (
             MoveActionReference.action.ReadValue<Vector2>().y <= -0.5f &&
             math.abs(MoveActionReference.action.ReadValue<Vector2>().x) > 0.05f
@@ -290,14 +289,10 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         {
             if (!_awaitingResetInputToReroll)
             {
-                _awaitingResetInputToReroll = true;
-                if (MoveActionReference.action.ReadValue<Vector2>().x > 0f)
+                float rollDirection = MoveActionReference.action.ReadValue<Vector2>().x > 0f ? 1f : -1f;
+                if (_characterActionsComponent.CharacterRollingAction.TryRoll(rollDirection))
                 {
-                    _characterActionsComponent.CharacterRollingAction.TryRoll((float)CharacterRolling.RollDirection.Right);
-                }
-                else if (MoveActionReference.action.ReadValue<Vector2>().x < 0f)
-                {
-                    _characterActionsComponent.CharacterRollingAction.TryRoll((float)CharacterRolling.RollDirection.Left);
+                    _awaitingResetInputToReroll = true;
                 }
             }
         }
