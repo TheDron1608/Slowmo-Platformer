@@ -24,6 +24,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     public float CoyoteEarlyTimer = .33f;
     public float CoyoteLateTimer = .125f;
+    public float GamePadRollInputDelay = 0.075f;
 
     private float _coyoteJumpTooEarlyTimeLeft = 0f;
     private Coroutine _coyoteJumpTooEarlyHandler;
@@ -31,6 +32,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private SelectableObject _lastSelectedObject = null;
     private bool _autoAttack = false;
     private bool _awaitingResetInputToReroll = false;
+    private float _currentGamepadRollInputDelay = 0f;
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
@@ -287,18 +289,24 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             math.abs(MoveActionReference.action.ReadValue<Vector2>().x) > 0.05f
             )
         {
-            if (!_awaitingResetInputToReroll)
+            _currentGamepadRollInputDelay += Time.deltaTime;
+
+            if (!CurrentDeviceTracker.GetGamepadIsConnected() || _currentGamepadRollInputDelay > GamePadRollInputDelay)
             {
-                float rollDirection = MoveActionReference.action.ReadValue<Vector2>().x > 0f ? 1f : -1f;
-                if (_characterActionsComponent.CharacterRollingAction.TryRoll(rollDirection))
+                if (!_awaitingResetInputToReroll)
                 {
-                    _awaitingResetInputToReroll = true;
+                    float rollDirection = MoveActionReference.action.ReadValue<Vector2>().x > 0f ? 1f : -1f;
+                    if (_characterActionsComponent.CharacterRollingAction.TryRoll(rollDirection))
+                    {
+                        _awaitingResetInputToReroll = true;
+                    }
                 }
             }
         }
         else
         {
             _awaitingResetInputToReroll = false;
+            _currentGamepadRollInputDelay = 0f;
         }
     }
 

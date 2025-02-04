@@ -155,5 +155,6 @@ MonoBehaviour:
   GrabActionReference: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   ReloadActionReference: {fileID: -1464298813234954796, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   MinMoveSpeed: 0.5
-  CoyoteJumpTooEarlyTimer: 0.1
-  CoyoteJumpTooLateTimer: 0.16
+  CoyoteEarlyTimer: 0.33
+  CoyoteLateTimer: 0.125
+  GamePadRollInputDelay: 0.075
