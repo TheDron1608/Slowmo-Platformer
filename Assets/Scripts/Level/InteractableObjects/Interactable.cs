@@ -46,7 +46,7 @@ public abstract class Interactable : SelectableObject
         }
     }
 
-    private void CharacterVisual_OnFirstBusyAnimationFinished(object sender, System.EventArgs e)
+    private void CharacterVisual_OnFirstBusyAnimationFinished(object sender, CharacterPart.CharacterPartBusyStates e)
     {
         if (_currentInteractor == null) return;
 
@@ -70,7 +70,7 @@ public abstract class Interactable : SelectableObject
         }
     }
 
-    private void CharacterVisual_OnSecondBusyAnimationFinished(object sender, System.EventArgs e)
+    private void CharacterVisual_OnSecondBusyAnimationFinished(object sender, CharacterPart.CharacterPartBusyStates e)
     {
         if (_currentInteractor == null) return;
 

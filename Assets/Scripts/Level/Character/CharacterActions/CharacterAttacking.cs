@@ -43,7 +43,14 @@ public class CharacterAttacking : MonoBehaviour
     {
         if (_characterHoldingObjects.CurrentHoldObject != null && _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
-            return weapon.TryAttack(direction);
+            if (weapon.TryAttack(direction))
+            {
+                if (TryGetComponent(out CharacterRolling charRolling))
+                {
+                    charRolling.ForceStopRolling();
+                }
+                return true;
+            }
         }
         return false;
     }

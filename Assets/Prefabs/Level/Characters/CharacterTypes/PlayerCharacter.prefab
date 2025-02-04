@@ -96,6 +96,18 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 7585185559083403592, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: RollSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585185559083403592, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: ExtraSpeedOnStart
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585185559083403592, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: ExtraSpeedDuration
+      value: 0.35
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6740873504452267486, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
     - {fileID: 7515539461060809475, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}

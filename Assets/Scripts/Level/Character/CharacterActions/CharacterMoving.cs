@@ -17,7 +17,7 @@ public class CharacterMoving : MonoBehaviour
 
     private float _currentMoveDirection;
     private bool _isAbleToMoveThisFrame = true;
-    private bool _isAbleToMove = true;
+    [SerializeField] private bool _isAbleToMove = true;
     private float _lastMoveDirectrion = 0f;
 
     public bool IsAbleToMoveThisFrame

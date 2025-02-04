@@ -16,7 +16,7 @@ public class CharacterCollisionInfo : MonoBehaviour
             CollisionAlign = collisionAlign;
         }
 
-        bool EnterOrReleasedCollision;
+        public bool EnterOrReleasedCollision;
         public Vector2 CollisionAlign;
     }
     public class OnTileBehavioutTypeCollisionChangedEventArgs

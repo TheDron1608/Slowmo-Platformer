@@ -31,7 +31,7 @@ public class CharacterVisual : MonoBehaviour
 
     public event EventHandler<CharacterPart.CharacterPartMainStates> OnMainStateChanged;
     public event EventHandler<CharacterPart.CharacterPartBusyStates> OnBusyStateChanged;
-    public event EventHandler OnBusyAnimationFinished;
+    public event EventHandler<CharacterPart.CharacterPartBusyStates> OnBusyAnimationFinished;
 
     public bool SpritesFlipped
     {
@@ -83,10 +83,10 @@ public class CharacterVisual : MonoBehaviour
         {
             if (_currentBusyAnimation == value) return;
 
+            OnBusyAnimationFinished?.Invoke(this, _currentBusyAnimation);
             _currentBusyAnimation = value;
             UpdateBusyState();
             OnBusyStateChanged?.Invoke(this, _currentBusyAnimation);
-            OnBusyAnimationFinished?.Invoke(this, EventArgs.Empty);
         }
     }
     private void UpdateBusyState()

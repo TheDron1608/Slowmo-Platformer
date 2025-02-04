@@ -30,6 +30,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private SelectableObject _currentSelectedObject = null;
     private SelectableObject _lastSelectedObject = null;
     private bool _autoAttack = false;
+    private bool _awaitingResetInputToReroll = false;
 
     private CharacterActions _characterActionsComponent;
     private Rigidbody2D _rigidbodyComponent;
@@ -67,8 +68,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private void Start()
     {
-        MoveActionReference.action.started += MoveActionReference_OnActionStarted;
-        MoveActionReference.action.canceled += MoveActionReference_OnActionCanceled;
         JumpActionReference.action.started += JumpActionReference_OnActionStarted;
         JumpActionReference.action.canceled += JumpActionReference_OnActionCanceled;
         InteractActionReference.action.started += InteractActionReference_OnActionStarted;
@@ -78,14 +77,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         ReloadActionReference.action.started += ReloadActionReference_OnActionStarted;
     }
 
-    private void MoveActionReference_OnActionStarted(InputAction.CallbackContext context)
-    {
-        HandleMoveInput();
-    }
-    private void MoveActionReference_OnActionCanceled(InputAction.CallbackContext context)
-    {
-        HandleMoveInput();
-    }
     private void JumpActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
         HandleStartJumpInput();
@@ -115,44 +106,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         HandleReload();
     }
 
-    //MOVE INPUT
-    public void HandleMoveInput()
-    {
-        if (_characterActionsComponent.CharacterMovingAction == null) return;
-
-        if (CurrentDeviceTracker.GetGamepadIsConnected())
-        {
-            MoveGamepadActionHandler = StartCoroutine(MoveGamepadAction());
-        }
-        else
-        {
-            _characterActionsComponent.CharacterMovingAction.Move(MoveActionReference.action.ReadValue<Vector2>().x);
-        }
-    }
-    private IEnumerator MoveGamepadAction()
-    {
-        float currentInputAxix;
-        float roundedInputAxis;
-        do
-        {
-            currentInputAxix = MoveActionReference.action.ReadValue<Vector2>().x;
-            if (
-                (currentInputAxix > 0 && currentInputAxix < MinMoveSpeed) ||
-                (currentInputAxix < 0 && currentInputAxix > -MinMoveSpeed)
-                )
-            {
-                roundedInputAxis = 0f;
-            }
-            else
-            {
-                roundedInputAxis = currentInputAxix;
-            }
-            _characterActionsComponent.CharacterMovingAction.Move(roundedInputAxis);
-            yield return new WaitForEndOfFrame();
-        }
-        while (currentInputAxix != 0f);
-    }
-    
     //JUMP INPUT
     public void HandleStartJumpInput()
     {
@@ -290,10 +243,68 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     //AIM
     private void Update()
     {
+        UpdateMoveInput();
+        UpdateRollInput();
         UpdateAimInput();
         UpdateAutoAttack();
         UpdateSelectedObject();
         UpdateAutoReload();
+    }
+
+    //MOVE INPUT
+    public void UpdateMoveInput()
+    {
+        if (_characterActionsComponent.CharacterMovingAction == null) return;
+
+        if (CurrentDeviceTracker.GetGamepadIsConnected())
+        {
+            float currentInputAxix = MoveActionReference.action.ReadValue<Vector2>().x;
+            float roundedInputAxis;
+            if (
+                (currentInputAxix > 0 && currentInputAxix < MinMoveSpeed) ||
+                (currentInputAxix < 0 && currentInputAxix > -MinMoveSpeed)
+                )
+            {
+                roundedInputAxis = 0f;
+            }
+            else
+            {
+                roundedInputAxis = currentInputAxix;
+            }
+            _characterActionsComponent.CharacterMovingAction.Move(roundedInputAxis);
+        }
+        else
+        {
+            _characterActionsComponent.CharacterMovingAction.Move(math.round(MoveActionReference.action.ReadValue<Vector2>().x));
+        }
+    }
+
+    //ROLL
+    private void UpdateRollInput()
+    {
+
+        if (
+            MoveActionReference.action.ReadValue<Vector2>().y <= -0.5f &&
+            math.abs(MoveActionReference.action.ReadValue<Vector2>().x) > 0.05f
+            )
+        {
+            if (!_awaitingResetInputToReroll)
+            {
+                _awaitingResetInputToReroll = true;
+                if (MoveActionReference.action.ReadValue<Vector2>().x > 0f)
+                {
+                    _characterActionsComponent.CharacterRollingAction.TryRoll((float)CharacterRolling.RollDirection.Right);
+                }
+                else if (MoveActionReference.action.ReadValue<Vector2>().x < 0f)
+                {
+                    _characterActionsComponent.CharacterRollingAction.TryRoll((float)CharacterRolling.RollDirection.Left);
+                }
+            }
+        }
+        else
+        {
+            _awaitingResetInputToReroll = false;
+        }
     }
 
     private void UpdateAimInput()
@@ -365,8 +376,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        MoveActionReference.action.started -= MoveActionReference_OnActionStarted;
-        MoveActionReference.action.canceled -= MoveActionReference_OnActionCanceled;
         JumpActionReference.action.started -= JumpActionReference_OnActionStarted;
         JumpActionReference.action.canceled -= JumpActionReference_OnActionCanceled;
         InteractActionReference.action.started -= InteractActionReference_OnActionStarted;

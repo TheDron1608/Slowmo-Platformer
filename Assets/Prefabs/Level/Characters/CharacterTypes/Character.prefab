@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 3540175533123877220}
   - component: {fileID: 7285514816818632256}
   - component: {fileID: 2103635049368087364}
+  - component: {fileID: 7585185559083403592}
   - component: {fileID: 1964864157782877518}
   - component: {fileID: 3060050546533286939}
   - component: {fileID: 155182563681929548}
@@ -109,6 +110,7 @@ MonoBehaviour:
   CharacterAimingAction: {fileID: 5375129970261745621}
   CharacterAttackingAction: {fileID: 8537718361905042118}
   CharacterReloadingAction: {fileID: 2103635049368087364}
+  CharacterRollingAction: {fileID: 7585185559083403592}
 --- !u!114 &5375129970261745621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +229,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsAbleToReload: 1
   _reloadSpeed: 1
+--- !u!114 &7585185559083403592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3ec89845bd8134e88ae4336bae035a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsAbleToRoll: 1
+  RollSpeed: 1.5
+  ExtraSpeedOnStart: 13.5
+  ExtraSpeedDuration: 0.667
 --- !u!114 &1964864157782877518
 MonoBehaviour:
   m_ObjectHideFlags: 0

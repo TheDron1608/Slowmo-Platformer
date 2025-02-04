@@ -10,6 +10,7 @@ public class CharacterActions : MonoBehaviour
     public CharacterAiming CharacterAimingAction;
     public CharacterAttacking CharacterAttackingAction;
     public CharacterReloading CharacterReloadingAction;
+    public CharacterRolling CharacterRollingAction;
 
     public void SetIsAbleToDoAnyActions(bool freezeAllActions)
     {
@@ -20,5 +21,6 @@ public class CharacterActions : MonoBehaviour
         CharacterAimingAction.IsAbleToAim = freezeAllActions;
         CharacterAttackingAction.IsAbleToAttack = freezeAllActions;
         CharacterReloadingAction.IsAbleToReload = freezeAllActions;
+        CharacterRollingAction.IsAbleToRoll = freezeAllActions;
     }
 }
