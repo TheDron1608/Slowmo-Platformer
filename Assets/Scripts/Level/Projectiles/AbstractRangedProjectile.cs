@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AbstractRangedProjectile : AbstractProjectile
@@ -62,6 +63,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (
+            !(collision.gameObject.TryGetComponent(out AbstractRangedProjectile rangedProjectile)) &&
             Weapon != null &&
             collision.gameObject != Weapon.gameObject && 
             Weapon.TryGetComponent(out Holdable weaponHoldableComponent) &&

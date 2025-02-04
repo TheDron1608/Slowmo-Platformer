@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144806725262324000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.95593894
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6144806725262324000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_LocalRotation.x
@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144806725262324000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.2935656
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6144806725262324000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -78,7 +78,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Accuracy: 0.85
-  AttackCooldown: 0.25
   KnockBack: 15
   BulletSpeed: 35
   MaxRange: 350
