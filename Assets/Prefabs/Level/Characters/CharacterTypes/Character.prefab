@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2912924473112157141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4360988538732883804}
+  m_Layer: 0
+  m_Name: PhysicsHitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4360988538732883804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2912924473112157141}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.13372554, y: 0.0456336, z: 0.005247643}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4213330836085406466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4810011283521481523
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,7 +71,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4213330836085406466}
-  - component: {fileID: 2002335163756146061}
   - component: {fileID: -3327571402814487819}
   - component: {fileID: 5375129970261745621}
   - component: {fileID: 7261639660243465350}
@@ -53,7 +83,7 @@ GameObject:
   - component: {fileID: 7585185559083403592}
   - component: {fileID: 1964864157782877518}
   - component: {fileID: 3060050546533286939}
-  - component: {fileID: 155182563681929548}
+  - component: {fileID: 2002335163756146061}
   - component: {fileID: 8015870745668218154}
   m_Layer: 6
   m_Name: Character
@@ -77,20 +107,9 @@ Transform:
   m_Children:
   - {fileID: 6738417014831093395}
   - {fileID: 3304611690710999899}
+  - {fileID: 4360988538732883804}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2002335163756146061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7466261371012752510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdec2ed032847354385bd07d44ecd9f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-3327571402814487819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,17 +119,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 7466261371012752510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d576377c054a00f46987f96c07c63a33, type: 3}
+  m_Script: {fileID: 11500000, guid: 89cf8f41d1f72b944b469f48ea371898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterMovingAction: {fileID: -1858980390697622286}
-  CharacterJumpingAction: {fileID: 3540175533123877220}
-  CharacterInteractAction: {fileID: 7261639660243465350}
-  CharacterHoldingAction: {fileID: 7285514816818632256}
-  CharacterAimingAction: {fileID: 5375129970261745621}
-  CharacterAttackingAction: {fileID: 8537718361905042118}
-  CharacterReloadingAction: {fileID: 2103635049368087364}
-  CharacterRollingAction: {fileID: 7585185559083403592}
+  CharacterMoving: {fileID: -1858980390697622286}
+  CharacterJumping: {fileID: 3540175533123877220}
+  CharacterInteract: {fileID: 7261639660243465350}
+  CharacterHolding: {fileID: 7285514816818632256}
+  CharacterAiming: {fileID: 5375129970261745621}
+  CharacterAttacking: {fileID: 8537718361905042118}
+  CharacterReloading: {fileID: 2103635049368087364}
+  CharacterRolling: {fileID: 7585185559083403592}
+  CharacterCollisionInfo: {fileID: 2002335163756146061}
+  CharacterVisual: {fileID: 1964864157782877518}
+  CharacterInteractionWithTiles: {fileID: 3206245827804919803}
+  Center: {fileID: 4810011283521481523}
+  CharacterPartsContainer: {fileID: 7534914569010161185}
+  CharacterRigidBody: {fileID: 3060050546533286939}
+  CharacterRigidBodyCapsuleCollider: {fileID: 8015870745668218154}
 --- !u!114 &5375129970261745621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 201eb258524073440baf725af61ada9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isAbleToMove: 1
   Speed: 5
   SpeedAccelerationOnGroundMultiplier: 4
   SpeedAccelerationOnAirMulitplier: 1
@@ -245,6 +272,7 @@ MonoBehaviour:
   RollSpeed: 1.5
   ExtraSpeedOnStart: 13.5
   ExtraSpeedDuration: 0.667
+  AccelerationMultiplier: 0.2
 --- !u!114 &1964864157782877518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,7 +314,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &155182563681929548
+--- !u!114 &2002335163756146061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,7 +323,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7466261371012752510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dab17020762b4d408ecaecaa0716197, type: 3}
+  m_Script: {fileID: 11500000, guid: bdec2ed032847354385bd07d44ecd9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!70 &8015870745668218154

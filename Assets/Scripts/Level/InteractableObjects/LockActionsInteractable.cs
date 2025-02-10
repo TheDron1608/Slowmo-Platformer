@@ -5,7 +5,7 @@ public abstract class LockActionsInteractable : Interactable
 {
     protected override void OnStartInteact(GameObject interactor)
     {
-        if (interactor.TryGetComponent(out CharacterActions charActions))
+        if (interactor.TryGetComponent(out CharacterComponentsManager charActions))
         {
             charActions.SetIsAbleToDoAnyActions(false);
         }
@@ -13,7 +13,7 @@ public abstract class LockActionsInteractable : Interactable
 
     protected override void OnFinishInteractAnimationFinished(GameObject interactor)
     {
-        if (interactor.TryGetComponent(out CharacterActions charActions))
+        if (interactor.TryGetComponent(out CharacterComponentsManager charActions))
         {
             charActions.SetIsAbleToDoAnyActions(true);
         }
@@ -21,7 +21,7 @@ public abstract class LockActionsInteractable : Interactable
 
     protected override void OnStopInteract(GameObject interactor)
     {
-        if (interactor.TryGetComponent(out CharacterActions charActions))
+        if (interactor.TryGetComponent(out CharacterComponentsManager charActions))
         {
             charActions.SetIsAbleToDoAnyActions(true);
         }

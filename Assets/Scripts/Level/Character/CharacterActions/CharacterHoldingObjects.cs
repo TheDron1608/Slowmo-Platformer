@@ -2,7 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CharacterHoldingObjects : MonoBehaviour
+public class CharacterHoldingObjects : AbstractCharacterComponent
 {
     public class OnThewEventArgs
     {
@@ -23,22 +23,8 @@ public class CharacterHoldingObjects : MonoBehaviour
     private Holdable _lastHoldObject = null;
     private bool _isAbleToGrabObjects;
 
-    private Rigidbody2D _rigidBodyComponent;
-    private CharacterVisual _characterVisualComponent;
-    private CharacterActions _characterActionsComponent;
-    private CharacterChildNodes _characterChildNodes;
-
     public event EventHandler<OnThewEventArgs> OnThrewHoldable;
     public event EventHandler<Holdable> OnPickedUpHoldable;
-
-
-    private void Awake()
-    {
-        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
-        if (!TryGetComponent(out _characterActionsComponent)) throw new UnityException("CharacterActions component not found");
-        if (!TryGetComponent(out _characterChildNodes)) throw new UnityException("CharacterChildNodes component not found");
-    }
 
     public Holdable CurrentHoldObject
     {
@@ -69,13 +55,13 @@ public class CharacterHoldingObjects : MonoBehaviour
         {
             if (!value)
             {
-                if (_rigidBodyComponent.linearVelocity != Vector2.zero)
+                if (_charComponents.CharacterRigidBody.linearVelocity != Vector2.zero)
                 {
-                    TryThrow(_rigidBodyComponent.linearVelocity.normalized);
+                    TryThrow(_charComponents.CharacterRigidBody.linearVelocity.normalized);
                 }
                 else
                 {
-                    TryThrow(_characterVisualComponent.SpritesFlipped ? Vector2.left : Vector2.right, 0.25f);
+                    TryThrow(_charComponents.CharacterVisual.SpritesFlipped ? Vector2.left : Vector2.right, 0.25f);
                 }
             }
             _isAbleToGrabObjects = value;
@@ -91,10 +77,10 @@ public class CharacterHoldingObjects : MonoBehaviour
     private void Update()
     {
         if (_currentHoldObject == null) return;
-        if (_characterActionsComponent.CharacterAimingAction == null || !_characterActionsComponent.CharacterAimingAction.IsAbleToAim) return;
+        if (_charComponents.CharacterAiming == null || !_charComponents.CharacterAiming.IsAbleToAim) return;
 
-        float aimDelta = _characterActionsComponent.CharacterAimingAction.AimSpeed * Time.deltaTime;
-        Vector2 currentAim = _characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized();
+        float aimDelta = _charComponents.CharacterAiming.AimSpeed * Time.deltaTime;
+        Vector2 currentAim = _charComponents.CharacterAiming.GetCurrentAimNormalized();
         Vector3 targetRotation = VectorMath.Vec2ToQuarterninon2D(currentAim).eulerAngles;
 
         //setting current holded object's rotation
@@ -119,21 +105,21 @@ public class CharacterHoldingObjects : MonoBehaviour
         {
             if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
             {
-                spriteRenderer.flipX = _characterVisualComponent.SpritesFlipped;
+                spriteRenderer.flipX = _charComponents.CharacterVisual.SpritesFlipped;
             }
         }
-
+        
         //setting current holded object's location
         Vector2 holdObjectPositionXY = Vector2.Lerp(
             _currentHoldObject.transform.position,
-            VectorMath.Vec3ToVec2(_characterChildNodes.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
+            VectorMath.Vec3ToVec2(_charComponents.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
             aimDelta
             );
 
         _currentHoldObject.transform.position = new Vector3(
             holdObjectPositionXY.x,
             holdObjectPositionXY.y,
-            _characterChildNodes.Center.transform.position.z
+            _charComponents.Center.transform.position.z
             );
     }
 
@@ -153,7 +139,7 @@ public class CharacterHoldingObjects : MonoBehaviour
         if (
             _isAbleToGrabObjects &&
             _currentHoldObject != null &&
-            Vector3.Distance(holdable.transform.position, transform.position) > _characterActionsComponent.CharacterInteractAction.InteractRange * MaxGrabRangeMultiplier
+            Vector3.Distance(holdable.transform.position, transform.position) > _charComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier
             )
         {
             return false;

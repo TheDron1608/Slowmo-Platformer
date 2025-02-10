@@ -1,20 +1,13 @@
 using UnityEngine;
 
-public class CharacterAttacking : MonoBehaviour
+public class CharacterAttacking : AbstractCharacterComponent
 {
     public bool IsAbleToAttack = true;
     public float AttackCooldownMultiplier = 1f;
 
-    private CharacterHoldingObjects _characterHoldingObjects;
-
-    private void Awake()
-    {
-        _characterHoldingObjects = GetComponent<CharacterHoldingObjects>();
-    }
-
     public bool TryHammerWeapon()
     {
-        if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+        if (_charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
         {
             return hammerWeapon.TrySetHammered(true);
         }
@@ -23,7 +16,7 @@ public class CharacterAttacking : MonoBehaviour
 
     public bool TryStopHammerringWeapon()
     {
-        if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+        if (_charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
         {
             return hammerWeapon.TrySetHammered(false);
         }
@@ -32,7 +25,7 @@ public class CharacterAttacking : MonoBehaviour
 
     public bool TryStartChainsaw()
     {
-        if (_characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) && !chainsaw.Started)
+        if (_charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) && !chainsaw.Started)
         {
             return chainsaw.TryStart();
         }
@@ -41,7 +34,7 @@ public class CharacterAttacking : MonoBehaviour
 
     public bool TryAttack(Vector2 direction)
     {
-        if (_characterHoldingObjects.CurrentHoldObject != null && _characterHoldingObjects.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+        if (_charComponents.CharacterHolding.CurrentHoldObject != null && _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
             if (weapon.TryAttack(direction))
             {
@@ -57,7 +50,7 @@ public class CharacterAttacking : MonoBehaviour
 
     public bool TryLoadElseAttack(Vector2 direction)
     {
-        if (_characterHoldingObjects.CurrentHoldObject != null)
+        if (_charComponents.CharacterHolding.CurrentHoldObject != null)
         {
             if (TryHammerWeapon()) return true;
 

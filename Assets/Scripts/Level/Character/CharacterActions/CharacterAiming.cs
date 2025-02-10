@@ -2,7 +2,7 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CharacterAiming : MonoBehaviour
+public class CharacterAiming : AbstractCharacterComponent
 {
     public bool IsAbleToAim = true;
     public float AimSpeed = 35f;
@@ -10,8 +10,6 @@ public class CharacterAiming : MonoBehaviour
 
     private Vector2 _targetAimPoint;
     private Vector2 _currentAimPoint;
-
-    private CharacterChildNodes _characterChildNodesComponent;
 
     public Vector2 TargetAimPoint
     {
@@ -24,11 +22,11 @@ public class CharacterAiming : MonoBehaviour
         private set => _currentAimPoint = value;
     }
 
-    private void Awake()
+    protected override void OnAwake()
     {
-        if (!TryGetComponent(out _characterChildNodesComponent)) throw new UnityException("CharacterChildNodes component not found");
-        _targetAimPoint = _characterChildNodesComponent.Center.transform.position;
-        _currentAimPoint = _characterChildNodesComponent.Center.transform.position;
+        base.OnAwake();
+        _targetAimPoint = _charComponents.Center.transform.position;
+        _currentAimPoint = _charComponents.Center.transform.position;
     }
 
     private void Update()
@@ -45,6 +43,6 @@ public class CharacterAiming : MonoBehaviour
 
     public Vector2 GetCurrentAimNormalized()
     {
-        return (CurrentAimPoint - VectorMath.Vec3ToVec2(_characterChildNodesComponent.Center.transform.position)).normalized;
+        return (CurrentAimPoint - VectorMath.Vec3ToVec2(_charComponents.Center.transform.position)).normalized;
     }
 }

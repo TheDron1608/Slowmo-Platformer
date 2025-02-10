@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Rendering;
-using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterPart : MonoBehaviour
 {
@@ -33,7 +31,7 @@ public class CharacterPart : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<Animator>(out _animatorComponent)) throw new UnityException("Animator component not found");
+        if (!TryGetComponent(out _animatorComponent)) throw new UnityException("Animator component not found");
     }
 
     public void SetMainState(CharacterPartMainStates newState)

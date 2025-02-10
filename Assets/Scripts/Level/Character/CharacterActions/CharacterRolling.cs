@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CharacterRolling : MonoBehaviour
+public class CharacterRolling : AbstractCharacterComponent
 {
     public enum RollDirection
     {
@@ -22,11 +22,6 @@ public class CharacterRolling : MonoBehaviour
     private float _currentRollDirection = 0f;
     private float _currentExtraSpeed = 0f;
 
-    private CharacterVisual _characterVisualComponent;
-    private CharacterActions _characterActionsComponent;
-    private Rigidbody2D _characterRigidBodyComponent;
-    private CharacterCollisionInfo _characterCollisionInfoComponent;
-
     public event EventHandler OnRoll;
     public event EventHandler OnFinishRoll;
 
@@ -43,14 +38,11 @@ public class CharacterRolling : MonoBehaviour
         }
     }
 
-    private void Awake()
+    protected override void OnAwake()
     {
-        if (!TryGetComponent(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
-        if (!TryGetComponent(out _characterActionsComponent)) throw new UnityException("CharacterActions component not found");
-        if (!TryGetComponent(out _characterRigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent(out _characterCollisionInfoComponent)) throw new UnityException("CharacterCollisionInfo component not found");
-        _characterVisualComponent.OnBusyAnimationFinished += CharacterVisual_OnBusyAnimationFinished;
-        _characterCollisionInfoComponent.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
+        base.OnAwake();
+        _charComponents.CharacterVisual.OnBusyAnimationFinished += CharacterVisual_OnBusyAnimationFinished;
+        _charComponents.CharacterCollisionInfo.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
     }
 
     private void CharacterCollisionInfo_OnCollisionChanged(object sender, CharacterCollisionInfo.OnCollisionChangedEventArgs e)
@@ -66,8 +58,8 @@ public class CharacterRolling : MonoBehaviour
         if (e == CharacterPart.CharacterPartBusyStates.ROLL)
         {
             IsRolling = false;
-            _characterActionsComponent.CharacterMovingAction.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
-            _characterActionsComponent.CharacterMovingAction.IsAbleToMove = true;
+            _charComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
+            _charComponents.CharacterMoving.IsAbleToMove = true;
         }
     }
 
@@ -76,18 +68,18 @@ public class CharacterRolling : MonoBehaviour
         _currentRollDirection = direction;
         IsRolling = true;
 
-        if (!IsAbleToRoll || _characterVisualComponent.IsBusy() || !RollCondition())
+        if (!IsAbleToRoll || _charComponents.CharacterVisual.IsBusy() || !RollCondition())
         {
             IsRolling = false;
             return false;
         }
 
-        _characterActionsComponent.CharacterMovingAction.IsAbleToMove = false;
+        _charComponents.CharacterMoving.IsAbleToMove = false;
 
-        _characterVisualComponent.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.ROLL;
-        _characterVisualComponent.SpritesFlipped = _currentRollDirection < 0f;
+        _charComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.ROLL;
+        _charComponents.CharacterVisual.SpritesFlipped = _currentRollDirection < 0f;
 
-        _characterActionsComponent.CharacterMovingAction.SpeedAccelerationOnGroundMultiplier *= AccelerationMultiplier;
+        _charComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier *= AccelerationMultiplier;
 
         _currentExtraSpeed = ExtraSpeedOnStart;
 
@@ -100,7 +92,7 @@ public class CharacterRolling : MonoBehaviour
     {
         if (!IsRolling) return;
 
-        _characterVisualComponent.BreakBusyAnimation();
+        _charComponents.CharacterVisual.BreakBusyAnimation();
         OnFinishRoll?.Invoke(this, EventArgs.Empty);
     }
 
@@ -108,19 +100,19 @@ public class CharacterRolling : MonoBehaviour
     {
         return
             (
-                (_currentRollDirection > 0 && !_characterCollisionInfoComponent.IsCollidingRightWall()) ||
-                (_currentRollDirection < 0 && !_characterCollisionInfoComponent.IsCollidingLeftWall())
+                (_currentRollDirection > 0 && !_charComponents.CharacterCollisionInfo.IsCollidingRightWall()) ||
+                (_currentRollDirection < 0 && !_charComponents.CharacterCollisionInfo.IsCollidingLeftWall())
             ) &&
-            _characterCollisionInfoComponent.IsCollidingFloor();
+            _charComponents.CharacterCollisionInfo.IsCollidingFloor();
     }
 
     private void Update()
     {
         if (!IsRolling) return;
 
-        _characterRigidBodyComponent.linearVelocityX = 
+        _charComponents.CharacterRigidBody.linearVelocityX = 
             math.lerp(
-                _characterRigidBodyComponent.linearVelocityX, 
+                _charComponents.CharacterRigidBody.linearVelocityX, 
                 (RollSpeed + _currentExtraSpeed) * _currentRollDirection, 
                 (RollSpeed + _currentExtraSpeed) * Time.fixedDeltaTime
                 );

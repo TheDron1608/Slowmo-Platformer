@@ -4,7 +4,7 @@ using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class CharacterCollisionInfo : MonoBehaviour
+public class CharacterCollisionInfo : AbstractCharacterComponent
 {
     const string ENVIROMENT_TAG_NAME = "Enviroment";
 
@@ -36,11 +36,6 @@ public class CharacterCollisionInfo : MonoBehaviour
 
     public event EventHandler<OnCollisionChangedEventArgs> OnCollisionChanged;
     public event EventHandler<OnTileBehavioutTypeCollisionChangedEventArgs> OnTileBehavioutTypeCollisionChanged;
-
-    private Rigidbody2D _rigidBodyComponent;
-    private CapsuleCollider2D _capsuleColliderComponent;
-    private CharacterInteractionWithTiles _characterInteractionWithTilesComponent;
-
 
     private ZIndexLayer _currentZLayer;
 
@@ -112,7 +107,7 @@ public class CharacterCollisionInfo : MonoBehaviour
     public bool GetIsStickingOnWall()
     {
         return
-            _characterInteractionWithTilesComponent.CanStickOnWalls &&
+            _charComponents.CharacterInteractionWithTiles.CanStickOnWalls &&
             (
                 GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
                 GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
@@ -123,7 +118,7 @@ public class CharacterCollisionInfo : MonoBehaviour
 
     private RaycastHit2D? RaycastHitFromCollider(Vector2 from, Vector2 align)
     {
-        float rayCastHitRange = (align.x != 0 ? _capsuleColliderComponent.size.x : _capsuleColliderComponent.size.y) / 2 + COLLISION_HIT_DETECION_THICKNESS;
+        float rayCastHitRange = (align.x != 0 ? _charComponents.CharacterRigidBodyCapsuleCollider.size.x : _charComponents.CharacterRigidBodyCapsuleCollider.size.y) / 2 + COLLISION_HIT_DETECION_THICKNESS;
         RaycastHit2D[] rayCastHits = Physics2D.RaycastAll(from, align, rayCastHitRange, 1 << _currentZLayer.EnviromentLayer);
         for (int i = 0; i < rayCastHits.Length; i++)
         {
@@ -134,19 +129,19 @@ public class CharacterCollisionInfo : MonoBehaviour
 
     private RaycastHit2D? RaycastHitFromCenter(Vector2 align)
     {
-        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y) + _capsuleColliderComponent.offset;
+        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y) + _charComponents.CharacterRigidBodyCapsuleCollider.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
 
     private RaycastHit2D? RaycastHitFromHead(Vector2 align)
     {
-        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y + (_capsuleColliderComponent.size.y - _capsuleColliderComponent.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + _capsuleColliderComponent.offset;
+        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y + (_charComponents.CharacterRigidBodyCapsuleCollider.size.y - _charComponents.CharacterRigidBodyCapsuleCollider.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + _charComponents.CharacterRigidBodyCapsuleCollider.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
 
     private RaycastHit2D? RaycastHitFromLegs(Vector2 align)
     {
-        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y - (_capsuleColliderComponent.size.y - _capsuleColliderComponent.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + _capsuleColliderComponent.offset;
+        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y - (_charComponents.CharacterRigidBodyCapsuleCollider.size.y - _charComponents.CharacterRigidBodyCapsuleCollider.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + _charComponents.CharacterRigidBodyCapsuleCollider.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
     private bool UpdateIsCollidingFloor()
@@ -204,14 +199,6 @@ public class CharacterCollisionInfo : MonoBehaviour
     private TileBehaviour.TileBehaviourType? UpdateTileCollidingFromRightWall()
     {
         return UpdateTileCollidingFromDirection(Vector2.right);
-    }
-
-
-    private void Awake()
-    {
-        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent(out _capsuleColliderComponent)) throw new UnityException("CapsuleCollider2D component not found");
-        if (!TryGetComponent(out _characterInteractionWithTilesComponent)) throw new UnityException("CharacterInteractionWithTilesComponent component not found");
     }
 
     private void FixedUpdate()

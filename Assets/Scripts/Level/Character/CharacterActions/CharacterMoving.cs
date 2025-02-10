@@ -2,7 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CharacterMoving : MonoBehaviour
+public class CharacterMoving : AbstractCharacterComponent
 {
     public enum MoveDirection
     {
@@ -10,10 +10,6 @@ public class CharacterMoving : MonoBehaviour
         Left = -1,
         Right = 1
     }
-
-    private Rigidbody2D _rigidBodyComponent;
-    private CharacterVisual _characterVisualComponent;
-    private CharacterCollisionInfo _collisionCharacterInfoComponent;
 
     private float _currentMoveDirection;
     private bool _isAbleToMoveThisFrame = true;
@@ -51,13 +47,6 @@ public class CharacterMoving : MonoBehaviour
     public event EventHandler<float> OnMoveAlignChanged;
     public event EventHandler<float> OnReachedMaxSpeed;
 
-    private void Awake()
-    {
-        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent(out _characterVisualComponent)) throw new UnityException("CharacterVisual component not found");
-        if (!TryGetComponent(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
-    }
-
     private void FixedUpdate()
     {
         UpdateMoving();
@@ -67,28 +56,28 @@ public class CharacterMoving : MonoBehaviour
     {
         bool isAlreadyReachedMaxSpeed = GetIsMaxSpeed();
 
-        if (_currentMoveDirection > 0f && _collisionCharacterInfoComponent.IsCollidingRightWall())
+        if (_currentMoveDirection > 0f && _charComponents.CharacterCollisionInfo.IsCollidingRightWall())
         {
-            if (_rigidBodyComponent.linearVelocityX > 0) _rigidBodyComponent.linearVelocityX = 0f;
+            if (_charComponents.CharacterRigidBody.linearVelocityX > 0) _charComponents.CharacterRigidBody.linearVelocityX = 0f;
             _isAbleToMoveThisFrame = false;
             OnMoveAlignChanged?.Invoke(this, 0f);
         }
-        else if (_currentMoveDirection < 0f && _collisionCharacterInfoComponent.IsCollidingLeftWall())
+        else if (_currentMoveDirection < 0f && _charComponents.CharacterCollisionInfo.IsCollidingLeftWall())
         {
-            if (_rigidBodyComponent.linearVelocityX < 0) _rigidBodyComponent.linearVelocityX = 0f;
+            if (_charComponents.CharacterRigidBody.linearVelocityX < 0) _charComponents.CharacterRigidBody.linearVelocityX = 0f;
             _isAbleToMoveThisFrame = false;
             OnMoveAlignChanged?.Invoke(this, 0f);
         }
         else
         {
             _isAbleToMoveThisFrame = true;
-            if (_collisionCharacterInfoComponent.IsCollidingFloor())
+            if (_charComponents.CharacterCollisionInfo.IsCollidingFloor())
             {
-                _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime);
+                _charComponents.CharacterRigidBody.linearVelocityX = math.lerp(_charComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime);
             }
             else
             {
-                _rigidBodyComponent.linearVelocityX = math.lerp(_rigidBodyComponent.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime);
+                _charComponents.CharacterRigidBody.linearVelocityX = math.lerp(_charComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime);
             }
         }
 
@@ -143,6 +132,6 @@ public class CharacterMoving : MonoBehaviour
 
     public bool GetIsMaxSpeed()
     {
-        return _rigidBodyComponent.linearVelocityX > Speed - .05f || _rigidBodyComponent.linearVelocityX < -Speed + .05f;
+        return _charComponents.CharacterRigidBody.linearVelocityX > Speed - .05f || _charComponents.CharacterRigidBody.linearVelocityX < -Speed + .05f;
     }
 }

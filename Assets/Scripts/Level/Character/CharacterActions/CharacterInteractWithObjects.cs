@@ -1,19 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterInteractWithObjects : MonoBehaviour
+public class CharacterInteractWithObjects : AbstractCharacterComponent
 {
 
     public float InteractRange = 1f;
 
     private bool _isAbleToInteractWithObjects = true;
-
-    private CharacterChildNodes _characterChildNodesComponent;
-
-    private void Awake()
-    {
-        if (!TryGetComponent(out _characterChildNodesComponent)) throw new UnityException("CharacterChildNodes component not found");
-    }
 
     public bool IsAbleToInteractWithObjects
     {
@@ -36,7 +29,7 @@ public class CharacterInteractWithObjects : MonoBehaviour
         var result = new List<SelectableObject>();
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(
-            _characterChildNodesComponent.Center.transform.position, 
+            _charComponents.Center.transform.position, 
             InteractRange
             );
 
@@ -44,7 +37,7 @@ public class CharacterInteractWithObjects : MonoBehaviour
         {
             if (
                 !colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent) ||
-                Vector3.Distance(_characterChildNodesComponent.Center.transform.position, colliders[i].transform.position) > selectableObjectComponent.SelectMaxRangeMultiplier  * InteractRange
+                Vector3.Distance(_charComponents.Center.transform.position, colliders[i].transform.position) > selectableObjectComponent.SelectMaxRangeMultiplier  * InteractRange
                 ) continue;
 
             if (sortInteractType is null || sortInteractType.Value == selectableObjectComponent.ObjectType)
@@ -59,7 +52,7 @@ public class CharacterInteractWithObjects : MonoBehaviour
         if (!_isAbleToInteractWithObjects) return null;
 
         foreach (var raycastHit in Physics2D.RaycastAll(
-                _characterChildNodesComponent.Center.transform.position, 
+                _charComponents.Center.transform.position, 
                 direction, 
                 InteractRange
                 )

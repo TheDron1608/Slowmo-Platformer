@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 [Serializable]
-public class CharacterPlayerInputHandler : MonoBehaviour
+public class CharacterPlayerInputHandler : AbstractCharacterComponent
 {
     public InputActionReference MoveActionReference;
     public InputActionReference JumpActionReference;
@@ -34,12 +34,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private bool _awaitingResetInputToReroll = false;
     private float _currentGamepadRollInputDelay = 0f;
 
-    private CharacterActions _characterActionsComponent;
-    private Rigidbody2D _rigidbodyComponent;
-    private CharacterCollisionInfo _characterInfoComponent;
-    private CharacterChildNodes _characterChildNodesComponent;
-    private CharacterHoldingObjects _characterHoldingObjectsComponent;
-
     public bool AutoAttack
     {
         get => _autoAttack;
@@ -57,15 +51,6 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             }
         }
         return null;
-    }
-
-    private void Awake()
-    {
-        if (!TryGetComponent(out _characterActionsComponent)) throw new UnityException("ChracterActions component not found");
-        if (!TryGetComponent(out _rigidbodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent(out _characterInfoComponent)) throw new UnityException("CharacterInfo component not found");
-        if (!TryGetComponent(out _characterChildNodesComponent)) throw new UnityException("CharacterChildNodes component not found");
-        if (!TryGetComponent(out _characterHoldingObjectsComponent)) throw new UnityException("CharacterHoldingObject component not found");
     }
 
     private void Start()
@@ -111,15 +96,15 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     //JUMP INPUT
     public void HandleStartJumpInput()
     {
-        if (_characterActionsComponent.CharacterJumpingAction == null) return;
+        if (_charComponents.CharacterJumping == null) return;
         
-        if (_characterActionsComponent.CharacterJumpingAction.GetIsAbleToJumpFromFloorOrWall())
+        if (_charComponents.CharacterJumping.GetIsAbleToJumpFromFloorOrWall())
         {
-            _characterActionsComponent.CharacterJumpingAction.StartJump();
+            _charComponents.CharacterJumping.StartJump();
         }
-        else if (_characterInfoComponent.TimeInAir <= CoyoteLateTimer)
+        else if (_charComponents.CharacterCollisionInfo.TimeInAir <= CoyoteLateTimer)
         {
-            _characterActionsComponent.CharacterJumpingAction.ForceStartJump();
+            _charComponents.CharacterJumping.ForceStartJump();
         }
         else
         {
@@ -130,9 +115,9 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private void HandleStopJumpInput()
     {
-        if (_characterActionsComponent.CharacterJumpingAction == null) return;
+        if (_charComponents.CharacterJumping == null) return;
 
-        _characterActionsComponent.CharacterJumpingAction.StopJump();
+        _charComponents.CharacterJumping.StopJump();
 
         if (_coyoteJumpTooEarlyHandler != null)
         {
@@ -146,9 +131,9 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         {
             _coyoteJumpTooEarlyTimeLeft -= Time.deltaTime;
 
-            if (_characterActionsComponent.CharacterJumpingAction.GetIsAbleToJumpFromFloorOrWall())
+            if (_charComponents.CharacterJumping.GetIsAbleToJumpFromFloorOrWall())
             {
-                _characterActionsComponent.CharacterJumpingAction.StartJump();
+                _charComponents.CharacterJumping.StartJump();
                 break;
             }
             yield return new WaitForEndOfFrame();
@@ -169,7 +154,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
         }
         else
         {
-            List<SelectableObject> avaibleObjects = _characterActionsComponent.CharacterInteractAction.GetAvaibleInteractableObjects();
+            List<SelectableObject> avaibleObjects = _charComponents.CharacterInteract.GetAvaibleInteractableObjects();
             if (avaibleObjects.Count == 0) return;
 
             var sortedEvaibleObject =
@@ -196,22 +181,22 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     //GRAB
     private void HandleGrabThrow()
     {
-        if (_characterActionsComponent.CharacterHoldingAction.CurrentHoldObject == null)
+        if (_charComponents.CharacterHolding.CurrentHoldObject == null)
         {
             InteractWithObjects(GrabActionReference);
         }
         else
         {
-            _characterActionsComponent.CharacterHoldingAction.TryThrow(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            _charComponents.CharacterHolding.TryThrow(_charComponents.CharacterAiming.GetCurrentAimNormalized());
         }
     }
 
     //ATTACK
     private void HandleStartAttacking()
     {
-        if (_characterHoldingObjectsComponent.CurrentHoldObject != null && _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+        if (_charComponents.CharacterHolding.CurrentHoldObject != null && _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
-            _characterActionsComponent.CharacterAttackingAction.TryLoadElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            _charComponents.CharacterAttacking.TryLoadElseAttack(_charComponents.CharacterAiming.GetCurrentAimNormalized());
 
             if (weapon.PlayerInputAutoAttackOnPress)
             {
@@ -223,11 +208,11 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private void HandleStopAttacking()
     {
         if (
-            _characterHoldingObjectsComponent.CurrentHoldObject != null && 
-            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon)
+            _charComponents.CharacterHolding.CurrentHoldObject != null && 
+            _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon)
             )
         {
-            _characterActionsComponent.CharacterAttackingAction.TryAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            _charComponents.CharacterAttacking.TryAttack(_charComponents.CharacterAiming.GetCurrentAimNormalized());
         }
 
         AutoAttack = false;
@@ -256,7 +241,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     //MOVE INPUT
     public void UpdateMoveInput()
     {
-        if (_characterActionsComponent.CharacterMovingAction == null) return;
+        if (_charComponents.CharacterMoving == null) return;
 
         if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
@@ -273,11 +258,11 @@ public class CharacterPlayerInputHandler : MonoBehaviour
             {
                 roundedInputAxis = currentInputAxix;
             }
-            _characterActionsComponent.CharacterMovingAction.Move(roundedInputAxis);
+            _charComponents.CharacterMoving.Move(roundedInputAxis);
         }
         else
         {
-            _characterActionsComponent.CharacterMovingAction.Move(math.round(MoveActionReference.action.ReadValue<Vector2>().x));
+            _charComponents.CharacterMoving.Move(math.round(MoveActionReference.action.ReadValue<Vector2>().x));
         }
     }
 
@@ -296,7 +281,7 @@ public class CharacterPlayerInputHandler : MonoBehaviour
                 if (!_awaitingResetInputToReroll)
                 {
                     float rollDirection = MoveActionReference.action.ReadValue<Vector2>().x > 0f ? 1f : -1f;
-                    if (_characterActionsComponent.CharacterRollingAction.TryRoll(rollDirection))
+                    if (_charComponents.CharacterRolling.TryRoll(rollDirection))
                     {
                         _awaitingResetInputToReroll = true;
                     }
@@ -314,14 +299,14 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
-            _characterActionsComponent.CharacterAimingAction.TargetAimPoint = _characterChildNodesComponent.Center.transform.position + VectorMath.Vec2ToVec3( AimActionReference.action.ReadValue<Vector2>(), _characterChildNodesComponent.Center.transform.position.z );
+            _charComponents.CharacterAiming.TargetAimPoint = _charComponents.Center.transform.position + VectorMath.Vec2ToVec3( AimActionReference.action.ReadValue<Vector2>(), _charComponents.Center.transform.position.z );
         }
         else
         {
             Vector3? mousePos = GetMouseWorldPositionOnCharacterLayer();
             if (mousePos.HasValue)
             {
-                _characterActionsComponent.CharacterAimingAction.TargetAimPoint = mousePos.Value;
+                _charComponents.CharacterAiming.TargetAimPoint = mousePos.Value;
             }
         }
     }
@@ -330,12 +315,12 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     {
         if (
             AutoAttack &&
-            _characterHoldingObjectsComponent.CurrentHoldObject != null &&
-            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out Weapon weapon) &&
-            _characterActionsComponent.CharacterAttackingAction != null
+            _charComponents.CharacterHolding.CurrentHoldObject != null &&
+            _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) &&
+            _charComponents.CharacterAttacking != null
             )
         {
-            _characterActionsComponent.CharacterAttackingAction.TryLoadElseAttack(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            _charComponents.CharacterAttacking.TryLoadElseAttack(_charComponents.CharacterAiming.GetCurrentAimNormalized());
                 
             if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
             {
@@ -346,9 +331,9 @@ public class CharacterPlayerInputHandler : MonoBehaviour
 
     private void UpdateSelectedObject()
     {
-        if (_characterActionsComponent.CharacterInteractAction != null)
+        if (_charComponents.CharacterInteract != null)
         {
-            _currentSelectedObject = _characterActionsComponent.CharacterInteractAction.GetInteractableObjectAtDirection(_characterActionsComponent.CharacterAimingAction.GetCurrentAimNormalized());
+            _currentSelectedObject = _charComponents.CharacterInteract.GetInteractableObjectAtDirection(_charComponents.CharacterAiming.GetCurrentAimNormalized());
 
             if (_lastSelectedObject != null && _lastSelectedObject != _currentSelectedObject)
             {
@@ -367,13 +352,13 @@ public class CharacterPlayerInputHandler : MonoBehaviour
     private void UpdateAutoReload()
     {
         if (
-            _characterHoldingObjectsComponent.CurrentHoldObject != null &&
-            _characterHoldingObjectsComponent.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && 
+            _charComponents.CharacterHolding.CurrentHoldObject != null &&
+            _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && 
             !rangedWeapon.IsReloading &&
             rangedWeapon.GetIsNeedReload()
             )
         {
-            _characterActionsComponent.CharacterReloadingAction.TryReload();
+            _charComponents.CharacterReloading.TryReload();
         }
     }
 
