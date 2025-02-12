@@ -107,7 +107,7 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
     public bool GetIsStickingOnWall()
     {
         return
-            _charComponents.CharacterInteractionWithTiles.CanStickOnWalls &&
+            CharComponents.CharacterInteractionWithTiles.CanStickOnWalls &&
             (
                 GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
                 GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
@@ -118,7 +118,7 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
 
     private RaycastHit2D? RaycastHitFromCollider(Vector2 from, Vector2 align)
     {
-        float rayCastHitRange = (align.x != 0 ? _charComponents.CharacterRigidBodyCapsuleCollider.size.x : _charComponents.CharacterRigidBodyCapsuleCollider.size.y) / 2 + COLLISION_HIT_DETECION_THICKNESS;
+        float rayCastHitRange = (align.x != 0 ? CharComponents.CharacterRigidBodyCapsuleCollider.size.x : CharComponents.CharacterRigidBodyCapsuleCollider.size.y) / 2 + COLLISION_HIT_DETECION_THICKNESS;
         RaycastHit2D[] rayCastHits = Physics2D.RaycastAll(from, align, rayCastHitRange, 1 << _currentZLayer.EnviromentLayer);
         for (int i = 0; i < rayCastHits.Length; i++)
         {
@@ -129,19 +129,19 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
 
     private RaycastHit2D? RaycastHitFromCenter(Vector2 align)
     {
-        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y) + _charComponents.CharacterRigidBodyCapsuleCollider.offset;
+        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y) + CharComponents.CharacterRigidBodyCapsuleCollider.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
 
     private RaycastHit2D? RaycastHitFromHead(Vector2 align)
     {
-        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y + (_charComponents.CharacterRigidBodyCapsuleCollider.size.y - _charComponents.CharacterRigidBodyCapsuleCollider.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + _charComponents.CharacterRigidBodyCapsuleCollider.offset;
+        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y + (CharComponents.CharacterRigidBodyCapsuleCollider.size.y - CharComponents.CharacterRigidBodyCapsuleCollider.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + CharComponents.CharacterRigidBodyCapsuleCollider.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
 
     private RaycastHit2D? RaycastHitFromLegs(Vector2 align)
     {
-        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y - (_charComponents.CharacterRigidBodyCapsuleCollider.size.y - _charComponents.CharacterRigidBodyCapsuleCollider.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + _charComponents.CharacterRigidBodyCapsuleCollider.offset;
+        Vector2 rayCastHitOrigin = new Vector2(transform.position.x, transform.position.y - (CharComponents.CharacterRigidBodyCapsuleCollider.size.y - CharComponents.CharacterRigidBodyCapsuleCollider.size.x * COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET) / 2) + CharComponents.CharacterRigidBodyCapsuleCollider.offset;
         return RaycastHitFromCollider(rayCastHitOrigin, align);
     }
     private bool UpdateIsCollidingFloor()

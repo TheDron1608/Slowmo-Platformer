@@ -70,16 +70,16 @@ public class CharacterJumping : AbstractCharacterComponent
     {
         if (_isJumping && _jumpTimeLeft > 0f)
         {
-            _charComponents.CharacterRigidBody.linearVelocityY += JumpForce * JumpKeepForceMultiplier * Time.fixedDeltaTime;
+            CharComponents.CharacterRigidBody.linearVelocityY += JumpForce * JumpKeepForceMultiplier * Time.fixedDeltaTime;
         }
     }
 
     private void UpdateJumpLimit()
     {
-        if (_charComponents.CharacterRigidBody.linearVelocityY > JumpForce)
+        if (CharComponents.CharacterRigidBody.linearVelocityY > JumpForce)
         {
-            _charComponents.CharacterRigidBody.linearVelocityY = math.lerp(
-                _charComponents.CharacterRigidBody.linearVelocityY,
+            CharComponents.CharacterRigidBody.linearVelocityY = math.lerp(
+                CharComponents.CharacterRigidBody.linearVelocityY,
                 JumpForce,
                 Time.fixedDeltaTime * JumpLimitForceMultiplier
                 );
@@ -93,25 +93,25 @@ public class CharacterJumping : AbstractCharacterComponent
 
         if (GetIsAbleToJumpFromFloorOrWall()) 
         {
-            if (_charComponents.CharacterRigidBody.linearVelocityY < JumpForce)
+            if (CharComponents.CharacterRigidBody.linearVelocityY < JumpForce)
             {
-                _charComponents.CharacterRigidBody.linearVelocityY = JumpForce;
+                CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
             }
 
-            if (_charComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY)
+            if (CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY)
             {
-                _charComponents.CharacterRigidBody.linearVelocityX += JumpOffWallForce;
+                CharComponents.CharacterRigidBody.linearVelocityX += JumpOffWallForce;
             }
-            else if (_charComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY)
+            else if (CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY)
             {
-                _charComponents.CharacterRigidBody.linearVelocityX -= JumpOffWallForce;
+                CharComponents.CharacterRigidBody.linearVelocityX -= JumpOffWallForce;
             }
         }
         else if (GetIsAbleToJumpFromAir())
         {
-            if (_charComponents.CharacterRigidBody.linearVelocityY < JumpForce)
+            if (CharComponents.CharacterRigidBody.linearVelocityY < JumpForce)
             {
-                _charComponents.CharacterRigidBody.linearVelocityY = JumpForce;
+                CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
                 _jumpTimeLeft = JumpMaxTime;
             }
 
@@ -132,9 +132,9 @@ public class CharacterJumping : AbstractCharacterComponent
     {
         if (_isJumping) return;
 
-        if (_charComponents.CharacterRigidBody.linearVelocityY < JumpForce)
+        if (CharComponents.CharacterRigidBody.linearVelocityY < JumpForce)
         {
-            _charComponents.CharacterRigidBody.linearVelocityY = JumpForce;
+            CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
             _jumpTimeLeft = JumpMaxTime;
         }
 
@@ -159,16 +159,16 @@ public class CharacterJumping : AbstractCharacterComponent
 
     private IEnumerator ForceStopJumpProcess()
     {
-        while (_charComponents.CharacterRigidBody.linearVelocityY > 0f)
+        while (CharComponents.CharacterRigidBody.linearVelocityY > 0f)
         {
-            float limitedStopJumpForce = math.lerp(_charComponents.CharacterRigidBody.linearVelocityY, 0f, Time.fixedDeltaTime);
+            float limitedStopJumpForce = math.lerp(CharComponents.CharacterRigidBody.linearVelocityY, 0f, Time.fixedDeltaTime);
             if (limitedStopJumpForce > JumpKeepForceMultiplier)
             {
-                _charComponents.CharacterRigidBody.linearVelocityY -= JumpKeepForceMultiplier;
+                CharComponents.CharacterRigidBody.linearVelocityY -= JumpKeepForceMultiplier;
             }
             else
             {
-                _charComponents.CharacterRigidBody.linearVelocityY = limitedStopJumpForce;
+                CharComponents.CharacterRigidBody.linearVelocityY = limitedStopJumpForce;
             }
 
             yield return new WaitForFixedUpdate();
@@ -192,12 +192,12 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public bool GetIsAbleToJumpFromFloor()
     {
-        return _charComponents.CharacterCollisionInfo.IsCollidingFloor();
+        return CharComponents.CharacterCollisionInfo.IsCollidingFloor();
     }
 
     public bool GetIsAbleToJumpFromWall()
     {
-        return _charComponents.CharacterCollisionInfo.GetIsStickingOnWall();
+        return CharComponents.CharacterCollisionInfo.GetIsStickingOnWall();
     }
 
     public bool GetIsAbleToJumpFromAir()

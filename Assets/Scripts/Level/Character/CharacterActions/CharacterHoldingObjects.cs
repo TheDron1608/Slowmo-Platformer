@@ -55,13 +55,13 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         {
             if (!value)
             {
-                if (_charComponents.CharacterRigidBody.linearVelocity != Vector2.zero)
+                if (CharComponents.CharacterRigidBody.linearVelocity != Vector2.zero)
                 {
-                    TryThrow(_charComponents.CharacterRigidBody.linearVelocity.normalized);
+                    TryThrow(CharComponents.CharacterRigidBody.linearVelocity.normalized);
                 }
                 else
                 {
-                    TryThrow(_charComponents.CharacterVisual.SpritesFlipped ? Vector2.left : Vector2.right, 0.25f);
+                    TryThrow(CharComponents.CharacterVisual.SpritesFlipped ? Vector2.left : Vector2.right, 0.25f);
                 }
             }
             _isAbleToGrabObjects = value;
@@ -77,10 +77,10 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     private void Update()
     {
         if (_currentHoldObject == null) return;
-        if (_charComponents.CharacterAiming == null || !_charComponents.CharacterAiming.IsAbleToAim) return;
+        if (CharComponents.CharacterAiming == null || !CharComponents.CharacterAiming.IsAbleToAim) return;
 
-        float aimDelta = _charComponents.CharacterAiming.AimSpeed * Time.deltaTime;
-        Vector2 currentAim = _charComponents.CharacterAiming.GetCurrentAimNormalized();
+        float aimDelta = CharComponents.CharacterAiming.AimSpeed * Time.deltaTime;
+        Vector2 currentAim = CharComponents.CharacterAiming.GetCurrentAimNormalized();
         Vector3 targetRotation = VectorMath.Vec2ToQuarterninon2D(currentAim).eulerAngles;
 
         //setting current holded object's rotation
@@ -105,21 +105,21 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         {
             if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
             {
-                spriteRenderer.flipX = _charComponents.CharacterVisual.SpritesFlipped;
+                spriteRenderer.flipX = CharComponents.CharacterVisual.SpritesFlipped;
             }
         }
         
         //setting current holded object's location
         Vector2 holdObjectPositionXY = Vector2.Lerp(
             _currentHoldObject.transform.position,
-            VectorMath.Vec3ToVec2(_charComponents.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
+            VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
             aimDelta
             );
 
         _currentHoldObject.transform.position = new Vector3(
             holdObjectPositionXY.x,
             holdObjectPositionXY.y,
-            _charComponents.Center.transform.position.z
+            CharComponents.Center.transform.position.z
             );
     }
 
@@ -139,7 +139,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         if (
             _isAbleToGrabObjects &&
             _currentHoldObject != null &&
-            Vector3.Distance(holdable.transform.position, transform.position) > _charComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier
+            Vector3.Distance(holdable.transform.position, transform.position) > CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier
             )
         {
             return false;

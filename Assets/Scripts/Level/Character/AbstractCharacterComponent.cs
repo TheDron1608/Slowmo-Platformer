@@ -2,7 +2,13 @@ using UnityEngine;
 
 public abstract class AbstractCharacterComponent : MonoBehaviour
 {
-    protected CharacterComponentsManager _charComponents;
+    private CharacterComponentsManager _charComponents;
+
+    public CharacterComponentsManager CharComponents
+    {
+        get => _charComponents;
+        private set => _charComponents = value;
+    }
 
     private void Awake()
     {
@@ -11,6 +17,17 @@ public abstract class AbstractCharacterComponent : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        _charComponents = GetComponent<CharacterComponentsManager>();
+        GameObject curGameObject = gameObject;
+        do
+        {
+            if (curGameObject.TryGetComponent(out CharacterComponentsManager charComponents))
+            {
+                CharComponents = charComponents;
+                return;
+            }
+            curGameObject = curGameObject.transform.parent.gameObject;
+        }
+        while (curGameObject.tag == LayerManager.CHARACTER_TAG_NAME);
+        throw new UnityException("not found CharacterComponentsManager component in " + gameObject.name + " or in the same tagged child gameObjects");
     }
 }

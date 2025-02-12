@@ -168,19 +168,19 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void UpdateJumpStateParam()
     {
-        if (!_charComponents.CharacterCollisionInfo.IsCollidingFloor())
+        if (!CharComponents.CharacterCollisionInfo.IsCollidingFloor())
         {
-            JumpState = _charComponents.CharacterRigidBody.linearVelocityY / JumpStateVelocityRange;
+            JumpState = CharComponents.CharacterRigidBody.linearVelocityY / JumpStateVelocityRange;
         }
     }
 
     private void UpdateMainStateParam()
     {
-        if (_charComponents.CharacterMoving == null) return;
+        if (CharComponents.CharacterMoving == null) return;
 
-        if (_charComponents.CharacterCollisionInfo.IsCollidingFloor())
+        if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
         {
-            if (_charComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || !_charComponents.CharacterMoving.IsAbleToMoveThisFrame)
+            if (CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || !CharComponents.CharacterMoving.IsAbleToMoveThisFrame)
             {
                 if (MainState != CharacterPart.CharacterPartMainStates.IDLE)
                 {
@@ -194,11 +194,11 @@ public class CharacterVisual : AbstractCharacterComponent
                     MainState = CharacterPart.CharacterPartMainStates.MOVE;
                 }
 
-                if (_charComponents.CharacterMoving.GetCurrentMoveDirection() > 0f && SpritesFlipped)
+                if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f && SpritesFlipped)
                 {
                     SpritesFlipped = false;
                 }
-                else if (_charComponents.CharacterMoving.GetCurrentMoveDirection() < 0f && !SpritesFlipped)
+                else if (CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0f && !SpritesFlipped)
                 {
                     SpritesFlipped = true;
                 }
@@ -206,15 +206,15 @@ public class CharacterVisual : AbstractCharacterComponent
         }
         else
         {
-            if (_charComponents.CharacterCollisionInfo.GetIsStickingOnWall())
+            if (CharComponents.CharacterCollisionInfo.GetIsStickingOnWall())
             {
                 MainState = CharacterPart.CharacterPartMainStates.SLIDE_ON_WALL;
 
-                if (_charComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY && !SpritesFlipped)
+                if (CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY && !SpritesFlipped)
                 {
                     SpritesFlipped = false;
                 }
-                else if (_charComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY && SpritesFlipped)
+                else if (CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY && SpritesFlipped)
                 {
                     SpritesFlipped = true;
                 }
@@ -223,11 +223,11 @@ public class CharacterVisual : AbstractCharacterComponent
             {
                 MainState = CharacterPart.CharacterPartMainStates.JUMP;
 
-                if (_charComponents.CharacterMoving.GetCurrentMoveDirection() > 0f && SpritesFlipped)
+                if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f && SpritesFlipped)
                 {
                     SpritesFlipped = false;
                 }
-                else if (_charComponents.CharacterMoving.GetCurrentMoveDirection() < 0f && !SpritesFlipped)
+                else if (CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0f && !SpritesFlipped)
                 {
                     SpritesFlipped = true;
                 }
@@ -237,6 +237,6 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void UpdateMoveSpeedParam()
     {
-        MoveSpeed = _charComponents.CharacterRigidBody.linearVelocityX / MoveSpeedVelocityRange * (SpritesFlipped ? -1f : 1f);
+        MoveSpeed = CharComponents.CharacterRigidBody.linearVelocityX / MoveSpeedVelocityRange * (SpritesFlipped ? -1f : 1f);
     }
 }

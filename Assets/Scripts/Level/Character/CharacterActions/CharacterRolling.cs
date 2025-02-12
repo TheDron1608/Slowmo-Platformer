@@ -41,8 +41,8 @@ public class CharacterRolling : AbstractCharacterComponent
     protected override void OnAwake()
     {
         base.OnAwake();
-        _charComponents.CharacterVisual.OnBusyAnimationFinished += CharacterVisual_OnBusyAnimationFinished;
-        _charComponents.CharacterCollisionInfo.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
+        CharComponents.CharacterVisual.OnBusyAnimationFinished += CharacterVisual_OnBusyAnimationFinished;
+        CharComponents.CharacterCollisionInfo.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
     }
 
     private void CharacterCollisionInfo_OnCollisionChanged(object sender, CharacterCollisionInfo.OnCollisionChangedEventArgs e)
@@ -58,8 +58,8 @@ public class CharacterRolling : AbstractCharacterComponent
         if (e == CharacterPart.CharacterPartBusyStates.ROLL)
         {
             IsRolling = false;
-            _charComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
-            _charComponents.CharacterMoving.IsAbleToMove = true;
+            CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
+            CharComponents.CharacterMoving.IsAbleToMove = true;
         }
     }
 
@@ -68,18 +68,18 @@ public class CharacterRolling : AbstractCharacterComponent
         _currentRollDirection = direction;
         IsRolling = true;
 
-        if (!IsAbleToRoll || _charComponents.CharacterVisual.IsBusy() || !RollCondition())
+        if (!IsAbleToRoll || CharComponents.CharacterVisual.IsBusy() || !RollCondition())
         {
             IsRolling = false;
             return false;
         }
 
-        _charComponents.CharacterMoving.IsAbleToMove = false;
+        CharComponents.CharacterMoving.IsAbleToMove = false;
 
-        _charComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.ROLL;
-        _charComponents.CharacterVisual.SpritesFlipped = _currentRollDirection < 0f;
+        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.ROLL;
+        CharComponents.CharacterVisual.SpritesFlipped = _currentRollDirection < 0f;
 
-        _charComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier *= AccelerationMultiplier;
+        CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier *= AccelerationMultiplier;
 
         _currentExtraSpeed = ExtraSpeedOnStart;
 
@@ -92,7 +92,7 @@ public class CharacterRolling : AbstractCharacterComponent
     {
         if (!IsRolling) return;
 
-        _charComponents.CharacterVisual.BreakBusyAnimation();
+        CharComponents.CharacterVisual.BreakBusyAnimation();
         OnFinishRoll?.Invoke(this, EventArgs.Empty);
     }
 
@@ -100,19 +100,19 @@ public class CharacterRolling : AbstractCharacterComponent
     {
         return
             (
-                (_currentRollDirection > 0 && !_charComponents.CharacterCollisionInfo.IsCollidingRightWall()) ||
-                (_currentRollDirection < 0 && !_charComponents.CharacterCollisionInfo.IsCollidingLeftWall())
+                (_currentRollDirection > 0 && !CharComponents.CharacterCollisionInfo.IsCollidingRightWall()) ||
+                (_currentRollDirection < 0 && !CharComponents.CharacterCollisionInfo.IsCollidingLeftWall())
             ) &&
-            _charComponents.CharacterCollisionInfo.IsCollidingFloor();
+            CharComponents.CharacterCollisionInfo.IsCollidingFloor();
     }
 
     private void Update()
     {
         if (!IsRolling) return;
 
-        _charComponents.CharacterRigidBody.linearVelocityX = 
+        CharComponents.CharacterRigidBody.linearVelocityX = 
             math.lerp(
-                _charComponents.CharacterRigidBody.linearVelocityX, 
+                CharComponents.CharacterRigidBody.linearVelocityX, 
                 (RollSpeed + _currentExtraSpeed) * _currentRollDirection, 
                 (RollSpeed + _currentExtraSpeed) * Time.fixedDeltaTime
                 );

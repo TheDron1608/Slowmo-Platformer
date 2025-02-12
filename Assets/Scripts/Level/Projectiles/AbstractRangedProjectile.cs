@@ -38,8 +38,10 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         }
     }
 
-    private void Update()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
+
         if (_isFirstFrame)
         {
             _isFirstFrame = false;
@@ -60,22 +62,14 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void OnHit(GameObject hitObject)
     {
-        if (
-            !(collision.gameObject.TryGetComponent(out AbstractRangedProjectile rangedProjectile)) &&
-            Weapon != null &&
-            collision.gameObject != Weapon.gameObject && 
-            Weapon.TryGetComponent(out Holdable weaponHoldableComponent) &&
-            (weaponHoldableComponent.CurrentHolder == null || collision.gameObject != weaponHoldableComponent.CurrentHolder.gameObject)
-            )
-        {
-            RemoveSelf();
-        }
+        RemoveSelf();
     }
 
-    private void Awake()
+    protected override void OnAwake()
     {
+        base.OnAwake();
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         layer.UpdateLayerForGameObject(gameObject);
         transform.parent = layer.transform;

@@ -25,8 +25,8 @@ public class CharacterAiming : AbstractCharacterComponent
     protected override void OnAwake()
     {
         base.OnAwake();
-        _targetAimPoint = _charComponents.Center.transform.position;
-        _currentAimPoint = _charComponents.Center.transform.position;
+        _targetAimPoint = CharComponents.Center.transform.position;
+        _currentAimPoint = CharComponents.Center.transform.position;
     }
 
     private void Update()
@@ -43,6 +43,6 @@ public class CharacterAiming : AbstractCharacterComponent
 
     public Vector2 GetCurrentAimNormalized()
     {
-        return (CurrentAimPoint - VectorMath.Vec3ToVec2(_charComponents.Center.transform.position)).normalized;
+        return (CurrentAimPoint - VectorMath.Vec3ToVec2(CharComponents.Center.transform.position)).normalized;
     }
 }

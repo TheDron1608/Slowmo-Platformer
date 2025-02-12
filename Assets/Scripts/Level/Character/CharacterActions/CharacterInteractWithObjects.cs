@@ -29,7 +29,7 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
         var result = new List<SelectableObject>();
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(
-            _charComponents.Center.transform.position, 
+            CharComponents.Center.transform.position, 
             InteractRange
             );
 
@@ -37,7 +37,7 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
         {
             if (
                 !colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent) ||
-                Vector3.Distance(_charComponents.Center.transform.position, colliders[i].transform.position) > selectableObjectComponent.SelectMaxRangeMultiplier  * InteractRange
+                Vector3.Distance(CharComponents.Center.transform.position, colliders[i].transform.position) > selectableObjectComponent.SelectMaxRangeMultiplier  * InteractRange
                 ) continue;
 
             if (sortInteractType is null || sortInteractType.Value == selectableObjectComponent.ObjectType)
@@ -52,7 +52,7 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
         if (!_isAbleToInteractWithObjects) return null;
 
         foreach (var raycastHit in Physics2D.RaycastAll(
-                _charComponents.Center.transform.position, 
+                CharComponents.Center.transform.position, 
                 direction, 
                 InteractRange
                 )

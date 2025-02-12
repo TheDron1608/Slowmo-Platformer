@@ -15,8 +15,8 @@ public class CharacterReloading : AbstractCharacterComponent
         set 
         {
             if (
-                _charComponents.CharacterHolding.CurrentHoldObject != null &&
-                _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon)
+                CharComponents.CharacterHolding.CurrentHoldObject != null &&
+                CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon)
             )
             {
                 rangedWeapon.SetReloadSpeed(value);
@@ -30,8 +30,8 @@ public class CharacterReloading : AbstractCharacterComponent
         if (!IsAbleToReload) return false;
 
         if (
-            _charComponents.CharacterHolding.CurrentHoldObject != null &&
-            _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
+            CharComponents.CharacterHolding.CurrentHoldObject != null &&
+            CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
             rangedWeapon.TryReload()
             )
         {
@@ -47,8 +47,8 @@ public class CharacterReloading : AbstractCharacterComponent
     public bool TryUnload()
     {
         if (
-            _charComponents.CharacterHolding.CurrentHoldObject != null &&
-            _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
+            CharComponents.CharacterHolding.CurrentHoldObject != null &&
+            CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
             rangedWeapon.TryReload()
             )
         {

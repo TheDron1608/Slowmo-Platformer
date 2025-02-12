@@ -36,17 +36,18 @@ public class MeleeProjectile : AbstractProjectile
         return new List<AbstractProjectile>() { newProjectile };
     }
 
-    private void Awake()
+    protected override void OnAwake()
     {
+        base.OnAwake();
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         layer.UpdateLayerForGameObject(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void OnHit(GameObject hitObject)
     {
         if (_didHitAnyWallOnce) return;
 
-        if (collision.gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null) 
+        if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null) 
         {
             if (Weapon.TryGetComponent(out Holdable holdableWeapon) && holdableWeapon.CurrentHolder != null && holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody))
             {

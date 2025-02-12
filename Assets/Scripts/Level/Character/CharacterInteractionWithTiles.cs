@@ -3,25 +3,16 @@ using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CharacterInteractionWithTiles : MonoBehaviour
+public class CharacterInteractionWithTiles : AbstractCharacterComponent
 {
     const float BASE_STICK_ON_WALL_STRINGHT_MULTIPLIER = 15f;
 
     public bool CanStickOnWalls = true;
     public float StickOnWallStringhtMultiplier = 1f;
 
-    private CharacterCollisionInfo _collisionCharacterInfoComponent;
-    private Rigidbody2D _rigidBodyComponent;
-
-    private void Awake()
-    {
-        if (!TryGetComponent<CharacterCollisionInfo>(out _collisionCharacterInfoComponent)) throw new UnityException("CollisionCharacterInfo component not found");
-        if (!TryGetComponent<Rigidbody2D>(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-    }
-
     private void Start()
     {
-        _collisionCharacterInfoComponent.OnTileBehavioutTypeCollisionChanged += CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged;
+        CharComponents.CharacterCollisionInfo.OnTileBehavioutTypeCollisionChanged += CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged;
     }
 
     private void CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged(object sender, CharacterCollisionInfo.OnTileBehavioutTypeCollisionChangedEventArgs e)
@@ -39,8 +30,8 @@ public class CharacterInteractionWithTiles : MonoBehaviour
         if (!CanStickOnWalls) return;
 
         if (
-            _collisionCharacterInfoComponent.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
-            _collisionCharacterInfoComponent.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
+            CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
+            CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
             )
         {
             StartCoroutine(UpdateStickyTileInteractionProcess());
@@ -49,11 +40,11 @@ public class CharacterInteractionWithTiles : MonoBehaviour
 
     private IEnumerator UpdateStickyTileInteractionProcess()
     {
-        while (_collisionCharacterInfoComponent.GetIsStickingOnWall())
+        while (CharComponents.CharacterCollisionInfo.GetIsStickingOnWall())
         {
-            if (_rigidBodyComponent.linearVelocityY < 0f)
+            if (CharComponents.CharacterRigidBody.linearVelocityY < 0f)
             {
-                _rigidBodyComponent.linearVelocityY = math.lerp(_rigidBodyComponent.linearVelocityY, 0f, Time.deltaTime * BASE_STICK_ON_WALL_STRINGHT_MULTIPLIER * StickOnWallStringhtMultiplier);
+                CharComponents.CharacterRigidBody.linearVelocityY = math.lerp(CharComponents.CharacterRigidBody.linearVelocityY, 0f, Time.deltaTime * BASE_STICK_ON_WALL_STRINGHT_MULTIPLIER * StickOnWallStringhtMultiplier);
             }
 
             yield return new WaitForFixedUpdate();

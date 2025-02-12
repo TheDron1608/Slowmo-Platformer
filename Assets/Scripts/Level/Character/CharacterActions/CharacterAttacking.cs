@@ -7,7 +7,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryHammerWeapon()
     {
-        if (_charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
         {
             return hammerWeapon.TrySetHammered(true);
         }
@@ -16,7 +16,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryStopHammerringWeapon()
     {
-        if (_charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
         {
             return hammerWeapon.TrySetHammered(false);
         }
@@ -25,7 +25,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryStartChainsaw()
     {
-        if (_charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) && !chainsaw.Started)
+        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) && !chainsaw.Started)
         {
             return chainsaw.TryStart();
         }
@@ -34,7 +34,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryAttack(Vector2 direction)
     {
-        if (_charComponents.CharacterHolding.CurrentHoldObject != null && _charComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+        if (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
             if (weapon.TryAttack(direction))
             {
@@ -50,7 +50,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryLoadElseAttack(Vector2 direction)
     {
-        if (_charComponents.CharacterHolding.CurrentHoldObject != null)
+        if (CharComponents.CharacterHolding.CurrentHoldObject != null)
         {
             if (TryHammerWeapon()) return true;
 
