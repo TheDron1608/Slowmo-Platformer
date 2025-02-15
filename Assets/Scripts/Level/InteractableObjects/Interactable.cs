@@ -41,7 +41,10 @@ public abstract class Interactable : SelectableObject
         if (interactor.TryGetComponent(out CharacterVisual characterVisual))
         {
             _currentInteractor = interactor;
-            characterVisual.CurrentBusyAnimation = AnimationOnStartInteract;
+            if (AnimationOnStartInteract != CharacterPart.CharacterPartBusyStates.NONE)
+            {
+                characterVisual.CurrentBusyAnimation = AnimationOnStartInteract;
+            }
             characterVisual.OnBusyAnimationFinished += CharacterVisual_OnFirstBusyAnimationFinished;
         }
     }
@@ -62,7 +65,10 @@ public abstract class Interactable : SelectableObject
         {
             charVisual.OnBusyAnimationFinished += CharacterVisual_OnSecondBusyAnimationFinished;
 
-            charVisual.CurrentBusyAnimation = AnimationOnFinishInteract;
+            if (AnimationOnFinishInteract != CharacterPart.CharacterPartBusyStates.NONE)
+            {
+                charVisual.CurrentBusyAnimation = AnimationOnFinishInteract;
+            }
         }
         else
         {

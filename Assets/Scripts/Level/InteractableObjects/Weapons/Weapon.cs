@@ -144,7 +144,7 @@ public abstract class Weapon : MonoBehaviour
             if (holdable.CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
             {
 
-                rigidBody.linearVelocity -= direction * Projectile.KnockBack;
+                rigidBody.linearVelocity -= direction * Projectile.SelfKnockBack;
 
                 if (
                     holdable.CurrentHolder.TryGetComponent(out CharacterVisual charVisual) && 

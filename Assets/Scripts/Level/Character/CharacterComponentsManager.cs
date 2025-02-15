@@ -16,6 +16,7 @@ public class CharacterComponentsManager : MonoBehaviour
     public CharacterCollisionInfo CharacterCollisionInfo;
     public CharacterVisual CharacterVisual;
     public CharacterInteractionWithTiles CharacterInteractionWithTiles;
+    public CharacterDamaging CharacterDamaging;
     public GameObject Center;
     public GameObject CharacterPartsContainer;
     [Header("CharacterPhysics")]

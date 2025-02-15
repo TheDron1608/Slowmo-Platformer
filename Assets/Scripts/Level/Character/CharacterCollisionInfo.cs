@@ -16,6 +16,9 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
             CollisionAlign = collisionAlign;
         }
 
+        /// <summary>
+        /// If true enteres collision, else releases collision
+        /// </summary>
         public bool EnterOrReleasedCollision;
         public Vector2 CollisionAlign;
     }

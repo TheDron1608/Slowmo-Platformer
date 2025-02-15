@@ -4,12 +4,13 @@ using UnityEngine;
 public abstract class AbstractProjectile : MonoBehaviour
 {
     public float Accuracy = 1f;
-    public float KnockBack = 0f;
+    public float KnockBack = 2.5f;
+    public float SelfKnockBack = 0f;
 
     private Weapon _weapon;
     private CharacterHoldingObjects _owner;
     private Rigidbody2D _rigidBody;
-    private List<Collider2D> _currentHittingColliders = new();
+    protected List<Collider2D> _currentHittingColliders = new();
 
     private void Awake()
     {
@@ -85,15 +86,10 @@ public abstract class AbstractProjectile : MonoBehaviour
                 OnHit(hitObjects[i].gameObject);
                 if (hitObjects[i].TryGetComponent(out CharacterHitbox characterHitbox))
                 {
-                    characterHitbox.OnHit();
+                    characterHitbox.OnHit(this);
                 }
             }
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _currentHittingColliders.Remove(collision);
     }
 
     private bool GetIsHighestHitPriority(List<Collider2D> colliders, CharacterHitbox currentHitBox)

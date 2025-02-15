@@ -164,6 +164,7 @@ public class CharacterVisual : AbstractCharacterComponent
         UpdateMainStateParam();
         UpdateJumpStateParam();
         UpdateMoveSpeedParam();
+        UpdateStunnedBusyStateParam();
     }
 
     private void UpdateJumpStateParam()
@@ -238,5 +239,29 @@ public class CharacterVisual : AbstractCharacterComponent
     private void UpdateMoveSpeedParam()
     {
         MoveSpeed = CharComponents.CharacterRigidBody.linearVelocityX / MoveSpeedVelocityRange * (SpritesFlipped ? -1f : 1f);
+    }
+
+    private void UpdateStunnedBusyStateParam()
+    {
+        if (CharComponents.CharacterDamaging.IsStunned())
+        {
+            if (CurrentBusyAnimation != CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR && CurrentBusyAnimation != CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR)
+            {
+                BreakBusyAnimation();
+            }
+
+            if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+            {
+                CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR;
+            }
+            else
+            {
+                CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR;
+            }
+        }
+        else if (CurrentBusyAnimation == CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR)
+        {
+            CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE;
+        }
     }
 }

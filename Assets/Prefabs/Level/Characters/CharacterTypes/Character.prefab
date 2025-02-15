@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284036244268663210}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -84,6 +84,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitableByProjectiles: 0
   HitPriority: 1
+  DefaultColliderTransform:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  RollColliderTransform:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1.25, y: 0.5, z: 1}
+  FallenColliderTransform:
+    Position: {x: 0.5, y: 0.1, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Scale: {x: 0.9, y: 1.15, z: 1}
 --- !u!1 &4810011283521481523
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +153,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5832236148751035023}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -198,6 +210,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitableByProjectiles: 1
   HitPriority: 2
+  DefaultColliderTransform:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  RollColliderTransform:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1.25, y: 0.5, z: 1}
+  FallenColliderTransform:
+    Position: {x: 0.5, y: 0.1, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Scale: {x: 0.9, y: 1.15, z: 1}
 --- !u!1 &6659983130786743984
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6659983130786743984}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -282,6 +306,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitableByProjectiles: 1
   HitPriority: 1
+  DefaultColliderTransform:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  RollColliderTransform:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1.25, y: 0.5, z: 1}
+  FallenColliderTransform:
+    Position: {x: 0.5, y: 0.1, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Scale: {x: 0.9, y: 1.15, z: 1}
 --- !u!1 &7466261371012752510
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +338,7 @@ GameObject:
   - component: {fileID: 2103635049368087364}
   - component: {fileID: 7585185559083403592}
   - component: {fileID: 1964864157782877518}
+  - component: {fileID: 974105059069264052}
   - component: {fileID: 2002335163756146061}
   - component: {fileID: 7607223272691296094}
   m_Layer: 6
@@ -354,6 +391,7 @@ MonoBehaviour:
   CharacterCollisionInfo: {fileID: 2002335163756146061}
   CharacterVisual: {fileID: 1964864157782877518}
   CharacterInteractionWithTiles: {fileID: 3206245827804919803}
+  CharacterDamaging: {fileID: 974105059069264052}
   Center: {fileID: 4810011283521481523}
   CharacterPartsContainer: {fileID: 7534914569010161185}
   CharacterRigidBody: {fileID: 7607223272691296094}
@@ -508,6 +546,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JumpStateVelocityRange: 5
   MoveSpeedVelocityRange: 5
+--- !u!114 &974105059069264052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e9b9879160cac46b2dd85067b1ed5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StunDuration: 1
+  ResetStunIfIsNotOnFloor: 1
 --- !u!114 &2002335163756146061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +639,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6738417014831093395}
     m_Modifications:
+    - target: {fileID: 483740539483310477, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8726422647089201800, guid: 967ec189365d2b44789487ffa42eee24, type: 3}
     - target: {fileID: 6053841370200454680, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
       propertyPath: m_Name
       value: Body
