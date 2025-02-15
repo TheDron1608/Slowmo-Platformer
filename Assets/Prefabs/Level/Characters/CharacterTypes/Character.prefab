@@ -89,11 +89,11 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 0}
     Scale: {x: 1, y: 1, z: 1}
   RollColliderTransform:
-    Position: {x: 0, y: 0, z: 0}
+    Position: {x: 0, y: 0.035, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1.25, y: 0.5, z: 1}
   FallenColliderTransform:
-    Position: {x: 0.5, y: 0.1, z: 0}
+    Position: {x: 0.5, y: 0.175, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Scale: {x: 0.9, y: 1.15, z: 1}
 --- !u!1 &4810011283521481523
@@ -215,11 +215,11 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 0}
     Scale: {x: 1, y: 1, z: 1}
   RollColliderTransform:
-    Position: {x: 0, y: 0, z: 0}
+    Position: {x: 0, y: 0.035, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1.25, y: 0.5, z: 1}
   FallenColliderTransform:
-    Position: {x: 0.5, y: 0.1, z: 0}
+    Position: {x: 0.5, y: 0.175, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Scale: {x: 0.9, y: 1.15, z: 1}
 --- !u!1 &6659983130786743984
@@ -311,11 +311,11 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 0}
     Scale: {x: 1, y: 1, z: 1}
   RollColliderTransform:
-    Position: {x: 0, y: 0, z: 0}
+    Position: {x: 0, y: 0.035, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1.25, y: 0.5, z: 1}
   FallenColliderTransform:
-    Position: {x: 0.5, y: 0.1, z: 0}
+    Position: {x: 0.5, y: 0.175, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Scale: {x: 0.9, y: 1.15, z: 1}
 --- !u!1 &7466261371012752510
@@ -642,7 +642,7 @@ PrefabInstance:
     - target: {fileID: 483740539483310477, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8726422647089201800, guid: 967ec189365d2b44789487ffa42eee24, type: 3}
+      objectReference: {fileID: -1110572959994612896, guid: b7b6201b22592b64bbad63ee9f6fd8eb, type: 3}
     - target: {fileID: 6053841370200454680, guid: d53660ee96233dd428df08f18b1b0a01, type: 3}
       propertyPath: m_Name
       value: Body

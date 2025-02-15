@@ -243,7 +243,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void UpdateStunnedBusyStateParam()
     {
-        if (CharComponents.CharacterDamaging.IsStunned())
+        if (CharComponents.CharacterDamaging.IsHardStunned())
         {
             if (CurrentBusyAnimation != CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR && CurrentBusyAnimation != CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR)
             {
@@ -259,9 +259,9 @@ public class CharacterVisual : AbstractCharacterComponent
                 CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR;
             }
         }
-        else if (CurrentBusyAnimation == CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR)
+        else if (CharComponents.CharacterDamaging.IsMinorStunned())
         {
-            CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE;
+            CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.MINOR_STUN;
         }
     }
 }

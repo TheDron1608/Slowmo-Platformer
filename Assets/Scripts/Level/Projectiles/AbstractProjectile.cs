@@ -3,6 +3,15 @@ using UnityEngine;
 
 public abstract class AbstractProjectile : MonoBehaviour
 {
+    public enum StunTypes
+    {
+        NO_STUN,
+        MINOR_STUN,
+        HARD_STUN,
+        PIERCING_HARD_STUN //hard stun but ignores stun resistant (not stun immunity)
+    }
+
+    public StunTypes StunType = StunTypes.MINOR_STUN;
     public float Accuracy = 1f;
     public float KnockBack = 2.5f;
     public float SelfKnockBack = 0f;

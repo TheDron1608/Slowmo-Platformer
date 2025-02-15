@@ -25,7 +25,8 @@ public class CharacterPart : MonoBehaviour
         LOOK_BACKWARD_REVERSED = 4,
         ROLL = 5,
         FALLING_IN_AIR = 6,
-        FALLEN_ON_FLOOR = 7
+        FALLEN_ON_FLOOR = 7,
+        MINOR_STUN = 8
     }
 
 
