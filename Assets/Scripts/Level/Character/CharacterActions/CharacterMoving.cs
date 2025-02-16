@@ -43,6 +43,7 @@ public class CharacterMoving : AbstractCharacterComponent
     public float Speed = 5f;
     public float SpeedAccelerationOnGroundMultiplier = 5f;
     public float SpeedAccelerationOnAirMulitplier = 1f;
+    public float SpeedAccelerationOnUnableToMoveMultiplier = 0.33f;
 
     public event EventHandler<float> OnMoveAlignChanged;
     public event EventHandler<float> OnReachedMaxSpeed;
@@ -71,7 +72,11 @@ public class CharacterMoving : AbstractCharacterComponent
         else
         {
             _isAbleToMoveThisFrame = true;
-            if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+            if (!IsAbleToMove)
+            {
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnUnableToMoveMultiplier * Time.fixedDeltaTime);
+            }
+            else if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
             {
                 CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime);
             }

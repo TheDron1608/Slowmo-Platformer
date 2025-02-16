@@ -29,9 +29,14 @@ public class CharacterComponentsManager : MonoBehaviour
         CharacterJumping.IsAbleToJump = freezeAllActions;
         CharacterInteract.IsAbleToInteractWithObjects = freezeAllActions;
         CharacterHolding.IsAbleToGrabObjects = freezeAllActions;
+        CharacterHolding.IsAbleToThrowObjects = freezeAllActions;
+        CharacterHolding.IsAbleToHoldObjects = freezeAllActions;
         CharacterAiming.IsAbleToAim = freezeAllActions;
         CharacterAttacking.IsAbleToAttack = freezeAllActions;
+        CharacterAttacking.IsAbleToHammer = freezeAllActions;
+        CharacterAttacking.IsAbleToStartChainsaw = freezeAllActions;
         CharacterReloading.IsAbleToReload = freezeAllActions;
         CharacterRolling.IsAbleToRoll = freezeAllActions;
+        CharacterInteractionWithTiles.IsAbleToStickOnWalls = freezeAllActions;
     }
 }

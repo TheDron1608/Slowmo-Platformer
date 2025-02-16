@@ -104,7 +104,7 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
         }
         else if (CharComponents.CharacterCollisionInfo.TimeInAir <= CoyoteLateTimer)
         {
-            CharComponents.CharacterJumping.ForceStartJump();
+            CharComponents.CharacterJumping.StartCoyoteJump();
         }
         else
         {

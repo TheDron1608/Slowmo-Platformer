@@ -2,12 +2,37 @@ using UnityEngine;
 
 public class CharacterAttacking : AbstractCharacterComponent
 {
-    public bool IsAbleToAttack = true;
+    [SerializeField] private bool _isAbleToAttack = true;
+    [SerializeField] private bool _isAbleToHammer = true;
+    [SerializeField] private bool _isAbleToStartChainsaw = true;
     public float AttackCooldownMultiplier = 1f;
+
+    public bool IsAbleToAttack
+    {
+        get => _isAbleToAttack;
+        set => _isAbleToAttack = value;
+    }
+    public bool IsAbleToHammer
+    {
+        get => _isAbleToHammer;
+        set
+        {
+            if (!value)
+            {
+                TryStopHammerringWeapon();
+            }
+            _isAbleToHammer = value;
+        }
+    }
+    public bool IsAbleToStartChainsaw
+    {
+        get => _isAbleToStartChainsaw;
+        set => _isAbleToStartChainsaw = value;
+    }
 
     public bool TryHammerWeapon()
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+        if (IsAbleToHammer && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
         {
             return hammerWeapon.TrySetHammered(true);
         }
@@ -16,7 +41,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryStopHammerringWeapon()
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
+        if (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
         {
             return hammerWeapon.TrySetHammered(false);
         }
@@ -25,7 +50,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryStartChainsaw()
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) && !chainsaw.Started)
+        if (IsAbleToStartChainsaw && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) && !chainsaw.Started)
         {
             return chainsaw.TryStart();
         }
@@ -34,7 +59,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryAttack(Vector2 direction)
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+        if (IsAbleToAttack && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
             if (weapon.TryAttack(direction))
             {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static CharacterVisual;
 
 public class CharacterDamaging : AbstractCharacterComponent
 {
@@ -10,10 +11,12 @@ public class CharacterDamaging : AbstractCharacterComponent
     private float _hardStunRecoverTimeLeft = 0f;
     private AbstractProjectile.StunTypes _currentAppliedStunType = AbstractProjectile.StunTypes.NO_STUN;
 
+    public event EventHandler<AbstractProjectile> OnHit;
+
     protected override void OnAwake()
     {
         base.OnAwake();
-        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyAnimationChanged;
+        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
     }
 
     public AbstractProjectile.StunTypes CurrentAppliedStunType
@@ -45,7 +48,16 @@ public class CharacterDamaging : AbstractCharacterComponent
 
     public bool TryApplyHit(CharacterHitbox hitLocation, AbstractProjectile projectile)
     {
-        CharComponents.CharacterRigidBody.linearVelocity = projectile.KnockBack * VectorMath.Quartenion2DToVec2(projectile.transform.rotation);
+        Vector2 projectileDirection = VectorMath.Quartenion2DToVec2(projectile.transform.rotation);
+
+        CharComponents.CharacterRigidBody.linearVelocity = projectile.KnockBack * projectileDirection;
+
+        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR;
+        if (CharComponents.CharacterVisual.IsBusy())
+        {
+            CharComponents.CharacterVisual.BreakBusyAnimation();
+        }
+        CharComponents.CharacterVisual.SpritesFlipped = CharComponents.CharacterRigidBody.linearVelocityX < 0f;
 
         CurrentAppliedStunType = projectile.StunType;
 
@@ -53,6 +65,8 @@ public class CharacterDamaging : AbstractCharacterComponent
         {
             _hardStunRecoverTimeLeft = HardStunRecoverDuration;
         }
+
+        OnHit?.Invoke(this, projectile);
 
         return true;
     }
@@ -82,9 +96,12 @@ public class CharacterDamaging : AbstractCharacterComponent
         }
     }
 
-    private void CharacterVisual_OnBusyAnimationChanged(object sender, CharacterPart.CharacterPartBusyStates e)
+    private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
-        if (e == CharacterPart.CharacterPartBusyStates.NONE)
+        if (
+            (e.OldState == CharacterPart.CharacterPartBusyStates.MINOR_STUN || e.OldState == CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR) &&
+            e.NewState == CharacterPart.CharacterPartBusyStates.NONE
+            )
         {
             CurrentAppliedStunType = AbstractProjectile.StunTypes.NO_STUN;
         }

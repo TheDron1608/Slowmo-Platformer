@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static CharacterVisual;
 
 public class CharacterHitbox : AbstractCharacterComponent
 {
@@ -21,7 +22,7 @@ public class CharacterHitbox : AbstractCharacterComponent
     {
         base.OnAwake();
         SetColliderTransform(DefaultColliderTransform);
-        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBustStateChanged;
+        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
     }
 
     public bool HitableByProjectiles = true;
@@ -46,9 +47,9 @@ public class CharacterHitbox : AbstractCharacterComponent
         transform.localScale = value.Scale;
     }
 
-    private void CharacterVisual_OnBustStateChanged(object sender, CharacterPart.CharacterPartBusyStates e)
+    private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
-        switch (e)
+        switch (e.NewState)
         {
             case CharacterPart.CharacterPartBusyStates.ROLL:
                 SetColliderTransform(RollColliderTransform);

@@ -110,7 +110,7 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
     public bool GetIsStickingOnWall()
     {
         return
-            CharComponents.CharacterInteractionWithTiles.CanStickOnWalls &&
+            CharComponents.CharacterInteractionWithTiles.IsAbleToStickOnWalls &&
             (
                 GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
                 GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static CharacterVisual;
 
 public abstract class Interactable : SelectableObject
 {
@@ -45,11 +46,11 @@ public abstract class Interactable : SelectableObject
             {
                 characterVisual.CurrentBusyAnimation = AnimationOnStartInteract;
             }
-            characterVisual.OnBusyAnimationFinished += CharacterVisual_OnFirstBusyAnimationFinished;
+            characterVisual.OnBusyStateChanged += CharacterVisual_OnFirstBusyStateChanged;
         }
     }
 
-    private void CharacterVisual_OnFirstBusyAnimationFinished(object sender, CharacterPart.CharacterPartBusyStates e)
+    private void CharacterVisual_OnFirstBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
         if (_currentInteractor == null) return;
 
@@ -59,11 +60,11 @@ public abstract class Interactable : SelectableObject
         if (!_currentInteractor.TryGetComponent(out charVisual)) return;
 
 
-        charVisual.OnBusyAnimationFinished -= CharacterVisual_OnFirstBusyAnimationFinished;
+        charVisual.OnBusyStateChanged -= CharacterVisual_OnFirstBusyStateChanged;
 
         if (AnimationOnFinishInteract != CharacterPart.CharacterPartBusyStates.NONE)
         {
-            charVisual.OnBusyAnimationFinished += CharacterVisual_OnSecondBusyAnimationFinished;
+            charVisual.OnBusyStateChanged += CharacterVisual_OnSecondBusyStateChanged;
 
             if (AnimationOnFinishInteract != CharacterPart.CharacterPartBusyStates.NONE)
             {
@@ -76,7 +77,7 @@ public abstract class Interactable : SelectableObject
         }
     }
 
-    private void CharacterVisual_OnSecondBusyAnimationFinished(object sender, CharacterPart.CharacterPartBusyStates e)
+    private void CharacterVisual_OnSecondBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
         if (_currentInteractor == null) return;
 
@@ -85,7 +86,7 @@ public abstract class Interactable : SelectableObject
         CharacterVisual charVisual = _currentInteractor.GetComponent<CharacterVisual>();
         if (charVisual == null) return;
 
-        charVisual.OnBusyAnimationFinished -= CharacterVisual_OnSecondBusyAnimationFinished;
+        charVisual.OnBusyStateChanged -= CharacterVisual_OnSecondBusyStateChanged;
 
         _currentInteractor = null;
     }
@@ -97,8 +98,8 @@ public abstract class Interactable : SelectableObject
         CharacterVisual charVisual = _currentInteractor.GetComponent<CharacterVisual>();
         if (charVisual == null) return;
 
-        charVisual.OnBusyAnimationFinished -= CharacterVisual_OnFirstBusyAnimationFinished;
-        charVisual.OnBusyAnimationFinished -= CharacterVisual_OnSecondBusyAnimationFinished;
+        charVisual.OnBusyStateChanged -= CharacterVisual_OnFirstBusyStateChanged;
+        charVisual.OnBusyStateChanged -= CharacterVisual_OnSecondBusyStateChanged;
 
         charVisual.BreakBusyAnimation();
 

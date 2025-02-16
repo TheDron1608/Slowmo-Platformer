@@ -1,6 +1,7 @@
 using System;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CharacterHoldingObjects : AbstractCharacterComponent
 {
@@ -16,12 +17,13 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         public Vector2 Direction;
     }
 
+    [SerializeField] private bool _isAbleToGrabObjects = true;
+    [SerializeField] private bool _isAbleToThrowObjects = true;
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
 
     private Holdable _currentHoldObject = null;
     private Holdable _lastHoldObject = null;
-    private bool _isAbleToGrabObjects;
 
     public event EventHandler<OnThewEventArgs> OnThrewHoldable;
     public event EventHandler<Holdable> OnPickedUpHoldable;
@@ -57,11 +59,11 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             {
                 if (CharComponents.CharacterRigidBody.linearVelocity != Vector2.zero)
                 {
-                    TryThrow(CharComponents.CharacterRigidBody.linearVelocity.normalized);
+                    ForceThrow(CharComponents.CharacterRigidBody.linearVelocity.normalized);
                 }
                 else
                 {
-                    TryThrow(CharComponents.CharacterVisual.SpritesFlipped ? Vector2.left : Vector2.right, 0.25f);
+                    ForceThrow(CharComponents.CharacterVisual.SpritesFlipped ? Vector2.left : Vector2.right, 0.25f);
                 }
             }
             _isAbleToGrabObjects = value;
@@ -72,6 +74,12 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     {
         get => _isAbleToGrabObjects;
         set => _isAbleToGrabObjects = value;
+    }
+
+    public bool IsAbleToThrowObjects
+    {
+        get => _isAbleToThrowObjects;
+        set => _isAbleToThrowObjects = value;
     }
 
     private void Update()
@@ -125,6 +133,19 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     public bool TryThrow(Vector2 align, float throwForceMultiplier = 1f)
     {
+        if (IsAbleToThrowObjects)
+        {
+            return ForceThrow(align, throwForceMultiplier);
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    public bool ForceThrow(Vector2 align, float throwForceMultiplier = 1f)
+    {
         if (_currentHoldObject == null) return false;
 
         _currentHoldObject.Throw(align, throwForceMultiplier);
@@ -138,13 +159,20 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     {
         if (
             _isAbleToGrabObjects &&
-            _currentHoldObject != null &&
-            Vector3.Distance(holdable.transform.position, transform.position) > CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier
+            _currentHoldObject == null &&
+            Vector3.Distance(holdable.transform.position, transform.position) <= CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier
             )
+        {
+            return ForceGrab(holdable);
+        }
+        else
         {
             return false;
         }
+    }
 
+    public bool ForceGrab(Holdable holdable)
+    {
         holdable.Give(this);
 
         OnPickedUpHoldable?.Invoke(this, holdable);

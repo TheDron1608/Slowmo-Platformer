@@ -5,6 +5,18 @@ public class CharacterVisual : AbstractCharacterComponent
 {
     const string CHARACTER_PARTS_GAMEOBJECT_NAME = "CharacterParts";
 
+    public class OnBusyStateChangedEventArgs
+    {
+        public CharacterPart.CharacterPartBusyStates OldState;
+        public CharacterPart.CharacterPartBusyStates NewState;
+
+        public OnBusyStateChangedEventArgs(CharacterPart.CharacterPartBusyStates oldState, CharacterPart.CharacterPartBusyStates newState)
+        {
+            OldState = oldState;
+            NewState = newState;
+        }
+    }
+
     /// <summary>
     /// Required Y velocity to change jump sprite
     /// </summary>
@@ -26,8 +38,7 @@ public class CharacterVisual : AbstractCharacterComponent
     private Transform _characterPartsContainer;
 
     public event EventHandler<CharacterPart.CharacterPartMainStates> OnMainStateChanged;
-    public event EventHandler<CharacterPart.CharacterPartBusyStates> OnBusyStateChanged;
-    public event EventHandler<CharacterPart.CharacterPartBusyStates> OnBusyAnimationFinished;
+    public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
 
     protected override void OnAwake()
     {
@@ -85,10 +96,10 @@ public class CharacterVisual : AbstractCharacterComponent
         {
             if (_currentBusyAnimation == value) return;
 
-            OnBusyAnimationFinished?.Invoke(this, _currentBusyAnimation);
+            OnBusyStateChanged?.Invoke(this, new OnBusyStateChangedEventArgs(_currentBusyAnimation, value));
+
             _currentBusyAnimation = value;
             UpdateBusyState();
-            OnBusyStateChanged?.Invoke(this, _currentBusyAnimation);
         }
     }
     private void UpdateBusyState()
@@ -109,6 +120,8 @@ public class CharacterVisual : AbstractCharacterComponent
 
     public void BreakBusyAnimation()
     {
+        if (!IsBusy()) return;
+
         for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
             if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
@@ -245,11 +258,6 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         if (CharComponents.CharacterDamaging.IsHardStunned())
         {
-            if (CurrentBusyAnimation != CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR && CurrentBusyAnimation != CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR)
-            {
-                BreakBusyAnimation();
-            }
-
             if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
             {
                 CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR;

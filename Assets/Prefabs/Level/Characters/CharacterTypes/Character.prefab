@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbc992a211b94c24082c99abf803e7c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanStickOnWalls: 1
+  IsAbleToStickOnWalls: 1
   StickOnWallStringhtMultiplier: 1
 --- !u!114 &8537718361905042118
 MonoBehaviour:
@@ -450,7 +450,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681f02b917641e340b7efc666e14a50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAbleToAttack: 1
+  _isAbleToAttack: 1
+  _isAbleToHammer: 1
+  _isAbleToStartChainsaw: 1
   AttackCooldownMultiplier: 1
 --- !u!114 &-1858980390697622286
 MonoBehaviour:
@@ -468,6 +470,7 @@ MonoBehaviour:
   Speed: 5
   SpeedAccelerationOnGroundMultiplier: 4
   SpeedAccelerationOnAirMulitplier: 1
+  SpeedAccelerationOnUnableToMoveMultiplier: 0.8
 --- !u!114 &3540175533123877220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,6 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf19cb91635009146a3fd457a8c53313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isAbleToJump: 1
   JumpForce: 7.5
   JumpKeepForceMultiplier: 1.5
   JumpOffWallForce: 10
@@ -499,6 +503,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 423c0abd16c28ec46ba77c4095243de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isAbleToGrabObjects: 1
+  _isAbleToThrowObjects: 1
   ThrowForce: 15
   MaxGrabRangeMultiplier: 1
 --- !u!114 &2103635049368087364
@@ -558,7 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e9b9879160cac46b2dd85067b1ed5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StunDuration: 1
+  HardStunRecoverDuration: 1
   ResetStunIfIsNotOnFloor: 1
 --- !u!114 &2002335163756146061
 MonoBehaviour:

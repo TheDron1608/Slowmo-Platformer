@@ -7,7 +7,7 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
 {
     const float BASE_STICK_ON_WALL_STRINGHT_MULTIPLIER = 15f;
 
-    public bool CanStickOnWalls = true;
+    public bool IsAbleToStickOnWalls = true;
     public float StickOnWallStringhtMultiplier = 1f;
 
     private void Start()
@@ -27,7 +27,7 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
 
     private void UpdateStickyTileInteraction()
     {
-        if (!CanStickOnWalls) return;
+        if (!IsAbleToStickOnWalls) return;
 
         if (
             CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||

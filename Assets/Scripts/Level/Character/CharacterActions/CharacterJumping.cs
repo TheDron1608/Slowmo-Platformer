@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterJumping : AbstractCharacterComponent
 {
+    [SerializeField] private bool _isAbleToJump = true;
     public float JumpForce = 5f;
     public float JumpKeepForceMultiplier = 2f;
     public float JumpOffWallForce = 7.5f;
@@ -17,8 +18,7 @@ public class CharacterJumping : AbstractCharacterComponent
     private float _jumpTimeLeft = 0f;
     private int _airJumpsLeft = 0;
     private bool _isJumping = false;
-    private bool _isAbleToJump = false;
-
+    
     public event EventHandler OnStartedJumping;
     public event EventHandler OnStopedJumping;
 
@@ -68,7 +68,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     private void UpdateJump()
     {
-        if (_isJumping && _jumpTimeLeft > 0f)
+        if (_isJumping && _jumpTimeLeft > 0f && _isAbleToJump)
         {
             CharComponents.CharacterRigidBody.linearVelocityY += JumpForce * JumpKeepForceMultiplier * Time.fixedDeltaTime;
         }
@@ -89,7 +89,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void StartJump()
     {
-        if (_isJumping) return;
+        if (_isJumping || !IsAbleToJump) return;
 
         if (GetIsAbleToJumpFromFloorOrWall()) 
         {
@@ -128,9 +128,9 @@ public class CharacterJumping : AbstractCharacterComponent
         OnStartedJumping?.Invoke(this, EventArgs.Empty);
     }
 
-    public void ForceStartJump()
+    public void StartCoyoteJump()
     {
-        if (_isJumping) return;
+        if (_isJumping || !IsAbleToJump) return;
 
         if (CharComponents.CharacterRigidBody.linearVelocityY < JumpForce)
         {

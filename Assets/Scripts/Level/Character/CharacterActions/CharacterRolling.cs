@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using static CharacterVisual;
 
 public class CharacterRolling : AbstractCharacterComponent
 {
@@ -41,7 +42,7 @@ public class CharacterRolling : AbstractCharacterComponent
     protected override void OnAwake()
     {
         base.OnAwake();
-        CharComponents.CharacterVisual.OnBusyAnimationFinished += CharacterVisual_OnBusyAnimationFinished;
+        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
         CharComponents.CharacterCollisionInfo.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
     }
 
@@ -53,9 +54,9 @@ public class CharacterRolling : AbstractCharacterComponent
         }
     }
 
-    private void CharacterVisual_OnBusyAnimationFinished(object sender, CharacterPart.CharacterPartBusyStates e)
+    private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
-        if (e == CharacterPart.CharacterPartBusyStates.ROLL)
+        if (e.OldState == CharacterPart.CharacterPartBusyStates.ROLL)
         {
             IsRolling = false;
             CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
@@ -66,13 +67,13 @@ public class CharacterRolling : AbstractCharacterComponent
     public bool TryRoll(float direction)
     {
         _currentRollDirection = direction;
-        IsRolling = true;
 
-        if (!IsAbleToRoll || CharComponents.CharacterVisual.IsBusy() || !RollCondition())
+        if (!IsAbleToRoll || IsRolling || !RollCondition())
         {
-            IsRolling = false;
             return false;
         }
+
+        IsRolling = true;
 
         CharComponents.CharacterMoving.IsAbleToMove = false;
 
