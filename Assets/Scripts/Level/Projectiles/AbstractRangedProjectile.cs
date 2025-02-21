@@ -64,6 +64,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
 
     public override void OnHit(GameObject hitObject)
     {
+        base.OnHit(hitObject);
         RemoveSelf();
     }
 

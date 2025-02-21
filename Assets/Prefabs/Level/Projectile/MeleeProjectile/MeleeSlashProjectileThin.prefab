@@ -105,8 +105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b75ed1f04389a4e9db9917141964b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StunType: 1
   Accuracy: 1
   KnockBack: 15
   SelfKnockBack: -6.5
+  EffectsOnHit:
+  - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
   WallKnockback: 5

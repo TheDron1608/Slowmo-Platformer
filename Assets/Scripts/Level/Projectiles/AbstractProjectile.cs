@@ -3,18 +3,10 @@ using UnityEngine;
 
 public abstract class AbstractProjectile : MonoBehaviour
 {
-    public enum StunTypes
-    {
-        NO_STUN,
-        MINOR_STUN,
-        HARD_STUN,
-        PIERCING_HARD_STUN //hard stun but ignores stun resistant (not stun immunity)
-    }
-
-    public StunTypes StunType = StunTypes.MINOR_STUN;
     public float Accuracy = 1f;
     public float KnockBack = 2.5f;
     public float SelfKnockBack = 0f;
+    public List<AbstractCharacterEffect> EffectsOnHit = new();
 
     private Weapon _weapon;
     private CharacterHoldingObjects _owner;
@@ -48,7 +40,14 @@ public abstract class AbstractProjectile : MonoBehaviour
     }
 
     public abstract List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null);
-    public abstract void OnHit(GameObject hitObject);
+
+    public virtual void OnHit(GameObject hitObject)
+    {
+        if (hitObject.TryGetComponent(out AbstractCharacterComponent charComponent))
+        {
+            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnHit);
+        }
+    }
 
     public void RemoveSelf()
     {

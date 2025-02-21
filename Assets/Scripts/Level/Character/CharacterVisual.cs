@@ -256,7 +256,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void UpdateStunnedBusyStateParam()
     {
-        if (CharComponents.CharacterDamaging.IsHardStunned())
+        if (CharComponents.CharacterEffects.GetHasEffect<HardStun>())
         {
             if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
             {
@@ -267,7 +267,7 @@ public class CharacterVisual : AbstractCharacterComponent
                 CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR;
             }
         }
-        else if (CharComponents.CharacterDamaging.IsMinorStunned())
+        else if (CharComponents.CharacterEffects.GetHasEffect<MinorStun>())
         {
             CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.MINOR_STUN;
         }

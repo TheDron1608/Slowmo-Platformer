@@ -45,6 +45,8 @@ public class MeleeProjectile : AbstractProjectile
 
     public override void OnHit(GameObject hitObject)
     {
+        base.OnHit(hitObject);
+
         if (_didHitAnyWallOnce) return;
 
         if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null) 

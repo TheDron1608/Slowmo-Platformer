@@ -77,10 +77,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3893da5e396a5fe46a8b273199569edc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StunType: 1
   Accuracy: 0.85
   KnockBack: 7.5
   SelfKnockBack: 15
+  EffectsOnHit:
+  - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
   BulletSpeed: 35
   MaxRange: 350
   BulletCasingParticle: {fileID: 3494289913850297270, guid: 21fe314279d42a247901a48f5bdbecb6, type: 3}
