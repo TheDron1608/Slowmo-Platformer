@@ -5,7 +5,7 @@ public class BuckshotProjectile : AbstractRangedProjectile
 {
     public int BuckshotSubProjectilesAmount = 6;
 
-    public override List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
+    protected override List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
         if (weapon != null && weapon.TryGetComponent(out RangedWeapon rangedWeapon))
         {

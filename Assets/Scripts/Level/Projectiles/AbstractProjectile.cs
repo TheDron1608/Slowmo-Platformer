@@ -4,9 +4,8 @@ using UnityEngine;
 public abstract class AbstractProjectile : MonoBehaviour
 {
     public float Accuracy = 1f;
-    public float KnockBack = 2.5f;
-    public float SelfKnockBack = 0f;
-    public List<AbstractCharacterEffect> EffectsOnHit = new();
+    public List<AbstractCharacterEffect> HitEffects = new();
+    public List<AbstractCharacterEffect> SelfEffects = new();
 
     private Weapon _weapon;
     private CharacterHoldingObjects _owner;
@@ -39,13 +38,37 @@ public abstract class AbstractProjectile : MonoBehaviour
         return SpawnProjectile(VectorMath.Vec2ToQuarterninon2D(direction), accuracityMultiplier, weapon);
     }
 
-    public abstract List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null);
+    public List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null)
+    {
+        List<AbstractProjectile> result = OnSpawnProjectile(direction, accuracityMultiplier, weapon);
+        ApplySelfEffectOnWeaponUser(result, weapon);
+        return result;
+    }
+
+    protected abstract List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null);
+
+    private void ApplySelfEffectOnWeaponUser(List<AbstractProjectile> projectiles, Weapon weapon)
+    {
+        if (
+            weapon != null && 
+            weapon.TryGetComponent(out Holdable holdableWeapon) &&
+            holdableWeapon != null &&
+            holdableWeapon.CurrentHolder != null &&
+            holdableWeapon.CurrentHolder.TryGetComponent(out CharacterComponentsManager holderCharComponents)
+            )
+        {
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                holderCharComponents.CharacterEffects.ApplyEffect(SelfEffects, projectiles[i]);
+            }
+        }
+    }
 
     public virtual void OnHit(GameObject hitObject)
     {
         if (hitObject.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
-            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnHit);
+            charComponent.CharComponents.CharacterEffects.ApplyEffect(HitEffects, this);
         }
     }
 

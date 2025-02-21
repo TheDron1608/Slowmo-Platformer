@@ -78,10 +78,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Accuracy: 0.9
-  KnockBack: 12.5
-  SelfKnockBack: 17.5
-  EffectsOnHit:
+  HitEffects:
+  - {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
   - {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
+  SelfEffects:
+  - {fileID: 977385987182254359, guid: 1e7f0d5bee6e6a94ba68e29f9a622719, type: 3}
   BulletSpeed: 35
   MaxRange: 350
   BulletCasingParticle: {fileID: 3494289913850297270, guid: 21fe314279d42a247901a48f5bdbecb6, type: 3}

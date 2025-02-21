@@ -108,6 +108,9 @@ MonoBehaviour:
   Accuracy: 1
   KnockBack: 40
   SelfKnockBack: -10
-  EffectsOnHit:
+  HitEffects:
+  - {fileID: 977385987182254359, guid: f722d8551c659cd4db9afcd20167da01, type: 3}
   - {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
+  SelfEffects:
+  - {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
   WallKnockback: 5

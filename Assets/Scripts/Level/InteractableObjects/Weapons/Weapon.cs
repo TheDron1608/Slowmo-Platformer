@@ -135,28 +135,9 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual bool OnTryAttackSuccess(Vector2 direction)
     {
-        //attack cooldown
         IsInCooldown = true;
 
-        //knockback
-        if (TryGetComponent(out Holdable holdable))
-        {
-            if (holdable.CurrentHolder.TryGetComponent(out Rigidbody2D rigidBody))
-            {
-
-                rigidBody.linearVelocity -= direction * Projectile.SelfKnockBack;
-
-                if (
-                    holdable.CurrentHolder.TryGetComponent(out CharacterVisual charVisual) && 
-                    (rigidBody.linearVelocityX < 0 ^ direction.x > 0f)
-                    )
-                {
-                    charVisual.SpritesFlipped = direction.x < 0f;
-                }
-            }
-        }
-
-        _projectiles.AddRange(Projectile.SpawnProjectile(direction, AccuracyMultiplier, gameObject.GetComponent<Weapon>()));
+        _projectiles.AddRange(Projectile.SpawnProjectile(direction, AccuracyMultiplier, this));
         _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
         return true;

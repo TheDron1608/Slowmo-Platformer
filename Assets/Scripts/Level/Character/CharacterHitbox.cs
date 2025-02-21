@@ -37,7 +37,6 @@ public class CharacterHitbox : AbstractCharacterComponent
 
     public virtual void OnHit(AbstractProjectile projectile)
     {
-        CharComponents.CharacterDamaging.TryApplyHit(this, projectile);
     }
 
     private void SetColliderTransform(HitBoxTransform value)

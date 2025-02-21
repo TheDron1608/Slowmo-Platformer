@@ -20,8 +20,14 @@ public abstract class AbstractCharacterEffect : MonoBehaviour
 
     private void Awake()
     {
-        if (!transform.parent.TryGetComponent(out _affectedCharacter)) throw new UnityException("CharacterComponentsManager not found at parent in: " + gameObject.name);
-        OnApply();
+        if (transform.parent.TryGetComponent(out _affectedCharacter))
+        {
+            OnApply();
+        }
+        else
+        {
+            throw new UnityException("CharacterComponentsManager not found at parent in: " + gameObject.name);
+        }
     }
 
     private void OnDestroy()

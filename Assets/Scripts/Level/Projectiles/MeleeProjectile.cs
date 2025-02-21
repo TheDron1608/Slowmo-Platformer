@@ -21,8 +21,9 @@ public class MeleeProjectile : AbstractProjectile
 
     private bool _didHitAnyWallOnce = false;
 
-    public override List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
+    protected override List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
+
         MeleeProjectile newProjectile = Instantiate(this, weapon.transform);
 
         newProjectile.transform.rotation = VectorMath.RandomizeQuarternion(direction, Accuracy);

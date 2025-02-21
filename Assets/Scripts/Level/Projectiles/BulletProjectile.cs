@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BulletProjectile : AbstractRangedProjectile
 {
-    public override List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
+    protected override List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
         if (weapon != null && weapon.TryGetComponent(out RangedWeapon rangedWeapon))
         {
@@ -18,6 +18,7 @@ public class BulletProjectile : AbstractRangedProjectile
         {
             newProjectile.Owner = holdableWeapon.CurrentHolder;
         }
+
 
         return new List<AbstractProjectile>() { newProjectile };
     }

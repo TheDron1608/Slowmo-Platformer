@@ -80,8 +80,11 @@ MonoBehaviour:
   Accuracy: 1
   KnockBack: 5
   SelfKnockBack: 5
-  EffectsOnHit:
+  HitEffects:
+  - {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
   - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
+  SelfEffects:
+  - {fileID: 977385987182254359, guid: 6526abce4896e0c44a0d82fad09ab2be, type: 3}
   BulletSpeed: 35
   MaxRange: 350
   BulletCasingParticle: {fileID: 5037303546567406271, guid: 9374cf061e0d4b24b8f38260ec25ef47, type: 3}
