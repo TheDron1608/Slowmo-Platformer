@@ -40,10 +40,4 @@ public class CharacterComponentsManager : MonoBehaviour
         CharacterRolling.IsAbleToRoll = freezeAllActions;
         CharacterInteractionWithTiles.IsAbleToStickOnWalls = freezeAllActions;
     }
-
-    private void Update()
-    {
-        if (gameObject.name == "Character")
-        Debug.Log(CharacterMoving.IsAbleToMove);
-    }
 }

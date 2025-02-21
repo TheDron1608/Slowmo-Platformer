@@ -14,23 +14,6 @@ public class HardStun : AbstractOverwritingCharacterEffect
 
         AffectedCharacter.CharacterHolding.TryThrow(AffectedCharacter.CharacterRigidBody.linearVelocity.normalized, 0.25f);
 
-        AffectedCharacter.CharacterMoving.IsAbleToMove = true;
-        AffectedCharacter.CharacterJumping.IsAbleToJump = true;
-        AffectedCharacter.CharacterInteract.IsAbleToInteractWithObjects = true;
-        AffectedCharacter.CharacterHolding.IsAbleToGrabObjects = true;
-        AffectedCharacter.CharacterHolding.IsAbleToThrowObjects = true;
-        AffectedCharacter.CharacterAiming.IsAbleToAim = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToAttack = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToHammer = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = true;
-        AffectedCharacter.CharacterReloading.IsAbleToReload = true;
-        AffectedCharacter.CharacterRolling.IsAbleToRoll = true;
-        AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = true;
-    }
-
-    protected override void OnRemove()
-    {
-        base.OnRemove();
         AffectedCharacter.CharacterMoving.IsAbleToMove = false;
         AffectedCharacter.CharacterJumping.IsAbleToJump = false;
         AffectedCharacter.CharacterInteract.IsAbleToInteractWithObjects = false;
@@ -43,6 +26,26 @@ public class HardStun : AbstractOverwritingCharacterEffect
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
         AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
+    }
+
+    protected override void OnRemove()
+    {
+        base.OnRemove();
+
+        if (AffectedCharacter.CharacterEffects.GetHasEffect<HardStun>() || AffectedCharacter.CharacterEffects.GetHasEffect<MinorStun>()) return;
+
+        AffectedCharacter.CharacterMoving.IsAbleToMove = true;
+        AffectedCharacter.CharacterJumping.IsAbleToJump = true;
+        AffectedCharacter.CharacterInteract.IsAbleToInteractWithObjects = true;
+        AffectedCharacter.CharacterHolding.IsAbleToGrabObjects = true;
+        AffectedCharacter.CharacterHolding.IsAbleToThrowObjects = true;
+        AffectedCharacter.CharacterAiming.IsAbleToAim = true;
+        AffectedCharacter.CharacterAttacking.IsAbleToAttack = true;
+        AffectedCharacter.CharacterAttacking.IsAbleToHammer = true;
+        AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = true;
+        AffectedCharacter.CharacterReloading.IsAbleToReload = true;
+        AffectedCharacter.CharacterRolling.IsAbleToRoll = true;
+        AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = true;
     }
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
