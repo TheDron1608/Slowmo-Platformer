@@ -97,21 +97,7 @@ public abstract class AbstractProjectile : MonoBehaviour
         // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
         for (int i = 0; i < hitObjects.Count; i++)
         {
-            if (
-                (
-                    !hitObjects[i].TryGetComponent(out AbstractCharacterComponent charComponent) ||
-                    charComponent.CharComponents.CharacterHolding.CurrentHoldObject == null ||
-                    (charComponent.CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) && weapon != Weapon)
-                ) &&
-                (
-                    !hitObjects[i].TryGetComponent(out CharacterHitbox charHitbox) ||
-                    (
-                        charHitbox.HitableByProjectiles &&
-                        GetIsHighestHitPriority(hitObjects, charHitbox)
-                    )
-                ) &&
-                !_currentHittingColliders.Contains(hitObjects[i])
-            )
+            if (HitCondition(hitObjects, hitObjects[i]))
             {
                 _currentHittingColliders.Add(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
@@ -121,6 +107,24 @@ public abstract class AbstractProjectile : MonoBehaviour
                 }
             }
         }
+    }
+
+    protected virtual bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
+    {
+        return
+            (
+                !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
+                charComponent.CharComponents.CharacterHolding.CurrentHoldObject == null ||
+                (charComponent.CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) && weapon != Weapon)
+            ) &&
+            (
+                !currentHitObjet.TryGetComponent(out CharacterHitbox charHitbox) ||
+                (
+                    charHitbox.HitableByProjectiles &&
+                    GetIsHighestHitPriority(totalHitObjects, charHitbox)
+                )
+            ) &&
+            !_currentHittingColliders.Contains(currentHitObjet);
     }
 
     private bool GetIsHighestHitPriority(List<Collider2D> colliders, CharacterHitbox currentHitBox)

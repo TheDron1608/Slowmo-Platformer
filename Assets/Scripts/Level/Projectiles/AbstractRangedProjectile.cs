@@ -80,4 +80,9 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         layer.UpdateLayerForGameObject(gameObject);
         transform.parent = layer.transform;
     }
+
+    protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
+    {
+        return base.HitCondition(totalHitObjects, currentHitObjet) && !currentHitObjet.TryGetComponent(out AbstractRangedProjectile rangedProjectile);
+    }
 }
