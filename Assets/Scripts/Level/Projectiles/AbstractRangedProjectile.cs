@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class AbstractRangedProjectile : AbstractProjectile
 {
     const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
+    const string ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME = "OnHitWallCloudParticle";
 
     public float BulletSpeed = 35f;
     public float MaxRange = 350f;
@@ -12,6 +13,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
+    private ParticleSpawner _onHitWallCloudsPaticleSpawner;
 
     private float _rangeMoved = 0f;
     private bool _isFirstFrame = true;
@@ -36,6 +38,15 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
             _moveAlign = VectorMath.Vec2ToQuarterninon2D(_moveAlignVec2);
             transform.rotation = MoveAlign;
         }
+    }
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        layer.UpdateLayerForGameObject(gameObject);
+        transform.parent = layer.transform;
+        _onHitWallCloudsPaticleSpawner = transform.Find(ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
     }
 
     protected override void OnUpdate()
@@ -65,20 +76,18 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
     public override void OnHit(GameObject hitObject)
     {
         base.OnHit(hitObject);
+
+        if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME)
+        {
+            _onHitWallCloudsPaticleSpawner.SpawnParticle();
+        }
+
         RemoveSelf();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         _currentHittingColliders.Remove(collision);
-    }
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        layer.UpdateLayerForGameObject(gameObject);
-        transform.parent = layer.transform;
     }
 
     protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)

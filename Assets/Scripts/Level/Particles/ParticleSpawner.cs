@@ -72,17 +72,16 @@ public class ParticleSpawner : MonoBehaviour
 
         ParticleSystem.Burst firstBurst = newParticle.emission.GetBurst(0);
         firstBurst.count = amount;
+        
         newParticle.emission.SetBurst(0, firstBurst);
-        if (eulerAngle.y > 90f)
-        {
-            var main = newParticle.main;
-            main.startSpeedMultiplier = -1;
-        }
+
+        var main = newParticle.main;
+        main.startSpeed = SpawnVelocity;
 
         newParticle.transform.position = transform.position;
         newParticle.transform.eulerAngles = new Vector3(
             eulerAngle.x,
-            0f,
+            eulerAngle.y > 90f ? 180f : 0f,
             eulerAngle.z
             );
 
