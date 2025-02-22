@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,7 +13,7 @@ public class PhysicsParticlesLimitManager : MonoBehaviour
 
     public List<PhysicsParticle> ParticlesOnLevel;
 
-    public PhysicsParticlesLimitManager Instance;
+    public static PhysicsParticlesLimitManager Instance;
 
     private void Awake()
     {
@@ -38,7 +37,7 @@ public class PhysicsParticlesLimitManager : MonoBehaviour
         if (ParticlesOnLevel.Count > MaxParticles)
         {
             RemovePhysicsParticle(ParticlesOnLevel[0]);
-            ParticlesOnLevel.RemoveAtSwapBack(0);
+            ParticlesOnLevel.RemoveAt(0);
         }
 
         StartCoroutine(RemoveWhenMaxParticleLifeIsOutCoroutine(e));
