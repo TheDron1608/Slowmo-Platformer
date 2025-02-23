@@ -222,6 +222,37 @@ MonoBehaviour:
     Position: {x: 0.5, y: 0.175, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Scale: {x: 0.9, y: 1.15, z: 1}
+--- !u!1 &6396519610702535855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1198837765471096065}
+  m_Layer: 0
+  m_Name: Bottom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1198837765471096065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396519610702535855}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.05, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4213330836085406466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6659983130786743984
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +372,7 @@ GameObject:
   - component: {fileID: 974105059069264052}
   - component: {fileID: 7089149300795199132}
   - component: {fileID: 2002335163756146061}
+  - component: {fileID: 2307621767582408558}
   - component: {fileID: 7607223272691296094}
   m_Layer: 6
   m_Name: Character
@@ -364,6 +396,7 @@ Transform:
   m_Children:
   - {fileID: 6738417014831093395}
   - {fileID: 3304611690710999899}
+  - {fileID: 1198837765471096065}
   - {fileID: 5318205546132008437}
   - {fileID: 5819494357527910210}
   - {fileID: 1263228860276330688}
@@ -394,7 +427,9 @@ MonoBehaviour:
   CharacterInteractionWithTiles: {fileID: 3206245827804919803}
   CharacterDamaging: {fileID: 974105059069264052}
   CharacterEffects: {fileID: 7089149300795199132}
+  CharacterStuckedObjects: {fileID: 2307621767582408558}
   Center: {fileID: 4810011283521481523}
+  Bottom: {fileID: 6396519610702535855}
   CharacterPartsContainer: {fileID: 7534914569010161185}
   CharacterRigidBody: {fileID: 7607223272691296094}
   CharacterRigidBodyCapsuleCollider: {fileID: 4524364239507995928}
@@ -588,6 +623,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdec2ed032847354385bd07d44ecd9f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2307621767582408558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b1cacd4abf21a48a2caea61a85335a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &7607223272691296094

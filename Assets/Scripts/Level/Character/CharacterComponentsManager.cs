@@ -18,7 +18,9 @@ public class CharacterComponentsManager : MonoBehaviour
     public CharacterInteractionWithTiles CharacterInteractionWithTiles;
     public CharacterDamaging CharacterDamaging;
     public CharacterEffects CharacterEffects;
+    public CharacterStuckedObjects CharacterStuckedObjects;
     public GameObject Center;
+    public GameObject Bottom;
     public GameObject CharacterPartsContainer;
     [Header("CharacterPhysics")]
     public Rigidbody2D CharacterRigidBody;

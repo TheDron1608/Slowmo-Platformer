@@ -45,7 +45,59 @@ public class Holdable : Interactable
     public Collider2D StuckedToCollider
     {
         get => _stuckedToCollider;
-        private set => _stuckedToCollider = value;
+
+        set
+        {
+            if (_stuckedToCollider == value) return;
+
+            if (value != null)
+            {
+                if (value.TryGetComponent(out AbstractCharacterComponent charComponent))
+                {
+                    if (charComponent.CharComponents.CharacterHolding == LastHolder) return;
+
+                    if (_velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+                    {
+                        charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this);
+                    }
+                    if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
+                    {
+                        _isStuck = true;
+                        _rigidBodyComponent.bodyType = RigidbodyType2D.Kinematic;
+                        transform.parent = charComponent.CharComponents.transform;
+                    }
+                    charComponent.CharComponents.CharacterStuckedObjects.StuckedObjects.Add(this);
+                }
+
+                else if
+                    (
+                        value.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) &&
+                        _velocitySpeedPreviousFrame >= SpeedToGetThrough &&
+                        (stuckWhoRigidBody.bodyType == RigidbodyType2D.Static || stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic)
+                    )
+                {
+                    _isStuck = true;
+                    _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+
+                    if (value.TryGetComponent(out Holdable stuckWhoHoldable))
+                    {
+                        stuckWhoHoldable.OnGiven += StuckedObject_OnGiven;
+                    }
+                }
+            }
+
+            else
+            {
+                _isStuck = false;
+                if (_stuckedToCollider.TryGetComponent(out AbstractCharacterComponent charComponent))
+                {
+                    charComponent.CharComponents.CharacterStuckedObjects.StuckedObjects.Remove(this);
+                }
+                _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+            }
+
+            _stuckedToCollider = value;
+        }
     }
 
     private void Awake()
@@ -94,37 +146,7 @@ public class Holdable : Interactable
     {
         if (_isStuck) return;
 
-        if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent))
-        {
-            if (charComponent.CharComponents.CharacterHolding == LastHolder) return;
-
-            if (_velocitySpeedPreviousFrame >= SpeedToHitCharacter)
-            {
-                charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this);
-            }
-            if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
-            {
-                _isStuck = true;
-                _rigidBodyComponent.bodyType = RigidbodyType2D.Kinematic;
-                transform.parent = charComponent.CharComponents.transform;
-            }
-        }
-
-        else if 
-            (
-                collision.collider.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) &&
-                _velocitySpeedPreviousFrame >= SpeedToGetThrough &&
-                (stuckWhoRigidBody.bodyType == RigidbodyType2D.Static || stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic)
-            )
-        {
-            _isStuck = true;
-            _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
-
-            if (collision.collider.TryGetComponent(out Holdable stuckWhoHoldable))
-            {
-                stuckWhoHoldable.OnGiven += StuckedObject_OnGiven;
-            }
-        }
+        StuckedToCollider = collision.collider;
     }
 
     private void StuckedObject_OnGiven(object sender, CharacterHoldingObjects e)

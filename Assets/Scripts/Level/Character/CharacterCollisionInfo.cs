@@ -41,7 +41,6 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
     public event EventHandler<OnTileBehavioutTypeCollisionChangedEventArgs> OnTileBehavioutTypeCollisionChanged;
 
     private ZIndexLayer _currentZLayer;
-
     private float _timeInAir;
     private float _timeOnGround;
     private bool _wasGroundedPrevFrame = true;
@@ -72,7 +71,7 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
         get => _currentZLayer;
         private set => _currentZLayer = value;
     }
-
+    
     public bool IsCollidingFloor()
     {
         return _isCollidingFloor;
