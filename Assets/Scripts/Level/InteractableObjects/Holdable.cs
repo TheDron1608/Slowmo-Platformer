@@ -208,6 +208,13 @@ public class Holdable : Interactable
         if (TryGetComponent(out Weapon weapon)) 
         {
             weapon.IsThrown = true;
+            for (int i = 0; i < weapon.Projectiles.Count; i++)
+            {
+                if (weapon.Projectiles[i] is MeleeProjectile)
+                {
+                    weapon.Projectiles[i].RemoveSelf();
+                }
+            }
         }
         if (TryGetComponent(out RangedWeapon rangedWeapon))
         {

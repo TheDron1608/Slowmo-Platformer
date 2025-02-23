@@ -115,7 +115,7 @@ public abstract class AbstractProjectile : MonoBehaviour
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
                 charComponent.CharComponents.CharacterHolding.CurrentHoldObject == null ||
-                (charComponent.CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) && weapon != Weapon)
+                (charComponent.CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon currentWeapon) && currentWeapon != Weapon)
             ) &&
             (
                 !currentHitObjet.TryGetComponent(out CharacterHitbox charHitbox) ||
