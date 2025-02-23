@@ -59,7 +59,11 @@ MonoBehaviour:
   HoldDistanceWhenIsHolded: 0.75
   ThrowForceMultiplier: 1
   ThrowRotationForce: 12.5
-  SpeedToGetThroughWall: 15
+  SpeedToHitCharacter: 5
+  SpeedToGetThrough: 15
+  EffectsOnThrowHit:
+  - {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
+  - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
 --- !u!50 &7194316829583383013
 Rigidbody2D:
   serializedVersion: 5
@@ -130,7 +134,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 25
+  m_SortingOrder: 20
   m_Sprite: {fileID: 4329407632164072968, guid: 06ae8d003292baf479c2dc0c6228339a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

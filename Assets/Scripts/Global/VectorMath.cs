@@ -65,9 +65,9 @@ public static class VectorMath
         return Vec3ToVec2(math.mul(target, Vector3.right));
     }
 
-    public static float RigidBodyVelocityToSpeed(Rigidbody2D rb)
+    public static float Vec2ToDistance(Vector2 vector2)
     {
-        return (math.abs(rb.linearVelocityX) + math.abs(rb.linearVelocityY)) / 2;
+        return (math.abs(vector2.x) + math.abs(vector2.y)) / 2;
     }
 
     public static Quaternion RandomizeQuarternion(Quaternion quaternion, float accuracy)

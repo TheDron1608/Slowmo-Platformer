@@ -9,9 +9,18 @@ public class Knockback : AbstractCharacterEffectWithSender
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        if (!sender.TryGetComponent(out AbstractProjectile projectile)) throw new UnityException("Knockback effect must be sended by GameObject containing AbstractProjectile component");
-            
-        AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * VectorMath.Quartenion2DToVec2(projectile.transform.rotation);
+        if (sender.TryGetComponent(out AbstractProjectile projectile))
+        {
+            AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * VectorMath.Quartenion2DToVec2(projectile.transform.rotation);
+        }
+        else if (sender.TryGetComponent(out Rigidbody2D rigidBody))
+        {
+            AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * rigidBody.linearVelocity.normalized;
+        }
+        else
+        {
+            throw new UnityException("Knockback effect must be sended by GameObject containing AbstractProjectile component");
+        }
 
         AffectedCharacter.CharacterVisual.SpritesFlipped = AffectedCharacter.CharacterRigidBody.linearVelocityX < 0f;
 

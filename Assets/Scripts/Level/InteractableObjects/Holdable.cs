@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Unity.Mathematics;
+using System.Collections.Generic;
 
 public class Holdable : Interactable
 {
@@ -25,7 +26,9 @@ public class Holdable : Interactable
     public float HoldDistanceWhenIsHolded = 0.75f;
     public float ThrowForceMultiplier = 1.0f;
     public float ThrowRotationForce = 12.5f;
-    public float SpeedToGetThroughWall = 15f;
+    public float SpeedToHitCharacter = 7.5f;
+    public float SpeedToGetThrough = 15f;
+    public List<AbstractCharacterEffect> EffectsOnThrowHit = new();
 
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;
@@ -33,9 +36,8 @@ public class Holdable : Interactable
     private Rigidbody2D _rigidBodyComponent;
     private Collider2D _colliderComponent;
     private Collider2D _stuckedToCollider = null;
-
+    private float _velocitySpeedPreviousFrame = 0f;
     private bool _isStuck = false;
-    private Coroutine _stuckCoroutine = null;
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
     public event EventHandler<OnThrownEventArgs> OnThrown;
@@ -50,10 +52,6 @@ public class Holdable : Interactable
     {
         OnAwake();
     }
-    private void Update()
-    {
-        OnUpdate();
-    }
 
     protected override void OnAwake()
     {
@@ -63,55 +61,66 @@ public class Holdable : Interactable
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
     }
 
-    protected virtual void OnUpdate()
+    private void Update()
     {
-        if (CurrentHolder == null)
+        if (CurrentHolder == null && !_isStuck)
         {
-            if (VectorMath.RigidBodyVelocityToSpeed(_rigidBodyComponent) > SpeedToGetThroughWall)
+            if (_velocitySpeedPreviousFrame >= SpeedToHitCharacter)
             {
-                _colliderComponent.isTrigger = true;
+                int includeLayer = 0;
+                for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
+                {
+                    includeLayer += 1 << LayerManager.Instance.ZLayers[i].CharactersLayer;
+                }
+                _rigidBodyComponent.includeLayers = includeLayer;
             }
-            else if (!_isStuck)
+            else
             {
-                _colliderComponent.isTrigger = false;
+                _rigidBodyComponent.includeLayers = 0;
             }
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        _isStuck = true;
-        _stuckCoroutine = StartCoroutine(StuckCoroutine(collision));
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _isStuck = false;
-        if (_stuckCoroutine != null)
+        else
         {
-            StopCoroutine(_stuckCoroutine);
+            _rigidBodyComponent.includeLayers = 0;
         }
     }
 
-    private IEnumerator StuckCoroutine(Collider2D stuckWho)
+    private void FixedUpdate()
     {
-        while (VectorMath.RigidBodyVelocityToSpeed(_rigidBodyComponent) > 0.5f)
+        _velocitySpeedPreviousFrame = VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (_isStuck) return;
+
+        if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
-            _rigidBodyComponent.linearVelocity = math.lerp(_rigidBodyComponent.linearVelocity, Vector2.zero, Time.fixedDeltaTime * STUCK_IN_WALL_STRINGHT);
-            yield return new WaitForFixedUpdate();
+            if (charComponent.CharComponents.CharacterHolding == LastHolder) return;
+
+            if (_velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+            {
+                charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this);
+            }
+            if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
+            {
+                _isStuck = true;
+                _rigidBodyComponent.bodyType = RigidbodyType2D.Kinematic;
+                transform.parent = charComponent.CharComponents.transform;
+            }
         }
-        if (
-            stuckWho.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) && 
+
+        else if 
             (
-                stuckWhoRigidBody.bodyType == RigidbodyType2D.Static ||
-                stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic
-            )
+                collision.collider.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) &&
+                _velocitySpeedPreviousFrame >= SpeedToGetThrough &&
+                (stuckWhoRigidBody.bodyType == RigidbodyType2D.Static || stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic)
             )
         {
+            _isStuck = true;
             _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
 
-            StuckedToCollider = stuckWho;
-            if (StuckedToCollider.TryGetComponent(out Holdable stuckWhoHoldable))
+            if (collision.collider.TryGetComponent(out Holdable stuckWhoHoldable))
             {
                 stuckWhoHoldable.OnGiven += StuckedObject_OnGiven;
             }
@@ -171,6 +180,7 @@ public class Holdable : Interactable
 
     protected virtual void OnThrow(Vector2 direction, float throwForceMultiplier = 1f)
     {
+        _isStuck = false;
         CurrentHolder.CurrentHoldObject = null;
         transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform;
         _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
@@ -179,6 +189,7 @@ public class Holdable : Interactable
         newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
         transform.rotation = newRotation;
 
+        _colliderComponent.excludeLayers = 0;
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
         if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))
@@ -218,9 +229,9 @@ public class Holdable : Interactable
     protected virtual void OnPickedUp(CharacterHoldingObjects newHolder)
     {
         newHolder.CurrentHoldObject = this;
+        _isStuck = false;
 
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
-        _colliderComponent.isTrigger = false;
         CurrentHolder = newHolder;
         transform.parent = newHolder.transform;
         if (ResetRotationWhenIsHolded)
