@@ -43,4 +43,9 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
             RemoveAllStuckedObjects();
         }
     }
+
+    private void Update()
+    {
+        if (StuckedObjects.Count > 0) Debug.Log(StuckedObjects.Count);
+    }
 }

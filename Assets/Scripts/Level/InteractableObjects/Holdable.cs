@@ -54,18 +54,8 @@ public class Holdable : Interactable
             {
                 if (value.TryGetComponent(out AbstractCharacterComponent charComponent))
                 {
-                    if (charComponent.CharComponents.CharacterHolding == LastHolder) return;
-
-                    if (_velocitySpeedPreviousFrame >= SpeedToHitCharacter)
-                    {
-                        charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this);
-                    }
-                    if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
-                    {
-                        _isStuck = true;
-                        _rigidBodyComponent.bodyType = RigidbodyType2D.Kinematic;
-                        transform.parent = charComponent.CharComponents.transform;
-                    }
+                    _rigidBodyComponent.bodyType = RigidbodyType2D.Kinematic;
+                    transform.parent = charComponent.CharComponents.transform;
                     charComponent.CharComponents.CharacterStuckedObjects.StuckedObjects.Add(this);
                 }
 
@@ -76,9 +66,9 @@ public class Holdable : Interactable
                         (stuckWhoRigidBody.bodyType == RigidbodyType2D.Static || stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic)
                     )
                 {
-                    _isStuck = true;
                     _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
                 }
+                _isStuck = true;
             }
 
             else
@@ -110,8 +100,21 @@ public class Holdable : Interactable
 
     private void Update()
     {
-        if (CurrentHolder == null && !_isStuck && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+        if (_isStuck)
         {
+            _rigidBodyComponent.includeLayers = 0;
+
+            int excludeLayer = 0;
+            for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
+            {
+                excludeLayer += 1 << LayerManager.Instance.ZLayers[i].HoldablesLayer;
+            }
+            _rigidBodyComponent.excludeLayers = excludeLayer;
+        }
+        else if (CurrentHolder == null && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+        {
+            _rigidBodyComponent.excludeLayers = 0;
+
             int includeLayer = 0;
             for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
             {
@@ -122,6 +125,7 @@ public class Holdable : Interactable
         else
         {
             _rigidBodyComponent.includeLayers = 0;
+            _rigidBodyComponent.excludeLayers = 0;
         }
     }
 
@@ -133,6 +137,12 @@ public class Holdable : Interactable
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (_isStuck) return;
+        if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder) return;
+
+        if (charComponent != null && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+        {
+            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this);
+        }
 
         if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
         {
