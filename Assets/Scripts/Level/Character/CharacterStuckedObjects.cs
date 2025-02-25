@@ -5,8 +5,6 @@ using static CharacterVisual;
 
 public class CharacterStuckedObjects : AbstractCharacterComponent
 {
-    const float ON_FALL_OR_ROLL_STUCKED_OBJECTS_POSITION_Y_DIVINE_AMOUNT = 5f;
-
     public float RemoveObjectVelocity = 5f;
 
     private List<Holdable> _stuckedObjects = new();
@@ -27,7 +25,7 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
             stuckObject.StuckedToCollider = null;
             if (stuckObject.TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
             {
-                stuckObjectRigidBody.linearVelocity += VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) * RemoveObjectVelocity;
+                stuckObjectRigidBody.linearVelocity += VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
             }
         }
     }

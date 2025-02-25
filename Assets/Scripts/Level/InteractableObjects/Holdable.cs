@@ -78,11 +78,6 @@ public class Holdable : Interactable
                 {
                     _isStuck = true;
                     _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
-
-                    if (value.TryGetComponent(out Holdable stuckWhoHoldable))
-                    {
-                        stuckWhoHoldable.OnGiven += StuckedObject_OnGiven;
-                    }
                 }
             }
 
@@ -115,21 +110,14 @@ public class Holdable : Interactable
 
     private void Update()
     {
-        if (CurrentHolder == null && !_isStuck)
+        if (CurrentHolder == null && !_isStuck && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
         {
-            if (_velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+            int includeLayer = 0;
+            for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
             {
-                int includeLayer = 0;
-                for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
-                {
-                    includeLayer += 1 << LayerManager.Instance.ZLayers[i].CharactersLayer;
-                }
-                _rigidBodyComponent.includeLayers = includeLayer;
+                includeLayer += 1 << LayerManager.Instance.ZLayers[i].CharactersLayer;
             }
-            else
-            {
-                _rigidBodyComponent.includeLayers = 0;
-            }
+            _rigidBodyComponent.includeLayers = includeLayer;
         }
         else
         {
@@ -146,17 +134,10 @@ public class Holdable : Interactable
     {
         if (_isStuck) return;
 
-        StuckedToCollider = collision.collider;
-    }
-
-    private void StuckedObject_OnGiven(object sender, CharacterHoldingObjects e)
-    {
-        if (StuckedToCollider.TryGetComponent(out Holdable stuckWhoHoldable))
+        if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
         {
-            stuckWhoHoldable.OnGiven -= StuckedObject_OnGiven;
+            StuckedToCollider = collision.collider;
         }
-        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
-        _isStuck = false;
     }
 
     public CharacterHoldingObjects CurrentHolder
@@ -270,6 +251,7 @@ public class Holdable : Interactable
             transform.rotation = baseRotation;
         }
         _spriteRendererComponent.sortingOrder += ON_GRAB_SORTING_ORDER_ADD;
+        StuckedToCollider = null;
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out Weapon weapon))
