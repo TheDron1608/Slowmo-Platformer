@@ -30,6 +30,21 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
         }
     }
 
+    public void RemoveAllStuckedObjects(Vector2 direction)
+    {
+        for (int i = 0; i < _stuckedObjects.Count; i++)
+        {
+            Holdable stuckObject = _stuckedObjects[i];
+            if (stuckObject == null) continue;
+
+            stuckObject.StuckedToCollider = null;
+            if (stuckObject.TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
+            {
+                stuckObjectRigidBody.linearVelocity += (VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) + direction * 3).normalized * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
+            }
+        }
+    }
+
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -38,14 +53,13 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
-        if (e.NewState == CharacterPart.CharacterPartBusyStates.ROLL || e.NewState == CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR)
+        if (e.NewState == CharacterPart.CharacterPartBusyStates.ROLL)
         {
             RemoveAllStuckedObjects();
         }
-    }
-
-    private void Update()
-    {
-        if (StuckedObjects.Count > 0) Debug.Log(StuckedObjects.Count);
+        else if (e.NewState == CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR || e.NewState == CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR)
+        {
+            RemoveAllStuckedObjects(CharComponents.CharacterRigidBody.linearVelocity.normalized);
+        }
     }
 }
