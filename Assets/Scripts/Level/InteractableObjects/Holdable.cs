@@ -103,7 +103,7 @@ public class Holdable : Interactable
 
     private void Update()
     {
-        if (_isStuck || _velocitySpeedPreviousFrame <= SpeedToHitCharacter)
+        if (_isStuck || _velocitySpeedPreviousFrame <= SpeedToGetThrough)
         {
             _colliderComponent.enabled = true;
             _thrownColliderComponent.enabled = false;
@@ -111,8 +111,8 @@ public class Holdable : Interactable
         }
         else
         {
-            _colliderComponent.enabled = true;
-            _thrownColliderComponent.enabled = false;
+            _colliderComponent.enabled = false;
+            _thrownColliderComponent.enabled = true;
             _rigidBodyComponent.includeLayers = _thrownColliderComponent.includeLayers;
         }
     }
