@@ -34,7 +34,9 @@ public class Holdable : Interactable
     private CharacterHoldingObjects _lastHolder = null;
 
     private Rigidbody2D _rigidBodyComponent;
-    private Collider2D _colliderComponent;
+    private BoxCollider2D _colliderComponent;
+    private CircleCollider2D _thrownColliderComponent;
+
     private Collider2D _stuckedToCollider = null;
     private float _velocitySpeedPreviousFrame = 0f;
     private bool _isStuck = false;
@@ -95,37 +97,23 @@ public class Holdable : Interactable
         base.OnAwake();
 
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
-        if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
+        if (!TryGetComponent(out _colliderComponent)) throw new UnityException("BoxCollider2D component not found");
+        if (!TryGetComponent(out _thrownColliderComponent)) throw new UnityException("CircleCollider2D component not found");
     }
 
     private void Update()
     {
-        if (_isStuck)
+        if (_isStuck || _velocitySpeedPreviousFrame <= SpeedToHitCharacter)
         {
-            _rigidBodyComponent.includeLayers = 0;
-
-            int excludeLayer = 0;
-            for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
-            {
-                excludeLayer += 1 << LayerManager.Instance.ZLayers[i].HoldablesLayer;
-            }
-            _rigidBodyComponent.excludeLayers = excludeLayer;
-        }
-        else if (CurrentHolder == null && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
-        {
-            _rigidBodyComponent.excludeLayers = 0;
-
-            int includeLayer = 0;
-            for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
-            {
-                includeLayer += 1 << LayerManager.Instance.ZLayers[i].CharactersLayer;
-            }
-            _rigidBodyComponent.includeLayers = includeLayer;
+            _colliderComponent.enabled = true;
+            _thrownColliderComponent.enabled = false;
+            _rigidBodyComponent.includeLayers = _colliderComponent.includeLayers;
         }
         else
         {
-            _rigidBodyComponent.includeLayers = 0;
-            _rigidBodyComponent.excludeLayers = 0;
+            _colliderComponent.enabled = true;
+            _thrownColliderComponent.enabled = false;
+            _rigidBodyComponent.includeLayers = _thrownColliderComponent.includeLayers;
         }
     }
 
@@ -202,7 +190,6 @@ public class Holdable : Interactable
         newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
         transform.rotation = newRotation;
 
-        _colliderComponent.excludeLayers = 0;
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
         if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))

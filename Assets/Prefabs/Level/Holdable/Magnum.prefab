@@ -24,6 +24,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.0625
       objectReference: {fileID: 0}
+    - target: {fileID: 3494821441574348939, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3494821441574348939, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.03125
+      objectReference: {fileID: 0}
     - target: {fileID: 3769416955781755694, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -137,14 +145,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079f59a53e91d27429dd8f1642de6270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackCooldown: 0.25
   _attackCooldownMultiplier: 1
   PlayerInputAutoAttackOnPress: 0
   Projectile: {fileID: 2739803028420426957, guid: b8c8e32eb34ad5e46ba3b0d02d80a6ca, type: 3}
+  AccuracyMultiplier: 1
+  RepeatAttacksTimes: 1
+  DurationBetweenRepeatAttacks: 0.0667
   AmmoLeft: 6
   MaxAmmo: 12
   LoadedLivingAmmoLeft: 6
   LoadedSpentAmmoLeft: 0
-  AccuracyMultiplier: 1
   AmmoAmountPerReload: 1
   AmmoAmountPerUnload: 6
   MaxLoadedAmmo: 6
