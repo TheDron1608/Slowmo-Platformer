@@ -100,11 +100,11 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
         
         if (CharComponents.CharacterJumping.GetIsAbleToJumpFromFloorOrWall())
         {
-            CharComponents.CharacterJumping.StartJump();
+            CharComponents.CharacterJumping.TryStartJump();
         }
         else if (CharComponents.CharacterCollisionInfo.TimeInAir <= CoyoteLateTimer)
         {
-            CharComponents.CharacterJumping.StartCoyoteJump();
+            CharComponents.CharacterJumping.TryStartCoyoteJump();
         }
         else
         {
@@ -133,7 +133,7 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
 
             if (CharComponents.CharacterJumping.GetIsAbleToJumpFromFloorOrWall())
             {
-                CharComponents.CharacterJumping.StartJump();
+                CharComponents.CharacterJumping.TryStartJump();
                 break;
             }
             yield return new WaitForEndOfFrame();
@@ -258,11 +258,11 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
             {
                 roundedInputAxis = currentInputAxix;
             }
-            CharComponents.CharacterMoving.Move(roundedInputAxis);
+            CharComponents.CharacterMoving.TryMove(roundedInputAxis);
         }
         else
         {
-            CharComponents.CharacterMoving.Move(math.round(MoveActionReference.action.ReadValue<Vector2>().x));
+            CharComponents.CharacterMoving.TryMove(math.round(MoveActionReference.action.ReadValue<Vector2>().x));
         }
     }
 

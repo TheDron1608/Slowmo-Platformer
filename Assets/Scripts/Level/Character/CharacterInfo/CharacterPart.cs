@@ -26,7 +26,9 @@ public class CharacterPart : MonoBehaviour
         ROLL = 5,
         FALLING_IN_AIR = 6,
         FALLEN_ON_FLOOR = 7,
-        MINOR_STUN = 8
+        MINOR_STUN = 8,
+        CLUMSY_MOVE_ALIGN_CHANGE = 9,
+        CLUMSY_JUMP_CHANGE = 10
     }
 
 

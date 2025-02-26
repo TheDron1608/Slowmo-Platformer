@@ -15,6 +15,7 @@ public class CharacterMoving : AbstractCharacterComponent
     private bool _isAbleToMoveThisFrame = true;
     [SerializeField] private bool _isAbleToMove = true;
     private float _lastMoveDirectrion = 0f;
+    private float? _awaitingMoveDirection = null;
 
     public bool IsAbleToMoveThisFrame
     {
@@ -30,7 +31,7 @@ public class CharacterMoving : AbstractCharacterComponent
 
             if (value)
             {
-                Move(_lastMoveDirectrion);
+                TryMove(_lastMoveDirectrion);
             }
             else
             {
@@ -44,6 +45,7 @@ public class CharacterMoving : AbstractCharacterComponent
     public float SpeedAccelerationOnGroundMultiplier = 5f;
     public float SpeedAccelerationOnAirMulitplier = 1f;
     public float SpeedAccelerationOnUnableToMoveMultiplier = 0.33f;
+    public bool ClumsyMovement = true;
 
     public event EventHandler<float> OnMoveAlignChanged;
     public event EventHandler<float> OnReachedMaxSpeed;
@@ -96,7 +98,39 @@ public class CharacterMoving : AbstractCharacterComponent
     /// Character moves horizontally with "align" speed
     /// </summary>
     /// <param name="direction">Value between -1 and 1</param>
-    public void Move(float direction)
+    public void TryMove(float direction)
+    {
+        if (_currentMoveDirection == direction || _awaitingMoveDirection == direction) return;
+
+        if (ClumsyMovement && (CharComponents.CharacterVisual.SpritesFlipped ^ direction < 0f) && direction != 0f)
+        {
+            ForceMove(0f);
+            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE;
+            _awaitingMoveDirection = direction;
+            CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+        }
+        else
+        {
+            ForceMove(direction);
+        }
+    }
+
+    private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
+    {
+        if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE && _awaitingMoveDirection.HasValue)
+        {
+            ForceMove(_awaitingMoveDirection.Value);
+            _awaitingMoveDirection = null;
+        }
+        CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
+    }
+
+    public void TryMove(MoveDirection direction)
+    {
+        TryMove((int)direction);
+    }
+
+    public void ForceMove(float direction)
     {
         _lastMoveDirectrion = direction;
 
@@ -106,24 +140,6 @@ public class CharacterMoving : AbstractCharacterComponent
         OnMoveAlignChanged?.Invoke(this, direction);
 
         _currentMoveDirection = direction;
-    }
-
-    public void Move(MoveDirection direction)
-    {
-        Move((int)direction);
-    }
-
-    public void MoveLeft()
-    {
-        Move(-1f);
-    }
-    public void MoveRight()
-    {
-        Move(1f);
-    }
-    public void StopMove()
-    {
-        Move(0f);
     }
 
     public float GetCurrentMoveDirection()

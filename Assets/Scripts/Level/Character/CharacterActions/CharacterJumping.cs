@@ -14,10 +14,12 @@ public class CharacterJumping : AbstractCharacterComponent
     public bool CanForceStopJump = false;
     public int AirJumps = 0;
     public float JumpLimitForceMultiplier = 10f;
+    public bool ClusmyJumping = true;
 
     private float _jumpTimeLeft = 0f;
     private int _airJumpsLeft = 0;
     private bool _isJumping = false;
+    private bool _awaitingClumsyJump = false;
     
     public event EventHandler OnStartedJumping;
     public event EventHandler OnStopedJumping;
@@ -87,11 +89,38 @@ public class CharacterJumping : AbstractCharacterComponent
     }
 
 
-    public void StartJump()
+    public void TryStartJump()
+    {
+        if (ClusmyJumping && CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+        {
+            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE;
+            _awaitingClumsyJump = true;
+            CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+
+            CharComponents.CharacterMoving.TryMove(0f);
+            CharComponents.CharacterMoving.IsAbleToMove = false;
+        }
+        else
+        {
+            ForceStartJump();
+        }
+    }
+
+    private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
+    {
+        if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE && _awaitingClumsyJump)
+        {
+            ForceStartJump();
+        }
+        CharComponents.CharacterMoving.IsAbleToMove = true;
+        CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
+    }
+
+    public void ForceStartJump()
     {
         if (_isJumping || !IsAbleToJump) return;
 
-        if (GetIsAbleToJumpFromFloorOrWall()) 
+        if (GetIsAbleToJumpFromFloorOrWall())
         {
             if (CharComponents.CharacterRigidBody.linearVelocityY < JumpForce)
             {
@@ -128,8 +157,10 @@ public class CharacterJumping : AbstractCharacterComponent
         OnStartedJumping?.Invoke(this, EventArgs.Empty);
     }
 
-    public void StartCoyoteJump()
+    public void TryStartCoyoteJump()
     {
+        if (ClusmyJumping && !CharComponents.CharacterCollisionInfo.IsCollidingFloor()) return;
+
         if (_isJumping || !IsAbleToJump) return;
 
         if (CharComponents.CharacterRigidBody.linearVelocityY < JumpForce)
@@ -145,6 +176,8 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void StopJump()
     {
+        _awaitingClumsyJump = false;
+
         if (!_isJumping) return;
 
         _isJumping = false;

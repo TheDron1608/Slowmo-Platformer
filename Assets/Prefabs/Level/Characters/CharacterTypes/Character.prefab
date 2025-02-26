@@ -508,6 +508,7 @@ MonoBehaviour:
   SpeedAccelerationOnGroundMultiplier: 4
   SpeedAccelerationOnAirMulitplier: 1
   SpeedAccelerationOnUnableToMoveMultiplier: 0.8
+  ClumsyMovement: 1
 --- !u!114 &3540175533123877220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,6 +529,7 @@ MonoBehaviour:
   CanForceStopJump: 0
   AirJumps: 0
   JumpLimitForceMultiplier: 10
+  ClusmyJumping: 1
 --- !u!114 &7285514816818632256
 MonoBehaviour:
   m_ObjectHideFlags: 0
