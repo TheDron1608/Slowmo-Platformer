@@ -103,17 +103,33 @@ public class Holdable : Interactable
 
     private void Update()
     {
-        if (_isStuck || _velocitySpeedPreviousFrame <= SpeedToGetThrough)
+        if (_isStuck)
         {
-            _colliderComponent.enabled = true;
-            _thrownColliderComponent.enabled = false;
-            _rigidBodyComponent.includeLayers = _colliderComponent.includeLayers;
+            _rigidBodyComponent.excludeLayers = int.MaxValue; //excludes all layers
         }
-        else
+        else if (CurrentHolder == null)
         {
-            _colliderComponent.enabled = false;
-            _thrownColliderComponent.enabled = true;
-            _rigidBodyComponent.includeLayers = _thrownColliderComponent.includeLayers;
+            _rigidBodyComponent.excludeLayers = 0;
+
+            if (_velocitySpeedPreviousFrame <= SpeedToGetThrough)
+            {
+                _colliderComponent.enabled = true;
+                _thrownColliderComponent.enabled = false;
+            }
+            else
+            {
+                _colliderComponent.enabled = false;
+                _thrownColliderComponent.enabled = true;
+            }
+
+            if (_velocitySpeedPreviousFrame <= SpeedToHitCharacter)
+            {
+                _rigidBodyComponent.includeLayers = _colliderComponent.includeLayers;
+            }
+            else
+            {
+                _rigidBodyComponent.includeLayers = _thrownColliderComponent.includeLayers;
+            }
         }
     }
 
