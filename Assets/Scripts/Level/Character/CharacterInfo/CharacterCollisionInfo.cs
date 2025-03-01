@@ -46,6 +46,7 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
 
     public event EventHandler<OnCollisionChangedEventArgs> OnCollisionChanged;
     public event EventHandler<OnTileBehavioutTypeCollisionChangedEventArgs> OnTileBehavioutTypeCollisionChanged;
+    public event EventHandler<AbstractCharacterComponent> OnHitOtherCharacters;
 
     private ZIndexLayer _currentZLayer;
     private float _timeInAir;
@@ -299,6 +300,8 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
                     //hit other character
                     otherCharComponent.CharComponents.CharacterRigidBody.linearVelocity += affectingVelocity;
                     otherCharComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnHitOtherCharacters);
+
+                    OnHitOtherCharacters?.Invoke(this, otherCharComponent);
                 }
             }
         }
