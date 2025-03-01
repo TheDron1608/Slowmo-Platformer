@@ -627,6 +627,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdec2ed032847354385bd07d44ecd9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpeedToHitOtherCharacters: 7.5
+  EffectsOnHitOtherCharacters:
+  - {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
+  SelfEffectsOnHitOtherCharacters: []
 --- !u!114 &2307621767582408558
 MonoBehaviour:
   m_ObjectHideFlags: 0

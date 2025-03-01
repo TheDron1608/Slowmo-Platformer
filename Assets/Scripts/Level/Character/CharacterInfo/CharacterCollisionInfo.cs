@@ -34,6 +34,13 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
         public Vector2 CollisionAlign;
     }
 
+    public float SpeedToHitOtherCharacters = 12.5f;
+    public bool CanHitWhileHardStnned = true;
+    public bool CanHitWhileMoving = false;
+    public bool CanHitWhileRolling = false;
+    public List<AbstractCharacterEffect> EffectsOnHitOtherCharacters = new();
+    public List<AbstractCharacterEffect> SelfEffectsOnHitOtherCharacters = new();
+
     const float COLLISION_HIT_DETECION_THICKNESS = 0.075f;
     const float COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET = 0.7f; //value between 0 and 1
 
@@ -209,6 +216,7 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
         UpdateCollidingInfo();
         UpdateTileCollidingInfo();
         UpdateTimeOnAirOrGround();
+        UpdateHitVelocity();
     }
 
     private void UpdateCurrentZLayer()
@@ -266,10 +274,40 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
         if (lastTypeFromRightWall != _behaviourTypeFromRightWall) OnTileBehavioutTypeCollisionChanged?.Invoke(this, new OnTileBehavioutTypeCollisionChangedEventArgs(_behaviourTypeFromRightWall, Vector2.right));
     }
 
+    public void UpdateHitVelocity()
+    {
+        if (
+            VectorMath.Vec2ToDistance(CharComponents.CharacterRigidBody.linearVelocity) >= SpeedToHitOtherCharacters && 
+            (
+                (CanHitWhileHardStnned && CharComponents.CharacterEffects.GetHasEffect<HardStun>()) ||
+                (CanHitWhileRolling && CharComponents.CharacterRolling.IsRolling) ||
+                CanHitWhileMoving
+            )
+            )
+        {
+            foreach (Collider2D collider in Physics2D.OverlapPointAll(CharComponents.Center.transform.position))
+            {
+                if (
+                    collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) && 
+                    otherCharComponent.CharComponents.CharacterCollisionInfo != this
+                    )
+                {
+                    //hit self
+                    Vector2 affectingVelocity = CharComponents.CharacterRigidBody.linearVelocity / 2f;
+                    CharComponents.CharacterRigidBody.linearVelocity -= affectingVelocity;
+                    CharComponents.CharacterEffects.ApplyEffect(SelfEffectsOnHitOtherCharacters);
+                    //hit other character
+                    otherCharComponent.CharComponents.CharacterRigidBody.linearVelocity += affectingVelocity;
+                    otherCharComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnHitOtherCharacters);
+                }
+            }
+        }
+    }
 
 
     private void LateUpdate()
     {
         _wasGroundedPrevFrame = _isCollidingFloor;
     }
+
 }

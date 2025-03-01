@@ -50,6 +50,11 @@ public class CharacterMoving : AbstractCharacterComponent
     public event EventHandler<float> OnMoveAlignChanged;
     public event EventHandler<float> OnReachedMaxSpeed;
 
+    public bool IsMoving()
+    {
+        return Math.Abs(CharComponents.CharacterMoving.GetCurrentMoveDirection()) < 0.05f;
+    }
+
     private void FixedUpdate()
     {
         UpdateMoving();
