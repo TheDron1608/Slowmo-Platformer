@@ -286,10 +286,10 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
             )
             )
         {
-            foreach (Collider2D collider in Physics2D.OverlapPointAll(CharComponents.Center.transform.position))
+            foreach (RaycastHit2D hit in Physics2D.LinecastAll(CharComponents.Center.transform.position, CharComponents.Center.PositionPreviousFrame, 1 << CurrentZLayer.CharactersLayer))
             {
                 if (
-                    collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) && 
+                    hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) && 
                     otherCharComponent.CharComponents.CharacterCollisionInfo != this
                     )
                 {

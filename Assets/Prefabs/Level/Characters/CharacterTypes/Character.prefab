@@ -105,6 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3304611690710999899}
+  - component: {fileID: 2923137157774976431}
   m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
@@ -127,6 +128,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4213330836085406466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2923137157774976431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4810011283521481523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426eabbe8f2ec9441bafdd03405c4f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5832236148751035023
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,6 +244,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1198837765471096065}
+  - component: {fileID: 2970114608981386663}
   m_Layer: 0
   m_Name: Bottom
   m_TagString: Untagged
@@ -253,6 +267,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4213330836085406466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2970114608981386663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396519610702535855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426eabbe8f2ec9441bafdd03405c4f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6659983130786743984
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,8 +454,8 @@ MonoBehaviour:
   CharacterDamaging: {fileID: 974105059069264052}
   CharacterEffects: {fileID: 7089149300795199132}
   CharacterStuckedObjects: {fileID: 2307621767582408558}
-  Center: {fileID: 4810011283521481523}
-  Bottom: {fileID: 6396519610702535855}
+  Center: {fileID: 2923137157774976431}
+  Bottom: {fileID: 2970114608981386663}
   CharacterPartsContainer: {fileID: 7534914569010161185}
   CharacterRigidBody: {fileID: 7607223272691296094}
   CharacterRigidBodyCapsuleCollider: {fileID: 4524364239507995928}
@@ -628,6 +654,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedToHitOtherCharacters: 7.5
+  CanHitWhileHardStnned: 1
+  CanHitWhileMoving: 0
+  CanHitWhileRolling: 0
   EffectsOnHitOtherCharacters:
   - {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
   SelfEffectsOnHitOtherCharacters: []
