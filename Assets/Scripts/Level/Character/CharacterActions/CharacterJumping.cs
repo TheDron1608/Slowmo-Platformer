@@ -14,7 +14,7 @@ public class CharacterJumping : AbstractCharacterComponent
     public bool CanForceStopJump = false;
     public int AirJumps = 0;
     public float JumpLimitForceMultiplier = 10f;
-    public bool ClusmyJumping = true;
+    public bool ClumsyJumping = true;
 
     private float _jumpTimeLeft = 0f;
     private int _airJumpsLeft = 0;
@@ -91,14 +91,13 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void TryStartJump()
     {
-        if (ClusmyJumping && CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+        if (ClumsyJumping && CharComponents.CharacterVisual.IsBusy()) return;
+
+        if (ClumsyJumping && CharComponents.CharacterCollisionInfo.IsCollidingFloor())
         {
             CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE;
             _awaitingClumsyJump = true;
             CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
-
-            CharComponents.CharacterMoving.TryMove(0f);
-            CharComponents.CharacterMoving.IsAbleToMove = false;
         }
         else
         {
@@ -112,7 +111,6 @@ public class CharacterJumping : AbstractCharacterComponent
         {
             ForceStartJump();
         }
-        CharComponents.CharacterMoving.IsAbleToMove = true;
         CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
     }
 
@@ -159,7 +157,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void TryStartCoyoteJump()
     {
-        if (ClusmyJumping && !CharComponents.CharacterCollisionInfo.IsCollidingFloor()) return;
+        if (ClumsyJumping && !CharComponents.CharacterCollisionInfo.IsCollidingFloor()) return;
 
         if (_isJumping || !IsAbleToJump) return;
 

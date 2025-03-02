@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CharacterAttacking : AbstractCharacterComponent
@@ -6,6 +7,9 @@ public class CharacterAttacking : AbstractCharacterComponent
     [SerializeField] private bool _isAbleToHammer = true;
     [SerializeField] private bool _isAbleToStartChainsaw = true;
     public float AttackCooldownMultiplier = 1f;
+    public bool ClumsyAttacking = true;
+
+    private Vector2? _awaitingAttackDirection = null;
 
     public bool IsAbleToAttack
     {
@@ -59,6 +63,41 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryAttack(Vector2 direction)
     {
+        if (ClumsyAttacking && (!CharComponents.CharacterCollisionInfo.IsCollidingFloor() || CharComponents.CharacterVisual.IsBusy())) return false;
+
+        if (ClumsyAttacking && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null)
+        {
+            if (IsAbleToAttack && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+            {
+                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK;
+                _awaitingAttackDirection = direction;
+                CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return ForceAttack(direction);
+        }
+    }
+
+    private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
+    {
+        if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK && _awaitingAttackDirection.HasValue)
+        {
+            ForceAttack(_awaitingAttackDirection.Value);
+            _awaitingAttackDirection = null;
+        }
+        CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
+    }
+
+    public bool ForceAttack(Vector2 direction)
+    {
         if (IsAbleToAttack && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
             if (weapon.TryAttack(direction))
@@ -67,8 +106,8 @@ public class CharacterAttacking : AbstractCharacterComponent
                 {
                     charRolling.ForceStopRolling();
                 }
-                return true;
             }
+            return true;
         }
         return false;
     }

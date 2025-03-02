@@ -50,6 +50,12 @@ public class CharacterMoving : AbstractCharacterComponent
     public event EventHandler<float> OnMoveAlignChanged;
     public event EventHandler<float> OnReachedMaxSpeed;
 
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+    }
+
     public bool IsMoving()
     {
         return Math.Abs(CharComponents.CharacterMoving.GetCurrentMoveDirection()) < 0.05f;
@@ -105,14 +111,12 @@ public class CharacterMoving : AbstractCharacterComponent
     /// <param name="direction">Value between -1 and 1</param>
     public void TryMove(float direction)
     {
-        if (_currentMoveDirection == direction || _awaitingMoveDirection == direction) return;
+        if (_currentMoveDirection == direction || _awaitingMoveDirection == direction || CharComponents.CharacterVisual.IsBusy()) return;
 
         if (ClumsyMovement && (CharComponents.CharacterVisual.SpritesFlipped ^ direction < 0f) && direction != 0f)
         {
-            ForceMove(0f);
             CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE;
             _awaitingMoveDirection = direction;
-            CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
         }
         else
         {
@@ -122,12 +126,15 @@ public class CharacterMoving : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE && _awaitingMoveDirection.HasValue)
+        if (e.NewState != CharacterPart.CharacterPartBusyStates.NONE)
+        {
+            ForceMove(0f);
+        }
+        else if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE && _awaitingMoveDirection.HasValue)
         {
             ForceMove(_awaitingMoveDirection.Value);
             _awaitingMoveDirection = null;
         }
-        CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
     }
 
     public void TryMove(MoveDirection direction)
