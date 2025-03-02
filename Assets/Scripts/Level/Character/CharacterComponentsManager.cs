@@ -19,6 +19,7 @@ public class CharacterComponentsManager : MonoBehaviour
     public CharacterDamaging CharacterDamaging;
     public CharacterEffects CharacterEffects;
     public CharacterStuckedObjects CharacterStuckedObjects;
+    public CharacterHealth CharacterHealth;
     public CharacterPositionPoint Center;
     public CharacterPositionPoint Bottom;
     public GameObject CharacterPartsContainer;

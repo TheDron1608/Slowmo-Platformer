@@ -15,6 +15,7 @@ public class CharacterPart : MonoBehaviour
         MOVE = 1,
         JUMP = 2,
         SLIDE_ON_WALL = 3,
+        DEAD = 4
     }
     public enum CharacterPartBusyStates
     {

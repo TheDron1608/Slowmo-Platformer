@@ -385,6 +385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4213330836085406466}
   - component: {fileID: -3327571402814487819}
+  - component: {fileID: 5897571605525893540}
   - component: {fileID: 5375129970261745621}
   - component: {fileID: 7261639660243465350}
   - component: {fileID: 3206245827804919803}
@@ -454,11 +455,29 @@ MonoBehaviour:
   CharacterDamaging: {fileID: 974105059069264052}
   CharacterEffects: {fileID: 7089149300795199132}
   CharacterStuckedObjects: {fileID: 2307621767582408558}
+  CharacterHealth: {fileID: 5897571605525893540}
   Center: {fileID: 2923137157774976431}
   Bottom: {fileID: 2970114608981386663}
   CharacterPartsContainer: {fileID: 7534914569010161185}
   CharacterRigidBody: {fileID: 7607223272691296094}
   CharacterRigidBodyCapsuleCollider: {fileID: 4524364239507995928}
+--- !u!114 &5897571605525893540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da871eb62ec78224799a6c3f2e98751c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 10
+  _minHealth: 0
+  _currentHealth: 10
+  LivingWithDeadlyHealthSeconds: 0
+  CanHaveHealthOverMax: 0
 --- !u!114 &5375129970261745621
 MonoBehaviour:
   m_ObjectHideFlags: 0
