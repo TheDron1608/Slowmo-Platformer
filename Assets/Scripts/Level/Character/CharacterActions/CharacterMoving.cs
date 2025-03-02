@@ -54,6 +54,7 @@ public class CharacterMoving : AbstractCharacterComponent
     {
         base.OnAwake();
         CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+        CharComponents.CharacterAiming.OnAimWeaponDownChanged += CharacterAiming_OnAimWeaponDownChanged;
     }
 
     public bool IsMoving()
@@ -111,7 +112,7 @@ public class CharacterMoving : AbstractCharacterComponent
     /// <param name="direction">Value between -1 and 1</param>
     public void TryMove(float direction)
     {
-        if (_currentMoveDirection == direction || _awaitingMoveDirection == direction || CharComponents.CharacterVisual.IsBusy()) return;
+        if (_currentMoveDirection == direction || _awaitingMoveDirection == direction || CharComponents.CharacterVisual.IsBusy() || (CharComponents.CharacterAiming.GetHoldingValidForAimWeapon() && !CharComponents.CharacterAiming.AimWeaponDown)) return;
 
         if (ClumsyMovement && (CharComponents.CharacterVisual.SpritesFlipped ^ direction < 0f) && direction != 0f)
         {
@@ -121,19 +122,6 @@ public class CharacterMoving : AbstractCharacterComponent
         else
         {
             ForceMove(direction);
-        }
-    }
-
-    private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
-    {
-        if (e.NewState != CharacterPart.CharacterPartBusyStates.NONE)
-        {
-            ForceMove(0f);
-        }
-        else if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE && _awaitingMoveDirection.HasValue)
-        {
-            ForceMove(_awaitingMoveDirection.Value);
-            _awaitingMoveDirection = null;
         }
     }
 
@@ -152,6 +140,27 @@ public class CharacterMoving : AbstractCharacterComponent
         OnMoveAlignChanged?.Invoke(this, direction);
 
         _currentMoveDirection = direction;
+    }
+
+    private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
+    {
+        if (e.NewState != CharacterPart.CharacterPartBusyStates.NONE)
+        {
+            ForceMove(0f);
+        }
+        else if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE && _awaitingMoveDirection.HasValue)
+        {
+            ForceMove(_awaitingMoveDirection.Value);
+            _awaitingMoveDirection = null;
+        }
+    }
+
+    private void CharacterAiming_OnAimWeaponDownChanged(object sender, bool e)
+    {
+        if (!e && CharComponents.CharacterAttacking.ClumsyAttacking)
+        {
+            ForceMove(0f);
+        }
     }
 
     public float GetCurrentMoveDirection()

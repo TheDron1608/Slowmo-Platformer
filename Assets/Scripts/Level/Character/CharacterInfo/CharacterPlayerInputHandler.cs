@@ -187,7 +187,7 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
         }
         else
         {
-            CharComponents.CharacterHolding.TryThrow(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+            CharComponents.CharacterHolding.TryThrow(CharComponents.CharacterAiming.GetTargetAimNormalized());
         }
     }
 
@@ -196,7 +196,7 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
     {
         if (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
         {
-            CharComponents.CharacterAttacking.TryLoadElseAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+            CharComponents.CharacterAttacking.TryLoadElseAttack(CharComponents.CharacterAiming.GetTargetAimNormalized());
 
             if (weapon.PlayerInputAutoAttackOnPress)
             {

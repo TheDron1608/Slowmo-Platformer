@@ -3,6 +3,7 @@ using UnityEngine;
 public class Knockback : AbstractCharacterEffectWithSender
 {
     public float KnockbackForce = 5f;
+    public bool CanFlipSprites = true;
 
     /// <summary>
     /// warning: will delete itself after invoke this function
@@ -22,7 +23,10 @@ public class Knockback : AbstractCharacterEffectWithSender
             throw new UnityException("Knockback effect must be sended by GameObject containing AbstractProjectile component");
         }
 
-        AffectedCharacter.CharacterVisual.SpritesFlipped = AffectedCharacter.CharacterRigidBody.linearVelocityX < 0f;
+        if (CanFlipSprites)
+        {
+            AffectedCharacter.CharacterVisual.SpritesFlipped = AffectedCharacter.CharacterRigidBody.linearVelocityX < 0f;
+        }
 
         RemoveSelf();
     }

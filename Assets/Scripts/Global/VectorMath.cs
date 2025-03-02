@@ -21,6 +21,11 @@ public static class VectorMath
             );
     }
 
+    public static bool GetNormalizedVectorsEqual(Vector2 vec1, Vector2 vec2, float delta)
+    {
+        return vec2 == Vector2.MoveTowards(vec1, vec2, delta);
+    }
+
     public static Vector2 Vec3ToVec2(Vector3 vector3)
     {
         return new Vector2(vector3.x, vector3.y);

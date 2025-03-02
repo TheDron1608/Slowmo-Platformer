@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9053283666510615094}
   - component: {fileID: 977385987182254359}
   m_Layer: 0
-  m_Name: ReversedKnockbackMinor
+  m_Name: ReversedKnockbackHard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb5e44d34c0236468dacd8a25b2f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KnockbackForce: -12.5
+  KnockbackForce: -40
+  CanFlipSprites: 1

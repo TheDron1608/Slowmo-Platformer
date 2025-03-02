@@ -1,15 +1,19 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class CharacterAttacking : AbstractCharacterComponent
 {
+    const float CLUMSY_RANGED_POST_ATTACK_DELAY_SECONDS = 0.25f;
+
     [SerializeField] private bool _isAbleToAttack = true;
     [SerializeField] private bool _isAbleToHammer = true;
     [SerializeField] private bool _isAbleToStartChainsaw = true;
     public float AttackCooldownMultiplier = 1f;
     public bool ClumsyAttacking = true;
 
-    private Vector2? _awaitingAttackDirection = null;
+    private Vector2? _awaitingMeleeAttackDirection = null;
+    private Coroutine _clumsyRangedAttackCoroutine = null;
 
     public bool IsAbleToAttack
     {
@@ -38,7 +42,15 @@ public class CharacterAttacking : AbstractCharacterComponent
     {
         if (IsAbleToHammer && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
         {
-            return hammerWeapon.TrySetHammered(true);
+            if (hammerWeapon.TrySetHammered(true))
+            {
+                if (ClumsyAttacking)
+                {
+                    CharComponents.CharacterAiming.AimWeaponDown = false;
+                }
+                return true;
+            }
+            return false;
         }
         return false;
     }
@@ -47,7 +59,15 @@ public class CharacterAttacking : AbstractCharacterComponent
     {
         if (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)
         {
-            return hammerWeapon.TrySetHammered(false);
+            if (hammerWeapon.TrySetHammered(false))
+            {
+                if (ClumsyAttacking)
+                {
+                    CharComponents.CharacterAiming.AimWeaponDown = true;
+                }
+                return true;
+            }
+            return false;
         }
         return false;
     }
@@ -65,20 +85,27 @@ public class CharacterAttacking : AbstractCharacterComponent
     {
         if (ClumsyAttacking && (!CharComponents.CharacterCollisionInfo.IsCollidingFloor() || CharComponents.CharacterVisual.IsBusy())) return false;
 
-        if (ClumsyAttacking && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null)
+        if (ClumsyAttacking)
         {
-            if (IsAbleToAttack && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
-            {
-                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK;
-                _awaitingAttackDirection = direction;
-                CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+            if (!IsAbleToAttack || CharComponents.CharacterHolding.CurrentHoldObject == null || !CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon)) return false;
 
-                return true;
+            if (
+                CharComponents.CharacterAiming.GetHoldingValidForAimWeapon()
+                )
+            {
+                if (_clumsyRangedAttackCoroutine != null)
+                {
+                    StopCoroutine(_clumsyRangedAttackCoroutine);
+                }
+                _clumsyRangedAttackCoroutine = StartCoroutine(AwaitClumsyRangedAttackDelayThenAttack(direction));
             }
             else
             {
-                return false;
+                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK;
+                _awaitingMeleeAttackDirection = direction;
+                CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
             }
+            return true;
         }
         else
         {
@@ -88,12 +115,36 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK && _awaitingAttackDirection.HasValue)
+        if (e.OldState == CharacterPart.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK && _awaitingMeleeAttackDirection.HasValue)
         {
-            ForceAttack(_awaitingAttackDirection.Value);
-            _awaitingAttackDirection = null;
+            ForceAttack(_awaitingMeleeAttackDirection.Value);
+            _awaitingMeleeAttackDirection = null;
         }
         CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
+    }
+
+    private IEnumerator AwaitClumsyRangedAttackDelayThenAttack(Vector2 direction)
+    {
+        CharComponents.CharacterAiming.AimWeaponDown = false;
+        
+        while (!CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim())
+        {
+            yield return new WaitForFixedUpdate();
+        }
+
+        ForceAttack(direction);
+
+        while (
+            CharComponents.CharacterHolding.CurrentHoldObject != null &&
+            CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) &&
+            weapon.IsInCooldown
+            )
+        {
+            yield return new WaitForFixedUpdate();
+        }
+
+        yield return new WaitForSeconds(CLUMSY_RANGED_POST_ATTACK_DELAY_SECONDS);
+        CharComponents.CharacterAiming.AimWeaponDown = true;
     }
 
     public bool ForceAttack(Vector2 direction)
