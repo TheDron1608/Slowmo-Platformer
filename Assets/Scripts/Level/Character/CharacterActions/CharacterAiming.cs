@@ -13,6 +13,7 @@ public class CharacterAiming : AbstractCharacterComponent
 
     private Vector2 _targetAimPoint;
     private Vector2 _currentAimPoint;
+    private bool _aimPerformed = false;
     private bool _aimWeaponDown = true;
 
     public event EventHandler<bool> OnAimWeaponDownChanged;
@@ -27,15 +28,29 @@ public class CharacterAiming : AbstractCharacterComponent
         get => _currentAimPoint;
         private set => _currentAimPoint = value;
     }
+    public bool AimPerformed
+    {
+        get => _aimPerformed;
+        set => _aimPerformed = value;
+    }
     public bool AimWeaponDown
     {
         get => _aimWeaponDown;
         set
         {
+            if (CharComponents.CharacterClumsyness.ClumsyRangedAttack && !value && GetHoldingValidForAimWeapon())
+            {
+                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.AIM;
+            }
+            else if (CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPart.CharacterPartBusyStates.AIM)
+            {
+                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE;
+            }
+
             if (value != _aimWeaponDown)
             {
                 OnAimWeaponDownChanged?.Invoke(this, value);
-            } 
+            }
             _aimWeaponDown = value;
         }
     }
@@ -103,5 +118,10 @@ public class CharacterAiming : AbstractCharacterComponent
     public bool GetHoldingValidForAimWeapon()
     {
         return CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<RangedWeapon>() != null && CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded;
+    }
+
+    public void OnAimPerformed()
+    {
+
     }
 }

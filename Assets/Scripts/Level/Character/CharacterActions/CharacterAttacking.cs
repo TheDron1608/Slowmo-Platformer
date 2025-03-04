@@ -10,7 +10,6 @@ public class CharacterAttacking : AbstractCharacterComponent
     [SerializeField] private bool _isAbleToHammer = true;
     [SerializeField] private bool _isAbleToStartChainsaw = true;
     public float AttackCooldownMultiplier = 1f;
-    public bool ClumsyAttacking = true;
 
     private Vector2? _awaitingMeleeAttackDirection = null;
     private Coroutine _clumsyRangedAttackCoroutine = null;
@@ -44,7 +43,7 @@ public class CharacterAttacking : AbstractCharacterComponent
         {
             if (hammerWeapon.TrySetHammered(true))
             {
-                if (ClumsyAttacking)
+                if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
                 {
                     CharComponents.CharacterAiming.AimWeaponDown = false;
                 }
@@ -61,7 +60,7 @@ public class CharacterAttacking : AbstractCharacterComponent
         {
             if (hammerWeapon.TrySetHammered(false))
             {
-                if (ClumsyAttacking)
+                if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
                 {
                     CharComponents.CharacterAiming.AimWeaponDown = true;
                 }
@@ -83,11 +82,19 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryAttack(Vector2 direction)
     {
-        if (ClumsyAttacking && (!CharComponents.CharacterCollisionInfo.IsCollidingFloor() || CharComponents.CharacterVisual.IsBusy())) return false;
+        if (CharComponents.CharacterVisual.IsBusy() && CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterPart.CharacterPartBusyStates.AIM) return false;
 
-        if (ClumsyAttacking)
+        if (CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon())
         {
-            if (!IsAbleToAttack || CharComponents.CharacterHolding.CurrentHoldObject == null || !CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon)) return false;
+            if (
+                !CharComponents.CharacterCollisionInfo.IsCollidingFloor() ||
+                !IsAbleToAttack || 
+                CharComponents.CharacterHolding.CurrentHoldObject == null || 
+                !CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon)
+                )
+            {
+                return false;
+            }
 
             if (
                 CharComponents.CharacterAiming.GetHoldingValidForAimWeapon()
@@ -127,7 +134,7 @@ public class CharacterAttacking : AbstractCharacterComponent
     {
         CharComponents.CharacterAiming.AimWeaponDown = false;
         
-        while (!CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim())
+        while (!(CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim() && CharComponents.CharacterAiming.AimPerformed))
         {
             yield return new WaitForFixedUpdate();
         }
@@ -142,6 +149,8 @@ public class CharacterAttacking : AbstractCharacterComponent
         {
             yield return new WaitForFixedUpdate();
         }
+
+
 
         yield return new WaitForSeconds(CLUMSY_RANGED_POST_ATTACK_DELAY_SECONDS);
         CharComponents.CharacterAiming.AimWeaponDown = true;

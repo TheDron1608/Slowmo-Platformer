@@ -386,6 +386,7 @@ GameObject:
   - component: {fileID: 4213330836085406466}
   - component: {fileID: -3327571402814487819}
   - component: {fileID: 5897571605525893540}
+  - component: {fileID: 4517750751436233566}
   - component: {fileID: 5375129970261745621}
   - component: {fileID: 7261639660243465350}
   - component: {fileID: 3206245827804919803}
@@ -456,6 +457,8 @@ MonoBehaviour:
   CharacterEffects: {fileID: 7089149300795199132}
   CharacterStuckedObjects: {fileID: 2307621767582408558}
   CharacterHealth: {fileID: 5897571605525893540}
+  CharacterClumsyness: {fileID: 4517750751436233566}
+  CharacterPartsManager: {fileID: 3088884617249236497}
   Center: {fileID: 2923137157774976431}
   Bottom: {fileID: 2970114608981386663}
   CharacterPartsContainer: {fileID: 7534914569010161185}
@@ -478,6 +481,23 @@ MonoBehaviour:
   _currentHealth: 10
   LivingWithDeadlyHealthSeconds: 0
   CanHaveHealthOverMax: 0
+--- !u!114 &4517750751436233566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91381471e2a533f44ba03f00a2ae11fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ClumsyMeleeAttack: 1
+  ClumsyRangedAttack: 1
+  ClumsyMovement: 1
+  ClumsyJumping: 1
+  ClumsyReloading: 1
 --- !u!114 &5375129970261745621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,7 +573,6 @@ MonoBehaviour:
   SpeedAccelerationOnGroundMultiplier: 4
   SpeedAccelerationOnAirMulitplier: 1
   SpeedAccelerationOnUnableToMoveMultiplier: 0.8
-  ClumsyMovement: 1
 --- !u!114 &3540175533123877220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +593,6 @@ MonoBehaviour:
   CanForceStopJump: 0
   AirJumps: 0
   JumpLimitForceMultiplier: 10
-  ClusmyJumping: 1
 --- !u!114 &7285514816818632256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,6 +746,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6738417014831093395}
+  - component: {fileID: 3088884617249236497}
   m_Layer: 0
   m_Name: CharacterParts
   m_TagString: Untagged
@@ -751,6 +770,18 @@ Transform:
   - {fileID: 8794142936735987238}
   m_Father: {fileID: 4213330836085406466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3088884617249236497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7534914569010161185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 570d246a7d16cfd4da3e7b13db0a5b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1954994473127023812
 PrefabInstance:
   m_ObjectHideFlags: 0

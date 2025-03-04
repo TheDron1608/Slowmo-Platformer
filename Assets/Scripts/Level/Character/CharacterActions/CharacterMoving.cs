@@ -45,7 +45,6 @@ public class CharacterMoving : AbstractCharacterComponent
     public float SpeedAccelerationOnGroundMultiplier = 5f;
     public float SpeedAccelerationOnAirMulitplier = 1f;
     public float SpeedAccelerationOnUnableToMoveMultiplier = 0.33f;
-    public bool ClumsyMovement = true;
 
     public event EventHandler<float> OnMoveAlignChanged;
     public event EventHandler<float> OnReachedMaxSpeed;
@@ -54,7 +53,6 @@ public class CharacterMoving : AbstractCharacterComponent
     {
         base.OnAwake();
         CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
-        CharComponents.CharacterAiming.OnAimWeaponDownChanged += CharacterAiming_OnAimWeaponDownChanged;
     }
 
     public bool IsMoving()
@@ -112,9 +110,9 @@ public class CharacterMoving : AbstractCharacterComponent
     /// <param name="direction">Value between -1 and 1</param>
     public void TryMove(float direction)
     {
-        if (_currentMoveDirection == direction || _awaitingMoveDirection == direction || CharComponents.CharacterVisual.IsBusy() || (CharComponents.CharacterAiming.GetHoldingValidForAimWeapon() && !CharComponents.CharacterAiming.AimWeaponDown)) return;
+        if (_currentMoveDirection == direction || _awaitingMoveDirection == direction || CharComponents.CharacterVisual.IsBusy()) return;
 
-        if (ClumsyMovement && (CharComponents.CharacterVisual.SpritesFlipped ^ direction < 0f) && direction != 0f)
+        if (CharComponents.CharacterClumsyness.ClumsyMovement && (CharComponents.CharacterVisual.SpritesFlipped ^ direction < 0f) && direction != 0f)
         {
             CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE;
             _awaitingMoveDirection = direction;
@@ -152,14 +150,6 @@ public class CharacterMoving : AbstractCharacterComponent
         {
             ForceMove(_awaitingMoveDirection.Value);
             _awaitingMoveDirection = null;
-        }
-    }
-
-    private void CharacterAiming_OnAimWeaponDownChanged(object sender, bool e)
-    {
-        if (!e && CharComponents.CharacterAttacking.ClumsyAttacking)
-        {
-            ForceMove(0f);
         }
     }
 

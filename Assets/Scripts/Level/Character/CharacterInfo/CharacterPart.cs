@@ -30,7 +30,8 @@ public class CharacterPart : MonoBehaviour
         MINOR_STUN = 8,
         CLUMSY_MOVE_ALIGN_CHANGE = 9,
         CLUMSY_JUMP_CHANGE = 10,
-        CLUMSY_MELEE_ATTACK = 11
+        CLUMSY_MELEE_ATTACK = 11,
+        AIM = 12
     }
 
 
