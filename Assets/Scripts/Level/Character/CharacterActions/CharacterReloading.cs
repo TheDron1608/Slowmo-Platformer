@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class CharacterReloading : AbstractCharacterComponent
@@ -26,6 +27,43 @@ public class CharacterReloading : AbstractCharacterComponent
     }
 
     public bool TryReload()
+    {
+        bool reloadResult = ForceReload();
+
+        if (reloadResult)
+        {
+            if (CharComponents.CharacterClumsyness.ClumsyReloading)
+            {
+                StartCoroutine(AwaitFinishReloadThenStopAim());
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private IEnumerator AwaitFinishReloadThenStopAim()
+    {
+        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.AIM;
+
+        while (
+            CharComponents.CharacterHolding.CurrentHoldObject != null &&
+            CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
+            rangedWeapon.IsReloading
+            )
+        {
+            yield return new WaitForFixedUpdate();
+        }
+
+        if (CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPart.CharacterPartBusyStates.AIM)
+        {
+            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE;
+        }
+    }
+
+    public bool ForceReload()
     {
         if (!IsAbleToReload) return false;
 
