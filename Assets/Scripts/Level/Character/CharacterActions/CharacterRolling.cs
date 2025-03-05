@@ -61,6 +61,13 @@ public class CharacterRolling : AbstractCharacterComponent
             IsRolling = false;
             CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
             CharComponents.CharacterMoving.IsAbleToMove = true;
+
+            if (!CharComponents.CharacterClumsyness.ClumsyRangedAttack)
+            {
+                CharComponents.CharacterAiming.AimWeaponDown = false;
+            }
+
+            OnFinishRoll?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -80,6 +87,8 @@ public class CharacterRolling : AbstractCharacterComponent
         CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.ROLL;
         CharComponents.CharacterVisual.SpritesFlipped = _currentRollDirection < 0f;
 
+        CharComponents.CharacterAiming.AimWeaponDown = true;
+
         CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier *= AccelerationMultiplier;
 
         _currentExtraSpeed = ExtraSpeedOnStart;
@@ -94,7 +103,11 @@ public class CharacterRolling : AbstractCharacterComponent
         if (!IsRolling) return;
 
         CharComponents.CharacterVisual.BreakBusyAnimation();
-        OnFinishRoll?.Invoke(this, EventArgs.Empty);
+
+        if (!CharComponents.CharacterClumsyness.ClumsyRangedAttack)
+        {
+            CharComponents.CharacterAiming.AimWeaponDown = false;
+        }
     }
 
     private bool RollCondition()

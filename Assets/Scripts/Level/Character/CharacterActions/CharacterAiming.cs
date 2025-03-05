@@ -52,7 +52,6 @@ public class CharacterAiming : AbstractCharacterComponent
                 OnAimWeaponDownChanged?.Invoke(this, value);
             }
             _aimWeaponDown = value;
-            Debug.Log(value);
         }
     }
 
