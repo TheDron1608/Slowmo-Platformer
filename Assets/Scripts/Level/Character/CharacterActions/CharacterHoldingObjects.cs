@@ -13,7 +13,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             Direction = direction;
         }
 
-        Holdable ThrownObject;
+        public Holdable ThrownObject;
         public Vector2 Direction;
     }
 

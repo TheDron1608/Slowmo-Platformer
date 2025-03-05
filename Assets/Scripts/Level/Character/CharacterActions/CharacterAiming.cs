@@ -61,11 +61,17 @@ public class CharacterAiming : AbstractCharacterComponent
         _targetAimPoint = CharComponents.Center.transform.position;
         _currentAimPoint = CharComponents.Center.transform.position;
         CharComponents.CharacterHolding.OnPickedUpHoldable += CharacterHolding_OnPickedUpHoldable;
+        CharComponents.CharacterHolding.OnThrewHoldable += CharacterHolding_OnThrewHoldable;
     }
 
     private void CharacterHolding_OnPickedUpHoldable(object sender, Holdable e)
     {
         AimWeaponDown = GetHoldingValidForAimWeapon();
+    }
+
+    private void CharacterHolding_OnThrewHoldable(object sender, CharacterHoldingObjects.OnThewEventArgs e)
+    {
+        AimWeaponDown = true;
     }
 
     private void Update()
