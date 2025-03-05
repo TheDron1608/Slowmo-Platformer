@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AbstractCharacterEffect : MonoBehaviour
@@ -12,6 +14,7 @@ public abstract class AbstractCharacterEffect : MonoBehaviour
         get => _affectedCharacter;
         protected set => _affectedCharacter = value;
     }
+
 
     public void RemoveSelf()
     {

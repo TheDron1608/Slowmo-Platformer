@@ -30,4 +30,11 @@ public abstract class AbstractCharacterComponent : MonoBehaviour
         while (curGameObject.tag == LayerManager.CHARACTER_TAG_NAME);
         throw new UnityException("not found CharacterComponentsManager component in " + gameObject.name + " or in the same tagged child gameObjects");
     }
+
+
+
+    public static bool GetCharacterComponentsEqual(AbstractCharacterComponent component1, AbstractCharacterComponent component2)
+    {
+        return component1.CharComponents == component2.CharComponents;
+    }
 }

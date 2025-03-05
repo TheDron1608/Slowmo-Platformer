@@ -289,8 +289,10 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
             foreach (RaycastHit2D hit in Physics2D.LinecastAll(CharComponents.Center.transform.position, CharComponents.Center.PositionPreviousFrame, 1 << CurrentZLayer.CharactersLayer))
             {
                 if (
-                    hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) && 
-                    otherCharComponent.CharComponents.CharacterCollisionInfo != this
+                    hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
+                    otherCharComponent.CharComponents.CharacterCollisionInfo != this &&
+                    !CharComponents.CharacterEffects.GetLastOneSecondHittersContainsCharacter(otherCharComponent) &&
+                    !otherCharComponent.CharComponents.CharacterEffects.GetLastOneSecondHittersContainsCharacter(this)
                     )
                 {
                     //hit self
