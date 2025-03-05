@@ -43,10 +43,7 @@ public class CharacterAttacking : AbstractCharacterComponent
         {
             if (hammerWeapon.TrySetHammered(true))
             {
-                if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
-                {
-                    CharComponents.CharacterAiming.AimWeaponDown = false;
-                }
+                CharComponents.CharacterAiming.AimWeaponDown = false;
                 return true;
             }
             return false;
@@ -153,7 +150,10 @@ public class CharacterAttacking : AbstractCharacterComponent
 
 
         yield return new WaitForSeconds(CLUMSY_RANGED_POST_ATTACK_DELAY_SECONDS);
-        CharComponents.CharacterAiming.AimWeaponDown = true;
+        if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
+        {
+            CharComponents.CharacterAiming.AimWeaponDown = true;
+        }
     }
 
     public bool ForceAttack(Vector2 direction)

@@ -14,7 +14,7 @@ public class CharacterAiming : AbstractCharacterComponent
     private Vector2 _targetAimPoint;
     private Vector2 _currentAimPoint;
     private bool _aimPerformed = false;
-    private bool _aimWeaponDown = true;
+    private bool _aimWeaponDown = false;
 
     public event EventHandler<bool> OnAimWeaponDownChanged;
 
@@ -52,6 +52,7 @@ public class CharacterAiming : AbstractCharacterComponent
                 OnAimWeaponDownChanged?.Invoke(this, value);
             }
             _aimWeaponDown = value;
+            Debug.Log(value);
         }
     }
 
@@ -66,12 +67,22 @@ public class CharacterAiming : AbstractCharacterComponent
 
     private void CharacterHolding_OnPickedUpHoldable(object sender, Holdable e)
     {
-        AimWeaponDown = GetHoldingValidForAimWeapon();
+        if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
+        {
+            AimWeaponDown = GetHoldingValidForAimWeapon();
+        }
+        else
+        {
+            AimWeaponDown = false;
+        }
     }
 
     private void CharacterHolding_OnThrewHoldable(object sender, CharacterHoldingObjects.OnThewEventArgs e)
     {
-        AimWeaponDown = true;
+        if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
+        {
+            AimWeaponDown = true;
+        }
     }
 
     private void Update()
