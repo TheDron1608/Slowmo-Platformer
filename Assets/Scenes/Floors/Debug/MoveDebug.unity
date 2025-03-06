@@ -12994,6 +12994,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 793992976}
     m_Modifications:
+    - target: {fileID: 1272674599992186636, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: ClumsyJumping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272674599992186636, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: ClumsyMovement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272674599992186636, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: ClumsyReloading
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272674599992186636, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: ClumsyMeleeAttack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272674599992186636, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: ClumsyRangedAttack
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.49
