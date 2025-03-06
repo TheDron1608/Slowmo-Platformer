@@ -46,7 +46,7 @@ public class CharacterEffects : AbstractCharacterComponent
     private void AddLastEffectSender(MonoBehaviour effectSender)
     {
         AbstractCharacterComponent filteredSender = null;
-        Debug.Log(effectSender);
+
         if (effectSender.TryGetComponent(out AbstractProjectile projectile) && projectile.Owner != null)
         {
             filteredSender = projectile.Owner;
@@ -71,7 +71,7 @@ public class CharacterEffects : AbstractCharacterComponent
     }
 
 
-    public void ApplyEffect(AbstractCharacterEffect effect, MonoBehaviour sender = null)
+    public void ApplyEffect(AbstractCharacterEffect effect, MonoBehaviour sender)
     {
         if (effect.ApplyCondition(CharComponents))
         {
@@ -91,7 +91,7 @@ public class CharacterEffects : AbstractCharacterComponent
         }
     }
 
-    public void ApplyEffect(List<AbstractCharacterEffect> effects, MonoBehaviour sender = null)
+    public void ApplyEffect(List<AbstractCharacterEffect> effects, MonoBehaviour sender)
     {
         for (int i = 0; i < effects.Count; i++)
         {

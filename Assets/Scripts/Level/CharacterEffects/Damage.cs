@@ -11,7 +11,6 @@ public class Damage : AbstractCharacterEffectWithSender
     {
         AffectedCharacter.CharacterHealth.CurrentHealth -= DamageAmount;
 
-
         RemoveSelf();
     }
 }

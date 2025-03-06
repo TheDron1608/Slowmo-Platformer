@@ -298,10 +298,10 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
                     //hit self
                     Vector2 affectingVelocity = CharComponents.CharacterRigidBody.linearVelocity / 2f;
                     CharComponents.CharacterRigidBody.linearVelocity -= affectingVelocity;
-                    CharComponents.CharacterEffects.ApplyEffect(SelfEffectsOnHitOtherCharacters);
+                    CharComponents.CharacterEffects.ApplyEffect(SelfEffectsOnHitOtherCharacters, otherCharComponent);
                     //hit other character
                     otherCharComponent.CharComponents.CharacterRigidBody.linearVelocity += affectingVelocity;
-                    otherCharComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnHitOtherCharacters);
+                    otherCharComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnHitOtherCharacters, this);
 
                     OnHitOtherCharacters?.Invoke(this, otherCharComponent);
                 }
