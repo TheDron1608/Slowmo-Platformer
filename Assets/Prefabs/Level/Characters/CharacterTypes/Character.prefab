@@ -476,11 +476,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da871eb62ec78224799a6c3f2e98751c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 10
+  _maxHealth: 1
   _minHealth: 0
-  _currentHealth: 10
+  _currentHealth: 1
   LivingWithDeadlyHealthSeconds: 0
   CanHaveHealthOverMax: 0
+  _dead: 0
 --- !u!114 &4517750751436233566
 MonoBehaviour:
   m_ObjectHideFlags: 0

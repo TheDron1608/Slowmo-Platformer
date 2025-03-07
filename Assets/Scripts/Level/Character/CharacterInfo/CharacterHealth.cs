@@ -9,7 +9,7 @@ public class CharacterHealth : AbstractCharacterComponent
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
 
-    private bool _dead = false;
+    [SerializeField] private bool _dead = false;
     private Coroutine _awaitLivingWithDeadlyHealthThenDieCoroutine;
     private AbstractProjectile _lastDamagedProjectile = null;
     private CharacterComponentsManager _lastDamagedAttacker = null;
@@ -20,7 +20,7 @@ public class CharacterHealth : AbstractCharacterComponent
         set
         {
             _currentHealth = value;
-            if (_currentHealth < _maxHealth)
+            if (_currentHealth <= MinHealth)
             {
                 Die();
             }
@@ -70,6 +70,12 @@ public class CharacterHealth : AbstractCharacterComponent
         private set => _lastDamagedAttacker = value;
     }
 
+    public bool TryApplyHitDamage(float amount)
+    {
+        CurrentHealth -= amount;
+        return true;
+    }
+
     public void Die()
     {
         if (LivingWithDeadlyHealthSeconds <= 0f)
@@ -98,6 +104,12 @@ public class CharacterHealth : AbstractCharacterComponent
 
     public void InstantDie()
     {
+        if (!Dead)
+        {
+            CharComponents.CharacterVisual.BreakBusyAnimation();
+            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE;
+        }
+
         Dead = true;
     }
 }

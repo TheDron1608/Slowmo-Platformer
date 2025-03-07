@@ -9,7 +9,7 @@ public class HardStun : AbstractOverwritingCharacterEffect
         AffectedCharacter.CharacterEffects.RemoveEffect<MinorStun>();
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
-        AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.MINOR_STUN;
+        AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR;
         AffectedCharacter.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
 
         AffectedCharacter.CharacterHolding.TryThrow(AffectedCharacter.CharacterRigidBody.linearVelocity.normalized, 0.25f);

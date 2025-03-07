@@ -9,7 +9,7 @@ public class Damage : AbstractCharacterEffectWithSender
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        AffectedCharacter.CharacterHealth.CurrentHealth -= DamageAmount;
+        AffectedCharacter.CharacterHealth.TryApplyHitDamage(DamageAmount);
 
         RemoveSelf();
     }

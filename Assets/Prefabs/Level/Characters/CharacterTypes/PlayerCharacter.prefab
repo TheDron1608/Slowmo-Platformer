@@ -112,6 +112,14 @@ PrefabInstance:
       propertyPath: IsAbleToAim
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5897571605525893540, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: _maxHealth
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5897571605525893540, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: _currentHealth
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7466261371012752510, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter

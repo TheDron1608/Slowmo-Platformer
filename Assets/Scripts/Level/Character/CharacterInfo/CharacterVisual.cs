@@ -192,19 +192,42 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         if (CharComponents.CharacterMoving == null) return;
 
-        if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+        if (CharComponents.CharacterHealth.Dead)
         {
-            if (CharComponents.CharacterHealth.Dead)
+            MainState = CharacterPart.CharacterPartMainStates.DEAD;
+        }
+        else
+        {
+            if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
             {
-                MainState = CharacterPart.CharacterPartMainStates.DEAD;
-            }
-            if (CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || !CharComponents.CharacterMoving.IsAbleToMoveThisFrame)
-            {
-                MainState = CharacterPart.CharacterPartMainStates.IDLE;
+                if (CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || !CharComponents.CharacterMoving.IsAbleToMoveThisFrame)
+                {
+                    MainState = CharacterPart.CharacterPartMainStates.IDLE;
+                }
+                else
+                {
+                    MainState = CharacterPart.CharacterPartMainStates.MOVE;
+
+                    if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f)
+                    {
+                        SpritesFlipped = false;
+                    }
+                    else if (CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0f)
+                    {
+                        SpritesFlipped = true;
+                    }
+                }
             }
             else
             {
-                MainState = CharacterPart.CharacterPartMainStates.MOVE;
+                if (CharComponents.CharacterCollisionInfo.GetIsStickingOnWall())
+                {
+                    MainState = CharacterPart.CharacterPartMainStates.SLIDE_ON_WALL;
+                }
+                else
+                {
+                    MainState = CharacterPart.CharacterPartMainStates.JUMP;
+                }
 
                 if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f)
                 {
@@ -214,26 +237,6 @@ public class CharacterVisual : AbstractCharacterComponent
                 {
                     SpritesFlipped = true;
                 }
-            }
-        }
-        else
-        {
-            if (CharComponents.CharacterCollisionInfo.GetIsStickingOnWall())
-            {
-                MainState = CharacterPart.CharacterPartMainStates.SLIDE_ON_WALL;
-            }
-            else
-            {
-                MainState = CharacterPart.CharacterPartMainStates.JUMP;
-            }
-
-            if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f)
-            {
-                SpritesFlipped = false;
-            }
-            else if (CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0f)
-            {
-                SpritesFlipped = true;
             }
         }
     }

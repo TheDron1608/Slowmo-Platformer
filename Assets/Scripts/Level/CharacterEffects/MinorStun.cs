@@ -55,6 +55,6 @@ public class MinorStun : AbstractOverwritingCharacterEffect
 
     public override bool ApplyCondition(CharacterComponentsManager affectWho)
     {
-        return base.ApplyCondition(affectWho) && !affectWho.CharacterEffects.GetHasEffect<HardStun>();
+        return base.ApplyCondition(affectWho) && !affectWho.CharacterEffects.GetHasEffect<HardStun>() && !affectWho.CharacterHealth.Dead;
     }
 }
