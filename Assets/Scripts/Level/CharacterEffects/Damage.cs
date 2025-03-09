@@ -7,9 +7,12 @@ public class Damage : AbstractCharacterEffectWithSender
     /// <summary>
     /// warning: will delete itself after invoke this function
     /// </summary>
-    protected override void OnReceivedSender(MonoBehaviour sender)
+    protected override void OnReceivedSender(MonoBehaviour sender, CharacterPartHealth receiverPart)
     {
-        AffectedCharacter.CharacterHealth.TryApplyHitDamage(DamageAmount);
+        if (sender.TryGetComponent(out AbstractProjectile projectile))
+        {
+            receiverPart.ApplyDamage(DamageAmount, projectile);
+        }
 
         RemoveSelf();
     }

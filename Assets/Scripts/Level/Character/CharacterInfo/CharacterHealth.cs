@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterHealth : AbstractCharacterComponent
@@ -8,27 +10,11 @@ public class CharacterHealth : AbstractCharacterComponent
     [SerializeField] private float _currentHealth = 10f;
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
-
-    [SerializeField] private bool _dead = false;
-    private Coroutine _awaitLivingWithDeadlyHealthThenDieCoroutine;
-    private AbstractProjectile _lastDamagedProjectile = null;
-    private CharacterComponentsManager _lastDamagedAttacker = null;
+    public List<AbstractCharacterEffect> EffectsOnLethal = new();
 
     public float CurrentHealth
     {
         get => _currentHealth;
-        set
-        {
-            _currentHealth = value;
-            if (_currentHealth <= MinHealth)
-            {
-                Die();
-            }
-            else if (!Dead && _currentHealth > MinHealth)
-            {
-                StopDying();
-            }
-        }
     }
 
     public float MaxHealth
@@ -39,7 +25,7 @@ public class CharacterHealth : AbstractCharacterComponent
             _maxHealth = value;
             if (_currentHealth > _maxHealth && !CanHaveHealthOverMax)
             {
-                CurrentHealth = _maxHealth;
+                _currentHealth = _maxHealth;
             }
         }
     }
@@ -53,63 +39,17 @@ public class CharacterHealth : AbstractCharacterComponent
         }
     }
 
-    public bool Dead
+    public void ApplyDamage(float damage, MonoBehaviour damager, CharacterPartHealth damagedPart)
     {
-        get => _dead;
-        private set => _dead = value;
-    }
-
-    public AbstractProjectile LastDamagedProjectile
-    {
-        get => _lastDamagedProjectile;
-        private set => _lastDamagedProjectile = value;
-    }
-    public CharacterComponentsManager LastDamagedAttacker
-    {
-        get => _lastDamagedAttacker;
-        private set => _lastDamagedAttacker = value;
-    }
-
-    public bool TryApplyHitDamage(float amount)
-    {
-        CurrentHealth -= amount;
-        return true;
-    }
-
-    public void Die()
-    {
-        if (LivingWithDeadlyHealthSeconds <= 0f)
+        _currentHealth -= damage;
+        if (_currentHealth <= MinHealth)
         {
-            InstantDie();
-        }
-        else
-        {
-            _awaitLivingWithDeadlyHealthThenDieCoroutine = StartCoroutine(AwaitLivingWithDeadlyHealthThenDie());
+            Die(damager, damagedPart);
         }
     }
 
-    public void StopDying()
+    public void Die(MonoBehaviour killer, CharacterPartHealth lethallyDamagedPart)
     {
-        if (_awaitLivingWithDeadlyHealthThenDieCoroutine != null)
-        {
-            StopCoroutine(_awaitLivingWithDeadlyHealthThenDieCoroutine);
-        }
-    }
-
-    private IEnumerator AwaitLivingWithDeadlyHealthThenDie()
-    {
-        yield return new WaitForSeconds(LivingWithDeadlyHealthSeconds);
-        InstantDie();
-    }
-
-    public void InstantDie()
-    {
-        if (!Dead)
-        {
-            CharComponents.CharacterVisual.BreakBusyAnimation();
-            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE;
-        }
-
-        Dead = true;
+        CharComponents.CharacterEffects.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
     }
 }

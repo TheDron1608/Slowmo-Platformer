@@ -7,7 +7,7 @@ public class MinorStun : AbstractOverwritingCharacterEffect
         base.OnApply();
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
-        AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.MINOR_STUN;
+        AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.MINOR_STUN;
         AffectedCharacter.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
 
         AffectedCharacter.CharacterMoving.IsAbleToMove = false;
@@ -28,7 +28,7 @@ public class MinorStun : AbstractOverwritingCharacterEffect
     {
         base.OnRemove();
 
-        if (AffectedCharacter.CharacterEffects.GetHasEffect<HardStun>() || AffectedCharacter.CharacterEffects.GetHasEffect<MinorStun>()) return;
+        if (AffectedCharacter.CharacterEffects.GetHasEffect<HardStun>() || AffectedCharacter.CharacterEffects.GetHasEffect<MinorStun>() || AffectedCharacter.CharacterEffects.GetHasEffect<Death>()) return;
 
         AffectedCharacter.CharacterMoving.IsAbleToMove = true;
         AffectedCharacter.CharacterJumping.IsAbleToJump = true;
@@ -46,7 +46,7 @@ public class MinorStun : AbstractOverwritingCharacterEffect
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.OldState == CharacterPart.CharacterPartBusyStates.MINOR_STUN)
+        if (e.OldState == CharacterPartVisual.CharacterPartBusyStates.MINOR_STUN)
         {
             AffectedCharacter.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
             RemoveSelf();
@@ -55,6 +55,6 @@ public class MinorStun : AbstractOverwritingCharacterEffect
 
     public override bool ApplyCondition(CharacterComponentsManager affectWho)
     {
-        return base.ApplyCondition(affectWho) && !affectWho.CharacterEffects.GetHasEffect<HardStun>() && !affectWho.CharacterHealth.Dead;
+        return base.ApplyCondition(affectWho) && !affectWho.CharacterEffects.GetHasEffect<HardStun>() && !affectWho.CharacterEffects.GetHasEffect<Death>();
     }
 }

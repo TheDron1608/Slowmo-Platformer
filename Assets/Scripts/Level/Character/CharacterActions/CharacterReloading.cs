@@ -46,7 +46,7 @@ public class CharacterReloading : AbstractCharacterComponent
 
     private IEnumerator AwaitFinishReloadThenStopAim()
     {
-        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.AIM;
+        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.AIM;
 
         while (
             CharComponents.CharacterHolding.CurrentHoldObject != null &&
@@ -57,9 +57,9 @@ public class CharacterReloading : AbstractCharacterComponent
             yield return new WaitForFixedUpdate();
         }
 
-        if (CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPart.CharacterPartBusyStates.AIM)
+        if (CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPartVisual.CharacterPartBusyStates.AIM)
         {
-            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE;
+            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.NONE;
         }
     }
 

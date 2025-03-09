@@ -17,8 +17,8 @@ public abstract class Interactable : SelectableObject
     }
 
     [Header("Interactalbe")]
-    public CharacterPart.CharacterPartBusyStates AnimationOnStartInteract = CharacterPart.CharacterPartBusyStates.NONE;
-    public CharacterPart.CharacterPartBusyStates AnimationOnFinishInteract = CharacterPart.CharacterPartBusyStates.NONE;
+    public CharacterPartVisual.CharacterPartBusyStates AnimationOnStartInteract = CharacterPartVisual.CharacterPartBusyStates.NONE;
+    public CharacterPartVisual.CharacterPartBusyStates AnimationOnFinishInteract = CharacterPartVisual.CharacterPartBusyStates.NONE;
 
     public bool GetIsOccured()
     {
@@ -42,7 +42,7 @@ public abstract class Interactable : SelectableObject
         if (interactor.TryGetComponent(out CharacterVisual characterVisual))
         {
             _currentInteractor = interactor;
-            if (AnimationOnStartInteract != CharacterPart.CharacterPartBusyStates.NONE)
+            if (AnimationOnStartInteract != CharacterPartVisual.CharacterPartBusyStates.NONE)
             {
                 characterVisual.CurrentBusyAnimation = AnimationOnStartInteract;
             }
@@ -62,11 +62,11 @@ public abstract class Interactable : SelectableObject
 
         charVisual.OnBusyStateChanged -= CharacterVisual_OnFirstBusyStateChanged;
 
-        if (AnimationOnFinishInteract != CharacterPart.CharacterPartBusyStates.NONE)
+        if (AnimationOnFinishInteract != CharacterPartVisual.CharacterPartBusyStates.NONE)
         {
             charVisual.OnBusyStateChanged += CharacterVisual_OnSecondBusyStateChanged;
 
-            if (AnimationOnFinishInteract != CharacterPart.CharacterPartBusyStates.NONE)
+            if (AnimationOnFinishInteract != CharacterPartVisual.CharacterPartBusyStates.NONE)
             {
                 charVisual.CurrentBusyAnimation = AnimationOnFinishInteract;
             }

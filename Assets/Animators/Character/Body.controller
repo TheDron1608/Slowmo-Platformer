@@ -133,7 +133,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ResetBusyState
-  m_Speed: 999
+  m_Speed: 99999
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4555257061714952159}
@@ -733,7 +733,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.99
+  m_ExitTime: 0.9
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -908,7 +908,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.99
+  m_ExitTime: 0.9
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2018,7 +2018,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: BusyState
+    m_ConditionEvent: MainState
     m_EventTreshold: 4
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8559566229516056466}
@@ -2572,7 +2572,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: BusyState
+    m_ConditionEvent: MainState
     m_EventTreshold: 4
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8677772662560126299}
@@ -2729,7 +2729,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.99
+  m_ExitTime: 0.9
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2771,6 +2771,12 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: BusyState
     m_EventTreshold: 0
+  - m_ConditionMode: 7
+    m_ConditionEvent: BusyState
+    m_EventTreshold: 6
+  - m_ConditionMode: 7
+    m_ConditionEvent: BusyState
+    m_EventTreshold: 7
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -488191745283611576}
   m_Solo: 0
@@ -3132,6 +3138,12 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: BusyState
     m_EventTreshold: 0
+  - m_ConditionMode: 7
+    m_ConditionEvent: BusyState
+    m_EventTreshold: 6
+  - m_ConditionMode: 7
+    m_ConditionEvent: BusyState
+    m_EventTreshold: 7
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8705211049222077945}
   m_Solo: 0

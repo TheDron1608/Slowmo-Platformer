@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharacterPart : MonoBehaviour
+public class CharacterPartVisual : MonoBehaviour
 {
     public const string ANIMATOR_MAIN_STATE_PARAM_NAME = "MainState";
     public const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";

@@ -59,16 +59,16 @@ public abstract class AbstractProjectile : MonoBehaviour
         {
             for (int i = 0; i < projectiles.Count; i++)
             {
-                holderCharComponents.CharacterEffects.ApplyEffect(SelfEffects, projectiles[i]);
+                holderCharComponents.CharacterEffects.ApplyEffect(SelfEffects, projectiles[i], null);
             }
         }
     }
 
     public virtual void OnHit(GameObject hitObject)
     {
-        if (hitObject.TryGetComponent(out AbstractCharacterComponent charComponent))
+        if (hitObject.transform.parent.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
-            charComponent.CharComponents.CharacterEffects.ApplyEffect(HitEffects, this);
+            charComponent.CharComponents.CharacterEffects.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPartHealth>());
         }
     }
 
@@ -101,10 +101,6 @@ public abstract class AbstractProjectile : MonoBehaviour
             {
                 _currentHittingColliders.Add(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
-                if (hitObjects[i].TryGetComponent(out CharacterHitbox characterHitbox))
-                {
-                    characterHitbox.OnHit(this);
-                }
             }
         }
     }

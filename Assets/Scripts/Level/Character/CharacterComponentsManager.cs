@@ -28,6 +28,7 @@ public class CharacterComponentsManager : MonoBehaviour
     [Header("CharacterPhysics")]
     public Rigidbody2D CharacterRigidBody;
     public CapsuleCollider2D CharacterRigidBodyCapsuleCollider;
+    public CharacterHitbox CharacterRigidBodyCapsuleColliderHitBox;
 
     public void SetIsAbleToDoAnyActions(bool freezeAllActions)
     {

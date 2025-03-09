@@ -5,11 +5,11 @@ using UnityEngine;
 /// </summary>
 public abstract class AbstractCharacterEffectWithSender : AbstractCharacterEffect
 {
-    public void ApplySender(MonoBehaviour sender)
+    public void ApplySender(MonoBehaviour sender, CharacterPartHealth receiverPart)
     {
         if (sender == null) throw new UnityException("sender argument can not be null");
-        OnReceivedSender(sender);
+        OnReceivedSender(sender, receiverPart);
     }
 
-    protected abstract void OnReceivedSender(MonoBehaviour sender);
+    protected abstract void OnReceivedSender(MonoBehaviour sender, CharacterPartHealth receiverPart);
 }

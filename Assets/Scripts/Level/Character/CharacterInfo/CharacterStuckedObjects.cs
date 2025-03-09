@@ -53,11 +53,11 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
-        if (e.NewState == CharacterPart.CharacterPartBusyStates.ROLL)
+        if (e.NewState == CharacterPartVisual.CharacterPartBusyStates.ROLL)
         {
             RemoveAllStuckedObjects();
         }
-        else if (e.NewState == CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR || e.NewState == CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR)
+        else if (e.NewState == CharacterPartVisual.CharacterPartBusyStates.FALLEN_ON_FLOOR || e.NewState == CharacterPartVisual.CharacterPartBusyStates.FALLING_IN_AIR)
         {
             RemoveAllStuckedObjects(CharComponents.CharacterRigidBody.linearVelocity.normalized);
         }

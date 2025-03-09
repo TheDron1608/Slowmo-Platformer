@@ -71,7 +71,7 @@ public class CharacterEffects : AbstractCharacterComponent
     }
 
 
-    public void ApplyEffect(AbstractCharacterEffect effect, MonoBehaviour sender)
+    public void ApplyEffect(AbstractCharacterEffect effect, MonoBehaviour sender, CharacterPartHealth receiverPart)
     {
         if (effect.ApplyCondition(CharComponents))
         {
@@ -79,7 +79,7 @@ public class CharacterEffects : AbstractCharacterComponent
             _currentEffects.Add(newEffect);
             if (newEffect is AbstractCharacterEffectWithSender effectWithsender)
             {
-                effectWithsender.ApplySender(sender);
+                effectWithsender.ApplySender(sender, receiverPart);
             }
 
             if (sender != null)
@@ -91,11 +91,11 @@ public class CharacterEffects : AbstractCharacterComponent
         }
     }
 
-    public void ApplyEffect(List<AbstractCharacterEffect> effects, MonoBehaviour sender)
+    public void ApplyEffect(List<AbstractCharacterEffect> effects, MonoBehaviour sender, CharacterPartHealth receiverPart)
     {
         for (int i = 0; i < effects.Count; i++)
         {
-            ApplyEffect(effects[i], sender);
+            ApplyEffect(effects[i], sender, receiverPart);
         }
     }
 

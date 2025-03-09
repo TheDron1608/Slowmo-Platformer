@@ -7,10 +7,21 @@ public class CharacterVisual : AbstractCharacterComponent
 
     public class OnBusyStateChangedEventArgs
     {
-        public CharacterPart.CharacterPartBusyStates OldState;
-        public CharacterPart.CharacterPartBusyStates NewState;
+        public CharacterPartVisual.CharacterPartBusyStates OldState;
+        public CharacterPartVisual.CharacterPartBusyStates NewState;
 
-        public OnBusyStateChangedEventArgs(CharacterPart.CharacterPartBusyStates oldState, CharacterPart.CharacterPartBusyStates newState)
+        public OnBusyStateChangedEventArgs(CharacterPartVisual.CharacterPartBusyStates oldState, CharacterPartVisual.CharacterPartBusyStates newState)
+        {
+            OldState = oldState;
+            NewState = newState;
+        }
+    }
+    public class OnMainStateChangedEventArgs
+    {
+        public CharacterPartVisual.CharacterPartMainStates OldState;
+        public CharacterPartVisual.CharacterPartMainStates NewState;
+
+        public OnMainStateChangedEventArgs(CharacterPartVisual.CharacterPartMainStates oldState, CharacterPartVisual.CharacterPartMainStates newState)
         {
             OldState = oldState;
             NewState = newState;
@@ -31,13 +42,13 @@ public class CharacterVisual : AbstractCharacterComponent
     public float MoveSpeedVelocityRange = 8f;
 
     private bool _spritesFlipped = false;
-    private CharacterPart.CharacterPartMainStates _mainState = CharacterPart.CharacterPartMainStates.IDLE;
+    private CharacterPartVisual.CharacterPartMainStates _mainState = CharacterPartVisual.CharacterPartMainStates.IDLE;
     private float _jumpState = 0f;
     private float _moveSpeed = 1f;
-    private CharacterPart.CharacterPartBusyStates _currentBusyAnimation = CharacterPart.CharacterPartBusyStates.NONE; //when busy animation is played, character is unable to do most actions
+    private CharacterPartVisual.CharacterPartBusyStates _currentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.NONE; //when busy animation is played, character is unable to do most actions
     private Transform _characterPartsContainer;
 
-    public event EventHandler<CharacterPart.CharacterPartMainStates> OnMainStateChanged;
+    public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
 
     protected override void OnAwake()
@@ -59,37 +70,38 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPartVisual>(out CharacterPartVisual currentCharPart))
             {
                 currentCharPart.GetComponent<SpriteRenderer>().flipX = _spritesFlipped;
             }
         }
     }
 
-    public CharacterPart.CharacterPartMainStates MainState
+    public CharacterPartVisual.CharacterPartMainStates MainState
     {
         get => _mainState;
         set
         {
             if (_mainState == value) return;
 
+            OnMainStateChanged?.Invoke(this, new OnMainStateChangedEventArgs(_mainState, value));
+
             _mainState = value;
             UpdateMainState();
-            OnMainStateChanged?.Invoke(this, _mainState);
         }
     }
     private void UpdateMainState()
     {
         for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPartVisual>(out CharacterPartVisual currentCharPart))
             {
                 currentCharPart.SetMainState(_mainState);
             }
         }
     }
 
-    public CharacterPart.CharacterPartBusyStates CurrentBusyAnimation
+    public CharacterPartVisual.CharacterPartBusyStates CurrentBusyAnimation
     {
         get => _currentBusyAnimation;
         set
@@ -106,7 +118,7 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPartVisual>(out CharacterPartVisual currentCharPart))
             {
                 currentCharPart.SetBusyState(_currentBusyAnimation);
             }
@@ -115,7 +127,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
     public bool IsBusy()
     {
-        return _currentBusyAnimation != CharacterPart.CharacterPartBusyStates.NONE;
+        return _currentBusyAnimation != CharacterPartVisual.CharacterPartBusyStates.NONE;
     }
 
     public void BreakBusyAnimation()
@@ -124,7 +136,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
         for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPartVisual>(out CharacterPartVisual currentCharPart))
             {
                 currentCharPart.SetBreakBusyAnimationTrigger();
             }
@@ -144,7 +156,7 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPartVisual>(out CharacterPartVisual currentCharPart))
             {
                 currentCharPart.SetJumpState(_jumpState);
             }
@@ -165,7 +177,7 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         for (int i = 0; i < _characterPartsContainer.childCount; i++)
         {
-            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPart>(out CharacterPart currentCharPart))
+            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPartVisual>(out CharacterPartVisual currentCharPart))
             {
                 currentCharPart.SetMoveSpeed(_moveSpeed);
             }
@@ -192,9 +204,9 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         if (CharComponents.CharacterMoving == null) return;
 
-        if (CharComponents.CharacterHealth.Dead)
+        if (CharComponents.CharacterEffects.GetHasEffect<Death>())
         {
-            MainState = CharacterPart.CharacterPartMainStates.DEAD;
+            MainState = CharacterPartVisual.CharacterPartMainStates.DEAD;
         }
         else
         {
@@ -202,11 +214,11 @@ public class CharacterVisual : AbstractCharacterComponent
             {
                 if (CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || !CharComponents.CharacterMoving.IsAbleToMoveThisFrame)
                 {
-                    MainState = CharacterPart.CharacterPartMainStates.IDLE;
+                    MainState = CharacterPartVisual.CharacterPartMainStates.IDLE;
                 }
                 else
                 {
-                    MainState = CharacterPart.CharacterPartMainStates.MOVE;
+                    MainState = CharacterPartVisual.CharacterPartMainStates.MOVE;
 
                     if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f)
                     {
@@ -222,11 +234,11 @@ public class CharacterVisual : AbstractCharacterComponent
             {
                 if (CharComponents.CharacterCollisionInfo.GetIsStickingOnWall())
                 {
-                    MainState = CharacterPart.CharacterPartMainStates.SLIDE_ON_WALL;
+                    MainState = CharacterPartVisual.CharacterPartMainStates.SLIDE_ON_WALL;
                 }
                 else
                 {
-                    MainState = CharacterPart.CharacterPartMainStates.JUMP;
+                    MainState = CharacterPartVisual.CharacterPartMainStates.JUMP;
                 }
 
                 if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f)
@@ -252,16 +264,16 @@ public class CharacterVisual : AbstractCharacterComponent
         {
             if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
             {
-                CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR;
+                CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.FALLEN_ON_FLOOR;
             }
             else
             {
-                CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.FALLING_IN_AIR;
+                CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.FALLING_IN_AIR;
             }
         }
         else if (CharComponents.CharacterEffects.GetHasEffect<MinorStun>())
         {
-            CurrentBusyAnimation = CharacterPart.CharacterPartBusyStates.MINOR_STUN;
+            CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.MINOR_STUN;
         }
     }
 }

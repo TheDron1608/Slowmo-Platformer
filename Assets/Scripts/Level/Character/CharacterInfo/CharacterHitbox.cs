@@ -1,6 +1,9 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using static CharacterVisual;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterHitbox : AbstractCharacterComponent
 {
@@ -12,17 +15,17 @@ public class CharacterHitbox : AbstractCharacterComponent
         public Vector3 Scale = Vector3.one;
     }
 
-    public enum CharacterHitboxTypes
+    public enum AvaibleHitBoxTransforms
     {
-        BODY,
-        HEAD
+        DEFAULT = 0,
+        FALLEN = 1,
+        ROLL = 2
     }
 
     protected override void OnAwake()
     {
         base.OnAwake();
-        SetColliderTransform(DefaultColliderTransform);
-        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+        SetHitBoxTransform(AvaibleHitBoxTransforms.DEFAULT);
     }
 
     public bool HitableByProjectiles = true;
@@ -31,12 +34,17 @@ public class CharacterHitbox : AbstractCharacterComponent
     /// </summary>
     public int HitPriority = 1;
 
-    public HitBoxTransform DefaultColliderTransform = new();
-    public HitBoxTransform RollColliderTransform = new();
-    public HitBoxTransform FallenColliderTransform = new();
+    private AvaibleHitBoxTransforms _currentHitBoxTransform = AvaibleHitBoxTransforms.DEFAULT;
 
-    public virtual void OnHit(AbstractProjectile projectile)
+    public List<HitBoxTransform> HitBoxTransforms = new();
+
+    public void SetHitBoxTransform(AvaibleHitBoxTransforms value)
     {
+        if (_currentHitBoxTransform == value) return;
+
+        SetColliderTransform(HitBoxTransforms[(int)value]);
+
+        _currentHitBoxTransform = value;
     }
 
     private void SetColliderTransform(HitBoxTransform value)
@@ -44,21 +52,5 @@ public class CharacterHitbox : AbstractCharacterComponent
         transform.localPosition = value.Position;
         transform.localRotation = value.Rotation;
         transform.localScale = value.Scale;
-    }
-
-    private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
-    {
-        switch (e.NewState)
-        {
-            case CharacterPart.CharacterPartBusyStates.ROLL:
-                SetColliderTransform(RollColliderTransform);
-                break;
-            case CharacterPart.CharacterPartBusyStates.FALLEN_ON_FLOOR:
-                SetColliderTransform(FallenColliderTransform);
-                break;
-            default:
-                SetColliderTransform(DefaultColliderTransform);
-                break;
-        }
     }
 }

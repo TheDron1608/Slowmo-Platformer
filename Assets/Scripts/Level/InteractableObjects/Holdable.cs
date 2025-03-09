@@ -143,9 +143,9 @@ public class Holdable : Interactable
         if (_isStuck) return;
         if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder) return;
 
-        if (charComponent != null && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+        if (collision.collider.TryGetComponent(out CharacterPartHealth charPartHealth) && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
         {
-            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this);
+            charPartHealth.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this, charPartHealth);
         }
 
         if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
