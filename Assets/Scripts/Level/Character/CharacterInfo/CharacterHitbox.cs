@@ -13,6 +13,7 @@ public class CharacterHitbox : AbstractCharacterComponent
         public Vector3 Position = Vector3.zero;
         public Quaternion Rotation = new();
         public Vector3 Scale = Vector3.one;
+        public bool FlipCapsuleDirection = false;
     }
 
     public enum AvaibleHitBoxTransforms
@@ -52,5 +53,9 @@ public class CharacterHitbox : AbstractCharacterComponent
         transform.localPosition = value.Position;
         transform.localRotation = value.Rotation;
         transform.localScale = value.Scale;
+        if (TryGetComponent(out CapsuleCollider2D capsule))
+        {
+            capsule.direction = value.FlipCapsuleDirection ? CapsuleDirection2D.Horizontal : CapsuleDirection2D.Vertical;
+        }
     }
 }
