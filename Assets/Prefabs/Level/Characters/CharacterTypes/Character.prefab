@@ -84,18 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitableByProjectiles: 0
   HitPriority: 1
-  DefaultColliderTransform:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 1, y: 1, z: 1}
-  RollColliderTransform:
-    Position: {x: 0, y: 0.035, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 1.25, y: 0.5, z: 1}
-  FallenColliderTransform:
-    Position: {x: 0.5, y: 0.175, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-    Scale: {x: 0.95, y: 1.15, z: 1}
+  HitBoxTransforms: []
 --- !u!1 &4810011283521481523
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +260,7 @@ MonoBehaviour:
   CharacterPartsContainer: {fileID: 7534914569010161185}
   CharacterRigidBody: {fileID: 7607223272691296094}
   CharacterRigidBodyCapsuleCollider: {fileID: 4524364239507995928}
+  CharacterRigidBodyCapsuleColliderHitBox: {fileID: 0}
 --- !u!114 &5897571605525893540
 MonoBehaviour:
   m_ObjectHideFlags: 0

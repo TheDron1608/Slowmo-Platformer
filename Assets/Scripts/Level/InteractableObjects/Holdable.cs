@@ -143,9 +143,23 @@ public class Holdable : Interactable
         if (_isStuck) return;
         if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder) return;
 
-        if (collision.collider.TryGetComponent(out CharacterPartHealth charPartHealth) && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+        if (charComponent != null && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
         {
-            charPartHealth.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this, charPartHealth);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(
+                collision.contacts[0].point,
+                _rigidBodyComponent.linearVelocity.normalized,
+                1f
+                );
+            for (int i =  0; i < hits.Length; i++)
+            {
+                if (hits[i].collider.transform.parent.TryGetComponent(out CharacterPartHealth charPartHealth))
+                {
+                    if (AbstractCharacterComponent.GetCharacterComponentsEqual(charPartHealth, charComponent))
+                    {
+                        charPartHealth.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this, charPartHealth);
+                    }
+                }
+            }
         }
 
         if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
