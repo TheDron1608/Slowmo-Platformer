@@ -54,11 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
       propertyPath: HitBoxTransforms.Array.data[1].Scale.x
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
       propertyPath: HitBoxTransforms.Array.data[1].Scale.y
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
       propertyPath: HitBoxTransforms.Array.data[1].Scale.z
@@ -66,35 +66,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
       propertyPath: HitBoxTransforms.Array.data[2].Scale.x
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
       propertyPath: HitBoxTransforms.Array.data[2].Scale.y
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
       propertyPath: HitBoxTransforms.Array.data[2].Scale.z
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
-      propertyPath: HitBoxTransforms.Array.data[1].Position.y
-      value: -0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
-      propertyPath: HitBoxTransforms.Array.data[2].Position.x
+      propertyPath: HitBoxTransforms.Array.data[1].Position.x
       value: 0.285
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
-      propertyPath: HitBoxTransforms.Array.data[2].Position.y
+      propertyPath: HitBoxTransforms.Array.data[1].Position.y
       value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
-      propertyPath: HitBoxTransforms.Array.data[2].Rotation.w
+      propertyPath: HitBoxTransforms.Array.data[1].Rotation.w
       value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
-      propertyPath: HitBoxTransforms.Array.data[2].Rotation.z
+      propertyPath: HitBoxTransforms.Array.data[1].Rotation.z
       value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[2].Position.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[2].Position.y
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[2].Rotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2563029561819495697, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[2].Rotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2728249016423657918, guid: f0efe60dd3b56b44bb8ffe1f1d1852ce, type: 3}
       propertyPath: DefaultParticle
