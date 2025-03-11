@@ -218,7 +218,6 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
         UpdateTileCollidingInfo();
         UpdateTimeOnAirOrGround();
         UpdateHitVelocity();
-        Debug.Log(IsCollidingFloor() + " : " + gameObject.name);
     }
 
     private void UpdateCurrentZLayer()

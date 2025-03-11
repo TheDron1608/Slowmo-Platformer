@@ -74,6 +74,11 @@ public class CharacterPartHealth : AbstractCharacterComponent
         {
             CharComponents.CharacterHealth.Die(gibber, this);
         }
+
+        FluidParticleManager.Instance.SpawnFluidParticle(
+            gameObject,
+            FluidParticleManager.FluidParticlesSpreadTypes.GIB
+            );
         GameObject.Destroy(gameObject);
     }
 }

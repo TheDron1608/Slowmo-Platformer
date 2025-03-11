@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &243268080551422557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2999093483636778628}
+  - component: {fileID: 4805052462383240136}
+  m_Layer: 0
+  m_Name: FluidParticleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2999093483636778628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243268080551422557}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4805052462383240136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243268080551422557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f41dcc57018314c8da94572d32d5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlobParticles:
+  - {fileID: 407663546126203460, guid: 34cb7d03ab2303e4381d9432f710aa49, type: 3}
+  - {fileID: 407663546126203460, guid: 391c2d5dbae35074d926b8b23d7be7ad, type: 3}
+  - {fileID: 407663546126203460, guid: 23767930522a94c4cb66b79ed1e44a1b, type: 3}
+  - {fileID: 407663546126203460, guid: 4b62b2d1875cd7e4597ec2f9dcb4fd2b, type: 3}
+  - {fileID: 407663546126203460, guid: 9ddea676836fcfb459d86c3e6ddfa839, type: 3}
+  DripParticles:
+  - {fileID: 407663546126203460, guid: bb2d30019a83b8441be5d651f2d4b9d6, type: 3}
+  - {fileID: 407663546126203460, guid: 02276394e3056ee4faf263d40d09cec6, type: 3}
+  - {fileID: 407663546126203460, guid: 07af275fa1a63834aaf86567509b0389, type: 3}
+  - {fileID: 407663546126203460, guid: a662fe7384888c34e8482de747704c6a, type: 3}
+  - {fileID: 407663546126203460, guid: 94a77d674c4eb5640a7fe54112b5062a, type: 3}
+  FluidMultiplier: 1
