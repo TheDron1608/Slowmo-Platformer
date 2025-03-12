@@ -97,4 +97,10 @@ public static class VectorMath
     {
         return (to - from).normalized;
     }
+
+    public static Vector2 RandomizeVec2(Vector2 vector, float accuracy)
+    {
+        Vector2 randomziedDirection = new Vector2((UnityEngine.Random.value - 0.5f) * 2, (UnityEngine.Random.value - 0.5f) * 2).normalized;
+        return vector + randomziedDirection * accuracy;
+    }
 }

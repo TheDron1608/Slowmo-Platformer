@@ -31,7 +31,7 @@ public class FluidParticle : MonoBehaviour
             StopCoroutine(_moveCoroutine);
         }
         _moveCoroutine = StartCoroutine(MoveCoroutine());
-        GetComponent<Animator>().SetFloat(ANIMATOR_APPEAR_SPEED_PARAM_NAME, Mathf.Max(1f, MIN_APPEAR_SPEED_LIFETIME_REQUIRED / lifeTime));
+        GetComponent<Animator>().SetFloat(ANIMATOR_APPEAR_SPEED_PARAM_NAME, Mathf.Max(1f, MIN_APPEAR_SPEED_LIFETIME_REQUIRED / lifeTime > 0 ? lifeTime : 1f));
     }
 
     private IEnumerator MoveCoroutine()

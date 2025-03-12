@@ -45,20 +45,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FluidParticleSpreadTypes:
-  - Accuracy: 0
-    MinParticles: 15
-    MaxParticles: 25
+  - Accuracy: 0.15
+    MinParticles: 10
+    MaxParticles: 20
     MinVelocity: 2.5
-    MaxVelocity: 6
+    MaxVelocity: 7.5
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.15
+    HugeBlobs: 2
   - Accuracy: 0.9
-    MinParticles: 3
-    MaxParticles: 6
+    MinParticles: 1
+    MaxParticles: 2
     MinVelocity: 5
     MaxVelocity: 12.5
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.1
+    HugeBlobs: 0
   - Accuracy: 0.85
     MinParticles: 5
     MaxParticles: 10
@@ -66,6 +68,7 @@ MonoBehaviour:
     MaxVelocity: 12.5
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.1
+    HugeBlobs: 0
   BlobParticles:
   - {fileID: 407663546126203460, guid: 34cb7d03ab2303e4381d9432f710aa49, type: 3}
   - {fileID: 407663546126203460, guid: 391c2d5dbae35074d926b8b23d7be7ad, type: 3}
@@ -78,4 +81,8 @@ MonoBehaviour:
   - {fileID: 407663546126203460, guid: 07af275fa1a63834aaf86567509b0389, type: 3}
   - {fileID: 407663546126203460, guid: a662fe7384888c34e8482de747704c6a, type: 3}
   - {fileID: 407663546126203460, guid: 94a77d674c4eb5640a7fe54112b5062a, type: 3}
+  HugeBlobParticles:
+  - {fileID: 407663546126203460, guid: cc57924e6f9a00b488c456ebabf3c427, type: 3}
+  - {fileID: 407663546126203460, guid: 594833034dbca24418c9e19ff094b0f5, type: 3}
+  - {fileID: 407663546126203460, guid: 4e4cf673f5b8a5e47a4ccd19bdd6380f, type: 3}
   FluidMultiplier: 1
