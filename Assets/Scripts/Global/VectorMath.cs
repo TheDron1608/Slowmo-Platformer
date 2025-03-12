@@ -75,6 +75,12 @@ public static class VectorMath
         return (math.abs(vector2.x) + math.abs(vector2.y)) / 2;
     }
 
+    /// <summary>
+    /// Relatively randomized quaternion eulaterAngles.z rotation
+    /// </summary>
+    /// <param name="quaternion">randomizes quaternion</param>
+    /// <param name="accuracy">Value between 1 and 0, where 0 is perfect accuracy and 1 is 360 deg spread</param>
+    /// <returns></returns>
     public static Quaternion RandomizeQuarternion(Quaternion quaternion, float accuracy)
     {
         Vector3 eulerAngles =  quaternion.eulerAngles;

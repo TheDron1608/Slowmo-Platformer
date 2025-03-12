@@ -1,19 +1,31 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UIElements;
+using System;
+using Unity.Mathematics;
 
 public class FluidParticleManager : MonoBehaviour
 {
-    const float SPEED_TO_USE_DRIP_FULID = 5f;
+    const float SPEED_TO_USE_DRIP_FLUID = 3.5f;
 
-    const float BASE_FLUID_LIFE_TIME = 0.25f;
-
-    const int BASE_GIB_PARTICLES_AMOUNT = 10;
-    const float BASE_GIB_VELOCITY = 2.5f;
+    [Serializable] public class FluidParticleSpreadType
+    {
+        public float Accuracy;
+        public int MinParticles;
+        public int MaxParticles;
+        public float MinVelocity;
+        public float MaxVelocity;
+        public float MinAvgLifeTime;
+        public float MaxAvgLifeTime;
+    }
 
     public enum FluidParticlesSpreadTypes
     {
-        GIB
+        HEADSHOT,
+        DAMAGE,
+        LETHAL
     }
 
     public static FluidParticleManager Instance;
@@ -24,27 +36,30 @@ public class FluidParticleManager : MonoBehaviour
         Instance = this;
     }
 
+    public List<FluidParticleSpreadType> FluidParticleSpreadTypes = new();
     public List<FluidParticle> BlobParticles;
     public List<FluidParticle> DripParticles;
     public float FluidMultiplier = 1f;
 
-    public void SpawnFluidParticle(GameObject source, FluidParticlesSpreadTypes spreadType, Quaternion? direction = null)
+    public void SpawnFluidParticles(GameObject source, FluidParticlesSpreadTypes spreadType, Quaternion direction)
     {
-        SpawnFluidParticle(VectorMath.Vec3ToVec2(source.transform.position), LayerManager.Instance.GetZLayerOfGameObject(source), spreadType, direction);
+        SpawnFluidParticles(VectorMath.Vec3ToVec2(source.transform.position), LayerManager.Instance.GetZLayerOfGameObject(source), spreadType, direction);
     }
 
-    public void SpawnFluidParticle(Vector2 postion, ZIndexLayer zLayer, FluidParticlesSpreadTypes spreadType, Quaternion? direction = null)
+    public void SpawnFluidParticles(Vector2 position, ZIndexLayer zLayer, FluidParticlesSpreadTypes spreadType, Quaternion direction)
     {
-        switch (spreadType)
+        SpawnFluidParticles(position, zLayer, FluidParticleSpreadTypes[(int)spreadType], direction);
+    }
+
+    public void SpawnFluidParticles(Vector2 position, ZIndexLayer zLayer, FluidParticleSpreadType spreadType, Quaternion direction)
+    {
+        int randomizedFluidParticlesAmount = (int)(NumberMath.PickRandomInRangeNoSeed(spreadType.MinParticles, spreadType.MaxParticles) * FluidMultiplier);
+        for (int i = 0; i < randomizedFluidParticlesAmount; i++)
         {
-            case FluidParticlesSpreadTypes.GIB:
-                for (int i = 0; i < BASE_GIB_PARTICLES_AMOUNT * FluidMultiplier; i++)
-                {
-                    Quaternion randomDirection = new();
-                    randomDirection.eulerAngles = new Vector3(0f, 0f, Random.value * 360f);
-                    SpawnSingleFluidParticle(postion, zLayer, randomDirection, BASE_GIB_VELOCITY, BASE_FLUID_LIFE_TIME);
-                }
-                break;
+            Quaternion randomizedDirection = VectorMath.RandomizeQuarternion(direction, spreadType.Accuracy);
+            float randomizedVelocity = NumberMath.PickRandomInRangeNoSeed(spreadType.MinVelocity, spreadType.MaxVelocity);
+            float randomizedLifeTime = NumberMath.PickRandomInRangeNoSeed(spreadType.MinAvgLifeTime, spreadType.MaxAvgLifeTime) * (spreadType.MaxVelocity / randomizedVelocity);
+            SpawnSingleFluidParticle(position, zLayer, randomizedDirection, randomizedVelocity, randomizedLifeTime);
         }
     }
 
@@ -54,13 +69,13 @@ public class FluidParticleManager : MonoBehaviour
         Vector3 spawnPosition = VectorMath.Vec2ToVec3(postion, zLayer.transform.position.z);
         Quaternion spawnRotation = direction;
 
-        if (velocity > SPEED_TO_USE_DRIP_FULID)
+        if (velocity > SPEED_TO_USE_DRIP_FLUID)
         {
-            newParticle = Instantiate(DripParticles[(int)(Random.value * DripParticles.Count)], spawnPosition, spawnRotation);
+            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(DripParticles), spawnPosition, spawnRotation, zLayer.transform);
         }
         else
         {
-            newParticle = Instantiate(BlobParticles[(int)(Random.value * BlobParticles.Count)], spawnPosition, spawnRotation);
+            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(BlobParticles), spawnPosition, spawnRotation, zLayer.transform);
         }
         newParticle.SetProperties(VectorMath.Quartenion2DToVec2(direction) * velocity, lifeTime);
     }

@@ -20,6 +20,20 @@ public class CharacterPartHealth : AbstractCharacterComponent
     {
         CharComponents.CharacterEffects.ApplyEffect(EffectsOnHit, damager, this);
         CharComponents.CharacterHealth.ApplyDamage(damage, damager, this);
+
+        Vector3 hitPointPosition =
+            damager.gameObject.transform.position +
+            VectorMath.Quartenion2DToVec3(damager.transform.rotation) *
+            Vector2.Distance(damager.gameObject.transform.position, transform.position);
+
+        FluidParticleManager.Instance.SpawnFluidParticles(
+            hitPointPosition,
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+            CharComponents.CharacterEffects.GetHasEffect<Death>() ? 
+                FluidParticleManager.FluidParticlesSpreadTypes.LETHAL : 
+                FluidParticleManager.FluidParticlesSpreadTypes.DAMAGE,
+            damager.transform.rotation
+            );
     }
 
     public bool TryCutOff(MonoBehaviour cutter)
@@ -75,9 +89,10 @@ public class CharacterPartHealth : AbstractCharacterComponent
             CharComponents.CharacterHealth.Die(gibber, this);
         }
 
-        FluidParticleManager.Instance.SpawnFluidParticle(
+        FluidParticleManager.Instance.SpawnFluidParticles(
             gameObject,
-            FluidParticleManager.FluidParticlesSpreadTypes.GIB
+            FluidParticleManager.FluidParticlesSpreadTypes.HEADSHOT,
+            gibber.transform.rotation
             );
         GameObject.Destroy(gameObject);
     }

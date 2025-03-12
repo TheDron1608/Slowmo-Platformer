@@ -44,6 +44,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f41dcc57018314c8da94572d32d5aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FluidParticleSpreadTypes:
+  - Accuracy: 0
+    MinParticles: 15
+    MaxParticles: 25
+    MinVelocity: 2.5
+    MaxVelocity: 6
+    MinAvgLifeTime: 0.05
+    MaxAvgLifeTime: 0.15
+  - Accuracy: 0.9
+    MinParticles: 3
+    MaxParticles: 6
+    MinVelocity: 5
+    MaxVelocity: 12.5
+    MinAvgLifeTime: 0.05
+    MaxAvgLifeTime: 0.1
+  - Accuracy: 0.85
+    MinParticles: 5
+    MaxParticles: 10
+    MinVelocity: 5
+    MaxVelocity: 12.5
+    MinAvgLifeTime: 0.05
+    MaxAvgLifeTime: 0.1
   BlobParticles:
   - {fileID: 407663546126203460, guid: 34cb7d03ab2303e4381d9432f710aa49, type: 3}
   - {fileID: 407663546126203460, guid: 391c2d5dbae35074d926b8b23d7be7ad, type: 3}
