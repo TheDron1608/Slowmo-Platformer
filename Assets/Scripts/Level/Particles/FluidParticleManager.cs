@@ -13,6 +13,7 @@ public class FluidParticleManager : MonoBehaviour
         public float Accuracy;
         public int MinParticles;
         public int MaxParticles;
+        public int MaxParticleSize = -1;
         public float MinVelocity;
         public float MaxVelocity;
         public float MinAvgLifeTime;
@@ -59,17 +60,17 @@ public class FluidParticleManager : MonoBehaviour
             Quaternion randomizedDirection = VectorMath.RandomizeQuarternion(direction, spreadType.Accuracy);
             float randomizedVelocity = NumberMath.PickRandomInRangeNoSeed(spreadType.MinVelocity, spreadType.MaxVelocity);
             float randomizedLifeTime = NumberMath.PickRandomInRangeNoSeed(spreadType.MinAvgLifeTime, spreadType.MaxAvgLifeTime) * (spreadType.MaxVelocity / randomizedVelocity);
-            SpawnSingleFluidParticle(position, zLayer, randomizedDirection, randomizedVelocity, randomizedLifeTime);
+            SpawnSingleFluidParticle(position, zLayer, randomizedDirection, randomizedVelocity, randomizedLifeTime, spreadType.MaxParticleSize);
         }
         for (int i = 0; i < spreadType.HugeBlobs; i++)
         {
             Quaternion randomizedRotation = new();
             randomizedRotation.eulerAngles = new Vector3(0f, 0f, UnityEngine.Random.value * 360);
-            SpawnHugeFluidParticle(position, zLayer, randomizedRotation);
+            SpawnSingleHugeFluidParticle(position, zLayer, randomizedRotation);
         }
     }
 
-    private void SpawnSingleFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, float velocity, float lifeTime)
+    private void SpawnSingleFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, float velocity, float lifeTime, int maxSize)
     {
         FluidParticle newParticle;
         Vector3 spawnPosition = VectorMath.Vec2ToVec3(postion, zLayer.transform.position.z);
@@ -77,16 +78,16 @@ public class FluidParticleManager : MonoBehaviour
 
         if (velocity > SPEED_TO_USE_DRIP_FLUID)
         {
-            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(DripParticles), spawnPosition, spawnRotation, zLayer.transform);
+            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(DripParticles, maxSize), spawnPosition, spawnRotation, zLayer.transform);
         }
         else
         {
-            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(BlobParticles), spawnPosition, spawnRotation, zLayer.transform);
+            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(BlobParticles, maxSize), spawnPosition, spawnRotation, zLayer.transform);
         }
         newParticle.SetProperties(VectorMath.Quartenion2DToVec2(direction) * velocity, lifeTime);
     }
 
-    private void SpawnHugeFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
+    private void SpawnSingleHugeFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
     {
         FluidParticle newParticle = Instantiate(
             NumberMath.PickRandomItemNoSeed(HugeBlobParticles), 

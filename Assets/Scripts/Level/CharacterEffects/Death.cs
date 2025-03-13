@@ -1,7 +1,16 @@
+using System.Collections;
 using UnityEngine;
 
 public class Death : AbstractCharacterEffect
 {
+    private bool _diedThisFrame = true;
+
+    public bool DiedThisFrame
+    {
+        get => _diedThisFrame; 
+        private set => _diedThisFrame = value;
+    }
+
     protected override void OnApply()
     {
         base.OnApply();
@@ -23,7 +32,13 @@ public class Death : AbstractCharacterEffect
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
         AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
 
+        StartCoroutine(AwaitFrameThenSetDiedThisFrame());
+    }
 
+    private IEnumerator AwaitFrameThenSetDiedThisFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        _diedThisFrame = false;
     }
 
     protected override void OnRemove()

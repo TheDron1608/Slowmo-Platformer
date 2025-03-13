@@ -42,7 +42,7 @@ public class CharacterHealth : AbstractCharacterComponent
     public void ApplyDamage(float damage, MonoBehaviour damager, CharacterPartHealth damagedPart)
     {
         _currentHealth -= damage;
-        if (_currentHealth <= MinHealth)
+        if (_currentHealth <= MinHealth && !CharComponents.CharacterEffects.GetHasEffect<Death>())
         {
             Die(damager, damagedPart);
         }

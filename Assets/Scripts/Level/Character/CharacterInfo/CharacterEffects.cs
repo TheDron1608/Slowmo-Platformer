@@ -149,4 +149,30 @@ public class CharacterEffects : AbstractCharacterComponent
         }
         return false;
     }
+
+    public AbstractCharacterEffect GetEffect<T>()
+    {
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (_currentEffects[i] is T)
+            {
+                return _currentEffects[i];
+            }
+        }
+        return null;
+    }
+
+    public bool TryGetEffect<T>(out T effect)
+    {
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (_currentEffects[i] is T outEffect)
+            {
+                effect = outEffect;
+                return true;
+            }
+        }
+        effect = default;
+        return false;
+    }
 }

@@ -7,6 +7,7 @@ public class CharacterPartHealth : AbstractCharacterComponent
 {
     public bool Cutable = false;
     public bool Gibable = false;
+    public bool CanBleed = false;
     public bool LosingLimbIsLethal = true;
     public float DamageMultiplier = 1.0f;
     public List<AbstractCharacterEffect> EffectsOnHit = new();
@@ -26,14 +27,17 @@ public class CharacterPartHealth : AbstractCharacterComponent
             VectorMath.Quartenion2DToVec3(damager.transform.rotation) *
             Vector2.Distance(damager.gameObject.transform.position, transform.position);
 
-        FluidParticleManager.Instance.SpawnFluidParticles(
-            hitPointPosition,
-            LayerManager.Instance.GetZLayerOfGameObject(gameObject),
-            CharComponents.CharacterEffects.GetHasEffect<Death>() ? 
-                FluidParticleManager.FluidParticlesSpreadTypes.LETHAL : 
-                FluidParticleManager.FluidParticlesSpreadTypes.DAMAGE,
-            damager.transform.rotation
-            );
+        if (CanBleed)
+        {
+            FluidParticleManager.Instance.SpawnFluidParticles(
+                hitPointPosition,
+                LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+                (CharComponents.CharacterEffects.TryGetEffect(out Death death) && death.DiedThisFrame) ? 
+                    FluidParticleManager.FluidParticlesSpreadTypes.LETHAL : 
+                    FluidParticleManager.FluidParticlesSpreadTypes.DAMAGE,
+                damager.transform.rotation
+                );
+        }
     }
 
     public bool TryCutOff(MonoBehaviour cutter)
@@ -66,6 +70,15 @@ public class CharacterPartHealth : AbstractCharacterComponent
             limbParticleSpawner.SpawnParticle();
         }
 
+        if (CanBleed)
+        {
+            FluidParticleManager.Instance.SpawnFluidParticles(
+                gameObject,
+                FluidParticleManager.FluidParticlesSpreadTypes.LETHAL,
+                cutter.transform.rotation
+                );
+        }
+
         GameObject.Destroy(gameObject);
     }
 
@@ -89,11 +102,15 @@ public class CharacterPartHealth : AbstractCharacterComponent
             CharComponents.CharacterHealth.Die(gibber, this);
         }
 
-        FluidParticleManager.Instance.SpawnFluidParticles(
-            gameObject,
-            FluidParticleManager.FluidParticlesSpreadTypes.HEADSHOT,
-            gibber.transform.rotation
-            );
+        if (CanBleed)
+        {
+            FluidParticleManager.Instance.SpawnFluidParticles(
+                gameObject,
+                FluidParticleManager.FluidParticlesSpreadTypes.HEADSHOT,
+                gibber.transform.rotation
+                );
+        }
+
         GameObject.Destroy(gameObject);
     }
 }

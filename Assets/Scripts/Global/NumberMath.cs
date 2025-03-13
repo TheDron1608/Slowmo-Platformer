@@ -22,6 +22,12 @@ public static class NumberMath
     {
         return vector[(int)(Random.value * vector.Count)];
     }
+    public static T PickRandomItemNoSeed<T>(List<T> vector, int limit)
+    {
+        if (limit == -1) return PickRandomItemNoSeed(vector);
+
+        return vector[(int)(Random.value * Mathf.Min(vector.Count, limit))];
+    }
 
     public static float RelativeLerp(float min, float max, float relativeDelta)
     {
