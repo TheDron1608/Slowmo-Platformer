@@ -53,6 +53,18 @@ public class CharacterPartsManager : AbstractCharacterComponent
         CharComponents.CharacterRigidBodyCapsuleColliderHitBox.SetHitBoxTransform(transform);
     }
 
+    public CharacterPart GetCharacterPart(CharacterPart.PartTypes type)
+    {
+        for (int i = 0; i < _characterParts.Count; i++)
+        {
+            if (_characterParts[i].PartType == type)
+            {
+                return _characterParts[i];
+            }
+        }
+        return null;
+    }
+
     private void OnDestroy()
     {
         for (int i = 0; i < _characterParts.Count; i++)

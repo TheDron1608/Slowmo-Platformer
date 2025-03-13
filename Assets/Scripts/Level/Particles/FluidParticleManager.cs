@@ -2,6 +2,9 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UIElements;
 
 public class FluidParticleManager : MonoBehaviour
 {
@@ -19,16 +22,22 @@ public class FluidParticleManager : MonoBehaviour
         public float MinAvgLifeTime;
         public float MaxAvgLifeTime;
         public int HugeBlobs;
+        public int Repeat = 1;
+        public float MinRepeatDelay = 0.5f;
+        public float MaxRepeatDelay = 1f;
     }
 
     public enum FluidParticlesSpreadTypes
     {
         HEADSHOT,
         DAMAGE,
-        LETHAL
+        LETHAL,
+        BLEED
     }
 
     public static FluidParticleManager Instance;
+
+    public event EventHandler<GameObject> OnSpawningFluidParticlesFinish;
 
     private void Awake()
     {
@@ -42,32 +51,65 @@ public class FluidParticleManager : MonoBehaviour
     public List<FluidParticle> HugeBlobParticles;
     public float FluidMultiplier = 1f;
 
+    public void SpawnFluidParticles(Vector2 position, Transform parent, ZIndexLayer zLayer, FluidParticlesSpreadTypes spreadType, Quaternion direction)
+    {
+        GameObject source = new GameObject("fluidSource", typeof(OneShotFluidParticleSpawner));
+
+        source.transform.position = position;
+        source.transform.parent = parent;
+        source.transform.rotation = direction;
+
+        var sourceFluidParticleManager = source.GetComponent<OneShotFluidParticleSpawner>();
+        sourceFluidParticleManager.FluidParticlesSpreadType = spreadType;
+        sourceFluidParticleManager.SpawnParticle();
+    }
+
+
     public void SpawnFluidParticles(GameObject source, FluidParticlesSpreadTypes spreadType, Quaternion direction)
     {
-        SpawnFluidParticles(VectorMath.Vec3ToVec2(source.transform.position), LayerManager.Instance.GetZLayerOfGameObject(source), spreadType, direction);
+        SpawnFluidParticles(source, FluidParticleSpreadTypes[(int)spreadType], direction);
     }
-
-    public void SpawnFluidParticles(Vector2 position, ZIndexLayer zLayer, FluidParticlesSpreadTypes spreadType, Quaternion direction)
-    {
-        SpawnFluidParticles(position, zLayer, FluidParticleSpreadTypes[(int)spreadType], direction);
-    }
-
-    public void SpawnFluidParticles(Vector2 position, ZIndexLayer zLayer, FluidParticleSpreadType spreadType, Quaternion direction)
+    public void SpawnFluidParticles(GameObject source, FluidParticleSpreadType spreadType, Quaternion direction)
     {
         int randomizedFluidParticlesAmount = (int)(NumberMath.PickRandomInRangeNoSeed(spreadType.MinParticles, spreadType.MaxParticles) * FluidMultiplier);
+        ZIndexLayer zLayer = LayerManager.Instance.GetZLayerOfGameObject(source);    
         for (int i = 0; i < randomizedFluidParticlesAmount; i++)
         {
-            Quaternion randomizedDirection = VectorMath.RandomizeQuarternion(direction, spreadType.Accuracy);
-            float randomizedVelocity = NumberMath.PickRandomInRangeNoSeed(spreadType.MinVelocity, spreadType.MaxVelocity);
-            float randomizedLifeTime = NumberMath.PickRandomInRangeNoSeed(spreadType.MinAvgLifeTime, spreadType.MaxAvgLifeTime) * (spreadType.MaxVelocity / randomizedVelocity);
-            SpawnSingleFluidParticle(position, zLayer, randomizedDirection, randomizedVelocity, randomizedLifeTime, spreadType.MaxParticleSize);
+            if (spreadType.Repeat == 1)
+            {
+                SpawnSingleRandomizedFluidParticle(source.transform.position, zLayer, spreadType, direction);
+                OnSpawningFluidParticlesFinish?.Invoke(this, source);
+            }
+            else
+            {
+                StartCoroutine(SpawnMultipleFluidParticles(source, spreadType, direction));
+            }
         }
         for (int i = 0; i < spreadType.HugeBlobs; i++)
         {
             Quaternion randomizedRotation = new();
             randomizedRotation.eulerAngles = new Vector3(0f, 0f, UnityEngine.Random.value * 360);
-            SpawnSingleHugeFluidParticle(position, zLayer, randomizedRotation);
+            SpawnSingleHugeFluidParticle(source.transform.position, zLayer, randomizedRotation);
         }
+    }
+
+    private IEnumerator SpawnMultipleFluidParticles(GameObject source, FluidParticleSpreadType spreadType, Quaternion direction)
+    {
+        ZIndexLayer zLayer = LayerManager.Instance.GetZLayerOfGameObject(source);
+        for (int i = 0; i < spreadType.Repeat; i++)
+        {
+            SpawnSingleRandomizedFluidParticle(source.transform.position, zLayer, spreadType, direction);
+            yield return new WaitForSeconds(NumberMath.PickRandomInRangeNoSeed(spreadType.MinRepeatDelay, spreadType.MaxRepeatDelay));
+        }
+        OnSpawningFluidParticlesFinish?.Invoke(this, source);
+    }
+
+    private void SpawnSingleRandomizedFluidParticle(Vector2 position, ZIndexLayer zLayer, FluidParticleSpreadType spreadType, Quaternion direction)
+    {
+        Quaternion randomizedDirection = VectorMath.RandomizeQuarternion(direction, spreadType.Accuracy);
+        float randomizedVelocity = NumberMath.PickRandomInRangeNoSeed(spreadType.MinVelocity, spreadType.MaxVelocity);
+        float randomizedLifeTime = NumberMath.PickRandomInRangeNoSeed(spreadType.MinAvgLifeTime, spreadType.MaxAvgLifeTime) * (spreadType.MaxVelocity / randomizedVelocity);
+        SpawnSingleFluidParticle(position, zLayer, randomizedDirection, randomizedVelocity, randomizedLifeTime, spreadType.MaxParticleSize);
     }
 
     private void SpawnSingleFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, float velocity, float lifeTime, int maxSize)

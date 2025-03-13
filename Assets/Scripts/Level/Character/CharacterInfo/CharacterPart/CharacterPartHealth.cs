@@ -12,10 +12,8 @@ public class CharacterPartHealth : AbstractCharacterComponent
     public float DamageMultiplier = 1.0f;
     public List<AbstractCharacterEffect> EffectsOnHit = new();
 
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-    }
+    [SerializeField] private FluidParticleSpawner _bleedSource;
+    [SerializeField] private List<CharacterPart.PartTypes> _bleedPartsOnRemove = new();
 
     public void ApplyDamage(float damage, AbstractProjectile damager)
     {
@@ -31,6 +29,7 @@ public class CharacterPartHealth : AbstractCharacterComponent
         {
             FluidParticleManager.Instance.SpawnFluidParticles(
                 hitPointPosition,
+                transform,
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject),
                 (CharComponents.CharacterEffects.TryGetEffect(out Death death) && death.DiedThisFrame) ? 
                     FluidParticleManager.FluidParticlesSpreadTypes.LETHAL : 
@@ -77,6 +76,7 @@ public class CharacterPartHealth : AbstractCharacterComponent
                 FluidParticleManager.FluidParticlesSpreadTypes.LETHAL,
                 cutter.transform.rotation
                 );
+            BleedPartTypesOnRemove();
         }
 
         GameObject.Destroy(gameObject);
@@ -109,8 +109,34 @@ public class CharacterPartHealth : AbstractCharacterComponent
                 FluidParticleManager.FluidParticlesSpreadTypes.HEADSHOT,
                 gibber.transform.rotation
                 );
+            BleedPartTypesOnRemove();
         }
 
         GameObject.Destroy(gameObject);
+    }
+
+    public bool TryBleed()
+    {
+        if (CanBleed)
+        {
+            _bleedSource.SpawnParticle();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void BleedPartTypesOnRemove()
+    {
+        CharacterPartsManager manager = transform.parent.GetComponent<CharacterPartsManager>();
+        for (int i = 0; i < manager.CharacterParts.Count; i++)
+        {
+            if (_bleedPartsOnRemove.Contains(manager.CharacterParts[i].PartType))
+            {
+                manager.CharacterParts[i].CharPartHealth.TryBleed();
+            }
+        }
     }
 }

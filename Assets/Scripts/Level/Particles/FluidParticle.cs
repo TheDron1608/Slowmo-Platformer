@@ -41,6 +41,7 @@ public class FluidParticle : MonoBehaviour
         {
             transform.position += VectorMath.Vec2ToVec3(_velocity) * Time.fixedDeltaTime;
             _velocity += Physics2D.gravity * Time.fixedDeltaTime * FLUID_GRAVITY_MULTIPLIER;
+            transform.rotation = VectorMath.Vec2ToQuarterninon2D(_velocity);
             yield return new WaitForFixedUpdate();
             _lifeTime -= Time.fixedDeltaTime;
 

@@ -49,29 +49,50 @@ MonoBehaviour:
     MinParticles: 10
     MaxParticles: 20
     MaxParticleSize: -1
-    MinVelocity: 2.5
+    MinVelocity: 1
     MaxVelocity: 7.5
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.15
     HugeBlobs: 2
-  - Accuracy: 0.95
-    MinParticles: 2
-    MaxParticles: 4
+    Repeat: 1
+    MinRepeatDelay: 0.5
+    MaxRepeatDelay: 1
+  - Accuracy: 0.8
+    MinParticles: 3
+    MaxParticles: 6
     MaxParticleSize: 2
     MinVelocity: 0
     MaxVelocity: 12.5
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.1
     HugeBlobs: 0
+    Repeat: 1
+    MinRepeatDelay: 0.5
+    MaxRepeatDelay: 1
   - Accuracy: 0.9
-    MinParticles: 5
-    MaxParticles: 10
+    MinParticles: 10
+    MaxParticles: 15
     MaxParticleSize: -1
     MinVelocity: 0
     MaxVelocity: 17.5
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.1
     HugeBlobs: 0
+    Repeat: 1
+    MinRepeatDelay: 0.5
+    MaxRepeatDelay: 1
+  - Accuracy: 0.75
+    MinParticles: 1
+    MaxParticles: 2
+    MaxParticleSize: 1
+    MinVelocity: 4
+    MaxVelocity: 7.5
+    MinAvgLifeTime: 0
+    MaxAvgLifeTime: 0.05
+    HugeBlobs: 0
+    Repeat: 7
+    MinRepeatDelay: 0.5
+    MaxRepeatDelay: 1
   BlobParticles:
   - {fileID: 407663546126203460, guid: 34cb7d03ab2303e4381d9432f710aa49, type: 3}
   - {fileID: 407663546126203460, guid: 391c2d5dbae35074d926b8b23d7be7ad, type: 3}

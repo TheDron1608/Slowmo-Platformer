@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1453284974108588446, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      propertyPath: PartType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3731323340483209484, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
       propertyPath: RollColliderTransform.Scale.x
       value: 1.35
@@ -153,6 +157,10 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5900383586783300421, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      propertyPath: CanBleed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5900383586783300421, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
       propertyPath: EffectsOnLethal.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -251,6 +259,30 @@ PrefabInstance:
     - target: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
       propertyPath: m_Name
       value: Body
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590604409848979457, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0325
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590604409848979457, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590604409848979457, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590604409848979457, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590604409848979457, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8590604409848979457, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
