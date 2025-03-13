@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
+[DefaultExecutionOrder(-1)]
 public class LayerManager : MonoBehaviour
 {
     public const string ZLAYER_TAG_NAME = "ZLayer";

@@ -5,6 +5,7 @@ using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class PhysicsParticlesLimitManager : MonoBehaviour
 {
     public int MaxParticles = 128;
