@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class OneShotFluidParticleSpawner : FluidParticleSpawner
 {
-    private void Awake()
+    protected override void OnAwake()
     {
+        base.OnAwake();
         FluidParticleManager.Instance.OnSpawningFluidParticlesFinish += Instance_OnSpawningFluidParticlesFinish;
     }
 
@@ -18,6 +19,9 @@ public class OneShotFluidParticleSpawner : FluidParticleSpawner
 
     private void OnDestroy()
     {
-        FluidParticleManager.Instance.OnSpawningFluidParticlesFinish -= Instance_OnSpawningFluidParticlesFinish;
+        if (FluidParticleManager.Instance != null)
+        {
+            FluidParticleManager.Instance.OnSpawningFluidParticlesFinish -= Instance_OnSpawningFluidParticlesFinish;
+        }
     }
 }

@@ -81,18 +81,18 @@ MonoBehaviour:
     Repeat: 1
     MinRepeatDelay: 0.5
     MaxRepeatDelay: 1
-  - Accuracy: 0.75
+  - Accuracy: 0.66
     MinParticles: 1
-    MaxParticles: 2
-    MaxParticleSize: 1
-    MinVelocity: 4
+    MaxParticles: 3
+    MaxParticleSize: 4
+    MinVelocity: 1
     MaxVelocity: 7.5
-    MinAvgLifeTime: 0
-    MaxAvgLifeTime: 0.05
+    MinAvgLifeTime: 0.05
+    MaxAvgLifeTime: 0.15
     HugeBlobs: 0
-    Repeat: 7
-    MinRepeatDelay: 0.5
-    MaxRepeatDelay: 1
+    Repeat: 10
+    MinRepeatDelay: 0.1
+    MaxRepeatDelay: 0.25
   BlobParticles:
   - {fileID: 407663546126203460, guid: 34cb7d03ab2303e4381d9432f710aa49, type: 3}
   - {fileID: 407663546126203460, guid: 391c2d5dbae35074d926b8b23d7be7ad, type: 3}

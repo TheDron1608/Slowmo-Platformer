@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 public class FluidParticleManager : MonoBehaviour
 {
@@ -82,7 +83,7 @@ public class FluidParticleManager : MonoBehaviour
             }
             else
             {
-                StartCoroutine(SpawnMultipleFluidParticles(source, spreadType, direction));
+                StartCoroutine(SpawnMultipleFluidParticles(source, spreadType));
             }
         }
         for (int i = 0; i < spreadType.HugeBlobs; i++)
@@ -93,12 +94,13 @@ public class FluidParticleManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnMultipleFluidParticles(GameObject source, FluidParticleSpreadType spreadType, Quaternion direction)
+    private IEnumerator SpawnMultipleFluidParticles(GameObject source, FluidParticleSpreadType spreadType)
     {
         ZIndexLayer zLayer = LayerManager.Instance.GetZLayerOfGameObject(source);
         for (int i = 0; i < spreadType.Repeat; i++)
         {
-            SpawnSingleRandomizedFluidParticle(source.transform.position, zLayer, spreadType, direction);
+            if (source.IsDestroyed()) break;
+            SpawnSingleRandomizedFluidParticle(source.transform.position, zLayer, spreadType, source.transform.rotation);
             yield return new WaitForSeconds(NumberMath.PickRandomInRangeNoSeed(spreadType.MinRepeatDelay, spreadType.MaxRepeatDelay));
         }
         OnSpawningFluidParticlesFinish?.Invoke(this, source);
