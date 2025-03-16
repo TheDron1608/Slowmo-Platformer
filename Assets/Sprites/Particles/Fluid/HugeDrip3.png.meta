@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 6cf3d13b0ab850c4c873043a0747e6e9
+guid: 7f6f793700c53204389d9613aac079b5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8407081833216320030
-    second: Blob3_0
+      213: 6072681881028590531
+    second: HugeDrip3_0
+  - first:
+      213: 6535305149752308891
+    second: HugeDrip3_1
+  - first:
+      213: 5266505068335788282
+    second: HugeDrip3_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blob3_0
+      name: HugeDrip3_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,20 +121,64 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e12af7a7264fba470800000000000000
-      internalID: 8407081833216320030
+      spriteID: 3cbf8a01fff764450800000000000000
+      internalID: 6072681881028590531
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blob3_1
+      name: HugeDrip3_1
       rect:
         serializedVersion: 2
-        x: 16
+        x: 48
         y: 0
-        width: 16
-        height: 16
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9474cd786112ba50800000000000000
+      internalID: 6535305149752308891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HugeDrip3_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af0f2fdd472661940800000000000000
+      internalID: 5266505068335788282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HugeDrip3_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,30 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7a15dc856cd46b40bb9047628bb7e07
-      internalID: 712343508
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Blob3_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 87e874a91ea40cf4da3492dffd0396e0
-      internalID: -1904956105
+      spriteID: 04e37a770382b0147a464abc12b0e21f
+      internalID: -1407696246
       vertices: []
       indices: 
       edges: []
@@ -169,7 +197,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9a95cf435c4906c41aacbbda0d27a020
+    spriteID: db0783ecae418e144be06c1585d38fc6
     internalID: 0
     vertices: []
     indices: 
@@ -179,9 +207,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Blob3_0: 8407081833216320030
-      Blob3_1: 712343508
-      Blob3_2: -1904956105
+      HugeDrip3_0: 6072681881028590531
+      HugeDrip3_1: 6535305149752308891
+      HugeDrip3_2: 5266505068335788282
+      HugeDrip3_3: -1407696246
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

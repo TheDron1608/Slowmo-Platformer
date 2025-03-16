@@ -79,7 +79,7 @@ public static class VectorMath
     /// Relatively randomized quaternion eulaterAngles.z rotation
     /// </summary>
     /// <param name="quaternion">randomizes quaternion</param>
-    /// <param name="accuracy">Value between 1 and 0, where 0 is perfect accuracy and 1 is 360 deg spread</param>
+    /// <param name="accuracy">Value between 1 and 0, where 1 is perfect accuracy and 0 is 360 deg spread</param>
     /// <returns></returns>
     public static Quaternion RandomizeQuarternion(Quaternion quaternion, float accuracy)
     {

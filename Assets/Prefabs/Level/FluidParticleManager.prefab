@@ -54,6 +54,7 @@ MonoBehaviour:
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.15
     HugeBlobs: 2
+    HugeDrips: 0
     Repeat: 1
     MinRepeatDelay: 0.5
     MaxRepeatDelay: 1
@@ -66,6 +67,7 @@ MonoBehaviour:
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.1
     HugeBlobs: 0
+    HugeDrips: 0
     Repeat: 1
     MinRepeatDelay: 0.5
     MaxRepeatDelay: 1
@@ -78,6 +80,7 @@ MonoBehaviour:
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.1
     HugeBlobs: 0
+    HugeDrips: 2
     Repeat: 1
     MinRepeatDelay: 0.5
     MaxRepeatDelay: 1
@@ -90,6 +93,7 @@ MonoBehaviour:
     MinAvgLifeTime: 0.05
     MaxAvgLifeTime: 0.15
     HugeBlobs: 0
+    HugeDrips: 0
     Repeat: 10
     MinRepeatDelay: 0.1
     MaxRepeatDelay: 0.25
@@ -109,4 +113,8 @@ MonoBehaviour:
   - {fileID: 407663546126203460, guid: cc57924e6f9a00b488c456ebabf3c427, type: 3}
   - {fileID: 407663546126203460, guid: 594833034dbca24418c9e19ff094b0f5, type: 3}
   - {fileID: 407663546126203460, guid: 4e4cf673f5b8a5e47a4ccd19bdd6380f, type: 3}
+  HugeDripParticles:
+  - {fileID: 407663546126203460, guid: 1402c010ff13ff948a4890ff27dd7f9c, type: 3}
+  - {fileID: 407663546126203460, guid: 21dfd80af4ff10b4486598b6f3db0529, type: 3}
+  - {fileID: 407663546126203460, guid: 26922183bec3a254a8692d42df17aff3, type: 3}
   FluidMultiplier: 1

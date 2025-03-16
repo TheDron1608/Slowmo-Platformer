@@ -10,7 +10,10 @@ using Unity.VisualScripting;
 public class FluidParticleManager : MonoBehaviour
 {
     const float SPEED_TO_USE_DRIP_FLUID = 3.5f;
-    const float HUGE_BLOB_POSITION_SPREAD = 0.15f;
+    const float HUGE_BLOB_PARTICLES_POSITION_SPREAD = 0.15f;
+    const float HUGE_BLOB_PARTICLES_ROTATION_SPREAD = 0f;
+    const float HUGE_DRIP_PARTICLES_POSITION_SPREAD = 0.05f;
+    const float HUGE_DRIP_PARTICLES_ROTATION_SPREAD = 0.958f; //15 degrees
 
     [Serializable] public class FluidParticleSpreadType
     {
@@ -23,6 +26,7 @@ public class FluidParticleManager : MonoBehaviour
         public float MinAvgLifeTime;
         public float MaxAvgLifeTime;
         public int HugeBlobs;
+        public int HugeDrips;
         public int Repeat = 1;
         public float MinRepeatDelay = 0.5f;
         public float MaxRepeatDelay = 1f;
@@ -50,6 +54,7 @@ public class FluidParticleManager : MonoBehaviour
     public List<FluidParticle> BlobParticles;
     public List<FluidParticle> DripParticles;
     public List<FluidParticle> HugeBlobParticles;
+    public List<FluidParticle> HugeDripParticles;
     public float FluidMultiplier = 1f;
 
     public void SpawnFluidParticles(Vector2 position, Transform parent, ZIndexLayer zLayer, FluidParticlesSpreadTypes spreadType, Quaternion direction)
@@ -88,9 +93,11 @@ public class FluidParticleManager : MonoBehaviour
         }
         for (int i = 0; i < spreadType.HugeBlobs; i++)
         {
-            Quaternion randomizedRotation = new();
-            randomizedRotation.eulerAngles = new Vector3(0f, 0f, UnityEngine.Random.value * 360);
-            SpawnSingleHugeFluidParticle(source.transform.position, zLayer, randomizedRotation);
+            SpawnSingleHugeBlobFluidParticle(source.transform.position, zLayer, direction);
+        }
+        for (int i = 0; i < spreadType.HugeDrips; i++)
+        {
+            SpawnSingleHugeDripFluidParticle(source.transform.position, zLayer, direction);
         }
     }
 
@@ -131,12 +138,22 @@ public class FluidParticleManager : MonoBehaviour
         newParticle.SetProperties(VectorMath.Quartenion2DToVec2(direction) * velocity, lifeTime);
     }
 
-    private void SpawnSingleHugeFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
+    private void SpawnSingleHugeBlobFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
     {
         FluidParticle newParticle = Instantiate(
             NumberMath.PickRandomItemNoSeed(HugeBlobParticles), 
-            VectorMath.Vec2ToVec3(VectorMath.RandomizeVec2(postion, HUGE_BLOB_POSITION_SPREAD), zLayer.transform.position.z), 
-            direction, 
+            VectorMath.Vec2ToVec3(VectorMath.RandomizeVec2(postion, HUGE_BLOB_PARTICLES_POSITION_SPREAD), zLayer.transform.position.z),
+            VectorMath.RandomizeQuarternion(direction, HUGE_BLOB_PARTICLES_ROTATION_SPREAD),
+            zLayer.transform
+            );
+        newParticle.SetProperties(Vector2.zero, 0f);
+    }
+    private void SpawnSingleHugeDripFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
+    {
+        FluidParticle newParticle = Instantiate(
+            NumberMath.PickRandomItemNoSeed(HugeDripParticles),
+            VectorMath.Vec2ToVec3(VectorMath.RandomizeVec2(postion, HUGE_DRIP_PARTICLES_POSITION_SPREAD), zLayer.transform.position.z),
+            VectorMath.RandomizeQuarternion(direction, HUGE_DRIP_PARTICLES_ROTATION_SPREAD),
             zLayer.transform
             );
         newParticle.SetProperties(Vector2.zero, 0f);
