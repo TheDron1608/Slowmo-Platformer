@@ -8,6 +8,8 @@ public class FluidParticle : MonoBehaviour
     const float FLUID_STOP_VELOCITY_MULTIPLIER = 10f;
     const float FLUID_GRAVITY_MULTIPLIER = 0.5f;
     const float MIN_APPEAR_SPEED_LIFETIME_REQUIRED = 0.125f;
+    const float MAX_DISTANCE_TO_REMOVE_NEAREST_PARTICLE = 0.15f;
+    const float REMOVE_DURATION_SECONDS = 0.5f;
     const string ANIMATOR_APPEAR_SPEED_PARAM_NAME = "AppearSpeed";
 
     private Vector2  _velocity;
@@ -15,6 +17,15 @@ public class FluidParticle : MonoBehaviour
     private Coroutine _moveCoroutine;
     private Vector3 _previousPosition;
     private int _currentEnviromentLayerMask;
+    private Coroutine _removeCoroutine;
+
+    [SerializeField] private int _size;
+
+    public int Size
+    {
+        get => _size; 
+        set => _size = value;
+    }
 
     private void Awake()
     {
@@ -53,6 +64,7 @@ public class FluidParticle : MonoBehaviour
                 break;
             }
         }
+        _velocity = Vector2.zero;
 
         GetComponent<Animator>().enabled = true;
 
@@ -64,6 +76,72 @@ public class FluidParticle : MonoBehaviour
                 _velocity = math.lerp(_velocity, 0, Time.fixedDeltaTime * FLUID_STOP_VELOCITY_MULTIPLIER);
                 yield return new WaitForFixedUpdate();
             }
+        }
+
+        Transform particlesContainer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).FluidParticlesContainer;
+        for (int i = 0; i < particlesContainer.childCount; i++)
+        {
+            Transform particle = particlesContainer.GetChild(i);
+            if (
+                particle != null &&
+                particle.TryGetComponent(out FluidParticle fluidparticle) &&
+                fluidparticle.GetIsStatic() && 
+                Vector2.Distance(transform.position, particle.position) <= MAX_DISTANCE_TO_REMOVE_NEAREST_PARTICLE &&
+                fluidparticle != this
+                ) 
+            {
+                if (Size > fluidparticle.Size)
+                {
+                    fluidparticle.RemoveFluidParticle();
+                }
+                else if (Size != fluidparticle.Size)
+                {
+                    this.RemoveFluidParticle();
+                }
+            }
+        }
+    }
+
+    public bool GetIsStatic()
+    {
+        return _velocity == Vector2.zero;
+    }
+
+    public bool GetIsRemoving()
+    {
+        return _removeCoroutine != null;
+    }
+
+    public void RemoveFluidParticle()
+    {
+        if (_removeCoroutine == null)
+        {
+            _removeCoroutine = StartCoroutine(RemoveFluidParticleProcess());
+        }
+    }
+
+    private IEnumerator RemoveFluidParticleProcess()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        while (spriteRenderer.color.a > 0f)
+        {
+            spriteRenderer.color = new Color(
+                spriteRenderer.color.r,
+                spriteRenderer.color.g,
+                spriteRenderer.color.b,
+                spriteRenderer.color.a - Time.deltaTime / REMOVE_DURATION_SECONDS
+                );
+            yield return new WaitForEndOfFrame();
+        }
+
+        GameObject.Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (FluidParticleManager.Instance != null)
+        {
+            FluidParticleManager.Instance.OnRemoveFluidParticle(this);
         }
     }
 }

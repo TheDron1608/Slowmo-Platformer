@@ -6,6 +6,7 @@ using System.Collections;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using Unity.Collections;
 
 public class FluidParticleManager : MonoBehaviour
 {
@@ -44,18 +45,47 @@ public class FluidParticleManager : MonoBehaviour
 
     public event EventHandler<GameObject> OnSpawningFluidParticlesFinish;
 
-    private void Awake()
-    {
-        if (Instance != null) throw new UnityException("limit of 1 FluidParticleManager per scene");
-        Instance = this;
-    }
-
     public List<FluidParticleSpreadType> FluidParticleSpreadTypes = new();
     public List<FluidParticle> BlobParticles;
     public List<FluidParticle> DripParticles;
     public List<FluidParticle> HugeBlobParticles;
     public List<FluidParticle> HugeDripParticles;
     public float FluidMultiplier = 1f;
+
+    [SerializeField] private int _maxFluidParticles = 512;
+
+    private List<FluidParticle> _fluidParticles = new();
+
+    public void OnAddFluidParticle(FluidParticle FluidParticle)
+    {
+        _fluidParticles.Add(FluidParticle);
+        UpdateFluidParticlesLimit();
+    }
+    public void OnRemoveFluidParticle(FluidParticle FluidParticle)
+    {
+        _fluidParticles.Remove(FluidParticle);
+    }
+
+    private void UpdateFluidParticlesLimit()
+    {
+        if (_fluidParticles.Count > _maxFluidParticles)
+        {
+            for (int i = 0; i < _fluidParticles.Count; i++)
+            {
+                if (_fluidParticles[i].GetIsRemoving() == false)
+                {
+                    _fluidParticles[i].RemoveFluidParticle();
+                    break;
+                }
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        if (Instance != null) throw new UnityException("limit of 1 FluidParticleManager per scene");
+        Instance = this;
+    }
 
     public void SpawnFluidParticles(Vector2 position, Transform parent, ZIndexLayer zLayer, FluidParticlesSpreadTypes spreadType, Quaternion direction)
     {
@@ -129,13 +159,14 @@ public class FluidParticleManager : MonoBehaviour
 
         if (velocity > SPEED_TO_USE_DRIP_FLUID)
         {
-            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(DripParticles, maxSize), spawnPosition, spawnRotation, zLayer.transform);
+            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(DripParticles, maxSize), spawnPosition, spawnRotation, zLayer.FluidParticlesContainer);
         }
         else
         {
-            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(BlobParticles, maxSize), spawnPosition, spawnRotation, zLayer.transform);
+            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(BlobParticles, maxSize), spawnPosition, spawnRotation, zLayer.FluidParticlesContainer);
         }
         newParticle.SetProperties(VectorMath.Quartenion2DToVec2(direction) * velocity, lifeTime);
+        OnAddFluidParticle(newParticle);
     }
 
     private void SpawnSingleHugeBlobFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
@@ -144,9 +175,10 @@ public class FluidParticleManager : MonoBehaviour
             NumberMath.PickRandomItemNoSeed(HugeBlobParticles), 
             VectorMath.Vec2ToVec3(VectorMath.RandomizeVec2(postion, HUGE_BLOB_PARTICLES_POSITION_SPREAD), zLayer.transform.position.z),
             VectorMath.RandomizeQuarternion(direction, HUGE_BLOB_PARTICLES_ROTATION_SPREAD),
-            zLayer.transform
+            zLayer.FluidParticlesContainer
             );
         newParticle.SetProperties(Vector2.zero, 0f);
+        OnAddFluidParticle(newParticle);
     }
     private void SpawnSingleHugeDripFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
     {
@@ -154,9 +186,10 @@ public class FluidParticleManager : MonoBehaviour
             NumberMath.PickRandomItemNoSeed(HugeDripParticles),
             VectorMath.Vec2ToVec3(VectorMath.RandomizeVec2(postion, HUGE_DRIP_PARTICLES_POSITION_SPREAD), zLayer.transform.position.z),
             VectorMath.RandomizeQuarternion(direction, HUGE_DRIP_PARTICLES_ROTATION_SPREAD),
-            zLayer.transform
+            zLayer.FluidParticlesContainer
             );
         newParticle.SetProperties(Vector2.zero, 0f);
+        OnAddFluidParticle(newParticle);
     }
 
     private void OnDestroy()
