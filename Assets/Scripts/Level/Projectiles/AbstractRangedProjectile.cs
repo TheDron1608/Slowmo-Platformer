@@ -10,12 +10,14 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
     public float BulletSpeed = 35f;
     public float MaxRange = 350f;
     public PhysicsParticle BulletCasingParticle;
+    public int MaxPierces = 0; //times projectiles will not doestroy iteself if gibs or cuts off damaged character
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
     private ParticleSpawner _onHitWallCloudsPaticleSpawner;
 
     private float _rangeMoved = 0f;
+    private float _piercesLeft;
     private bool _isFirstFrame = true;
 
     public Quaternion MoveAlign
@@ -40,6 +42,11 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         }
     }
 
+    public void ResetPiercesLeft()
+    {
+        _piercesLeft = MaxPierces;
+    }
+
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -47,6 +54,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         layer.UpdateLayerForGameObject(gameObject);
         transform.parent = layer.transform;
         _onHitWallCloudsPaticleSpawner = transform.Find(ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
+        ResetPiercesLeft();
     }
 
     protected override void OnUpdate()
@@ -82,7 +90,18 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
             _onHitWallCloudsPaticleSpawner.SpawnParticle();
         }
 
-        RemoveSelf();
+        if (
+            _piercesLeft > 0 &&
+            hitObject.transform.parent.TryGetComponent(out AbstractCharacterComponent hitCharacter) &&
+            hitCharacter.CharComponents.CharacterEffects.GetHasEffect<Death>()
+            )
+        {
+            _piercesLeft--;
+        }
+        else
+        {
+            RemoveSelf();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

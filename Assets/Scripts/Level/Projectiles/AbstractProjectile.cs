@@ -19,7 +19,7 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        _rigidBody = GetComponent<Rigidbody2D>();
+        if (!TryGetComponent(out _rigidBody)) throw new UnityException("RigidBody2D component not found");
     }
 
     public Weapon Weapon
@@ -89,6 +89,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     protected virtual void OnUpdate()
     {
         List<Collider2D> hitObjects = new();
+
         _rigidBody.Overlap(hitObjects);
 
         // invokes OnHit trigger if:

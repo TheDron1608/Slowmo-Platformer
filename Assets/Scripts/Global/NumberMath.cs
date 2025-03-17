@@ -49,4 +49,16 @@ public static class NumberMath
             return value;
         }
     }
+
+    public static TFind FindElemByType<TFind, TList>(List<TList> list) where TFind : TList
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] is TFind result)
+            {
+                return result;
+            }
+        }
+        return default;
+    }
 }
