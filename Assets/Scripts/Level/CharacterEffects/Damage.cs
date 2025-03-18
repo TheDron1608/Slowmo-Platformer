@@ -13,6 +13,10 @@ public class Damage : AbstractCharacterEffectWithSender
         {
             receiverPart.ApplyDamage(DamageAmount, projectile);
         }
+        else
+        {
+            receiverPart.ApplyDamage(DamageAmount, sender);
+        }
 
         RemoveSelf();
     }

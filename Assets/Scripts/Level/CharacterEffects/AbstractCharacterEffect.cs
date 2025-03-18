@@ -1,10 +1,16 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractCharacterEffect : MonoBehaviour
+public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<AbstractCharacterEffect>
 {
+    /// <summary>
+    /// multiple effects will be applied sorted by EffectPriority descending
+    /// </summary>
+    public int EffectPriority = 100;
+
     private CharacterComponentsManager _affectedCharacter;
 
     public event EventHandler OnRemoved;
@@ -51,5 +57,10 @@ public abstract class AbstractCharacterEffect : MonoBehaviour
     protected virtual void OnRemove()
     {
         OnRemoved?.Invoke(this, EventArgs.Empty);
+    }
+
+    public int CompareTo(AbstractCharacterEffect other)
+    {
+        return EffectPriority.CompareTo(other.EffectPriority);
     }
 }

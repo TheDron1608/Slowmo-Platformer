@@ -57,5 +57,10 @@ public class CharacterHitbox : AbstractCharacterComponent
         {
             capsule.direction = value.FlipCapsuleDirection ? CapsuleDirection2D.Horizontal : CapsuleDirection2D.Vertical;
         }
+
+        if (HitBoxTransforms[(int)_currentHitBoxTransform] != value)
+        {
+            CharComponents.CharacterStuckedObjects.RemoveAllStuckedObjects();
+        }
     }
 }

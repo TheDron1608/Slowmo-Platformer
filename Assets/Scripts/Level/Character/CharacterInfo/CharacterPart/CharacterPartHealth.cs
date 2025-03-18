@@ -12,7 +12,7 @@ public class CharacterPartHealth : AbstractCharacterComponent
     public float DamageMultiplier = 1.0f;
     public List<AbstractCharacterEffect> EffectsOnHit = new();
 
-    public void ApplyDamage(float damage, AbstractProjectile damager)
+    public void ApplyDamage(float damage, MonoBehaviour damager)
     {
         CharComponents.CharacterEffects.ApplyEffect(EffectsOnHit, damager, this);
         CharComponents.CharacterHealth.ApplyDamage(damage, damager, this);

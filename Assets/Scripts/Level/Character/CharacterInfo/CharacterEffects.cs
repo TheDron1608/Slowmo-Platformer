@@ -93,6 +93,8 @@ public class CharacterEffects : AbstractCharacterComponent
 
     public void ApplyEffect(List<AbstractCharacterEffect> effects, MonoBehaviour sender, CharacterPartHealth receiverPart)
     {
+        effects.Sort();
+
         for (int i = 0; i < effects.Count; i++)
         {
             ApplyEffect(effects[i], sender, receiverPart);

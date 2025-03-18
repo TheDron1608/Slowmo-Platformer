@@ -42,6 +42,11 @@ public class MinorStun : AbstractOverwritingCharacterEffect
         AffectedCharacter.CharacterReloading.IsAbleToReload = true;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = true;
         AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = true;
+
+        if (AffectedCharacter.CharacterVisual.CurrentBusyAnimation == CharacterPartVisual.CharacterPartBusyStates.MINOR_STUN)
+        {
+            AffectedCharacter.CharacterVisual.BreakBusyAnimation();
+        }
     }
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)

@@ -53,6 +53,15 @@ public class CharacterPartsManager : AbstractCharacterComponent
         CharComponents.CharacterRigidBodyCapsuleColliderHitBox.SetHitBoxTransform(transform);
     }
 
+    public void SetHitBoxHitableByProjectiles(bool value)
+    {
+        for (int i = 0; i < _characterParts.Count; i++)
+        {
+            _characterParts[i].CharPartHitbox.HitableByProjectiles = value;
+        }
+        CharComponents.CharacterRigidBodyCapsuleColliderHitBox.HitableByProjectiles = value;
+    }
+
     public CharacterPart GetCharacterPart(CharacterPart.PartTypes type)
     {
         for (int i = 0; i < _characterParts.Count; i++)

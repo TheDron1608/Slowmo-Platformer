@@ -5,7 +5,8 @@ using static CharacterVisual;
 
 public class CharacterStuckedObjects : AbstractCharacterComponent
 {
-    public float RemoveObjectVelocity = 5f;
+    public float RemoveObjectVelocity = 3.5f;
+    public float RemoveObjectMaxRandomAngularVelocity = 360f;
 
     private List<Holdable> _stuckedObjects = new();
 
@@ -25,7 +26,8 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
             stuckObject.StuckedToCollider = null;
             if (stuckObject.TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
             {
-                stuckObjectRigidBody.linearVelocity += VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
+                stuckObjectRigidBody.linearVelocity = VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
+                stuckObjectRigidBody.angularVelocity = RemoveObjectMaxRandomAngularVelocity * (UnityEngine.Random.value * 2 - 1);
             }
         }
     }
@@ -40,26 +42,8 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
             stuckObject.StuckedToCollider = null;
             if (stuckObject.TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
             {
-                stuckObjectRigidBody.linearVelocity += (VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) + direction * 3).normalized * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
+                stuckObjectRigidBody.linearVelocity = (VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) + direction * 3).normalized * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
             }
-        }
-    }
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
-    }
-
-    private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
-    {
-        if (e.NewState == CharacterPartVisual.CharacterPartBusyStates.ROLL)
-        {
-            RemoveAllStuckedObjects();
-        }
-        else if (e.NewState == CharacterPartVisual.CharacterPartBusyStates.FALLEN_ON_FLOOR || e.NewState == CharacterPartVisual.CharacterPartBusyStates.FALLING_IN_AIR)
-        {
-            RemoveAllStuckedObjects(CharComponents.CharacterRigidBody.linearVelocity.normalized);
         }
     }
 }

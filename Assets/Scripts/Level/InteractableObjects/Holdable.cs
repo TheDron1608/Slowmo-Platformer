@@ -38,7 +38,7 @@ public class Holdable : Interactable
     private CircleCollider2D _thrownColliderComponent;
 
     private Collider2D _stuckedToCollider = null;
-    private float _velocitySpeedPreviousFrame = 0f;
+    private Vector2 _velocitySpeedPreviousFrame = Vector2.zero;
     private bool _isStuck = false;
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
@@ -64,7 +64,7 @@ public class Holdable : Interactable
                 else if
                     (
                         value.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) &&
-                        _velocitySpeedPreviousFrame >= SpeedToGetThrough &&
+                        VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToGetThrough &&
                         (stuckWhoRigidBody.bodyType == RigidbodyType2D.Static || stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic)
                     )
                 {
@@ -111,7 +111,7 @@ public class Holdable : Interactable
         {
             _rigidBodyComponent.excludeLayers = 0;
 
-            if (_velocitySpeedPreviousFrame <= SpeedToGetThrough)
+            if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) <= SpeedToGetThrough)
             {
                 _colliderComponent.enabled = true;
                 _thrownColliderComponent.enabled = false;
@@ -122,7 +122,7 @@ public class Holdable : Interactable
                 _thrownColliderComponent.enabled = true;
             }
 
-            if (_velocitySpeedPreviousFrame <= SpeedToHitCharacter)
+            if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) <= SpeedToHitCharacter)
             {
                 _rigidBodyComponent.includeLayers = _colliderComponent.includeLayers;
             }
@@ -135,7 +135,7 @@ public class Holdable : Interactable
 
     private void FixedUpdate()
     {
-        _velocitySpeedPreviousFrame = VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity);
+        _velocitySpeedPreviousFrame = _rigidBodyComponent.linearVelocity;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -143,11 +143,16 @@ public class Holdable : Interactable
         if (_isStuck) return;
         if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder) return;
 
-        if (charComponent != null && _velocitySpeedPreviousFrame >= SpeedToHitCharacter)
+        if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToGetThrough)
+        {
+            StuckedToCollider = collision.collider;
+        }
+
+        if (charComponent != null && VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToHitCharacter)
         {
             RaycastHit2D[] hits = Physics2D.RaycastAll(
                 collision.contacts[0].point,
-                _rigidBodyComponent.linearVelocity.normalized,
+                _velocitySpeedPreviousFrame.normalized,
                 1f
                 );
             for (int i =  0; i < hits.Length; i++)
@@ -160,11 +165,6 @@ public class Holdable : Interactable
                     }
                 }
             }
-        }
-
-        if (_velocitySpeedPreviousFrame >= SpeedToGetThrough)
-        {
-            StuckedToCollider = collision.collider;
         }
     }
 

@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: ThrowForceMultiplier
-      value: 0.75
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: RotatableWhenIsHolded
@@ -33,9 +33,21 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: EffectsOnThrowHit.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: 'EffectsOnThrowHit.Array.data[1]'
       value: 
       objectReference: {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: 'EffectsOnThrowHit.Array.data[2]'
+      value: 
+      objectReference: {fileID: -9038473542840591547, guid: 770c95ca49d8fd84597ed59c426cf55b, type: 3}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: 'EffectsOnThrowHit.Array.data[3]'
+      value: 
+      objectReference: {fileID: 344805414714566387, guid: c1b826fff00b7544199bbe3028ef23ab, type: 3}
     - target: {fileID: 1663424072248119919, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Offset.x
       value: 0.655

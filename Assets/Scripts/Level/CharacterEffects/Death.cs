@@ -15,6 +15,8 @@ public class Death : AbstractCharacterEffect
     {
         base.OnApply();
 
+        AffectedCharacter.CharacterVisual.BreakBusyAnimation();
+
         AffectedCharacter.CharacterEffects.RemoveEffect<MinorStun>();
 
         AffectedCharacter.CharacterHolding.TryThrow(AffectedCharacter.CharacterRigidBody.linearVelocity.normalized, 0.25f);
@@ -31,6 +33,8 @@ public class Death : AbstractCharacterEffect
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
         AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
+
+        AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(false);
 
         StartCoroutine(AwaitFrameThenSetDiedThisFrame());
     }
@@ -59,5 +63,7 @@ public class Death : AbstractCharacterEffect
         AffectedCharacter.CharacterReloading.IsAbleToReload = true;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = true;
         AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = true;
+
+        AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(true);
     }
 }
