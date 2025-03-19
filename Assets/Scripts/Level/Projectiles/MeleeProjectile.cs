@@ -25,7 +25,12 @@ public class MeleeProjectile : AbstractProjectile
     protected override List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
 
-        MeleeProjectile newProjectile = Instantiate(this, LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).transform);
+        MeleeProjectile newProjectile = Instantiate(
+                this,
+                weapon.transform.position,
+                direction,
+                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).transform
+                );
 
         newProjectile.transform.position = weapon.transform.position;
         newProjectile.transform.rotation = VectorMath.RandomizeQuarternion(direction, Accuracy);

@@ -122,11 +122,11 @@ public abstract class AbstractProjectile : MonoBehaviour
                 !currentHitObjet.TryGetComponent(out CharacterHitbox charHitbox) ||
                 (
                     charHitbox.HitableByProjectiles &&
-                    GetIsHighestHitPriority(totalHitObjects, charHitbox)
+                    GetIsHighestHitPriority(totalHitObjects, charHitbox) &&
+                    currentHitObjet.transform.parent.GetComponent<CharacterPart>() != null
                 )
             ) &&
-            !_currentHittingColliders.Contains(currentHitObjet) &&
-            currentHitObjet.transform.parent.GetComponent<CharacterPart>() != null;
+            !_currentHittingColliders.Contains(currentHitObjet);
     }
 
     private bool GetIsHighestHitPriority(List<Collider2D> colliders, CharacterHitbox currentHitBox)
