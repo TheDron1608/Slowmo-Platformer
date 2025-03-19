@@ -66,7 +66,6 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     public virtual void OnHit(GameObject hitObject)
     {
-        Debug.Log(hitObject.name);
         if (hitObject.transform.parent.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
             charComponent.CharComponents.CharacterEffects.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPartHealth>());

@@ -99,7 +99,7 @@ public class CharacterAiming : AbstractCharacterComponent
             CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded
             )
         {
-            Vector2 targetAim = new Vector2(CharComponents.CharacterVisual.SpritesFlipped ? -1f : 1f, -1f) + VectorMath.Vec3ToVec2(CharComponents.Center.transform.position);
+            Vector2 targetAim = new Vector2(CharComponents.CharacterVisual.FlippedH ? -1f : 1f, -1f) + VectorMath.Vec3ToVec2(CharComponents.Center.transform.position);
             _currentAimPoint = Vector2.Lerp(_currentAimPoint, targetAim, AimSpeed * Time.deltaTime);
         }
         else
@@ -126,7 +126,7 @@ public class CharacterAiming : AbstractCharacterComponent
     {
         return VectorMath.GetNormalizedVectorsEqual(
             CurrentAimPoint,
-            new Vector2(CharComponents.CharacterVisual.SpritesFlipped ? -1f : 1f, -1f) + VectorMath.Vec3ToVec2(CharComponents.Center.transform.position),
+            new Vector2(CharComponents.CharacterVisual.FlippedH ? -1f : 1f, -1f) + VectorMath.Vec3ToVec2(CharComponents.Center.transform.position),
             AIM_EQUAL_DELTA
             );
     }

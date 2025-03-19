@@ -85,7 +85,7 @@ public class CharacterRolling : AbstractCharacterComponent
         CharComponents.CharacterMoving.IsAbleToMove = false;
 
         CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.ROLL;
-        CharComponents.CharacterVisual.SpritesFlipped = _currentRollDirection < 0f;
+        CharComponents.CharacterVisual.FlippedH = _currentRollDirection < 0f;
 
         CharComponents.CharacterAiming.AimWeaponDown = true;
 

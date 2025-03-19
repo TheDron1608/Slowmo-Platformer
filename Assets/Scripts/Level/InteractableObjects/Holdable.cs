@@ -224,7 +224,7 @@ public class Holdable : Interactable
         _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
         if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))
         {
-            _rigidBodyComponent.angularVelocity = ThrowRotationForce * (characterVisual.SpritesFlipped ? -1f : 1f);
+            _rigidBodyComponent.angularVelocity = ThrowRotationForce * (characterVisual.FlippedH ? -1f : 1f);
         }
         else
         {
@@ -270,7 +270,7 @@ public class Holdable : Interactable
 
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         CurrentHolder = newHolder;
-        transform.parent = newHolder.transform;
+        //transform.parent = newHolder.transform;
         if (ResetRotationWhenIsHolded)
         {
             Quaternion baseRotation = new();
