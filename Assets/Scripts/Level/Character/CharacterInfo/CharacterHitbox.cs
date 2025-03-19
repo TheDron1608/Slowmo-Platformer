@@ -27,13 +27,37 @@ public class CharacterHitbox : AbstractCharacterComponent
     {
         base.OnAwake();
         SetHitBoxTransform(AvaibleHitBoxTransforms.DEFAULT);
+        if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
     }
 
-    public bool HitableByProjectiles = true;
     /// <summary>
     /// If projectile hits two multiple parts of a single character same time, hit detection will be triggered on hitbox with the highest HitPriority
     /// </summary>
     public int HitPriority = 1;
+
+    private Collider2D _colliderComponent;
+    private bool _hitableByProjectiles = true;
+
+    public bool HitableByProjectiles
+    {
+        get => _hitableByProjectiles;
+        set
+        {
+            _hitableByProjectiles = value;
+
+            if (value)
+            {
+                _colliderComponent.excludeLayers = 0;
+            }
+            else
+            {
+                for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
+                {
+                    _colliderComponent.excludeLayers += 1 << LayerManager.Instance.ZLayers[i].HoldablesLayer;
+                }
+            }
+        }
+    }
 
     private AvaibleHitBoxTransforms _currentHitBoxTransform = AvaibleHitBoxTransforms.DEFAULT;
 
