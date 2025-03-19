@@ -20,6 +20,10 @@ public abstract class AbstractProjectile : MonoBehaviour
     protected virtual void OnAwake()
     {
         if (!TryGetComponent(out _rigidBody)) throw new UnityException("RigidBody2D component not found");
+
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        layer.UpdateLayerForGameObject(gameObject);
+        transform.parent = layer.transform;
     }
 
     public Weapon Weapon

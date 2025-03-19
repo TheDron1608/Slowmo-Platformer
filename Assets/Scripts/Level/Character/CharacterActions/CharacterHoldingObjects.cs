@@ -109,6 +109,14 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
             _currentHoldObject.transform.rotation = targetAngle;
         }
+        else
+        {
+            _currentHoldObject.transform.localScale = new Vector3(
+                math.abs(_currentHoldObject.transform.localScale.x) * (CharComponents.CharacterVisual.FlippedH ? -1f : 1f),
+                _currentHoldObject.transform.localScale.y,
+                _currentHoldObject.transform.localScale.z
+                );
+        }
         
         //setting current holded object's location
         Vector2 holdObjectPositionXY = Vector2.Lerp(
