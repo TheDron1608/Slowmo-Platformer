@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 1c80394c3bcae8b4dbd22f4cfad04823, type: 2}
+    - target: {fileID: 8745035720388786408, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 138547328
+      objectReference: {fileID: 0}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Size.x
       value: 0.87401074
@@ -91,14 +95,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 7266597396990769443}
+      addedObject: {fileID: 5532322455371515256}
   m_SourcePrefab: {fileID: 100100000, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
 --- !u!1 &4147169451795623401 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
   m_PrefabInstance: {fileID: 1834705965554822751}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7266597396990769443
+--- !u!114 &5532322455371515256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +111,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4147169451795623401}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9b75ed1f04389a4e9db9917141964b6, type: 3}
+  m_Script: {fileID: 11500000, guid: 48248e806973db14683ccf2927ef849f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Accuracy: 1
@@ -117,4 +121,4 @@ MonoBehaviour:
   - {fileID: 344805414714566387, guid: 380b5d937a336c841acbafb75ab8a65e, type: 3}
   - {fileID: 484576719013597578, guid: 69713a4334def064e9b325428379aae9, type: 3}
   SelfEffects: []
-  WallKnockback: 7.5
+  WallKnockback: 70
