@@ -25,7 +25,7 @@ public class Knockback : AbstractCharacterEffectWithSender
 
         if (CanFlipSprites)
         {
-            AffectedCharacter.CharacterVisual.SpritesFlipped = AffectedCharacter.CharacterRigidBody.linearVelocityX < 0f;
+            AffectedCharacter.CharacterVisual.FlippedH = AffectedCharacter.CharacterRigidBody.linearVelocityX < 0f;
         }
 
         RemoveSelf();

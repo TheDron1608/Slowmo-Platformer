@@ -10,7 +10,15 @@ public class BulletProjectile : AbstractRangedProjectile
             rangedWeapon.SpendAmmo(1);
         }
 
-        BulletProjectile newProjectile = Instantiate(this, weapon.transform);
+        BulletProjectile newProjectile = Instantiate(
+                this,
+                weapon.transform.position,
+                direction,
+                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).transform
+                );
+
+        newProjectile.transform.position = weapon.transform.position;
+
         newProjectile.MoveAlign = VectorMath.RandomizeQuarternion(direction, Accuracy * accuracityMultiplier);
 
         newProjectile.Weapon = weapon;

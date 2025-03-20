@@ -63,7 +63,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
                 }
                 else
                 {
-                    ForceThrow(CharComponents.CharacterVisual.SpritesFlipped ? Vector2.left : Vector2.right, 0.25f);
+                    ForceThrow(CharComponents.CharacterVisual.FlippedH ? Vector2.left : Vector2.right, 0.25f);
                 }
             }
             _isAbleToGrabObjects = value;
@@ -111,15 +111,16 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         }
         else
         {
-            if (_currentHoldObject.TryGetComponent(out SpriteRenderer spriteRenderer))
-            {
-                spriteRenderer.flipX = CharComponents.CharacterVisual.SpritesFlipped;
-            }
+            _currentHoldObject.transform.localScale = new Vector3(
+                math.abs(_currentHoldObject.transform.localScale.x) * (CharComponents.CharacterVisual.FlippedH ? -1f : 1f),
+                _currentHoldObject.transform.localScale.y,
+                _currentHoldObject.transform.localScale.z
+                );
         }
         
         //setting current holded object's location
         Vector2 holdObjectPositionXY = Vector2.Lerp(
-            _currentHoldObject.transform.position,
+            _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollisionInfo.PositionPrevFrame),
             VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
             aimDelta
             );

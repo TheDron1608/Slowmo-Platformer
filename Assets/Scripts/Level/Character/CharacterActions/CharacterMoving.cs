@@ -112,7 +112,7 @@ public class CharacterMoving : AbstractCharacterComponent
     {
         if (_currentMoveDirection == direction || _awaitingMoveDirection == direction || CharComponents.CharacterVisual.IsBusy()) return;
 
-        if (CharComponents.CharacterClumsyness.ClumsyMovement && (CharComponents.CharacterVisual.SpritesFlipped ^ direction < 0f) && direction != 0f)
+        if (CharComponents.CharacterClumsyness.ClumsyMovement && (CharComponents.CharacterVisual.FlippedH ^ direction < 0f) && direction != 0f)
         {
             CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE;
             _awaitingMoveDirection = direction;

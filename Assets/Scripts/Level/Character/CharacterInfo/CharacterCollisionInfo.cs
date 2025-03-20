@@ -52,6 +52,7 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
     private float _timeInAir;
     private float _timeOnGround;
     private bool _wasGroundedPrevFrame = true;
+    private Vector2 _positionPrevFrame;
 
     private bool _isCollidingFloor = false;
     private bool _isCollidingRoof = false;
@@ -78,6 +79,11 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
     {
         get => _currentZLayer;
         private set => _currentZLayer = value;
+    }
+    public Vector3 PositionPrevFrame
+    {
+        get => _positionPrevFrame;
+        private set => _positionPrevFrame = value;
     }
     
     public bool IsCollidingFloor()
@@ -114,6 +120,12 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
         return _behaviourTypeFromRightWall;
     }
 
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        PositionPrevFrame = transform.position;
+    }
+
     public bool GetIsStickingOnWall()
     {
         return
@@ -123,8 +135,6 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
                 GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
             );
     }
-
-
 
     private RaycastHit2D? RaycastHitFromCollider(Vector2 from, Vector2 align)
     {
@@ -313,6 +323,6 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
     private void LateUpdate()
     {
         _wasGroundedPrevFrame = _isCollidingFloor;
+        PositionPrevFrame = transform.position;
     }
-
 }

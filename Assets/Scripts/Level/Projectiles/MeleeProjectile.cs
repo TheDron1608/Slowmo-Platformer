@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MeleeProjectile : AbstractProjectile
@@ -24,8 +25,14 @@ public class MeleeProjectile : AbstractProjectile
     protected override List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
 
-        MeleeProjectile newProjectile = Instantiate(this, weapon.transform);
+        MeleeProjectile newProjectile = Instantiate(
+                this,
+                weapon.transform.position,
+                direction,
+                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).transform
+                );
 
+        newProjectile.transform.position = weapon.transform.position;
         newProjectile.transform.rotation = VectorMath.RandomizeQuarternion(direction, Accuracy);
 
         newProjectile.Weapon = weapon;
@@ -37,11 +44,10 @@ public class MeleeProjectile : AbstractProjectile
         return new List<AbstractProjectile>() { newProjectile };
     }
 
-    protected override void OnAwake()
+    protected override void OnUpdate()
     {
-        base.OnAwake();
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        layer.UpdateLayerForGameObject(gameObject);
+        base.OnUpdate();
+        transform.position = Weapon.transform.position;
     }
 
     public override void OnHit(GameObject hitObject)
@@ -62,5 +68,17 @@ public class MeleeProjectile : AbstractProjectile
             }
             _didHitAnyWallOnce = true;
         }
+    }
+
+    protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
+    {
+        return 
+            base.HitCondition(totalHitObjects, currentHitObjet) &&
+            (
+                !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
+                charComponent.CharComponents.CharacterHolding.LastHoldObject == null ||
+                (charComponent.CharComponents.CharacterHolding.LastHoldObject.TryGetComponent(out Weapon lastWeapon) && lastWeapon != Weapon
+            )
+        );
     }
 }

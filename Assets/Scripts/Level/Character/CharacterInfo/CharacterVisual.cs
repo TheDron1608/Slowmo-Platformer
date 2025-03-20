@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class CharacterVisual : AbstractCharacterComponent
@@ -41,7 +42,7 @@ public class CharacterVisual : AbstractCharacterComponent
     /// </summary>
     public float MoveSpeedVelocityRange = 8f;
 
-    private bool _spritesFlipped = false;
+    private bool _flippedH = false;
     private CharacterPartVisual.CharacterPartMainStates _mainState = CharacterPartVisual.CharacterPartMainStates.IDLE;
     private float _jumpState = 0f;
     private float _moveSpeed = 1f;
@@ -57,24 +58,22 @@ public class CharacterVisual : AbstractCharacterComponent
         _characterPartsContainer = transform.Find(CHARACTER_PARTS_GAMEOBJECT_NAME);
     }
 
-    public bool SpritesFlipped
+    public bool FlippedH
     {
-        get => _spritesFlipped;
+        get => _flippedH;
         set {
-            if (_spritesFlipped == value) return;
-            _spritesFlipped = value;
-            UpdateSpritesFlipped();
+            if (_flippedH == value) return;
+            _flippedH = value;
+            UpdateFlippedH();
         }
     }
-    private void UpdateSpritesFlipped()
+    private void UpdateFlippedH()
     {
-        for (int i = 0; i < _characterPartsContainer.childCount; i++)
-        {
-            if (_characterPartsContainer.GetChild(i).TryGetComponent<CharacterPartVisual>(out CharacterPartVisual currentCharPart))
-            {
-                currentCharPart.GetComponent<SpriteRenderer>().flipX = _spritesFlipped;
-            }
-        }
+        transform.localScale = new Vector3(
+            math.abs(transform.localScale.x) * (FlippedH ? -1f : 1f),
+            transform.localScale.y,
+            transform.localScale.z
+            );
     }
 
     public CharacterPartVisual.CharacterPartMainStates MainState
@@ -222,11 +221,11 @@ public class CharacterVisual : AbstractCharacterComponent
 
                     if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f)
                     {
-                        SpritesFlipped = false;
+                        FlippedH = false;
                     }
                     else if (CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0f)
                     {
-                        SpritesFlipped = true;
+                        FlippedH = true;
                     }
                 }
             }
@@ -243,11 +242,11 @@ public class CharacterVisual : AbstractCharacterComponent
 
                 if (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f)
                 {
-                    SpritesFlipped = false;
+                    FlippedH = false;
                 }
                 else if (CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0f)
                 {
-                    SpritesFlipped = true;
+                    FlippedH = true;
                 }
             }
         }
@@ -255,7 +254,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void UpdateMoveSpeedParam()
     {
-        MoveSpeed = CharComponents.CharacterRigidBody.linearVelocityX / MoveSpeedVelocityRange * (SpritesFlipped ? -1f : 1f);
+        MoveSpeed = CharComponents.CharacterRigidBody.linearVelocityX / MoveSpeedVelocityRange * (FlippedH ? -1f : 1f);
     }
 
     private void UpdateStunnedBusyStateParam()

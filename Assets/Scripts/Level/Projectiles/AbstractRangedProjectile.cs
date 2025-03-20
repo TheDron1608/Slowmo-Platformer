@@ -50,9 +50,6 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
     protected override void OnAwake()
     {
         base.OnAwake();
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        layer.UpdateLayerForGameObject(gameObject);
-        transform.parent = layer.transform;
         _onHitWallCloudsPaticleSpawner = transform.Find(ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
         ResetPiercesLeft();
     }

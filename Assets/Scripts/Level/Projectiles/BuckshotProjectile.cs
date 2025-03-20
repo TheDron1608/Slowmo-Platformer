@@ -15,7 +15,14 @@ public class BuckshotProjectile : AbstractRangedProjectile
         List<AbstractProjectile> result = new();
         for (int i = 0; i < BuckshotSubProjectilesAmount; i++)
         {
-            BuckshotProjectile newProjectile = Instantiate(this, weapon.transform);
+            BuckshotProjectile newProjectile = Instantiate(
+                this, 
+                weapon.transform.position, 
+                direction, 
+                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).transform
+                );
+
+            newProjectile.transform.position = weapon.transform.position;
 
             newProjectile.MoveAlign = VectorMath.RandomizeQuarternion(
                 direction,
