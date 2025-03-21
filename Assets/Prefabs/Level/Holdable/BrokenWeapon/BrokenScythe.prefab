@@ -100,6 +100,18 @@ PrefabInstance:
       propertyPath: ThrowForceMultiplier
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: RotatableWhenIsHolded
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: HoldDistanceWhenIsHolded
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: ResetRotationWhenIsHolded
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

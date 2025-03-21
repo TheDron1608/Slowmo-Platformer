@@ -137,11 +137,33 @@ public abstract class Weapon : MonoBehaviour
     {
         IsInCooldown = true;
 
-        _projectiles.AddRange(Projectile.SpawnProjectile(direction, AccuracyMultiplier, this));
+        List<AbstractProjectile> newProjectiles = Projectile.SpawnProjectile(direction, AccuracyMultiplier, this);
+
+        _projectiles.AddRange(newProjectiles);
+        for (int i = 0; i < newProjectiles.Count; i++)
+        {
+            newProjectiles[i].OnHitSomeOne += NewProjectile_OnHitSomething;
+            newProjectiles[i].OnDestroyed += NewProjectile_OnDestroyed;
+        }
+
         _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
         return true;
     }
+
+    private void NewProjectile_OnHitSomething(object sender, GameObject e)
+    {
+        (sender as AbstractProjectile).OnHitSomeOne -= NewProjectile_OnHitSomething;
+        (sender as AbstractProjectile).OnDestroyed -= NewProjectile_OnDestroyed;
+
+        GetComponent<BreakableObject>()?.SpendOneUse();
+    }
+    private void NewProjectile_OnDestroyed(object sender, EventArgs e)
+    {
+        (sender as AbstractProjectile).OnHitSomeOne -= NewProjectile_OnHitSomething;
+        (sender as AbstractProjectile).OnDestroyed -= NewProjectile_OnDestroyed;
+    }
+
 
     protected virtual void OnTryAttackFail(Vector2 direction)
     {

@@ -201,6 +201,41 @@ public class Holdable : Interactable
         OnThrow(direction, throwForceMultiplier);
     }
 
+    public void TransformToAnotherObject(Holdable anotherObject)
+    {
+        Holdable replaceObject = Instantiate(anotherObject, transform.parent);
+
+        replaceObject.TranformSelfToAnotherObject(this);
+    }
+
+    public void TranformSelfToAnotherObject(Holdable anotherObject)
+    {
+        if (gameObject.TryGetComponent(out Weapon selfWeapon) && anotherObject.TryGetComponent(out Weapon anotherWeapon))
+        {
+            selfWeapon.IsThrown = anotherWeapon.IsThrown;
+        }
+        if (gameObject.TryGetComponent(out RangedWeapon selfRangedWeapon) && anotherObject.TryGetComponent(out RangedWeapon anotherRangedWeapon))
+        {
+            selfRangedWeapon.LoadedLivingAmmoLeft = anotherRangedWeapon.LoadedLivingAmmoLeft;
+            selfRangedWeapon.LoadedSpentAmmoLeft = anotherRangedWeapon.LoadedSpentAmmoLeft;
+            selfRangedWeapon.AmmoLeft = anotherRangedWeapon.AmmoLeft;
+            selfRangedWeapon.Unloaded = anotherRangedWeapon.Unloaded;
+        }
+
+        LayerManager.Instance.ChangeZIndexForGameObject(
+            LayerManager.Instance.GetZLayerOfGameObject(anotherObject.gameObject),
+            gameObject,
+            anotherObject.gameObject
+            );
+
+        CharacterHoldingObjects newHolder = anotherObject.CurrentHolder;
+        Destroy(anotherObject.gameObject);
+        if (newHolder != null)
+        {
+            OnPickedUp(newHolder);
+        }
+    }
+
     protected override void OnStartInteact(GameObject interactor)
     {
         if (interactor.TryGetComponent(out CharacterHoldingObjects charHoldingObjects))
@@ -212,7 +247,6 @@ public class Holdable : Interactable
     protected virtual void OnThrow(Vector2 direction, float throwForceMultiplier = 1f)
     {
         _isStuck = false;
-        CurrentHolder.CurrentHoldObject = null;
         transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform;
         _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
 
@@ -310,6 +344,14 @@ public class Holdable : Interactable
             {
                 spinableMeleeWeapon.Spin();
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (CurrentHolder != null && CurrentHolder.CurrentHoldObject == this)
+        {
+            CurrentHolder.CurrentHoldObject = null;
         }
     }
 }

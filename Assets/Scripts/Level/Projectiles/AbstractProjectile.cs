@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ public abstract class AbstractProjectile : MonoBehaviour
     private CharacterHoldingObjects _owner;
     private Rigidbody2D _rigidBody;
     protected List<Collider2D> _currentHittingColliders = new();
+
+    public event EventHandler<GameObject> OnHitSomeOne;
+    public event EventHandler OnDestroyed;
 
     private void Awake()
     {
@@ -73,6 +77,7 @@ public abstract class AbstractProjectile : MonoBehaviour
         if (hitObject.transform.parent.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
             charComponent.CharComponents.CharacterEffects.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPartHealth>());
+            OnHitSomeOne?.Invoke(this, hitObject);
         }
     }
 
@@ -115,8 +120,7 @@ public abstract class AbstractProjectile : MonoBehaviour
         return
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
-                charComponent.CharComponents.CharacterHolding.CurrentHoldObject == null ||
-                (charComponent.CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon currentWeapon) && currentWeapon != Weapon)
+                charComponent.CharComponents.CharacterHolding != Owner
             ) &&
             (
                 !currentHitObjet.TryGetComponent(out CharacterHitbox charHitbox) ||
@@ -141,5 +145,10 @@ public abstract class AbstractProjectile : MonoBehaviour
         }
 
         return currentHighestPriority <= currentHitBox.HitPriority;
+    }
+
+    private void OnDestroy()
+    {
+        OnDestroyed?.Invoke(this, EventArgs.Empty);
     }
 }

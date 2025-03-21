@@ -19,10 +19,10 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     [SerializeField] private bool _isAbleToGrabObjects = true;
     [SerializeField] private bool _isAbleToThrowObjects = true;
+    [SerializeField] private Holdable _currentHoldObject = null;
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
 
-    private Holdable _currentHoldObject = null;
     private Holdable _lastHoldObject = null;
 
     public event EventHandler<OnThewEventArgs> OnThrewHoldable;

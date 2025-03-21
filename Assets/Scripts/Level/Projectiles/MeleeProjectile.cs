@@ -47,7 +47,10 @@ public class MeleeProjectile : AbstractProjectile
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        transform.position = Weapon.transform.position;
+        if (!Weapon.IsDestroyed())
+        {
+            transform.position = Weapon.transform.position;
+        }
     }
 
     public override void OnHit(GameObject hitObject)

@@ -1,5 +1,101 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5682905708896745112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2337412729807734557}
+  - component: {fileID: 9129105024582205790}
+  m_Layer: 0
+  m_Name: BrokenPartsParticlesSpawner1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2337412729807734557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5682905708896745112}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: 0.13052616, w: 0.9914449}
+  m_LocalPosition: {x: -0.501, y: -0.022, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6587711038116240865}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 15}
+--- !u!114 &9129105024582205790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5682905708896745112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultParticle: {fileID: 3372791352884631912, guid: 1a84d547044ecc647ab54b7ca0188437, type: 3}
+  SpawnVelocity: 6
+  SpawnAngle: 35
+  SpawnAngularVeclocity: 360
+--- !u!1 &6281508302928634479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1434766927609155472}
+  - component: {fileID: 843051264592882859}
+  m_Layer: 0
+  m_Name: BrokenPartsParticlesSpawner2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1434766927609155472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281508302928634479}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: 0.043619405, w: 0.9990483}
+  m_LocalPosition: {x: -0.445, y: -0.245, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6587711038116240865}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 5}
+--- !u!114 &843051264592882859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281508302928634479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultParticle: {fileID: 3372791352884631912, guid: 1f7f51e843524154c9e785d95c391062, type: 3}
+  SpawnVelocity: 3
+  SpawnAngle: 5
+  SpawnAngularVeclocity: 720
 --- !u!1001 &555786682304151848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76,6 +172,26 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5796788966896388456, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _maxUses
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796788966896388456, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: ObjectOnBreak
+      value: 
+      objectReference: {fileID: 974232141757345711, guid: f6e2be3b57b9c5248afd0a26ab7c8f1d, type: 3}
+    - target: {fileID: 5796788966896388456, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _brokenPartsParticleSpawners.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5796788966896388456, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[0]'
+      value: 
+      objectReference: {fileID: 9129105024582205790}
+    - target: {fileID: 5796788966896388456, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[1]'
+      value: 
+      objectReference: {fileID: 843051264592882859}
     - target: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -126,12 +242,23 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 17eccbe610e99bd448d85c8ac793ef99, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2337412729807734557}
+    - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1434766927609155472}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7456881602955135124, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       insertIndex: 1
       addedObject: {fileID: 1218550853478665722}
   m_SourcePrefab: {fileID: 100100000, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+--- !u!4 &6587711038116240865 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+  m_PrefabInstance: {fileID: 555786682304151848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6974570890917349820 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7456881602955135124, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
