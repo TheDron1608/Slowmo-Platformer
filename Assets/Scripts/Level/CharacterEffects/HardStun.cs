@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HardStun : AbstractOverwritingCharacterEffect
+public class HardStun : AbstractStun
 {
     protected override void OnApply()
     {
@@ -26,26 +26,6 @@ public class HardStun : AbstractOverwritingCharacterEffect
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
         AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
-    }
-
-    protected override void OnRemove()
-    {
-        base.OnRemove();
-
-        if (AffectedCharacter.CharacterEffects.GetHasEffect<HardStun>() || AffectedCharacter.CharacterEffects.GetHasEffect<MinorStun>() || AffectedCharacter.CharacterEffects.GetHasEffect<Death>()) return;
-
-        AffectedCharacter.CharacterMoving.IsAbleToMove = true;
-        AffectedCharacter.CharacterJumping.IsAbleToJump = true;
-        AffectedCharacter.CharacterInteract.IsAbleToInteractWithObjects = true;
-        AffectedCharacter.CharacterHolding.IsAbleToGrabObjects = true;
-        AffectedCharacter.CharacterHolding.IsAbleToThrowObjects = true;
-        AffectedCharacter.CharacterAiming.IsAbleToAim = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToAttack = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToHammer = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = true;
-        AffectedCharacter.CharacterReloading.IsAbleToReload = true;
-        AffectedCharacter.CharacterRolling.IsAbleToRoll = true;
-        AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = true;
     }
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)

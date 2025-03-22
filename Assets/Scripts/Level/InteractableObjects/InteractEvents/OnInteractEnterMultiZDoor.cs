@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class OnInteractEnterMultiZDoor : LockActionsInteractable
+public class OnInteractEnterMultiZDoor : Interactable
 {
     private MultiZLayerCamera _multiZLayerCameraComponent;
     private ZIndexLayer _zLayer;

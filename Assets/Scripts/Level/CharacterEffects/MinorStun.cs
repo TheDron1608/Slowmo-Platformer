@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MinorStun : AbstractOverwritingCharacterEffect
+public class MinorStun : AbstractStun
 {
     protected override void OnApply()
     {
@@ -27,21 +27,6 @@ public class MinorStun : AbstractOverwritingCharacterEffect
     protected override void OnRemove()
     {
         base.OnRemove();
-
-        if (AffectedCharacter.CharacterEffects.GetHasEffect<HardStun>() || AffectedCharacter.CharacterEffects.GetHasEffect<MinorStun>() || AffectedCharacter.CharacterEffects.GetHasEffect<Death>()) return;
-
-        AffectedCharacter.CharacterMoving.IsAbleToMove = true;
-        AffectedCharacter.CharacterJumping.IsAbleToJump = true;
-        AffectedCharacter.CharacterInteract.IsAbleToInteractWithObjects = true;
-        AffectedCharacter.CharacterHolding.IsAbleToGrabObjects = true;
-        AffectedCharacter.CharacterHolding.IsAbleToThrowObjects = true;
-        AffectedCharacter.CharacterAiming.IsAbleToAim = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToAttack = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToHammer = true;
-        AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = true;
-        AffectedCharacter.CharacterReloading.IsAbleToReload = true;
-        AffectedCharacter.CharacterRolling.IsAbleToRoll = true;
-        AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = true;
 
         if (AffectedCharacter.CharacterVisual.CurrentBusyAnimation == CharacterPartVisual.CharacterPartBusyStates.MINOR_STUN)
         {

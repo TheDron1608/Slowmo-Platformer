@@ -1,25 +1,10 @@
-using System.Collections;
 using UnityEngine;
 
-public class Death : AbstractStun
+public class Busy : AbstractStun
 {
-    private bool _diedThisFrame = true;
-
-    public bool DiedThisFrame
-    {
-        get => _diedThisFrame; 
-        private set => _diedThisFrame = value;
-    }
-
     protected override void OnApply()
     {
         base.OnApply();
-
-        AffectedCharacter.CharacterVisual.BreakBusyAnimation();
-
-        AffectedCharacter.CharacterEffects.RemoveEffect<MinorStun>();
-
-        AffectedCharacter.CharacterHolding.TryThrow(AffectedCharacter.CharacterRigidBody.linearVelocity.normalized, 0.25f);
 
         AffectedCharacter.CharacterMoving.IsAbleToMove = false;
         AffectedCharacter.CharacterJumping.IsAbleToJump = false;
@@ -33,22 +18,10 @@ public class Death : AbstractStun
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
         AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
-
-        AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(false);
-
-        StartCoroutine(AwaitFrameThenSetDiedThisFrame());
     }
 
-    private IEnumerator AwaitFrameThenSetDiedThisFrame()
+    public override bool ApplyCondition(CharacterComponentsManager affectWho)
     {
-        yield return new WaitForEndOfFrame();
-        _diedThisFrame = false;
-    }
-
-    protected override void OnRemove()
-    {
-        base.OnRemove();
-
-        AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(true);
+        return base.ApplyCondition(affectWho) && !affectWho.CharacterEffects.GetHasEffect<AbstractStun>();
     }
 }

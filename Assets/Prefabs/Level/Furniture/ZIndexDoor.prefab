@@ -327,6 +327,10 @@ MonoBehaviour:
   _spriteRendererComponent: {fileID: 4638608704075905683}
   AnimationOnStartInteract: 2
   AnimationOnFinishInteract: 1
+  EffectsOnStartInteract: []
+  EffectsWhileInteracting:
+  - {fileID: 3692422950068839780, guid: 315e6127a681f434a829f281edbf911e, type: 3}
+  EffectsOnFinishInteract: []
   Exit: {fileID: 0}
 --- !u!224 &5564436893129924854 stripped
 RectTransform:

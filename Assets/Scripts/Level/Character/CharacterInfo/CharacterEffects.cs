@@ -120,9 +120,16 @@ public class CharacterEffects : AbstractCharacterComponent
     {
         if (effect.IsDestroyed()) return;
 
-        OnEffectRemoved?.Invoke(this, effect);
-        _currentEffects.Remove(effect);
-        GameObject.Destroy(effect.gameObject);
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (_currentEffects[i].GetType() == effect.GetType())
+            {
+                OnEffectRemoved?.Invoke(this, _currentEffects[i]);
+                GameObject.Destroy(_currentEffects[i].gameObject);
+                _currentEffects.RemoveAt(i);
+                i--;
+            }
+        }
     }
 
     public void RemoveEffect(System.Type effectType)
@@ -137,6 +144,22 @@ public class CharacterEffects : AbstractCharacterComponent
                 GameObject.Destroy(_currentEffects[i].gameObject);
                 _currentEffects.RemoveAt(i);
             }
+        }
+    }
+
+    public void RemoveEffect(List<AbstractCharacterEffect> effects)
+    {
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            RemoveEffect(effects[i]);
+        }
+    }
+
+    public void RemoveEffect(List<System.Type> effects)
+    {
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            RemoveEffect(effects[i]);
         }
     }
 

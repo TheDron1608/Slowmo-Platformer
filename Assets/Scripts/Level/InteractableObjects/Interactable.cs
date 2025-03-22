@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static CharacterVisual;
@@ -19,6 +21,9 @@ public abstract class Interactable : SelectableObject
     [Header("Interactalbe")]
     public CharacterPartVisual.CharacterPartBusyStates AnimationOnStartInteract = CharacterPartVisual.CharacterPartBusyStates.NONE;
     public CharacterPartVisual.CharacterPartBusyStates AnimationOnFinishInteract = CharacterPartVisual.CharacterPartBusyStates.NONE;
+    public List<AbstractCharacterEffect> EffectsOnStartInteract = new();
+    public List<AbstractCharacterEffect> EffectsWhileInteracting = new();
+    public List<AbstractCharacterEffect> EffectsOnFinishInteract = new();
 
     public bool GetIsOccured()
     {
@@ -120,14 +125,22 @@ public abstract class Interactable : SelectableObject
     /// </summary>
     protected virtual void OnStartInteact(GameObject interactor)
     {
-
+        if (interactor.TryGetComponent(out AbstractCharacterComponent charComponent))
+        {
+            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnStartInteract, this, null);
+            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsWhileInteracting, this, null);
+        }
     }
     /// <summary>
     /// called when StartAnimation is finished, not called if StartAnimation is not sat
     /// </summary>
     protected virtual void OnFinishInteract(GameObject interactor)
     {
-
+        if (interactor.TryGetComponent(out AbstractCharacterComponent charComponent))
+        {
+            charComponent.CharComponents.CharacterEffects.RemoveEffect(EffectsWhileInteracting);
+            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnFinishInteract, this, null);
+        }
     }
     /// <summary>
     /// Called when FinishAnimation is finished, not called if FinishAnimation is not sat
