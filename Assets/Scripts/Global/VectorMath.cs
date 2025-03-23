@@ -103,4 +103,9 @@ public static class VectorMath
         Vector2 randomziedDirection = new Vector2((UnityEngine.Random.value - 0.5f) * 2, (UnityEngine.Random.value - 0.5f) * 2).normalized;
         return vector + randomziedDirection * accuracy;
     }
+
+    public static Vector2 ReverseVectorXY(Vector2 vector)
+    {
+        return new Vector2(vector.y, vector.x);
+    }
 }

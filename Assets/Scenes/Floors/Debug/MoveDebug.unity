@@ -76925,6 +76925,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 793992976}
     m_Modifications:
+    - target: {fileID: 1146003754816799300, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: LosingLimbIsLethal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4213330836085406466, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.1000009
