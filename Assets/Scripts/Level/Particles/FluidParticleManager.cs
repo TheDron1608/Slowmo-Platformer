@@ -166,6 +166,7 @@ public class FluidParticleManager : MonoBehaviour
             newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(BlobParticles, maxSize), spawnPosition, spawnRotation, zLayer.FluidParticlesContainer);
         }
         newParticle.SetProperties(VectorMath.Quartenion2DToVec2(direction) * velocity, lifeTime);
+        LayerManager.Instance.ChangeZIndexForGameObject(zLayer, newParticle.gameObject);
         OnAddFluidParticle(newParticle);
     }
 
@@ -178,6 +179,7 @@ public class FluidParticleManager : MonoBehaviour
             zLayer.FluidParticlesContainer
             );
         newParticle.SetProperties(Vector2.zero, 0f);
+        LayerManager.Instance.ChangeZIndexForGameObject(zLayer, newParticle.gameObject);
         OnAddFluidParticle(newParticle);
     }
     private void SpawnSingleHugeDripFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
@@ -189,6 +191,7 @@ public class FluidParticleManager : MonoBehaviour
             zLayer.FluidParticlesContainer
             );
         newParticle.SetProperties(Vector2.zero, 0f);
+        LayerManager.Instance.ChangeZIndexForGameObject(zLayer, newParticle.gameObject);
         OnAddFluidParticle(newParticle);
     }
 

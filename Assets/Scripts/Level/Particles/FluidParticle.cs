@@ -59,7 +59,7 @@ public class FluidParticle : MonoBehaviour
             RaycastHit2D hit = Physics2D.Linecast(_previousPosition, transform.position, _currentEnviromentLayerMask);
             if (hit.point != Vector2.zero)
             {
-                transform.position = hit.point;
+                transform.position = VectorMath.Vec2ToVec3(hit.point, transform.position.z);
                 stopParticleSmoothly = false;
                 break;
             }

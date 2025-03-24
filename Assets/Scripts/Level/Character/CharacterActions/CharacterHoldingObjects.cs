@@ -130,6 +130,8 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             holdObjectPositionXY.y,
             CharComponents.Center.transform.position.z
             );
+
+        LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), _currentHoldObject.gameObject);
     }
 
     public bool TryThrow(Vector2 align, float throwForceMultiplier = 1f)

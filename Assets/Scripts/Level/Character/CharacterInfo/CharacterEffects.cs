@@ -149,15 +149,16 @@ public class CharacterEffects : AbstractCharacterComponent
 
     public void RemoveEffect(List<AbstractCharacterEffect> effects)
     {
+        if (effects.Count == 0) return;
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (effects[i] == null) break;
             RemoveEffect(effects[i]);
         }
     }
 
     public void RemoveEffect(List<System.Type> effects)
     {
+        if (effects.Count == 0) return;
         for (int i = 0; i < _currentEffects.Count; i++)
         {
             RemoveEffect(effects[i]);
