@@ -8,6 +8,8 @@ public class Holdable : Interactable
 {
     const int ON_GRAB_SORTING_ORDER_ADD = 50;
     const float STUCK_IN_WALL_STRINGHT = 40f;
+    const float DISABLE_GRAVITY_DURATION_SECONDS = 1f;
+    const float MIN_VELOCITY_TO_DISABLE_GRAVITY = 10f;
 
     public class OnThrownEventArgs
     {
@@ -40,6 +42,7 @@ public class Holdable : Interactable
     private Collider2D _stuckedToCollider = null;
     private Vector2 _velocitySpeedPreviousFrame = Vector2.zero;
     private bool _isStuck = false;
+    private Coroutine _enableGravityCoroutine;
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
     public event EventHandler<OnThrownEventArgs> OnThrown;
@@ -166,6 +169,12 @@ public class Holdable : Interactable
                 }
             }
         }
+
+        _rigidBodyComponent.gravityScale = 1f;
+        if (_enableGravityCoroutine != null)
+        {
+            StopCoroutine(_enableGravityCoroutine);
+        }
     }
 
     public CharacterHoldingObjects CurrentHolder
@@ -265,6 +274,12 @@ public class Holdable : Interactable
             _rigidBodyComponent.angularVelocity = ThrowRotationForce;
         }
 
+        if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) >= MIN_VELOCITY_TO_DISABLE_GRAVITY)
+        {
+            _rigidBodyComponent.gravityScale = 0f;
+            _enableGravityCoroutine = StartCoroutine(EnableGravityAfterDelay());
+        }
+
         CurrentHolder.CurrentHoldObject = null;
         CurrentHolder = null;
 
@@ -295,6 +310,11 @@ public class Holdable : Interactable
         {
             chainsaw.Started = false;
         }
+    }
+    private IEnumerator EnableGravityAfterDelay()
+    {
+        yield return new WaitForSeconds(DISABLE_GRAVITY_DURATION_SECONDS);
+        _rigidBodyComponent.gravityScale = 1f;
     }
 
     protected virtual void OnPickedUp(CharacterHoldingObjects newHolder)

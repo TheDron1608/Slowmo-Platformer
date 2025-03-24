@@ -53,6 +53,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: ThrowRotationForce
+      value: 720
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: EffectsOnThrowHit.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -95,6 +99,7 @@ MonoBehaviour:
   ObjectOnBreak: {fileID: 0}
   _maxUses: 10
   UnlimitedUses: 0
+  _brokenPartsParticleSpawners: []
 --- !u!95 &3049281706012927928
 Animator:
   serializedVersion: 7
