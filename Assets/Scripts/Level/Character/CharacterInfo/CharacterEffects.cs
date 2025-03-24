@@ -151,6 +151,7 @@ public class CharacterEffects : AbstractCharacterComponent
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
+            if (effects[i] == null) break;
             RemoveEffect(effects[i]);
         }
     }
