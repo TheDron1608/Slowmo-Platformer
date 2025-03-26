@@ -75,8 +75,6 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         }
 
         RaycastHit2D[] hitObjects = Physics2D.LinecastAll(_positionPreviousFrame, _projectileTip.position, _hitLayerMask);
-        Debug.DrawLine(_positionPreviousFrame, _projectileTip.position);
-        Debug.Log(hitObjects.Length);
 
         Collider2D[] hitObjectsColliders = new Collider2D[hitObjects.Length];
         for (int i = 0; i < hitObjects.Length; i++)

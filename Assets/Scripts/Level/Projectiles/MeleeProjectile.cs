@@ -22,11 +22,14 @@ public class MeleeProjectile : AbstractProjectile
 
     private bool _didHitAnyWallOnce = false;
     private Rigidbody2D _rigidBody;
+    private int _hitWallLayerMask;
 
     protected override void OnAwake()
     {
         base.OnAwake();
         if (!TryGetComponent(out _rigidBody)) throw new UnityException("RigidBody2D component not found");
+
+        _hitWallLayerMask = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer;
     }
 
     protected override List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
@@ -100,13 +103,30 @@ public class MeleeProjectile : AbstractProjectile
 
     protected override bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
     {
-        return 
+        return
             base.HitCondition(totalHitObjects, currentHitObjet) &&
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
                 charComponent.CharComponents.CharacterHolding.LastHoldObject == null ||
-                (charComponent.CharComponents.CharacterHolding.LastHoldObject.TryGetComponent(out Weapon lastWeapon) && lastWeapon != Weapon
-            )
-        );
+                (charComponent.CharComponents.CharacterHolding.LastHoldObject.TryGetComponent(out Weapon lastWeapon) && lastWeapon != Weapon)
+            ) &&
+            !GetHasWallBetweenHitObject(currentHitObjet);
+    }
+
+    private bool GetHasWallBetweenHitObject(Collider2D hitObject)
+    {
+        RaycastHit2D[] hitObjectsBetween = Physics2D.LinecastAll(transform.position, hitObject.transform.position);
+        foreach (RaycastHit2D hitObjectBetween in hitObjectsBetween)
+        {
+            if (hitObjectBetween.collider == hitObject)
+            {
+                return false;
+            }
+            if (hitObjectBetween.collider.tag == LayerManager.ENVIROMENT_TAG_NAME)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
