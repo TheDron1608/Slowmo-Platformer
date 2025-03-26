@@ -10,6 +10,7 @@ public class CharacterAttacking : AbstractCharacterComponent
     [SerializeField] private bool _isAbleToHammer = true;
     [SerializeField] private bool _isAbleToStartChainsaw = true;
     public float AttackCooldownMultiplier = 1f;
+    public AbstractProjectile UnarmedAttackProjectile;
 
     private Vector2? _awaitingMeleeAttackDirection = null;
     private Coroutine _clumsyRangedAttackCoroutine = null;
@@ -158,16 +159,28 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool ForceAttack(Vector2 direction)
     {
-        if (IsAbleToAttack && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
+        if (IsAbleToAttack) return false;
+        if (CharComponents.CharacterHolding.CurrentHoldObject != null)
         {
-            if (weapon.TryAttack(direction))
+            if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
             {
-                if (TryGetComponent(out CharacterRolling charRolling))
+                if (weapon.TryAttack(direction))
                 {
-                    charRolling.ForceStopRolling();
+                    if (TryGetComponent(out CharacterRolling charRolling))
+                    {
+                        charRolling.ForceStopRolling();
+                    }
                 }
+                return true;
             }
-            return true;
+            else
+            {
+                return false;
+            }
+        }
+        else if (CharComponents.UnarmedAttacking.Projectile != null)
+        {
+            CharComponents.UnarmedAttacking.TryAttack(direction);
         }
         return false;
     }

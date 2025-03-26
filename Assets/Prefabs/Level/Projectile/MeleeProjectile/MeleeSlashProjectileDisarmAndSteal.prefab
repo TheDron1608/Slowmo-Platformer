@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Name
-      value: MeleeSlashProjectileDisarm
+      value: MeleeSlashProjectileDisarmAndSteal
       objectReference: {fileID: 0}
     - target: {fileID: 2411588291250371948, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -107,10 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Accuracy: 1
   HitEffects:
-  - {fileID: 977385987182254359, guid: 613a342179d70234bb4bbd19fe33e19e, type: 3}
-  - {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
-  - {fileID: 344805414714566387, guid: 195b480f62c6b0947a81e8a1b793b4e2, type: 3}
-  - {fileID: -9038473542840591547, guid: 770c95ca49d8fd84597ed59c426cf55b, type: 3}
+  - {fileID: -7230639950384262476, guid: 632f89f98857e344a9a0577c42603646, type: 3}
   SelfEffects:
-  - {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
+  - {fileID: 977385987182254359, guid: 631b83f48d1efdb4fb797c730d219835, type: 3}
   WallKnockback: 5
