@@ -21,6 +21,13 @@ public class MeleeProjectile : AbstractProjectile
     public float WallKnockback = 5f;
 
     private bool _didHitAnyWallOnce = false;
+    private Rigidbody2D _rigidBody;
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        if (!TryGetComponent(out _rigidBody)) throw new UnityException("RigidBody2D component not found");
+    }
 
     protected override List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
     {
@@ -47,6 +54,24 @@ public class MeleeProjectile : AbstractProjectile
     protected override void OnUpdate()
     {
         base.OnUpdate();
+
+        List<Collider2D> hitObjectsList = new();
+        _rigidBody.Overlap(hitObjectsList);
+        Collider2D[] hitObjects = hitObjectsList.ToArray();
+
+        // invokes OnHit trigger if:
+        // 1. is not hitbox of projectile's weapon's owner
+        // 2. has the highest CharacterHitbox.HitPrority value than other CharacterHitboxes of the same character
+        // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
+        for (int i = 0; i < hitObjects.Length; i++)
+        {
+            if (HitCondition(hitObjects, hitObjects[i]))
+            {
+                _currentHittingColliders.Add(hitObjects[i]);
+                OnHit(hitObjects[i].gameObject);
+            }
+        }
+
         if (!Weapon.IsDestroyed())
         {
             transform.position = Weapon.transform.position;
@@ -73,7 +98,7 @@ public class MeleeProjectile : AbstractProjectile
         }
     }
 
-    protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
+    protected override bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
     {
         return 
             base.HitCondition(totalHitObjects, currentHitObjet) &&

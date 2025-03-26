@@ -6,6 +6,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
 {
     const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
     const string ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME = "OnHitWallCloudParticle";
+    const string PROJECTILE_TIP_GAMEOBJECT_NAME = "ProjectileTip";
 
     public float BulletSpeed = 35f;
     public float MaxRange = 350f;
@@ -14,7 +15,10 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
+    private Transform _projectileTip;
+    private Vector3 _positionPreviousFrame;
     private ParticleSpawner _onHitWallCloudsPaticleSpawner;
+    private int _hitLayerMask;
 
     private float _rangeMoved = 0f;
     private float _piercesLeft;
@@ -50,7 +54,13 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
     protected override void OnAwake()
     {
         base.OnAwake();
+        _positionPreviousFrame = transform.position;
+        _projectileTip = transform.Find(PROJECTILE_TIP_GAMEOBJECT_NAME);
         _onHitWallCloudsPaticleSpawner = transform.Find(ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
+
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        _hitLayerMask = 1 << layer.CharactersLayer | 1 << layer.EnviromentLayer;
+
         ResetPiercesLeft();
     }
 
@@ -62,6 +72,29 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         {
             _isFirstFrame = false;
             return;
+        }
+
+        RaycastHit2D[] hitObjects = Physics2D.LinecastAll(_positionPreviousFrame, _projectileTip.position, _hitLayerMask);
+        Debug.DrawLine(_positionPreviousFrame, _projectileTip.position);
+        Debug.Log(hitObjects.Length);
+
+        Collider2D[] hitObjectsColliders = new Collider2D[hitObjects.Length];
+        for (int i = 0; i < hitObjects.Length; i++)
+        {
+            hitObjectsColliders[i] = hitObjects[i].collider;
+        }
+
+        // invokes OnHit trigger if:
+        // 1. is not hitbox of projectile's weapon's owner
+        // 2. has the highest CharacterHitbox.HitPrority value than other CharacterHitboxes of the same character
+        // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
+        foreach (Collider2D hitObjectsCollider in hitObjectsColliders)
+        {
+            if (HitCondition(hitObjectsColliders, hitObjectsCollider))
+            {
+                _currentHittingColliders.Add(hitObjectsCollider);
+                OnHit(hitObjectsCollider.gameObject);
+            }
         }
 
         float deltaRange = BulletSpeed * Time.deltaTime;
@@ -76,6 +109,11 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         {
             RemoveSelf();
         }
+    }
+
+    private void LateUpdate()
+    {
+        _positionPreviousFrame = transform.position;
     }
 
     public override void OnHit(GameObject hitObject)
@@ -107,7 +145,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         _currentHittingColliders.Remove(collision);
     }
 
-    protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
+    protected override bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
     {
         return base.HitCondition(totalHitObjects, currentHitObjet) && !currentHitObjet.TryGetComponent(out AbstractRangedProjectile rangedProjectile);
     }

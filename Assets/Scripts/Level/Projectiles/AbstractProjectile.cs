@@ -10,7 +10,6 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     private Weapon _weapon;
     private CharacterHoldingObjects _owner;
-    private Rigidbody2D _rigidBody;
     protected List<Collider2D> _currentHittingColliders = new();
 
     public event EventHandler<GameObject> OnHitSomeOne;
@@ -23,8 +22,6 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        if (!TryGetComponent(out _rigidBody)) throw new UnityException("RigidBody2D component not found");
-
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         layer.UpdateLayerForGameObject(gameObject);
         transform.parent = layer.transform;
@@ -97,25 +94,9 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     protected virtual void OnUpdate()
     {
-        List<Collider2D> hitObjects = new();
-
-        _rigidBody.Overlap(hitObjects);
-
-        // invokes OnHit trigger if:
-        // 1. is not hitbox of projectile's weapon's owner
-        // 2. has the highest CharacterHitbox.HitPrority value than other CharacterHitboxes of the same character
-        // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
-        for (int i = 0; i < hitObjects.Count; i++)
-        {
-            if (HitCondition(hitObjects, hitObjects[i]))
-            {
-                _currentHittingColliders.Add(hitObjects[i]);
-                OnHit(hitObjects[i].gameObject);
-            }
-        }
     }
 
-    protected virtual bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
+    protected virtual bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
     {
         return
             (
@@ -133,10 +114,10 @@ public abstract class AbstractProjectile : MonoBehaviour
             !_currentHittingColliders.Contains(currentHitObjet);
     }
 
-    private bool GetIsHighestHitPriority(List<Collider2D> colliders, CharacterHitbox currentHitBox)
+    private bool GetIsHighestHitPriority(Collider2D[] colliders, CharacterHitbox currentHitBox)
     {
         int currentHighestPriority = currentHitBox.HitPriority;
-        for (int i = 0; i < colliders.Count; i++)
+        for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].TryGetComponent(out CharacterHitbox charHitbox))
             {
