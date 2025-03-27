@@ -6,24 +6,12 @@ using UnityEngine.InputSystem;
 
 public class SelectableObject : MonoBehaviour
 {
-    public enum SelectableObjectType
-    {
-        UNINTERACTABLE,
-        UNNECESSARY_HOLDABLE,
-        UNNECESSARY_INTERACTABLE,
-        MELEE_WEAPON,
-        RANGE_WEAPON,
-        THROW_WEAPON,
-        Z_INDEX_DOOR
-    }
-
     const float SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER = 5f;
 
     [Header("Selectable")]
     /// <summary>
     /// Used to make AI bettwe undertand how to interact with object
     /// </summary>
-    public SelectableObjectType ObjectType;
 
     public InputActionReference PlayerInputToInteract;
 

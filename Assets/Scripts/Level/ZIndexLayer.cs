@@ -23,6 +23,7 @@ public class ZIndexLayer : MonoBehaviour
     public int HoldablesLayer;
     public int FurnituresLayer;
     public int ProjectilesLayer;
+    public int EntireLayerMask;
     public Transform FluidParticlesContainer;
 
     private float _alpha = 1f;
@@ -54,6 +55,9 @@ public class ZIndexLayer : MonoBehaviour
         HoldablesLayer = LayerMask.NameToLayer($"Z{ZIndex}{HOLDABLES_LAYER_NAME}");
         FurnituresLayer = LayerMask.NameToLayer($"Z{ZIndex}{FURNITURE_LAYER_NAME}");
         ProjectilesLayer = LayerMask.NameToLayer($"Z{ZIndex}{PROJECTILES_LAYER_NAME}");
+
+        EntireLayerMask = (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
+
         FluidParticlesContainer = transform.Find(FLUID_PARTICLES_GAMEOBJECT_NAME);
     }
 

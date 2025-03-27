@@ -28,8 +28,8 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
 
     private float _coyoteJumpTooEarlyTimeLeft = 0f;
     private Coroutine _coyoteJumpTooEarlyHandler;
-    private SelectableObject _currentSelectedObject = null;
-    private SelectableObject _lastSelectedObject = null;
+    private Holdable _currentSelectedGrabObject = null;
+    private Interactable _currentSelectedInteractObject = null;
     private bool _autoAttack = false;
     private bool _awaitingResetInputToReroll = false;
     private float _currentGamepadRollInputDelay = 0f;
@@ -38,6 +38,46 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
     {
         get => _autoAttack;
         set => _autoAttack = value;
+    }
+
+    public Holdable CurrentSelectedGrabObject
+    {
+        get => _currentSelectedGrabObject;
+        private set
+        {
+            if (value != _currentSelectedGrabObject)
+            {
+                if (_currentSelectedGrabObject != null)
+                {
+                    _currentSelectedGrabObject.Selected = false;
+                }
+                if (value != null)
+                {
+                    value.Selected = true;
+                }
+            }
+            _currentSelectedGrabObject = value;
+        }
+    }
+
+    public Interactable CurrentSelectedInteractObject
+    {
+        get => _currentSelectedInteractObject;
+        private set
+        {
+            if (value != _currentSelectedInteractObject)
+            {
+                if (_currentSelectedInteractObject != null)
+                {
+                    _currentSelectedInteractObject.Selected = false;
+                }
+                if (value != null)
+                {
+                    value.Selected = true;
+                }
+            }
+            _currentSelectedInteractObject = value;
+        }
     }
 
     public Vector3? GetMouseWorldPositionOnCharacterLayer()
@@ -142,40 +182,12 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
     }
 
     //INTERACT
-    private void InteractWithObjects(InputActionReference playerInputType)
-    {
-        if (
-            _currentSelectedObject != null &&
-            _currentSelectedObject.gameObject.TryGetComponent(out Interactable interactComponent) &&
-            interactComponent.PlayerInputToInteract == playerInputType
-            )
-        {
-            interactComponent.Interact(gameObject);
-        }
-        else
-        {
-            List<SelectableObject> avaibleObjects = CharComponents.CharacterInteract.GetAvaibleInteractableObjects();
-            if (avaibleObjects.Count == 0) return;
-
-            var sortedEvaibleObject =
-                    from selectableObj in avaibleObjects
-                    where selectableObj.PlayerInputToInteract == playerInputType
-                    orderby Vector3.Distance(transform.position, selectableObj.transform.position) ascending
-                    select selectableObj;
-
-            if (sortedEvaibleObject.Count() != 0)
-            {
-                if (sortedEvaibleObject.First().TryGetComponent(out Interactable interactableObject))
-                {
-                    interactableObject.Interact(gameObject);
-                }
-            }
-        }
-    }
-
     private void HandleInteract()
     {
-        InteractWithObjects(InteractActionReference);
+        if (CurrentSelectedInteractObject != null)
+        {
+            CurrentSelectedInteractObject.Interact(gameObject);
+        }
     }
 
     //GRAB
@@ -183,7 +195,10 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
     {
         if (CharComponents.CharacterHolding.CurrentHoldObject == null)
         {
-            InteractWithObjects(GrabActionReference);
+            if (CurrentSelectedGrabObject != null)
+            {
+                CharComponents.CharacterHolding.TryGrab(CurrentSelectedGrabObject);
+            }
         }
         else
         {
@@ -241,7 +256,8 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
         UpdateRollInput();
         UpdateAimInput();
         UpdateAutoAttack();
-        UpdateSelectedObject();
+        UpdateSelectedGrabObject();
+        UpdateSelectedInteractObject();
         UpdateAutoReload();
     }
 
@@ -336,23 +352,31 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
         }
     }
 
-    private void UpdateSelectedObject()
+    private void UpdateSelectedGrabObject()
+    {
+        if (CharComponents.CharacterHolding != null && CharComponents.CharacterHolding.CurrentHoldObject == null)
+        {
+            CurrentSelectedGrabObject = 
+                CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Holdable>(
+                    CharComponents.CharacterAiming.GetCurrentAimNormalized(),
+                    1 << CharComponents.CharacterCollisionInfo.CurrentZLayer.HoldablesLayer
+                );
+        }
+        else
+        {
+            CurrentSelectedGrabObject = null;
+        }
+    }
+
+    private void UpdateSelectedInteractObject()
     {
         if (CharComponents.CharacterInteract != null)
         {
-            _currentSelectedObject = CharComponents.CharacterInteract.GetInteractableObjectAtDirection(CharComponents.CharacterAiming.GetCurrentAimNormalized());
-
-            if (_lastSelectedObject != null && _lastSelectedObject != _currentSelectedObject)
-            {
-                _lastSelectedObject.Selected = false;
-            }
-
-            if (_currentSelectedObject != null)
-            {
-                _currentSelectedObject.Selected = true;
-
-                _lastSelectedObject = _currentSelectedObject;
-            }
+            CurrentSelectedInteractObject =
+                CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Interactable>(
+                    CharComponents.CharacterAiming.GetCurrentAimNormalized(),
+                    CharComponents.CharacterCollisionInfo.CurrentZLayer.EntireLayerMask - (1 << CharComponents.CharacterCollisionInfo.CurrentZLayer.HoldablesLayer)
+                );
         }
     }
 

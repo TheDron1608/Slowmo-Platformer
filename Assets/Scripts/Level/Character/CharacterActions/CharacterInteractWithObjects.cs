@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class CharacterInteractWithObjects : AbstractCharacterComponent
 {
+    const float RAYCASTS_ACROSS_RADIAN_STEP = 0.1f;
 
     public float InteractRange = 1f;
 
@@ -21,51 +23,75 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
     /// If not null, returns a list of Selectable objects with equal InteractType property to this argument,
     /// else returns all Selectable objects
     /// </param>
+    /// <typeparam name="T">
+    /// sorts only colliders with type T, use MonoBehaviour if you dont need sorting
+    /// </typeparam>
     /// <returns></returns>
-    public List<SelectableObject> GetAvaibleInteractableObjects(SelectableObject.SelectableObjectType? sortInteractType = null)
+    public List<T> GetAvaibleInteractableObjects<T>(int layerMask) where T : SelectableObject
     {
-        if (!_isAbleToInteractWithObjects) return new List<SelectableObject>();
+        if (!_isAbleToInteractWithObjects) return new List<T>();
 
-        var result = new List<SelectableObject>();
+        var result = new List<T>();
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(
-            CharComponents.Center.transform.position, 
-            InteractRange
+            CharComponents.Center.transform.position,
+            InteractRange,
+            layerMask
             );
 
         for (int i = 0; i < colliders.Length; i++)
         {
             if (
                 !colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent) ||
-                Vector3.Distance(CharComponents.Center.transform.position, colliders[i].transform.position) > selectableObjectComponent.SelectMaxRangeMultiplier  * InteractRange
+                Vector3.Distance(CharComponents.Center.transform.position, colliders[i].transform.position) > selectableObjectComponent.SelectMaxRangeMultiplier * InteractRange
                 ) continue;
 
-            if (sortInteractType is null || sortInteractType.Value == selectableObjectComponent.ObjectType)
-            result.Add(selectableObjectComponent);
+            if (selectableObjectComponent is T selectableObjectComponentSorted)
+            {
+                result.Add(selectableObjectComponentSorted);
+            }
         }
 
         return result;
     }
 
-    public SelectableObject GetInteractableObjectAtDirection(Vector2 direction)
-    {
-        if (!_isAbleToInteractWithObjects) return null;
 
+
+    public T GetInteractableObjectAtEntireDirection<T>(Vector2 direction, int layerMask) where T : SelectableObject
+    {
+        for (float spread = 0f; spread < math.PI; spread += RAYCASTS_ACROSS_RADIAN_STEP)
+        {
+            T selectableObjectClockWise = GetInteractableObjectAtDirection<T>(VectorMath.RotateVec2(direction, spread), layerMask);
+            if (selectableObjectClockWise != null) return selectableObjectClockWise;
+
+            T selectableObjectCounterClockWise = GetInteractableObjectAtDirection<T>(VectorMath.RotateVec2(direction, -spread), layerMask);
+            if (selectableObjectCounterClockWise != null) return selectableObjectCounterClockWise;
+        }
+
+        return null;
+    }
+
+    private T GetInteractableObjectAtDirection<T>(Vector2 direction, int layerMask) where T : SelectableObject
+    {
+        //Debug.DrawRay(CharComponents.Center.transform.position, direction);
         foreach (var raycastHit in Physics2D.RaycastAll(
-                CharComponents.Center.transform.position, 
-                direction, 
-                InteractRange
+                    CharComponents.Center.transform.position,
+                    direction,
+                    InteractRange,
+                    layerMask
+                    )
                 )
-            )
         {
             if (
                 raycastHit.collider.TryGetComponent(out SelectableObject selectableObjectComponent) &&
-                raycastHit.distance <= InteractRange * selectableObjectComponent.SelectMaxRangeMultiplier
+                raycastHit.distance <= InteractRange * selectableObjectComponent.SelectMaxRangeMultiplier &&
+                selectableObjectComponent is T sortedSelectableObject
                 )
             {
-                return selectableObjectComponent;
+                return sortedSelectableObject;
             }
         }
+
         return null;
     }
 }

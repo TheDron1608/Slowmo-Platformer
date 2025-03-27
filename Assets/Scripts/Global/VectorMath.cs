@@ -108,4 +108,12 @@ public static class VectorMath
     {
         return new Vector2(vector.y, vector.x);
     }
+
+    public static Vector2 RotateVec2(Vector2 vector, float delta)
+    {
+        return new Vector2(
+            vector.x * Mathf.Cos(delta) - vector.y * Mathf.Sin(delta),
+            vector.x * Mathf.Sin(delta) + vector.y * Mathf.Cos(delta)
+        );
+    }
 }
