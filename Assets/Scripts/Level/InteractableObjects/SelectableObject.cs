@@ -13,8 +13,6 @@ public class SelectableObject : MonoBehaviour
     /// Used to make AI bettwe undertand how to interact with object
     /// </summary>
 
-    public InputActionReference PlayerInputToInteract;
-
     public float SelectMaxRangeMultiplier = 1f; //value between 0 and 1
     public float SelectedColorDarkness = 0.64f; //value between 0 and 256
 
@@ -69,8 +67,6 @@ public class SelectableObject : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        if (PlayerInputToInteract == null) throw new UnityException("PlayerInputToInteract was not sat, set it in the instector");
-
         if (_spriteRendererComponent == null)
         {
             if (!TryGetComponent(out _spriteRendererComponent)) throw new UnityException("SpriteRenderer component not found");
