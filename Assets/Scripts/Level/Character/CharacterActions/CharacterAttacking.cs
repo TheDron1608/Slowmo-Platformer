@@ -159,7 +159,8 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool ForceAttack(Vector2 direction)
     {
-        if (IsAbleToAttack) return false;
+        if (!IsAbleToAttack) return false;
+
         if (CharComponents.CharacterHolding.CurrentHoldObject != null)
         {
             if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
@@ -180,23 +181,21 @@ public class CharacterAttacking : AbstractCharacterComponent
         }
         else if (CharComponents.UnarmedAttacking.Projectile != null)
         {
-            CharComponents.UnarmedAttacking.TryAttack(direction);
+            return CharComponents.UnarmedAttacking.TryAttack(direction);
         }
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     public bool TryLoadElseAttack(Vector2 direction)
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject != null)
-        {
-            if (TryHammerWeapon()) return true;
+        if (TryHammerWeapon()) return true;
 
-            if (TryStartChainsaw()) return true;
+        if (TryStartChainsaw()) return true;
 
-            if (TryAttack(direction)) return true;
-
-            return false;
-        }
+        if (TryAttack(direction)) return true;
 
         return false;
     }

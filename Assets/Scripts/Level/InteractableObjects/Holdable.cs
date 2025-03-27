@@ -219,7 +219,7 @@ public class Holdable : Interactable
 
     public void TranformSelfToAnotherObject(Holdable anotherObject)
     {
-        if (gameObject.TryGetComponent(out Weapon selfWeapon) && anotherObject.TryGetComponent(out Weapon anotherWeapon))
+        if (gameObject.TryGetComponent(out ThrowableWeapon selfWeapon) && anotherObject.TryGetComponent(out ThrowableWeapon anotherWeapon))
         {
             selfWeapon.IsThrown = anotherWeapon.IsThrown;
         }
@@ -286,7 +286,6 @@ public class Holdable : Interactable
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out Weapon weapon)) 
         {
-            weapon.IsThrown = true;
             for (int i = 0; i < weapon.Projectiles.Count; i++)
             {
                 if (weapon.Projectiles[i] is MeleeProjectile)
@@ -294,6 +293,10 @@ public class Holdable : Interactable
                     weapon.Projectiles[i].RemoveSelf();
                 }
             }
+        }
+        if (TryGetComponent(out ThrowableWeapon throwableWeapon))
+        {
+            throwableWeapon.IsThrown = true;
         }
         if (TryGetComponent(out RangedWeapon rangedWeapon))
         {
@@ -322,6 +325,11 @@ public class Holdable : Interactable
         newHolder.CurrentHoldObject = this;
         _isStuck = false;
 
+        if (CurrentHolder != newHolder && CurrentHolder != null)
+        {
+            CurrentHolder.ForceThrow(Vector2.zero);
+        }
+
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         CurrentHolder = newHolder;
         //transform.parent = newHolder.transform;
@@ -335,35 +343,35 @@ public class Holdable : Interactable
         StuckedToCollider = null;
 
         //logic for weapon component and weapon class children classes
-        if (TryGetComponent(out Weapon weapon))
+        if (TryGetComponent(out ThrowableWeapon throwableWeapon))
         {
-            weapon.IsThrown = false;
+            throwableWeapon.IsThrown = false;
+        }
 
-            if (TryGetComponent(out RangedWeapon rangedWeapon) && CurrentHolder.TryGetComponent(out CharacterReloading holderReloading))
-            {
-                rangedWeapon.SetReloadSpeed(holderReloading.ReloadSpeed);
-            }
+        if (TryGetComponent(out RangedWeapon rangedWeapon) && CurrentHolder.TryGetComponent(out CharacterReloading holderReloading))
+        {
+            rangedWeapon.SetReloadSpeed(holderReloading.ReloadSpeed);
+        }
 
-            if (TryGetComponent(out MagReloadingWeapon magReloadingWeapon))
+        if (TryGetComponent(out MagReloadingWeapon magReloadingWeapon))
+        {
+            if (magReloadingWeapon.Unloaded && magReloadingWeapon.Mags > 0)
             {
-                if (magReloadingWeapon.Unloaded && magReloadingWeapon.Mags > 0)
-                {
-                    magReloadingWeapon.TryCloseMag();
-                }
+                magReloadingWeapon.TryCloseMag();
             }
+        }
 
-            if (TryGetComponent(out BulletReloadingWeapon bulletReloadWeapon))
+        if (TryGetComponent(out BulletReloadingWeapon bulletReloadWeapon))
+        {
+            if (bulletReloadWeapon.Unloaded && bulletReloadWeapon.LoadedLivingAmmoLeft > 0)
             {
-                if (bulletReloadWeapon.Unloaded && bulletReloadWeapon.LoadedLivingAmmoLeft > 0)
-                {
-                    bulletReloadWeapon.TryCloseMag();
-                }
+                bulletReloadWeapon.TryCloseMag();
             }
+        }
 
-            if (TryGetComponent(out SpinableMeleeWeapon spinableMeleeWeapon))
-            {
-                spinableMeleeWeapon.Spin();
-            }
+        if (TryGetComponent(out SpinableMeleeWeapon spinableMeleeWeapon))
+        {
+            spinableMeleeWeapon.Spin();
         }
     }
 

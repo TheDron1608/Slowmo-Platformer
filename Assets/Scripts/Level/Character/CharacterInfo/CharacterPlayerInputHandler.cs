@@ -194,14 +194,21 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
     //ATTACK
     private void HandleStartAttacking()
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
-        {
-            CharComponents.CharacterAttacking.TryLoadElseAttack(CharComponents.CharacterAiming.GetTargetAimNormalized());
+        CharComponents.CharacterAttacking.TryLoadElseAttack(CharComponents.CharacterAiming.GetTargetAimNormalized());
 
-            if (weapon.PlayerInputAutoAttackOnPress)
-            {
-                AutoAttack = true;
-            }
+        if (
+            (
+                CharComponents.CharacterHolding.CurrentHoldObject != null && 
+                CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) &&
+                weapon.PlayerInputAutoAttackOnPress
+            ) ||
+            (
+                CharComponents.CharacterHolding.CurrentHoldObject == null &&
+                CharComponents.UnarmedAttacking.PlayerInputAutoAttackOnPress
+            )
+            )
+        {
+            AutoAttack = true;
         }
     }
 

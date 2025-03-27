@@ -50,6 +50,10 @@ public class MeleeProjectile : AbstractProjectile
         {
             newProjectile.Owner = holdableWeapon.CurrentHolder;
         }
+        else if (weapon != null && weapon.TryGetComponent(out UnarmedWeapon unarmedWeapon))
+        {
+            newProjectile.Owner = unarmedWeapon.CharComponents.CharacterHolding;
+        }
 
         return new List<AbstractProjectile>() { newProjectile };
     }
@@ -108,7 +112,14 @@ public class MeleeProjectile : AbstractProjectile
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
                 charComponent.CharComponents.CharacterHolding.LastHoldObject == null ||
-                (charComponent.CharComponents.CharacterHolding.LastHoldObject.TryGetComponent(out Weapon lastWeapon) && lastWeapon != Weapon)
+                (
+                    charComponent.CharComponents.CharacterHolding.LastHoldObject.TryGetComponent(out Weapon lastWeapon) && 
+                    lastWeapon != Weapon
+                ) ||
+                (
+                    Weapon.TryGetComponent(out Holdable holdableCurrentWepaon) &&
+                    holdableCurrentWepaon.CurrentHolder != null
+                )
             ) &&
             !GetHasWallBetweenHitObject(currentHitObjet);
     }

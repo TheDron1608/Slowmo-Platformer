@@ -6,8 +6,6 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
-    const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";
 
     [Header("Weapon")]
     [SerializeField] private float _attackCooldown = .25f;
@@ -18,10 +16,7 @@ public abstract class Weapon : MonoBehaviour
     public int RepeatAttacksTimes = 1;
     public float DurationBetweenRepeatAttacks = 0.0667f; //in seconds
 
-    protected Animator _animator;
-
     private bool _isInCooldown = false;
-    private bool _isThrown = true;
     private List<AbstractProjectile> _projectiles = new();
 
     public float AttackCooldown
@@ -46,16 +41,6 @@ public abstract class Weapon : MonoBehaviour
         set => _isInCooldown = value;
     }
 
-    public bool IsThrown
-    {
-        get => _isThrown;
-        set
-        {
-            _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, value);
-            _isThrown = value;
-        }
-    }
-
     public List<AbstractProjectile> Projectiles
     {
         get => _projectiles;
@@ -70,7 +55,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        if (!TryGetComponent(out _animator)) throw new UnityException("Animator component not found");
+
     }
 
     public Vector2 GetCurrentAvaibleAim()
@@ -123,12 +108,12 @@ public abstract class Weapon : MonoBehaviour
 
         if (AttackCondition() && (ignoreCooldown || !IsInCooldown))
         {
-            OnTryAttackSuccess(direction);
+            OnTryAttackSuccess(currentDirection);
             return true;
         }
         else
         {
-            OnTryAttackFail(direction);
+            OnTryAttackFail(currentDirection);
             return false;
         }
     }
@@ -146,7 +131,6 @@ public abstract class Weapon : MonoBehaviour
             newProjectiles[i].OnDestroyed += NewProjectile_OnDestroyed;
         }
 
-        _animator.SetTrigger(ANIMATOR_ATTACK_TRIGGER_NAME);
 
         return true;
     }

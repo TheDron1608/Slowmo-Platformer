@@ -82,42 +82,53 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         set => _isAbleToThrowObjects = value;
     }
 
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        if (CurrentHoldObject != null)
+        {
+            ForceGrab(CurrentHoldObject);
+        }
+    }
+
     private void Update()
     {
         if (_currentHoldObject == null) return;
-        if (CharComponents.CharacterAiming == null || !CharComponents.CharacterAiming.IsAbleToAim) return;
 
         float aimDelta = CharComponents.CharacterAiming.AimSpeed * Time.deltaTime;
         Vector2 currentAim = CharComponents.CharacterAiming.GetCurrentAimNormalized();
         Vector3 targetRotation = VectorMath.Vec2ToQuarterninon2D(currentAim).eulerAngles;
 
-        //setting current holded object's rotation
-        if (_currentHoldObject.RotatableWhenIsHolded)
+        if (CharComponents.CharacterAiming != null && CharComponents.CharacterAiming.IsAbleToAim)
         {
+            //setting current holded object's rotation
+            if (_currentHoldObject.RotatableWhenIsHolded)
+            {
 
-            Quaternion targetAngle = VectorMath.Vec2ToQuarterninon2D(currentAim);
-            Vector3 targetEulerAngle = targetAngle.eulerAngles;
-            targetAngle.eulerAngles = new Vector3(
-                targetEulerAngle.x,
-                math.lerp(
-                    _currentHoldObject.transform.rotation.eulerAngles.y,
-                    currentAim.x < 0f ? 180f : 0f,
-                    aimDelta
-                    ),
-                targetEulerAngle.z
-                );
+                Quaternion targetAngle = VectorMath.Vec2ToQuarterninon2D(currentAim);
+                Vector3 targetEulerAngle = targetAngle.eulerAngles;
+                targetAngle.eulerAngles = new Vector3(
+                    targetEulerAngle.x,
+                    math.lerp(
+                        _currentHoldObject.transform.rotation.eulerAngles.y,
+                        currentAim.x < 0f ? 180f : 0f,
+                        aimDelta
+                        ),
+                    targetEulerAngle.z
+                    );
 
-            _currentHoldObject.transform.rotation = targetAngle;
+                _currentHoldObject.transform.rotation = targetAngle;
+            }
+            else
+            {
+                _currentHoldObject.transform.localScale = new Vector3(
+                    math.abs(_currentHoldObject.transform.localScale.x) * (CharComponents.CharacterVisual.FlippedH ? -1f : 1f),
+                    _currentHoldObject.transform.localScale.y,
+                    _currentHoldObject.transform.localScale.z
+                    );
+            }
         }
-        else
-        {
-            _currentHoldObject.transform.localScale = new Vector3(
-                math.abs(_currentHoldObject.transform.localScale.x) * (CharComponents.CharacterVisual.FlippedH ? -1f : 1f),
-                _currentHoldObject.transform.localScale.y,
-                _currentHoldObject.transform.localScale.z
-                );
-        }
-        
+
         //setting current holded object's location
         Vector2 holdObjectPositionXY = Vector2.Lerp(
             _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollisionInfo.PositionPrevFrame),

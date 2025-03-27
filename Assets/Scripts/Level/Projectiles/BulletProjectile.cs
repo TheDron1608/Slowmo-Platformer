@@ -26,6 +26,10 @@ public class BulletProjectile : AbstractRangedProjectile
         {
             newProjectile.Owner = holdableWeapon.CurrentHolder;
         }
+        else if (weapon != null && weapon.TryGetComponent(out UnarmedWeapon unarmedWeapon))
+        {
+            newProjectile.Owner = unarmedWeapon.CharComponents.CharacterHolding;
+        }
 
 
         return new List<AbstractProjectile>() { newProjectile };

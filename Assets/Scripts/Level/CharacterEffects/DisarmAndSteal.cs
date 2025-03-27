@@ -7,10 +7,10 @@ public class DisarmAndSteal : AbstractCharacterEffectWithSender
         if (
             receiverPart.TryGetComponent(out AbstractCharacterComponent disarmedCharacter) &&
             disarmedCharacter.CharComponents.CharacterHolding.CurrentHoldObject != null &&
-            sender.TryGetComponent(out AbstractCharacterComponent thiefCharacter)
+            sender.GetComponent<AbstractProjectile>().Weapon.TryGetComponent(out UnarmedWeapon thiefUnarmedAttack)
             )
         {
-            disarmedCharacter.CharComponents.CharacterHolding.CurrentHoldObject.Give(thiefCharacter.CharComponents.CharacterHolding);
+            disarmedCharacter.CharComponents.CharacterHolding.CurrentHoldObject.Give(thiefUnarmedAttack.CharComponents.CharacterHolding);
         }
         RemoveSelf();
     }

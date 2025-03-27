@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 640373735122174765}
   m_Layer: 0
   m_Name: CharacterPhysicsCollision
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,10 +105,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7278110841080740943}
-  - component: {fileID: 8288400699596488985}
+  - component: {fileID: 1895862788084180291}
   m_Layer: 0
   m_Name: UnarmedAttacking
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,7 +128,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3304611690710999899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8288400699596488985
+--- !u!114 &1895862788084180291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,17 +137,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2766341382564374314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff72446f98c20e64494db2d164f99aab, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f159cd4f652d5247a7638a901452fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _attackCooldown: 0.25
   _attackCooldownMultiplier: 1
   PlayerInputAutoAttackOnPress: 0
-  Projectile: {fileID: 0}
+  Projectile: {fileID: 8179383447119305257, guid: 85a6a7d422c358747a2085418c647427, type: 3}
   AccuracyMultiplier: 1
   RepeatAttacksTimes: 1
-  DurationBetweenRepeatAttacks: 0.33
-  AttackRangeMultiplier: 1
+  DurationBetweenRepeatAttacks: 0.0667
 --- !u!1 &4810011283521481523
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +159,7 @@ GameObject:
   - component: {fileID: 2923137157774976431}
   m_Layer: 0
   m_Name: Center
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -205,7 +204,7 @@ GameObject:
   - component: {fileID: 2970114608981386663}
   m_Layer: 0
   m_Name: Bottom
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +309,7 @@ MonoBehaviour:
   CharacterAttacking: {fileID: 8537718361905042118}
   CharacterReloading: {fileID: 2103635049368087364}
   CharacterRolling: {fileID: 7585185559083403592}
-  UnarmedAttacking: {fileID: 8288400699596488985}
+  UnarmedAttacking: {fileID: 1895862788084180291}
   CharacterCollisionInfo: {fileID: 2002335163756146061}
   CharacterVisual: {fileID: 1964864157782877518}
   CharacterInteractionWithTiles: {fileID: 3206245827804919803}

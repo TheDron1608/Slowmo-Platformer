@@ -34,6 +34,10 @@ public class BuckshotProjectile : AbstractRangedProjectile
             {
                 newProjectile.Owner = holdableWeapon.CurrentHolder;
             }
+            else if (weapon != null && weapon.TryGetComponent(out UnarmedWeapon unarmedWeapon))
+            {
+                newProjectile.Owner = unarmedWeapon.CharComponents.CharacterHolding;
+            }
 
             result.Add(newProjectile);
         }

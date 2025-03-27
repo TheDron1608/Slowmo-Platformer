@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class RangedWeapon : Weapon
+public class RangedWeapon : ThrowableWeapon
 {
     public enum ProjectileType
     {
