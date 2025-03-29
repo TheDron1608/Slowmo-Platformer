@@ -552,16 +552,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7466261371012752510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdec2ed032847354385bd07d44ecd9f8, type: 3}
+  m_Script: {fileID: 11500000, guid: bfc9786e7afc70f40a789c36026239e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedToHitOtherCharacters: 7.5
+  SpeedToHitOtherCharacters: 12.5
   CanHitWhileHardStnned: 1
   CanHitWhileMoving: 0
   CanHitWhileRolling: 0
   EffectsOnHitOtherCharacters:
   - {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
   SelfEffectsOnHitOtherCharacters: []
+  DefaultPhyscsMaterial: {fileID: 6200000, guid: 6ea8ed45c8d6cfc4ead16600d2e6cb76, type: 2}
+  OnFallenPhysicsMaterial: {fileID: 6200000, guid: cb20329ccc5d64040ab5fae70305b5c1, type: 2}
 --- !u!114 &2307621767582408558
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
         CharComponents.CharacterCollisionInfo.OnTileBehavioutTypeCollisionChanged += CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged;
     }
 
-    private void CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged(object sender, CharacterCollisionInfo.OnTileBehavioutTypeCollisionChangedEventArgs e)
+    private void CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged(object sender, CharacterCollision.OnTileBehavioutTypeCollisionChangedEventArgs e)
     {
         UpdateTileInteractions();
     }

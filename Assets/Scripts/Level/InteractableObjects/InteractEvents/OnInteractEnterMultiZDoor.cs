@@ -24,7 +24,7 @@ public class OnInteractEnterMultiZDoor : Interactable
 
     protected override bool StartInteractCondition(GameObject interactor)
     {
-        return interactor.GetComponent<CharacterCollisionInfo>().IsCollidingFloor();
+        return interactor.GetComponent<CharacterCollision>().IsCollidingFloor();
     }
 
     protected override void OnFinishInteract(GameObject interactor)

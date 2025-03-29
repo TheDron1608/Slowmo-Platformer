@@ -5,7 +5,7 @@ using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class CharacterCollisionInfo : AbstractCharacterComponent
+public class CharacterCollision : AbstractCharacterComponent
 {
     const string ENVIROMENT_TAG_NAME = "Enviroment";
 
@@ -41,6 +41,8 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
     public bool CanHitWhileRolling = false;
     public List<AbstractCharacterEffect> EffectsOnHitOtherCharacters = new();
     public List<AbstractCharacterEffect> SelfEffectsOnHitOtherCharacters = new();
+    public PhysicsMaterial2D DefaultPhyscsMaterial;
+    public PhysicsMaterial2D OnFallenPhysicsMaterial;
 
     const float COLLISION_HIT_DETECION_THICKNESS = 0.1f;
     const float COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET = 0.7f; //value between 0 and 1
@@ -285,6 +287,7 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
         UpdateTileCollidingInfo();
         UpdateTimeOnAirOrGround();
         UpdateHitVelocity();
+        UpdatePhysicsMaterial();
     }
 
     private void UpdateCurrentZLayer()
@@ -373,6 +376,18 @@ public class CharacterCollisionInfo : AbstractCharacterComponent
                     OnHitOtherCharacters?.Invoke(this, otherCharComponent);
                 }
             }
+        }
+    }
+
+    private void UpdatePhysicsMaterial()
+    {
+        if (!IsCollidingFloor() && CharComponents.CharacterEffects.GetHasEffect<AbstractStun>())
+        {
+            CharComponents.CharacterRigidBody.sharedMaterial = OnFallenPhysicsMaterial;
+        }
+        else
+        {
+            CharComponents.CharacterRigidBody.sharedMaterial = DefaultPhyscsMaterial;
         }
     }
 
