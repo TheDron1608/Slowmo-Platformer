@@ -94,7 +94,7 @@ public class CharacterJumping : AbstractCharacterComponent
         {
             if (CharComponents.CharacterVisual.IsBusy()) return;
 
-            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE;
+            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE;
             _awaitingClumsyJump = true;
             CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
         }
@@ -106,7 +106,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.OldState == CharacterPartVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE && _awaitingClumsyJump)
+        if (e.OldState == CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE && _awaitingClumsyJump)
         {
             ForceStartJump();
         }

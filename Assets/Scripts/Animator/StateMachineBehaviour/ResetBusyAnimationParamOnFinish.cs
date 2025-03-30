@@ -8,7 +8,7 @@ public class ResetBusyAnimationParamOnFinish : StateMachineBehaviour
     {
         if (animator.transform.parent.parent.TryGetComponent(out CharacterVisual charVisual))
         {
-            charVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.NONE;
+            charVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
         }
         else
         {

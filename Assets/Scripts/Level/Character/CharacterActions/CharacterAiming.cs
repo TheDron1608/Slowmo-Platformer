@@ -40,11 +40,11 @@ public class CharacterAiming : AbstractCharacterComponent
         {
             if (CharComponents.CharacterClumsyness.ClumsyRangedAttack && !value && GetHoldingValidForAimWeapon())
             {
-                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.AIM;
+                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.AIM;
             }
-            else if (CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPartVisual.CharacterPartBusyStates.AIM)
+            else if (CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.AIM)
             {
-                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.NONE;
+                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
             }
 
             if (value != _aimWeaponDown)

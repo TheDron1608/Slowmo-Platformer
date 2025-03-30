@@ -80,7 +80,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryAttack(Vector2 direction)
     {
-        if (CharComponents.CharacterVisual.IsBusy() && CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterPartVisual.CharacterPartBusyStates.AIM) return false;
+        if (CharComponents.CharacterVisual.IsBusy() && CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.AIM) return false;
 
         if (CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon())
         {
@@ -106,7 +106,7 @@ public class CharacterAttacking : AbstractCharacterComponent
             }
             else
             {
-                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK;
+                CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK;
                 _awaitingMeleeAttackDirection = direction;
                 CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
             }
@@ -120,7 +120,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.OldState == CharacterPartVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK && _awaitingMeleeAttackDirection.HasValue)
+        if (e.OldState == CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK && _awaitingMeleeAttackDirection.HasValue)
         {
             ForceAttack(_awaitingMeleeAttackDirection.Value);
             _awaitingMeleeAttackDirection = null;

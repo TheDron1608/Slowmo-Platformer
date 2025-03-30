@@ -19,8 +19,8 @@ public abstract class Interactable : SelectableObject
     }
 
     [Header("Interactalbe")]
-    public CharacterPartVisual.CharacterPartBusyStates AnimationOnStartInteract = CharacterPartVisual.CharacterPartBusyStates.NONE;
-    public CharacterPartVisual.CharacterPartBusyStates AnimationOnFinishInteract = CharacterPartVisual.CharacterPartBusyStates.NONE;
+    public CharacterPartBusyStates AnimationOnStartInteract = CharacterPartBusyStates.NONE;
+    public CharacterPartBusyStates AnimationOnFinishInteract = CharacterPartBusyStates.NONE;
     public List<AbstractCharacterEffect> EffectsOnStartInteract = new();
     public List<AbstractCharacterEffect> EffectsWhileInteracting = new();
     public List<AbstractCharacterEffect> EffectsOnFinishInteract = new();
@@ -47,7 +47,7 @@ public abstract class Interactable : SelectableObject
         if (interactor.TryGetComponent(out CharacterVisual characterVisual))
         {
             _currentInteractor = interactor;
-            if (AnimationOnStartInteract != CharacterPartVisual.CharacterPartBusyStates.NONE)
+            if (AnimationOnStartInteract != CharacterVisual.CharacterPartBusyStates.NONE)
             {
                 characterVisual.CurrentBusyAnimation = AnimationOnStartInteract;
             }
@@ -67,11 +67,11 @@ public abstract class Interactable : SelectableObject
 
         charVisual.OnBusyStateChanged -= CharacterVisual_OnFirstBusyStateChanged;
 
-        if (AnimationOnFinishInteract != CharacterPartVisual.CharacterPartBusyStates.NONE)
+        if (AnimationOnFinishInteract != CharacterVisual.CharacterPartBusyStates.NONE)
         {
             charVisual.OnBusyStateChanged += CharacterVisual_OnSecondBusyStateChanged;
 
-            if (AnimationOnFinishInteract != CharacterPartVisual.CharacterPartBusyStates.NONE)
+            if (AnimationOnFinishInteract != CharacterVisual.CharacterPartBusyStates.NONE)
             {
                 charVisual.CurrentBusyAnimation = AnimationOnFinishInteract;
             }

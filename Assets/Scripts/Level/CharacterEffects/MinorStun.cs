@@ -7,7 +7,7 @@ public class MinorStun : AbstractStun
         base.OnApply();
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
-        AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.MINOR_STUN;
+        AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.MINOR_STUN;
         AffectedCharacter.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
 
         AffectedCharacter.CharacterMoving.IsAbleToMove = false;
@@ -28,7 +28,7 @@ public class MinorStun : AbstractStun
     {
         base.OnRemove();
 
-        if (AffectedCharacter.CharacterVisual.CurrentBusyAnimation == CharacterPartVisual.CharacterPartBusyStates.MINOR_STUN)
+        if (AffectedCharacter.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.MINOR_STUN)
         {
             AffectedCharacter.CharacterVisual.BreakBusyAnimation();
         }
@@ -36,7 +36,7 @@ public class MinorStun : AbstractStun
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.OldState == CharacterPartVisual.CharacterPartBusyStates.MINOR_STUN)
+        if (e.OldState == CharacterVisual.CharacterPartBusyStates.MINOR_STUN)
         {
             AffectedCharacter.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
             RemoveSelf();

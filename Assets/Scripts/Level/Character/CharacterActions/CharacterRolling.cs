@@ -56,7 +56,7 @@ public class CharacterRolling : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
-        if (e.OldState == CharacterPartVisual.CharacterPartBusyStates.ROLL)
+        if (e.OldState == CharacterVisual.CharacterPartBusyStates.ROLL)
         {
             IsRolling = false;
             CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
@@ -84,7 +84,7 @@ public class CharacterRolling : AbstractCharacterComponent
 
         CharComponents.CharacterMoving.IsAbleToMove = false;
 
-        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.ROLL;
+        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.ROLL;
         CharComponents.CharacterVisual.FlippedH = _currentRollDirection < 0f;
 
         CharComponents.CharacterAiming.AimWeaponDown = true;

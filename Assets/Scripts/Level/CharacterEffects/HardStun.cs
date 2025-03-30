@@ -9,7 +9,7 @@ public class HardStun : AbstractStun
         AffectedCharacter.CharacterEffects.RemoveEffect<MinorStun>();
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
-        AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterPartVisual.CharacterPartBusyStates.FALLING_IN_AIR;
+        AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.FALLING_IN_AIR;
         AffectedCharacter.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
 
         AffectedCharacter.CharacterHolding.TryThrow(AffectedCharacter.CharacterRigidBody.linearVelocity.normalized, 0.25f);
@@ -30,7 +30,7 @@ public class HardStun : AbstractStun
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.NewState != CharacterPartVisual.CharacterPartBusyStates.FALLING_IN_AIR && e.OldState == CharacterPartVisual.CharacterPartBusyStates.FALLEN_ON_FLOOR)
+        if (e.NewState != CharacterVisual.CharacterPartBusyStates.FALLING_IN_AIR && e.OldState == CharacterVisual.CharacterPartBusyStates.FALLEN_ON_FLOOR)
         {
             AffectedCharacter.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
             RemoveSelf();

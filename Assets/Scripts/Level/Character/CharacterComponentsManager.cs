@@ -26,6 +26,7 @@ public class CharacterComponentsManager : MonoBehaviour
     public CharacterPositionPoint Center;
     public CharacterPositionPoint Bottom;
     public GameObject CharacterPartsContainer;
+    public Animator Animator;
     [Header("CharacterPhysics")]
     public Rigidbody2D CharacterRigidBody;
     public CapsuleCollider2D CharacterRigidBodyCapsuleCollider;
