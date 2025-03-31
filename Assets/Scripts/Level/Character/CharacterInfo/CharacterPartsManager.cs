@@ -48,7 +48,10 @@ public class CharacterPartsManager : AbstractCharacterComponent
     {
         for (int i = 0; i < _characterParts.Count; i++)
         {
-            _characterParts[i].CharPartHitbox.SetHitBoxTransform(transform);
+            if (_characterParts[i] is CharacterLimbPart limbPart)
+            {
+                limbPart.CharPartHitbox.SetHitBoxTransform(transform);
+            }
         }
         CharComponents.CharacterRigidBodyCapsuleColliderHitBox.SetHitBoxTransform(transform);
     }
@@ -57,7 +60,10 @@ public class CharacterPartsManager : AbstractCharacterComponent
     {
         for (int i = 0; i < _characterParts.Count; i++)
         {
-            _characterParts[i].CharPartHitbox.HitableByProjectiles = value;
+            if (_characterParts[i] is CharacterLimbPart limbPart)
+            {
+                limbPart.CharPartHitbox.HitableByProjectiles = value;
+            }
         }
         CharComponents.CharacterRigidBodyCapsuleColliderHitBox.HitableByProjectiles = value;
     }

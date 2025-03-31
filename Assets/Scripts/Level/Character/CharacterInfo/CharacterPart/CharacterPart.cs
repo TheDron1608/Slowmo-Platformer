@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CharacterPart : AbstractCharacterComponent
+public abstract class CharacterPart : AbstractCharacterComponent
 {
     public enum PartTypes
     {
@@ -19,9 +19,6 @@ public class CharacterPart : AbstractCharacterComponent
     public event EventHandler<CharacterPart> OnRemoved;
 
     public PartTypes PartType;
-    public CharacterPartHealth CharPartHealth;
-    public CharacterPartVisual CharPartVisual;
-    public CharacterHitbox CharPartHitbox;
 
     private void OnDestroy()
     {

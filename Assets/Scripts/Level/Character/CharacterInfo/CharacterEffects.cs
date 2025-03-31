@@ -71,7 +71,7 @@ public class CharacterEffects : AbstractCharacterComponent
     }
 
 
-    public void ApplyEffect(AbstractCharacterEffect effect, MonoBehaviour sender, CharacterPartHealth receiverPart)
+    public void ApplyEffect(AbstractCharacterEffect effect, MonoBehaviour sender, CharacterPart receiverPart)
     {
         if (effect.ApplyCondition(CharComponents))
         {
@@ -91,7 +91,7 @@ public class CharacterEffects : AbstractCharacterComponent
         }
     }
 
-    public void ApplyEffect(List<AbstractCharacterEffect> effects, MonoBehaviour sender, CharacterPartHealth receiverPart)
+    public void ApplyEffect(List<AbstractCharacterEffect> effects, MonoBehaviour sender, CharacterPart receiverPart)
     {
         effects.Sort();
 

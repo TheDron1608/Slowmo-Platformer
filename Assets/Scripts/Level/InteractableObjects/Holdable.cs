@@ -160,7 +160,7 @@ public class Holdable : Interactable
                 );
             for (int i =  0; i < hits.Length; i++)
             {
-                if (hits[i].collider.transform.parent.TryGetComponent(out CharacterPartHealth charPartHealth))
+                if (hits[i].collider.transform.parent.TryGetComponent(out CharacterPart charPartHealth))
                 {
                     if (AbstractCharacterComponent.GetCharacterComponentsEqual(charPartHealth, charComponent))
                     {

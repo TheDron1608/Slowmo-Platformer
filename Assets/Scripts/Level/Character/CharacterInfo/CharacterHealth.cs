@@ -39,7 +39,7 @@ public class CharacterHealth : AbstractCharacterComponent
         }
     }
 
-    public void ApplyDamage(float damage, MonoBehaviour damager, CharacterPartHealth damagedPart)
+    public void ApplyDamage(float damage, MonoBehaviour damager, CharacterPart damagedPart)
     {
         _currentHealth -= damage;
         if (_currentHealth <= MinHealth && !CharComponents.CharacterEffects.GetHasEffect<Death>())
@@ -48,7 +48,7 @@ public class CharacterHealth : AbstractCharacterComponent
         }
     }
 
-    public void Die(MonoBehaviour killer, CharacterPartHealth lethallyDamagedPart)
+    public void Die(MonoBehaviour killer, CharacterPart lethallyDamagedPart)
     {
         CharComponents.CharacterEffects.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
     }

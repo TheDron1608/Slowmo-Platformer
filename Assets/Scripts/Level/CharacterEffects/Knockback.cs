@@ -8,7 +8,7 @@ public class Knockback : AbstractCharacterEffectWithSender
     /// <summary>
     /// warning: will delete itself after invoke this function
     /// </summary>
-    protected override void OnReceivedSender(MonoBehaviour sender, CharacterPartHealth receiverPart)
+    protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
     {
         if (sender.TryGetComponent(out AbstractProjectile projectile))
         {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DisarmAndSteal : AbstractCharacterEffectWithSender
 {
-    protected override void OnReceivedSender(MonoBehaviour sender, CharacterPartHealth receiverPart)
+    protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
     {
         if (
             receiverPart.TryGetComponent(out AbstractCharacterComponent disarmedCharacter) &&

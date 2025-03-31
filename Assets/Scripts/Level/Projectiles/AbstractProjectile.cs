@@ -73,7 +73,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     {
         if (hitObject.transform.parent.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
-            charComponent.CharComponents.CharacterEffects.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPartHealth>());
+            charComponent.CharComponents.CharacterEffects.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPart>());
             OnHitSomeOne?.Invoke(this, hitObject);
         }
     }

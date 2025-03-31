@@ -14,8 +14,8 @@ public class CharacterPartHealth : AbstractCharacterComponent
 
     public void ApplyDamage(float damage, MonoBehaviour damager)
     {
-        CharComponents.CharacterEffects.ApplyEffect(EffectsOnHit, damager, this);
-        CharComponents.CharacterHealth.ApplyDamage(damage, damager, this);
+        CharComponents.CharacterEffects.ApplyEffect(EffectsOnHit, damager, GetComponent<CharacterPart>());
+        CharComponents.CharacterHealth.ApplyDamage(damage, damager, GetComponent<CharacterPart>());
 
         Vector3 hitPointPosition =
             damager.gameObject.transform.position +
@@ -53,7 +53,7 @@ public class CharacterPartHealth : AbstractCharacterComponent
     {
         if (LosingLimbIsLethal)
         {
-            CharComponents.CharacterHealth.Die(cutter, this);
+            CharComponents.CharacterHealth.Die(cutter, GetComponent<CharacterPart>());
         }
 
         if (TryGetComponent(out ParticleSpawner limbParticleSpawner))
@@ -95,7 +95,7 @@ public class CharacterPartHealth : AbstractCharacterComponent
     {
         if (LosingLimbIsLethal)
         {
-            CharComponents.CharacterHealth.Die(gibber, this);
+            CharComponents.CharacterHealth.Die(gibber, GetComponent<CharacterPart>());
         }
 
         if (CanBleed)
