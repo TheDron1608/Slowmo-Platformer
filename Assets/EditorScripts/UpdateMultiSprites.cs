@@ -31,17 +31,16 @@ public class UpdateMultiSprites : Editor
         string currentSpriteName = null;
         Dictionary<string, List<Sprite>> currentSprites = new();
 
-        foreach (var file in files)
+        for (int i = 0; i < files.Length; i++)
         {
-
-            UnityEngine.Object[] loadedItems = AssetDatabase.LoadAllAssetsAtPath(file.Substring(Directory.GetCurrentDirectory().Length + 1));
-            foreach (var item in loadedItems)
+            UnityEngine.Object[] loadedItems = AssetDatabase.LoadAllAssetsAtPath(files[i].Substring(Directory.GetCurrentDirectory().Length + 1));
+            for (int j = 0; j < loadedItems.Length; j++)
             {
-                if (item is Sprite spriteItem)
+                if (loadedItems[j] is Sprite spriteItem)
                 {
-                    string newSpriteName = item.name.Substring(0, item.name.IndexOf('.'));
+                    string newSpriteName = loadedItems[j].name.Substring(0, loadedItems[j].name.IndexOf('.'));
 
-                    if (newSpriteName != currentSpriteName && currentSpriteName != null)
+                    if ((newSpriteName != currentSpriteName && currentSpriteName != null) || (i == files.Length-1 && j == loadedItems.Length-1))
                     {
                         foreach (string key in currentSprites.Keys)
                         {

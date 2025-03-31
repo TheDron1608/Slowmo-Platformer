@@ -3,12 +3,28 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.U2D;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterPartVisual : AbstractCharacterComponent
 {
     private SpriteRenderer _spriteRenderer;
 
-    public CharacterPartVisualManager.AnimatedCharacterParts VisualType;
+    [SerializeField] private CharacterPartVisualManager.AnimatedCharacterParts _visualType;
+
+    public CharacterPartVisualManager.AnimatedCharacterParts VisualType
+    {
+        get => _visualType;
+        set
+        {
+            if (_visualType != value)
+            {
+                _spriteRenderer.sortingOrder -= (int)Enum.GetValues(typeof(CharacterPartVisualManager.AnimatedCharacerPartsOrderInLayer)).GetValue((int)_visualType);
+                _spriteRenderer.sortingOrder += (int)Enum.GetValues(typeof(CharacterPartVisualManager.AnimatedCharacerPartsOrderInLayer)).GetValue((int)value);
+
+                _visualType = value;
+            }
+        }
+    }
 
     protected override void OnAwake()
     {
@@ -18,6 +34,8 @@ public class CharacterPartVisual : AbstractCharacterComponent
 
         CharComponents.CharacterVisual.OnSampleSpriteChanged += CharacterVisual_OnSampleSpriteChanged;
         CharComponents.CharacterVisual.OnSpriteFlippedChanged += CharacterVisual_OnSpriteFlippedChanged;
+
+        _spriteRenderer.sortingOrder += (int)Enum.GetValues(typeof(CharacterPartVisualManager.AnimatedCharacerPartsOrderInLayer)).GetValue((int)VisualType);
     }
 
     private void CharacterVisual_OnSampleSpriteChanged(object sender, Sprite e)
@@ -33,5 +51,6 @@ public class CharacterPartVisual : AbstractCharacterComponent
     private void OnDestroy()
     {
         CharComponents.CharacterVisual.OnSampleSpriteChanged -= CharacterVisual_OnSampleSpriteChanged;
+        CharComponents.CharacterVisual.OnSpriteFlippedChanged -= CharacterVisual_OnSpriteFlippedChanged;
     }
 }

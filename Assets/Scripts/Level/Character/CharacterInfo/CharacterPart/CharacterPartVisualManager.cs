@@ -67,6 +67,19 @@ public class CharacterPartVisualManager : MonoBehaviour
         Head,
         LegsArmor
     }
+    public enum AnimatedCharacerPartsOrderInLayer : int
+    {
+        BodyArmor = 5,
+        BodyCape = 4,
+        BodyHeavyArmor = 5,
+        Body = 1,
+        EyesDefault = 5,
+        EyesGlasses = 6,
+        HeadHeavyHelmet = 7,
+        HeadHelmet = 7,
+        Head = 2,
+        LegsArmor = 3
+    }
 
     public Dictionary<Sprite, Sprite[]> SampleSprites = new();
 

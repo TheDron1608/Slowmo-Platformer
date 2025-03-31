@@ -48,13 +48,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4807c6aa6f463064faf004e105dbf088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectType: 1
-  PlayerInputToInteract: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   SelectMaxRangeMultiplier: 1
   SelectedColorDarkness: 0.64
   _spriteRendererComponent: {fileID: 668012051540842779}
   AnimationOnStartInteract: 0
   AnimationOnFinishInteract: 0
+  EffectsOnStartInteract: []
+  EffectsWhileInteracting: []
+  EffectsOnFinishInteract: []
   RotatableWhenIsHolded: 1
   ResetRotationWhenIsHolded: 0
   HoldDistanceWhenIsHolded: 0.75
@@ -135,7 +136,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 10
   m_Sprite: {fileID: 4329407632164072968, guid: 06ae8d003292baf479c2dc0c6228339a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
