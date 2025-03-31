@@ -79,20 +79,31 @@ public class CharacterVisual : AbstractCharacterComponent
     private float _moveSpeed = 1f;
     private CharacterPartBusyStates _currentBusyAnimation = CharacterPartBusyStates.NONE; //when busy animation is played, character is unable to do most actions
     private Transform _characterPartsContainer;
+    private Sprite _spritePrevFrame;
 
     public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
+    public event EventHandler<Sprite> OnSampleSpriteChanged;
+    public event EventHandler<bool> OnSpriteFlippedChanged;
 
     protected override void OnAwake()
     {
         base.OnAwake();
         _characterPartsContainer = transform.Find(CHARACTER_PARTS_GAMEOBJECT_NAME);
+        _spritePrevFrame = CharComponents.SampleSpriteRenderer.sprite;
     }
 
     public bool FlippedH
     {
         get => _flippedH;
-        set => _flippedH = value;
+        set 
+        {
+            if (_flippedH != value)
+            {
+                OnSpriteFlippedChanged?.Invoke(this, value);
+                _flippedH = value;
+            }
+        }
     }
 
     public CharacterPartMainStates MainState
@@ -170,6 +181,7 @@ public class CharacterVisual : AbstractCharacterComponent
         UpdateJumpStateParam();
         UpdateMoveSpeedParam();
         UpdateStunnedBusyStateParam();
+        UpdateSampleSpriteEvent();
     }
 
     private void UpdateJumpStateParam()
@@ -254,6 +266,16 @@ public class CharacterVisual : AbstractCharacterComponent
         else if (CharComponents.CharacterEffects.GetHasEffect<MinorStun>())
         {
             CurrentBusyAnimation = CharacterPartBusyStates.MINOR_STUN;
+        }
+    }
+
+    private void UpdateSampleSpriteEvent()
+    {
+        Sprite currentSprite = CharComponents.SampleSpriteRenderer.sprite;
+        if (currentSprite != _spritePrevFrame)
+        {
+            OnSampleSpriteChanged?.Invoke(this, currentSprite);
+            _spritePrevFrame = currentSprite;
         }
     }
 }

@@ -5,66 +5,67 @@ using UnityEngine.UIElements;
 using System.IO;
 using Unity.VisualScripting;
 using System.Linq;
+using System.Collections.Generic;
 
+[CustomEditor(typeof(CharacterPartVisualManager))]
 public class UpdateMultiSprites : Editor
 {
     const string CHARACTER_SPRITES_DIR = "\\Assets\\Sprites\\Character";
 
-    public CharacterPartVisualManager TargetVisual;
-    public static CharacterPartVisualManager StaticTargetVisual;
-
-    [MenuItem("Tools/Update character textures")]
-    private static void UpdateCharacterTextures()
+    public override void OnInspectorGUI()
     {
+        base.OnInspectorGUI();
+        CharacterPartVisualManager myTarget = (CharacterPartVisualManager)target;
+
+        if (GUILayout.Button("UpdateCharacterTextures"))
+        {
+            UpdateCharacterTextures(myTarget);
+        }
+    }
+
+    private static void UpdateCharacterTextures(CharacterPartVisualManager targetVisual)
+    {
+        targetVisual.SerializedSampleSprites.Clear();
+
         string[] files = Directory.GetFiles(Directory.GetCurrentDirectory() + CHARACTER_SPRITES_DIR, "*png", SearchOption.AllDirectories);
+        string currentSpriteName = null;
+        Dictionary<string, List<Sprite>> currentSprites = new();
+
         foreach (var file in files)
         {
-            string currentAnimationShortTitle = null;
-            Sprite[] currentSprites = new Sprite[Enum.GetNames(typeof(CharacterPartVisualManager.CharPartsAnimation)).Length];
-            Sprite currentSampleSprite = null;
-            int currentAnimationIndex = 0;
 
             UnityEngine.Object[] loadedItems = AssetDatabase.LoadAllAssetsAtPath(file.Substring(Directory.GetCurrentDirectory().Length + 1));
             foreach (var item in loadedItems)
             {
-                string newAnimationShortTitle = null;
-
                 if (item is Sprite spriteItem)
                 {
-                    currentSprites[currentAnimationIndex] = spriteItem;
-                    if (currentAnimationIndex == (int)CharacterPartVisualManager.SAMPLE_ANIMATION)
-                    {
-                        currentSampleSprite = spriteItem;
-                    }
+                    string newSpriteName = item.name.Substring(0, item.name.IndexOf('.'));
 
-                    newAnimationShortTitle = spriteItem.name.Substring(0, spriteItem.name.IndexOf('.')) + (spriteItem.name.IndexOf('_') != -1 ? spriteItem.name.Substring(spriteItem.name.IndexOf('_')) : "");
-                    currentAnimationIndex++;
-
-                    if (newAnimationShortTitle != currentAnimationShortTitle)
+                    if (newSpriteName != currentSpriteName && currentSpriteName != null)
                     {
-                        StaticTargetVisual.SampleSprites.Add(currentSampleSprite, currentSprites);
-                        Debug.Log(currentSampleSprite + " : ");
-                        foreach (Sprite sprite in currentSprites)
+                        foreach (string key in currentSprites.Keys)
                         {
-                            Debug.Log(sprite);
+                            Sprite mainSampleSprite = currentSprites[key][(int)CharacterPartVisualManager.SAMPLE_ANIMATION];
+                            targetVisual.SerializedSampleSprites.Add(
+                                new CharacterPartVisualManager.SerializableSampleSpritesDictionaryItem( mainSampleSprite, currentSprites[key].ToArray()));
                         }
 
-                        currentSprites = new Sprite[Enum.GetNames(typeof(CharacterPartVisualManager.CharPartsAnimation)).Length];
-                        currentSampleSprite = null;
-                        currentAnimationIndex = 0;
+                        currentSprites.Clear();
                     }
+                    currentSpriteName = newSpriteName;
 
-                    currentAnimationShortTitle = newAnimationShortTitle;
+                    string currentKey = spriteItem.name.Substring(spriteItem.name.IndexOf('_') + 1);
+
+                    if (!currentSprites.ContainsKey(currentKey))
+                    {
+                        currentSprites.Add(currentKey, new List<Sprite>());
+                    }
+                    currentSprites[currentKey].Add(spriteItem);
                 }
             }
         }
-        
 
-    }
-
-    void OnGUI()
-    {
-        TargetVisual = EditorGUILayout.ObjectField(TargetVisual, typeof(CharacterPartVisualManager), true) as CharacterPartVisualManager;
-        StaticTargetVisual = TargetVisual;
+        PrefabUtility.RecordPrefabInstancePropertyModifications(targetVisual);
+        Debug.Log("Updated");
     }
 }

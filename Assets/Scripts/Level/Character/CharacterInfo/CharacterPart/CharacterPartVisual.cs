@@ -1,24 +1,37 @@
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.U2D;
 using UnityEngine;
 
-public class CharacterPartVisual : MonoBehaviour
+public class CharacterPartVisual : AbstractCharacterComponent
 {
-    private Animator _mainAnimator;
     private SpriteRenderer _spriteRenderer;
 
     public CharacterPartVisualManager.AnimatedCharacterParts VisualType;
 
-    private void Awake()
+    protected override void OnAwake()
     {
-        _mainAnimator = GetComponent<AbstractCharacterComponent>().CharComponents.Animator;
-        if (TryGetComponent(out _spriteRenderer)) throw new UnityException("SpriteRenderer component not found");
+        base.OnAwake();
+
+        if (!TryGetComponent(out _spriteRenderer)) throw new UnityException("SpriteRenderer component not found");
+
+        CharComponents.CharacterVisual.OnSampleSpriteChanged += CharacterVisual_OnSampleSpriteChanged;
+        CharComponents.CharacterVisual.OnSpriteFlippedChanged += CharacterVisual_OnSpriteFlippedChanged;
     }
 
-    private void Update()
+    private void CharacterVisual_OnSampleSpriteChanged(object sender, Sprite e)
     {
-        AnimatorClipInfo sampleClipInfo = _mainAnimator.GetCurrentAnimatorClipInfo(0)[0];
-        //_spriteRenderer.sprite = AnimationUtility.GetObjectReferenceCurveBindings(CharacterPartVisualManager.Instance.GetCharacterPartClip(sampleClipInfo.clip, VisualType))[sampleClipInfo];
+        _spriteRenderer.sprite = CharacterPartVisualManager.Instance.SampleSprites[e][(int)VisualType];
+    }
+
+    private void CharacterVisual_OnSpriteFlippedChanged(object sender, bool e)
+    {
+        _spriteRenderer.flipX = e;
+    }
+
+    private void OnDestroy()
+    {
+        CharComponents.CharacterVisual.OnSampleSpriteChanged -= CharacterVisual_OnSampleSpriteChanged;
     }
 }
