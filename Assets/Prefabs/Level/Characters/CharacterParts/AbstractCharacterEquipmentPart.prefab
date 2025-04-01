@@ -1,64 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7940568355537871962
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4419856629753208264}
-  - component: {fileID: 889091056331334270}
-  m_Layer: 0
-  m_Name: CharacterPartCollision
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4419856629753208264
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7940568355537871962}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4485746412327521891}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &889091056331334270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7940568355537871962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdc3ff7a4f4efb947b6a1e2b8ab29ed1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HitPriority: 1
-  HitBoxTransforms:
-  - Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 1, y: 1, z: 1}
-    FlipCapsuleDirection: 0
-  - Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 1, y: 1, z: 1}
-    FlipCapsuleDirection: 0
-  - Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 1, y: 1, z: 1}
-    FlipCapsuleDirection: 0
---- !u!1001 &7438906115957432552
+--- !u!1001 &1547413438924143640
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -66,10 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5900383586783300421, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
-      propertyPath: CanBleed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6448274144350727819, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -152,74 +90,45 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
       propertyPath: m_Name
-      value: AbstractCharacterLimbPart
+      value: AbstractCharacterEquipmentPart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6448274144350727819, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4419856629753208264}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 7435148282241997518}
-    - targetCorrespondingSourceObject: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 1229822351700075699}
+      addedObject: {fileID: 3776782412534019233}
   m_SourcePrefab: {fileID: 100100000, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
---- !u!1 &822356956028164761 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
-  m_PrefabInstance: {fileID: 7438906115957432552}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7435148282241997518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 822356956028164761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 232cc4ee86f4d8f4db282d58b3050b1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PartType: 0
-  CharPartVisual: {fileID: 1779693669216706162}
-  CharPartHealth: {fileID: 1229822351700075699}
-  CharPartHitbox: {fileID: 889091056331334270}
---- !u!114 &1229822351700075699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 822356956028164761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 353d770051f96f048b8fef65c4178d6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Cutable: 0
-  Gibable: 0
-  CanBleed: 0
-  LosingLimbIsLethal: 1
-  DamageMultiplier: 1
-  EffectsOnHit: []
---- !u!114 &1779693669216706162 stripped
+--- !u!114 &7707756931381641858 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9191548071030554266, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
-  m_PrefabInstance: {fileID: 7438906115957432552}
+  m_PrefabInstance: {fileID: 1547413438924143640}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 822356956028164761}
+  m_GameObject: {fileID: 8731442471156041321}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8469389f890fd8a4bbe1555b20c90f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &4485746412327521891 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6448274144350727819, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
-  m_PrefabInstance: {fileID: 7438906115957432552}
+--- !u!1 &8731442471156041321 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+  m_PrefabInstance: {fileID: 1547413438924143640}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3776782412534019233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8731442471156041321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1da1600efa613478f742e7ad0b9026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PartType: 0
+  CharPartVisual: {fileID: 7707756931381641858}
+  EquipAtType: 0
+  EffectsOnEquip: []

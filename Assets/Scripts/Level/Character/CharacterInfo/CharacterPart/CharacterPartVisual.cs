@@ -18,8 +18,8 @@ public class CharacterPartVisual : AbstractCharacterComponent
         {
             if (_visualType != value)
             {
-                _spriteRenderer.sortingOrder -= (int)Enum.GetValues(typeof(CharacterPartVisualManager.AnimatedCharacerPartsOrderInLayer)).GetValue((int)_visualType);
-                _spriteRenderer.sortingOrder += (int)Enum.GetValues(typeof(CharacterPartVisualManager.AnimatedCharacerPartsOrderInLayer)).GetValue((int)value);
+                _spriteRenderer.sortingOrder -= CharacterPartVisualManager.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
+                _spriteRenderer.sortingOrder += CharacterPartVisualManager.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
 
                 _visualType = value;
             }
@@ -35,7 +35,7 @@ public class CharacterPartVisual : AbstractCharacterComponent
         CharComponents.CharacterVisual.OnSampleSpriteChanged += CharacterVisual_OnSampleSpriteChanged;
         CharComponents.CharacterVisual.OnSpriteFlippedChanged += CharacterVisual_OnSpriteFlippedChanged;
 
-        _spriteRenderer.sortingOrder += (int)Enum.GetValues(typeof(CharacterPartVisualManager.AnimatedCharacerPartsOrderInLayer)).GetValue((int)VisualType);
+        _spriteRenderer.sortingOrder += CharacterPartVisualManager.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
     }
 
     private void CharacterVisual_OnSampleSpriteChanged(object sender, Sprite e)

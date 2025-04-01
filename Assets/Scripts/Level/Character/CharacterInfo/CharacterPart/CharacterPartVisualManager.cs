@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.WSA;
 
+[DefaultExecutionOrder(-1)]
 public class CharacterPartVisualManager : MonoBehaviour
 {
     public const AnimatedCharacterParts SAMPLE_ANIMATION = AnimatedCharacterParts.Body;
@@ -67,18 +68,23 @@ public class CharacterPartVisualManager : MonoBehaviour
         Head,
         LegsArmor
     }
-    public enum AnimatedCharacerPartsOrderInLayer : int
+
+    private readonly Dictionary<AnimatedCharacterParts, int> _animatedCharacerPartsOrderInLayer = new()
     {
-        BodyArmor = 5,
-        BodyCape = 4,
-        BodyHeavyArmor = 5,
-        Body = 1,
-        EyesDefault = 5,
-        EyesGlasses = 6,
-        HeadHeavyHelmet = 7,
-        HeadHelmet = 7,
-        Head = 2,
-        LegsArmor = 3
+        { AnimatedCharacterParts.BodyArmor, 5 },
+        { AnimatedCharacterParts.BodyCape, 4 },
+        { AnimatedCharacterParts.BodyHeavyArmor, 5 },
+        { AnimatedCharacterParts.Body, 1 },
+        { AnimatedCharacterParts.EyesDefault, 5 },
+        { AnimatedCharacterParts.EyesGlasses, 6 },
+        { AnimatedCharacterParts.HeadHeavyHelmet, 7 },
+        { AnimatedCharacterParts.HeadHelmet, 7 },
+        { AnimatedCharacterParts.Head, 2 },
+        { AnimatedCharacterParts.LegsArmor, 3 }
+    };
+    public Dictionary<AnimatedCharacterParts, int> AnimatedCharacerPartsOrderInLayer
+    {
+        get => _animatedCharacerPartsOrderInLayer;
     }
 
     public Dictionary<Sprite, Sprite[]> SampleSprites = new();

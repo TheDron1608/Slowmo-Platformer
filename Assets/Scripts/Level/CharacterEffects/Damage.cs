@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Damage : AbstractCharacterEffectWithSender
+public class Damage : AbstractCharacterLimbEffect
 {
     public float DamageAmount = 1f;
 
@@ -9,20 +9,25 @@ public class Damage : AbstractCharacterEffectWithSender
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
     {
-        if (receiverPart.TryGetComponent(out CharacterLimbPart limbPart))
+        base.OnReceivedSender(sender, receiverPart);
+
+        if (!receiverPart.CharComponents.CharacterEffects.TryGetEffect<LimbArmor>(out LimbArmor limbArmor, AffectedLimbPart))
         {
-            if (sender.TryGetComponent(out AbstractProjectile projectile))
+            if (receiverPart.TryGetComponent(out CharacterLimbPart limbPart))
             {
-                limbPart.CharPartHealth.ApplyDamage(DamageAmount, projectile);
+                if (sender.TryGetComponent(out AbstractProjectile projectile))
+                {
+                    limbPart.CharPartHealth.ApplyDamage(DamageAmount, projectile);
+                }
+                else
+                {
+                    limbPart.CharPartHealth.ApplyDamage(DamageAmount, sender);
+                }
             }
             else
             {
-                limbPart.CharPartHealth.ApplyDamage(DamageAmount, sender);
+                throw new UnityException("Trying cut off " + receiverPart.name + ", this character part must contain CharacterLimbPart component for this");
             }
-        }
-        else
-        {
-            throw new UnityException("Trying cut off " + receiverPart.name + ", this character part must contain CharacterLimbPart component for this");
         }
 
         RemoveSelf();

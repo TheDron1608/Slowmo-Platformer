@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public class GibLimb : AbstractCharacterEffectWithSender
+public class GibLimb : AbstractCharacterLimbEffect
 {
     protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
     {
+        base.OnReceivedSender(sender, receiverPart);
+
         if (receiverPart.TryGetComponent(out CharacterLimbPart limbPart))
         {
             limbPart.CharPartHealth.TryGib(sender);

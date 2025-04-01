@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public class CutOffLimb : AbstractCharacterEffectWithSender
+public class CutOffLimb : AbstractCharacterLimbEffect
 {
     protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
     {
+        base.OnReceivedSender(sender, receiverPart);
+
         if (receiverPart.TryGetComponent(out CharacterLimbPart limbPart))
         {
             limbPart.CharPartHealth.TryCutOff(sender);

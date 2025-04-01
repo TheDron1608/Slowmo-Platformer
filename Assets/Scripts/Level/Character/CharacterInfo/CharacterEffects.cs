@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Build.Pipeline;
 using UnityEngine;
+using UnityEngine.U2D.IK;
 
 public class CharacterEffects : AbstractCharacterComponent
 {
@@ -101,11 +102,11 @@ public class CharacterEffects : AbstractCharacterComponent
         }
     }
 
-    public void RemoveEffect<T>()
+    public void RemoveEffect<T>(CharacterLimbPart limb = null) where T : AbstractCharacterEffect
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (_currentEffects[i] is T)
+            if (_currentEffects[i] is T && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
             {
                 if (_currentEffects[i].IsDestroyed()) continue;
 
@@ -116,13 +117,13 @@ public class CharacterEffects : AbstractCharacterComponent
         }
     }
 
-    public void RemoveEffect(AbstractCharacterEffect effect)
+    public void RemoveEffect(AbstractCharacterEffect effect, CharacterLimbPart limb = null)
     {
         if (effect.IsDestroyed()) return;
 
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (_currentEffects[i].GetType() == effect.GetType())
+            if (_currentEffects[i].Equals(effect) && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
             {
                 OnEffectRemoved?.Invoke(this, _currentEffects[i]);
                 GameObject.Destroy(_currentEffects[i].gameObject);
@@ -132,44 +133,20 @@ public class CharacterEffects : AbstractCharacterComponent
         }
     }
 
-    public void RemoveEffect(System.Type effectType)
-    {
-        for (int i = 0; i < _currentEffects.Count; i++)
-        {
-            if (_currentEffects[i].GetType() == effectType)
-            {
-                if (_currentEffects[i].IsDestroyed()) continue;
-
-                OnEffectRemoved?.Invoke(this, _currentEffects[i]);
-                GameObject.Destroy(_currentEffects[i].gameObject);
-                _currentEffects.RemoveAt(i);
-            }
-        }
-    }
-
-    public void RemoveEffect(List<AbstractCharacterEffect> effects)
+    public void RemoveEffect(List<AbstractCharacterEffect> effects, CharacterLimbPart limb = null)
     {
         if (effects.Count == 0) return;
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            RemoveEffect(effects[i]);
+            RemoveEffect(effects[i], limb);
         }
     }
 
-    public void RemoveEffect(List<System.Type> effects)
-    {
-        if (effects.Count == 0) return;
-        for (int i = 0; i < _currentEffects.Count; i++)
-        {
-            RemoveEffect(effects[i]);
-        }
-    }
-
-    public bool GetHasEffect<T>()
+    public bool GetHasEffect<T>(CharacterLimbPart limb = null) where T : AbstractCharacterEffect
     {
         for (int i = 0; i < _currentEffects.Count;i++)
         {
-            if (_currentEffects[i] is T)
+            if (_currentEffects[i] is T && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
             {
                 return true;
             }
@@ -177,11 +154,11 @@ public class CharacterEffects : AbstractCharacterComponent
         return false;
     }
 
-    public AbstractCharacterEffect GetEffect<T>()
+    public AbstractCharacterEffect GetEffect<T>(CharacterLimbPart limb = null) where T : AbstractCharacterEffect
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (_currentEffects[i] is T)
+            if (_currentEffects[i] is T && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
             {
                 return _currentEffects[i];
             }
@@ -189,11 +166,11 @@ public class CharacterEffects : AbstractCharacterComponent
         return null;
     }
 
-    public bool TryGetEffect<T>(out T effect)
+    public bool TryGetEffect<T>(out T effect, CharacterLimbPart limb = null) where T : AbstractCharacterEffect
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (_currentEffects[i] is T outEffect)
+            if (_currentEffects[i] is T outEffect && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
             {
                 effect = outEffect;
                 return true;

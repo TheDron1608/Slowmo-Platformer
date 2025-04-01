@@ -10,7 +10,47 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 822356956028164761, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: m_Name
-      value: NewHead
+      value: Head
+      objectReference: {fileID: 0}
+    - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: HitPriority
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[1].Scale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[1].Scale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[1].Position.x
+      value: 0.285
+      objectReference: {fileID: 0}
+    - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[1].Position.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[2].Position.y
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229822351700075699, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: Cutable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229822351700075699, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: Gibable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229822351700075699, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: CanBleed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229822351700075699, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: DamageMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1779693669216706162, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: _visualType
@@ -156,22 +196,22 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7283724741151213507, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7940568355537871962, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 3521962072735850054}
+      addedObject: {fileID: 5283204265249587263}
   m_SourcePrefab: {fileID: 100100000, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
---- !u!1 &1058091996419669385 stripped
+--- !u!1 &398978435999276560 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7283724741151213507, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7940568355537871962, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
   m_PrefabInstance: {fileID: 7763049205510044234}
   m_PrefabAsset: {fileID: 0}
---- !u!58 &3521962072735850054
+--- !u!58 &5283204265249587263
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058091996419669385}
+  m_GameObject: {fileID: 398978435999276560}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1

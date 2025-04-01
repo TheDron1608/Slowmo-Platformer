@@ -16,9 +16,10 @@ public abstract class CharacterPart : AbstractCharacterComponent
         LEGWEAR
     }
 
-    public event EventHandler<CharacterPart> OnRemoved;
-
     public PartTypes PartType;
+    public CharacterPartVisual CharPartVisual;
+
+    public event EventHandler<CharacterPart> OnRemoved;
 
     private void OnDestroy()
     {

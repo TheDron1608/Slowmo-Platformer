@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<AbstractCharacterEffect>
+public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<AbstractCharacterEffect>, IEquatable<AbstractCharacterEffect>
 {
     /// <summary>
     /// multiple effects will be applied sorted by EffectPriority descending
@@ -22,7 +22,7 @@ public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<Abstr
     }
 
 
-    public void RemoveSelf()
+    public virtual void RemoveSelf()
     {
         AffectedCharacter.CharacterEffects.RemoveEffect(this);
     }
@@ -62,5 +62,10 @@ public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<Abstr
     public int CompareTo(AbstractCharacterEffect other)
     {
         return EffectPriority.CompareTo(other.EffectPriority);
+    }
+
+    public virtual bool Equals(AbstractCharacterEffect other)
+    {
+        return this.GetType() == other.GetType();
     }
 }

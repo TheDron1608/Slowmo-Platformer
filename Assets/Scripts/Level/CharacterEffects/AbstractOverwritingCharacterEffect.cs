@@ -8,6 +8,6 @@ public abstract class AbstractOverwritingCharacterEffect : AbstractCharacterEffe
     protected override void OnApply()
     {
         base.OnApply();
-        AffectedCharacter.CharacterEffects.RemoveEffect(GetType());
+        AffectedCharacter.CharacterEffects.RemoveEffect(this);
     }
 }
