@@ -27,8 +27,9 @@ public class CharacterEquipmentPart : CharacterPart
         CharComponents.CharacterEffects.ApplyEffect(EffectsOnEquip, this, _currentLimbEquip);
     }
 
-    private void OnDestroy()
+    protected override void OnRemovePart()
     {
         CharComponents.CharacterEffects.RemoveEffect<AbstractCharacterEffect>(_currentLimbEquip);
+        base.OnRemovePart();
     }
 }

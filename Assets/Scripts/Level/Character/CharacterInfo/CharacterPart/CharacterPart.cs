@@ -21,6 +21,16 @@ public abstract class CharacterPart : AbstractCharacterComponent
 
     public event EventHandler<CharacterPart> OnRemoved;
 
+    public void RemovePart()
+    {
+        OnRemovePart();
+    }
+
+    protected virtual void OnRemovePart()
+    {
+        GameObject.Destroy(gameObject);
+    }
+
     private void OnDestroy()
     {
         OnRemoved?.Invoke(this, this);

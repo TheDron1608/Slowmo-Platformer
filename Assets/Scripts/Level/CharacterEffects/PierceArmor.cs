@@ -11,7 +11,14 @@ public class PierceArmor : AbstractCharacterLimbEffect
         if (receiverPart.CharComponents.CharacterEffects.TryGetEffect<LimbArmor>(out LimbArmor armorEffect, AffectedLimbPart) && PierceLevel >= armorEffect.ArmorPierceResistantLevel)
         {
             receiverPart.CharComponents.CharacterEffects.RemoveEffect<LimbArmor>(AffectedLimbPart);
-            GameObject.Destroy(armorEffect.Sender.gameObject);
+            if (armorEffect.Sender is CharacterPart armorPart)
+            {
+                armorPart.RemovePart();
+            }
+            else
+            {
+                throw new UnityException("sender of armor effect must be CharacterPart class, received " + armorEffect.Sender.GetType().Name + " instead");
+            }
         }
 
         RemoveSelf();
