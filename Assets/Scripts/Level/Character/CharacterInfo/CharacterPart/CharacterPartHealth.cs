@@ -75,6 +75,11 @@ public class CharacterPartHealth : AbstractCharacterComponent
                 );
         }
 
+        if (TryGetComponent(out CharacterLimbPart limbPart))
+        {
+            limbPart.UnequipAllEquipments();
+        }
+
         GameObject.Destroy(gameObject);
     }
 
@@ -105,6 +110,11 @@ public class CharacterPartHealth : AbstractCharacterComponent
                 FluidParticleManager.FluidParticlesSpreadTypes.HEADSHOT,
                 gibber.transform.rotation
                 );
+        }
+
+        if (TryGetComponent(out CharacterLimbPart limbPart))
+        {
+            limbPart.UnequipAllEquipments();
         }
 
         GameObject.Destroy(gameObject);

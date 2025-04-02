@@ -13,7 +13,7 @@ public class PierceArmor : AbstractCharacterLimbEffect
             receiverPart.CharComponents.CharacterEffects.RemoveEffect<LimbArmor>(AffectedLimbPart);
             if (armorEffect.Sender is CharacterPart armorPart)
             {
-                armorPart.RemovePart();
+                armorPart.DestroyPart();
             }
             else
             {

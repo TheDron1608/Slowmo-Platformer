@@ -11,23 +11,20 @@ public class Damage : AbstractCharacterLimbEffect
     {
         base.OnReceivedSender(sender, receiverPart);
 
-        if (!receiverPart.CharComponents.CharacterEffects.TryGetEffect<LimbArmor>(out LimbArmor limbArmor, AffectedLimbPart))
+        if (receiverPart.TryGetComponent(out CharacterLimbPart limbPart))
         {
-            if (receiverPart.TryGetComponent(out CharacterLimbPart limbPart))
+            if (sender.TryGetComponent(out AbstractProjectile projectile))
             {
-                if (sender.TryGetComponent(out AbstractProjectile projectile))
-                {
-                    limbPart.CharPartHealth.ApplyDamage(DamageAmount, projectile);
-                }
-                else
-                {
-                    limbPart.CharPartHealth.ApplyDamage(DamageAmount, sender);
-                }
+                limbPart.CharPartHealth.ApplyDamage(DamageAmount, projectile);
             }
             else
             {
-                throw new UnityException("Trying cut off " + receiverPart.name + ", this character part must contain CharacterLimbPart component for this");
+                limbPart.CharPartHealth.ApplyDamage(DamageAmount, sender);
             }
+        }
+        else
+        {
+            throw new UnityException("Trying cut off " + receiverPart.name + ", this character part must contain CharacterLimbPart component for this");
         }
 
         RemoveSelf();

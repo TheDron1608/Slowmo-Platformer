@@ -44,7 +44,7 @@ public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<Abstr
         OnRemove();
     }
 
-    public virtual bool ApplyCondition(CharacterComponentsManager affectWho)
+    public virtual bool ApplyCondition(CharacterComponentsManager affectWho, MonoBehaviour sender, CharacterPart receiverPart)
     {
         return true;
     }

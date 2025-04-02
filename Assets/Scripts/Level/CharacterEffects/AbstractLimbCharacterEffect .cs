@@ -35,4 +35,28 @@ public abstract class AbstractCharacterLimbEffect : AbstractCharacterEffectWithS
     {
         AffectedCharacter.CharacterEffects.RemoveEffect(this, AffectedLimbPart);
     }
+
+    public override bool ApplyCondition(CharacterComponentsManager affectWho, MonoBehaviour sender, CharacterPart receiverPart)
+    {
+        if (receiverPart is CharacterLimbPart receiverLimb)
+        {
+            List<AbstractCharacterEffect> affectedLimbEffects = receiverPart.CharComponents.CharacterEffects.GetEffects<LimbEffectImmunity>(receiverLimb);
+            for (int i = 0; i < affectedLimbEffects.Count; i++)
+            {
+                if (
+                    affectedLimbEffects[i] is LimbEffectImmunity affectedLimbImmunityEffect &&
+                    affectedLimbImmunityEffect.ImmuneTo.Equals(this)
+                    )
+                {
+                    return false;
+                }
+            }
+
+            return base.ApplyCondition(affectWho, sender, receiverPart);
+        }
+        else
+        {
+            throw new UnityException("receiverPart must be CharacterLimbPart class, received " + receiverPart.GetType().Name + " instead");
+        }
+    }
 }

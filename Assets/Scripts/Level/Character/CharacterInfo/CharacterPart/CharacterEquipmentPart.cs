@@ -8,6 +8,7 @@ public class CharacterEquipmentPart : CharacterPart
 {
     public PartTypes EquipAtType;
     public List<AbstractCharacterEffect> EffectsOnEquip;
+    public bool CanUnequip = true;
 
     private CharacterLimbPart _currentLimbEquip;
 
@@ -27,9 +28,24 @@ public class CharacterEquipmentPart : CharacterPart
         CharComponents.CharacterEffects.ApplyEffect(EffectsOnEquip, this, _currentLimbEquip);
     }
 
-    protected override void OnRemovePart()
+    public void TryUnequipPart()
+    {
+        if (CanUnequip && TryGetComponent(out ParticleSpawner equipmentParticleSpawner))
+        {
+            if (CharComponents.CharacterRigidBody.linearVelocityX < 0f)
+            {
+                equipmentParticleSpawner.SpawnAngle = equipmentParticleSpawner.SpawnAngle + (90f - equipmentParticleSpawner.SpawnAngle) * 2;
+                equipmentParticleSpawner.SpawnAngularVeclocity *= -1f;
+            }
+            equipmentParticleSpawner.SpawnParticle();
+        }
+
+        DestroyPart();
+    }
+
+    protected override void OnDestroyPart()
     {
         CharComponents.CharacterEffects.RemoveEffect<AbstractCharacterEffect>(_currentLimbEquip);
-        base.OnRemovePart();
+        base.OnDestroyPart();
     }
 }

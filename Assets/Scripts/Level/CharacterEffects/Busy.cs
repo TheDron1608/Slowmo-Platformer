@@ -20,8 +20,8 @@ public class Busy : AbstractStun
         AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
     }
 
-    public override bool ApplyCondition(CharacterComponentsManager affectWho)
+    public override bool ApplyCondition(CharacterComponentsManager affectWho, MonoBehaviour sender, CharacterPart receiverPart)
     {
-        return base.ApplyCondition(affectWho) && !affectWho.CharacterEffects.GetHasEffect<AbstractStun>();
+        return base.ApplyCondition(affectWho, sender, receiverPart) && !affectWho.CharacterEffects.GetHasEffect<AbstractStun>();
     }
 }

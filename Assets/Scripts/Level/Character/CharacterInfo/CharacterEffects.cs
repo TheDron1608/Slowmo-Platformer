@@ -74,7 +74,7 @@ public class CharacterEffects : AbstractCharacterComponent
 
     public void ApplyEffect(AbstractCharacterEffect effect, MonoBehaviour sender, CharacterPart receiverPart)
     {
-        if (effect.ApplyCondition(CharComponents))
+        if (effect.ApplyCondition(CharComponents, sender, receiverPart))
         {
             AbstractCharacterEffect newEffect = Instantiate(effect, transform);
             _currentEffects.Add(newEffect);
@@ -113,6 +113,7 @@ public class CharacterEffects : AbstractCharacterComponent
                 OnEffectRemoved?.Invoke(this, _currentEffects[i]);
                 GameObject.Destroy(_currentEffects[i].gameObject);
                 _currentEffects.RemoveAt(i);
+                i--;
             }
         }
     }
@@ -178,5 +179,19 @@ public class CharacterEffects : AbstractCharacterComponent
         }
         effect = default;
         return false;
+    }
+
+    public List<AbstractCharacterEffect> GetEffects<T>(CharacterLimbPart limb = null) where T : AbstractCharacterEffect
+    {
+        List<AbstractCharacterEffect> result = new();
+
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (_currentEffects[i] is T && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
+            {
+                result.Add(_currentEffects[i]);
+            }
+        }
+        return result;
     }
 }

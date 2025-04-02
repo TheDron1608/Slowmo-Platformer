@@ -21,12 +21,12 @@ public abstract class CharacterPart : AbstractCharacterComponent
 
     public event EventHandler<CharacterPart> OnRemoved;
 
-    public void RemovePart()
+    public void DestroyPart()
     {
-        OnRemovePart();
+        OnDestroyPart();
     }
 
-    protected virtual void OnRemovePart()
+    protected virtual void OnDestroyPart()
     {
         GameObject.Destroy(gameObject);
     }

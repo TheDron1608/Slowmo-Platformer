@@ -43,8 +43,8 @@ public class MinorStun : AbstractStun
         }
     }
 
-    public override bool ApplyCondition(CharacterComponentsManager affectWho)
+    public override bool ApplyCondition(CharacterComponentsManager affectWho, MonoBehaviour sender, CharacterPart receiverPart)
     {
-        return base.ApplyCondition(affectWho) && !affectWho.CharacterEffects.GetHasEffect<HardStun>() && !affectWho.CharacterEffects.GetHasEffect<Death>();
+        return base.ApplyCondition(affectWho, sender, receiverPart) && !affectWho.CharacterEffects.GetHasEffect<HardStun>() && !affectWho.CharacterEffects.GetHasEffect<Death>();
     }
 }
