@@ -90,6 +90,10 @@ public class CharacterEffects : AbstractCharacterComponent
 
             OnEffectAdded?.Invoke(this, newEffect);
         }
+        else if (effect.AlternativeCharacterEffectIfResisted != null && !effect.AlternativeCharacterEffectIfResisted.Equals(effect))
+        {
+            ApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender, receiverPart);
+        }
     }
 
     public void ApplyEffect(List<AbstractCharacterEffect> effects, MonoBehaviour sender, CharacterPart receiverPart)
@@ -155,13 +159,13 @@ public class CharacterEffects : AbstractCharacterComponent
         return false;
     }
 
-    public AbstractCharacterEffect GetEffect<T>(CharacterLimbPart limb = null) where T : AbstractCharacterEffect
+    public T GetEffect<T>(CharacterLimbPart limb = null) where T : AbstractCharacterEffect
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
             if (_currentEffects[i] is T && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
             {
-                return _currentEffects[i];
+                return _currentEffects[i] as T;
             }
         }
         return null;
@@ -181,15 +185,15 @@ public class CharacterEffects : AbstractCharacterComponent
         return false;
     }
 
-    public List<AbstractCharacterEffect> GetEffects<T>(CharacterLimbPart limb = null) where T : AbstractCharacterEffect
+    public List<T> GetEffects<T>(CharacterLimbPart limb = null) where T : AbstractCharacterEffect
     {
-        List<AbstractCharacterEffect> result = new();
+        List<T> result = new();
 
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (_currentEffects[i] is T && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
+            if (_currentEffects[i] is T tEffect && (limb == null || (_currentEffects[i] is AbstractCharacterLimbEffect limbEffect && limbEffect.AffectedLimbPart == limb)))
             {
-                result.Add(_currentEffects[i]);
+                result.Add(tEffect);
             }
         }
         return result;

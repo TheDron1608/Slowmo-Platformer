@@ -10,6 +10,7 @@ public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<Abstr
     /// multiple effects will be applied sorted by EffectPriority descending
     /// </summary>
     public int EffectPriority = 100;
+    public AbstractCharacterEffect AlternativeCharacterEffectIfResisted = null;
 
     private CharacterComponentsManager _affectedCharacter;
 
@@ -46,6 +47,39 @@ public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<Abstr
 
     public virtual bool ApplyCondition(CharacterComponentsManager affectWho, MonoBehaviour sender, CharacterPart receiverPart)
     {
+        if (receiverPart != null)
+        {
+            if (receiverPart is CharacterEquipmentPart equipmentPart)
+            {
+                throw new UnityException("receiverPart is not null and is not CharacteLimbPart and is equipAt part is not CharacterLimbPart");
+            }
+
+            CharacterLimbPart affectedLimb = null;
+            if (receiverPart is CharacterLimbPart limbPart)
+            {
+                affectedLimb = limbPart;
+            }
+
+            List<LimbEffectImmunity> affectedLimbImmunityEffects = affectWho.CharacterEffects.GetEffects<LimbEffectImmunity>(affectedLimb);
+            for (int i = 0; i < affectedLimbImmunityEffects.Count; i++)
+            {
+                if ((affectedLimbImmunityEffects[i].ImmuneTo as AbstractCharacterEffect).Equals(this))
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        List<EffectImmunity> affectedImmunityEffects = affectWho.CharacterEffects.GetEffects<EffectImmunity>();
+        for (int i = 0; i < affectedImmunityEffects.Count; i++)
+        {
+            if (affectedImmunityEffects.Equals(this))
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 

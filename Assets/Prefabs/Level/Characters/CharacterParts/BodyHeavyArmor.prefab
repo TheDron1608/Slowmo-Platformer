@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: EffectsOnEquip.Array.size
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: 'EffectsOnEquip.Array.data[0]'
@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: 'EffectsOnEquip.Array.data[1]'
       value: 
-      objectReference: {fileID: -7297855539351675345, guid: 298c49b2d1d539e408ba04eb4b7d7b6c, type: 3}
+      objectReference: {fileID: -7297855539351675345, guid: 3ab166c911dc2704b801a45f01f5806d, type: 3}
     - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: 'EffectsOnEquip.Array.data[2]'
       value: 
@@ -43,7 +43,19 @@ PrefabInstance:
     - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: 'EffectsOnEquip.Array.data[4]'
       value: 
-      objectReference: {fileID: -7220791454162326313, guid: a79c05bfacb21cf40b6eedbc4899764f, type: 3}
+      objectReference: {fileID: 2207531158183531807, guid: 8f698203eaedd1c43a4ae87331a20b32, type: 3}
+    - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: 'EffectsOnEquip.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2066525123884576839, guid: 096082000edd9ba46aaa86cc9ea75da3, type: 3}
+    - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: 'EffectsOnEquip.Array.data[6]'
+      value: 
+      objectReference: {fileID: 3835787520392331423, guid: 0ff753e67da72c04280f03dd05a2de2c, type: 3}
+    - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: 'EffectsOnEquip.Array.data[7]'
+      value: 
+      objectReference: {fileID: 2606623919738181464, guid: 4efa16e7acc152d4295e7d77759e616d, type: 3}
     - target: {fileID: 5477885099294937747, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -127,18 +139,18 @@ PrefabInstance:
     - target: {fileID: 5700690854049518460, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 5752361796519892983, guid: c144f5c1ff0b9cd41b2ec10b593819c4, type: 3}
+      objectReference: {fileID: 3229202520501327691, guid: d27c968c74887e64b9be06f9edf435b0, type: 3}
     - target: {fileID: 5700690854049518460, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7707756931381641858, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: _visualType
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8731442471156041321, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: m_Name
-      value: BodyArmor
+      value: BodyHeavyArmor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,13 +10,26 @@ public class Knockback : AbstractCharacterEffectWithSender
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
     {
+        float totalKnockMultiplier = 1f;
+        foreach (KnockResistance knockResistance in AffectedCharacter.CharacterEffects.GetEffects<KnockResistance>())
+        {
+            totalKnockMultiplier *= knockResistance.KnockMultiplier;
+        }
+        if (receiverPart != null && receiverPart is CharacterLimbPart limbPart)
+        {
+            foreach (KnockLimbResistance knockResistance in AffectedCharacter.CharacterEffects.GetEffects<KnockLimbResistance>(limbPart))
+            {
+                totalKnockMultiplier *= knockResistance.KnockMultiplier;
+            }
+        }
+
         if (sender.TryGetComponent(out AbstractProjectile projectile))
         {
-            AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * VectorMath.Quartenion2DToVec2(projectile.transform.rotation);
+            AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * VectorMath.Quartenion2DToVec2(projectile.transform.rotation) * totalKnockMultiplier;
         }
         else if (sender.TryGetComponent(out Rigidbody2D rigidBody))
         {
-            AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * rigidBody.linearVelocity.normalized;
+            AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * rigidBody.linearVelocity.normalized * totalKnockMultiplier;
         }
         else
         {
