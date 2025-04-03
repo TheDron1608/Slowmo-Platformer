@@ -87,4 +87,16 @@ public class CharacterHitbox : AbstractCharacterComponent
             CharComponents.CharacterStuckedObjects.RemoveAllStuckedObjects();
         }
     }
+
+    public Collider2D GetCollider()
+    {
+        if (TryGetComponent(out Collider2D collider))
+        {
+            return collider;
+        }
+        else
+        {
+            throw new UnityException("Collider2D component not found in " + gameObject.name);
+        }
+    }
 }

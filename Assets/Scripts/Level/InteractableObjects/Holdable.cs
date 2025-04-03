@@ -43,9 +43,47 @@ public class Holdable : Interactable
     private Vector2 _velocitySpeedPreviousFrame = Vector2.zero;
     private bool _isStuck = false;
     private Coroutine _enableGravityCoroutine;
+    private CharacterComponentsManager _excludedCollideThrower;
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
     public event EventHandler<OnThrownEventArgs> OnThrown;
+
+    public CharacterComponentsManager ExcludedCollideThrower
+    {
+        get => _excludedCollideThrower;
+        private set
+        {
+            if (_excludedCollideThrower != null)
+            {
+                foreach (CharacterPart charPart in _excludedCollideThrower.CharacterPartsManager.CharacterParts)
+                {
+                    if (charPart is CharacterLimbPart limbPart)
+                    {
+                        Physics2D.IgnoreCollision(limbPart.CharPartHitbox.GetCollider(), _colliderComponent, false);
+                        Physics2D.IgnoreCollision(limbPart.CharPartHitbox.GetCollider(), _thrownColliderComponent, false);
+                    }
+                }
+                Physics2D.IgnoreCollision(_excludedCollideThrower.CharacterRigidBodyCapsuleCollider, _colliderComponent, false);
+                Physics2D.IgnoreCollision(_excludedCollideThrower.CharacterRigidBodyCapsuleCollider, _thrownColliderComponent, false);
+            }
+
+            _excludedCollideThrower = value;
+
+            if (_excludedCollideThrower != null)
+            {
+                foreach (CharacterPart charPart in _excludedCollideThrower.CharacterPartsManager.CharacterParts)
+                {
+                    if (charPart is CharacterLimbPart limbPart)
+                    {
+                        Physics2D.IgnoreCollision(limbPart.CharPartHitbox.GetCollider(), _colliderComponent, true);
+                        Physics2D.IgnoreCollision(limbPart.CharPartHitbox.GetCollider(), _thrownColliderComponent, true);
+                    }
+                }
+                Physics2D.IgnoreCollision(_excludedCollideThrower.CharacterRigidBodyCapsuleCollider, _colliderComponent, true);
+                Physics2D.IgnoreCollision(_excludedCollideThrower.CharacterRigidBodyCapsuleCollider, _thrownColliderComponent, true);
+            }
+        }
+    }
 
     public Collider2D StuckedToCollider
     {
@@ -143,6 +181,7 @@ public class Holdable : Interactable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("hit " + collision.collider.name + " at " + collision.gameObject.name);
         if (_isStuck) return;
         if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder) return;
 
@@ -341,6 +380,8 @@ public class Holdable : Interactable
         }
         _spriteRendererComponent.sortingOrder += ON_GRAB_SORTING_ORDER_ADD;
         StuckedToCollider = null;
+
+        ExcludedCollideThrower = newHolder.CharComponents;
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out ThrowableWeapon throwableWeapon))

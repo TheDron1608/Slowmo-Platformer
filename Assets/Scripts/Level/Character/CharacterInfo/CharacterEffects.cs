@@ -12,8 +12,6 @@ public class CharacterEffects : AbstractCharacterComponent
     private AbstractCharacterComponent _lastHitter = null;
     private List<AbstractCharacterComponent> _lastOneSecondHitters = new();
 
-    public event EventHandler OnRemoved;
-
     public event EventHandler<AbstractCharacterEffect> OnEffectAdded;
     public event EventHandler<AbstractCharacterEffect> OnEffectRemoved;
 
