@@ -181,7 +181,6 @@ public class Holdable : Interactable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("hit " + collision.collider.name + " at " + collision.gameObject.name);
         if (_isStuck) return;
         if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder) return;
 
