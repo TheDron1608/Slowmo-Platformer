@@ -85,7 +85,7 @@ public class CharacterAttacking : AbstractCharacterComponent
         if (CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon())
         {
             if (
-                !CharComponents.CharacterCollisionInfo.IsCollidingFloor() ||
+                !CharComponents.CharacterCollision.IsCollidingFloor() ||
                 !IsAbleToAttack || 
                 CharComponents.CharacterHolding.CurrentHoldObject == null || 
                 !CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon)

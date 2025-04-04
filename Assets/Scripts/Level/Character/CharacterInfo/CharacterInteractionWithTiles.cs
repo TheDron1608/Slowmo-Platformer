@@ -12,7 +12,7 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
 
     private void Start()
     {
-        CharComponents.CharacterCollisionInfo.OnTileBehavioutTypeCollisionChanged += CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged;
+        CharComponents.CharacterCollision.OnTileBehavioutTypeCollisionChanged += CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged;
     }
 
     private void CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged(object sender, CharacterCollision.OnTileBehavioutTypeCollisionChangedEventArgs e)
@@ -30,8 +30,8 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
         if (!IsAbleToStickOnWalls) return;
 
         if (
-            CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
-            CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
+            CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
+            CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
             )
         {
             StartCoroutine(UpdateStickyTileInteractionProcess());
@@ -40,7 +40,7 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
 
     private IEnumerator UpdateStickyTileInteractionProcess()
     {
-        while (CharComponents.CharacterCollisionInfo.GetIsStickingOnWall())
+        while (CharComponents.CharacterCollision.GetIsStickingOnWall())
         {
             if (CharComponents.CharacterRigidBody.linearVelocityY < 0f)
             {

@@ -43,7 +43,7 @@ public class CharacterRolling : AbstractCharacterComponent
     {
         base.OnAwake();
         CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
-        CharComponents.CharacterCollisionInfo.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
+        CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
     }
 
     private void CharacterCollisionInfo_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
@@ -114,10 +114,10 @@ public class CharacterRolling : AbstractCharacterComponent
     {
         return
             (
-                (_currentRollDirection > 0 && !CharComponents.CharacterCollisionInfo.IsCollidingRightWall()) ||
-                (_currentRollDirection < 0 && !CharComponents.CharacterCollisionInfo.IsCollidingLeftWall())
+                (_currentRollDirection > 0 && !CharComponents.CharacterCollision.IsCollidingRightWall()) ||
+                (_currentRollDirection < 0 && !CharComponents.CharacterCollision.IsCollidingLeftWall())
             ) &&
-            CharComponents.CharacterCollisionInfo.IsCollidingFloor();
+            CharComponents.CharacterCollision.IsCollidingFloor();
     }
 
     private void Update()

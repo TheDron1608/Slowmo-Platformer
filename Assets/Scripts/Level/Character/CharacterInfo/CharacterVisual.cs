@@ -186,7 +186,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void UpdateJumpStateParam()
     {
-        if (!CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+        if (!CharComponents.CharacterCollision.IsCollidingFloor())
         {
             JumpState = CharComponents.CharacterRigidBody.linearVelocityY / JumpStateVelocityRange;
         }
@@ -202,7 +202,7 @@ public class CharacterVisual : AbstractCharacterComponent
         }
         else
         {
-            if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+            if (CharComponents.CharacterCollision.IsCollidingFloor())
             {
                 if (CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || !CharComponents.CharacterMoving.IsAbleToMoveThisFrame)
                 {
@@ -224,7 +224,7 @@ public class CharacterVisual : AbstractCharacterComponent
             }
             else
             {
-                if (CharComponents.CharacterCollisionInfo.GetIsStickingOnWall())
+                if (CharComponents.CharacterCollision.GetIsStickingOnWall())
                 {
                     MainState = CharacterPartMainStates.SLIDE_ON_WALL;
                 }
@@ -254,7 +254,7 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         if (CharComponents.CharacterEffects.GetHasEffect<HardStun>())
         {
-            if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+            if (CharComponents.CharacterCollision.IsCollidingFloor())
             {
                 CurrentBusyAnimation = CharacterPartBusyStates.FALLEN_ON_FLOOR;
             }

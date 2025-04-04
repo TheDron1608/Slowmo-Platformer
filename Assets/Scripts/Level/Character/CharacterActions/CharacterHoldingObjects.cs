@@ -131,7 +131,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
         //setting current holded object's location
         Vector2 holdObjectPositionXY = Vector2.Lerp(
-            _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollisionInfo.PositionPrevFrame),
+            _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
             VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
             aimDelta
             );

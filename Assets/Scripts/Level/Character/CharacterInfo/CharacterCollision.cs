@@ -360,7 +360,7 @@ public class CharacterCollision : AbstractCharacterComponent
             {
                 if (
                     hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
-                    otherCharComponent.CharComponents.CharacterCollisionInfo != this &&
+                    otherCharComponent.CharComponents.CharacterCollision != this &&
                     !CharComponents.CharacterEffects.GetLastOneSecondHittersContainsCharacter(otherCharComponent) &&
                     !otherCharComponent.CharComponents.CharacterEffects.GetLastOneSecondHittersContainsCharacter(this)
                     )

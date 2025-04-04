@@ -88,9 +88,9 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 0}
     Scale: {x: 1, y: 1, z: 1}
     FlipCapsuleDirection: 0
-  - Position: {x: 0.06, y: 0, z: 0}
+  - Position: {x: -0.1, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 2, y: 0.23, z: 1}
+    Scale: {x: 1.5, y: 0.3, z: 1}
     FlipCapsuleDirection: 1
   - Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 0}
@@ -312,7 +312,7 @@ MonoBehaviour:
   CharacterReloading: {fileID: 2103635049368087364}
   CharacterRolling: {fileID: 7585185559083403592}
   UnarmedAttacking: {fileID: 1895862788084180291}
-  CharacterCollisionInfo: {fileID: 2002335163756146061}
+  CharacterCollision: {fileID: 2002335163756146061}
   CharacterVisual: {fileID: 1964864157782877518}
   CharacterInteractionWithTiles: {fileID: 3206245827804919803}
   CharacterDamaging: {fileID: 974105059069264052}

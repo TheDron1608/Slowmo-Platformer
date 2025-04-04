@@ -142,7 +142,7 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
         {
             CharComponents.CharacterJumping.TryStartJump();
         }
-        else if (CharComponents.CharacterCollisionInfo.TimeInAir <= CoyoteLateTimer)
+        else if (CharComponents.CharacterCollision.TimeInAir <= CoyoteLateTimer)
         {
             CharComponents.CharacterJumping.TryStartCoyoteJump();
         }
@@ -359,7 +359,7 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
             CurrentSelectedGrabObject = 
                 CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Holdable>(
                     CharComponents.CharacterAiming.GetCurrentAimNormalized(),
-                    1 << CharComponents.CharacterCollisionInfo.CurrentZLayer.HoldablesLayer
+                    1 << CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer
                 );
         }
         else
@@ -375,7 +375,7 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
             CurrentSelectedInteractObject =
                 CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Interactable>(
                     CharComponents.CharacterAiming.GetCurrentAimNormalized(),
-                    CharComponents.CharacterCollisionInfo.CurrentZLayer.EntireLayerMask - (1 << CharComponents.CharacterCollisionInfo.CurrentZLayer.HoldablesLayer)
+                    CharComponents.CharacterCollision.CurrentZLayer.EntireLayerMask - (1 << CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer)
                 );
         }
     }

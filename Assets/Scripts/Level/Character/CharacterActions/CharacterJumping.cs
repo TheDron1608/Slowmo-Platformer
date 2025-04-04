@@ -90,7 +90,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void TryStartJump()
     {
-        if (CharComponents.CharacterClumsyness.ClumsyJumping && CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+        if (CharComponents.CharacterClumsyness.ClumsyJumping && CharComponents.CharacterCollision.IsCollidingFloor())
         {
             if (CharComponents.CharacterVisual.IsBusy()) return;
 
@@ -124,11 +124,11 @@ public class CharacterJumping : AbstractCharacterComponent
                 CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
             }
 
-            if (CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY)
+            if (CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY)
             {
                 CharComponents.CharacterRigidBody.linearVelocityX += JumpOffWallForce;
             }
-            else if (CharComponents.CharacterCollisionInfo.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY)
+            else if (CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY)
             {
                 CharComponents.CharacterRigidBody.linearVelocityX -= JumpOffWallForce;
             }
@@ -156,7 +156,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void TryStartCoyoteJump()
     {
-        if (CharComponents.CharacterClumsyness.ClumsyJumping && !CharComponents.CharacterCollisionInfo.IsCollidingFloor()) return;
+        if (CharComponents.CharacterClumsyness.ClumsyJumping && !CharComponents.CharacterCollision.IsCollidingFloor()) return;
 
         if (_isJumping || !IsAbleToJump) return;
 
@@ -222,12 +222,12 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public bool GetIsAbleToJumpFromFloor()
     {
-        return CharComponents.CharacterCollisionInfo.IsCollidingFloor();
+        return CharComponents.CharacterCollision.IsCollidingFloor();
     }
 
     public bool GetIsAbleToJumpFromWall()
     {
-        return CharComponents.CharacterCollisionInfo.GetIsStickingOnWall();
+        return CharComponents.CharacterCollision.GetIsStickingOnWall();
     }
 
     public bool GetIsAbleToJumpFromAir()

@@ -69,13 +69,13 @@ public class CharacterMoving : AbstractCharacterComponent
     {
         bool isAlreadyReachedMaxSpeed = GetIsMaxSpeed();
 
-        if (_currentMoveDirection > 0f && CharComponents.CharacterCollisionInfo.IsCollidingRightWall())
+        if (_currentMoveDirection > 0f && CharComponents.CharacterCollision.IsCollidingRightWall())
         {
             if (CharComponents.CharacterRigidBody.linearVelocityX > 0) CharComponents.CharacterRigidBody.linearVelocityX = 0f;
             _isAbleToMoveThisFrame = false;
             OnMoveAlignChanged?.Invoke(this, 0f);
         }
-        else if (_currentMoveDirection < 0f && CharComponents.CharacterCollisionInfo.IsCollidingLeftWall())
+        else if (_currentMoveDirection < 0f && CharComponents.CharacterCollision.IsCollidingLeftWall())
         {
             if (CharComponents.CharacterRigidBody.linearVelocityX < 0) CharComponents.CharacterRigidBody.linearVelocityX = 0f;
             _isAbleToMoveThisFrame = false;
@@ -88,7 +88,7 @@ public class CharacterMoving : AbstractCharacterComponent
             {
                 CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnUnableToMoveMultiplier * Time.fixedDeltaTime);
             }
-            else if (CharComponents.CharacterCollisionInfo.IsCollidingFloor())
+            else if (CharComponents.CharacterCollision.IsCollidingFloor())
             {
                 CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime);
             }
