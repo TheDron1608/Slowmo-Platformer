@@ -38,9 +38,19 @@ public class CharacterPartVisual : AbstractCharacterComponent
         _spriteRenderer.sortingOrder += CharacterPartVisualManager.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
     }
 
-    private void CharacterVisual_OnSampleSpriteChanged(object sender, Sprite e)
+    private void CharacterVisual_OnSampleSpriteChanged(object sender, Sprite sampleSprite)
     {
-        _spriteRenderer.sprite = CharacterPartVisualManager.Instance.SampleSprites[e][(int)VisualType];
+        try
+        {
+            _spriteRenderer.sprite = CharacterPartVisualManager.Instance.SampleSprites[sampleSprite][(int)VisualType];
+        }
+        catch (KeyNotFoundException)
+        {
+            throw new UnityException(
+                "not found sprite in CharacterPartVisualManager.Instance.SampleSprites with key " + sampleSprite + 
+                " try press UpdateCharacterTextures button in inspector of CharacterPartVisualManager gameObject"
+                );
+        }
     }
 
     private void CharacterVisual_OnSpriteFlippedChanged(object sender, bool e)
