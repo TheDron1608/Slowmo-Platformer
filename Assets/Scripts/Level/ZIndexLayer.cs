@@ -14,17 +14,28 @@ public class ZIndexLayer : MonoBehaviour
     private const string FURNITURE_LAYER_NAME = "Furniture";
     private const string PROJECTILES_LAYER_NAME = "Projectiles";
 
-    private const string FLUID_PARTICLES_GAMEOBJECT_NAME = "FluidParticles";
+    private const string FLUID_PARTICLES_CONTAINER_NAME = "FluidParticles";
+    private const string CHARACTERS_CONTAINER_NAME = "Characters";
+    private const string FURNITURE_CONTAINER_NAME = "Furniture";
+    private const string HOLDABLES_CONTAINER_NAME = "Holdables";
+    private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
+    private const string PROJECTILES_CONTAINER_NAME = "Projectiles";
 
     public int ZIndex = 1;
 
-    public int EnviromentLayer;
-    public int CharactersLayer;
-    public int HoldablesLayer;
-    public int FurnituresLayer;
-    public int ProjectilesLayer;
-    public int EntireLayerMask;
-    public Transform FluidParticlesContainer;
+    public int EnviromentLayer { get; private set; }
+    public int CharactersLayer { get; private set; }
+    public int HoldablesLayer { get; private set; }
+    public int FurnituresLayer { get; private set; }
+    public int ProjectilesLayer { get; private set; }
+    public int EntireLayerMask { get; private set; }
+
+    public Transform FluidParticlesContainer { get; private set; }
+    public Transform CharactersContainer { get; private set; }
+    public Transform FurnitureContainer { get; private set; }
+    public Transform HoldablesContainer { get; private set; }
+    public Transform PhysicsParticlesContainer { get; private set; }
+    public Transform ProjectilesContainer { get; private set; }
 
     private float _alpha = 1f;
 
@@ -58,7 +69,12 @@ public class ZIndexLayer : MonoBehaviour
 
         EntireLayerMask = (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
 
-        FluidParticlesContainer = transform.Find(FLUID_PARTICLES_GAMEOBJECT_NAME);
+        FluidParticlesContainer = transform.Find(FLUID_PARTICLES_CONTAINER_NAME);
+        PhysicsParticlesContainer = transform.Find(PHYSICS_PARTICLES_CONTAINER_NAME);
+        CharactersContainer = transform.Find(CHARACTERS_CONTAINER_NAME);
+        FurnitureContainer = transform.Find(FURNITURE_CONTAINER_NAME);
+        HoldablesContainer = transform.Find(HOLDABLES_CONTAINER_NAME);
+        ProjectilesContainer = transform.Find(PROJECTILES_CONTAINER_NAME);
     }
 
     private void SetAlphaForAllChildren(float alpha, Transform t)
@@ -133,6 +149,8 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.HOLDABLE_TAG_NAME:
+            case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
+            case LayerManager.FLUID_PARTICLE_TAG_NAME:
                 gameObject.layer = HoldablesLayer;
                 break;
 

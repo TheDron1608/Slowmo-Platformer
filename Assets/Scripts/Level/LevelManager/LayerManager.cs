@@ -14,6 +14,8 @@ public class LayerManager : MonoBehaviour
     public const string CHARACTER_TAG_NAME = "Character";
     public const string HOLDABLE_TAG_NAME = "Holdable";
     public const string FURNITURE_TAG_NAME = "Furniture";
+    public const string PHYSICS_PARTICLE_TAG_NAME = "PhysicsParticle";
+    public const string FLUID_PARTICLE_TAG_NAME = "FluidParticle";
 
     public static LayerManager Instance;
 
@@ -55,7 +57,30 @@ public class LayerManager : MonoBehaviour
     {
         if (moveGameObject == null) return;
 
-        moveGameObject.transform.parent = targetLayer.transform;
+        switch (moveGameObject.tag)
+        {
+            case PROJECTILE_TAG_NAME:
+                moveGameObject.transform.parent = targetLayer.ProjectilesContainer;
+                break;
+            case FURNITURE_TAG_NAME:
+                moveGameObject.transform.parent = targetLayer.FurnitureContainer;
+                break;
+            case HOLDABLE_TAG_NAME:
+                moveGameObject.transform.parent = targetLayer.HoldablesContainer;
+                break;
+            case PHYSICS_PARTICLE_TAG_NAME:
+                moveGameObject.transform.parent = targetLayer.PhysicsParticlesContainer;
+                break;
+            case FLUID_PARTICLE_TAG_NAME:
+                moveGameObject.transform.parent = targetLayer.FluidParticlesContainer;
+                break;
+            case CHARACTER_TAG_NAME:
+                moveGameObject.transform.parent = targetLayer.CharactersContainer;
+                break;
+            default:
+                moveGameObject.transform.parent = targetLayer.transform;
+                break;
+        }
 
         if (newPosition == null)
         {

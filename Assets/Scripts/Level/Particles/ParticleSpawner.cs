@@ -35,7 +35,7 @@ public class ParticleSpawner : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            PhysicsParticle newParticle = Instantiate(physicsParticle, LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform);
+            PhysicsParticle newParticle = Instantiate(physicsParticle, LayerManager.Instance.GetZLayerOfGameObject(gameObject).PhysicsParticlesContainer);
 
             newParticle.transform.position = transform.position;
             newParticle.transform.rotation = transform.rotation;
