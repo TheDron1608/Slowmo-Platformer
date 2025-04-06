@@ -29,8 +29,6 @@ public class PhysicsParticle : MonoBehaviour
         if (!TryGetComponent(out _spriteRenderer)) throw new UnityException("SpriteRenderer component not found");
 
         LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForGameObject(gameObject);
-
-        
     }
 
     private void OnCollisionStay2D(Collision2D collision)
