@@ -14,6 +14,8 @@ public class CharacterComponentsManager : MonoBehaviour
     public CharacterRolling CharacterRolling;
     public UnarmedWeapon UnarmedAttacking;
     [Header("CharacterInfo")]
+    public CharacterTeam CharacterTeam;
+    public CharacterAIManager CharacterAIManager;
     public CharacterCollision CharacterCollision;
     public CharacterVisual CharacterVisual;
     public CharacterInteractionWithTiles CharacterInteractionWithTiles;

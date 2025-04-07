@@ -96,6 +96,37 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 0}
     Scale: {x: 1.1, y: 0.55, z: 1}
     FlipCapsuleDirection: 0
+--- !u!1 &1380625121418778479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3985180788019794697}
+  m_Layer: 0
+  m_Name: AIContainer
+  m_TagString: Character
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3985180788019794697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380625121418778479}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.35441515, y: -0.1609753, z: -0.00024750756}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4213330836085406466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2766341382564374314
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,6 +277,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4213330836085406466}
   - component: {fileID: -3327571402814487819}
+  - component: {fileID: 1912486057152472303}
+  - component: {fileID: 250443310337139541}
   - component: {fileID: 5897571605525893540}
   - component: {fileID: 4517750751436233566}
   - component: {fileID: 5375129970261745621}
@@ -289,6 +322,7 @@ Transform:
   - {fileID: 3304611690710999899}
   - {fileID: 1198837765471096065}
   - {fileID: 5318205546132008437}
+  - {fileID: 3985180788019794697}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-3327571402814487819
@@ -312,6 +346,8 @@ MonoBehaviour:
   CharacterReloading: {fileID: 2103635049368087364}
   CharacterRolling: {fileID: 7585185559083403592}
   UnarmedAttacking: {fileID: 1895862788084180291}
+  CharacterTeam: {fileID: 1912486057152472303}
+  CharacterAIManager: {fileID: 250443310337139541}
   CharacterCollision: {fileID: 2002335163756146061}
   CharacterVisual: {fileID: 1964864157782877518}
   CharacterInteractionWithTiles: {fileID: 3206245827804919803}
@@ -329,6 +365,31 @@ MonoBehaviour:
   CharacterRigidBody: {fileID: 7607223272691296094}
   CharacterRigidBodyCapsuleCollider: {fileID: 4524364239507995928}
   CharacterRigidBodyCapsuleColliderHitBox: {fileID: 640373735122174765}
+--- !u!114 &1912486057152472303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb2bedc42197ff7479504cc92c5b06fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterTeams: 01000000
+--- !u!114 &250443310337139541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466261371012752510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a504cce805f772f46b37a5c2829ff3b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5897571605525893540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3777c656c954b146ad3fce3d56d8fed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAbleToAim: 0
+  IsAbleToAim: 1
   AimSpeed: 7.5
   Debug_CurrentAimIcon: {fileID: 0}
 --- !u!114 &7261639660243465350

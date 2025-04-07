@@ -61,4 +61,13 @@ public static class NumberMath
         }
         return default;
     }
+
+    public static bool GetListContainsAnyItemOfAnotherList<T>(List<T> findIn, List<T> findWhat)
+    {
+        for (int i = 0; i < findWhat.Count; i++)
+        {
+            if (findIn.Contains(findWhat[i])) return true;
+        }
+        return false;
+    }
 }
