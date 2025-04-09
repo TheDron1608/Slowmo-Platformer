@@ -93,7 +93,6 @@ public class CharacterAiming : AbstractCharacterComponent
             Debug_CurrentAimIcon.transform.position = _targetAimPoint;
         }
 
-        Debug.Log("update aim in " + gameObject.name);
         if (
             AimWeaponDown && 
             CharComponents.CharacterHolding.CurrentHoldObject != null && 

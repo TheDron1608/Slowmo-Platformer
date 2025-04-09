@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DefaultAIAiming : AbstractAI
+public class DefaultAIAiming : AbstractAIAiming
 {
     private void FixedUpdate()
     {
@@ -12,9 +12,9 @@ public class DefaultAIAiming : AbstractAI
                 )
             )
         {
-            if (CharComponents.CharacterTeam.GetNearestEnemyCharacter() != null)
+            if (CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy != null)
             {
-                CharComponents.CharacterAiming.TargetAimPoint = CharComponents.CharacterTeam.GetNearestEnemyCharacter().CharComponents.Center.transform.position;
+                CharComponents.CharacterAiming.TargetAimPoint = CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
 
                 CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
             }
