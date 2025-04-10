@@ -94,8 +94,7 @@ public class RangedWeapon : ThrowableWeapon
     {
         if (!IsReloading) return false;
 
-        IsReloading = false;
-        _animator.SetBool(ANIMATOR_IS_RELOADING_PROP_NAME, false);
+        OnReloadFinish();
 
         return true;
     }
@@ -138,8 +137,6 @@ public class RangedWeapon : ThrowableWeapon
         _animator.SetFloat(ANIMATOR_RELOAD_SPEED_PROP_NAME, value);
     }
 
-
-
     //OVERRIDES
     protected override bool AttackCondition()
     {
@@ -166,6 +163,7 @@ public class RangedWeapon : ThrowableWeapon
     protected virtual void OnReloadFinish()
     {
         IsReloading = false;
+        _animator.SetBool(ANIMATOR_IS_RELOADING_PROP_NAME, false);
     }
 
     protected override void OnTryAttackFail(Vector2 direction)

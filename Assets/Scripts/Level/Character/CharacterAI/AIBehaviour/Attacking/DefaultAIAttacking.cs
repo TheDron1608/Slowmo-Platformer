@@ -15,7 +15,7 @@ public class DefaultAIAttacking : AbstractAIAttacking
                         (
                             CharComponents.CharacterHolding.CurrentHoldObject != null && 
                             (
-                                CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<RangedWeapon>() != null ||
+                                (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && !rangedWeapon.GetIsOutOfAmmo()) ||
                                 (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null && CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemyDistance.Value <= MAX_RANGE_FOR_MELEE_ATTACK)
                             )
                         )

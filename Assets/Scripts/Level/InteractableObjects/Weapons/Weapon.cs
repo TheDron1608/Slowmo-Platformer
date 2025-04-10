@@ -118,6 +118,11 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
+    public bool IsReadyToAttack()
+    {
+        return AttackCondition();
+    }
+
     protected virtual bool OnTryAttackSuccess(Vector2 direction)
     {
         IsInCooldown = true;

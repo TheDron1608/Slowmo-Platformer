@@ -26,6 +26,9 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
                 }
             }
         }
+
+        if (result != null) TimeSinceLastEnemyDetection = 0f; 
+
         NearestEnemy = result;
         NearestEnemyDistance = minDistance;
     }

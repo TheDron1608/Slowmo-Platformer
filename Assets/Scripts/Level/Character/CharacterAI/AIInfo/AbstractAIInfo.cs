@@ -31,4 +31,14 @@ public abstract class AbstractAIInfo : AbstractCharacterComponent
     }
 
     protected abstract void OnUpdateInfo();
+
+    private void FixedUpdate()
+    {
+        OnFixedUpdate();
+    }
+
+    protected virtual void OnFixedUpdate()
+    {
+
+    }
 }

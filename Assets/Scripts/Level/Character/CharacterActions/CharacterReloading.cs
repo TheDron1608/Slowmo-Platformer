@@ -98,4 +98,20 @@ public class CharacterReloading : AbstractCharacterComponent
             return false;
         }
     }
+
+    public bool TryFinishReload()
+    {
+        return 
+            CharComponents.CharacterHolding.CurrentHoldObject != null &&
+            CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
+            rangedWeapon.TryFinishReload();
+    }
+
+    public bool GetIsReloading()
+    {
+        return
+            CharComponents.CharacterHolding.CurrentHoldObject != null &&
+            CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
+            rangedWeapon.IsReloading;
+    }
 }

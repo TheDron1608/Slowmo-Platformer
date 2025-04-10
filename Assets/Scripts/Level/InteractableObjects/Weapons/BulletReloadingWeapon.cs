@@ -48,6 +48,7 @@ public class BulletReloadingWeapon : RangedWeapon
         if (loadAmount > 0)
         {
             AmmoLeft -= loadAmount;
+            Debug.Log(loadAmount);
             LoadedLivingAmmoLeft += loadAmount;
         }
         else if (LoadedLivingAmmoLeft <= 0)

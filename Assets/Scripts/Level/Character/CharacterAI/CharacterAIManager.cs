@@ -6,6 +6,7 @@ public class CharacterAIManager : AbstractCharacterComponent
 {
     [Header("AIBehaviour")]
     public AbstractAIAttacking Attacking;
+    public AbstractAIReloading Reloading;
     [Header("AIInfo")]
     public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
 }
