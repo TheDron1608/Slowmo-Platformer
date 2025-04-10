@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterAIManager : AbstractCharacterComponent
 {
     [Header("AIBehaviour")]
-    public AbstractAIAiming Aiming;
+    public AbstractAIAttacking Attacking;
     [Header("AIInfo")]
     public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
 }

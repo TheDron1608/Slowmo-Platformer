@@ -1,15 +1,11 @@
 using UnityEngine;
 
-public class SlowReactionAIAiming : AbstractAIAiming
+public class DefaultAIAttacking : AbstractAIAttacking
 {
     const float MAX_RANGE_FOR_MELEE_ATTACK = 1.75f;
 
-    private Vector2? _currentAttackPoint;
-
     private void FixedUpdate()
     {
-        if (_currentAttackPoint != null) return;
-
         if (CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy != null)
         {
             if (
@@ -26,28 +22,10 @@ public class SlowReactionAIAiming : AbstractAIAiming
                     )
                 )
             {
-                _currentAttackPoint = CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
+                CharComponents.CharacterAiming.TargetAimPoint = CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
 
-                CharComponents.CharacterAiming.TargetAimPoint = _currentAttackPoint.Value;
-
-                CharComponents.CharacterAttacking.TryAttack(_currentAttackPoint.Value);
+                CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
             }
         }
-    }
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        CharComponents.CharacterAttacking.OnAttack += CharacterAttacking_OnAttack;
-    }
-
-    private void CharacterAttacking_OnAttack(object sender, System.EventArgs e)
-    {
-        _currentAttackPoint = null;
-    }
-
-    private void OnDestroy()
-    {
-        CharComponents.CharacterAttacking.OnAttack -= CharacterAttacking_OnAttack;
     }
 }

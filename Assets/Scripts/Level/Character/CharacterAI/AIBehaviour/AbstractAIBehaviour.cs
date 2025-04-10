@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public abstract class AbstractAIAiming : AbstractAI
+public abstract class AbstractAIBehaviour : AbstractAI
 {
 }
