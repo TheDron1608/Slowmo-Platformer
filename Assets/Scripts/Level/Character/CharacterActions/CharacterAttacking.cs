@@ -15,6 +15,8 @@ public class CharacterAttacking : AbstractCharacterComponent
     private Vector2? _awaitingMeleeAttackDirection = null;
     private Coroutine _clumsyRangedAttackCoroutine = null;
 
+    public event EventHandler OnAttack;
+
     public bool IsAbleToAttack
     {
         get => _isAbleToAttack;
@@ -110,6 +112,7 @@ public class CharacterAttacking : AbstractCharacterComponent
                 _awaitingMeleeAttackDirection = direction;
                 CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
             }
+
             return true;
         }
         else
@@ -172,6 +175,7 @@ public class CharacterAttacking : AbstractCharacterComponent
                         charRolling.ForceStopRolling();
                     }
                 }
+                OnAttack?.Invoke(this, EventArgs.Empty);
                 return true;
             }
             else
