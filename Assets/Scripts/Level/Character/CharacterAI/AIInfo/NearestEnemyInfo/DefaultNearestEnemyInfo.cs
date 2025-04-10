@@ -4,7 +4,7 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
 {
     protected override void OnUpdateInfo()
     {
-        float minDistance = 99999f;
+        float minDistance = MaxEnemyDetectRange;
         ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         CharacterTeam result = null;
         foreach (Transform characterGameObject in currentLayer.CharactersContainer)
@@ -27,5 +27,6 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             }
         }
         NearestEnemy = result;
+        NearestEnemyDistance = minDistance;
     }
 }
