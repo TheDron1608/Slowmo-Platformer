@@ -96,6 +96,8 @@ public class RangedWeapon : ThrowableWeapon
 
         OnReloadFinish();
 
+        TryCloseMag();
+
         return true;
     }
 

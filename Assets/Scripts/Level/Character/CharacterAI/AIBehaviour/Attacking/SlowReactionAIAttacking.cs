@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SlowReactionAIAttacking : AbstractAIAttacking
 {
-    const float MAX_RANGE_FOR_MELEE_ATTACK = 1.75f;
+    public float MaxRangeForMeleeAttack = 1.75f;
 
     private Vector2? _currentAttackPoint;
 
@@ -20,7 +20,7 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
                             CharComponents.CharacterHolding.CurrentHoldObject != null && 
                             (
                                 (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && !rangedWeapon.GetIsOutOfAmmo()) ||
-                                (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null && CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemyDistance.Value <= MAX_RANGE_FOR_MELEE_ATTACK)
+                                (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null && CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemyDistance.Value <= MaxRangeForMeleeAttack)
                             )
                         )
                     )

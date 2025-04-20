@@ -17,6 +17,7 @@ public class BulletReloadingWeapon : RangedWeapon
         if (IsReloading)
         {
             TryFinishReload();
+            TryCloseMag();
             return false;
         }
 
