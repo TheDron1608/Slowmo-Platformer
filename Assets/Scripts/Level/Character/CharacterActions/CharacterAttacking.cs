@@ -15,7 +15,10 @@ public class CharacterAttacking : AbstractCharacterComponent
     private Vector2? _awaitingMeleeAttackDirection = null;
     private Coroutine _clumsyRangedAttackCoroutine = null;
 
-    public event EventHandler OnAttack;
+    /// <summary>
+    /// bool parameter returns successfull attack attempt or not
+    /// </summary>
+    public event EventHandler<bool> OnAttack;
 
     public bool IsAbleToAttack
     {
@@ -168,14 +171,17 @@ public class CharacterAttacking : AbstractCharacterComponent
         {
             if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon))
             {
-                if (weapon.TryAttack(direction))
+                bool isSuccessfullAttack = weapon.TryAttack(direction);
+
+                if (isSuccessfullAttack)
                 {
                     if (TryGetComponent(out CharacterRolling charRolling))
                     {
                         charRolling.ForceStopRolling();
                     }
                 }
-                OnAttack?.Invoke(this, EventArgs.Empty);
+
+                OnAttack?.Invoke(this, isSuccessfullAttack);
                 return true;
             }
             else
@@ -185,7 +191,9 @@ public class CharacterAttacking : AbstractCharacterComponent
         }
         else if (CharComponents.UnarmedAttacking.Projectile != null)
         {
-            return CharComponents.UnarmedAttacking.TryAttack(direction);
+            bool isSuccessfullAttack = CharComponents.UnarmedAttacking.TryAttack(direction);
+            OnAttack?.Invoke(this, isSuccessfullAttack);
+            return isSuccessfullAttack;
         }
         else
         {

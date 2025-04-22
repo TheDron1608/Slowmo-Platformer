@@ -17,7 +17,6 @@ public class BulletReloadingWeapon : RangedWeapon
         if (IsReloading)
         {
             TryFinishReload();
-            TryCloseMag();
             return false;
         }
 
@@ -49,7 +48,6 @@ public class BulletReloadingWeapon : RangedWeapon
         if (loadAmount > 0)
         {
             AmmoLeft -= loadAmount;
-            Debug.Log(loadAmount);
             LoadedLivingAmmoLeft += loadAmount;
         }
         else if (LoadedLivingAmmoLeft <= 0)

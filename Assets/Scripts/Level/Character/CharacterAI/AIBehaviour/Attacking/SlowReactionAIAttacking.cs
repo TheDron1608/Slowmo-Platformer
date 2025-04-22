@@ -8,8 +8,6 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
 
     private void FixedUpdate()
     {
-        if (_currentAttackPoint != null) return;
-
         if (CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy != null)
         {
             if (
@@ -26,11 +24,12 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
                     )
                 )
             {
-                _currentAttackPoint = CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
+                CharComponents.CharacterAiming.TargetAimPoint = CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
+                if (CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.TargetAimPoint))
+                {
+                    _currentAttackPoint = CharComponents.CharacterAiming.TargetAimPoint;
+                }
 
-                CharComponents.CharacterAiming.TargetAimPoint = _currentAttackPoint.Value;
-
-                CharComponents.CharacterAttacking.TryAttack(_currentAttackPoint.Value);
             }
         }
     }
@@ -41,7 +40,7 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
         CharComponents.CharacterAttacking.OnAttack += CharacterAttacking_OnAttack;
     }
 
-    private void CharacterAttacking_OnAttack(object sender, System.EventArgs e)
+    private void CharacterAttacking_OnAttack(object sender, bool e)
     {
         _currentAttackPoint = null;
     }
