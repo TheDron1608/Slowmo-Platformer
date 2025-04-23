@@ -234,4 +234,9 @@ public class CharacterJumping : AbstractCharacterComponent
     {
         return _airJumpsLeft > 0;
     }
+
+    public float GetJumpHeight()
+    {
+        return math.pow(JumpForce, 2) / (2 * Physics2D.gravity.magnitude * CharComponents.CharacterRigidBody.gravityScale);
+    }
 }

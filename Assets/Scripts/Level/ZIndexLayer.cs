@@ -1,10 +1,5 @@
-using NUnit.Framework;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ZIndexLayer : MonoBehaviour
 {
@@ -22,6 +17,7 @@ public class ZIndexLayer : MonoBehaviour
     private const string PROJECTILES_CONTAINER_NAME = "Projectiles";
 
     public int ZIndex = 1;
+    public TileManager TileManager;
 
     public int EnviromentLayer { get; private set; }
     public int CharactersLayer { get; private set; }
