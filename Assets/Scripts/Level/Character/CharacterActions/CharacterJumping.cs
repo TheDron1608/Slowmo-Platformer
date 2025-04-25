@@ -238,5 +238,10 @@ public class CharacterJumping : AbstractCharacterComponent
     public float GetJumpHeight()
     {
         return math.pow(JumpForce, 2) / (2 * Physics2D.gravity.magnitude * CharComponents.CharacterRigidBody.gravityScale);
+    }            
+    
+    public float GetJumpWidth()
+    {
+        return CharComponents.CharacterMoving.Speed * (JumpForce / (Physics2D.gravity.magnitude * CharComponents.CharacterRigidBody.gravityScale));
     }
 }

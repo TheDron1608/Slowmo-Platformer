@@ -10,4 +10,5 @@ public class CharacterAIManager : AbstractCharacterComponent
     public AbstractAIRolling Rolling;
     [Header("AIInfo")]
     public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
+    public AbstractAIPathfinding AIPathfinding = null;
 }
