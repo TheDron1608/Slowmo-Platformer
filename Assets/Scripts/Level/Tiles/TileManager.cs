@@ -41,8 +41,8 @@ public class TileManager : MonoBehaviour
 
     public class NavigationPlatformTransitionInfo
     {
-        public Vector2 StartConntection;
-        public Vector2 EndConnection;
+        public Vector2Int StartConntection;
+        public Vector2Int EndConnection;
 
         public static NavigationPlatformTransitionInfo TryCreateNavigationTransition(NavigationPlatformInfo from, NavigationPlatformInfo to, int maxJumpHeight, int maxJumpWidth)
         {
@@ -132,7 +132,48 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    public NavigationPlatformInfo GetNearestReachablePlatform(Vector2 position, int maxJumpHeight, int maxJumpWidth)
+    {
+        float nearestDistance = float.MaxValue;
+        NavigationPlatformInfo result = null;
+        for (int i = 0; i < _navigationPlatforms.Count; i++)
+        {
+            if (
+                NavigationPlatforms[i].Position.y + maxJumpHeight > position.y &&
+                (NavigationPlatforms[i].Position.x - maxJumpWidth < position.x || NavigationPlatforms[i].TailPositionX + maxJumpWidth > position.x)
+                )
+            {
+                float NearestPlatformXPosition;
+                if (position.x < NavigationPlatforms[i].Position.x) 
+                {
+                    NearestPlatformXPosition = NavigationPlatforms[i].Position.x + 0.5f;
+                }
+                else if (position.x > NavigationPlatforms[i].TailPositionX)
+                {
+                    NearestPlatformXPosition = NavigationPlatforms[i].TailPositionX + 0.5f;
+                }
+                else
+                {
+                    NearestPlatformXPosition = position.x;
+                }
 
+                float distance = Vector2.Distance(position, new Vector2(NearestPlatformXPosition, NavigationPlatforms[i].Position.y + 1f));
+
+                if (distance < nearestDistance)
+                {
+                    nearestDistance = distance;
+                    result = NavigationPlatforms[i];
+
+                    if (distance <= 0.1f)
+                    {
+                        return result;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 
     public NavigationPlatformTransitionInfo TryCreateTransition(NavigationPlatformInfo from, NavigationPlatformInfo to, Vector2Int currentPosition, int maxJumpHeight, int maxJumpWidth)
     {
@@ -145,22 +186,22 @@ public class TileManager : MonoBehaviour
             NavigationPlatformTransitionInfo result;
             if (from.Position.y > to.Position.y)
             {
-                //     .--@
-                //    / ############
-                //   v
-                // ######################
-                if (math.abs(currentPosition.x - from.Position.x) < math.abs(currentPosition.x - (from.TailPositionX)))
+                if (math.abs(to.Position.x - currentPosition.x) < math.abs(to.TailPositionX - currentPosition.x))
                 {
+                    //     .--@
+                    //    / ############
+                    //   v
+                    // ######################
                     result = TryCreateTransitionDownLeft(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
                     if (result != null) return result;
                     return TryCreateTransitionDownRight(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
                 }
-                //               @--.
-                //      ############ \
-                //                    v
-                // ######################
                 else
                 {
+                    //               @--.
+                    //      ############ \
+                    //                    v
+                    // ######################
                     result = TryCreateTransitionDownRight(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
                     if (result != null) return result;
                     return TryCreateTransitionDownLeft(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
@@ -168,39 +209,39 @@ public class TileManager : MonoBehaviour
             }
             else if (from.Position.y == to.Position.y)
             {
-                //     .----------.
-                //    v            \ @
-                // ####            ####
                 if (from.Position.x > to.Position.x)
                 {
+                    //     .----------.
+                    //    v            \ @
+                    // ####            ####
                     return TryCreateTransitionMiddleLeft(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
                 }
-                //     .----------.
-                //  @ /            v
-                // ####            ####
                 else
                 {
+                    //     .----------.
+                    //  @ /            v
+                    // ####            ####
                     return TryCreateTransitionMiddleRight(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
                 }
             }
             else
             {
-                //     ^
-                //    / ############
-                // @-'
-                // ######################
-                if (math.abs(currentPosition.x - to.Position.x - 1) < math.abs(currentPosition.x - from.TailPositionX + 1))
+                if (math.abs(to.Position.x - currentPosition.x) < math.abs(to.TailPositionX - currentPosition.x))
                 {
+                    //     ^
+                    //    / ############
+                    // @-'
+                    // ######################
                     result = TryCreateTransitionUpRight(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
                     if (result != null) return result;
                     return TryCreateTransitionUpLeft(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
                 }
-                //                  ^
-                //      ############ \
-                //                    '-@
-                // ######################
                 else
                 {
+                    //                  ^
+                    //      ############ \
+                    //                    '-@
+                    // ######################
                     result = TryCreateTransitionUpLeft(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
                     if (result != null) return result;
                     return TryCreateTransitionUpRight(from, to, currentPosition, maxJumpHeight, maxJumpWidth);
@@ -223,7 +264,7 @@ public class TileManager : MonoBehaviour
 
         Vector2Int fromPosition = new Vector2Int(from.Position.x, from.Position.y + 1);
         Vector2Int toPosition = new Vector2Int(math.max(to.Position.x, from.Position.x - maxJumpWidth), to.Position.y + 1);
-        int? x = TryGetValidXPositionAtArea(fromPosition + Vector2Int.left, toPosition, NavigationPlatformDirection.LEFT, currentPosition);
+        int? x = TryGetValidXPositionAtArea(fromPosition + Vector2Int.left, toPosition, NavigationPlatformDirection.LEFT, currentPosition, to.Position.x, to.TailPositionX);
 
         if (x == null) return null;
         toPosition.x = x.Value;
@@ -244,7 +285,7 @@ public class TileManager : MonoBehaviour
 
         Vector2Int fromPosition = new Vector2Int(from.TailPositionX, from.Position.y + 1);
         Vector2Int toPosition = new Vector2Int(math.min(to.TailPositionX, from.TailPositionX + maxJumpWidth), to.Position.y + 1);
-        int? x = TryGetValidXPositionAtArea(fromPosition + Vector2Int.right, toPosition, NavigationPlatformDirection.RIGHT, currentPosition);
+        int? x = TryGetValidXPositionAtArea(fromPosition + Vector2Int.right, toPosition, NavigationPlatformDirection.RIGHT, currentPosition, to.Position.x, to.TailPositionX);
 
         if (x == null) return null;
         toPosition.x = x.Value;
@@ -299,7 +340,7 @@ public class TileManager : MonoBehaviour
 
         Vector2Int fromPosition = new Vector2Int(math.max(from.Position.x, to.Position.x - maxJumpWidth), from.Position.y + 1);
         Vector2Int toPosition = new Vector2Int(to.Position.x, to.Position.y + 1);
-        int? x = TryGetValidXPositionAtArea(fromPosition, toPosition + Vector2Int.left, NavigationPlatformDirection.LEFT, currentPosition);
+        int? x = TryGetValidXPositionAtArea(fromPosition, toPosition + Vector2Int.left, NavigationPlatformDirection.LEFT, currentPosition, from.Position.x, from.TailPositionX);
 
         if (x == null) return null;
         fromPosition.x = x.Value;
@@ -320,7 +361,7 @@ public class TileManager : MonoBehaviour
 
         Vector2Int fromPosition = new Vector2Int(math.min(from.TailPositionX, to.TailPositionX + maxJumpWidth), from.Position.y + 1);
         Vector2Int toPosition = new Vector2Int(to.TailPositionX, to.Position.y + 1);
-        int? x = TryGetValidXPositionAtArea(fromPosition, toPosition + Vector2Int.right, NavigationPlatformDirection.RIGHT, currentPosition);
+        int? x = TryGetValidXPositionAtArea(fromPosition, toPosition + Vector2Int.right, NavigationPlatformDirection.RIGHT, currentPosition, from.Position.x, from.TailPositionX);
 
         if (x == null) return null;
         fromPosition.x = x.Value;
@@ -332,7 +373,7 @@ public class TileManager : MonoBehaviour
         return result;
     }
 
-    private int? TryGetValidXPositionAtArea(Vector2Int start, Vector2Int end, NavigationPlatformDirection prefferedDirection, Vector2Int prefferedPosition)
+    private int? TryGetValidXPositionAtArea(Vector2Int start, Vector2Int end, NavigationPlatformDirection prefferedDirection, Vector2Int prefferedPosition, int minResult, int maxResult)
     {
         Vector2Int filteredStart = new Vector2Int(math.min(start.x, end.x), math.min(start.y, end.y));
         Vector2Int filteredEnd = new Vector2Int(math.max(start.x, end.x), math.max(start.y, end.y));
@@ -351,7 +392,7 @@ public class TileManager : MonoBehaviour
                     return result;
                 }
             }
-            if (GetTileBehaviourAt(new Vector2(x, filteredStart.y - 1)) != null)
+            if (x >= minResult && x <= maxResult)
             {
                 result = x;
                 if (x == prefferedPosition.x) return result;
@@ -378,24 +419,17 @@ public class TileManager : MonoBehaviour
         return false;
     }
 
-
-
-    private void Start()
-    {
-        Debug_DrawAINavigationPaths();
-    }
-
-    public void Debug_DrawAINavigationPaths()
+    public void Debug_DrawAINavigationPaths(Color color, float duration)
     {
         foreach (NavigationPlatformInfo platform in _navigationPlatforms)
         {
-            platform.Debug_DrawPlatform(Color.white, 999f);
+            platform.Debug_DrawPlatform(color, duration);
 
             foreach (NavigationPlatformInfo subPlatform in _navigationPlatforms)
             {
                 if (subPlatform == platform) continue;
 
-                TryCreateTransition(platform, subPlatform, new Vector2Int(platform.Position.x, platform.Position.y + 1), 3, 4)?.Debug_DrawTransition(Color.grey, 999f);
+                TryCreateTransition(platform, subPlatform, new Vector2Int(platform.TailPositionX, platform.Position.y + 1), 3, 4)?.Debug_DrawTransition(color, duration);
             }
         }
     }
@@ -414,5 +448,10 @@ public class TileManager : MonoBehaviour
         Debug.DrawLine(new Vector2(filteredStart.x + 0.1f, filteredEnd.y + 0.9f), new Vector2(filteredEnd.x + 0.9f, filteredEnd.y + 0.9f), color, duration);
         Debug.DrawLine(new Vector2(filteredEnd.x + 0.9f, filteredEnd.y + 0.9f), new Vector2(filteredEnd.x + 0.9f, filteredStart.y + 0.1f), color, duration);
         Debug.DrawLine(new Vector2(filteredEnd.x + 0.9f, filteredStart.y + 0.1f), new Vector2(filteredStart.x + 0.1f, filteredStart.y + 0.1f), color, duration);
+    }
+
+    private void Start()
+    {
+        Debug_DrawAINavigationPaths(Color.black, 999f);
     }
 }
