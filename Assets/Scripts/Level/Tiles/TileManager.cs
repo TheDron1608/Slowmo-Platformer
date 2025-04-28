@@ -217,8 +217,18 @@ public class TileManager : MonoBehaviour
     {
         if (
             from != to &&
-            from.Position.y + maxJumpHeight > to.Position.y &&
-            !(from.Position.x - maxJumpWidth < to.Position.x + to.Width ^ from.Position.x + from.Width + maxJumpWidth > to.Position.x)
+            (
+                from.Position.y > to.Position.y &&
+                !(from.Position.x - maxJumpWidth < to.Position.x + to.Width ^ from.Position.x + from.Width + maxJumpWidth > to.Position.x)
+            ) ||
+            (
+                from.Position.y == to.Position.y &&
+                !(from.Position.x - maxJumpWidth - 2 < to.Position.x + to.Width ^ from.Position.x + from.Width + maxJumpWidth + 2 > to.Position.x)
+            ) ||
+            (
+                from.Position.y + maxJumpHeight > to.Position.y &&
+                !(from.Position.x - 1 <= to.Position.x + to.Width ^ from.Position.x + from.Width + 1 >= to.Position.x)
+            )
             )
         {
             NavigationPlatformTransitionInfo result;
