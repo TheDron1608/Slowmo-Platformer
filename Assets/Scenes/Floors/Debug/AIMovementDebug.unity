@@ -755,7 +755,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8250013439591236225, guid: aff5da73dbd227449ba01949f1796d33, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1385809225}
   m_SourcePrefab: {fileID: 100100000, guid: aff5da73dbd227449ba01949f1796d33, type: 3}
 --- !u!4 &494036606 stripped
 Transform:
@@ -3309,7 +3312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[5].m_RefCount
-      value: 71
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[6].m_Data.e00
@@ -3377,7 +3380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[6].m_RefCount
-      value: 75
+      value: 76
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[0].m_RefCount
@@ -3385,7 +3388,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[1].m_RefCount
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[2].m_RefCount
@@ -3409,7 +3412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[7].m_RefCount
-      value: 48
+      value: 47
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[8].m_RefCount
@@ -6281,11 +6284,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_Tiles.Array.data[237].second.m_TileMatrixIndex
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_Tiles.Array.data[237].second.m_TileSpriteIndex
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2662285510024764475, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       propertyPath: m_Tiles.Array.data[238].second.m_TileMatrixIndex
@@ -17780,6 +17783,34 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed765400a25e05746b75d37bac6927a0, type: 3}
+--- !u!1 &1385809224 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8250013439591236225, guid: aff5da73dbd227449ba01949f1796d33, type: 3}
+  m_PrefabInstance: {fileID: 494036605}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1385809225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385809224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d696900297597418d9da3ba4c2529b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveActionReference: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  JumpActionReference: {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  AimActionReference: {fileID: -5630151704836100654, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  AttackActionReference: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  InteractActionReference: {fileID: 3882781433251131672, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  GrabActionReference: {fileID: 5864537068209489110, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  ReloadActionReference: {fileID: -1464298813234954796, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  MinMoveSpeed: 0.5
+  CoyoteEarlyTimer: 0.33
+  CoyoteLateTimer: 0.125
+  GamePadRollInputDelay: 0.075
 --- !u!1 &1446013405 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5225945479333914668, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
@@ -23281,11 +23312,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.03
+      value: -0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.4
+      value: 0.57
       objectReference: {fileID: 0}
     - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
       propertyPath: m_LocalPosition.z

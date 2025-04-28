@@ -470,11 +470,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isAbleToJump: 1
-  JumpForce: 7.5
-  JumpKeepForceMultiplier: 1.5
+  CanForceStopJumping: 0
+  JumpForce: 9.5
+  KeepJumpGravityMultiplier: 0.67
+  StopJumpGravityMultiplier: 1
   JumpOffWallForce: 10
-  JumpMaxTime: 1.5
-  CanForceStopJump: 0
   AirJumps: 0
   JumpLimitForceMultiplier: 10
 --- !u!114 &7285514816818632256

@@ -8,17 +8,16 @@ public class CharacterJumping : AbstractCharacterComponent
 {
     [SerializeField] private bool _isAbleToJump = true;
     public float JumpForce = 5f;
-    public float JumpKeepForceMultiplier = 2f;
+    public float KeepJumpGravityMultiplier = 0.5f;
+    public float StopJumpGravityMultiplier = 4f;
     public float JumpOffWallForce = 7.5f;
-    public float JumpMaxTime = 1f;
-    public bool CanForceStopJump = false;
     public int AirJumps = 0;
     public float JumpLimitForceMultiplier = 10f;
 
-    private float _jumpTimeLeft = 0f;
     private int _airJumpsLeft = 0;
     private bool _isJumping = false;
     private bool _awaitingClumsyJump = false;
+    private float _currentGravityMultiplier = 1f;
     
     public event EventHandler OnStartedJumping;
     public event EventHandler OnStopedJumping;
@@ -38,52 +37,27 @@ public class CharacterJumping : AbstractCharacterComponent
         return _isJumping;
     }
 
-    private void FixedUpdate()
+    public float GetBaseGravity()
     {
-        UpdateJumTimeLeft();
-        UpdateJump();
-        UpdateJumpLimit();
+        return CharComponents.CharacterRigidBody.gravityScale / _currentGravityMultiplier;
     }
 
-    private void UpdateJumTimeLeft()
+    private void FixedUpdate()
     {
-        if (GetIsAbleToJumpFromFloorOrWall())
+        if (_isJumping && !CharComponents.CharacterCollision.IsCollidingFloor())
         {
-            _jumpTimeLeft = JumpMaxTime;
-            _airJumpsLeft = AirJumps;
+            CharComponents.CharacterRigidBody.gravityScale *= KeepJumpGravityMultiplier / _currentGravityMultiplier;
+            _currentGravityMultiplier = KeepJumpGravityMultiplier;
+        }
+        else if (CharComponents.CharacterRigidBody.linearVelocityY > 0f && !CharComponents.CharacterCollision.IsCollidingFloor())
+        {
+            CharComponents.CharacterRigidBody.gravityScale *= StopJumpGravityMultiplier / _currentGravityMultiplier;
+            _currentGravityMultiplier = StopJumpGravityMultiplier;
         }
         else
         {
-            if (_jumpTimeLeft < 0f)
-            {
-                _jumpTimeLeft = 0f;
-                OnStopedJumping?.Invoke(this, EventArgs.Empty);
-                _isJumping = false;
-            }
-            else
-            {
-                _jumpTimeLeft -= Time.fixedDeltaTime;
-            }
-        }
-    }
-
-    private void UpdateJump()
-    {
-        if (_isJumping && _jumpTimeLeft > 0f && _isAbleToJump)
-        {
-            CharComponents.CharacterRigidBody.linearVelocityY += JumpForce * JumpKeepForceMultiplier * Time.fixedDeltaTime;
-        }
-    }
-
-    private void UpdateJumpLimit()
-    {
-        if (CharComponents.CharacterRigidBody.linearVelocityY > JumpForce)
-        {
-            CharComponents.CharacterRigidBody.linearVelocityY = math.lerp(
-                CharComponents.CharacterRigidBody.linearVelocityY,
-                JumpForce,
-                Time.fixedDeltaTime * JumpLimitForceMultiplier
-                );
+            CharComponents.CharacterRigidBody.gravityScale *= 1 / _currentGravityMultiplier;
+            _currentGravityMultiplier = 1;
         }
     }
 
@@ -138,7 +112,6 @@ public class CharacterJumping : AbstractCharacterComponent
             if (CharComponents.CharacterRigidBody.linearVelocityY < JumpForce)
             {
                 CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
-                _jumpTimeLeft = JumpMaxTime;
             }
 
             _airJumpsLeft--;
@@ -147,7 +120,6 @@ public class CharacterJumping : AbstractCharacterComponent
                 _airJumpsLeft = 0;
             }
         }
-
 
         _isJumping = true;
 
@@ -163,7 +135,6 @@ public class CharacterJumping : AbstractCharacterComponent
         if (CharComponents.CharacterRigidBody.linearVelocityY < JumpForce)
         {
             CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
-            _jumpTimeLeft = JumpMaxTime;
         }
 
         _isJumping = true;
@@ -179,30 +150,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
         _isJumping = false;
 
-        if (CanForceStopJump)
-        {
-            StartCoroutine(ForceStopJumpProcess());
-        }
-
         OnStopedJumping?.Invoke(this, EventArgs.Empty);
-    }
-
-    private IEnumerator ForceStopJumpProcess()
-    {
-        while (CharComponents.CharacterRigidBody.linearVelocityY > 0f)
-        {
-            float limitedStopJumpForce = math.lerp(CharComponents.CharacterRigidBody.linearVelocityY, 0f, Time.fixedDeltaTime);
-            if (limitedStopJumpForce > JumpKeepForceMultiplier)
-            {
-                CharComponents.CharacterRigidBody.linearVelocityY -= JumpKeepForceMultiplier;
-            }
-            else
-            {
-                CharComponents.CharacterRigidBody.linearVelocityY = limitedStopJumpForce;
-            }
-
-            yield return new WaitForFixedUpdate();
-        }
     }
 
     public bool GetIsAbleToJump()
@@ -235,13 +183,14 @@ public class CharacterJumping : AbstractCharacterComponent
         return _airJumpsLeft > 0;
     }
 
-    public float GetJumpHeight()
+    public int GetJumpHeight()
     {
-        return math.pow(JumpForce, 2) / (2 * Physics2D.gravity.magnitude * CharComponents.CharacterRigidBody.gravityScale);
+
+        return (int)math.ceil(math.pow(JumpForce, 2) / (2 * (Physics2D.gravity.magnitude * GetBaseGravity() * CharComponents.CharacterJumping.KeepJumpGravityMultiplier)));
     }            
     
-    public float GetJumpWidth()
+    public int GetJumpWidth()
     {
-        return CharComponents.CharacterMoving.Speed * (JumpForce / (Physics2D.gravity.magnitude * CharComponents.CharacterRigidBody.gravityScale));
+        return (int)math.round(CharComponents.CharacterMoving.Speed * (JumpForce / (Physics2D.gravity.magnitude * GetBaseGravity() * CharComponents.CharacterJumping.KeepJumpGravityMultiplier)));
     }
 }

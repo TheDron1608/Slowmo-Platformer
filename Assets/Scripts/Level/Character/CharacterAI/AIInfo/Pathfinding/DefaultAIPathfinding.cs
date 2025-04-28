@@ -43,21 +43,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         }
     }
 
-    public class PathChain
-    {
-        private List<PathChainElement> _chain = new();
-
-        public void AddChainElement(PathChainElement newChainElement)
-        {
-            if (_chain.Count > 0)
-            {
-                _chain[0].NextElement = newChainElement;
-                newChainElement.PrevElement = _chain[0];
-            }
-            _chain.Add(newChainElement);
-        }
-    }
-
     private List<PathChainElement> _pathChain = new();
 
     protected override void OnUpdateInfo()
@@ -68,8 +53,8 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         List<TileManager.NavigationPlatformInfo> platforms = new(tileManager.NavigationPlatforms);
         TileManager.NavigationPlatformInfo startPlatform = null;
         TileManager.NavigationPlatformInfo targetPlatform = null;
-        int maxJumpHeight = (int)math.floor(CharComponents.CharacterJumping.GetJumpHeight());
-        int maxJumpWidth = (int)math.floor(CharComponents.CharacterJumping.GetJumpWidth());
+        int maxJumpHeight = CharComponents.CharacterJumping.GetJumpHeight();
+        int maxJumpWidth = CharComponents.CharacterJumping.GetJumpWidth();
 
         for (int i = 0; i < platforms.Count; i++)
         {
@@ -81,8 +66,8 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                 startPlatform = platforms[i];
             }
         }
-        targetPlatform = tileManager.GetNearestReachablePlatform(PathTarget, 3, 4);
-        platforms.Remove(startPlatform);
+        targetPlatform = tileManager.GetNearestReachablePlatform(PathTarget, maxJumpHeight, maxJumpWidth);
+        platforms[platforms.IndexOf(startPlatform)] = null;
 
         //startPlatform.Debug_DrawPlatform(Color.red, 1f);
         //targetPlatform.Debug_DrawPlatform(Color.blue, 1f);
@@ -92,7 +77,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         if (startPlatform != targetPlatform)
         {
             currentChain = new(
-                new Vector2Int((int)math.round(CharComponents.transform.position.x), (int)math.floor(CharComponents.transform.position.y)),
+                new Vector2Int((int)math.floor(CharComponents.transform.position.x), (int)math.floor(CharComponents.transform.position.y)),
                 new Vector2Int((int)CharComponents.transform.position.x, startPlatform.Position.y + 1),
                 startPlatform,
                 PathTarget
@@ -111,7 +96,9 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
                 for (int j = 0; j < platforms.Count; j++)
                 {
-                    TileManager.NavigationPlatformTransitionInfo transition = tileManager.TryCreateTransition(currentChain.Platform, platforms[j], currentChain.StartPosition, 3, 4);
+                    if (platforms[j] == null) continue;
+
+                    TileManager.NavigationPlatformTransitionInfo transition = tileManager.TryCreateTransition(currentChain.Platform, platforms[j], currentChain.StartPosition, maxJumpHeight, maxJumpWidth);
                     if (transition != null)
                     {
                         PathChainElement newMoveChain = new(
@@ -132,8 +119,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                         newJumpChain.PrevElement = newMoveChain;
 
                         requiredCalculateChains.Add(newJumpChain);
-                        platforms.RemoveAtSwapBack(j);
-                        j--;
+                        platforms[j] = null;
 
                         //newMoveChain.Debug_DrawChain(Color.red, .25f);
                         //newJumpChain.Debug_DrawChain(Color.red, .25f);
@@ -237,10 +223,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         }
         while (currentChain != null && currentChain.Platform != startPlatform);
 
-        if (_pathChain.Count > 0)
-        {
-            _pathChain[0].Debug_DrawChain(Color.green, .25f, true, true);
-        }
+        _pathChain[0].Debug_DrawChain(Color.green, .25f, true, true);
     }
 
     protected override void OnFixedUpdate()
