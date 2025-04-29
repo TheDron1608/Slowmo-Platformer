@@ -32,12 +32,12 @@ public class TileManager : MonoBehaviour
             Debug.DrawLine(new Vector2(Position.x + 0.1f, Position.y + 1.4f), new Vector2(Position.x + Width - 0.1f, Position.y + 1.4f), color, duration);
         }
 
-        public bool GetIsUnderVector(Vector2 vector)
+        public bool GetPositionInOnPlatform(Vector2Int position)
         {
             return
-                Position.y <= vector.y &&
-                Position.x <= vector.x &&
-                Position.x + Width >= vector.x;
+                Position.y + 1 == position.y &&
+                Position.x <= position.x &&
+                Position.x + Width >= position.x;
         }
     }
 
@@ -72,6 +72,11 @@ public class TileManager : MonoBehaviour
 
     private Tilemap[] _tilemaps;
     private List<NavigationPlatformInfo> _navigationPlatforms;
+
+    public static Vector2Int PositionToTilePosition(Vector2 position)
+    {
+        return new Vector2Int((int)math.floor(position.x), (int)math.floor(position.y));
+    }
 
     public List<NavigationPlatformInfo> NavigationPlatforms
     {

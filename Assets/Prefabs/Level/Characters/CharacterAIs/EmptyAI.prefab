@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7331533863194085118}
   - component: {fileID: 5819816177954448840}
   - component: {fileID: 7462581638658110826}
+  - component: {fileID: 1172343367493825340}
   m_Layer: 0
   m_Name: EmptyAI
   m_TagString: Character
@@ -45,8 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a504cce805f772f46b37a5c2829ff3b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Aiming: {fileID: 0}
+  Attacking: {fileID: 0}
+  Reloading: {fileID: 0}
+  Rolling: {fileID: 0}
   NearestEnemyInfo: {fileID: 7462581638658110826}
+  AIPathfinding: {fileID: 1172343367493825340}
 --- !u!114 &7462581638658110826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,3 +64,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 8
+--- !u!114 &1172343367493825340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245555392212171182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f85e81ad07bd854698661c644bc52e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanJumpToTarget: 1
+  Debug_DrawPathToObject: {fileID: 0}
+  Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
