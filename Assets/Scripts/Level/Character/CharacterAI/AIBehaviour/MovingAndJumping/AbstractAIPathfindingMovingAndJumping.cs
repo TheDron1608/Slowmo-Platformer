@@ -1,9 +1,22 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAndJumping
 {
-    private AbstractAIPathfinding.PathChainElement _currentChain = null;
+    private LinkedListNode<AbstractAIPathfinding.PathChainElement> _currentChain = null;
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        CharComponents.CharacterAIManager.AIPathfinding.OnPathUpdated += AIPathfinding_OnPathUpdated;
+    }
+
+    private void AIPathfinding_OnPathUpdated(object sender, System.EventArgs e)
+    {
+        _currentChain = CharComponents.CharacterAIManager.AIPathfinding.PathChain.First;
+    }
 
     private void FixedUpdate()
     {
@@ -17,17 +30,9 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     {
         Vector2Int characterTilePosition = TileManager.PositionToTilePosition(CharComponents.transform.position);
 
-        if (!CharComponents.CharacterAIManager.AIPathfinding.PathChain.Contains(_currentChain))
+        if(_currentChain != null && _currentChain.Value.TargetPosition == characterTilePosition)
         {
-            _currentChain = CharComponents.CharacterAIManager.AIPathfinding.PathChain.FirstOrDefault();
-            while (_currentChain.PrevElement != null)
-            {
-                _currentChain = _currentChain.PrevElement;
-            }
-        }
-        if(_currentChain != null && _currentChain.TargetPosition == characterTilePosition)
-        {
-            _currentChain = _currentChain.NextElement;
+            _currentChain = _currentChain.Next;
         }
         if (_currentChain == null)
         {
@@ -36,14 +41,12 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
             return;
         }
 
-        _currentChain.Debug_DrawChain(Color.red, Time.fixedDeltaTime);
-
         //moving to target
-        if (characterTilePosition.x > _currentChain.TargetPosition.x)
+        if (characterTilePosition.x > _currentChain.Value.TargetPosition.x)
         {
             CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.Left);
         }
-        else if (characterTilePosition.x < _currentChain.TargetPosition.x)
+        else if (characterTilePosition.x < _currentChain.Value.TargetPosition.x)
         {
             CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.Right);
         }
@@ -53,9 +56,14 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         }
 
         //jumping to target
-        if (characterTilePosition.y < _currentChain.TargetPosition.y && !CharComponents.CharacterJumping.GetIsJumping())
+        if (characterTilePosition.y < _currentChain.Value.TargetPosition.y && !CharComponents.CharacterJumping.GetIsJumping())
         {
             CharComponents.CharacterJumping.TryStartJump();
         }
+    }
+
+    private void OnDestroy()
+    {
+        CharComponents.CharacterAIManager.AIPathfinding.OnPathUpdated -= AIPathfinding_OnPathUpdated;
     }
 }

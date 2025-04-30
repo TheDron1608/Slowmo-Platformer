@@ -8,7 +8,7 @@ public class ChaseForeverAI : AbstractAIPathfindingMovingAndJumping
     {
         if (ChaseWho != null)
         {
-            CharComponents.CharacterAIManager.AIPathfinding.PathTarget = TileManager.PositionToTilePosition(ChaseWho.transform.position);
+            CharComponents.CharacterAIManager.AIPathfinding.PathTarget = ChaseWho.transform.position;
         }
         else
         {

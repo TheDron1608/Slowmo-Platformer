@@ -1,45 +1,56 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class AbstractAIPathfinding : AbstractAIInfo
 {
-
-    public class PathChainElement
+    public struct PathChainElement
     {
-        public Vector2Int StartPosition;
         public Vector2Int TargetPosition;
-        public TileManager.NavigationPlatformInfo Platform;
-        public PathChainElement PrevElement = null;
-        public PathChainElement NextElement = null;
-        public readonly float DistanceToTarget;
 
-        public PathChainElement(Vector2Int startPosition, Vector2Int targetPosition, TileManager.NavigationPlatformInfo platform, Vector2 pathTarget)
+        public PathChainElement (Vector2Int targetPosition)
         {
-            StartPosition = startPosition;
             TargetPosition = targetPosition;
-            Platform = platform;
-            DistanceToTarget = Vector2.Distance(targetPosition, pathTarget);
         }
 
-        public void Debug_DrawChain(Color color, float duration, bool recursivePrevInvoke = false, bool recursiveNextInvoke = false)
+        public static void Debug_DrawChain(LinkedList<PathChainElement> chain, Color color, float duration, PathChainElement? singleChain = null)
         {
-            Debug.DrawLine(StartPosition + new Vector2(0.5f, 0.5f), TargetPosition + new Vector2(0.5f, 0.5f), color, duration);
-            if (recursiveNextInvoke)
+            if (chain.Count <= 1) return;
+            var currentChain = chain.First.Next;
+            while (currentChain.Next != null)
             {
-                NextElement?.Debug_DrawChain(color, duration, false, true);
+                Debug.DrawLine(
+                    currentChain.Value.TargetPosition + new Vector2(0.5f, 0.5f),
+                    currentChain.Previous.Value.TargetPosition + new Vector2(0.5f, 0.5f),
+                    color,
+                    duration
+                    );
+                currentChain = currentChain.Next;
             }
-            if (recursivePrevInvoke)
-            {
-                PrevElement?.Debug_DrawChain(color, duration, true, false);
-            }
+        }
+
+        public static void Debug_DrawChain(LinkedList<PathChainElement> chain, Color color, float duration, PathChainElement singleChain)
+        {
+            if (chain.Count <= 1) return;
+            var currentChain = chain.Find(singleChain);
+            if (currentChain.Previous == null) return;
+            Debug.DrawLine(
+                currentChain.Value.TargetPosition + new Vector2(0.5f, 0.5f),
+                currentChain.Previous.Value.TargetPosition + new Vector2(0.5f, 0.5f),
+                color,
+                duration
+                );
         }
     }
 
-    private List<PathChainElement> _pathChain = new();
+    private LinkedList<PathChainElement> _pathChain = new();
     private Vector2? _pathTarget;
 
-    public List<PathChainElement> PathChain
+    public event EventHandler OnPathUpdated;
+
+    public LinkedList<PathChainElement> PathChain
     {
         get => _pathChain;
         protected set => _pathChain = value;
@@ -50,11 +61,11 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
         get => _pathTarget;
         set
         {
-            Vector2? oldValue = _pathTarget;
-            _pathTarget = value;
-            if (oldValue != value)
+            if (_pathTarget != value)
             {
+                _pathTarget = value;
                 TryUpdateInfo();
+                OnPathUpdated?.Invoke(this, EventArgs.Empty);
             }
         }
     }
