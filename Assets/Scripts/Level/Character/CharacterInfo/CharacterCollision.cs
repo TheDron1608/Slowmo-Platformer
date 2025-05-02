@@ -379,6 +379,11 @@ public class CharacterCollision : AbstractCharacterComponent
         }
     }
 
+    public Vector2 GetColliderSize()
+    {
+        return CharComponents.CharacterRigidBodyCapsuleCollider.size;
+    }
+
     private void UpdatePhysicsMaterial()
     {
         if (!IsCollidingFloor() && CharComponents.CharacterEffects.GetHasEffect<AbstractStun>())

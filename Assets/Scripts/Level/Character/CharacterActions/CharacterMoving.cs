@@ -112,10 +112,9 @@ public class CharacterMoving : AbstractCharacterComponent
     {
         if (_currentMoveDirection == direction || _awaitingMoveDirection == direction || CharComponents.CharacterVisual.IsBusy()) return;
 
-        if (CharComponents.CharacterClumsyness.ClumsyMovement && (CharComponents.CharacterVisual.FlippedH ^ direction < 0f) && direction != 0f)
+        if (GetIsNeedChangeClumsyDirection(direction))
         {
-            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE;
-            _awaitingMoveDirection = direction;
+            TrySetClumsyAlign(direction, false);
         }
         else
         {
@@ -140,6 +139,20 @@ public class CharacterMoving : AbstractCharacterComponent
         _currentMoveDirection = direction;
     }
 
+    public void TrySetClumsyAlign(float direction, bool flipHOnly)
+    {
+        if (GetIsNeedChangeClumsyDirection(direction))
+        {
+            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE;
+            _awaitingMoveDirection = flipHOnly ? 0f : direction;
+        }
+    }
+
+    public bool GetIsNeedChangeClumsyDirection(float direction)
+    {
+        return CharComponents.CharacterClumsyness.ClumsyMovement && (CharComponents.CharacterVisual.FlippedH ^ direction < 0f) && direction != 0f && !CharComponents.CharacterVisual.IsBusy();
+    }
+
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
         if (e.NewState != CharacterVisual.CharacterPartBusyStates.NONE)
@@ -148,6 +161,7 @@ public class CharacterMoving : AbstractCharacterComponent
         }
         else if (e.OldState == CharacterVisual.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE && _awaitingMoveDirection.HasValue)
         {
+            CharComponents.CharacterVisual.FlippedH = !CharComponents.CharacterVisual.FlippedH;
             ForceMove(_awaitingMoveDirection.Value);
             _awaitingMoveDirection = null;
         }

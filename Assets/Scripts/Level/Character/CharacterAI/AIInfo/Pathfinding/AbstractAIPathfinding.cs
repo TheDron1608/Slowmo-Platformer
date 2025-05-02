@@ -8,45 +8,28 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
 {
     public struct PathChainElement
     {
-        public Vector2Int TargetPosition;
+        public enum PathChainElementType
+        {
+            MOVE_ON_PLATFORM,
+            MOVE_OFF_PLATFORM_DOWN,
+            MOVE_OFF_PLATFORM_MIDDLE,
+            MOVE_OFF_PLATFORM_UP
+        }
 
-        public PathChainElement (Vector2Int targetPosition)
+        public Vector2Int TargetPosition;
+        public PathChainElementType Type;
+
+        public PathChainElement (Vector2Int targetPosition, PathChainElementType type)
         {
             TargetPosition = targetPosition;
-        }
-
-        public static void Debug_DrawChain(LinkedList<PathChainElement> chain, Color color, float duration, PathChainElement? singleChain = null)
-        {
-            if (chain.Count <= 1) return;
-            var currentChain = chain.First.Next;
-            while (currentChain.Next != null)
-            {
-                Debug.DrawLine(
-                    currentChain.Value.TargetPosition + new Vector2(0.5f, 0.5f),
-                    currentChain.Previous.Value.TargetPosition + new Vector2(0.5f, 0.5f),
-                    color,
-                    duration
-                    );
-                currentChain = currentChain.Next;
-            }
-        }
-
-        public static void Debug_DrawChain(LinkedList<PathChainElement> chain, Color color, float duration, PathChainElement singleChain)
-        {
-            if (chain.Count <= 1) return;
-            var currentChain = chain.Find(singleChain);
-            if (currentChain.Previous == null) return;
-            Debug.DrawLine(
-                currentChain.Value.TargetPosition + new Vector2(0.5f, 0.5f),
-                currentChain.Previous.Value.TargetPosition + new Vector2(0.5f, 0.5f),
-                color,
-                duration
-                );
+            Type = type;
         }
     }
 
     private LinkedList<PathChainElement> _pathChain = new();
     private Vector2? _pathTarget;
+
+    protected Vector2Int? _startTarget;
 
     public event EventHandler OnPathUpdated;
 
@@ -68,5 +51,46 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
                 OnPathUpdated?.Invoke(this, EventArgs.Empty);
             }
         }
+    }
+
+    public void Debug_DrawChain(Color color, float duration, PathChainElement? singleChain = null)
+    {
+        if (PathChain == null || PathChain.Count == 0) return;
+        var currentChain = PathChain.First;
+        do
+        {
+            if (singleChain.HasValue && currentChain.Value.TargetPosition != singleChain.Value.TargetPosition)
+            {
+                currentChain = currentChain.Next;
+                continue;
+            }
+
+            Debug.DrawLine(
+                currentChain.Value.TargetPosition + new Vector2(0.5f, 0.5f),
+                (currentChain.Previous?.Value.TargetPosition ?? _startTarget.Value) + new Vector2(0.5f, 0.5f),
+                color,
+                duration
+                );
+            Debug.DrawLine(
+                currentChain.Value.TargetPosition + new Vector2(0.4f, 0.4f),
+                currentChain.Value.TargetPosition + new Vector2(0.6f, 0.6f),
+                color,
+                duration
+                );
+            Debug.DrawLine(
+                currentChain.Value.TargetPosition + new Vector2(0.4f, 0.6f),
+                currentChain.Value.TargetPosition + new Vector2(0.6f, 0.4f),
+                color,
+                duration
+                );
+            
+            if (singleChain.HasValue && currentChain.Value.TargetPosition != singleChain.Value.TargetPosition)
+            {
+                break;
+            }
+
+            currentChain = currentChain.Next;
+        }
+        while (currentChain != null);
     }
 }

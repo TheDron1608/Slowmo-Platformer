@@ -64,10 +64,10 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void TryStartJump()
     {
+        if (CharComponents.CharacterVisual.IsBusy()) return;
+
         if (CharComponents.CharacterClumsyness.ClumsyJumping && CharComponents.CharacterCollision.IsCollidingFloor())
         {
-            if (CharComponents.CharacterVisual.IsBusy()) return;
-
             CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE;
             _awaitingClumsyJump = true;
             CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;

@@ -1,14 +1,10 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.Collections;
+﻿using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class DefaultAIPathfinding : AbstractAIPathfinding
 {
     public bool CanJumpToTarget = true;
-    public GameObject Debug_DrawPathToObject;
     public Color Debug_PathColor = new Color(1, 1, 1, 0);
 
     const int PATHINDING_ITERATIONS_LIMIT = 64;
@@ -45,7 +41,25 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
         public PathChainElement ConvertToPathChainElement()
         {
-            return new PathChainElement(TargetPosition);
+            PathChainElement.PathChainElementType type;
+            if (StartPosition.y < TargetPosition.y)
+            {
+                type = PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_UP;
+            }
+            else if (StartPosition.y > TargetPosition.y)
+            {
+                type = PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_DOWN;
+            }
+            else if (Platform.GetPositionInOnPlatform(StartPosition) ^ Platform.GetPositionInOnPlatform(TargetPosition))
+            {
+                type = PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_MIDDLE;
+            }
+            else
+            {
+                type = PathChainElement.PathChainElementType.MOVE_ON_PLATFORM;
+            }
+
+            return new PathChainElement(TargetPosition, type);
         }
     }
 
@@ -73,9 +87,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
         targetPlatform = tileManager.GetNearestReachablePlatform(PathTarget.Value, maxJumpHeight, maxJumpWidth);
         platforms[platforms.IndexOf(startPlatform)] = null;
-
-        //startPlatform.Debug_DrawPlatform(Color.red, 1f);
-        //targetPlatform.Debug_DrawPlatform(Color.blue, 1f);
+        _startTarget = characterTilePosition;
 
         PathChainElementPrecalculated currentChain;
         int iterations = 0;
@@ -193,7 +205,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         {
             PathChain.AddFirst(currentChain.ConvertToPathChainElement());
 
-            /*if (CanJumpToTarget)
+            if (CanJumpToTarget)
             {
 
                 TileManager.NavigationPlatformTransitionInfo newTransition = tileManager.TryGetValidJumpTargetPositionFromPlatfromToPoint(
@@ -204,7 +216,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                     maxJumpWidth
                     );
 
-                if (newTransition != null)
+                if (newTransition != null && newTransition.StartConntection != characterTilePosition)
                 {
                     PathChainElementPrecalculated newChain = new(
                         newTransition.StartConntection,
@@ -215,12 +227,12 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                     newChain.PrevElement = currentChain;
                     currentChain.TargetPosition = newChain.StartPosition;
                     currentChain.NextElement = newChain;
-                    currentChain = newChain;
 
+                    PathChain.Clear();
+                    PathChain.AddFirst(newChain.ConvertToPathChainElement());
                     PathChain.AddFirst(currentChain.ConvertToPathChainElement());
-                    break;
                 }
-            }*/
+            }
 
             currentChain = currentChain.PrevElement;
 
@@ -228,19 +240,14 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             if (iterations > PATHINDING_ITERATIONS_LIMIT) throw new UnityException("iterations limit is reached, pathfinding system probably created invinite loop or too big");
         }
         while (currentChain != null && currentChain.Platform != startPlatform);
-
-        if (Debug_PathColor.a != 0f)
-        {
-            PathChainElement.Debug_DrawChain(PathChain, Debug_PathColor, UPDATE_AI_DELAY_SECONDS);
-        }
     }
 
     protected override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
-        if (Debug_DrawPathToObject != null)
+        if (Debug_PathColor.a != 0f)
         {
-            PathTarget = Debug_DrawPathToObject.transform.position;
+            Debug_DrawChain(Debug_PathColor, Time.fixedDeltaTime);
         }
     }
 }
