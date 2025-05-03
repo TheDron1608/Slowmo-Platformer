@@ -9,6 +9,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     const float COLLISION_DETECTION_DISTANCE_PRECISSION = 0.05f;
 
     private LinkedListNode<AbstractAIPathfinding.PathChainElement> _currentChain = null;
+    private bool _awaitingUpdateChain = false;
 
     protected override void OnAwake()
     {
@@ -18,19 +19,33 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
 
     private void AIPathfinding_OnPathUpdated(object sender, System.EventArgs e)
     {
-        _currentChain = CharComponents.CharacterAIManager.AIPathfinding.PathChain.First;
+        _awaitingUpdateChain = true;
     }
 
     private void FixedUpdate()
     {
         UpdatePathTarget();
         UpdateActionsToReachPathTarget();
+        //CharComponents.CharacterAIManager.AIPathfinding.Debug_DrawChain(Color.red, Time.fixedDeltaTime, _currentChain.Value);
+        Debug.Log(CharComponents.CharacterJumping.GetIsJumping());
     }
 
     protected abstract void UpdatePathTarget();
 
     private void UpdateActionsToReachPathTarget()
     {
+        Vector2Int characterTilePosition = TileManager.PositionToTilePosition(CharComponents.transform.position);
+
+        if (_awaitingUpdateChain && CharComponents.CharacterCollision.IsCollidingFloor() && !CharComponents.CharacterVisual.IsBusy())
+        {
+            _awaitingUpdateChain = false;
+            _currentChain = CharComponents.CharacterAIManager.AIPathfinding.PathChain.First;
+            while (_currentChain != null && _currentChain.Value.TargetPosition == characterTilePosition)
+            {
+                _currentChain = _currentChain?.Next;
+            }
+        }
+
         //if no target stop moving and jumping
         if (_currentChain == null)
         {
@@ -39,26 +54,26 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
             return;
         }
 
-        Vector2Int characterTilePosition = TileManager.PositionToTilePosition(CharComponents.transform.position);
-
         //moving to target
         if (
+            (_currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_ON_PLATFORM || characterTilePosition.x > _currentChain.Value.TargetPosition.x) &&
             CharComponents.transform.position.x > _currentChain.Value.TargetPosition.x + 1f - CharComponents.CharacterCollision.GetColliderSize().x / 2 - COLLISION_DETECTION_DISTANCE_PRECISSION +
-            (characterTilePosition.y < _currentChain.Value.TargetPosition.y && _currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_UP ? 1f : 0f)
+                (characterTilePosition.y < _currentChain.Value.TargetPosition.y && _currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_UP ? 1f : 0f)
             )
         {
             CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.Left);
         }
         else if (
+            (_currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_ON_PLATFORM || characterTilePosition.x < _currentChain.Value.TargetPosition.x) &&
             CharComponents.transform.position.x < _currentChain.Value.TargetPosition.x + CharComponents.CharacterCollision.GetColliderSize().x / 2 + COLLISION_DETECTION_DISTANCE_PRECISSION +
-            (characterTilePosition.y < _currentChain.Value.TargetPosition.y && _currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_UP ? -1f : 0f)
+                (characterTilePosition.y < _currentChain.Value.TargetPosition.y && _currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_UP ? -1f : 0f)
             )
         {
             CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.Right);
         }
         else 
         {
-            if (characterTilePosition.y == _currentChain.Value.TargetPosition.y)
+            if (characterTilePosition.y == _currentChain.Value.TargetPosition.y && CharComponents.CharacterCollision.IsCollidingFloor())
             {
                 OnReachedChainTarget();
                 return;
@@ -96,7 +111,6 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
 
     private void OnReachedChainTarget()
     {
-        CharComponents.CharacterJumping.StopJump();
         _currentChain = _currentChain?.Next;
         UpdateActionsToReachPathTarget();
     }

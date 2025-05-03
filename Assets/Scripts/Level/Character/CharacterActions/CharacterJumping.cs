@@ -122,8 +122,18 @@ public class CharacterJumping : AbstractCharacterComponent
         }
 
         _isJumping = true;
+        CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollision_OnCollisionChanged;
 
         OnStartedJumping?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void CharacterCollision_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
+    {
+        if (e.CollisionAlign == Vector2.down && e.EnterOrReleasedCollision)
+        {
+            StopJump();
+            CharComponents.CharacterCollision.OnCollisionChanged -= CharacterCollision_OnCollisionChanged;
+        }
     }
 
     public void TryStartCoyoteJump()

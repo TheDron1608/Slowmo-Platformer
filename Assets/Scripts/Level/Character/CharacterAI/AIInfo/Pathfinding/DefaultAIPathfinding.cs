@@ -65,7 +65,11 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
     protected override void OnUpdateInfo()
     {
-        if (PathTarget.Value == null) return;
+        if (PathTarget.Value == null)
+        {
+            PathChain.Clear();
+            return;
+        }
 
         TileManager tileManager = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TileManager;
         List<TileManager.NavigationPlatformInfo> platforms = new(tileManager.NavigationPlatforms);
