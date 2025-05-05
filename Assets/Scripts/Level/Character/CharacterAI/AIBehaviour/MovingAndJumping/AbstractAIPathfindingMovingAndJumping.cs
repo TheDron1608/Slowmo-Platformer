@@ -26,8 +26,6 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     {
         UpdatePathTarget();
         UpdateActionsToReachPathTarget();
-        //CharComponents.CharacterAIManager.AIPathfinding.Debug_DrawChain(Color.red, Time.fixedDeltaTime, _currentChain.Value);
-        Debug.Log(CharComponents.CharacterJumping.GetIsJumping());
     }
 
     protected abstract void UpdatePathTarget();

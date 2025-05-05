@@ -15,7 +15,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         public Vector2Int TargetPosition;
         public TileManager.NavigationPlatformInfo Platform;
         public PathChainElementPrecalculated PrevElement = null;
-        public PathChainElementPrecalculated NextElement = null;
         public readonly float DistanceToTarget;
 
         public PathChainElementPrecalculated(Vector2Int startPosition, Vector2Int targetPosition, TileManager.NavigationPlatformInfo platform, Vector2 pathTarget)
@@ -26,16 +25,12 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             DistanceToTarget = Vector2.Distance(targetPosition, pathTarget);
         }
 
-        public void Debug_DrawChain(Color color, float duration, bool recursivePrevInvoke = false, bool recursiveNextInvoke = false)
+        public void Debug_DrawChain(Color color, float duration, bool recursiveInvoke = false)
         {
             Debug.DrawLine(StartPosition + new Vector2(0.5f, 0.5f), TargetPosition + new Vector2(0.5f, 0.5f), color, duration);
-            if (recursiveNextInvoke)
+            if (recursiveInvoke)
             {
-                NextElement?.Debug_DrawChain(color, duration, false, true);
-            }
-            if (recursivePrevInvoke)
-            {
-                PrevElement?.Debug_DrawChain(color, duration, true, false);
+                PrevElement?.Debug_DrawChain(color, duration, true);
             }
         }
 
@@ -95,88 +90,128 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
         PathChainElementPrecalculated currentChain;
         int iterations = 0;
-        if (startPlatform != targetPlatform)
+        currentChain = new(
+            TileManager.PositionToTilePosition(CharComponents.transform.position),
+            TileManager.PositionToTilePosition(CharComponents.transform.position),
+            startPlatform,
+            PathTarget.Value
+            );
+        List<PathChainElementPrecalculated> pathTree = new();
+        List<PathChainElementPrecalculated> requiredCalculateChains = new() { currentChain };
+        PathChainElementPrecalculated nearestChain = currentChain;
+        PathChainElementPrecalculated nearestJumpToChain = null;
+        Vector2Int pathTargetVec2Int = TileManager.PositionToTilePosition(PathTarget.Value);
+
+        while (iterations < PATHINDING_ITERATIONS_LIMIT)
         {
-            currentChain = new(
-                TileManager.PositionToTilePosition(CharComponents.transform.position),
-                new Vector2Int((int)CharComponents.transform.position.x, startPlatform.Position.y + 1),
-                startPlatform,
-                PathTarget.Value
-                );
-            List<PathChainElementPrecalculated> pathTree = new();
-            List<PathChainElementPrecalculated> requiredCalculateChains = new() { currentChain };
-            PathChainElementPrecalculated nearestChain = currentChain;
-
-            while (iterations < PATHINDING_ITERATIONS_LIMIT)
+            if (CanJumpToTarget)
             {
-                if (currentChain.Platform == targetPlatform)
+
+                TileManager.NavigationPlatformTransitionInfo newJumpToTargetTransition = tileManager.TryGetValidJumpTargetPositionFromPlatfromToPoint(
+                    currentChain.TargetPosition,
+                    pathTargetVec2Int,
+                    currentChain.Platform,
+                    maxJumpHeight + 1,
+                    maxJumpWidth
+                    );
+
+                if (newJumpToTargetTransition != null)
                 {
-                    nearestChain = currentChain;
+                    PathChainElementPrecalculated newJumpToTargetChain = new(
+                        newJumpToTargetTransition.StartConntection,
+                        newJumpToTargetTransition.EndConnection,
+                        currentChain.Platform,
+                        PathTarget.Value
+                        );
+
+                    PathChainElementPrecalculated newJumpToTargetSubChain = new(
+                        currentChain.TargetPosition,
+                        newJumpToTargetChain.StartPosition,
+                        currentChain.Platform,
+                        PathTarget.Value
+                        );
+
+                    newJumpToTargetChain.PrevElement = newJumpToTargetSubChain;
+                    newJumpToTargetSubChain.PrevElement = currentChain;
+                    nearestJumpToChain = newJumpToTargetChain;
+
                     break;
                 }
-
-                for (int j = 0; j < platforms.Count; j++)
-                {
-                    if (platforms[j] == null) continue;
-
-                    TileManager.NavigationPlatformTransitionInfo transition = tileManager.TryCreateTransition(currentChain.Platform, platforms[j], currentChain.StartPosition, maxJumpHeight, maxJumpWidth);
-                    if (transition != null)
-                    {
-                        PathChainElementPrecalculated newMoveChain = new(
-                            currentChain.TargetPosition,
-                            transition.StartConntection,
-                            platforms[j],
-                            PathTarget.Value
-                            );
-                        newMoveChain.PrevElement = currentChain;
-                        currentChain.NextElement = newMoveChain;
-
-                        PathChainElementPrecalculated newJumpChain = new(
-                            transition.StartConntection,
-                            transition.EndConnection,
-                            platforms[j],
-                            PathTarget.Value
-                            );
-                        newJumpChain.PrevElement = newMoveChain;
-
-                        requiredCalculateChains.Add(newJumpChain);
-                        platforms[j] = null;
-
-                        //newMoveChain.Debug_DrawChain(Color.red, .25f);
-                        //newJumpChain.Debug_DrawChain(Color.red, .25f);
-                    }
-
-                }
-
-                if (currentChain.DistanceToTarget < nearestChain.DistanceToTarget)
-                {
-                    nearestChain = currentChain;
-                }
-
-                requiredCalculateChains.Remove(currentChain);
-
-                //currentChain.Debug_DrawChain(Color.red, .25f);
-
-                if (requiredCalculateChains.Count > 0)
-                {
-                    currentChain = requiredCalculateChains[0];
-                    float leastDistance = currentChain.DistanceToTarget;
-                    foreach (PathChainElementPrecalculated chain in requiredCalculateChains)
-                    {
-                        if (chain.DistanceToTarget < leastDistance)
-                        {
-                            currentChain = chain;
-                        }
-                    }
-                }
-                else
-                {
-                    break;
-                }
-
-                iterations++;
             }
 
+            if (currentChain.Platform == targetPlatform)
+            {
+                nearestChain = currentChain;
+                break;
+            }
+
+            for (int j = 0; j < platforms.Count; j++)
+            {
+                if (platforms[j] == null) continue;
+
+                TileManager.NavigationPlatformTransitionInfo transition = tileManager.TryCreateTransition(currentChain.Platform, platforms[j], currentChain.StartPosition, maxJumpHeight, maxJumpWidth);
+                if (transition != null)
+                {
+                    PathChainElementPrecalculated newMoveChain = new(
+                        currentChain.TargetPosition,
+                        transition.StartConntection,
+                        platforms[j],
+                        PathTarget.Value
+                        );
+                    newMoveChain.PrevElement = currentChain;
+
+                    PathChainElementPrecalculated newJumpChain = new(
+                        transition.StartConntection,
+                        transition.EndConnection,
+                        platforms[j],
+                        PathTarget.Value
+                        );
+                    newJumpChain.PrevElement = newMoveChain;
+
+                    requiredCalculateChains.Add(newJumpChain);
+                    platforms[j] = null;
+
+                    //newMoveChain.Debug_DrawChain(Color.red, .25f);
+                    //newJumpChain.Debug_DrawChain(Color.red, .25f);
+                }
+
+            }
+
+            if (currentChain.DistanceToTarget < nearestChain.DistanceToTarget)
+            {
+                nearestChain = currentChain;
+            }
+
+            requiredCalculateChains.Remove(currentChain);
+
+            //currentChain.Debug_DrawChain(Color.red, .25f);
+
+            if (requiredCalculateChains.Count > 0)
+            {
+                currentChain = requiredCalculateChains[0];
+                float leastDistance = currentChain.DistanceToTarget;
+                foreach (PathChainElementPrecalculated chain in requiredCalculateChains)
+                {
+                    if (chain.DistanceToTarget < leastDistance)
+                    {
+                        currentChain = chain;
+                    }
+                }
+            }
+            else
+            {
+                break;
+            }
+
+            iterations++;
+        }
+
+        if (nearestJumpToChain != null)
+        {
+            currentChain = nearestJumpToChain;
+        }
+        else
+        {
             Vector3Int finalChainElementTargetPosVec3 = tileManager.GetNearestPlatformPositionToPoint(nearestChain.Platform, PathTarget.Value);
             PathChainElementPrecalculated finalChainElement = new(
                 nearestChain.TargetPosition,
@@ -185,58 +220,16 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                 PathTarget.Value
                 );
             finalChainElement.PrevElement = nearestChain;
-            nearestChain.NextElement = finalChainElement;
             currentChain = finalChainElement;
-        }
-
-        else
-        {
-            Vector3Int finalChainElementTargetPosVec3 = tileManager.GetNearestPlatformPositionToPoint(targetPlatform, PathTarget.Value);
-            currentChain = new(
-                TileManager.PositionToTilePosition(CharComponents.transform.position),
-                new Vector2Int(finalChainElementTargetPosVec3.x, finalChainElementTargetPosVec3.y + 1),
-                targetPlatform,
-                PathTarget.Value
-                );
         }
 
 
         PathChain.Clear();
 
-        Vector2Int pathTargetVec2Int = TileManager.PositionToTilePosition(PathTarget.Value);
         iterations = 0;
         do
         {
             PathChain.AddFirst(currentChain.ConvertToPathChainElement());
-
-            if (CanJumpToTarget)
-            {
-
-                TileManager.NavigationPlatformTransitionInfo newTransition = tileManager.TryGetValidJumpTargetPositionFromPlatfromToPoint(
-                    currentChain.StartPosition,
-                    pathTargetVec2Int,
-                    currentChain.Platform,
-                    maxJumpHeight + 1,
-                    maxJumpWidth
-                    );
-
-                if (newTransition != null && newTransition.StartConntection != characterTilePosition)
-                {
-                    PathChainElementPrecalculated newChain = new(
-                        newTransition.StartConntection,
-                        newTransition.EndConnection,
-                        currentChain.Platform,
-                        PathTarget.Value
-                        );
-                    newChain.PrevElement = currentChain;
-                    currentChain.TargetPosition = newChain.StartPosition;
-                    currentChain.NextElement = newChain;
-
-                    PathChain.Clear();
-                    PathChain.AddFirst(newChain.ConvertToPathChainElement());
-                    PathChain.AddFirst(currentChain.ConvertToPathChainElement());
-                }
-            }
 
             currentChain = currentChain.PrevElement;
 
