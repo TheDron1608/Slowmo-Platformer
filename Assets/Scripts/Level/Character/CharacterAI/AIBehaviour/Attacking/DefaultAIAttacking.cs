@@ -8,6 +8,8 @@ public class DefaultAIAttacking : AbstractAIAttacking
     {
         if (CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy != null)
         {
+            CharComponents.CharacterAiming.TargetAimPoint = CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
+
             if (
                 CharComponents.CharacterAttacking.IsAbleToAttack && 
                     (
@@ -22,8 +24,6 @@ public class DefaultAIAttacking : AbstractAIAttacking
                     )
                 )
             {
-                CharComponents.CharacterAiming.TargetAimPoint = CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
-
                 CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
             }
         }

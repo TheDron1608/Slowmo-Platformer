@@ -85,7 +85,14 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     public bool TryAttack(Vector2 direction)
     {
-        if (CharComponents.CharacterVisual.IsBusy() && CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.AIM) return false;
+        if (
+            CharComponents.CharacterVisual.IsBusy() &&
+            CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.AIM &&
+            CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK
+            )
+        {
+            return false;
+        }
 
         if (CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon())
         {
@@ -93,7 +100,12 @@ public class CharacterAttacking : AbstractCharacterComponent
                 !CharComponents.CharacterCollision.IsCollidingFloor() ||
                 !IsAbleToAttack || 
                 CharComponents.CharacterHolding.CurrentHoldObject == null || 
-                !CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon)
+                !CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) ||
+                (
+                    CharComponents.CharacterVisual.IsBusy() &&
+                    CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.AIM &&
+                    CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK
+                )
                 )
             {
                 return false;
@@ -126,7 +138,7 @@ public class CharacterAttacking : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.OldState == CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK && _awaitingMeleeAttackDirection.HasValue)
+        if (e.OldState == CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK && e.NewState == CharacterVisual.CharacterPartBusyStates.NONE && _awaitingMeleeAttackDirection.HasValue)
         {
             ForceAttack(_awaitingMeleeAttackDirection.Value);
             _awaitingMeleeAttackDirection = null;

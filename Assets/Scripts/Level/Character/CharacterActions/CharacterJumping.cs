@@ -64,7 +64,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void TryStartJump()
     {
-        if (CharComponents.CharacterVisual.IsBusy()) return;
+        if ((CharComponents.CharacterVisual.IsBusy() && CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE) || !IsAbleToJump) return;
 
         if (CharComponents.CharacterClumsyness.ClumsyJumping && CharComponents.CharacterCollision.IsCollidingFloor())
         {
@@ -82,7 +82,11 @@ public class CharacterJumping : AbstractCharacterComponent
     {
         if (e.OldState == CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE && _awaitingClumsyJump)
         {
-            ForceStartJump();
+            _awaitingClumsyJump = false;
+            if (IsAbleToJump)
+            {
+                ForceStartJump();
+            }
         }
         CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
     }

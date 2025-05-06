@@ -60,7 +60,6 @@ public class CharacterRolling : AbstractCharacterComponent
         {
             IsRolling = false;
             CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
-            CharComponents.CharacterMoving.IsAbleToMove = true;
 
             if (!CharComponents.CharacterClumsyness.ClumsyRangedAttack)
             {
@@ -81,8 +80,6 @@ public class CharacterRolling : AbstractCharacterComponent
         }
 
         IsRolling = true;
-
-        CharComponents.CharacterMoving.IsAbleToMove = false;
 
         CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.ROLL;
         CharComponents.CharacterVisual.FlippedH = _currentRollDirection < 0f;
