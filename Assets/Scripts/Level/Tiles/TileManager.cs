@@ -239,7 +239,7 @@ public class TileManager : MonoBehaviour
             NavigationPlatformTransitionInfo result;
             if (from.Position.y > to.Position.y)
             {
-                if (math.abs(to.Position.x - currentPosition.x) < math.abs(to.TailPositionX - currentPosition.x))
+                if (math.abs(from.Position.x - currentPosition.x) < math.abs(from.TailPositionX - currentPosition.x))
                 {
                     //     .--@
                     //    / ############

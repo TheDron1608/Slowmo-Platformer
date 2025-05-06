@@ -131,6 +131,9 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                         PathTarget.Value
                         );
 
+                    newJumpToTargetSubChain.Debug_DrawChain(Color.blue, 0.1f);
+                    newJumpToTargetChain.Debug_DrawChain(Color.red, 0.1f);
+
                     newJumpToTargetChain.PrevElement = newJumpToTargetSubChain;
                     newJumpToTargetSubChain.PrevElement = currentChain;
                     nearestJumpToChain = newJumpToTargetChain;
@@ -236,7 +239,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             iterations++;
             if (iterations > PATHINDING_ITERATIONS_LIMIT) throw new UnityException("iterations limit is reached, pathfinding system probably created invinite loop or too big");
         }
-        while (currentChain != null && currentChain.Platform != startPlatform);
+        while (currentChain != null && currentChain.TargetPosition != characterTilePosition);
     }
 
     protected override void OnFixedUpdate()
