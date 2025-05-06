@@ -4,9 +4,10 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
 {
     public float MaxEnemyDetectRange = 10f;
 
-    private CharacterTeam _nearestEnemy;
-    private float? _nearestEnemyDistance = null;
-    private float _timeSinceLastEnemyDetection = 0f;
+    protected CharacterTeam _nearestEnemy;
+    protected float? _nearestEnemyDistance = null;
+    protected Vector2? _lastEnemyPosition = null;
+    protected float _timeSinceLastEnemyDetection = 0f;
 
     public CharacterTeam NearestEnemy
     {
@@ -15,7 +16,6 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
             TryUpdateInfo();
             return _nearestEnemy;
         }
-        protected set => _nearestEnemy = value;
     }
 
     public float? NearestEnemyDistance
@@ -25,7 +25,15 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
             TryUpdateInfo();
             return _nearestEnemyDistance;
         }
-        protected set => _nearestEnemyDistance = value;
+    }
+
+    public Vector2? LastEnemyPosition
+    {
+        get
+        {
+            TryUpdateInfo();
+            return _lastEnemyPosition;
+        }
     }
 
     public float TimeSinceLastEnemyDetection
@@ -35,7 +43,6 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
             TryUpdateInfo();
             return _timeSinceLastEnemyDetection;
         }
-        protected set => _timeSinceLastEnemyDetection = value;
     }
 
     protected override void OnFixedUpdate()

@@ -60,7 +60,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
     protected override void OnUpdateInfo()
     {
-        if (PathTarget.Value == null)
+        if (!PathTarget.HasValue)
         {
             PathChain.Clear();
             return;
@@ -111,7 +111,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                     currentChain.TargetPosition,
                     pathTargetVec2Int,
                     currentChain.Platform,
-                    maxJumpHeight + 1,
+                    maxJumpHeight,
                     maxJumpWidth
                     );
 
@@ -130,9 +130,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                         currentChain.Platform,
                         PathTarget.Value
                         );
-
-                    newJumpToTargetSubChain.Debug_DrawChain(Color.blue, 0.1f);
-                    newJumpToTargetChain.Debug_DrawChain(Color.red, 0.1f);
 
                     newJumpToTargetChain.PrevElement = newJumpToTargetSubChain;
                     newJumpToTargetSubChain.PrevElement = currentChain;
@@ -173,9 +170,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
                     requiredCalculateChains.Add(newJumpChain);
                     platforms[j] = null;
-
-                    //newMoveChain.Debug_DrawChain(Color.red, .25f);
-                    //newJumpChain.Debug_DrawChain(Color.red, .25f);
                 }
 
             }
@@ -186,8 +180,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             }
 
             requiredCalculateChains.Remove(currentChain);
-
-            //currentChain.Debug_DrawChain(Color.red, .25f);
 
             if (requiredCalculateChains.Count > 0)
             {

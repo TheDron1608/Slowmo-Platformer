@@ -176,7 +176,7 @@ public class TileManager : MonoBehaviour
     public NavigationPlatformTransitionInfo TryGetValidJumpTargetPositionFromPlatfromToPoint(Vector2Int startPosition, Vector2Int targetPosition, NavigationPlatformInfo platform, int maxJumpHeight, int maxJumpWidth)
     {
         if (
-            startPosition.y + maxJumpHeight >= targetPosition.y &&
+            startPosition.y + maxJumpHeight > targetPosition.y &&
             platform.Position.x - maxJumpWidth < targetPosition.x &&
             platform.TailPositionX + maxJumpWidth > targetPosition.x
             )

@@ -9,7 +9,7 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
         CharacterTeam result = null;
         foreach (Transform characterGameObject in currentLayer.CharactersContainer)
         {
-            if (characterGameObject.TryGetComponent(out CharacterTeam characterTeam) && !NumberMath.GetListContainsAnyItemOfAnotherList(characterTeam.CharacterTeams, CharComponents.CharacterTeam.CharacterTeams))
+            if (characterGameObject != gameObject && characterGameObject.TryGetComponent(out CharacterTeam characterTeam) && !NumberMath.GetListContainsAnyItemOfAnotherList(characterTeam.CharacterTeams, CharComponents.CharacterTeam.CharacterTeams))
             {
                 float charDistance = Vector2.Distance(transform.position, characterGameObject.transform.position);
                 if (
@@ -27,9 +27,16 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             }
         }
 
-        if (result != null) TimeSinceLastEnemyDetection = 0f; 
+        if (result != null)
+        {
+            _timeSinceLastEnemyDetection = 0f;
+        }
+        if (_nearestEnemy != null)
+        {
+            _lastEnemyPosition = _nearestEnemy.transform.position;
+        }
 
-        NearestEnemy = result;
-        NearestEnemyDistance = minDistance;
+        _nearestEnemy = result;
+        _nearestEnemyDistance = minDistance;
     }
 }

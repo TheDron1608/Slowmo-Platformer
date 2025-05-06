@@ -43,6 +43,11 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
                 _currentChain = _currentChain?.Next;
             }
         }
+        else if (CharComponents.CharacterAIManager.AIPathfinding.PathTarget.HasValue && TileManager.PositionToTilePosition(CharComponents.CharacterAIManager.AIPathfinding.PathTarget.Value) == characterTilePosition)
+        {
+            _awaitingUpdateChain = false;
+            _currentChain = null;
+        }
 
         //if no target stop moving and jumping
         if (_currentChain == null)
