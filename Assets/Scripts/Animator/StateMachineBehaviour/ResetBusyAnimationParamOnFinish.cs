@@ -1,14 +1,23 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations;
 
 public class ResetBusyAnimationParamOnFinish : StateMachineBehaviour
 {
+    /// <summary>
+    /// resets only if current state equals to ResetState value
+    /// </summary>
+    public CharacterVisual.CharacterPartBusyStates ResetState;
+
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (animator.transform.TryGetComponent(out CharacterVisual charVisual))
         {
-            charVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
+            if (ResetState == charVisual.CurrentBusyAnimation)
+            {
+                charVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
+            }
         }
         else
         {

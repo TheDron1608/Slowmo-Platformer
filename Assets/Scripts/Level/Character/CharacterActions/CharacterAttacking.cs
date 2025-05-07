@@ -100,12 +100,7 @@ public class CharacterAttacking : AbstractCharacterComponent
                 !CharComponents.CharacterCollision.IsCollidingFloor() ||
                 !IsAbleToAttack || 
                 CharComponents.CharacterHolding.CurrentHoldObject == null || 
-                !CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) ||
-                (
-                    CharComponents.CharacterVisual.IsBusy() &&
-                    CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.AIM &&
-                    CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK
-                )
+                !CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon)
                 )
             {
                 return false;
