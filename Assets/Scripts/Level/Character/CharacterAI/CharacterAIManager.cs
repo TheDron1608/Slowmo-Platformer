@@ -9,7 +9,9 @@ public class CharacterAIManager : AbstractCharacterComponent
     public AbstractAIReloading Reloading;
     public AbstractAIRolling Rolling;
     public AbstractAIMovingAndJumping MovingAndJumping;
+    public AbstractAIPickingHoldables PickingHoldables;
     [Header("AIInfo")]
     public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
     public AbstractAIPathfinding AIPathfinding = null;
+    public AbstractAINearestPrefferedHoldable NearestPrefferedHoldable = null;
 }
