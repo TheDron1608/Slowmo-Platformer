@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DefaultAINearestPrefferedHoldable : AbstractAINearestPrefferedHoldable
@@ -11,39 +12,33 @@ public class DefaultAINearestPrefferedHoldable : AbstractAINearestPrefferedHolda
         ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
 
         Transform holdablesContainer = currentLayer.HoldablesContainer.transform;
-        foreach (Transform holdableTransform in holdablesContainer)
+        foreach (Holdable holdable in holdablesContainer.GetComponentsInChildren<Holdable>())
         {
-            if (
-                !holdableTransform.TryGetComponent(out Holdable holdable) ||
-                holdable.AIPickUpPriority < MinWeaponPriority
-                )
-            {
-                continue;
-            }
+            float distanceToHoldable = Vector2.Distance(CharComponents.Center.transform.position, holdable.transform.position);
 
-            float distanceToHoldable = Vector2.Distance(CharComponents.transform.position, holdable.transform.position);
             if (
-                distanceToHoldable > MaxWeaponDetectRange ||
-                (holdable.GetComponent<RangedWeapon>() != null && !CanPickUpRangedWeapon) ||
-                (holdable.GetComponent<MeleeWeapon>() != null && !CanPickMeleeWeapon) ||
-                (CanPickUpOnlyWhitelistItems && !WhitelistItems.Contains(holdable)) ||
+                holdable.CurrentHolder == null &&
+                holdable.AIPickUpPriority >= MinWeaponPriority &&
+                distanceToHoldable <= MaxWeaponDetectRange &&
+                (CanPickUpRangedWeapon || holdable.GetComponent<RangedWeapon>() == null) &&
+                (CanPickMeleeWeapon || holdable.GetComponent<MeleeWeapon>() == null) &&
+                (!CanPickUpOnlyWhitelistItems || WhitelistItems.Contains(holdable)) &&
                 Physics2D.Linecast(
                     CharComponents.Center.transform.position,
                     holdable.transform.position,
                     1 << currentLayer.EnviromentLayer
-                    ).collider == null 
+                    ).collider == null
                 )
             {
-                continue;
-            }
-
-            if (
-                holdable.AIPickUpPriority > bestHoldable?.AIPickUpPriority ||
-                (holdable.AIPickUpPriority == bestHoldable?.AIPickUpPriority && bestDistance < distanceToHoldable)
-                )
-            {
-                bestHoldable = holdable;
-                bestDistance = distanceToHoldable;
+                if (
+                    bestHoldable == null ||
+                    holdable.AIPickUpPriority > bestHoldable.AIPickUpPriority ||
+                    (holdable.AIPickUpPriority == bestHoldable.AIPickUpPriority && bestDistance < distanceToHoldable)
+                    )
+                {
+                    bestHoldable = holdable;
+                    bestDistance = distanceToHoldable;
+                }
             }
         }
 

@@ -26,8 +26,11 @@ public class CharacterAIManager : AbstractCharacterComponent
         {
             if (_currentActiveStateBehaviour == value) return;
 
-            _currentActiveStateBehaviour?.gameObject.SetActive(false);
-            value?.gameObject.SetActive(true);
+            Debug.Log(value);
+
+            _currentActiveStateBehaviour?.SetEnabledBehaviours(false);
+            value?.SetEnabledBehaviours(true);
+
             _currentActiveStateBehaviour = value;
         }
     }
@@ -45,14 +48,7 @@ public class CharacterAIManager : AbstractCharacterComponent
         _stateBehaviourAIs.Sort();
         for (int i = 0; i <  _stateBehaviourAIs.Count; i++)
         {
-            if (_stateBehaviourAIs[i].StateBehaviourCondition())
-            {
-                for (int j = 0; j < _stateBehaviourAIs.Count; j++)
-                {
-                    _stateBehaviourAIs[j].enabled = i == j;
-                }
-                break;
-            }
+            _stateBehaviourAIs[i].SetEnabledBehaviours(false);
         }
     }
 

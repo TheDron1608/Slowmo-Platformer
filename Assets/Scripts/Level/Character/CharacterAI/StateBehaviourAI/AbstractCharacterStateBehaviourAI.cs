@@ -26,5 +26,13 @@ public abstract class AbstractCharacterStateBehaviourAI : AbstractCharacterCompo
         return UpdateOrder.CompareTo(other.UpdateOrder);
     }
 
+    public void SetEnabledBehaviours(bool value)
+    {
+        foreach (AbstractAIBehaviour newValueAIBehaviour in GetComponents<AbstractAIBehaviour>())
+        {
+            newValueAIBehaviour.enabled = value;
+        }
+    }
+
     public abstract bool StateBehaviourCondition();
 }
