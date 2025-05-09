@@ -6,17 +6,17 @@ public class ChaseNearestEnemyAI : AbstractAIPathfindingMovingAndJumping
 
     protected override void UpdatePathTarget()
     {
-        if (CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemy != null)
+        if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null)
         {
-            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.PathTarget = CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemy.transform.position;
+            _selfStateBehaviourAI.AIPathfinding.PathTarget = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.transform.position;
         }
-        else if (RememberLastEnemyPosition && CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.LastEnemyPosition.HasValue)
+        else if (RememberLastEnemyPosition && _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.HasValue)
         {
-            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.PathTarget = CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.LastEnemyPosition;
+            _selfStateBehaviourAI.AIPathfinding.PathTarget = _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition;
         }
         else
         {
-            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.PathTarget = null;
+            _selfStateBehaviourAI.AIPathfinding.PathTarget = null;
         }
     }
 }

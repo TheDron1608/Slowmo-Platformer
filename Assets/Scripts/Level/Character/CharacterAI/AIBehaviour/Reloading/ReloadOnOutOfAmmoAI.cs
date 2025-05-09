@@ -16,7 +16,7 @@ public class ReloadOnOutOfAmmoAI : AbstractAIReloading
             if (
                 CharComponents.CharacterReloading.GetIsReloading() && 
                 rangedWeapon.LoadedLivingAmmoLeft > 0 && 
-                CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemy != null
+                _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null
                 )
             {
                 CharComponents.CharacterReloading.TryFinishReload();
