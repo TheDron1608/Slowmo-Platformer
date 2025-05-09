@@ -14,7 +14,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     protected override void OnAwake()
     {
         base.OnAwake();
-        CharComponents.CharacterAIManager.AIPathfinding.OnPathUpdated += AIPathfinding_OnPathUpdated;
+        CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.OnPathUpdated += AIPathfinding_OnPathUpdated;
     }
 
     private void AIPathfinding_OnPathUpdated(object sender, System.EventArgs e)
@@ -37,13 +37,13 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         if (_awaitingUpdateChain && CharComponents.CharacterCollision.IsCollidingFloor() && !CharComponents.CharacterVisual.IsBusy())
         {
             _awaitingUpdateChain = false;
-            _currentChain = CharComponents.CharacterAIManager.AIPathfinding.PathChain.First;
+            _currentChain = CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.PathChain.First;
             while (_currentChain != null && _currentChain.Value.TargetPosition == characterTilePosition)
             {
                 _currentChain = _currentChain?.Next;
             }
         }
-        else if (CharComponents.CharacterAIManager.AIPathfinding.PathTarget.HasValue && TileManager.PositionToTilePosition(CharComponents.CharacterAIManager.AIPathfinding.PathTarget.Value) == characterTilePosition)
+        else if (CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.PathTarget.HasValue && TileManager.PositionToTilePosition(CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.PathTarget.Value) == characterTilePosition)
         {
             _awaitingUpdateChain = false;
             _currentChain = null;
@@ -120,6 +120,6 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
 
     private void OnDestroy()
     {
-        CharComponents.CharacterAIManager.AIPathfinding.OnPathUpdated -= AIPathfinding_OnPathUpdated;
+        CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.OnPathUpdated -= AIPathfinding_OnPathUpdated;
     }
 }

@@ -6,9 +6,9 @@ public class DefaultAIAttacking : AbstractAIAttacking
 
     private void FixedUpdate()
     {
-        if (CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy != null)
+        if (CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemy != null)
         {
-            CharComponents.CharacterAiming.TargetAimPoint = CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
+            CharComponents.CharacterAiming.TargetAimPoint = CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
 
             if (
                 CharComponents.CharacterAttacking.IsAbleToAttack && 
@@ -18,7 +18,7 @@ public class DefaultAIAttacking : AbstractAIAttacking
                             CharComponents.CharacterHolding.CurrentHoldObject != null && 
                             (
                                 (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && !rangedWeapon.GetIsOutOfAmmo()) ||
-                                (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null && CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemyDistance.Value <= MaxRangeForMeleeAttack)
+                                (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null && CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemyDistance.Value <= MaxRangeForMeleeAttack)
                             )
                         )
                     )

@@ -1,0 +1,29 @@
+using NUnit.Framework;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class AbstractCharacterStateBehaviourAI : AbstractCharacterComponent, IComparable<AbstractCharacterStateBehaviourAI>
+{
+    /// <summary>
+    /// updates every AbstractCharacterStateBehaviourAI at CharacterAIManager by their UpdateOrder asending (i.e. the less value, the earlier update)
+    /// </summary>
+    public int UpdateOrder = 0;
+    [Header("AIBehaviour")]
+    public AbstractAIAttacking Attacking;
+    public AbstractAIReloading Reloading;
+    public AbstractAIRolling Rolling;
+    public AbstractAIMovingAndJumping MovingAndJumping;
+    [Header("AIInfo")]
+    public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
+    public AbstractAIPathfinding AIPathfinding = null;
+    public AbstractAINearestPrefferedHoldable NearestPrefferedHoldable = null;
+
+    public int CompareTo(AbstractCharacterStateBehaviourAI other)
+    {
+        return UpdateOrder.CompareTo(other.UpdateOrder);
+    }
+
+    public abstract bool StateBehaviourCondition();
+}

@@ -17,7 +17,7 @@ public class ReloadOnSavePlace : AbstractAIReloading
         {
             if (
                 rangedWeapon.GetIsNeedReload() && 
-                (CharComponents.CharacterAIManager.NearestEnemyInfo == null || CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemyDistance.Value >= SaveDistance)
+                (CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo == null || CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemyDistance.Value >= SaveDistance)
                 )
             {
                 if (AwaitTimeInSavePlaceCoroutine == null)

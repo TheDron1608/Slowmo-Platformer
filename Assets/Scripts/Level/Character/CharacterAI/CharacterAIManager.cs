@@ -4,14 +4,64 @@ using UnityEngine;
 
 public class CharacterAIManager : AbstractCharacterComponent
 {
-    [Header("AIBehaviour")]
-    public AbstractAIAttacking Attacking;
-    public AbstractAIReloading Reloading;
-    public AbstractAIRolling Rolling;
-    public AbstractAIMovingAndJumping MovingAndJumping;
-    public AbstractAIPickingHoldables PickingHoldables;
-    [Header("AIInfo")]
-    public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
-    public AbstractAIPathfinding AIPathfinding = null;
-    public AbstractAINearestPrefferedHoldable NearestPrefferedHoldable = null;
+    [SerializeField] private List<AbstractCharacterStateBehaviourAI> _stateBehaviourAIs;
+    private AbstractCharacterStateBehaviourAI _currentActiveStateBehaviour = null;
+
+    public List<AbstractCharacterStateBehaviourAI> StateBehaviourAIs
+    {
+        get => _stateBehaviourAIs;
+        set
+        {
+            _stateBehaviourAIs = value;
+            UpdateStateBehaviourAIs();
+        }
+    }
+
+    public AbstractCharacterStateBehaviourAI CurrentActiveStateBehaviour
+    {
+        get => _currentActiveStateBehaviour;
+        private set
+        {
+            if (_currentActiveStateBehaviour == value) return;
+
+            _currentActiveStateBehaviour?.gameObject.SetActive(false);
+            value?.gameObject.SetActive(true);
+            _currentActiveStateBehaviour = value;
+        }
+    }
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        UpdateStateBehaviourAIs();
+    }
+
+    private void UpdateStateBehaviourAIs()
+    {
+        _stateBehaviourAIs.Sort();
+        for (int i = 0; i <  _stateBehaviourAIs.Count; i++)
+        {
+            if (_stateBehaviourAIs[i].StateBehaviourCondition())
+            {
+                for (int j = 0; j < _stateBehaviourAIs.Count; j++)
+                {
+                    _stateBehaviourAIs[j].enabled = i == j;
+                }
+                break;
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        for (int i = 0; i < _stateBehaviourAIs.Count; i++)
+        {
+            if (_stateBehaviourAIs[i].StateBehaviourCondition())
+            {
+                CurrentActiveStateBehaviour = _stateBehaviourAIs[i];
+                return;
+            }
+        }
+        CurrentActiveStateBehaviour = null;
+    }
 }

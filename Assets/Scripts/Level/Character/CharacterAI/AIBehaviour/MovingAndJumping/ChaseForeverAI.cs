@@ -8,11 +8,11 @@ public class ChaseForeverAI : AbstractAIPathfindingMovingAndJumping
     {
         if (ChaseWho != null)
         {
-            CharComponents.CharacterAIManager.AIPathfinding.PathTarget = ChaseWho.transform.position;
+            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.PathTarget = ChaseWho.transform.position;
         }
         else
         {
-            CharComponents.CharacterAIManager.AIPathfinding.PathTarget = null;
+            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.AIPathfinding.PathTarget = null;
         }
     }
 }

@@ -22,10 +22,10 @@ public class RollOnDistanceAI : AbstractAIRolling
 
         if (_rollsComboLeft > 0)
         {
-            if (CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemyDistance <= DistanceToRoll)
+            if (CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemyDistance <= DistanceToRoll)
             {
                 CharComponents.CharacterRolling.TryRoll(
-                    transform.position.x > CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy.CharComponents.transform.position.x ^ InvertRollDirection ? 1f : -1f
+                    transform.position.x > CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemy.CharComponents.transform.position.x ^ InvertRollDirection ? 1f : -1f
                     );
 
                 _rollsComboLeft--;
@@ -34,8 +34,8 @@ public class RollOnDistanceAI : AbstractAIRolling
         else
         {
             if (
-                CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemy == null || 
-                CharComponents.CharacterAIManager.NearestEnemyInfo.NearestEnemyDistance >= DistanceToPrepareRollAgain
+                CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemy == null || 
+                CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemyDistance >= DistanceToPrepareRollAgain
                 )
             {
                 _rollsComboLeft = MaxRollsCombo;
