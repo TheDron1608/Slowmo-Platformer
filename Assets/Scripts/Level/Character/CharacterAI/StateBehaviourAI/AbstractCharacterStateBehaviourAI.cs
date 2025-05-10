@@ -16,10 +16,11 @@ public abstract class AbstractCharacterStateBehaviourAI : AbstractCharacterCompo
     public AbstractAIReloading Reloading;
     public AbstractAIRolling Rolling;
     public AbstractAIMovingAndJumping MovingAndJumping;
+    public AbstractAIGrabbingAndThrowing GrabbingAndThrowing;
     [Header("AIInfo")]
     public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
-    public AbstractAIPathfinding AIPathfinding = null;
-    public AbstractAINearestPrefferedHoldable NearestPrefferedHoldable = null;
+    public AbstractAIPathfinding Pathfinding = null;
+    public AbstractAIPrefferedHoldable PrefferedHoldable = null;
 
     public int CompareTo(AbstractCharacterStateBehaviourAI other)
     {

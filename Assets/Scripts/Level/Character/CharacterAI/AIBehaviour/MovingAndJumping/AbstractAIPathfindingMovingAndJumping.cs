@@ -14,7 +14,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     protected override void OnAwake()
     {
         base.OnAwake();
-        _selfStateBehaviourAI.AIPathfinding.OnPathUpdated += AIPathfinding_OnPathUpdated;
+        _selfStateBehaviourAI.Pathfinding.OnPathUpdated += AIPathfinding_OnPathUpdated;
     }
 
     private void AIPathfinding_OnPathUpdated(object sender, System.EventArgs e)
@@ -37,13 +37,13 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         if (_awaitingUpdateChain && CharComponents.CharacterCollision.IsCollidingFloor() && !CharComponents.CharacterVisual.IsBusy())
         {
             _awaitingUpdateChain = false;
-            _currentChain = _selfStateBehaviourAI.AIPathfinding.PathChain.First;
+            _currentChain = _selfStateBehaviourAI.Pathfinding.PathChain.First;
             while (_currentChain != null && _currentChain.Value.TargetPosition == characterTilePosition)
             {
                 _currentChain = _currentChain?.Next;
             }
         }
-        else if (_selfStateBehaviourAI.AIPathfinding.PathTarget.HasValue && TileManager.PositionToTilePosition(_selfStateBehaviourAI.AIPathfinding.PathTarget.Value) == characterTilePosition)
+        else if (_selfStateBehaviourAI.Pathfinding.PathTarget.HasValue && TileManager.PositionToTilePosition(_selfStateBehaviourAI.Pathfinding.PathTarget.Value) == characterTilePosition)
         {
             _awaitingUpdateChain = false;
             _currentChain = null;
@@ -120,6 +120,6 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
 
     private void OnDestroy()
     {
-        _selfStateBehaviourAI.AIPathfinding.OnPathUpdated -= AIPathfinding_OnPathUpdated;
+        _selfStateBehaviourAI.Pathfinding.OnPathUpdated -= AIPathfinding_OnPathUpdated;
     }
 }

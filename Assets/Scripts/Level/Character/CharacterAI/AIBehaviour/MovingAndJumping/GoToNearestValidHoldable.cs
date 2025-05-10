@@ -5,13 +5,13 @@ public class GoToNearestValidHoldable : AbstractAIPathfindingMovingAndJumping
 {
     protected override void UpdatePathTarget()
     {
-        if (_selfStateBehaviourAI.NearestPrefferedHoldable.NearestPrefferedHoldable != null)
+        if (_selfStateBehaviourAI.PrefferedHoldable.NearestPrefferedHoldable != null)
         {
-            _selfStateBehaviourAI.AIPathfinding.PathTarget = _selfStateBehaviourAI.NearestPrefferedHoldable.NearestPrefferedHoldable.transform.position;
+            _selfStateBehaviourAI.Pathfinding.PathTarget = _selfStateBehaviourAI.PrefferedHoldable.NearestPrefferedHoldable.transform.position;
         }
         else
         {
-            _selfStateBehaviourAI.AIPathfinding.PathTarget = null;
+            _selfStateBehaviourAI.Pathfinding.PathTarget = null;
         }
     }
 }

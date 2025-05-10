@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
+      propertyPath: Pathfinding
+      value: 
+      objectReference: {fileID: 3192920589852274143}
+    - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       propertyPath: AIPathfinding
       value: 
       objectReference: {fileID: 3192920589852274143}
@@ -17,12 +21,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7543007422396285701}
     - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
-      propertyPath: NearestPrefferedHoldable
+      propertyPath: PrefferedHoldable
       value: 
-      objectReference: {fileID: 4310560723563525112}
+      objectReference: {fileID: 3104622704241835584}
     - target: {fileID: 2022757651714738705, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       propertyPath: m_Name
-      value: DefaultStateBehaviourAI-DefaultEnemy
+      value: DefaultStateBehaviourAI-Default
       objectReference: {fileID: 0}
     - target: {fileID: 2488352162486815547, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -76,7 +80,7 @@ PrefabInstance:
       addedObject: {fileID: 3192920589852274143}
     - targetCorrespondingSourceObject: {fileID: 2022757651714738705, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4310560723563525112}
+      addedObject: {fileID: 3104622704241835584}
   m_SourcePrefab: {fileID: 100100000, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
 --- !u!1 &4311263859851396751 stripped
 GameObject:
@@ -110,7 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanJumpToTarget: 1
   Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
---- !u!114 &4310560723563525112
+--- !u!114 &3104622704241835584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,7 +123,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4311263859851396751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 954a5d984c2e239449cbc4a16420ef29, type: 3}
+  m_Script: {fileID: 11500000, guid: 3068820388bdc604085f3db2f5dd8db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MaxWeaponDetectRange: 5

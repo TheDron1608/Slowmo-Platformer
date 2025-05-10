@@ -8,6 +8,6 @@ public class OnHasValidPickUpWeaponStateBehaviourAI : AbstractCharacterStateBeha
 {
     public override bool StateBehaviourCondition()
     {
-        return NearestPrefferedHoldable.NearestPrefferedHoldable != null;
+        return PrefferedHoldable.NearestPrefferedHoldable != null;
     }
 }

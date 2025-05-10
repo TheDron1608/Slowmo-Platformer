@@ -17,6 +17,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1303693616419640889}
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
+      propertyPath: Pathfinding
+      value: 
+      objectReference: {fileID: 7615797020215694904}
+    - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: AIPathfinding
       value: 
       objectReference: {fileID: 7615797020215694904}
@@ -29,9 +33,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4692138698522949242}
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
-      propertyPath: NearestPrefferedHoldable
+      propertyPath: PrefferedHoldable
       value: 
-      objectReference: {fileID: 8227177420016915358}
+      objectReference: {fileID: 4161099249692743559}
     - target: {fileID: 4808391566758070795, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -97,7 +101,7 @@ PrefabInstance:
       addedObject: {fileID: 7615797020215694904}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8227177420016915358}
+      addedObject: {fileID: 4161099249692743559}
   m_SourcePrefab: {fileID: 100100000, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
 --- !u!1 &5393485392465938888 stripped
 GameObject:
@@ -169,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanJumpToTarget: 1
   Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
---- !u!114 &8227177420016915358
+--- !u!114 &4161099249692743559
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,7 +182,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5393485392465938888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 954a5d984c2e239449cbc4a16420ef29, type: 3}
+  m_Script: {fileID: 11500000, guid: 3068820388bdc604085f3db2f5dd8db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MaxWeaponDetectRange: 5

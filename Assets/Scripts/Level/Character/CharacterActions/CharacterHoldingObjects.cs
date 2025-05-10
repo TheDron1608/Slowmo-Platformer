@@ -169,11 +169,11 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         return true;
     }
 
-    public bool TryGrab(Holdable holdable)
+    public bool TryGrab(Holdable holdable, bool throwOldItem = false)
     {
         if (
             _isAbleToGrabObjects &&
-            _currentHoldObject == null &&
+            (throwOldItem || _currentHoldObject == null) &&
             Vector3.Distance(holdable.transform.position, transform.position) <= CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier
             )
         {

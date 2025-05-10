@@ -26,8 +26,6 @@ public class CharacterAIManager : AbstractCharacterComponent
         {
             if (_currentActiveStateBehaviour == value) return;
 
-            Debug.Log(value);
-
             _currentActiveStateBehaviour?.SetEnabledBehaviours(false);
             value?.SetEnabledBehaviours(true);
 

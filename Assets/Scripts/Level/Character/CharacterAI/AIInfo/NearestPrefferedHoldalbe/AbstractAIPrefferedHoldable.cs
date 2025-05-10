@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbstractAINearestPrefferedHoldable : AbstractAIInfo
+public abstract class AbstractAIPrefferedHoldable : AbstractAIInfo
 {
     public float MaxWeaponDetectRange = 5f;
     public int MinWeaponPriority = 1;

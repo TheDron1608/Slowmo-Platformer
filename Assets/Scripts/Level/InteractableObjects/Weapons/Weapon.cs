@@ -175,7 +175,7 @@ public abstract class Weapon : MonoBehaviour
         StartCoroutine(AwaitAttackCooldownFinish());
     }
 
-    protected virtual bool AttackCondition()
+    public virtual bool AttackCondition()
     {
         return true;
     }

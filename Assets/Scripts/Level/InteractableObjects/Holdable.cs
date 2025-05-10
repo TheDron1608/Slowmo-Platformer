@@ -219,15 +219,13 @@ public class Holdable : Interactable
     public CharacterHoldingObjects CurrentHolder
     {
         get => _currentHolder;
-        set
+        private set
         {
             if (_currentHolder != null )
             {
                 _lastHolder = _currentHolder;
             }
             _currentHolder = value;
-
-            _rigidBodyComponent.simulated = _currentHolder is null;
         }
     }
 
@@ -302,6 +300,7 @@ public class Holdable : Interactable
         newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
         transform.rotation = newRotation;
 
+        _rigidBodyComponent.simulated = true;
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
         if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))
@@ -361,14 +360,22 @@ public class Holdable : Interactable
 
     protected virtual void OnPickedUp(CharacterHoldingObjects newHolder)
     {
+        if (newHolder == null) throw new UnityException("Holdable.OnPickedUP newHolder argument can not be null, use Throw if you want to unsed holder instead");
+        if (CurrentHolder == newHolder) return;
+
+        if (CurrentHolder != null && CurrentHolder.CurrentHoldObject != null)
+        {
+            if (!CurrentHolder.TryThrow(Vector2.zero)) return;
+        }
+        if (newHolder.CurrentHoldObject != null)
+        {
+            if (!newHolder.TryThrow( new Vector2((newHolder.CharComponents.CharacterVisual.FlippedH ? -1f : 1f), 0.5f), 0.1f)) return;
+        }
+
         newHolder.CurrentHoldObject = this;
         _isStuck = false;
 
-        if (CurrentHolder != newHolder && CurrentHolder != null)
-        {
-            CurrentHolder.ForceThrow(Vector2.zero);
-        }
-
+        _rigidBodyComponent.simulated = false;
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         CurrentHolder = newHolder;
         //transform.parent = newHolder.transform;

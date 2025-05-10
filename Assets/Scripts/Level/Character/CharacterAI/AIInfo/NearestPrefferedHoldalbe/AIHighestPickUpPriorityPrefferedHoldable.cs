@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class DefaultAINearestPrefferedHoldable : AbstractAINearestPrefferedHoldable
+public class AIHighestPickUpPriorityPrefferedHoldable : AbstractAIPrefferedHoldable
 {
     protected override void OnUpdateInfo()
     {
@@ -20,6 +20,7 @@ public class DefaultAINearestPrefferedHoldable : AbstractAINearestPrefferedHolda
                 holdable.CurrentHolder == null &&
                 holdable.AIPickUpPriority >= MinWeaponPriority &&
                 distanceToHoldable <= MaxWeaponDetectRange &&
+                (!holdable.TryGetComponent(out RangedWeapon rangedWeapon) || rangedWeapon.LoadedLivingAmmoLeft > 0 || rangedWeapon.AmmoLeft > 0) &&
                 (CanPickUpRangedWeapon || holdable.GetComponent<RangedWeapon>() == null) &&
                 (CanPickMeleeWeapon || holdable.GetComponent<MeleeWeapon>() == null) &&
                 (!CanPickUpOnlyWhitelistItems || WhitelistItems.Contains(holdable)) &&

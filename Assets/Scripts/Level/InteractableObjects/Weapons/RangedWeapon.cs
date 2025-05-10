@@ -140,7 +140,7 @@ public class RangedWeapon : ThrowableWeapon
     }
 
     //OVERRIDES
-    protected override bool AttackCondition()
+    public override bool AttackCondition()
     {
         return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded;
     }
