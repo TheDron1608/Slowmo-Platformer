@@ -74,14 +74,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         int maxJumpWidth = CharComponents.CharacterJumping.GetJumpWidth();
         Vector2Int characterTilePosition = TileManager.PositionToTilePosition(CharComponents.transform.position);
 
-        for (int i = 0; i < platforms.Count; i++)
-        {
-            if (platforms[i].GetPositionInOnPlatform(characterTilePosition))
-            {
-                startPlatform = platforms[i];
-                break;
-            }
-        }
+        startPlatform = tileManager.GetPlatformUnderPoint(characterTilePosition);
         if (startPlatform == null) return;
 
         targetPlatform = tileManager.GetNearestReachablePlatform(PathTarget.Value, maxJumpHeight, maxJumpWidth);

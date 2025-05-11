@@ -292,6 +292,8 @@ public class Holdable : Interactable
 
     protected virtual void OnThrow(Vector2 direction, float throwForceMultiplier = 1f)
     {
+        if (CurrentHolder == null) return;
+
         _isStuck = false;
         transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesContainer.transform;
         _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;

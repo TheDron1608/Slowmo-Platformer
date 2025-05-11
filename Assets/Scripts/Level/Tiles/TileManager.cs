@@ -106,6 +106,18 @@ public class TileManager : MonoBehaviour
         return null;
     }
 
+    public NavigationPlatformInfo GetPlatformUnderPoint(Vector2Int point)
+    {
+        for (int i = 0; i < NavigationPlatforms.Count; i++)
+        {
+            if (NavigationPlatforms[i].GetPositionInOnPlatform(point))
+            {
+                return NavigationPlatforms[i];
+            }
+        }
+        return null;
+    }
+
     public void UpdateTileAINavigationInfo()
     {
         _navigationPlatforms = new();
