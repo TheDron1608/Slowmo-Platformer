@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AINearestPrefferedHoldable : AbstractAIPrefferedHoldable
 {
+    public bool CanCatchDangerousHoldable = false;
+
     protected override void OnUpdateInfo()
     {
         Holdable bestHoldable = null;
@@ -20,6 +22,7 @@ public class AINearestPrefferedHoldable : AbstractAIPrefferedHoldable
                 holdable.CurrentHolder == null &&
                 holdable.AIPickUpPriority >= MinWeaponPriority &&
                 distanceToHoldable <= MaxWeaponDetectRange &&
+                (CanCatchDangerousHoldable || !holdable.GetIsDangerouslyFast()) &&
                 (!holdable.TryGetComponent(out RangedWeapon rangedWeapon) || rangedWeapon.LoadedLivingAmmoLeft > 0 || rangedWeapon.AmmoLeft > 0) &&
                 (CanPickUpRangedWeapon || holdable.GetComponent<RangedWeapon>() == null) &&
                 (CanPickMeleeWeapon || holdable.GetComponent<MeleeWeapon>() == null) &&

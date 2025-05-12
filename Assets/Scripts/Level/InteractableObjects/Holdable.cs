@@ -190,7 +190,7 @@ public class Holdable : Interactable
             StuckedToCollider = collision.collider;
         }
 
-        if (charComponent != null && VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToHitCharacter)
+        if (charComponent != null && GetIsDangerouslyFast())
         {
             RaycastHit2D[] hits = Physics2D.RaycastAll(
                 collision.contacts[0].point,
@@ -245,6 +245,11 @@ public class Holdable : Interactable
     {
         OnThrown?.Invoke(this, new OnThrownEventArgs(CurrentHolder, direction));
         OnThrow(direction, throwForceMultiplier);
+    }
+
+    public bool GetIsDangerouslyFast()
+    {
+        return !_isStuck && VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToHitCharacter;
     }
 
     public void TransformToAnotherObject(Holdable anotherObject)
