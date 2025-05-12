@@ -103,7 +103,7 @@ public class Chainsaw : MeleeWeapon
         }
     }
 
-    public override bool AttackCondition()
+    protected override bool AttackCondition()
     {
         return base.AttackCondition() && Started && !IsStarting;
     }

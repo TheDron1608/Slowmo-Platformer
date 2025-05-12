@@ -70,6 +70,11 @@ public class RangedWeapon : ThrowableWeapon
         return AmmoLeft <= 0 && LoadedLivingAmmoLeft <= 0;
     }
 
+    public override bool GetIsAbleToAttack()
+    {
+        return base.GetIsAbleToAttack() && !GetIsOutOfAmmo();
+    }
+
     public virtual void SpendAmmo(int spendAmount = 1)
     {
         LoadedLivingAmmoLeft -= spendAmount;
@@ -140,7 +145,7 @@ public class RangedWeapon : ThrowableWeapon
     }
 
     //OVERRIDES
-    public override bool AttackCondition()
+    protected override bool AttackCondition()
     {
         return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded;
     }

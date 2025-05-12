@@ -72,7 +72,7 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
         return true;
     }
 
-    public override bool AttackCondition()
+    protected override bool AttackCondition()
     {
         return base.AttackCondition() && LoadedSpentAmmoLeft < 1;
     }

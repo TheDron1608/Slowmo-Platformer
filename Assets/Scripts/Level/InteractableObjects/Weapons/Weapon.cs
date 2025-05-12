@@ -70,6 +70,11 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
+    public virtual bool GetIsAbleToAttack()
+    {
+        return true;
+    }
+
     public bool TryAttack(Vector2 direction, bool ignoreCooldown = false)
     {
         if (AttackCondition() && (ignoreCooldown || !IsInCooldown))
@@ -175,7 +180,7 @@ public abstract class Weapon : MonoBehaviour
         StartCoroutine(AwaitAttackCooldownFinish());
     }
 
-    public virtual bool AttackCondition()
+    protected virtual bool AttackCondition()
     {
         return true;
     }
