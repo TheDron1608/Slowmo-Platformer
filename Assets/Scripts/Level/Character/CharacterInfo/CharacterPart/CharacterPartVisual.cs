@@ -9,17 +9,17 @@ public class CharacterPartVisual : AbstractCharacterComponent
 {
     private SpriteRenderer _spriteRenderer;
 
-    [SerializeField] private CharacterPartVisualManager.AnimatedCharacterParts _visualType;
+    [SerializeField] private CharacterMultiSpritesSO.AnimatedCharacterParts _visualType;
 
-    public CharacterPartVisualManager.AnimatedCharacterParts VisualType
+    public CharacterMultiSpritesSO.AnimatedCharacterParts VisualType
     {
         get => _visualType;
         set
         {
             if (_visualType != value)
             {
-                _spriteRenderer.sortingOrder -= CharacterPartVisualManager.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
-                _spriteRenderer.sortingOrder += CharacterPartVisualManager.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
+                _spriteRenderer.sortingOrder -= CharacterMultiSpritesSO.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
+                _spriteRenderer.sortingOrder += CharacterMultiSpritesSO.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
 
                 _visualType = value;
             }
@@ -35,14 +35,14 @@ public class CharacterPartVisual : AbstractCharacterComponent
         CharComponents.CharacterVisual.OnSampleSpriteChanged += CharacterVisual_OnSampleSpriteChanged;
         CharComponents.CharacterVisual.OnSpriteFlippedChanged += CharacterVisual_OnSpriteFlippedChanged;
 
-        _spriteRenderer.sortingOrder += CharacterPartVisualManager.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
+        _spriteRenderer.sortingOrder += CharacterMultiSpritesSO.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
     }
 
     private void CharacterVisual_OnSampleSpriteChanged(object sender, Sprite sampleSprite)
     {
         try
         {
-            _spriteRenderer.sprite = CharacterPartVisualManager.Instance.SampleSprites[sampleSprite][(int)VisualType];
+            _spriteRenderer.sprite = CharacterMultiSpritesSO.Instance.SampleSprites[sampleSprite][(int)VisualType];
         }
         catch (KeyNotFoundException)
         {

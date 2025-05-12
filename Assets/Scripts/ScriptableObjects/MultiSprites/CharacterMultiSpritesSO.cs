@@ -5,27 +5,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.WSA;
 
+[CreateAssetMenu(fileName = "CharacterMultiSpriteSO", menuName = "MultiSprites/CharacterMultiSpritesSO")]
 [DefaultExecutionOrder(-1)]
-public class CharacterPartVisualManager : MonoBehaviour
+public class CharacterMultiSpritesSO : AbstractMultiSpriteSO
 {
-    public const AnimatedCharacterParts SAMPLE_ANIMATION = AnimatedCharacterParts.Body;
-
-    const string CHARACTER_SPRITES_DIR = "\\Assets\\Sprites\\Character";
-
-    [Serializable]
-    public class SerializableSampleSpritesDictionaryItem
-    {
-        public Sprite Key;
-        public Sprite[] Value;
-
-        public SerializableSampleSpritesDictionaryItem (Sprite key, Sprite[] value)
-        {
-            Key = key;
-            Value = value;
-        }
-    }
-
-    public static CharacterPartVisualManager Instance;
+    public static CharacterMultiSpritesSO Instance;
 
     /// <summary>
     /// Note: if you will add new item, they MUST be sorted by name alphabetically and be same as sprite name
@@ -82,30 +66,29 @@ public class CharacterPartVisualManager : MonoBehaviour
         { AnimatedCharacterParts.Head, 2 },
         { AnimatedCharacterParts.LegsArmor, 3 }
     };
+
     public Dictionary<AnimatedCharacterParts, int> AnimatedCharacerPartsOrderInLayer
     {
         get => _animatedCharacerPartsOrderInLayer;
     }
 
-    public Dictionary<Sprite, Sprite[]> SampleSprites = new();
-
-    //unity 6.0.026f1 not supports serialized dictionaries
-    public List<SerializableSampleSpritesDictionaryItem> SerializedSampleSprites = new();
-
-
-    private void Awake()
+    protected override void OnVirtualValidate()
     {
-        if (Instance != null) throw new UnityException("limit of 1 CharacterPartVisualManager per scene");
+        base.OnVirtualValidate();
         Instance = this;
-
-        for (int i = 0; i < SerializedSampleSprites.Count; i++)
-        {
-            SampleSprites.Add(SerializedSampleSprites[i].Key, SerializedSampleSprites[i].Value);
-        }
     }
 
-    private void OnDestroy()
+    [CustomEditor(typeof(CharacterMultiSpritesSO))]
+    public class UpdateMultiSprites : Editor
     {
-        Instance = null;
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            if (GUILayout.Button("UpdateCharacterTextures"))
+            {
+                ((AbstractMultiSpriteSO)target).UpdateCharacterTextures();
+            }
+        }
     }
 }
