@@ -7,23 +7,22 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
         float minDistance = MaxEnemyDetectRange;
         ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         CharacterTeam result = null;
-        foreach (Transform characterGameObject in currentLayer.CharactersContainer)
+        foreach (CharacterComponentsManager character in currentLayer.CharactersContainer.GetComponentsInChildren<CharacterComponentsManager>())
         {
-            if (characterGameObject != gameObject && characterGameObject.TryGetComponent(out CharacterTeam characterTeam) && !NumberMath.GetListContainsAnyItemOfAnotherList(characterTeam.CharacterTeams, CharComponents.CharacterTeam.CharacterTeams))
+            float charDistance = Vector2.Distance(transform.position, character.transform.position);
+            if (
+                charDistance < minDistance &&
+                !character.CharacterEffects.GetHasEffect<Death>() &&
+                !NumberMath.GetListContainsAnyItemOfAnotherList(character.CharacterTeam.CharacterTeams, CharComponents.CharacterTeam.CharacterTeams) &&
+                Physics2D.Linecast(
+                    CharComponents.Center.transform.position,
+                    character.Center.transform.position,
+                    1 << currentLayer.EnviromentLayer
+                    ).collider == null
+                )
             {
-                float charDistance = Vector2.Distance(transform.position, characterGameObject.transform.position);
-                if (
-                    charDistance < minDistance &&
-                    Physics2D.Linecast(
-                        CharComponents.Center.transform.position,
-                        characterTeam.CharComponents.Center.transform.position,
-                        1 << currentLayer.EnviromentLayer
-                        ).collider == null
-                    )
-                {
-                    minDistance = charDistance;
-                    result = characterTeam;
-                }
+                minDistance = charDistance;
+                result = character.CharacterTeam;
             }
         }
 

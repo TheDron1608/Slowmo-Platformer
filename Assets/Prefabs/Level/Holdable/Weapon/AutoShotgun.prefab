@@ -29,6 +29,10 @@ PrefabInstance:
       value: -0.0625
       objectReference: {fileID: 0}
     - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: AIPickUpPriority
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: ThrowRotationForce
       value: 0
       objectReference: {fileID: 0}
@@ -39,10 +43,6 @@ PrefabInstance:
     - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: SpeedToGetThroughWall
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
-      propertyPath: SelectMaxRangeMultiplier
-      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: 'EffectsOnThrowHit.Array.data[1]'
