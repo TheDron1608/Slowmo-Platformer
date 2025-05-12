@@ -19,11 +19,7 @@ PrefabInstance:
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: Pathfinding
       value: 
-      objectReference: {fileID: 7615797020215694904}
-    - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
-      propertyPath: AIPathfinding
-      value: 
-      objectReference: {fileID: 7615797020215694904}
+      objectReference: {fileID: 7635522116767993189}
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: MovingAndJumping
       value: 
@@ -98,7 +94,7 @@ PrefabInstance:
       addedObject: {fileID: 4692138698522949242}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7615797020215694904}
+      addedObject: {fileID: 7635522116767993189}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9162012204135728203}
@@ -159,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 10
---- !u!114 &7615797020215694904
+--- !u!114 &7635522116767993189
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,11 +164,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5393485392465938888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f85e81ad07bd854698661c644bc52e6, type: 3}
+  m_Script: {fileID: 11500000, guid: ed50a741ef6995d44be3b98086b30f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CanJumpToTarget: 1
   Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
+  MinDistanceToTargetWithRangedWeapon: 3
 --- !u!114 &9162012204135728203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,3 +188,4 @@ MonoBehaviour:
   CanPickMeleeWeapon: 1
   CanPickUpOnlyWhitelistItems: 0
   WhitelistItems: []
+  CanCatchDangerousHoldable: 0
