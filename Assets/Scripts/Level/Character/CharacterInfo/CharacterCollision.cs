@@ -43,6 +43,7 @@ public class CharacterCollision : AbstractCharacterComponent
     public List<AbstractCharacterEffect> SelfEffectsOnHitOtherCharacters = new();
     public PhysicsMaterial2D DefaultPhyscsMaterial;
     public PhysicsMaterial2D OnFallenPhysicsMaterial;
+    public PhysicsMaterial2D OnNotOnFloorPhysicsMaterial;
 
     const float COLLISION_HIT_DETECION_THICKNESS = 0.1f;
     const float COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET = 0.7f; //value between 0 and 1
@@ -386,9 +387,16 @@ public class CharacterCollision : AbstractCharacterComponent
 
     private void UpdatePhysicsMaterial()
     {
-        if (!IsCollidingFloor() && CharComponents.CharacterEffects.GetHasEffect<AbstractStun>())
+        if (!IsCollidingFloor())
         {
-            CharComponents.CharacterRigidBody.sharedMaterial = OnFallenPhysicsMaterial;
+            if (CharComponents.CharacterEffects.GetHasEffect<AbstractStun>())
+            {
+                CharComponents.CharacterRigidBody.sharedMaterial = OnFallenPhysicsMaterial;
+            }
+            else
+            {
+                CharComponents.CharacterRigidBody.sharedMaterial = OnNotOnFloorPhysicsMaterial;
+            }
         }
         else
         {
