@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -60,40 +61,122 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
     protected override void OnUpdateInfo()
     {
+        PathChain?.Clear();
+
         if (!PathTarget.HasValue)
         {
-            PathChain.Clear();
             return;
         }
 
-        TileManager tileManager = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TileManager;
+        Vector2Int characterTilePosition = TileManager.PositionToTilePosition(transform.position);
+
+        if (LayerManager.Instance.GetZLayerOfGameObject(gameObject) != PathTarget.Value.Layer)
+        {
+            List<OnInteractEnterMultiZDoor> validDoors = new();
+            foreach (var door in LayerManager.Instance.GetZLayerOfGameObject(gameObject).FurnitureContainer.GetComponentsInChildren<OnInteractEnterMultiZDoor>(false))
+            {
+                if (door.Exit != null && door.Exit.ZLayer == PathTarget.Value.Layer)
+                {
+                    validDoors.Add(door);
+                }
+            }
+
+            if (validDoors.Count == 0)
+            {
+                return;
+            }
+
+            validDoors.OrderBy(door => Vector2.Distance(door.transform.position, CharComponents.transform.position));
+
+            foreach (var validDoor in validDoors)
+            {
+                if (TryGeneratePathChainOnSingleLayer(
+                        characterTilePosition,
+                        TileManager.PositionToTilePosition(validDoor.transform.position),
+                        validDoor.ZLayer,
+                        false,
+                        validDoor,
+                        out var pathToValidDoor
+                        ) &&
+                    TryGeneratePathChainOnSingleLayer(
+                        TileManager.PositionToTilePosition(validDoor.Exit.transform.position),
+                        PathTarget.Value.Position,
+                        PathTarget.Value.Layer,
+                        CanJumpToTarget,
+                        null,
+                        out var pathFromValidDoorToTarget
+                        )
+                    )
+                {
+
+                    foreach (var pathToValidDoorItem in pathToValidDoor)
+                    {
+                        PathChain.AddLast(pathToValidDoorItem);
+                    }
+                    foreach (var pathFromValidDoorItem in pathFromValidDoorToTarget)
+                    {
+                        PathChain.AddLast(pathFromValidDoorItem);
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            TryGeneratePathChainOnSingleLayer(
+                characterTilePosition,
+                PathTarget.Value.Position,
+                PathTarget.Value.Layer,
+                CanJumpToTarget,
+                null,
+                out var newPathChain
+                );
+
+            PathChain = newPathChain;
+        }
+
+    }
+
+    private bool TryGeneratePathChainOnSingleLayer(
+        Vector2Int from, 
+        Vector2Int to, 
+        ZIndexLayer layer, 
+        bool CanJumpToTarget,
+        Interactable interactWithObjectAtFinish,
+        out LinkedList<PathChainElement> result
+        )
+    {
+        TileManager tileManager = layer.TileManager;
         List<TileManager.NavigationPlatformInfo> platforms = new(tileManager.NavigationPlatforms);
         TileManager.NavigationPlatformInfo startPlatform = null;
         TileManager.NavigationPlatformInfo targetPlatform = null;
         int maxJumpHeight = CharComponents.CharacterJumping.GetJumpHeight();
         int maxJumpWidth = CharComponents.CharacterJumping.GetJumpWidth();
-        Vector2Int characterTilePosition = TileManager.PositionToTilePosition(CharComponents.transform.position);
 
-        startPlatform = tileManager.GetPlatformUnderPoint(characterTilePosition);
-        if (startPlatform == null) return;
+        startPlatform = tileManager.GetPlatformUnderPoint(from);
+        tileManager.Debug_MarkTile(from, Color.red, 1f);
+        if (startPlatform == null)
+        {
+            result = null;
+            return false;
+        }
 
-        targetPlatform = tileManager.GetNearestReachablePlatform(PathTarget.Value, maxJumpHeight, maxJumpWidth);
+        targetPlatform = tileManager.GetNearestReachablePlatform(to, maxJumpHeight, maxJumpWidth);
         platforms[platforms.IndexOf(startPlatform)] = null;
-        _startTarget = characterTilePosition;
 
         PathChainElementPrecalculated currentChain;
         int iterations = 0;
         currentChain = new(
-            TileManager.PositionToTilePosition(CharComponents.transform.position),
-            TileManager.PositionToTilePosition(CharComponents.transform.position),
+            from,
+            from,
             startPlatform,
-            PathTarget.Value
+            to
             );
         List<PathChainElementPrecalculated> pathTree = new();
         List<PathChainElementPrecalculated> requiredCalculateChains = new() { currentChain };
         PathChainElementPrecalculated nearestChain = currentChain;
         PathChainElementPrecalculated nearestJumpToChain = null;
-        Vector2Int pathTargetVec2Int = TileManager.PositionToTilePosition(PathTarget.Value);
+        Vector2Int pathTargetVec2Int = TileManager.PositionToTilePosition(to);
 
         while (iterations < PATHINDING_ITERATIONS_LIMIT)
         {
@@ -114,14 +197,14 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                         newJumpToTargetTransition.StartConntection,
                         newJumpToTargetTransition.EndConnection,
                         currentChain.Platform,
-                        PathTarget.Value
+                        to
                         );
 
                     PathChainElementPrecalculated newJumpToTargetSubChain = new(
                         currentChain.TargetPosition,
                         newJumpToTargetChain.StartPosition,
                         currentChain.Platform,
-                        PathTarget.Value
+                        to
                         );
 
                     newJumpToTargetChain.PrevElement = newJumpToTargetSubChain;
@@ -149,7 +232,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                         currentChain.TargetPosition,
                         transition.StartConntection,
                         platforms[j],
-                        PathTarget.Value
+                        to
                         );
                     newMoveChain.PrevElement = currentChain;
 
@@ -157,7 +240,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                         transition.StartConntection,
                         transition.EndConnection,
                         platforms[j],
-                        PathTarget.Value
+                        to
                         );
                     newJumpChain.PrevElement = newMoveChain;
 
@@ -200,31 +283,41 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         }
         else
         {
-            Vector3Int finalChainElementTargetPosVec3 = tileManager.GetNearestPlatformPositionToPoint(nearestChain.Platform, PathTarget.Value);
+            Vector3Int finalChainElementTargetPosVec3 = tileManager.GetNearestPlatformPositionToPoint(nearestChain.Platform, to);
             PathChainElementPrecalculated finalChainElement = new(
                 nearestChain.TargetPosition,
                 new Vector2Int(finalChainElementTargetPosVec3.x, finalChainElementTargetPosVec3.y + 1),
                 nearestChain.Platform,
-                PathTarget.Value
+                to
                 );
             finalChainElement.PrevElement = nearestChain;
             currentChain = finalChainElement;
         }
 
 
-        PathChain.Clear();
+        result = new();
 
         iterations = 0;
         do
         {
-            PathChain.AddFirst(currentChain.ConvertToPathChainElement());
+            result.AddFirst(currentChain.ConvertToPathChainElement());
 
             currentChain = currentChain.PrevElement;
 
             iterations++;
             if (iterations > PATHINDING_ITERATIONS_LIMIT) throw new UnityException("iterations limit is reached, pathfinding system probably created invinite loop or too big");
         }
-        while (currentChain != null && currentChain.TargetPosition != characterTilePosition);
+        while (currentChain != null && currentChain.TargetPosition != from);
+
+        if (interactWithObjectAtFinish)
+        {
+            var lastChain = result.Last();
+            lastChain.RequiredIteractableToContinue = interactWithObjectAtFinish;
+            result.RemoveLast();
+            result.AddLast(lastChain);
+        }
+
+        return result.Last.Value.TargetPosition == to;
     }
 
     protected override void OnFixedUpdate()

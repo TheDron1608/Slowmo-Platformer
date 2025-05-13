@@ -7,7 +7,7 @@ public class GoToNearestValidHoldable : AbstractAIPathfindingMovingAndJumping
     {
         if (_selfStateBehaviourAI.PrefferedHoldable.NearestPrefferedHoldable != null)
         {
-            _selfStateBehaviourAI.Pathfinding.PathTarget = _selfStateBehaviourAI.PrefferedHoldable.NearestPrefferedHoldable.transform.position;
+            _selfStateBehaviourAI.Pathfinding.PathTarget = new(_selfStateBehaviourAI.PrefferedHoldable.NearestPrefferedHoldable.transform.position, gameObject);
         }
         else
         {

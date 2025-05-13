@@ -8,7 +8,7 @@ public class ChaseForeverAI : AbstractAIPathfindingMovingAndJumping
     {
         if (ChaseWho != null)
         {
-            _selfStateBehaviourAI.Pathfinding.PathTarget = ChaseWho.transform.position;
+            _selfStateBehaviourAI.Pathfinding.PathTarget = new(ChaseWho.transform.position, LayerManager.Instance.GetZLayerOfGameObject(ChaseWho));
         }
         else
         {

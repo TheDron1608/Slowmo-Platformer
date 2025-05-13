@@ -12,7 +12,7 @@ public class SimpleAIPathfinding : AbstractAIPathfinding
 
         if (PathTarget.HasValue)
         {
-            PathChain.AddLast(new PathChainElement(TileManager.PositionToTilePosition(PathTarget.Value), PathChainElement.PathChainElementType.MOVE_ON_PLATFORM));
+            PathChain.AddLast(new PathChainElement(TileManager.PositionToTilePosition(PathTarget.Value.Position), PathChainElement.PathChainElementType.MOVE_ON_PLATFORM));
         }
     }
 }

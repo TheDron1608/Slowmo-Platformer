@@ -8,11 +8,11 @@ public class ChaseNearestEnemyAI : AbstractAIPathfindingMovingAndJumping
     {
         if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null)
         {
-            _selfStateBehaviourAI.Pathfinding.PathTarget = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.transform.position;
+            _selfStateBehaviourAI.Pathfinding.PathTarget = new(_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.transform.position, gameObject);
         }
         else if (RememberLastEnemyPosition && _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.HasValue)
         {
-            _selfStateBehaviourAI.Pathfinding.PathTarget = _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition;
+            _selfStateBehaviourAI.Pathfinding.PathTarget = new(_selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.Value, gameObject);
         }
         else
         {

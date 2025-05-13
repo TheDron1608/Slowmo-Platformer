@@ -6,6 +6,54 @@ using UnityEngine;
 
 public abstract class AbstractAIPathfinding : AbstractAIInfo
 {
+    public struct PathPosition
+    {
+        public Vector2Int Position;
+        public ZIndexLayer Layer;
+
+        public PathPosition(Vector2Int position, ZIndexLayer layer)
+        {
+            Position = position;
+            Layer = layer;
+        }
+        public PathPosition(Vector2 position, ZIndexLayer layer)
+        {
+            Position = TileManager.PositionToTilePosition(position);
+            Layer = layer;
+        }
+        public PathPosition(Vector2Int position, GameObject pathFinder)
+        {
+            Position = position;
+            Layer = LayerManager.Instance.GetZLayerOfGameObject(pathFinder);
+        }
+        public PathPosition(Vector2 position, GameObject pathFinder)
+        {
+            Position = TileManager.PositionToTilePosition(position);
+            Layer = LayerManager.Instance.GetZLayerOfGameObject(pathFinder);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PathPosition position &&
+                   Position.Equals(position.Position) &&
+                   EqualityComparer<ZIndexLayer>.Default.Equals(Layer, position.Layer);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Position, Layer);
+        }
+
+        public static bool operator == (PathPosition a, PathPosition b)
+        {
+            return a.Position == b.Position && a.Layer == b.Layer;
+        }
+        public static bool operator != (PathPosition a, PathPosition b)
+        {
+            return !(a == b);
+        }
+    }
+
     public struct PathChainElement
     {
         public enum PathChainElementType
@@ -18,18 +66,24 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
 
         public Vector2Int TargetPosition;
         public PathChainElementType Type;
+        public Interactable RequiredIteractableToContinue;
 
         public PathChainElement (Vector2Int targetPosition, PathChainElementType type)
         {
             TargetPosition = targetPosition;
             Type = type;
+            RequiredIteractableToContinue = null;
+        }
+        public PathChainElement(Vector2Int targetPosition, PathChainElementType type, Interactable requiredInteractableToContinue)
+        {
+            TargetPosition = targetPosition;
+            Type = type;
+            RequiredIteractableToContinue = requiredInteractableToContinue;
         }
     }
 
     private LinkedList<PathChainElement> _pathChain = new();
-    private Vector2? _pathTarget;
-
-    protected Vector2Int? _startTarget;
+    private PathPosition? _pathTarget;
 
     public event EventHandler OnPathUpdated;
 
@@ -39,7 +93,7 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
         protected set => _pathChain = value;
     }
 
-    public Vector2? PathTarget
+    public PathPosition? PathTarget
     {
         get => _pathTarget;
         set
@@ -55,8 +109,8 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
 
     public void Debug_DrawChain(Color color, float duration, PathChainElement? singleChain = null)
     {
-        if (PathChain == null || PathChain.Count == 0) return;
-        var currentChain = PathChain.First;
+        if (PathChain == null || PathChain.Count <= 1) return;
+        var currentChain = PathChain.First.Next;
         do
         {
             if (singleChain.HasValue && currentChain.Value.TargetPosition != singleChain.Value.TargetPosition)
@@ -67,19 +121,7 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
 
             Debug.DrawLine(
                 currentChain.Value.TargetPosition + new Vector2(0.5f, 0.5f),
-                (currentChain.Previous?.Value.TargetPosition ?? _startTarget.Value) + new Vector2(0.5f, 0.5f),
-                color,
-                duration
-                );
-            Debug.DrawLine(
-                currentChain.Value.TargetPosition + new Vector2(0.4f, 0.4f),
-                currentChain.Value.TargetPosition + new Vector2(0.6f, 0.6f),
-                color,
-                duration
-                );
-            Debug.DrawLine(
-                currentChain.Value.TargetPosition + new Vector2(0.4f, 0.6f),
-                currentChain.Value.TargetPosition + new Vector2(0.6f, 0.4f),
+                currentChain.Previous.Value.TargetPosition + new Vector2(0.5f, 0.5f),
                 color,
                 duration
                 );

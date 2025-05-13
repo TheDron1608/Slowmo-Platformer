@@ -20,9 +20,9 @@ public class DefaultAIPathfindingDependsOnCurrentWeapon : DefaultAIPathfinding
             CanJumpToTarget = true;
         }
 
-        if (PathTarget.HasValue && Vector2.Distance(PathTarget.Value, CharComponents.transform.position) < MinDistanceToTargetWithRangedWeapon)
+        if (PathTarget.HasValue && Vector2.Distance(PathTarget.Value.Position, CharComponents.transform.position) < MinDistanceToTargetWithRangedWeapon)
         {
-            PathTarget = CharComponents.transform.position;
+            PathTarget = new(CharComponents.transform.position, gameObject);
         }
 
         base.OnUpdateInfo();

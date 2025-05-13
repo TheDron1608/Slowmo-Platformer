@@ -24,7 +24,7 @@ public class RunAwayAtCurentPlatform : AbstractAIPathfindingMovingAndJumping
 
                 if (targetPosition != characterTilePosition)
                 {
-                    _selfStateBehaviourAI.Pathfinding.PathTarget = targetPosition;
+                    _selfStateBehaviourAI.Pathfinding.PathTarget = new(targetPosition, gameObject);
                 }
                 else
                 {

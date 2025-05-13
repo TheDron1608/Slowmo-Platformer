@@ -61,10 +61,10 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
             switch (_currentPatrollDirection)
             {
                 case PatrollDirection.LEFT:
-                    _selfStateBehaviourAI.Pathfinding.PathTarget = new Vector2(currentPlatform.Position.x, currentPlatform.Position.y + 1);
+                    _selfStateBehaviourAI.Pathfinding.PathTarget = new(new Vector2Int(currentPlatform.Position.x, currentPlatform.Position.y + 1), gameObject);
                     break;
                 case PatrollDirection.RIGHT:
-                    _selfStateBehaviourAI.Pathfinding.PathTarget = new Vector2(currentPlatform.TailPositionX, currentPlatform.Position.y + 1);
+                    _selfStateBehaviourAI.Pathfinding.PathTarget = new(new Vector2Int(currentPlatform.TailPositionX, currentPlatform.Position.y + 1), gameObject);
                     break;
                 case PatrollDirection.NO_MOVE:
                     _selfStateBehaviourAI.Pathfinding.PathTarget = null;

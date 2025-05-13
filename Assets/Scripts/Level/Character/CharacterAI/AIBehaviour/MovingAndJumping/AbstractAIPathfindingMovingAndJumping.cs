@@ -37,13 +37,13 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         if (_awaitingUpdateChain && CharComponents.CharacterCollision.IsCollidingFloor() && !CharComponents.CharacterVisual.IsBusy())
         {
             _awaitingUpdateChain = false;
-            _currentChain = _selfStateBehaviourAI.Pathfinding.PathChain.First;
+            _currentChain = _selfStateBehaviourAI.Pathfinding.PathChain?.First;
             while (_currentChain != null && _currentChain.Value.TargetPosition == characterTilePosition)
             {
-                _currentChain = _currentChain?.Next;
+                OnReachedChainTarget();
             }
         }
-        else if (_selfStateBehaviourAI.Pathfinding.PathTarget.HasValue && TileManager.PositionToTilePosition(_selfStateBehaviourAI.Pathfinding.PathTarget.Value) == characterTilePosition)
+        else if (_selfStateBehaviourAI.Pathfinding.PathTarget.HasValue && _selfStateBehaviourAI.Pathfinding.PathTarget.Value.Position == characterTilePosition)
         {
             _awaitingUpdateChain = false;
             _currentChain = null;
@@ -114,6 +114,11 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
 
     private void OnReachedChainTarget()
     {
+        if (_currentChain.Value.RequiredIteractableToContinue)
+        {
+            _currentChain.Value.RequiredIteractableToContinue.Interact(CharComponents.gameObject);
+        }
+
         _currentChain = _currentChain?.Next;
         UpdateActionsToReachPathTarget();
     }
