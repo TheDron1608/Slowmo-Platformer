@@ -30,17 +30,17 @@ public abstract class Interactable : SelectableObject
         return _currentInteractor != null;
     }
 
-    public void ForceInteract(GameObject interactor)
+    public bool ForceInteract(GameObject interactor)
     {
         StopInteract();
-        Interact(interactor);
+        return TryInteract(interactor);
     }
 
-    public void Interact(GameObject interactor)
+    public bool TryInteract(GameObject interactor)
     {
         OnPreInteract(interactor);
 
-        if (!StartInteractCondition(interactor)) return;
+        if (!StartInteractCondition(interactor)) return false;
 
         OnStartInteact(interactor);
 
@@ -53,6 +53,7 @@ public abstract class Interactable : SelectableObject
             }
             characterVisual.OnBusyStateChanged += CharacterVisual_OnFirstBusyStateChanged;
         }
+        return true;
     }
 
     private void CharacterVisual_OnFirstBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)

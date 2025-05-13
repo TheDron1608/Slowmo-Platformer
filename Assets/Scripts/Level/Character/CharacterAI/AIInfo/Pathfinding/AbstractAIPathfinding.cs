@@ -98,12 +98,9 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
         get => _pathTarget;
         set
         {
-            if (_pathTarget != value)
-            {
-                _pathTarget = value;
-                TryUpdateInfo();
-                OnPathUpdated?.Invoke(this, EventArgs.Empty);
-            }
+            _pathTarget = value;
+            TryUpdateInfo();
+            OnPathUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 

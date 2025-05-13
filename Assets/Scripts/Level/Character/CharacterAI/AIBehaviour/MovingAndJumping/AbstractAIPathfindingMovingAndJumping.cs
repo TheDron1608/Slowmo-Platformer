@@ -116,7 +116,10 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     {
         if (_currentChain.Value.RequiredIteractableToContinue)
         {
-            _currentChain.Value.RequiredIteractableToContinue.Interact(CharComponents.gameObject);
+            if (!_currentChain.Value.RequiredIteractableToContinue.TryInteract(CharComponents.gameObject))
+            {
+                _selfStateBehaviourAI.Pathfinding.PathTarget = null;
+            }
         }
 
         _currentChain = _currentChain?.Next;

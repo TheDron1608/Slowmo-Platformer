@@ -186,7 +186,7 @@ public class CharacterPlayerInputHandler : AbstractCharacterComponent
     {
         if (CurrentSelectedInteractObject != null)
         {
-            CurrentSelectedInteractObject.Interact(gameObject);
+            CurrentSelectedInteractObject.TryInteract(gameObject);
         }
     }
 
