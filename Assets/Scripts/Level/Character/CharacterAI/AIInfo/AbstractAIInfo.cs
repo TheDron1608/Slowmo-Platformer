@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[DefaultExecutionOrder(3)]
 public abstract class AbstractAIInfo : AbstractCharacterComponent
 {
     protected const float UPDATE_AI_DELAY_SECONDS = 0.1f;

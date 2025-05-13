@@ -59,15 +59,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 584405282924284992, guid: 220b525f0a7a2cb4aaf15e9957a53c8f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1786416320470853634}
-    - targetCorrespondingSourceObject: {fileID: 584405282924284992, guid: 220b525f0a7a2cb4aaf15e9957a53c8f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3769380218862096242}
-    - targetCorrespondingSourceObject: {fileID: 584405282924284992, guid: 220b525f0a7a2cb4aaf15e9957a53c8f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9206490842334613276}
-    - targetCorrespondingSourceObject: {fileID: 584405282924284992, guid: 220b525f0a7a2cb4aaf15e9957a53c8f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8917850849881882699}
   m_SourcePrefab: {fileID: 100100000, guid: 220b525f0a7a2cb4aaf15e9957a53c8f, type: 3}
 --- !u!1 &2216794431347360548 stripped
 GameObject:
@@ -92,51 +83,7 @@ MonoBehaviour:
   Rolling: {fileID: 0}
   MovingAndJumping: {fileID: 0}
   GrabbingAndThrowing: {fileID: 0}
-  NearestEnemyInfo: {fileID: 3769380218862096242}
-  Pathfinding: {fileID: 9206490842334613276}
-  PrefferedHoldable: {fileID: 8917850849881882699}
+  NearestEnemyInfo: {fileID: 0}
+  Pathfinding: {fileID: 0}
+  PrefferedHoldable: {fileID: 0}
   AwaitTimeWithoutEnemiesToGetCalm: 5
---- !u!114 &3769380218862096242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2216794431347360548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d998b86c7b947c42ad9d3716d1ddc99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxEnemyDetectRange: 10
---- !u!114 &9206490842334613276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2216794431347360548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff50d9c2ae90c134aa916b6b0b92cef3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8917850849881882699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2216794431347360548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 954a5d984c2e239449cbc4a16420ef29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxWeaponDetectRange: 5
-  MinWeaponPriority: 1
-  CanPickUpRangedWeapon: 1
-  CanPickMeleeWeapon: 1
-  CanPickUpOnlyWhitelistItems: 0
-  WhitelistItems: []
-  CanCatchDangerousHoldable: 0

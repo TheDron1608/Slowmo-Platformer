@@ -17,9 +17,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 240333787328191045}
     - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      propertyPath: Pathfinding
+      value: 
+      objectReference: {fileID: 1873954419817209943}
+    - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       propertyPath: MovingAndJumping
       value: 
       objectReference: {fileID: 3080428763642833016}
+    - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      propertyPath: NearestEnemyInfo
+      value: 
+      objectReference: {fileID: 5010661093674508445}
+    - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      propertyPath: PrefferedHoldable
+      value: 
+      objectReference: {fileID: 5167105316368865448}
     - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       propertyPath: GrabbingAndThrowing
       value: 
@@ -73,17 +85,26 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
-      insertIndex: 2
+      insertIndex: -1
       addedObject: {fileID: 5757821696126237155}
     - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
-      insertIndex: 3
+      insertIndex: -1
       addedObject: {fileID: 240333787328191045}
     - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
-      insertIndex: 4
+      insertIndex: -1
       addedObject: {fileID: 3080428763642833016}
     - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
-      insertIndex: 5
+      insertIndex: -1
       addedObject: {fileID: 4957829180631412234}
+    - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5010661093674508445}
+    - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1873954419817209943}
+    - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5167105316368865448}
   m_SourcePrefab: {fileID: 100100000, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
 --- !u!1 &8106446274005828810 stripped
 GameObject:
@@ -142,3 +163,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f25bd44ef933124f91d70b1650fa41e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5010661093674508445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106446274005828810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d998b86c7b947c42ad9d3716d1ddc99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxEnemyDetectRange: 10
+--- !u!114 &1873954419817209943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106446274005828810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff50d9c2ae90c134aa916b6b0b92cef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5167105316368865448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106446274005828810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 954a5d984c2e239449cbc4a16420ef29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxWeaponDetectRange: 5
+  MinWeaponPriority: 1
+  CanCatchDangerousHoldable: 0

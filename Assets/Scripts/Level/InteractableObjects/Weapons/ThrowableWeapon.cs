@@ -23,7 +23,6 @@ public abstract class ThrowableWeapon : Weapon
         }
     }
 
-
     private void Awake()
     {
         OnAwake();

@@ -13,9 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6738345230845254329}
     - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      propertyPath: Pathfinding
+      value: 
+      objectReference: {fileID: 3411608627013276548}
+    - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       propertyPath: MovingAndJumping
       value: 
       objectReference: {fileID: 7741247061267911413}
+    - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      propertyPath: NearestEnemyInfo
+      value: 
+      objectReference: {fileID: 1978577951770494429}
+    - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      propertyPath: PrefferedHoldable
+      value: 
+      objectReference: {fileID: 1492247659187579170}
     - target: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       propertyPath: m_Name
       value: OnNoEnemiesForSomeTimeStateBehaviourAI-Default
@@ -65,11 +77,20 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
-      insertIndex: 2
+      insertIndex: -1
       addedObject: {fileID: 6738345230845254329}
     - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
-      insertIndex: 3
+      insertIndex: -1
       addedObject: {fileID: 7741247061267911413}
+    - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1978577951770494429}
+    - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3411608627013276548}
+    - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1492247659187579170}
   m_SourcePrefab: {fileID: 100100000, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
 --- !u!1 &8526114894177685755 stripped
 GameObject:
@@ -102,3 +123,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PatroolSpeedMultiplier: 0.8
   OnReachedPatformEndAwaitingTime: 3.5
+--- !u!114 &1978577951770494429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8526114894177685755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d998b86c7b947c42ad9d3716d1ddc99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxEnemyDetectRange: 10
+--- !u!114 &3411608627013276548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8526114894177685755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff50d9c2ae90c134aa916b6b0b92cef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1492247659187579170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8526114894177685755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2901b2a720a2f2d4ba9e7fdc80616853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxWeaponDetectRange: 5
+  MinWeaponPriority: 1
+  CanCatchDangerousHoldable: 0

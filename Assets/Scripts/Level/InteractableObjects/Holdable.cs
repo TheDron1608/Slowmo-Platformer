@@ -185,11 +185,6 @@ public class Holdable : Interactable
         if (_isStuck) return;
         if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder) return;
 
-        if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToGetThrough)
-        {
-            StuckedToCollider = collision.collider;
-        }
-
         if (charComponent != null && GetIsDangerouslyFast())
         {
             RaycastHit2D[] hits = Physics2D.RaycastAll(
@@ -207,6 +202,11 @@ public class Holdable : Interactable
                     }
                 }
             }
+        }
+
+        if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToGetThrough)
+        {
+            StuckedToCollider = collision.collider;
         }
 
         _rigidBodyComponent.gravityScale = 1f;
@@ -233,6 +233,11 @@ public class Holdable : Interactable
     {
         get => _lastHolder;
         private set => _lastHolder = value;
+    }
+
+    public bool GetIsDangerousAsThrowable(CharacterHoldingObjects thrower)
+    {
+        return thrower.ThrowForce * ThrowForceMultiplier >= SpeedToHitCharacter;
     }
 
     public void Give(CharacterHoldingObjects newHolder)

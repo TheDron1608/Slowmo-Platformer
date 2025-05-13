@@ -23,7 +23,7 @@ PrefabInstance:
     - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       propertyPath: PrefferedHoldable
       value: 
-      objectReference: {fileID: 3104622704241835584}
+      objectReference: {fileID: 7766500450207064679}
     - target: {fileID: 2022757651714738705, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       propertyPath: m_Name
       value: DefaultStateBehaviourAI-Default
@@ -83,7 +83,7 @@ PrefabInstance:
       addedObject: {fileID: 6534608384644892170}
     - targetCorrespondingSourceObject: {fileID: 2022757651714738705, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3104622704241835584}
+      addedObject: {fileID: 7766500450207064679}
   m_SourcePrefab: {fileID: 100100000, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
 --- !u!1 &4311263859851396751 stripped
 GameObject:
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff50d9c2ae90c134aa916b6b0b92cef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3104622704241835584
+--- !u!114 &7766500450207064679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,12 +136,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4311263859851396751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3068820388bdc604085f3db2f5dd8db9, type: 3}
+  m_Script: {fileID: 11500000, guid: 2901b2a720a2f2d4ba9e7fdc80616853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MaxWeaponDetectRange: 5
   MinWeaponPriority: 1
-  CanPickUpRangedWeapon: 1
-  CanPickMeleeWeapon: 1
-  CanPickUpOnlyWhitelistItems: 0
-  WhitelistItems: []
+  CanCatchDangerousHoldable: 0
