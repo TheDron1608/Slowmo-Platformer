@@ -4,11 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[DefaultExecutionOrder(4)]
+[DefaultExecutionOrder(5)]
 public abstract class AbstractCharacterStateBehaviourAI : AbstractCharacterComponent, IComparable<AbstractCharacterStateBehaviourAI>
 {
     /// <summary>
-    /// updates every AbstractCharacterStateBehaviourAI at CharacterAIManager by their UpdateOrder asending (i.e. the less value, the earlier update)
+    /// updates every AbstractCharacterStateBehaviourAI at CharacterAIManager by their UpdateOrder desending (i.e. the higher value, the earlier update)
     /// </summary>
     public int UpdateOrder = 0;
     [Header("AIBehaviour")]

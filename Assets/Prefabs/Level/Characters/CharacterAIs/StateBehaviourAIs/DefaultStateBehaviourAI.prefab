@@ -77,11 +77,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d2dd5e3e924d74eb4d388368063281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpdateOrder: 1000
+  UpdateOrder: 0
   Attacking: {fileID: 0}
   Reloading: {fileID: 0}
   Rolling: {fileID: 0}
   MovingAndJumping: {fileID: 0}
+  GrabbingAndThrowing: {fileID: 0}
   NearestEnemyInfo: {fileID: 0}
-  AIPathfinding: {fileID: 0}
-  NearestPrefferedHoldable: {fileID: 0}
+  Pathfinding: {fileID: 0}
+  PrefferedHoldable: {fileID: 0}

@@ -9,12 +9,20 @@ public class NoEnemiesForSomeTimeStateBehaviourAI : AbstractCharacterStateBehavi
     [Header("Behaviour Condition Parameters")]
     public float AwaitTimeWithoutEnemiesToGetCalm = 5f;
 
+    private bool _noEnemies = true;
+
     public override bool StateBehaviourCondition()
     {
-        return 
-            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour != null &&
-            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.NearestEnemy == null &&
-            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.NearestEnemyInfo.TimeSinceLastEnemyDetection > AwaitTimeWithoutEnemiesToGetCalm;
+        if (CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.NearestEnemyInfo.NearestEnemy != null)
+        {
+            _noEnemies = false;
+        }
+        else if (CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.NearestEnemyInfo.TimeSinceLastEnemyDetection > AwaitTimeWithoutEnemiesToGetCalm)
+        {
+            _noEnemies = true;
+        }
+
+        return _noEnemies;
     }
 
 }

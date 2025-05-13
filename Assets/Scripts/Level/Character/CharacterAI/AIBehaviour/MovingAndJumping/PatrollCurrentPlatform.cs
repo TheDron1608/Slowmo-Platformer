@@ -1,22 +1,25 @@
+using System.Collections;
 using UnityEngine;
 
-public class PatroolCurrentPlatform : AbstractAIPathfindingMovingAndJumping
+public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
 {
     public float PatroolSpeedMultiplier = 0.8f;
+    public float OnReachedPatformEndAwaitingTime = 1f;
 
-    private enum PatroolDirection
+    private enum PatrollDirection
     {
         LEFT,
         RIGHT,
         NO_MOVE,
-        PICK_RANDOM
+        UNSET
     }
 
-    private PatroolDirection _currentPatroolDirection = PatroolDirection.PICK_RANDOM;
+    private PatrollDirection _currentPatrollDirection = PatrollDirection.UNSET;
+    private Coroutine _currentPatrollDirectionSetCoroutine = null;
 
     private void OnEnable()
     {
-        _currentPatroolDirection = PatroolDirection.PICK_RANDOM;
+        _currentPatrollDirection = PatrollDirection.UNSET;
         CharComponents.CharacterMoving.Speed *= PatroolSpeedMultiplier;
     }
 
@@ -34,30 +37,36 @@ public class PatroolCurrentPlatform : AbstractAIPathfindingMovingAndJumping
         {
             if (currentPlatform.Width == 1)
             {
-                _currentPatroolDirection = PatroolDirection.NO_MOVE;
+                _currentPatrollDirection = PatrollDirection.NO_MOVE;
             }
             else if (characterTilePosition == new Vector2Int(currentPlatform.Position.x, currentPlatform.Position.y + 1))
             {
-                _currentPatroolDirection = PatroolDirection.RIGHT;
+                if (_currentPatrollDirectionSetCoroutine == null)
+                {
+                    _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(PatrollDirection.RIGHT));
+                }
             }
             else if (characterTilePosition == new Vector2Int(currentPlatform.TailPositionX, currentPlatform.Position.y + 1))
             {
-                _currentPatroolDirection = PatroolDirection.LEFT;
+                if (_currentPatrollDirectionSetCoroutine == null)
+                {
+                    _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(PatrollDirection.LEFT));
+                }
             }
-            else if (_currentPatroolDirection == PatroolDirection.PICK_RANDOM)
+            else if (_currentPatrollDirection == PatrollDirection.UNSET)
             {
-                _currentPatroolDirection = Random.value > 0.5f ? PatroolDirection.LEFT : PatroolDirection.RIGHT;
+                _currentPatrollDirection = CharComponents.CharacterVisual.FlippedH ? PatrollDirection.LEFT : PatrollDirection.RIGHT;
             }
 
-            switch (_currentPatroolDirection)
+            switch (_currentPatrollDirection)
             {
-                case PatroolDirection.LEFT:
+                case PatrollDirection.LEFT:
                     _selfStateBehaviourAI.Pathfinding.PathTarget = new Vector2(currentPlatform.Position.x, currentPlatform.Position.y + 1);
                     break;
-                case PatroolDirection.RIGHT:
+                case PatrollDirection.RIGHT:
                     _selfStateBehaviourAI.Pathfinding.PathTarget = new Vector2(currentPlatform.TailPositionX, currentPlatform.Position.y + 1);
                     break;
-                case PatroolDirection.NO_MOVE:
+                case PatrollDirection.NO_MOVE:
                     _selfStateBehaviourAI.Pathfinding.PathTarget = null;
                     break;
             }
@@ -66,5 +75,12 @@ public class PatroolCurrentPlatform : AbstractAIPathfindingMovingAndJumping
         {
             _selfStateBehaviourAI.Pathfinding.PathTarget = null;
         }
+    }
+
+    private IEnumerator SetPatrollDirectionAfterDelay(PatrollDirection value)
+    {
+        yield return new WaitForSeconds(OnReachedPatformEndAwaitingTime);
+        _currentPatrollDirection = value;
+        _currentPatrollDirectionSetCoroutine = null;
     }
 }

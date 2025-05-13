@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[DefaultExecutionOrder(5)]
+[DefaultExecutionOrder(6)]
 public class CharacterAIManager : AbstractCharacterComponent
 {
     [SerializeField] private List<AbstractCharacterStateBehaviourAI> _stateBehaviourAIs;
@@ -43,7 +43,7 @@ public class CharacterAIManager : AbstractCharacterComponent
     private void UpdateStateBehaviourAIs()
     {
         _stateBehaviourAIs = transform.GetComponentsInChildren<AbstractCharacterStateBehaviourAI>(false).ToList();
-        _stateBehaviourAIs.Sort();
+        _stateBehaviourAIs.OrderByDescending(state => state.UpdateOrder);
         for (int i = 0; i <  _stateBehaviourAIs.Count; i++)
         {
             _stateBehaviourAIs[i].SetEnabledBehaviours(false);
