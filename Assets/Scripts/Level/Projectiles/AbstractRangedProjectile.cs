@@ -109,6 +109,27 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         }
     }
 
+    public override void OnDeflected(MeleeProjectile deflector)
+    {
+        switch (deflector.RangedProjectileDeflection)
+        {
+            case MeleeProjectile.RangedProjectileDeflectionType.NO_DEFLECT:
+                break;
+            case MeleeProjectile.RangedProjectileDeflectionType.ABSORB_PROJECTILE:
+                RemoveSelf();
+                break;
+            case MeleeProjectile.RangedProjectileDeflectionType.DEFLECT_PROJECTILE:
+                MoveAlignVec2 = Vector2.Reflect(MoveAlignVec2, VectorMath.Quartenion2DToVec2(Quaternion.FromToRotation(deflector.transform.position, transform.position)));
+                break;
+            case MeleeProjectile.RangedProjectileDeflectionType.DEFLECT_PROJECTILE_TO_ENEMY:
+                Debug.DrawLine(transform.position, Owner.CharComponents.Center.transform.position, Color.red, 1f);
+                MoveAlignVec2 = -VectorMath.Quartenion2DToVec2(Quaternion.FromToRotation(transform.position, Owner.CharComponents.Center.transform.position));
+                break;
+        }
+        
+        base.OnDeflected(deflector);
+    }
+
     private void LateUpdate()
     {
         _positionPreviousFrame = transform.position;

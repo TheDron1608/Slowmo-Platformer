@@ -78,6 +78,11 @@ public abstract class AbstractProjectile : MonoBehaviour
         }
     }
 
+    public virtual void OnDeflected(MeleeProjectile deflector)
+    {
+        Owner = deflector.Owner;
+    }
+
     public void RemoveSelf()
     {
         if (Weapon != null)

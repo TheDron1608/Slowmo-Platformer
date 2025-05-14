@@ -8,7 +8,8 @@ public class MeleeProjectile : AbstractProjectile
     {
         NO_DEFLECT,
         ABSORB_PROJECTILE,
-        DEFLECT_PROJECTILE
+        DEFLECT_PROJECTILE,
+        DEFLECT_PROJECTILE_TO_ENEMY
     }
     public enum MeleerojectileDeflectionType
     {
@@ -19,6 +20,7 @@ public class MeleeProjectile : AbstractProjectile
     }
 
     public float WallKnockback = 5f;
+    public RangedProjectileDeflectionType RangedProjectileDeflection = RangedProjectileDeflectionType.DEFLECT_PROJECTILE;
 
     private bool _didHitAnyWallOnce = false;
     private Rigidbody2D _rigidBody;
@@ -72,7 +74,12 @@ public class MeleeProjectile : AbstractProjectile
         // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
         for (int i = 0; i < hitObjects.Length; i++)
         {
-            if (HitCondition(hitObjects, hitObjects[i]))
+            if (hitObjects[i].TryGetComponent(out AbstractProjectile projectileHitObject) && projectileHitObject.Owner != Owner)
+            {
+                projectileHitObject.OnDeflected(this);
+                OnDeflect(projectileHitObject);
+            }
+            else if (HitCondition(hitObjects, hitObjects[i]))
             {
                 _currentHittingColliders.Add(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
@@ -122,6 +129,11 @@ public class MeleeProjectile : AbstractProjectile
                 )
             ) &&
             !GetHasWallBetweenHitObject(currentHitObjet);
+    }
+
+    protected virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
+    {
+
     }
 
     private bool GetHasWallBetweenHitObject(Collider2D hitObject)
