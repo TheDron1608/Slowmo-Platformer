@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Build.Pipeline;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine.U2D.IK;
 
 public class CharacterEffects : AbstractCharacterComponent
 {
-    private List<AbstractCharacterEffect> _currentEffects = new();
+    [SerializeField] private List<AbstractCharacterEffect> _currentEffects = new();
     private AbstractCharacterComponent _lastHitter = null;
     private List<AbstractCharacterComponent> _lastOneSecondHitters = new();
 
@@ -23,6 +24,17 @@ public class CharacterEffects : AbstractCharacterComponent
     public List<AbstractCharacterComponent> LastOneSecondHitters
     {
         get => _lastOneSecondHitters;
+    }
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        List<AbstractCharacterEffect> reapplyEffects = _currentEffects.ToList();
+        _currentEffects.Clear();
+        foreach (AbstractCharacterEffect effect in reapplyEffects)
+        {
+            ApplyEffect(effect, null, null);
+        }
     }
 
     public bool GetLastHitterIsCharacter(AbstractCharacterComponent character)

@@ -63,7 +63,7 @@ public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<Abstr
             List<LimbEffectImmunity> affectedLimbImmunityEffects = affectWho.CharacterEffects.GetEffects<LimbEffectImmunity>(affectedLimb);
             for (int i = 0; i < affectedLimbImmunityEffects.Count; i++)
             {
-                if ((affectedLimbImmunityEffects[i].ImmuneTo as AbstractCharacterEffect).Equals(this))
+                if (affectedLimbImmunityEffects[i].ImmuneTo.Equals(this))
                 {
                     return false;
                 }
@@ -74,7 +74,7 @@ public abstract class AbstractCharacterEffect : MonoBehaviour, IComparable<Abstr
         List<EffectImmunity> affectedImmunityEffects = affectWho.CharacterEffects.GetEffects<EffectImmunity>();
         for (int i = 0; i < affectedImmunityEffects.Count; i++)
         {
-            if (affectedImmunityEffects.Equals(this))
+            if (affectedImmunityEffects[i].ImmuneTo.Equals(this))
             {
                 return false;
             }
