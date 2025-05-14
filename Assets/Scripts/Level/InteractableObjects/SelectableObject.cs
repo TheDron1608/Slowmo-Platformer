@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class SelectableObject : MonoBehaviour
 {
     const float SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER = 5f;
+    const float SELECTED_COLOR_DARKNESS = 0.64f;
 
     [Header("Selectable")]
     /// <summary>
@@ -14,10 +15,11 @@ public class SelectableObject : MonoBehaviour
     /// </summary>
 
     public float SelectMaxRangeMultiplier = 1f; //value between 0 and 1
-    public float SelectedColorDarkness = 0.64f; //value between 0 and 256
 
     [SerializeField]
     protected SpriteRenderer _spriteRendererComponent;
+    private Coroutine SelectProcessCoroutine = null;
+    private float _currentDarknessProgress = 0f;
 
     private bool _selected = false;
     public bool Selected
@@ -29,14 +31,22 @@ public class SelectableObject : MonoBehaviour
             {
                 if (!_selected)
                 {
-                    StartCoroutine(SelectProcess(true));
+                    if (SelectProcessCoroutine != null)
+                    {
+                        StopCoroutine(SelectProcessCoroutine);
+                    }
+                    SelectProcessCoroutine = StartCoroutine(SelectProcess(true));
                 }
             }
             else
             {
                 if (_selected)
                 {
-                    StartCoroutine(SelectProcess(false));
+                    if (SelectProcessCoroutine != null)
+                    {
+                        StopCoroutine(SelectProcessCoroutine);
+                    }
+                    SelectProcessCoroutine = StartCoroutine(SelectProcess(false));
                 }
             }
             _selected = value;
@@ -47,11 +57,9 @@ public class SelectableObject : MonoBehaviour
     {
         float StepMultiplier = (selected ? 1f : -1f) * SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER;
 
-        float colorDarknessProgress = 0f;
-
-        while (colorDarknessProgress < SelectedColorDarkness)
+        while (selected ? _currentDarknessProgress < SELECTED_COLOR_DARKNESS : _currentDarknessProgress > 0f)
         {
-            colorDarknessProgress += Time.deltaTime * SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER;
+            _currentDarknessProgress += Time.deltaTime * StepMultiplier;
             _spriteRendererComponent.color = new Color(
                 _spriteRendererComponent.color.r - Time.deltaTime * StepMultiplier,
                 _spriteRendererComponent.color.g - Time.deltaTime * StepMultiplier,
