@@ -13,6 +13,7 @@ public class CharacterJumping : AbstractCharacterComponent
     public float JumpOffWallForce = 7.5f;
     public int AirJumps = 0;
     public float JumpLimitForceMultiplier = 10f;
+    public bool CanForceStopRollingOnJump = false;
 
     private int _airJumpsLeft = 0;
     private bool _isJumping = false;
@@ -64,7 +65,21 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void TryStartJump()
     {
-        if ((CharComponents.CharacterVisual.IsBusy() && CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE) || !IsAbleToJump) return;
+        if (
+            (
+                (CharComponents.CharacterVisual.IsBusy() && !(CanForceStopRollingOnJump && CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.ROLL)) && 
+                CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE
+            ) || 
+            !IsAbleToJump
+            )
+        {
+            return;
+        }
+
+        if (CanForceStopRollingOnJump)
+        {
+            CharComponents.CharacterRolling.ForceStopRolling();
+        }
 
         if (CharComponents.CharacterClumsyness.ClumsyJumping && CharComponents.CharacterCollision.IsCollidingFloor())
         {
