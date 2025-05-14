@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 {
     public InputActionReference GrabActionReference;
+    public float GrabDangerousHoldablesExtraRange = 2.5f;
 
     private Holdable _currentSelectedGrabObject = null;
 
@@ -43,7 +44,13 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
     //GRAB
     private void HandleGrabThrow()
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject == null)
+        if (CurrentSelectedGrabObject?.GetIsDangerouslyFast() ?? false)
+        {
+            CharComponents.CharacterInteract.InteractRange += GrabDangerousHoldablesExtraRange;
+            CharComponents.CharacterHolding.TryGrab(CurrentSelectedGrabObject, true);
+            CharComponents.CharacterInteract.InteractRange -= GrabDangerousHoldablesExtraRange;
+        }
+        else if (CharComponents.CharacterHolding.CurrentHoldObject == null)
         {
             if (CurrentSelectedGrabObject != null)
             {
@@ -63,7 +70,24 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 
     private void UpdateSelectedGrabObject()
     {
-        if (CharComponents.CharacterHolding != null && CharComponents.CharacterHolding.CurrentHoldObject == null)
+        //trying catch dangerous thrown weapon with extra grab range
+        CharComponents.CharacterInteract.InteractRange += GrabDangerousHoldablesExtraRange;
+
+        Holdable avaibleToCatchDangerousHoldable =
+            CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Holdable>(
+                CharComponents.CharacterAiming.GetCurrentAimNormalized(),
+                1 << CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer
+            );
+
+        CharComponents.CharacterInteract.InteractRange -= GrabDangerousHoldablesExtraRange;
+
+        if (avaibleToCatchDangerousHoldable?.GetIsDangerouslyFast() ?? false)
+        {
+            CurrentSelectedGrabObject = avaibleToCatchDangerousHoldable;
+        }
+
+        //if there is no avaible to catch dangerous thrown weapons trying grab holdables regulary without extra range
+        else if (CharComponents.CharacterHolding != null && CharComponents.CharacterHolding.CurrentHoldObject == null)
         {
             CurrentSelectedGrabObject =
                 CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Holdable>(
@@ -71,6 +95,7 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
                     1 << CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer
                 );
         }
+
         else
         {
             CurrentSelectedGrabObject = null;

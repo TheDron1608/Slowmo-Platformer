@@ -154,7 +154,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         int maxJumpWidth = CharComponents.CharacterJumping.GetJumpWidth();
 
         startPlatform = tileManager.GetPlatformUnderPoint(from);
-        tileManager.Debug_MarkTile(from, Color.red, 1f);
         if (startPlatform == null)
         {
             result = null;

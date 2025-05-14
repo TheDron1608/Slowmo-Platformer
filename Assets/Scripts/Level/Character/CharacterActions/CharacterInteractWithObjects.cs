@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterInteractWithObjects : AbstractCharacterComponent
 {
-    const float RAYCASTS_ACROSS_RADIAN_STEP = 0.1f;
+    const float RAYCASTS_ACROSS_RADIAN_STEP = 0.05f;
 
     public float InteractRange = 1f;
 
@@ -42,11 +42,11 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
         for (int i = 0; i < colliders.Length; i++)
         {
             if (
-                !colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent) ||
-                Vector3.Distance(CharComponents.Center.transform.position, colliders[i].transform.position) > selectableObjectComponent.SelectMaxRangeMultiplier * InteractRange
-                ) continue;
-
-            if (selectableObjectComponent is T selectableObjectComponentSorted)
+                colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent) &&
+                Vector3.Distance(CharComponents.Center.transform.position, colliders[i].transform.position) <= selectableObjectComponent.SelectMaxRangeMultiplier * InteractRange &&
+                selectableObjectComponent is T selectableObjectComponentSorted &&
+                (!selectableObjectComponent.TryGetComponent(out Holdable holdable) || holdable.StuckedToCollider != CharComponents.CharacterRigidBodyCapsuleCollider)
+                )
             {
                 result.Add(selectableObjectComponentSorted);
             }
@@ -85,7 +85,8 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
             if (
                 raycastHit.collider.TryGetComponent(out SelectableObject selectableObjectComponent) &&
                 raycastHit.distance <= InteractRange * selectableObjectComponent.SelectMaxRangeMultiplier &&
-                selectableObjectComponent is T sortedSelectableObject
+                selectableObjectComponent is T sortedSelectableObject &&
+                (!selectableObjectComponent.TryGetComponent(out Holdable holdable) || holdable.StuckedToCollider != CharComponents.CharacterRigidBodyCapsuleCollider)
                 )
             {
                 return sortedSelectableObject;
