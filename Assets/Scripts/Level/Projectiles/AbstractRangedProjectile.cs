@@ -119,10 +119,11 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
                 RemoveSelf();
                 break;
             case MeleeProjectile.RangedProjectileDeflectionType.DEFLECT_PROJECTILE:
+                transform.position = _projectileTip.transform.position;
                 MoveAlignVec2 = Vector2.Reflect(MoveAlignVec2, VectorMath.Quartenion2DToVec2(Quaternion.FromToRotation(deflector.transform.position, transform.position)));
                 break;
             case MeleeProjectile.RangedProjectileDeflectionType.DEFLECT_PROJECTILE_TO_ENEMY:
-                Debug.DrawLine(transform.position, Owner.CharComponents.Center.transform.position, Color.red, 1f);
+                transform.position = _projectileTip.transform.position;
                 MoveAlignVec2 = -VectorMath.Quartenion2DToVec2(Quaternion.FromToRotation(transform.position, Owner.CharComponents.Center.transform.position));
                 break;
         }

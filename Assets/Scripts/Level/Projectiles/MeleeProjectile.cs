@@ -11,11 +11,10 @@ public class MeleeProjectile : AbstractProjectile
         DEFLECT_PROJECTILE,
         DEFLECT_PROJECTILE_TO_ENEMY
     }
-    public enum MeleerojectileDeflectionType
+    public enum MeleeProjectileDeflectionType
     {
         NO_DEFLECT,
         ABSORB_PROJECTILE,
-        RESET_COOLDOWN,
         DISARM
     }
 
