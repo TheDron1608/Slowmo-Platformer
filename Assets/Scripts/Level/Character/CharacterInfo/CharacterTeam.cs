@@ -15,8 +15,8 @@ public class CharacterTeam : AbstractCharacterComponent
 
     public List<Teams> CharacterTeams = new();
 
-    public bool GetIsInTeam(Teams team)
+    public bool GetIsAllyToAnotherTeam(CharacterTeam anotherTeam)
     {
-        return CharacterTeams.Contains(team);
+        return NumberMath.GetListContainsAnyItemOfAnotherList(CharacterTeams, anotherTeam.CharacterTeams);
     }
 }

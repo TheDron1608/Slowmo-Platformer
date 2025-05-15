@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DefaultAIPathfindingDependsOnCurrentWeapon : DefaultAIPathfinding
 {
-    public float MinDistanceToTargetWithRangedWeapon = 3f;
-
     protected override void OnUpdateInfo()
     {
         if (
@@ -18,11 +16,6 @@ public class DefaultAIPathfindingDependsOnCurrentWeapon : DefaultAIPathfinding
         else
         {
             CanJumpToTarget = true;
-        }
-
-        if (PathTarget.HasValue && Vector2.Distance(PathTarget.Value.Position, CharComponents.transform.position) < MinDistanceToTargetWithRangedWeapon)
-        {
-            PathTarget = new(CharComponents.transform.position, gameObject);
         }
 
         base.OnUpdateInfo();

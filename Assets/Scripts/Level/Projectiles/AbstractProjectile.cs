@@ -7,6 +7,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     public float Accuracy = 1f;
     public List<AbstractCharacterEffect> HitEffects = new();
     public List<AbstractCharacterEffect> SelfEffects = new();
+    public bool FiendlyFire = false;
 
     private Weapon _weapon;
     private CharacterHoldingObjects _owner;
@@ -78,10 +79,7 @@ public abstract class AbstractProjectile : MonoBehaviour
         }
     }
 
-    public virtual void OnDeflected(MeleeProjectile deflector)
-    {
-        Owner = deflector.Owner;
-    }
+    public abstract void OnDeflected(MeleeProjectile deflector);
 
     public void RemoveSelf()
     {
@@ -106,7 +104,10 @@ public abstract class AbstractProjectile : MonoBehaviour
         return
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
-                charComponent.CharComponents.CharacterHolding != Owner
+                (
+                    charComponent.CharComponents.CharacterHolding != Owner &&
+                    (FiendlyFire || !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(Owner.CharComponents.CharacterTeam))
+                )
             ) &&
             (
                 !currentHitObjet.TryGetComponent(out CharacterHitbox charHitbox) ||
@@ -124,7 +125,10 @@ public abstract class AbstractProjectile : MonoBehaviour
         int currentHighestPriority = currentHitBox.HitPriority;
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].TryGetComponent(out CharacterHitbox charHitbox))
+            if (
+                colliders[i].TryGetComponent(out CharacterHitbox charHitbox) &&
+                AbstractCharacterComponent.GetCharacterComponentsEqual(currentHitBox, charHitbox)
+                )
             {
                 currentHighestPriority = Mathf.Max(currentHighestPriority, charHitbox.HitPriority);
             }

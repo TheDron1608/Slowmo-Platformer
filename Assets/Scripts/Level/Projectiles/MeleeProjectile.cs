@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.Core.Parsing;
 
 public class MeleeProjectile : AbstractProjectile
 {
@@ -14,12 +16,14 @@ public class MeleeProjectile : AbstractProjectile
     public enum MeleeProjectileDeflectionType
     {
         NO_DEFLECT,
-        ABSORB_PROJECTILE,
+        BLOCK,
         DISARM
     }
 
     public float WallKnockback = 5f;
+    public float BlockKnockback = 15f;
     public RangedProjectileDeflectionType RangedProjectileDeflection = RangedProjectileDeflectionType.DEFLECT_PROJECTILE;
+    public MeleeProjectileDeflectionType MeleeProjectileDeflection = MeleeProjectileDeflectionType.BLOCK;
 
     private bool _didHitAnyWallOnce = false;
     private Rigidbody2D _rigidBody;
@@ -59,10 +63,8 @@ public class MeleeProjectile : AbstractProjectile
         return new List<AbstractProjectile>() { newProjectile };
     }
 
-    protected override void OnUpdate()
+    private void FixedUpdate()
     {
-        base.OnUpdate();
-
         List<Collider2D> hitObjectsList = new();
         _rigidBody.Overlap(hitObjectsList);
         Collider2D[] hitObjects = hitObjectsList.ToArray();
@@ -78,16 +80,74 @@ public class MeleeProjectile : AbstractProjectile
                 projectileHitObject.OnDeflected(this);
                 OnDeflect(projectileHitObject);
             }
-            else if (HitCondition(hitObjects, hitObjects[i]))
+            if (HitCondition(hitObjects, hitObjects[i]))
             {
                 _currentHittingColliders.Add(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
             }
         }
+    }
+
+    protected override void OnUpdate()
+    {
+        base.OnUpdate();
 
         if (!Weapon.IsDestroyed())
         {
             transform.position = Weapon.transform.position;
+        }
+    }
+
+    public override void OnDeflected(MeleeProjectile deflector)
+    {
+        switch (deflector.MeleeProjectileDeflection)
+        {
+            case MeleeProjectileDeflectionType.NO_DEFLECT:
+                break;
+
+            case MeleeProjectileDeflectionType.BLOCK:
+                if (deflector.Owner != null && deflector.Weapon.GetComponent<Holdable>() == deflector.Owner.CurrentHoldObject)
+                {
+                    deflector.Owner.CharComponents.CharacterRigidBody.linearVelocity = VectorMath.Quartenion2DToVec2(transform.rotation) * deflector.BlockKnockback;
+                    if (deflector.Owner.CharComponents.CharacterCollision.IsCollidingFloor())
+                    {
+                        deflector.Owner.CharComponents.CharacterRigidBody.linearVelocityY = math.max(3f, deflector.Owner.CharComponents.CharacterRigidBody.linearVelocityY);
+                    }
+                }
+                break;
+
+            case MeleeProjectileDeflectionType.DISARM:
+                if (Owner != null && Weapon.GetComponent<Holdable>() == Owner.CurrentHoldObject)
+                {
+                    Owner.CharComponents.CharacterRigidBody.linearVelocity = VectorMath.Quartenion2DToVec2(deflector.transform.rotation) * BlockKnockback;
+                    if (Owner.CharComponents.CharacterCollision.IsCollidingFloor())
+                    {
+                        Owner.CharComponents.CharacterRigidBody.linearVelocityY = math.max(3f, Owner.CharComponents.CharacterRigidBody.linearVelocityY);
+                    }
+
+                    Owner.CharComponents.CharacterHolding.TryThrow(Owner.CharComponents.CharacterRigidBody.linearVelocity.normalized, 0.5f);
+                }
+                break;
+        }
+    }
+
+    protected virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
+    {
+        switch (MeleeProjectileDeflection)
+        {
+            case MeleeProjectileDeflectionType.NO_DEFLECT:
+                break;
+
+            case MeleeProjectileDeflectionType.BLOCK:
+                if (Owner != null && Weapon.GetComponent<Holdable>() == Owner.CurrentHoldObject)
+                {
+                    Owner.CharComponents.CharacterRigidBody.linearVelocity = VectorMath.Quartenion2DToVec2(defleclectedProjectile.transform.rotation) * BlockKnockback;
+                    if (Owner.CharComponents.CharacterCollision.IsCollidingFloor())
+                    {
+                        Owner.CharComponents.CharacterRigidBody.linearVelocityY = math.max(3f, Owner.CharComponents.CharacterRigidBody.linearVelocityY);
+                    }
+                }
+                break;
         }
     }
 
@@ -117,38 +177,32 @@ public class MeleeProjectile : AbstractProjectile
             base.HitCondition(totalHitObjects, currentHitObjet) &&
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
-                charComponent.CharComponents.CharacterHolding.LastHoldObject == null ||
-                (
-                    charComponent.CharComponents.CharacterHolding.LastHoldObject.TryGetComponent(out Weapon lastWeapon) && 
-                    lastWeapon != Weapon
-                ) ||
-                (
-                    Weapon.TryGetComponent(out Holdable holdableCurrentWepaon) &&
-                    holdableCurrentWepaon.CurrentHolder != null
-                )
+                Owner != charComponent.CharComponents.CharacterHolding
             ) &&
-            !GetHasWallBetweenHitObject(currentHitObjet);
+            GetHasNoBlocksBetweenHitObject(currentHitObjet);
     }
 
-    protected virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
+    private bool GetHasNoBlocksBetweenHitObject(Collider2D hitObject)
     {
-
-    }
-
-    private bool GetHasWallBetweenHitObject(Collider2D hitObject)
-    {
-        RaycastHit2D[] hitObjectsBetween = Physics2D.LinecastAll(transform.position, hitObject.transform.position);
+        RaycastHit2D[] hitObjectsBetween = Physics2D.LinecastAll(
+            transform.position, 
+            hitObject.transform.position,
+            1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EntireLayerMask
+            );
         foreach (RaycastHit2D hitObjectBetween in hitObjectsBetween)
         {
             if (hitObjectBetween.collider == hitObject)
             {
-                return false;
-            }
-            if (hitObjectBetween.collider.tag == LayerManager.ENVIROMENT_TAG_NAME)
-            {
                 return true;
             }
+            if (
+                hitObjectBetween.collider.GetComponent<MeleeProjectile>()?.MeleeProjectileDeflection != MeleeProjectileDeflectionType.NO_DEFLECT ||
+                hitObjectBetween.collider.tag == LayerManager.ENVIROMENT_TAG_NAME
+                )
+            {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 }
