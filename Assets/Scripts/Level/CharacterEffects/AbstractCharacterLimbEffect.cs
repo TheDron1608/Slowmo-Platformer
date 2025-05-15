@@ -4,35 +4,31 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractCharacterLimbEffect : AbstractCharacterEffectWithSender
+public abstract class AbstractCharacterLimbEffect : AbstractEffectWithSender
 {
     private CharacterLimbPart _affectedLimbPart;
 
     public CharacterLimbPart AffectedLimbPart
     {
         get => _affectedLimbPart;
-        private set => _affectedLimbPart = value;
     }
 
-    protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
+    public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        if (receiverPart is CharacterLimbPart charLimb)
-        {
-            AffectedLimbPart = charLimb;
-        }
-        else
-        {
-            throw new UnityException("trying to receiver sender, but receiverPart must be CharacterLimbPart class, received " + receiverPart.GetType().Name + " instead");
-        }
+        return
+            base.ApplyCondition(affectWho, sender) &&
+            affectWho.TryGetComponent(out CharacterLimbPart limbPart) &&
+            limbPart.CharComponents.EntireCharacterEffectsReceiver.ApplyCondition(affectWho, sender);
     }
 
-    public override bool Equals(AbstractCharacterEffect other)
+    protected override void OnApply()
+    {
+        base.OnApply();
+        _affectedLimbPart = AffectedObject.GetComponent<CharacterLimbPart>();
+    }
+
+    public override bool Equals(AbstractEffect other)
     {
         return base.Equals(other) && AffectedLimbPart == (other as AbstractCharacterLimbEffect).AffectedLimbPart;
-    }
-
-    public override void RemoveSelf()
-    {
-        AffectedCharacter.CharacterEffects.RemoveEffect(this, AffectedLimbPart);
     }
 }

@@ -3,21 +3,26 @@ using UnityEngine;
 /// <summary>
 /// will await ApplySender invoke to apply effects
 /// </summary>
-public abstract class AbstractCharacterEffectWithSender : AbstractCharacterEffect
+public abstract class AbstractCharacterEffectWithSender : AbstractEffectWithSender, ICharacterEffect
 {
-    private MonoBehaviour _sender;
+    private CharacterComponentsManager _affectedCharacter;
 
-    public MonoBehaviour Sender
+    public CharacterComponentsManager AffectedCharacter
     {
-        get => _sender;
-        private set => _sender = value;
-    }
-    public void ApplySender(MonoBehaviour sender, CharacterPart receiverPart)
-    {
-        if (sender == null) throw new UnityException("sender argument can not be null");
-        Sender = sender;
-        OnReceivedSender(sender, receiverPart);
+        get => _affectedCharacter;
+        private set => _affectedCharacter = value;
     }
 
-    protected abstract void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart);
+    public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
+    {
+        return
+            base.ApplyCondition(affectWho, sender) &&
+            affectWho.GetComponent<AbstractCharacterComponent>() != null;
+    }
+
+    protected override void OnApply()
+    {
+        base.OnApply();
+        _affectedCharacter = GetComponent<AbstractCharacterComponent>().CharComponents;
+    }
 }
