@@ -111,10 +111,10 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
 
     public override void OnDeflected(MeleeProjectile deflector)
     {
+        if (!deflector.IsAbleTodeflectRangedProjectiles) return;
+
         switch (deflector.RangedProjectileDeflection)
         {
-            case MeleeProjectile.RangedProjectileDeflectionType.NO_DEFLECT:
-                break;
             case MeleeProjectile.RangedProjectileDeflectionType.ABSORB_PROJECTILE:
                 RemoveSelf();
                 break;

@@ -8,21 +8,21 @@ public class MeleeProjectile : AbstractProjectile
 {
     public enum RangedProjectileDeflectionType
     {
-        NO_DEFLECT,
         ABSORB_PROJECTILE,
         DEFLECT_PROJECTILE,
         DEFLECT_PROJECTILE_TO_ENEMY
     }
     public enum MeleeProjectileDeflectionType
     {
-        NO_DEFLECT,
         BLOCK,
         DISARM
     }
 
     public float WallKnockback = 5f;
     public float BlockKnockback = 15f;
+    public bool IsAbleTodeflectRangedProjectiles = true;
     public RangedProjectileDeflectionType RangedProjectileDeflection = RangedProjectileDeflectionType.DEFLECT_PROJECTILE;
+    public bool IsAbleTodeflectMeleeProjectiles = true;
     public MeleeProjectileDeflectionType MeleeProjectileDeflection = MeleeProjectileDeflectionType.BLOCK;
 
     private bool _didHitAnyWallOnce = false;
@@ -100,11 +100,10 @@ public class MeleeProjectile : AbstractProjectile
 
     public override void OnDeflected(MeleeProjectile deflector)
     {
+        if (!deflector.IsAbleTodeflectMeleeProjectiles) return;
+
         switch (deflector.MeleeProjectileDeflection)
         {
-            case MeleeProjectileDeflectionType.NO_DEFLECT:
-                break;
-
             case MeleeProjectileDeflectionType.BLOCK:
                 if (deflector.Owner != null && deflector.Weapon.GetComponent<Holdable>() == deflector.Owner.CurrentHoldObject)
                 {
@@ -133,11 +132,10 @@ public class MeleeProjectile : AbstractProjectile
 
     protected virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
     {
+        if (!IsAbleTodeflectMeleeProjectiles) return;
+
         switch (MeleeProjectileDeflection)
         {
-            case MeleeProjectileDeflectionType.NO_DEFLECT:
-                break;
-
             case MeleeProjectileDeflectionType.BLOCK:
                 if (Owner != null && Weapon.GetComponent<Holdable>() == Owner.CurrentHoldObject)
                 {
@@ -196,7 +194,7 @@ public class MeleeProjectile : AbstractProjectile
                 return true;
             }
             if (
-                hitObjectBetween.collider.GetComponent<MeleeProjectile>()?.MeleeProjectileDeflection != MeleeProjectileDeflectionType.NO_DEFLECT ||
+                (hitObjectBetween.collider.GetComponent<MeleeProjectile>()?.IsAbleTodeflectMeleeProjectiles ?? false) ||
                 hitObjectBetween.collider.tag == LayerManager.ENVIROMENT_TAG_NAME
                 )
             {
