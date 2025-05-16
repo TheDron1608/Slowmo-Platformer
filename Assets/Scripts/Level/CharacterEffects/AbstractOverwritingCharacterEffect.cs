@@ -23,6 +23,6 @@ public abstract class AbstractOverwritingCharacterEffect : AbstractOverwritingEf
     protected override void OnApply()
     {
         base.OnApply();
-        _affectedCharacter = GetComponent<AbstractCharacterComponent>().CharComponents;
+        _affectedCharacter = transform.parent.GetComponent<AbstractCharacterComponent>().CharComponents;
     }
 }

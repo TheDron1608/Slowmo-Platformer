@@ -10,11 +10,11 @@ public class CharacterPartHealth : AbstractCharacterComponent
     public bool CanBleed = false;
     public bool LosingLimbIsLethal = true;
     public float DamageMultiplier = 1.0f;
-    public List<AbstractCharacterEffect> EffectsOnHit = new();
+    public List<AbstractEffect> EffectsOnHit = new();
 
     public void ApplyDamage(float damage, MonoBehaviour damager)
     {
-        CharComponents.CharacterEffects.ApplyEffect(EffectsOnHit, damager, GetComponent<CharacterPart>());
+        GetComponent<CharacterPart>().CharPartEffectsReceiver.ApplyEffect(EffectsOnHit, damager);
         CharComponents.CharacterHealth.ApplyDamage(damage, damager, GetComponent<CharacterPart>());
 
         Vector3 hitPointPosition =
@@ -28,7 +28,7 @@ public class CharacterPartHealth : AbstractCharacterComponent
                 hitPointPosition,
                 transform,
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject),
-                (CharComponents.CharacterEffects.TryGetEffect(out Death death) && death.DiedThisFrame) ? 
+                (CharComponents.CharacterEffectsReceiver.TryGetEffect(out Death death) && death.DiedThisFrame) ? 
                     FluidParticleManager.FluidParticlesSpreadTypes.LETHAL : 
                     FluidParticleManager.FluidParticlesSpreadTypes.DAMAGE,
                 damager.transform.rotation

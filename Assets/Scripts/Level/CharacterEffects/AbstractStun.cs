@@ -3,7 +3,7 @@
     protected override void OnRemove()
     {
         base.OnRemove();
-        if (AffectedCharacter.CharacterEffects.GetEffect<AbstractStun>() == null)
+        if (AffectedCharacter.CharacterEffectsReceiver.GetEffect<AbstractStun>() == null)
         {
             AffectedCharacter.CharacterMoving.IsAbleToMove = true;
             AffectedCharacter.CharacterJumping.IsAbleToJump = true;

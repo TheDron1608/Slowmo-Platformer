@@ -21,9 +21,9 @@ public abstract class Interactable : SelectableObject
     [Header("Interactalbe")]
     public CharacterPartBusyStates AnimationOnStartInteract = CharacterPartBusyStates.NONE;
     public CharacterPartBusyStates AnimationOnFinishInteract = CharacterPartBusyStates.NONE;
-    public List<AbstractCharacterEffect> EffectsOnStartInteract = new();
-    public List<AbstractCharacterEffect> EffectsWhileInteracting = new();
-    public List<AbstractCharacterEffect> EffectsOnFinishInteract = new();
+    public List<AbstractEffect> EffectsOnStartInteract = new();
+    public List<AbstractEffect> EffectsWhileInteracting = new();
+    public List<AbstractEffect> EffectsOnFinishInteract = new();
 
     public bool GetIsOccured()
     {
@@ -128,8 +128,8 @@ public abstract class Interactable : SelectableObject
     {
         if (interactor.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
-            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnStartInteract, this, null);
-            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsWhileInteracting, this, null);
+            charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnStartInteract, this);
+            charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsWhileInteracting, this);
         }
     }
     /// <summary>
@@ -139,8 +139,8 @@ public abstract class Interactable : SelectableObject
     {
         if (interactor.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
-            charComponent.CharComponents.CharacterEffects.RemoveEffect(EffectsWhileInteracting);
-            charComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnFinishInteract, this, null);
+            charComponent.CharComponents.CharacterEffectsReceiver.RemoveEffect(EffectsWhileInteracting);
+            charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnFinishInteract, this);
         }
     }
     /// <summary>

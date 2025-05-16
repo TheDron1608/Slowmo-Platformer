@@ -16,7 +16,7 @@ public class GravityMultiplier : AbstractCharacterEffect
         AffectedCharacter.CharacterRigidBody.gravityScale /= GravityMultiplierAmount;
     }
 
-    public override bool Equals(AbstractCharacterEffect other)
+    public override bool Equals(AbstractEffect other)
     {
         return base.Equals(other) && GravityMultiplierAmount == (other as GravityMultiplier).GravityMultiplierAmount;
     }

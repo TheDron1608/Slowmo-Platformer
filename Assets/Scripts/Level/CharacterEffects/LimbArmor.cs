@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LimbArmor : AbstractCharacterLimbEffect
+public class LimbArmor : AbstractCharacterLimbEffectWithSender
 {
     public enum ArmorPierceResistantLevels : int
     {
@@ -20,10 +20,8 @@ public class LimbArmor : AbstractCharacterLimbEffect
         private set => _armor = value;
     }
 
-    protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
+    protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        base.OnReceivedSender(sender, receiverPart);
-
         if (sender is CharacterEquipmentPart armorPart)
         {
             Armor = armorPart;

@@ -5,8 +5,8 @@ using UnityEngine;
 public abstract class AbstractProjectile : MonoBehaviour
 {
     public float Accuracy = 1f;
-    public List<AbstractCharacterEffect> HitEffects = new();
-    public List<AbstractCharacterEffect> SelfEffects = new();
+    public List<AbstractEffect> HitEffects = new();
+    public List<AbstractEffect> SelfEffects = new();
     public bool FiendlyFire = false;
 
     private Weapon _weapon;
@@ -65,7 +65,7 @@ public abstract class AbstractProjectile : MonoBehaviour
         {
             for (int i = 0; i < projectiles.Count; i++)
             {
-                holderCharComponents.CharacterEffects.ApplyEffect(SelfEffects, projectiles[i], null);
+                holderCharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffects, projectiles[i]);
             }
         }
     }
@@ -74,7 +74,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     {
         if (hitObject.transform.parent.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
-            charComponent.CharComponents.CharacterEffects.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPart>());
+            charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPart>());
             OnHitSomeOne?.Invoke(this, hitObject);
         }
     }

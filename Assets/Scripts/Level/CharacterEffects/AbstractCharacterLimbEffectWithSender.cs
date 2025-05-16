@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class AbstractCharacterLimbEffect : AbstractEffect, ICharacterLimbEffect
+public abstract class AbstractCharacterLimbEffectWithSender : AbstractEffectWithSender, ICharacterLimbEffect
 {
     private CharacterLimbPart _affectedLimbPart;
 

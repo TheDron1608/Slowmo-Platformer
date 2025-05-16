@@ -16,7 +16,7 @@ public class SpeedMultiplier : AbstractCharacterEffect
         AffectedCharacter.CharacterMoving.Speed /= SpeedMultiplierAmount;
     }
 
-    public override bool Equals(AbstractCharacterEffect other)
+    public override bool Equals(AbstractEffect other)
     {
         return base.Equals(other) && SpeedMultiplierAmount == (other as SpeedMultiplier).SpeedMultiplierAmount;
     }

@@ -31,7 +31,7 @@ public class Holdable : Interactable
     public float ThrowRotationForce = 12.5f;
     public float SpeedToHitCharacter = 7.5f;
     public float SpeedToGetThrough = 15f;
-    public List<AbstractCharacterEffect> EffectsOnThrowHit = new();
+    public List<AbstractEffect> EffectsOnThrowHit = new();
 
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;
@@ -194,11 +194,11 @@ public class Holdable : Interactable
                 );
             for (int i =  0; i < hits.Length; i++)
             {
-                if (hits[i].collider.transform.parent.TryGetComponent(out CharacterPart charPartHealth))
+                if (hits[i].collider.transform.parent.TryGetComponent(out CharacterPart charPart))
                 {
-                    if (AbstractCharacterComponent.GetCharacterComponentsEqual(charPartHealth, charComponent))
+                    if (AbstractCharacterComponent.GetCharacterComponentsEqual(charPart, charComponent))
                     {
-                        charPartHealth.CharComponents.CharacterEffects.ApplyEffect(EffectsOnThrowHit, this, charPartHealth);
+                        charPart.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnThrowHit, this, charPart);
                     }
                 }
             }

@@ -187,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PartType: 0
   CharPartVisual: {fileID: 1779693669216706162}
+  CharPartEffectsReceiver: {fileID: 4702753001488649660}
   CharPartHealth: {fileID: 1229822351700075699}
   CharPartHitbox: {fileID: 889091056331334270}
 --- !u!114 &1229822351700075699
@@ -223,3 +224,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6448274144350727819, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
   m_PrefabInstance: {fileID: 7438906115957432552}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4702753001488649660 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2774152788232219988, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+  m_PrefabInstance: {fileID: 7438906115957432552}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822356956028164761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545016aeb901c4141b738c9c15ef75dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

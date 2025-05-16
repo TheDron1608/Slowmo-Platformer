@@ -47,14 +47,7 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
 
     public virtual bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        foreach (EffectImmunity immunity in affectWho.GetEffects<EffectImmunity>())
-        {
-            if (immunity.ImmuneTo.Equals(this))
-            {
-                return false;
-            }
-        }
-        return true;
+        return !affectWho.GetHasImmuneToEffect(this);
     }
 
     protected virtual void OnApply()

@@ -17,7 +17,7 @@ public class Death : AbstractStun
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
 
-        AffectedCharacter.CharacterEffects.RemoveEffect<MinorStun>();
+        AffectedCharacter.CharacterEffectsReceiver.RemoveEffect<MinorStun>();
 
         AffectedCharacter.CharacterHolding.TryThrow(AffectedCharacter.CharacterRigidBody.linearVelocity.normalized, 0.25f);
 

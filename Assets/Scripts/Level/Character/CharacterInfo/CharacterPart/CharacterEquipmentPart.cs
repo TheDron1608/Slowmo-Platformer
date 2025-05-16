@@ -7,7 +7,7 @@ using UnityEngine;
 public class CharacterEquipmentPart : CharacterPart
 {
     public PartTypes EquipAtType;
-    public List<AbstractCharacterEffect> EffectsOnEquip;
+    public List<AbstractEffect> EffectsOnEquip;
     public bool CanUnequip = true;
 
     private CharacterLimbPart _currentLimbEquip;
@@ -25,7 +25,7 @@ public class CharacterEquipmentPart : CharacterPart
             throw new UnityException("trying to set CurrentLimbEquip, wich must be CharacterLimbPart class, " + CharComponents.CharacterPartsManager.GetCharacterPart(EquipAtType).GetType().Name + " received instead");
         }
 
-        CharComponents.CharacterEffects.ApplyEffect(EffectsOnEquip, this, _currentLimbEquip);
+        CharPartEffectsReceiver.ApplyEffect(EffectsOnEquip, this);
     }
 
     public void TryUnequipPart()
@@ -41,11 +41,5 @@ public class CharacterEquipmentPart : CharacterPart
         }
 
         DestroyPart();
-    }
-
-    protected override void OnDestroyPart()
-    {
-        CharComponents.CharacterEffects.RemoveEffect<AbstractCharacterEffect>(_currentLimbEquip);
-        base.OnDestroyPart();
     }
 }

@@ -12,7 +12,7 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             float charDistance = Vector2.Distance(transform.position, character.transform.position);
             if (
                 charDistance < minDistance &&
-                !character.CharacterEffects.GetHasEffect<Death>() &&
+                !character.CharacterEffectsReceiver.GetHasEffect<Death>() &&
                 !NumberMath.GetListContainsAnyItemOfAnotherList(character.CharacterTeam.CharacterTeams, CharComponents.CharacterTeam.CharacterTeams) &&
                 Physics2D.Linecast(
                     CharComponents.Center.transform.position,

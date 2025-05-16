@@ -33,6 +33,11 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     private void Awake()
     {
+        OnAwake();
+    }
+
+    protected virtual void OnAwake()
+    {
         List<AbstractEffect> reapplyEffects = _currentEffects.ToList();
         _currentEffects.Clear();
         foreach (AbstractEffect effect in reapplyEffects)
@@ -60,7 +65,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
     {
-        if (effect.ApplyCondition(this, sender))
+        if (ApplyCondition(effect, sender))
         {
             AbstractEffect newEffect = Instantiate(effect, transform);
             _currentEffects.Add(newEffect);
@@ -80,6 +85,11 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             ApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender);
         }
+    }
+
+    protected virtual bool ApplyCondition(AbstractEffect effect, MonoBehaviour sender)
+    {
+        return effect.ApplyCondition(this, sender);
     }
 
     public void ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender)
@@ -183,5 +193,18 @@ public class ObjectEffectsReceiver : MonoBehaviour
             }
         }
         return result;
+    }
+
+    public bool GetHasImmuneToEffect(AbstractEffect effect)
+    {
+        foreach (EffectImmunity immunity in GetEffects<EffectImmunity>())
+        {
+            if (immunity.ImmuneTo.Equals(effect))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

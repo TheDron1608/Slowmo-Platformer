@@ -8,16 +8,16 @@ public class Knockback : AbstractCharacterEffectWithSender
     /// <summary>
     /// warning: will delete itself after invoke this function
     /// </summary>
-    protected override void OnReceivedSender(MonoBehaviour sender, CharacterPart receiverPart)
+    protected override void OnReceivedSender(MonoBehaviour sender)
     {
         float totalKnockMultiplier = 1f;
-        foreach (KnockResistance knockResistance in AffectedCharacter.CharacterEffects.GetEffects<KnockResistance>())
+        foreach (KnockResistance knockResistance in AffectedCharacter.CharacterEffectsReceiver.GetEffects<KnockResistance>())
         {
             totalKnockMultiplier *= knockResistance.KnockMultiplier;
         }
-        if (receiverPart != null && receiverPart is CharacterLimbPart limbPart)
+        if (AffectedObject.TryGetComponent(out CharacterLimbPart limbPart))
         {
-            foreach (KnockLimbResistance knockResistance in AffectedCharacter.CharacterEffects.GetEffects<KnockLimbResistance>(limbPart))
+            foreach (KnockLimbResistance knockResistance in limbPart.CharPartEffectsReceiver.GetEffects<KnockLimbResistance>())
             {
                 totalKnockMultiplier *= knockResistance.KnockMultiplier;
             }

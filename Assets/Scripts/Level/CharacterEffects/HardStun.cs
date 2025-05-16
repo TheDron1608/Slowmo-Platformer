@@ -6,7 +6,7 @@ public class HardStun : AbstractStun
     {
         base.OnApply();
 
-        AffectedCharacter.CharacterEffects.RemoveEffect<MinorStun>();
+        AffectedCharacter.CharacterEffectsReceiver.RemoveEffect<MinorStun>();
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
         AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.FALLING_IN_AIR;

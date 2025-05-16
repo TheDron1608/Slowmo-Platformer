@@ -10,7 +10,7 @@ public class CharacterHealth : AbstractCharacterComponent
     [SerializeField] private float _currentHealth = 10f;
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
-    public List<AbstractCharacterEffect> EffectsOnLethal = new();
+    public List<AbstractEffect> EffectsOnLethal = new();
 
     public float CurrentHealth
     {
@@ -42,7 +42,7 @@ public class CharacterHealth : AbstractCharacterComponent
     public void ApplyDamage(float damage, MonoBehaviour damager, CharacterPart damagedPart)
     {
         _currentHealth -= damage;
-        if (_currentHealth <= MinHealth && !CharComponents.CharacterEffects.GetHasEffect<Death>())
+        if (_currentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<Death>())
         {
             Die(damager, damagedPart);
         }
@@ -50,6 +50,6 @@ public class CharacterHealth : AbstractCharacterComponent
 
     public void Die(MonoBehaviour killer, CharacterPart lethallyDamagedPart)
     {
-        CharComponents.CharacterEffects.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
+        CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
     }
 }

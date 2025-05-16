@@ -39,8 +39,8 @@ public class CharacterCollision : AbstractCharacterComponent
     public bool CanHitWhileHardStnned = true;
     public bool CanHitWhileMoving = false;
     public bool CanHitWhileRolling = false;
-    public List<AbstractCharacterEffect> EffectsOnHitOtherCharacters = new();
-    public List<AbstractCharacterEffect> SelfEffectsOnHitOtherCharacters = new();
+    public List<AbstractEffect> EffectsOnHitOtherCharacters = new();
+    public List<AbstractEffect> SelfEffectsOnHitOtherCharacters = new();
     public PhysicsMaterial2D DefaultPhyscsMaterial;
     public PhysicsMaterial2D OnFallenPhysicsMaterial;
     public PhysicsMaterial2D OnNotOnFloorPhysicsMaterial;
@@ -351,7 +351,7 @@ public class CharacterCollision : AbstractCharacterComponent
         if (
             VectorMath.Vec2ToDistance(CharComponents.CharacterRigidBody.linearVelocity) >= SpeedToHitOtherCharacters && 
             (
-                (CanHitWhileHardStnned && CharComponents.CharacterEffects.GetHasEffect<HardStun>()) ||
+                (CanHitWhileHardStnned && CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>()) ||
                 (CanHitWhileRolling && CharComponents.CharacterRolling.IsRolling) ||
                 CanHitWhileMoving
             )
@@ -362,17 +362,17 @@ public class CharacterCollision : AbstractCharacterComponent
                 if (
                     hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
                     otherCharComponent.CharComponents.CharacterCollision != this &&
-                    !CharComponents.CharacterEffects.GetLastOneSecondHittersContainsCharacter(otherCharComponent) &&
-                    !otherCharComponent.CharComponents.CharacterEffects.GetLastOneSecondHittersContainsCharacter(this)
+                    !CharComponents.CharacterEffectsReceiver.LastOneSecondsSenders.Contains(otherCharComponent) &&
+                    !otherCharComponent.CharComponents.CharacterEffectsReceiver.LastOneSecondsSenders.Contains(this)
                     )
                 {
                     //hit self
                     Vector2 affectingVelocity = CharComponents.CharacterRigidBody.linearVelocity / 2f;
                     CharComponents.CharacterRigidBody.linearVelocity -= affectingVelocity;
-                    CharComponents.CharacterEffects.ApplyEffect(SelfEffectsOnHitOtherCharacters, otherCharComponent, null);
+                    CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnHitOtherCharacters, otherCharComponent);
                     //hit other character
                     otherCharComponent.CharComponents.CharacterRigidBody.linearVelocity += affectingVelocity;
-                    otherCharComponent.CharComponents.CharacterEffects.ApplyEffect(EffectsOnHitOtherCharacters, this, null);
+                    otherCharComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnHitOtherCharacters, this);
 
                     OnHitOtherCharacters?.Invoke(this, otherCharComponent);
                 }
@@ -389,7 +389,7 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         if (!IsCollidingFloor())
         {
-            if (CharComponents.CharacterEffects.GetHasEffect<AbstractStun>())
+            if (CharComponents.CharacterEffectsReceiver.GetHasEffect<AbstractStun>())
             {
                 CharComponents.CharacterRigidBody.sharedMaterial = OnFallenPhysicsMaterial;
             }

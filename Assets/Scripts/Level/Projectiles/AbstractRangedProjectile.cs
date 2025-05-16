@@ -149,7 +149,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
             _piercesLeft > 0 &&
             hitObject.transform.parent.TryGetComponent(out CharacterPart hitCharacterPart) &&
             hitCharacterPart.PartType == CharacterPart.PartTypes.HEAD &&
-            hitCharacterPart.CharComponents.CharacterEffects.GetHasEffect<Death>()
+            hitCharacterPart.CharComponents.CharacterEffectsReceiver.GetHasEffect<Death>()
             )
         {
             _piercesLeft--;
