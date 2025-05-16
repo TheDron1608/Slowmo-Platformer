@@ -22,13 +22,13 @@ public class LimbArmor : AbstractCharacterLimbEffectWithSender
 
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        if (sender is CharacterEquipmentPart armorPart)
+        if (sender.TryGetComponent(out CharacterEquipmentPart armorPart))
         {
             Armor = armorPart;
         }
         else
         {
-            throw new UnityException("OnReceivedSender sender argument must be CharacterEquipmentPart, received " + sender.GetType().Name + " instead");
+            throw new UnityException("not found CharacterEquipmentPart component at " + gameObject.name);
         }
     }
 }

@@ -80,6 +80,19 @@ public class CharacterPartsManager : AbstractCharacterComponent
         return null;
     }
 
+    public List<CharacterEquipmentPart> GetCharacterPartEquipment(CharacterPart part)
+    {
+        List<CharacterEquipmentPart> result = new();
+        for (int i = 0; i < _characterParts.Count; i++)
+        {
+            if (_characterParts[i] is CharacterEquipmentPart equpmentPart && equpmentPart.EquipAtType == part.PartType)
+            {
+                result.Add(equpmentPart);
+            }
+        }
+        return result;
+    }
+
     private void OnDestroy()
     {
         for (int i = 0; i < _characterParts.Count; i++)

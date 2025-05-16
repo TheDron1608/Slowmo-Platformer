@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public abstract class AbstractCharacterLimbEffectWithSender : AbstractEffectWithSender, ICharacterLimbEffect
+public abstract class AbstractCharacterLimbEffectWithSender : AbstractEffectWithSender, ICharacterPartEffect
 {
-    private CharacterLimbPart _affectedLimbPart;
+    private CharacterPart _affectedPart;
 
-    public CharacterLimbPart AffectedLimbPart
+    public CharacterPart AffectedPart
     {
-        get => _affectedLimbPart;
+        get => _affectedPart;
     }
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
@@ -19,11 +19,11 @@ public abstract class AbstractCharacterLimbEffectWithSender : AbstractEffectWith
     protected override void OnApply()
     {
         base.OnApply();
-        _affectedLimbPart = AffectedObject.GetComponent<CharacterLimbPart>();
+        _affectedPart = AffectedObject.GetComponent<CharacterPart>();
     }
 
     public override bool Equals(AbstractEffect other)
     {
-        return base.Equals(other) && AffectedLimbPart == (other as AbstractCharacterLimbEffectWithSender).AffectedLimbPart;
+        return base.Equals(other) && AffectedPart == (other as AbstractCharacterLimbEffectWithSender).AffectedPart;
     }
 }

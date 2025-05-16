@@ -24,6 +24,7 @@ public abstract class CharacterPart : AbstractCharacterComponent
 
     public void DestroyPart()
     {
+        CharPartEffectsReceiver.CurrentEffects.Clear();
         OnDestroyPart();
     }
 

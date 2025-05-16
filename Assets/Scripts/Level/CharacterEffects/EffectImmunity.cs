@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EffectImmunity : AbstractCharacterEffect
+public class EffectImmunity : AbstractEffect
 {
-    public AbstractCharacterEffect ImmuneTo;
+    public AbstractEffect ImmuneTo;
 }

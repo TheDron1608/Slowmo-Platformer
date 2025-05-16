@@ -7,14 +7,14 @@ public class PierceArmor : AbstractCharacterLimbEffectWithSender
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
         if (
-            AffectedLimbPart.CharComponents.CharacterEffectsReceiver.TryGetEffect(out LimbArmor armorEffect, AffectedLimbPart) && 
+            AffectedPart.CharComponents.CharacterEffectsReceiver.TryGetEffect(out LimbArmor armorEffect, AffectedPart) && 
             PierceLevel >= armorEffect.ArmorPierceResistantLevel
             )
         {
-            AffectedLimbPart.CharPartEffectsReceiver.RemoveEffect<LimbArmor>();
-            if (armorEffect.Sender is CharacterPart armorPart)
+            AffectedPart.CharPartEffectsReceiver.RemoveEffect<LimbArmor>();
+            if (armorEffect.AffectedPart is CharacterPart)
             {
-                armorPart.DestroyPart();
+                armorEffect.AffectedPart.DestroyPart();
             }
             else
             {

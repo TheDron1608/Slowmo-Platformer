@@ -87,9 +87,9 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
-    protected virtual bool ApplyCondition(AbstractEffect effect, MonoBehaviour sender)
+    public bool ApplyCondition(AbstractEffect effect, MonoBehaviour sender)
     {
-        return effect.ApplyCondition(this, sender);
+        return !GetHasImmuneToEffect(effect);
     }
 
     public void ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender)
@@ -197,7 +197,8 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     public bool GetHasImmuneToEffect(AbstractEffect effect)
     {
-        foreach (EffectImmunity immunity in GetEffects<EffectImmunity>())
+        List<EffectImmunity> immunities = GetEffects<EffectImmunity>();
+        foreach (EffectImmunity immunity in immunities)
         {
             if (immunity.ImmuneTo.Equals(effect))
             {

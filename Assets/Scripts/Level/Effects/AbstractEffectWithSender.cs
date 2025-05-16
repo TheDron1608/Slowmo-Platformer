@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public abstract class AbstractEffectWithSender : AbstractEffect
 {
-    private MonoBehaviour _sender;
+    private MonoBehaviour _sender = null;
 
     public MonoBehaviour Sender
     {
@@ -20,7 +20,10 @@ public abstract class AbstractEffectWithSender : AbstractEffect
     }
     private void LateUpdate()
     {
-        throw new UnityException(gameObject.name + " not received sender at the end of the frame it was instanitiated");
+        if (Sender == null)
+        {
+            throw new UnityException(gameObject.name + " not received sender at the end of the frame it was instanitiated");
+        }
     }
 
     protected abstract void OnReceivedSender(MonoBehaviour sender);

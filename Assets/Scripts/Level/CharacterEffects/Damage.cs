@@ -9,7 +9,7 @@ public class Damage : AbstractCharacterLimbEffectWithSender
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        AffectedLimbPart.CharPartHealth.ApplyDamage(DamageAmount, sender);
+        AffectedPart.GetComponent<CharacterLimbPart>()?.CharPartHealth.ApplyDamage(DamageAmount, sender);
 
         RemoveSelf();
     }
