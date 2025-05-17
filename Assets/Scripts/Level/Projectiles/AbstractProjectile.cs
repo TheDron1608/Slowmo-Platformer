@@ -58,6 +58,26 @@ public abstract class AbstractProjectile : MonoBehaviour
         return result;
     }
 
+    protected void AddCurrentHittingCollidersItem(Collider2D item)
+    {
+        if (item.TryGetComponent(out AbstractCharacterComponent charCollider))
+        {
+            _currentHittingColliders.Add(charCollider.CharComponents.CharacterRigidBodyCapsuleCollider);
+            foreach (CharacterPart charPart in charCollider.CharComponents.CharacterPartsManager.CharacterParts)
+            {
+                Collider2D charPartCollider = charPart.GetComponentInChildren<Collider2D>();
+                if (charPartCollider != null)
+                {
+                    _currentHittingColliders.Add(charPartCollider);
+                }
+            }
+        }
+        else
+        {
+            _currentHittingColliders.Add(item);
+        }
+    }
+
     protected abstract List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null);
 
     private void ApplySelfEffectOnWeaponUser(List<AbstractProjectile> projectiles, Weapon weapon)

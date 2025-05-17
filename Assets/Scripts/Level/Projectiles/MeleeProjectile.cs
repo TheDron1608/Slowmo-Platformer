@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Localization.SmartFormat.Core.Parsing;
 
@@ -73,7 +74,7 @@ public class MeleeProjectile : AbstractProjectile
 
             if (HitCondition(hitObjects, hitObjects[i]))
             {
-                _currentHittingColliders.Add(hitObjects[i]);
+                AddCurrentHittingCollidersItem(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
             }
             if (!IsAbleToHit) break;
