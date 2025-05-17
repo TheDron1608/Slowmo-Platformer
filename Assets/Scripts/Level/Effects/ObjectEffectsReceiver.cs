@@ -65,7 +65,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
     {
-        if (ApplyCondition(effect, sender))
+        if (ApplyCondition(effect, sender) && effect.ApplyCondition(this, sender))
         {
             AbstractEffect newEffect = Instantiate(effect, transform);
             _currentEffects.Add(newEffect);
