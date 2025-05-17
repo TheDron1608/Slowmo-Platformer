@@ -35,7 +35,7 @@ public class CharacterCollision : AbstractCharacterComponent
         public Vector2 CollisionAlign;
     }
 
-    public float SpeedToHitOtherCharacters = 12.5f;
+    public float SpeedToHitOtherCharacters = 7.5f;
     public bool CanHitWhileHardStnned = true;
     public bool CanHitWhileMoving = false;
     public bool CanHitWhileRolling = false;
@@ -362,8 +362,7 @@ public class CharacterCollision : AbstractCharacterComponent
                 if (
                     hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
                     otherCharComponent.CharComponents.CharacterCollision != this &&
-                    !CharComponents.CharacterEffectsReceiver.LastOneSecondsSenders.Contains(otherCharComponent) &&
-                    !otherCharComponent.CharComponents.CharacterEffectsReceiver.LastOneSecondsSenders.Contains(this)
+                    !CharComponents.CharacterEffectsReceiver.GetCharacterIsLastSender(otherCharComponent)
                     )
                 {
                     //hit self

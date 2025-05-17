@@ -11,7 +11,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
 {
     [SerializeField] private List<AbstractEffect> _currentEffects = new();
     private MonoBehaviour _lastSender = null;
-    private List<MonoBehaviour> _lastOneSecondSenders = new();
 
     public event EventHandler<AbstractEffect> OnEffectAdded;
     public event EventHandler<AbstractEffect> OnEffectRemoved;
@@ -24,11 +23,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
     public MonoBehaviour LastSender
     {
         get => _lastSender;
-    }
-
-    public List<MonoBehaviour> LastOneSecondsSenders
-    {
-        get => _lastOneSecondSenders;
     }
 
     private void Awake()
@@ -51,15 +45,18 @@ public class ObjectEffectsReceiver : MonoBehaviour
         if (effectSender != null)
         {
             _lastSender = effectSender;
-            _lastOneSecondSenders.Add(effectSender);
-            StartCoroutine(AwaitSecondThenRemoveLastOneSecondHitter(effectSender));
         }
     }
 
-    private IEnumerator AwaitSecondThenRemoveLastOneSecondHitter(MonoBehaviour hitter)
+    public bool GetCharacterIsLastSender(AbstractCharacterComponent character)
     {
-        yield return new WaitForSeconds(1f);
-        _lastOneSecondSenders.Remove(hitter);
+        return
+            LastSender != null &&
+            (
+                (LastSender.TryGetComponent(out AbstractCharacterComponent characterSender) && characterSender.CharComponents == character.CharComponents) ||
+                (LastSender.TryGetComponent(out AbstractProjectile projectileSender) && projectileSender.Owner != null && projectileSender.Owner.CharComponents == character.CharComponents) ||
+                (LastSender.TryGetComponent(out Holdable holdableSender) && holdableSender.CurrentHolder != null && holdableSender.CurrentHolder.CharComponents == character.CharComponents)
+            );
     }
 
 
