@@ -6,19 +6,11 @@ public class PierceArmor : AbstractCharacterLimbEffectWithSender
 
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        if (
-            AffectedPart.CharComponents.CharacterEffectsReceiver.TryGetEffect(out LimbArmor armorEffect, AffectedPart) && 
-            PierceLevel >= armorEffect.ArmorPierceResistantLevel
-            )
+        foreach (CharacterEquipmentPart equipment in AffectedPart.CharComponents.CharacterPartsManager.GetCharacterPartEquipment(AffectedPart as CharacterLimbPart))
         {
-            AffectedPart.CharPartEffectsReceiver.RemoveEffect<LimbArmor>();
-            if (armorEffect.AffectedPart is CharacterPart)
+            if (equipment.CharPartEffectsReceiver.TryGetEffect(out LimbArmor armor) && PierceLevel >= armor.ArmorPierceResistantLevel)
             {
-                armorEffect.AffectedPart.DestroyPart();
-            }
-            else
-            {
-                throw new UnityException("sender of armor effect must be CharacterPart class, received " + armorEffect.Sender.GetType().Name + " instead");
+                equipment.DestroyPart();
             }
         }
 
