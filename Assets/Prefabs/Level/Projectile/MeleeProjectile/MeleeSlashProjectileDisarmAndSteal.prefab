@@ -112,7 +112,11 @@ MonoBehaviour:
   SelfEffects:
   - {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
   FiendlyFire: 0
+  IsAbleToHit: 1
   WallKnockback: 0
   BlockKnockback: 15
-  RangedProjectileDeflection: 0
-  MeleeProjectileDeflection: 2
+  IsAbleTodeflectRangedProjectiles: 1
+  IsAbleTodeflectMeleeProjectiles: 1
+  EffectsOnDeflect:
+  - {fileID: -9155648336183534320, guid: ab125f754165b894bb0e8f94e63d7c6a, type: 3}
+  SelfEffectsOnDeflect: []

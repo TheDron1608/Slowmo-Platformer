@@ -46,6 +46,11 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         }
     }
 
+    public Transform ProjectileTip
+    {
+        get => _projectileTip;
+    }
+
     public void ResetPiercesLeft()
     {
         _piercesLeft = MaxPierces;
@@ -88,6 +93,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
         foreach (Collider2D hitObjectsCollider in hitObjectsColliders)
         {
+            if (!IsAbleToHit) break;
             if (HitCondition(hitObjectsColliders, hitObjectsCollider))
             {
                 _currentHittingColliders.Add(hitObjectsCollider);
@@ -106,28 +112,6 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         if (_rangeMoved > MaxRange )
         {
             RemoveSelf();
-        }
-    }
-
-    public override void OnDeflected(MeleeProjectile deflector)
-    {
-        if (!deflector.IsAbleTodeflectRangedProjectiles) return;
-
-        switch (deflector.RangedProjectileDeflection)
-        {
-            case MeleeProjectile.RangedProjectileDeflectionType.ABSORB_PROJECTILE:
-                RemoveSelf();
-                break;
-            case MeleeProjectile.RangedProjectileDeflectionType.DEFLECT_PROJECTILE:
-                transform.position = _projectileTip.transform.position;
-                MoveAlignVec2 = Vector2.Reflect(MoveAlignVec2, VectorMath.Quartenion2DToVec2(Quaternion.FromToRotation(deflector.transform.position, transform.position)));
-                Owner = deflector.Owner;
-                break;
-            case MeleeProjectile.RangedProjectileDeflectionType.DEFLECT_PROJECTILE_TO_ENEMY:
-                transform.position = _projectileTip.transform.position;
-                MoveAlignVec2 = -VectorMath.Quartenion2DToVec2(Quaternion.FromToRotation(transform.position, Owner.CharComponents.Center.transform.position));
-                Owner = deflector.Owner;
-                break;
         }
     }
 

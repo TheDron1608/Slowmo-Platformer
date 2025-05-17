@@ -52,7 +52,7 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
 
     protected virtual void OnApply()
     {
-
+        if (!transform.parent.TryGetComponent(out _affectedObject)) throw new UnityException("ObjectEffectsReceiver components not found at " + gameObject.name);
     }
 
     protected virtual void OnRemove()

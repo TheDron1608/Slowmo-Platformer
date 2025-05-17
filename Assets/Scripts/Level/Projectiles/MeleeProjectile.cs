@@ -6,24 +6,12 @@ using UnityEngine.Localization.SmartFormat.Core.Parsing;
 
 public class MeleeProjectile : AbstractProjectile
 {
-    public enum RangedProjectileDeflectionType
-    {
-        ABSORB_PROJECTILE,
-        DEFLECT_PROJECTILE,
-        DEFLECT_PROJECTILE_TO_ENEMY
-    }
-    public enum MeleeProjectileDeflectionType
-    {
-        BLOCK,
-        DISARM
-    }
-
     public float WallKnockback = 5f;
     public float BlockKnockback = 15f;
     public bool IsAbleTodeflectRangedProjectiles = true;
-    public RangedProjectileDeflectionType RangedProjectileDeflection = RangedProjectileDeflectionType.DEFLECT_PROJECTILE;
     public bool IsAbleTodeflectMeleeProjectiles = true;
-    public MeleeProjectileDeflectionType MeleeProjectileDeflection = MeleeProjectileDeflectionType.BLOCK;
+    public List<AbstractEffect> EffectsOnDeflect = new();
+    public List<AbstractEffect> SelfEffectsOnDeflect = new();
 
     private bool _didHitAnyWallOnce = false;
     private Rigidbody2D _rigidBody;
@@ -65,6 +53,8 @@ public class MeleeProjectile : AbstractProjectile
 
     private void FixedUpdate()
     {
+        if (!IsAbleToHit) return;
+
         List<Collider2D> hitObjectsList = new();
         _rigidBody.Overlap(hitObjectsList);
         Collider2D[] hitObjects = hitObjectsList.ToArray();
@@ -77,14 +67,16 @@ public class MeleeProjectile : AbstractProjectile
         {
             if (hitObjects[i].TryGetComponent(out AbstractProjectile projectileHitObject) && projectileHitObject.Owner != Owner)
             {
-                projectileHitObject.OnDeflected(this);
                 OnDeflect(projectileHitObject);
             }
+            if (!IsAbleToHit) break;
+
             if (HitCondition(hitObjects, hitObjects[i]))
             {
                 _currentHittingColliders.Add(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
             }
+            if (!IsAbleToHit) break;
         }
     }
 
@@ -98,55 +90,10 @@ public class MeleeProjectile : AbstractProjectile
         }
     }
 
-    public override void OnDeflected(MeleeProjectile deflector)
-    {
-        if (!deflector.IsAbleTodeflectMeleeProjectiles) return;
-
-        switch (deflector.MeleeProjectileDeflection)
-        {
-            case MeleeProjectileDeflectionType.BLOCK:
-                if (deflector.Owner != null && deflector.Weapon.GetComponent<Holdable>() == deflector.Owner.CurrentHoldObject)
-                {
-                    deflector.Owner.CharComponents.CharacterRigidBody.linearVelocity = VectorMath.Quartenion2DToVec2(transform.rotation) * deflector.BlockKnockback;
-                    if (deflector.Owner.CharComponents.CharacterCollision.IsCollidingFloor())
-                    {
-                        deflector.Owner.CharComponents.CharacterRigidBody.linearVelocityY = math.max(3f, deflector.Owner.CharComponents.CharacterRigidBody.linearVelocityY);
-                    }
-                }
-                break;
-
-            case MeleeProjectileDeflectionType.DISARM:
-                if (Owner != null && Weapon.GetComponent<Holdable>() == Owner.CurrentHoldObject)
-                {
-                    Owner.CharComponents.CharacterRigidBody.linearVelocity = VectorMath.Quartenion2DToVec2(deflector.transform.rotation) * BlockKnockback;
-                    if (Owner.CharComponents.CharacterCollision.IsCollidingFloor())
-                    {
-                        Owner.CharComponents.CharacterRigidBody.linearVelocityY = math.max(3f, Owner.CharComponents.CharacterRigidBody.linearVelocityY);
-                    }
-
-                    Owner.CharComponents.CharacterHolding.TryThrow(Owner.CharComponents.CharacterRigidBody.linearVelocity.normalized, 0.5f);
-                }
-                break;
-        }
-    }
-
     protected virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
     {
-        if (!IsAbleTodeflectMeleeProjectiles) return;
-
-        switch (MeleeProjectileDeflection)
-        {
-            case MeleeProjectileDeflectionType.BLOCK:
-                if (Owner != null && Weapon.GetComponent<Holdable>() == Owner.CurrentHoldObject)
-                {
-                    Owner.CharComponents.CharacterRigidBody.linearVelocity = VectorMath.Quartenion2DToVec2(defleclectedProjectile.transform.rotation) * BlockKnockback;
-                    if (Owner.CharComponents.CharacterCollision.IsCollidingFloor())
-                    {
-                        Owner.CharComponents.CharacterRigidBody.linearVelocityY = math.max(3f, Owner.CharComponents.CharacterRigidBody.linearVelocityY);
-                    }
-                }
-                break;
-        }
+        defleclectedProjectile.EffectsReceiver.ApplyEffect(EffectsOnDeflect, this);
+        Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnDeflect, this);
     }
 
     public override void OnHit(GameObject hitObject)

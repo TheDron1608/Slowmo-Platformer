@@ -8,10 +8,12 @@ public abstract class AbstractProjectile : MonoBehaviour
     public List<AbstractEffect> HitEffects = new();
     public List<AbstractEffect> SelfEffects = new();
     public bool FiendlyFire = false;
+    public bool IsAbleToHit = true;
 
     private Weapon _weapon;
     private CharacterHoldingObjects _owner;
     protected List<Collider2D> _currentHittingColliders = new();
+    private ObjectEffectsReceiver _effectsReceiver;
 
     public event EventHandler<GameObject> OnHitSomeOne;
     public event EventHandler OnDestroyed;
@@ -23,6 +25,7 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     protected virtual void OnAwake()
     {
+        if (!TryGetComponent(out _effectsReceiver)) throw new UnityException("ObjectEffectsReceiver components not found at " + gameObject.name);
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         layer.UpdateLayerForGameObject(gameObject);
         transform.parent = layer.transform;
@@ -36,7 +39,11 @@ public abstract class AbstractProjectile : MonoBehaviour
     public CharacterHoldingObjects Owner
     {
         get => _owner;
-        protected set => _owner = value;
+        set => _owner = value;
+    }
+    public ObjectEffectsReceiver EffectsReceiver
+    {
+        get => _effectsReceiver;
     }
 
     public List<AbstractProjectile> SpawnProjectile(Vector2 direction, float accuracityMultiplier = 1f, Weapon weapon = null)
@@ -78,8 +85,6 @@ public abstract class AbstractProjectile : MonoBehaviour
             OnHitSomeOne?.Invoke(this, hitObject);
         }
     }
-
-    public abstract void OnDeflected(MeleeProjectile deflector);
 
     public void RemoveSelf()
     {
