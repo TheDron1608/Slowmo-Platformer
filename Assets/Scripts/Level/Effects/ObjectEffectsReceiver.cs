@@ -80,7 +80,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
             if (effect.EffectMaterial != null)
             {
-                OnSetEffectMaterial(effect.EffectMaterial);
+                EffectMaterial = effect.EffectMaterial;
             }
 
             OnEffectAdded?.Invoke(this, newEffect);
@@ -91,12 +91,19 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
-    protected virtual void OnSetEffectMaterial(Material effectMaterial)
+    public virtual Material EffectMaterial
     {
-        var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if (spriteRenderer != null)
+        get
         {
-            spriteRenderer.material = effectMaterial;
+            return GetComponentInChildren<SpriteRenderer>()?.material;
+        }
+        protected set
+        {
+            var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.material = value;
+            }
         }
     }
 
@@ -230,10 +237,10 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             if (effect.EffectMaterial != null)
             {
-                OnSetEffectMaterial(effect.EffectMaterial);
+                EffectMaterial = effect.EffectMaterial;
                 return;
             }
         }
-        OnSetEffectMaterial(_defaultEffectMaterial);
+        EffectMaterial = _defaultEffectMaterial;
     }
 }

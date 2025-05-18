@@ -4,6 +4,7 @@ using UnityEngine;
 public class FluidParticleSpawner : MonoBehaviour
 {
     public FluidParticleManager.FluidParticlesSpreadTypes FluidParticlesSpreadType;
+    public Material FluidMaterial;
     [SerializeField] private bool _playOnAwake = false;
 
     private void Awake()
@@ -21,6 +22,6 @@ public class FluidParticleSpawner : MonoBehaviour
 
     public void SpawnParticle()
     {
-        FluidParticleManager.Instance.SpawnFluidParticles(gameObject, FluidParticlesSpreadType, transform.rotation);
+        FluidParticleManager.Instance.SpawnFluidParticles(gameObject, FluidParticlesSpreadType, transform.rotation, FluidMaterial);
     }
 }

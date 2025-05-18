@@ -19,6 +19,7 @@ public abstract class CharacterPart : AbstractCharacterComponent
     public PartTypes PartType;
     public CharacterPartVisual CharPartVisual;
     public CharacterPartEffectsReceiver CharPartEffectsReceiver;
+    public bool EffectMaterialOverridedByEntireEffects = false;
 
     public event EventHandler<CharacterPart> OnRemoved;
 

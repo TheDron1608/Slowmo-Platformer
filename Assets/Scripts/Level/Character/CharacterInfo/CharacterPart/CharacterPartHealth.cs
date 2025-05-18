@@ -31,7 +31,8 @@ public class CharacterPartHealth : AbstractCharacterComponent
                 (CharComponents.CharacterEffectsReceiver.TryGetEffect(out Death death) && death.DiedThisFrame) ? 
                     FluidParticleManager.FluidParticlesSpreadTypes.LETHAL : 
                     FluidParticleManager.FluidParticlesSpreadTypes.DAMAGE,
-                damager.transform.rotation
+                damager.transform.rotation,
+                CharComponents.CharacterEffectsReceiver.EffectMaterial
                 );
         }
     }
@@ -71,7 +72,8 @@ public class CharacterPartHealth : AbstractCharacterComponent
             FluidParticleManager.Instance.SpawnFluidParticles(
                 gameObject,
                 FluidParticleManager.FluidParticlesSpreadTypes.LETHAL,
-                cutter.transform.rotation
+                cutter.transform.rotation,
+                CharComponents.CharacterEffectsReceiver.EffectMaterial
                 );
         }
 
@@ -108,7 +110,8 @@ public class CharacterPartHealth : AbstractCharacterComponent
             FluidParticleManager.Instance.SpawnFluidParticles(
                 gameObject,
                 FluidParticleManager.FluidParticlesSpreadTypes.HEADSHOT,
-                gibber.transform.rotation
+                gibber.transform.rotation,
+                CharComponents.CharacterEffectsReceiver.EffectMaterial
                 );
         }
 

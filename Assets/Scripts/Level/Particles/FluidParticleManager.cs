@@ -87,7 +87,7 @@ public class FluidParticleManager : MonoBehaviour
         Instance = this;
     }
 
-    public void SpawnFluidParticles(Vector2 position, Transform parent, ZIndexLayer zLayer, FluidParticlesSpreadTypes spreadType, Quaternion direction)
+    public void SpawnFluidParticles(Vector2 position, Transform parent, ZIndexLayer zLayer, FluidParticlesSpreadTypes spreadType, Quaternion direction, Material material)
     {
         GameObject source = new GameObject("fluidSource", typeof(OneShotFluidParticleSpawner));
 
@@ -97,15 +97,16 @@ public class FluidParticleManager : MonoBehaviour
 
         var sourceFluidParticleManager = source.GetComponent<OneShotFluidParticleSpawner>();
         sourceFluidParticleManager.FluidParticlesSpreadType = spreadType;
+        sourceFluidParticleManager.FluidMaterial = material;
         sourceFluidParticleManager.SpawnParticle();
     }
 
-
-    public void SpawnFluidParticles(GameObject source, FluidParticlesSpreadTypes spreadType, Quaternion direction)
+    public void SpawnFluidParticles(GameObject source, FluidParticlesSpreadTypes spreadType, Quaternion direction, Material material)
     {
-        SpawnFluidParticles(source, FluidParticleSpreadTypes[(int)spreadType], direction);
+        SpawnFluidParticles(source, FluidParticleSpreadTypes[(int)spreadType], direction, material);
     }
-    public void SpawnFluidParticles(GameObject source, FluidParticleSpreadType spreadType, Quaternion direction)
+
+    public void SpawnFluidParticles(GameObject source, FluidParticleSpreadType spreadType, Quaternion direction, Material material)
     {
         int randomizedFluidParticlesAmount = (int)(NumberMath.PickRandomInRangeNoSeed(spreadType.MinParticles, spreadType.MaxParticles) * FluidMultiplier);
         ZIndexLayer zLayer = LayerManager.Instance.GetZLayerOfGameObject(source);    
@@ -113,45 +114,45 @@ public class FluidParticleManager : MonoBehaviour
         {
             if (spreadType.Repeat == 1)
             {
-                SpawnSingleRandomizedFluidParticle(source.transform.position, zLayer, spreadType, direction);
+                SpawnSingleRandomizedFluidParticle(source.transform.position, zLayer, spreadType, direction, material);
                 OnSpawningFluidParticlesFinish?.Invoke(this, source);
             }
             else
             {
-                StartCoroutine(SpawnMultipleFluidParticles(source, spreadType));
+                StartCoroutine(SpawnMultipleFluidParticles(source, spreadType, material));
             }
         }
         for (int i = 0; i < spreadType.HugeBlobs; i++)
         {
-            SpawnSingleHugeBlobFluidParticle(source.transform.position, zLayer, direction);
+            SpawnSingleHugeBlobFluidParticle(source.transform.position, zLayer, direction, material);
         }
         for (int i = 0; i < spreadType.HugeDrips; i++)
         {
-            SpawnSingleHugeDripFluidParticle(source.transform.position, zLayer, direction);
+            SpawnSingleHugeDripFluidParticle(source.transform.position, zLayer, direction, material);
         }
     }
 
-    private IEnumerator SpawnMultipleFluidParticles(GameObject source, FluidParticleSpreadType spreadType)
+    private IEnumerator SpawnMultipleFluidParticles(GameObject source, FluidParticleSpreadType spreadType, Material material)
     {
         ZIndexLayer zLayer = LayerManager.Instance.GetZLayerOfGameObject(source);
         for (int i = 0; i < spreadType.Repeat; i++)
         {
             if (source.IsDestroyed()) break;
-            SpawnSingleRandomizedFluidParticle(source.transform.position, zLayer, spreadType, source.transform.rotation);
+            SpawnSingleRandomizedFluidParticle(source.transform.position, zLayer, spreadType, source.transform.rotation, material);
             yield return new WaitForSeconds(NumberMath.PickRandomInRangeNoSeed(spreadType.MinRepeatDelay, spreadType.MaxRepeatDelay));
         }
         OnSpawningFluidParticlesFinish?.Invoke(this, source);
     }
 
-    private void SpawnSingleRandomizedFluidParticle(Vector2 position, ZIndexLayer zLayer, FluidParticleSpreadType spreadType, Quaternion direction)
+    private void SpawnSingleRandomizedFluidParticle(Vector2 position, ZIndexLayer zLayer, FluidParticleSpreadType spreadType, Quaternion direction, Material material)
     {
         Quaternion randomizedDirection = VectorMath.RandomizeQuarternion(direction, spreadType.Accuracy);
         float randomizedVelocity = NumberMath.PickRandomInRangeNoSeed(spreadType.MinVelocity, spreadType.MaxVelocity);
         float randomizedLifeTime = NumberMath.PickRandomInRangeNoSeed(spreadType.MinAvgLifeTime, spreadType.MaxAvgLifeTime) * (spreadType.MaxVelocity / randomizedVelocity);
-        SpawnSingleFluidParticle(position, zLayer, randomizedDirection, randomizedVelocity, randomizedLifeTime, spreadType.MaxParticleSize);
+        SpawnSingleFluidParticle(position, zLayer, randomizedDirection, randomizedVelocity, randomizedLifeTime, spreadType.MaxParticleSize, material);
     }
 
-    private void SpawnSingleFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, float velocity, float lifeTime, int maxSize)
+    private void SpawnSingleFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, float velocity, float lifeTime, int maxSize, Material material)
     {
         FluidParticle newParticle;
         Vector3 spawnPosition = VectorMath.Vec2ToVec3(postion, zLayer.transform.position.z);
@@ -165,12 +166,12 @@ public class FluidParticleManager : MonoBehaviour
         {
             newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(BlobParticles, maxSize), spawnPosition, spawnRotation, zLayer.FluidParticlesContainer);
         }
-        newParticle.SetProperties(VectorMath.Quartenion2DToVec2(direction) * velocity, lifeTime);
+        newParticle.SetProperties(VectorMath.Quartenion2DToVec2(direction) * velocity, lifeTime, material);
         LayerManager.Instance.ChangeZIndexForGameObject(zLayer, newParticle.gameObject);
         OnAddFluidParticle(newParticle);
     }
 
-    private void SpawnSingleHugeBlobFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
+    private void SpawnSingleHugeBlobFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, Material material)
     {
         FluidParticle newParticle = Instantiate(
             NumberMath.PickRandomItemNoSeed(HugeBlobParticles), 
@@ -178,11 +179,11 @@ public class FluidParticleManager : MonoBehaviour
             VectorMath.RandomizeQuarternion(direction, HUGE_BLOB_PARTICLES_ROTATION_SPREAD),
             zLayer.FluidParticlesContainer
             );
-        newParticle.SetProperties(Vector2.zero, 0f);
+        newParticle.SetProperties(Vector2.zero, 0f, material);
         LayerManager.Instance.ChangeZIndexForGameObject(zLayer, newParticle.gameObject);
         OnAddFluidParticle(newParticle);
     }
-    private void SpawnSingleHugeDripFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction)
+    private void SpawnSingleHugeDripFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, Material material)
     {
         FluidParticle newParticle = Instantiate(
             NumberMath.PickRandomItemNoSeed(HugeDripParticles),
@@ -190,7 +191,7 @@ public class FluidParticleManager : MonoBehaviour
             VectorMath.RandomizeQuarternion(direction, HUGE_DRIP_PARTICLES_ROTATION_SPREAD),
             zLayer.FluidParticlesContainer
             );
-        newParticle.SetProperties(Vector2.zero, 0f);
+        newParticle.SetProperties(Vector2.zero, 0f, material);
         LayerManager.Instance.ChangeZIndexForGameObject(zLayer, newParticle.gameObject);
         OnAddFluidParticle(newParticle);
     }

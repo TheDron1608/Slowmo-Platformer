@@ -136,18 +136,31 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
                 );
     }
 
-    protected override void OnSetEffectMaterial(Material effectMaterial)
+    public override Material EffectMaterial
     {
-        var newMaterial = effectMaterial ?? _defaultEffectMaterial;
-
-        SetPartEffectMaterial(effectMaterial, _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.BODY));
-        SetPartEffectMaterial(effectMaterial, _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.HEAD));
-    }
-    private void SetPartEffectMaterial(Material effectMaterial, CharacterPart charPart)
-    {
-        if (charPart != null)
+        get
         {
-            charPart.CharPartVisual.Material = effectMaterial;
+            foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
+            {
+                if (charPart.EffectMaterialOverridedByEntireEffects)
+                {
+                    return charPart.CharPartVisual.Material;
+                }
+            }
+
+            return null;
+        }
+        protected set
+        {
+            var newMaterial = value ?? _defaultEffectMaterial;
+
+            foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
+            {
+                if (charPart.EffectMaterialOverridedByEntireEffects)
+                {
+                    charPart.CharPartVisual.Material = newMaterial;
+                }
+            }
         }
     }
 }

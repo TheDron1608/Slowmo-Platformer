@@ -33,15 +33,22 @@ public class FluidParticle : MonoBehaviour
         _currentEnviromentLayerMask = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer;
     }
 
-    public void SetProperties(Vector2 velocity, float lifeTime)
+    public void SetProperties(Vector2 velocity, float lifeTime, Material material)
     {
         _velocity = velocity;
         _lifeTime = lifeTime;
+
+        if (material != null && TryGetComponent(out SpriteRenderer newParticleSpriteRenderer))
+        {
+            newParticleSpriteRenderer.material = material;
+        }
+
         if (_moveCoroutine != null)
         {
             StopCoroutine(_moveCoroutine);
         }
         _moveCoroutine = StartCoroutine(MoveCoroutine());
+
         GetComponent<Animator>().SetFloat(ANIMATOR_APPEAR_SPEED_PARAM_NAME, Mathf.Max(1f, MIN_APPEAR_SPEED_LIFETIME_REQUIRED / lifeTime > 0 ? lifeTime : 1f));
     }
 

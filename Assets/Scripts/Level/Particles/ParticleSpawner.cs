@@ -10,6 +10,7 @@ public class ParticleSpawner : MonoBehaviour
     public float SpawnVelocity = 1f;
     public float SpawnAngle = 0f;
     public float SpawnAngularVeclocity = 0f;
+    public ObjectEffectsReceiver ExtendEffectMaterialObject = null;
 
     public static event EventHandler<PhysicsParticle> OnPhysicsParticleSpawned;
     public static event EventHandler<ParticleSystem> OnParticleSystemSpawned;
@@ -39,6 +40,15 @@ public class ParticleSpawner : MonoBehaviour
 
             newParticle.transform.position = transform.position;
             newParticle.transform.rotation = transform.rotation;
+
+            if (
+                ExtendEffectMaterialObject != null && 
+                newParticle.TryGetComponent(out SpriteRenderer newParticleSpriteRenderer) && 
+                ExtendEffectMaterialObject.EffectMaterial != null
+                )
+            {
+                newParticleSpriteRenderer.material = ExtendEffectMaterialObject.EffectMaterial;
+            }
 
             if (newParticle.TryGetComponent(out Rigidbody2D newParticleRigidBody))
             {
@@ -84,6 +94,15 @@ public class ParticleSpawner : MonoBehaviour
             eulerAngle.y > 90f ? 180f : 0f,
             eulerAngle.z
             );
+
+        if (
+            ExtendEffectMaterialObject != null &&
+            newParticle.TryGetComponent(out ParticleSystemRenderer newParticleRenderer) &&
+            ExtendEffectMaterialObject.EffectMaterial != null
+            )
+        {
+            newParticleRenderer.material = ExtendEffectMaterialObject.EffectMaterial;
+        }
 
         OnParticleSystemSpawned?.Invoke(this, newParticle);
 
