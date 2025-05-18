@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[DefaultExecutionOrder(99)]
 public class CharacterEffectsReceiver : ObjectEffectsReceiver
 {
     private CharacterComponentsManager _charComponents;
@@ -12,6 +13,11 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
     {
         base.OnAwake();
         if (!TryGetComponent(out _charComponents)) throw new UnityException("CharacterComponentsManager component not found at " + gameObject.name);
+        _defaultEffectMaterial =
+            (
+            _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.BODY) ??
+            _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.HEAD)
+            ).CharPartVisual.Material;
     }
 
     public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb)
@@ -128,5 +134,20 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
                 _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb),
                 (equpmentPart) => equpmentPart.CharPartEffectsReceiver.GetHasImmuneToEffect(effect)
                 );
+    }
+
+    protected override void OnSetEffectMaterial(Material effectMaterial)
+    {
+        var newMaterial = effectMaterial ?? _defaultEffectMaterial;
+
+        SetPartEffectMaterial(effectMaterial, _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.BODY));
+        SetPartEffectMaterial(effectMaterial, _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.HEAD));
+    }
+    private void SetPartEffectMaterial(Material effectMaterial, CharacterPart charPart)
+    {
+        if (charPart != null)
+        {
+            charPart.CharPartVisual.Material = effectMaterial;
+        }
     }
 }

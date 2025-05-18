@@ -11,6 +11,7 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
     /// </summary>
     public int EffectPriority = 100;
     public AbstractEffect AlternativeCharacterEffectIfResisted = null;
+    public Material EffectMaterial = null;
 
     private ObjectEffectsReceiver _affectedObject;
 

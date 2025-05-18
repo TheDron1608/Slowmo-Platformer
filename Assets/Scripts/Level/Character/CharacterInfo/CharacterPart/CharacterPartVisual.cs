@@ -26,6 +26,12 @@ public class CharacterPartVisual : AbstractCharacterComponent
         }
     }
 
+    public Material Material
+    {
+        get => _spriteRenderer.material;
+        set => _spriteRenderer.material = value;
+    }
+
     protected override void OnAwake()
     {
         base.OnAwake();

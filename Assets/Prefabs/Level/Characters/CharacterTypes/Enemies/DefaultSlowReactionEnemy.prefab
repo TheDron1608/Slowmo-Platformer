@@ -60,10 +60,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4841599191359459276, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 769ee9b7af483c548bc95eae7437107b, type: 2}
     - target: {fileID: 7466261371012752510, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: m_Name
       value: DefaultSlowReactionEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8582051835333405895, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 769ee9b7af483c548bc95eae7437107b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

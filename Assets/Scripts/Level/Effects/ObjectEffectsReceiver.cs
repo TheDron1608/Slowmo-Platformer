@@ -11,6 +11,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
 {
     [SerializeField] private List<AbstractEffect> _currentEffects = new();
     private MonoBehaviour _lastSender = null;
+    protected Material _defaultEffectMaterial = null;
 
     public event EventHandler<AbstractEffect> OnEffectAdded;
     public event EventHandler<AbstractEffect> OnEffectRemoved;
@@ -38,6 +39,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             ApplyEffect(effect, null);
         }
+        _defaultEffectMaterial = GetComponentInChildren<SpriteRenderer>()?.material;
     }
 
     private void AddLastEffectSender(MonoBehaviour effectSender)
@@ -76,11 +78,25 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 AddLastEffectSender(sender);
             }
 
+            if (effect.EffectMaterial != null)
+            {
+                OnSetEffectMaterial(effect.EffectMaterial);
+            }
+
             OnEffectAdded?.Invoke(this, newEffect);
         }
         else if (effect.AlternativeCharacterEffectIfResisted != null && !effect.AlternativeCharacterEffectIfResisted.Equals(effect))
         {
             ApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender);
+        }
+    }
+
+    protected virtual void OnSetEffectMaterial(Material effectMaterial)
+    {
+        var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.material = effectMaterial;
         }
     }
 
@@ -113,6 +129,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 i--;
             }
         }
+        UpdateEffectMaterial();
     }
 
     public void RemoveEffect(AbstractEffect effect)
@@ -129,6 +146,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 i--;
             }
         }
+        UpdateEffectMaterial();
     }
 
     public void RemoveEffect(List<AbstractEffect> effects)
@@ -204,5 +222,18 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void UpdateEffectMaterial()
+    {
+        foreach (AbstractEffect effect in _currentEffects)
+        {
+            if (effect.EffectMaterial != null)
+            {
+                OnSetEffectMaterial(effect.EffectMaterial);
+                return;
+            }
+        }
+        OnSetEffectMaterial(_defaultEffectMaterial);
     }
 }
