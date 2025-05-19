@@ -22,4 +22,18 @@ public class CharacterLimbPart : CharacterPart
             }
         }
     }
+
+    public void DestroyAllEquipments()
+    {
+        for (int i = 0; i < CharComponents.CharacterPartsManager.CharacterParts.Count; i++)
+        {
+            if (
+                CharComponents.CharacterPartsManager.CharacterParts[i] is CharacterEquipmentPart equipmentPart &&
+                equipmentPart.EquipAtType == PartType
+                )
+            {
+                equipmentPart.DestroyPart();
+            }
+        }
+    }
 }

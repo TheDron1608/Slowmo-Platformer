@@ -42,4 +42,9 @@ public class CharacterEquipmentPart : CharacterPart
 
         DestroyPart();
     }
+
+    public CharacterLimbPart GetEquipedAtLimb()
+    {
+        return CharComponents.CharacterPartsManager.GetCharacterPart(EquipAtType)?.GetComponent<CharacterLimbPart>();
+    }
 }

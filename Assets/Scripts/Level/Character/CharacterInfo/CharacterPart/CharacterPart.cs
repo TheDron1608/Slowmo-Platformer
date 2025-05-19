@@ -23,6 +23,11 @@ public abstract class CharacterPart : AbstractCharacterComponent
 
     public event EventHandler<CharacterPart> OnRemoved;
 
+    public List<CharacterEquipmentPart> GetEquipedAtParts()
+    {
+        return CharComponents.CharacterPartsManager.GetCharacterPartEquipment(this);
+    }
+
     public void DestroyPart()
     {
         CharPartEffectsReceiver.CurrentEffects.Clear();

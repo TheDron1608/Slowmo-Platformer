@@ -79,7 +79,7 @@ public class CharacterPartHealth : AbstractCharacterComponent
 
         if (TryGetComponent(out CharacterLimbPart limbPart))
         {
-            limbPart.UnequipAllEquipments();
+            limbPart.DestroyAllEquipments();
         }
 
         GameObject.Destroy(gameObject);

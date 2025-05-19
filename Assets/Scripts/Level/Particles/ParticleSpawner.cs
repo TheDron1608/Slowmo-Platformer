@@ -68,6 +68,11 @@ public class ParticleSpawner : MonoBehaviour
                 newParticleRigidBody.angularVelocity = SpawnAngularVeclocity * (UnityEngine.Random.value * 2 - 1);
             }
 
+            if (newParticle is CharacterPartPhysicsParticle charPartPhysicsParticle)
+            {
+                charPartPhysicsParticle.CharacterPart = GetComponent<CharacterPart>() ?? GetComponentInParent<CharacterPart>();
+            }
+
             OnPhysicsParticleSpawned?.Invoke(this, newParticle);
 
             yield return new WaitForSeconds(duration);
