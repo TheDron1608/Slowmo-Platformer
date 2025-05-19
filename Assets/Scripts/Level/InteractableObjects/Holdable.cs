@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class Holdable : Interactable
 {
-    const int ON_GRAB_SORTING_ORDER_ADD = 50;
+    const int ON_GRAB_SORTING_ORDER_ADD = 200;
     const float STUCK_IN_WALL_STRINGHT = 40f;
     const float DISABLE_GRAVITY_DURATION_SECONDS = 1f;
     const float MIN_VELOCITY_TO_DISABLE_GRAVITY = 10f;
@@ -141,6 +141,7 @@ public class Holdable : Interactable
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("BoxCollider2D component not found");
         if (!TryGetComponent(out _thrownColliderComponent)) throw new UnityException("CircleCollider2D component not found");
+        _spriteRendererComponent.sortingOrder += (int)(UnityEngine.Random.value * 99f);
     }
 
     private void Update()

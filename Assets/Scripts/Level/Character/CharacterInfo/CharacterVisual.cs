@@ -3,6 +3,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
+[DefaultExecutionOrder(2)]
 public class CharacterVisual : AbstractCharacterComponent
 {
     const string CHARACTER_PARTS_GAMEOBJECT_NAME = "CharacterParts";
@@ -80,6 +81,7 @@ public class CharacterVisual : AbstractCharacterComponent
     private CharacterPartBusyStates _currentBusyAnimation = CharacterPartBusyStates.NONE; //when busy animation is played, character is unable to do most actions
     private Transform _characterPartsContainer;
     private Sprite _spritePrevFrame;
+    private int _randomizedExtraSpriteSortingOrder;
 
     public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
@@ -91,6 +93,7 @@ public class CharacterVisual : AbstractCharacterComponent
         base.OnAwake();
         _characterPartsContainer = transform.Find(CHARACTER_PARTS_GAMEOBJECT_NAME);
         _spritePrevFrame = CharComponents.SampleSpriteRenderer.sprite;
+        _randomizedExtraSpriteSortingOrder = (int)(UnityEngine.Random.value * 99f);
     }
 
     public bool FlippedH
@@ -173,6 +176,11 @@ public class CharacterVisual : AbstractCharacterComponent
             _moveSpeed = value;
             CharComponents.Animator.SetFloat(ANIMATOR_MOVE_SPEED_PARAM_NAME, value);
         }
+    }
+
+    public int RandomExtraSpriteRendererSortingOrder
+    {
+        get => _randomizedExtraSpriteSortingOrder;
     }
 
     private void Update()

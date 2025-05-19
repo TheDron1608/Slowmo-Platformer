@@ -5,6 +5,7 @@ using UnityEditor.U2D;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
+[DefaultExecutionOrder(5)]
 public class CharacterPartVisual : AbstractCharacterComponent
 {
     private SpriteRenderer _spriteRenderer;
@@ -42,6 +43,7 @@ public class CharacterPartVisual : AbstractCharacterComponent
         CharComponents.CharacterVisual.OnSpriteFlippedChanged += CharacterVisual_OnSpriteFlippedChanged;
 
         _spriteRenderer.sortingOrder += CharacterMultiSpritesSO.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
+        _spriteRenderer.sortingOrder += CharComponents.CharacterVisual.RandomExtraSpriteRendererSortingOrder;
     }
 
     private void CharacterVisual_OnSampleSpriteChanged(object sender, Sprite sampleSprite)

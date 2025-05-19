@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[DefaultExecutionOrder(99)]
+[DefaultExecutionOrder(6)]
 public class CharacterEffectsReceiver : ObjectEffectsReceiver
 {
     private CharacterComponentsManager _charComponents;

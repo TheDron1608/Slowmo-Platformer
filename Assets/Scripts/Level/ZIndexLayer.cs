@@ -120,11 +120,11 @@ public class ZIndexLayer : MonoBehaviour
     {
         if (gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
         {
-            spriteRenderer.sortingOrder = spriteRenderer.sortingOrder % 100 + ZIndex * 100;
+            spriteRenderer.sortingOrder = spriteRenderer.sortingOrder % 1000 + ZIndex * 1000;
         }
         else if (gameObject.TryGetComponent(out TilemapRenderer tileMapRenderer))
         {
-            tileMapRenderer.sortingOrder = tileMapRenderer.sortingOrder % 100 + ZIndex * 100;
+            tileMapRenderer.sortingOrder = tileMapRenderer.sortingOrder % 1000 + ZIndex * 1000;
         }
 
         switch (gameObject.tag)

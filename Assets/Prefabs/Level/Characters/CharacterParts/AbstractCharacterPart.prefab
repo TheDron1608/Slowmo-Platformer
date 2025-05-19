@@ -55,6 +55,7 @@ MonoBehaviour:
   SpawnVelocity: 2.5
   SpawnAngle: 75
   SpawnAngularVeclocity: 720
+  ExtendEffectMaterialObject: {fileID: 0}
 --- !u!114 &9191548071030554266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 30
+  m_SortingOrder: 500
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

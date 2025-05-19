@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 4100
   m_Sprite: {fileID: 21300000, guid: 4467a00c0bfd95245921442a9df7474c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -320,10 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d815901173a3f4d933aabc442e4570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectType: 6
-  PlayerInputToInteract: {fileID: 3882781433251131672, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   SelectMaxRangeMultiplier: 0
-  SelectedColorDarkness: 0.64
   _spriteRendererComponent: {fileID: 4638608704075905683}
   AnimationOnStartInteract: 2
   AnimationOnFinishInteract: 1

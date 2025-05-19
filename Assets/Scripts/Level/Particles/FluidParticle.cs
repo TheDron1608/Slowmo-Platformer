@@ -1,6 +1,5 @@
 using System.Collections;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FluidParticle : MonoBehaviour
@@ -8,9 +7,11 @@ public class FluidParticle : MonoBehaviour
     const float FLUID_STOP_VELOCITY_MULTIPLIER = 10f;
     const float FLUID_GRAVITY_MULTIPLIER = 0.5f;
     const float MIN_APPEAR_SPEED_LIFETIME_REQUIRED = 0.125f;
+    const float MAX_DISTANCE_TO_INCREASE_SPRITE_SORTING_ORDER = 1.5f;
     const float MAX_DISTANCE_TO_REMOVE_NEAREST_PARTICLE = 0.15f;
     const float REMOVE_DURATION_SECONDS = 0.5f;
     const string ANIMATOR_APPEAR_SPEED_PARAM_NAME = "AppearSpeed";
+    const int FLYING_SPRITE_SORTING_ORDER_ADD = 99;
 
     private Vector2  _velocity;
     private float _lifeTime;
@@ -31,6 +32,7 @@ public class FluidParticle : MonoBehaviour
     {
         _previousPosition = transform.position;
         _currentEnviromentLayerMask = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer;
+        GetComponent<SpriteRenderer>().sortingOrder += FLYING_SPRITE_SORTING_ORDER_ADD;
     }
 
     public void SetProperties(Vector2 velocity, float lifeTime, Material material)
@@ -85,6 +87,9 @@ public class FluidParticle : MonoBehaviour
             }
         }
 
+        GetComponent<SpriteRenderer>().sortingOrder -= FLYING_SPRITE_SORTING_ORDER_ADD;
+
+        int highestRemovedParticleSortingOrder = 0;
         Transform particlesContainer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).FluidParticlesContainer;
         for (int i = 0; i < particlesContainer.childCount; i++)
         {
@@ -93,20 +98,28 @@ public class FluidParticle : MonoBehaviour
                 particle != null &&
                 particle.TryGetComponent(out FluidParticle fluidparticle) &&
                 fluidparticle.GetIsStatic() && 
-                Vector2.Distance(transform.position, particle.position) <= MAX_DISTANCE_TO_REMOVE_NEAREST_PARTICLE &&
                 fluidparticle != this
                 ) 
             {
-                if (Size > fluidparticle.Size)
+                float distanceToFluidParticle = Vector2.Distance(transform.position, particle.position);
+
+                if (
+                    distanceToFluidParticle <= MAX_DISTANCE_TO_REMOVE_NEAREST_PARTICLE &&
+                    (
+                        (GetComponent<SpriteRenderer>().material == fluidparticle.GetComponent<SpriteRenderer>().material && Size >= fluidparticle.Size) ||
+                        Size > fluidparticle.Size
+                    )
+                    )
                 {
                     fluidparticle.RemoveFluidParticle();
                 }
-                else if (Size != fluidparticle.Size)
+                else if (distanceToFluidParticle <= MAX_DISTANCE_TO_INCREASE_SPRITE_SORTING_ORDER)
                 {
-                    this.RemoveFluidParticle();
+                    highestRemovedParticleSortingOrder = math.max(highestRemovedParticleSortingOrder, (fluidparticle.GetComponent<SpriteRenderer>().sortingOrder + 1) % 100);
                 }
             }
         }
+        GetComponent<SpriteRenderer>().sortingOrder += highestRemovedParticleSortingOrder;
     }
 
     public bool GetIsStatic()
