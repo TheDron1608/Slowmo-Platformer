@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using UnityEditor;
 
 public static class GameObjectUtility
 {

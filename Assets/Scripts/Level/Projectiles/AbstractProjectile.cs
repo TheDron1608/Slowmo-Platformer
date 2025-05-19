@@ -10,8 +10,9 @@ public abstract class AbstractProjectile : MonoBehaviour
     public bool FiendlyFire = false;
     public bool IsAbleToHit = true;
 
-    private Weapon _weapon;
-    private CharacterHoldingObjects _owner;
+    private Weapon _weapon = null;
+    private Weapon _deflector = null;
+    private CharacterHoldingObjects _owner = null;
     protected List<Collider2D> _currentHittingColliders = new();
     private ObjectEffectsReceiver _effectsReceiver;
 
@@ -25,16 +26,21 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        if (!TryGetComponent(out _effectsReceiver)) throw new UnityException("ObjectEffectsReceiver components not found at " + gameObject.name);
+        if (!TryGetComponent(out _effectsReceiver)) throw new UnityException("ObjectEffectsReceiver component not found at " + gameObject.name);
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         layer.UpdateLayerForGameObject(gameObject);
         transform.parent = layer.transform;
     }
 
-    public Weapon Weapon
+    public virtual Weapon Weapon
     {
         get => _weapon;
         protected set => _weapon = value;
+    }
+    public Weapon Deflector
+    {
+        get => _deflector;
+        protected set => _deflector = value;
     }
     public CharacterHoldingObjects Owner
     {
@@ -79,6 +85,11 @@ public abstract class AbstractProjectile : MonoBehaviour
     }
 
     protected abstract List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null);
+
+    public virtual void OnDeflected(MeleeProjectile deflector)
+    {
+        Deflector = deflector.Weapon;
+    }
 
     private void ApplySelfEffectOnWeaponUser(List<AbstractProjectile> projectiles, Weapon weapon)
     {

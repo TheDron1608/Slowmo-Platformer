@@ -10,7 +10,7 @@ public class ParticleSpawner : MonoBehaviour
     public float SpawnVelocity = 1f;
     public float SpawnAngle = 0f;
     public float SpawnAngularVeclocity = 0f;
-    public ObjectEffectsReceiver ExtendEffectMaterialObject = null;
+    public Material OverrideEffectMaterial = null;
 
     public static event EventHandler<PhysicsParticle> OnPhysicsParticleSpawned;
     public static event EventHandler<ParticleSystem> OnParticleSystemSpawned;
@@ -42,12 +42,11 @@ public class ParticleSpawner : MonoBehaviour
             newParticle.transform.rotation = transform.rotation;
 
             if (
-                ExtendEffectMaterialObject != null && 
-                newParticle.TryGetComponent(out SpriteRenderer newParticleSpriteRenderer) && 
-                ExtendEffectMaterialObject.EffectMaterial != null
+                OverrideEffectMaterial != null && 
+                newParticle.TryGetComponent(out SpriteRenderer newParticleSpriteRenderer)
                 )
             {
-                newParticleSpriteRenderer.material = ExtendEffectMaterialObject.EffectMaterial;
+                newParticleSpriteRenderer.material = OverrideEffectMaterial;
             }
 
             if (newParticle.TryGetComponent(out Rigidbody2D newParticleRigidBody))
@@ -101,12 +100,11 @@ public class ParticleSpawner : MonoBehaviour
             );
 
         if (
-            ExtendEffectMaterialObject != null &&
-            newParticle.TryGetComponent(out ParticleSystemRenderer newParticleRenderer) &&
-            ExtendEffectMaterialObject.EffectMaterial != null
+            OverrideEffectMaterial != null &&
+            newParticle.TryGetComponent(out ParticleSystemRenderer newParticleRenderer)
             )
         {
-            newParticleRenderer.material = ExtendEffectMaterialObject.EffectMaterial;
+            newParticleRenderer.material = OverrideEffectMaterial;
         }
 
         OnParticleSystemSpawned?.Invoke(this, newParticle);

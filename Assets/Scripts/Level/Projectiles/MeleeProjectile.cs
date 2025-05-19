@@ -18,6 +18,19 @@ public class MeleeProjectile : AbstractProjectile
     private Rigidbody2D _rigidBody;
     private int _hitWallLayerMask;
 
+    public override Weapon Weapon 
+    { 
+        get => base.Weapon;
+        protected set
+        {
+            base.Weapon = value;
+            if (Weapon != null && Weapon.TryGetComponent(out Holdable holdableWeapon))
+            {
+                GetComponent<SpriteRenderer>().material = holdableWeapon.EffectsReceiver.EffectMaterial;
+            }
+        }
+    }
+
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -93,6 +106,7 @@ public class MeleeProjectile : AbstractProjectile
 
     protected virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
     {
+        defleclectedProjectile.OnDeflected(this);
         defleclectedProjectile.EffectsReceiver.ApplyEffect(EffectsOnDeflect, this);
         Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnDeflect, this);
     }

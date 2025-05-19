@@ -39,6 +39,7 @@ public class Holdable : Interactable
     private Rigidbody2D _rigidBodyComponent;
     private BoxCollider2D _colliderComponent;
     private CircleCollider2D _thrownColliderComponent;
+    private ObjectEffectsReceiver _effectsReceiver;
 
     private Collider2D _stuckedToCollider = null;
     private Vector2 _velocitySpeedPreviousFrame = Vector2.zero;
@@ -129,6 +130,11 @@ public class Holdable : Interactable
         }
     }
 
+    public ObjectEffectsReceiver EffectsReceiver
+    {
+        get => _effectsReceiver;
+    }
+
     private void Awake()
     {
         OnAwake();
@@ -141,6 +147,7 @@ public class Holdable : Interactable
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("BoxCollider2D component not found");
         if (!TryGetComponent(out _thrownColliderComponent)) throw new UnityException("CircleCollider2D component not found");
+        if (!TryGetComponent(out _effectsReceiver)) throw new UnityException("EffectsReceiver component not found");
         _spriteRendererComponent.sortingOrder += (int)(UnityEngine.Random.value * 99f);
     }
 
