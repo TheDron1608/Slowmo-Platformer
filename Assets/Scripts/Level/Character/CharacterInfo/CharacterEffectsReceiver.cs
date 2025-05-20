@@ -17,7 +17,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
             (
             _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.BODY) ??
             _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.HEAD)
-            ).CharPartVisual.Material;
+            ).CharPartVisual.SharedMaterial;
     }
 
     public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb)
@@ -144,7 +144,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
             {
                 if (charPart.EffectMaterialOverridedByEntireEffects)
                 {
-                    return charPart.CharPartVisual.Material;
+                    return charPart.CharPartVisual.SharedMaterial;
                 }
             }
 
@@ -158,7 +158,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
             {
                 if (charPart.EffectMaterialOverridedByEntireEffects)
                 {
-                    charPart.CharPartVisual.Material = newMaterial;
+                    charPart.CharPartVisual.SharedMaterial = newMaterial;
                 }
             }
         }

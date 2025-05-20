@@ -46,7 +46,7 @@ public class ParticleSpawner : MonoBehaviour
                 newParticle.TryGetComponent(out SpriteRenderer newParticleSpriteRenderer)
                 )
             {
-                newParticleSpriteRenderer.material = OverrideEffectMaterial;
+                newParticleSpriteRenderer.sharedMaterial = OverrideEffectMaterial;
             }
 
             if (newParticle.TryGetComponent(out Rigidbody2D newParticleRigidBody))
@@ -104,7 +104,7 @@ public class ParticleSpawner : MonoBehaviour
             newParticle.TryGetComponent(out ParticleSystemRenderer newParticleRenderer)
             )
         {
-            newParticleRenderer.material = OverrideEffectMaterial;
+            newParticleRenderer.sharedMaterial = OverrideEffectMaterial;
         }
 
         OnParticleSystemSpawned?.Invoke(this, newParticle);

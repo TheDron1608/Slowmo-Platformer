@@ -26,7 +26,7 @@ public class MeleeProjectile : AbstractProjectile
             base.Weapon = value;
             if (Weapon != null && Weapon.TryGetComponent(out Holdable holdableWeapon))
             {
-                GetComponent<SpriteRenderer>().material = holdableWeapon.EffectsReceiver.EffectMaterial;
+                GetComponent<SpriteRenderer>().sharedMaterial = holdableWeapon.EffectsReceiver.EffectMaterial;
             }
         }
     }

@@ -37,7 +37,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             ApplyEffect(effect, null);
         }
-        _defaultEffectMaterial = GetComponentInChildren<SpriteRenderer>()?.material;
+        _defaultEffectMaterial = GetComponentInChildren<SpriteRenderer>()?.sharedMaterial;
     }
 
     private void AddLastEffectSender(MonoBehaviour effectSender)
@@ -93,14 +93,14 @@ public class ObjectEffectsReceiver : MonoBehaviour
     {
         get
         {
-            return GetComponentInChildren<SpriteRenderer>()?.material;
+            return GetComponentInChildren<SpriteRenderer>()?.sharedMaterial;
         }
         protected set
         {
             var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             if (spriteRenderer != null)
             {
-                spriteRenderer.material = value;
+                spriteRenderer.sharedMaterial = value;
             }
         }
     }

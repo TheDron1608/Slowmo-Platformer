@@ -27,10 +27,10 @@ public class CharacterPartVisual : AbstractCharacterComponent
         }
     }
 
-    public Material Material
+    public Material SharedMaterial
     {
-        get => _spriteRenderer.material;
-        set => _spriteRenderer.material = value;
+        get => _spriteRenderer.sharedMaterial;
+        set => _spriteRenderer.sharedMaterial = value;
     }
 
     protected override void OnAwake()

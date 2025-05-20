@@ -7,7 +7,7 @@ public static class GameObjectUtility
     public static void CopySpriteRenderer(SpriteRenderer from, SpriteRenderer to)
     {
         to.sprite = from.sprite;
-        to.material = from.material;
+        to.sharedMaterial = from.sharedMaterial;
         to.color = from.color;
         to.sortingOrder = from.sortingOrder;
     }
