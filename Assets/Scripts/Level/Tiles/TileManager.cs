@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
+using static UnityEngine.InputSystem.OnScreen.OnScreenStick;
 
 public class TileManager : MonoBehaviour
 {
@@ -89,21 +91,59 @@ public class TileManager : MonoBehaviour
         UpdateTileAINavigationInfo();
     }
 
-    public TileBehaviour.TileBehaviourType? GetTileBehaviourAt(Vector2 position)
+    public List<TileBehaviour.TileBehaviourType> GetTileBehavioursAt(Vector2 position)
     {
+        List<TileBehaviour.TileBehaviourType> result = new();
+        Vector3Int tilePosition = 
+            new Vector3Int(
+            (int)math.floor(position.x),
+            (int)math.floor(position.y)
+            );
+
         foreach (Tilemap tilemap in _tilemaps)
         {
-            if (tilemap.HasTile(
-                new Vector3Int(
-                    (int)math.floor(position.x), 
-                    (int)math.floor(position.y)
-                    )
-                ))
+            if (tilemap.HasTile(tilePosition))
             {
-                return tilemap.GetComponent<TileBehaviour>().BehaviourType;
+                result.Add(tilemap.GetComponent<TileBehaviour>().BehaviourType);
             }
         }
-        return null;
+        return result;
+    }
+
+    public bool GetHasTileBehaviourAt(Vector2 position, TileBehaviour.TileBehaviourType behaviour)
+    {
+        Vector3Int tilePosition =
+        new Vector3Int(
+            (int)math.floor(position.x),
+            (int)math.floor(position.y)
+            );
+
+        foreach (Tilemap tilemap in _tilemaps)
+        {
+            if (tilemap.GetComponent<TileBehaviour>()?.BehaviourType == behaviour && tilemap.HasTile(tilePosition))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetTileValidAsPlatformAt(Vector2 position)
+    {
+        Vector3Int tilePosition =
+            new Vector3Int(
+            (int)math.floor(position.x),
+            (int)math.floor(position.y)
+            );
+
+        foreach (Tilemap tilemap in _tilemaps)
+        {
+            if ((tilemap.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? false) && tilemap.HasTile(tilePosition))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public NavigationPlatformInfo GetPlatformUnderPoint(Vector2Int point)
@@ -124,6 +164,8 @@ public class TileManager : MonoBehaviour
 
         foreach (Tilemap tilemap in _tilemaps)
         {
+            if (!tilemap.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? true) continue;
+
             NavigationPlatformInfo currentPlatform = null;
             foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
             {
@@ -142,7 +184,7 @@ public class TileManager : MonoBehaviour
                 }
                 else if (currentPlatform != null)
                 {
-                    //currentPlatform.Debug_DrawPlatform(Color.white, 999f);
+                    //currentPlatform.Debug_DrawPlatform(Color.black, 999f);
 
                     _navigationPlatforms.Add(currentPlatform);
                     currentPlatform = null;
@@ -452,7 +494,7 @@ public class TileManager : MonoBehaviour
         {
             for (int y = filteredStart.y; y <= filteredEnd.y; y++)
             {
-                if (GetTileBehaviourAt(new Vector2(x, y)) != null)
+                if (GetTileValidAsPlatformAt(new Vector2(x, y)))
                 {
                     return result;
                 }
@@ -475,12 +517,14 @@ public class TileManager : MonoBehaviour
         {
             for (int y = filteredStart.y; y <= filteredEnd.y; y++)
             {
-                if (GetTileBehaviourAt(new Vector2(x, y)) != null)
+                if (GetTileValidAsPlatformAt(new Vector2(x, y)))
                 {
+                    //Debug_MarkArea(filteredStart, filteredEnd, Color.red, 1f);
                     return true;
                 }
             }
         }
+        //Debug_MarkArea(filteredStart, filteredEnd, Color.green, 1f);
         return false;
     }
 

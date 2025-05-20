@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FluidParticle : MonoBehaviour
 {
+    const float MAX_FLUID_PARTICLE_LIFETIME_SECONDS = 10f;
     const float FLUID_STOP_VELOCITY_MULTIPLIER = 10f;
     const float FLUID_GRAVITY_MULTIPLIER = 0.5f;
     const float MIN_APPEAR_SPEED_LIFETIME_REQUIRED = 0.125f;
@@ -19,6 +20,15 @@ public class FluidParticle : MonoBehaviour
     private Vector3 _previousPosition;
     private int _currentEnviromentLayerMask;
     private Coroutine _removeCoroutine;
+    private bool _addedExtraFlyingSortingOrder = false;
+    private Sprite _flyingSprite;
+
+    private void SetAddedExtraFlyingSortingOrder(bool value)
+    {
+        if (_addedExtraFlyingSortingOrder == value) return;
+        GetComponent<SpriteRenderer>().sortingOrder += FLYING_SPRITE_SORTING_ORDER_ADD * (value ? 1 : -1);
+        _addedExtraFlyingSortingOrder = value;
+    }
 
     [SerializeField] private int _size;
 
@@ -30,9 +40,8 @@ public class FluidParticle : MonoBehaviour
 
     private void Awake()
     {
-        _previousPosition = transform.position;
         _currentEnviromentLayerMask = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer;
-        GetComponent<SpriteRenderer>().sortingOrder += FLYING_SPRITE_SORTING_ORDER_ADD;
+        _flyingSprite = GetComponent<SpriteRenderer>().sprite;
     }
 
     public void SetProperties(Vector2 velocity, float lifeTime, Material material)
@@ -56,39 +65,96 @@ public class FluidParticle : MonoBehaviour
 
     private IEnumerator MoveCoroutine()
     {
-        bool stopParticleSmoothly = true;
-        while (_lifeTime > 0f)
+        GetComponent<Animator>().enabled = false;
+        GetComponent<SpriteRenderer>().sprite = _flyingSprite;
+        SetAddedExtraFlyingSortingOrder(true);
+
+        _previousPosition = transform.position;
+
+        float _awaitTime = 0f;
+        while (true)
         {
             transform.position += VectorMath.Vec2ToVec3(_velocity) * Time.fixedDeltaTime;
-            _velocity += Physics2D.gravity * Time.fixedDeltaTime * FLUID_GRAVITY_MULTIPLIER;
+            _velocity += Physics2D.gravity * Time.fixedDeltaTime;
             transform.rotation = VectorMath.Vec2ToQuarterninon2D(_velocity);
             yield return new WaitForFixedUpdate();
             _lifeTime -= Time.fixedDeltaTime;
+            _awaitTime += Time.fixedDeltaTime;
+
+            bool isOnBackgound = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TileManager.GetHasTileBehaviourAt(
+                    transform.position, TileBehaviour.TileBehaviourType.BACKGROUND
+                    );
+
+            if (_lifeTime <= 0f && isOnBackgound)
+            {
+                StartCoroutine(SmoothStopCoroutine());
+                break;
+            }
 
             RaycastHit2D hit = Physics2D.Linecast(_previousPosition, transform.position, _currentEnviromentLayerMask);
-            if (hit.point != Vector2.zero)
+            if (hit.collider != null)
             {
                 transform.position = VectorMath.Vec2ToVec3(hit.point, transform.position.z);
-                stopParticleSmoothly = false;
+                if (isOnBackgound)
+                {
+                    InstantStop();
+                }
+                else
+                {
+                    InstantRemoveFluidParticle();
+                }
+                break;
+            }
+
+            if (_awaitTime > MAX_FLUID_PARTICLE_LIFETIME_SECONDS)
+            {
+                RemoveFluidParticle();
+                break;
+            }
+
+            _previousPosition = transform.position;
+        }
+    }
+
+    private IEnumerator SmoothStopCoroutine()
+    {
+        GetComponent<Animator>().enabled = true;
+
+        while (true)
+        {
+            yield return new WaitForFixedUpdate();
+
+            transform.position += VectorMath.Vec2ToVec3(_velocity) * Time.fixedDeltaTime;
+            _velocity = math.lerp(_velocity, 0, Time.fixedDeltaTime * FLUID_STOP_VELOCITY_MULTIPLIER);
+
+            if (
+                !LayerManager.Instance.GetZLayerOfGameObject(gameObject).TileManager.GetHasTileBehaviourAt(
+                    transform.position, TileBehaviour.TileBehaviourType.BACKGROUND
+                    )
+                )
+            {
+                StartCoroutine(MoveCoroutine());
+                break;
+            }
+
+            if (VectorMath.Vec2ToDistance(_velocity) <= 0.05f)
+            {
+                InstantStop();
                 break;
             }
         }
-        _velocity = Vector2.zero;
+    }
 
+    private void InstantStop()
+    {
         GetComponent<Animator>().enabled = true;
+        SetAddedExtraFlyingSortingOrder(false);
+        _velocity = Vector2.zero;
+        RemoveNeighbourFluidParticlesAndSetSortingOrder();
+    }
 
-        if (stopParticleSmoothly)
-        {
-            while (VectorMath.Vec2ToDistance(_velocity) > 0.05f)
-            {
-                transform.position += VectorMath.Vec2ToVec3(_velocity) * Time.fixedDeltaTime;
-                _velocity = math.lerp(_velocity, 0, Time.fixedDeltaTime * FLUID_STOP_VELOCITY_MULTIPLIER);
-                yield return new WaitForFixedUpdate();
-            }
-        }
-
-        GetComponent<SpriteRenderer>().sortingOrder -= FLYING_SPRITE_SORTING_ORDER_ADD;
-
+    private void RemoveNeighbourFluidParticlesAndSetSortingOrder()
+    {
         int highestRemovedParticleSortingOrder = 0;
         Transform particlesContainer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).FluidParticlesContainer;
         for (int i = 0; i < particlesContainer.childCount; i++)
@@ -97,9 +163,9 @@ public class FluidParticle : MonoBehaviour
             if (
                 particle != null &&
                 particle.TryGetComponent(out FluidParticle fluidparticle) &&
-                fluidparticle.GetIsStatic() && 
+                fluidparticle.GetIsStatic() &&
                 fluidparticle != this
-                ) 
+                )
             {
                 float distanceToFluidParticle = Vector2.Distance(transform.position, particle.position);
 
@@ -138,6 +204,11 @@ public class FluidParticle : MonoBehaviour
         {
             _removeCoroutine = StartCoroutine(RemoveFluidParticleProcess());
         }
+    }
+
+    public void InstantRemoveFluidParticle()
+    {
+        GameObject.Destroy(gameObject);
     }
 
     private IEnumerator RemoveFluidParticleProcess()
