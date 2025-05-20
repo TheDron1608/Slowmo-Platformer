@@ -47,6 +47,10 @@ public abstract class AbstractProjectile : MonoBehaviour
         get => _owner;
         set => _owner = value;
     }
+    public CharacterHoldingObjects OwnerOrLastHolder
+    {
+        get => Owner ?? Weapon?.GetComponent<Holdable>()?.LastHolder;
+    }
     public ObjectEffectsReceiver EffectsReceiver
     {
         get => _effectsReceiver;
@@ -141,6 +145,7 @@ public abstract class AbstractProjectile : MonoBehaviour
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
                 (
+                    Owner != null &&
                     charComponent.CharComponents.CharacterHolding != Owner &&
                     (FiendlyFire || !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(Owner.CharComponents.CharacterTeam))
                 )

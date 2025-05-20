@@ -79,7 +79,7 @@ public class MeleeProjectile : AbstractProjectile
         // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
         for (int i = 0; i < hitObjects.Length; i++)
         {
-            if (hitObjects[i].TryGetComponent(out AbstractProjectile projectileHitObject) && projectileHitObject.Owner != Owner)
+            if (hitObjects[i].TryGetComponent(out AbstractProjectile projectileHitObject) && projectileHitObject.OwnerOrLastHolder != Owner)
             {
                 OnDeflect(projectileHitObject);
             }
