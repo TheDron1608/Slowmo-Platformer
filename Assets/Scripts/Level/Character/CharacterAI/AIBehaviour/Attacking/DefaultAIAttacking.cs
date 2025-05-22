@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class DefaultAIAttacking : AbstractAIAttacking
 {
-    public float MaxRangeForMeleeAttack = 1.75f;
     public bool AlwaysHammerWeaponBeforeAttack = true;
 
     private void FixedUpdate()
+    {
+        OnFixedUpdate();
+    }
+
+    protected virtual void OnFixedUpdate()
     {
         if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null)
         {
@@ -41,8 +45,16 @@ public class DefaultAIAttacking : AbstractAIAttacking
                         (
                             CharComponents.CharacterHolding.CurrentHoldObject != null && 
                             (
-                                (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && !rangedWeapon.GetIsOutOfAmmo()) ||
-                                (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null && _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance.Value <= MaxRangeForMeleeAttack)
+                                (
+                                    CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && 
+                                    rangedWeapon.Projectile != null &&
+                                    !rangedWeapon.GetIsOutOfAmmo()
+                                ) ||
+                                (
+                                    CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out MeleeWeapon meleeWeapon) && 
+                                    meleeWeapon.Projectile != null &&
+                                    _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance.Value <= meleeWeapon.Projectile.ProjectileSize
+                                )
                             )
                         )
                     )

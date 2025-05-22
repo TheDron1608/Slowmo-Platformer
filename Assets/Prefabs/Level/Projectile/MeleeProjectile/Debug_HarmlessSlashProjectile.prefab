@@ -105,17 +105,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b75ed1f04389a4e9db9917141964b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ProjectileSize: 1.435
   Accuracy: 1
   HitEffects: []
   SelfEffects:
   - {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
   FiendlyFire: 0
+  IsAbleToHit: 1
   WallKnockback: 5
   BlockKnockback: 15
   IsAbleTodeflectRangedProjectiles: 1
-  RangedProjectileDeflection: 2
   IsAbleTodeflectMeleeProjectiles: 1
-  MeleeProjectileDeflection: 1
   EffectsOnDeflect:
   - {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
   - {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}

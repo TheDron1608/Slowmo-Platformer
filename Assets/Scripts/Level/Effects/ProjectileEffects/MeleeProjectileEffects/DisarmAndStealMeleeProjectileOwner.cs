@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class DisarmAndStealMeleeProjectileOwner : AbstractMeleeProjectileEffectWithSender
+public class DisarmAndStealMeleeProjectileOwner : AbstractMeleeProjectileDeflection
 {
     protected override void OnReceivedSender(MonoBehaviour sender)
     {

@@ -107,4 +107,16 @@ public static class NumberMath
 
         return default(rT);
     }
+
+    public static bool GetListContainsComponent<T, lT>(List<lT> list) where lT : MonoBehaviour where T : MonoBehaviour
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i].GetComponent<T>() != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

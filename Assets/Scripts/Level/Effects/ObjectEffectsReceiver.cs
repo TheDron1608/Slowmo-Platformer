@@ -59,6 +59,10 @@ public class ObjectEffectsReceiver : MonoBehaviour
             );
     }
 
+    public void UpdateDefaultEffectMaterialToCurrent()
+    {
+        _defaultEffectMaterial = GetComponentInChildren<SpriteRenderer>()?.sharedMaterial;
+    }
 
     public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
     {

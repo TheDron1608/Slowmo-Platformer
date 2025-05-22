@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class BlockMeleeProjectile : AbstractMeleeProjectileEffectWithSender
+public class BlockMeleeProjectile : AbstractMeleeProjectileDeflection
 {
     const float KNOCKBACK_ON_FLOOR_MIN_VELOCITY = 3f;
 

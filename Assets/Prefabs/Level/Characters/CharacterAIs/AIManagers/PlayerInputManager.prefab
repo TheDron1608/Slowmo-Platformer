@@ -57,6 +57,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c6b7fafd6d015d458facce2d4dc61e7, type: 3}
+--- !u!114 &819228818606175129 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3201527248907260595, guid: 8c6b7fafd6d015d458facce2d4dc61e7, type: 3}
+  m_PrefabInstance: {fileID: 2823862893862281514}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d2dd5e3e924d74eb4d388368063281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2485687592009229967 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 382401239924541349, guid: 8c6b7fafd6d015d458facce2d4dc61e7, type: 3}
@@ -72,8 +83,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -493878796595810239, guid: c2812def0a3f0fe4b99476871576103a, type: 3}
       propertyPath: _stateBehaviourAIs.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -493878796595810239, guid: c2812def0a3f0fe4b99476871576103a, type: 3}
+      propertyPath: '_stateBehaviourAIs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 819228818606175129}
     - target: {fileID: 1108622081295078433, guid: c2812def0a3f0fe4b99476871576103a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

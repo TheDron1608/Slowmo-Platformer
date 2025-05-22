@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeflectRangedProjectile : AbstractRangedProjectileEffectWithSender
+public class DeflectRangedProjectile : AbstractRangedProjectileDeflection
 {
     protected override void OnReceivedSender(MonoBehaviour sender)
     {

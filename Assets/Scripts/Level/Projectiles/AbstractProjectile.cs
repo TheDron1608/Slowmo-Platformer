@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class AbstractProjectile : MonoBehaviour
 {
+    public float ProjectileSize = 1f;
     public float Accuracy = 1f;
     public List<AbstractEffect> HitEffects = new();
     public List<AbstractEffect> SelfEffects = new();
@@ -15,6 +16,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     private CharacterHoldingObjects _owner = null;
     protected List<Collider2D> _currentHittingColliders = new();
     private ObjectEffectsReceiver _effectsReceiver;
+    protected bool _wasDeflectedThisFrame = false;
 
     public event EventHandler<GameObject> OnHitSomeOne;
     public event EventHandler OnDestroyed;
@@ -29,7 +31,7 @@ public abstract class AbstractProjectile : MonoBehaviour
         if (!TryGetComponent(out _effectsReceiver)) throw new UnityException("ObjectEffectsReceiver component not found at " + gameObject.name);
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         layer.UpdateLayerForGameObject(gameObject);
-        transform.parent = layer.transform;
+        transform.parent = layer.ProjectilesContainer;
     }
 
     public virtual Weapon Weapon
@@ -68,6 +70,16 @@ public abstract class AbstractProjectile : MonoBehaviour
         return result;
     }
 
+    private void LateUpdate()
+    {
+        OnLateUpdate();
+    }
+
+    protected virtual void OnLateUpdate()
+    {
+        _wasDeflectedThisFrame = false;
+    }
+
     protected void AddCurrentHittingCollidersItem(Collider2D item)
     {
         if (item.TryGetComponent(out AbstractCharacterComponent charCollider))
@@ -92,7 +104,10 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     public virtual void OnDeflected(MeleeProjectile deflector)
     {
+        if (_wasDeflectedThisFrame) return;
+
         Deflector = deflector.Weapon;
+        _wasDeflectedThisFrame = true;
     }
 
     private void ApplySelfEffectOnWeaponUser(List<AbstractProjectile> projectiles, Weapon weapon)
@@ -114,6 +129,10 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     public virtual void OnHit(GameObject hitObject)
     {
+        if (hitObject.TryGetComponent(out MeleeProjectile meleeProjectile))
+        {
+            meleeProjectile.OnDeflect(this);
+        }
         if (hitObject.transform.parent.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
             charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPart>());
@@ -142,10 +161,11 @@ public abstract class AbstractProjectile : MonoBehaviour
     protected virtual bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
     {
         return
+            !_wasDeflectedThisFrame &&
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
                 (
-                    Owner != null &&
+                    Owner == null ||
                     charComponent.CharComponents.CharacterHolding != Owner &&
                     (FiendlyFire || !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(Owner.CharComponents.CharacterTeam))
                 )

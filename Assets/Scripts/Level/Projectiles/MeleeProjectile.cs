@@ -27,6 +27,7 @@ public class MeleeProjectile : AbstractProjectile
             if (Weapon != null && Weapon.TryGetComponent(out Holdable holdableWeapon) && TryGetComponent(out SpriteRenderer spriteRenderer))
             {
                 spriteRenderer.sharedMaterial = holdableWeapon.EffectsReceiver.EffectMaterial;
+                GetComponent<ObjectEffectsReceiver>()?.UpdateDefaultEffectMaterialToCurrent();
             }
         }
     }
@@ -45,12 +46,9 @@ public class MeleeProjectile : AbstractProjectile
         MeleeProjectile newProjectile = Instantiate(
                 this,
                 weapon.transform.position,
-                direction,
-                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).transform
+                VectorMath.RandomizeQuarternion(direction, Accuracy),
+                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).ProjectilesContainer
                 );
-
-        newProjectile.transform.position = weapon.transform.position;
-        newProjectile.transform.rotation = VectorMath.RandomizeQuarternion(direction, Accuracy);
 
         newProjectile.Weapon = weapon;
         if (weapon != null && weapon.TryGetComponent(out Holdable holdableWeapon))
@@ -104,7 +102,7 @@ public class MeleeProjectile : AbstractProjectile
         }
     }
 
-    protected virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
+    public virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
     {
         defleclectedProjectile.OnDeflected(this);
         defleclectedProjectile.EffectsReceiver.ApplyEffect(EffectsOnDeflect, this);

@@ -14,10 +14,8 @@ public class BulletProjectile : AbstractRangedProjectile
                 this,
                 weapon.transform.position,
                 direction,
-                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).transform
+                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).ProjectilesContainer
                 );
-
-        newProjectile.transform.position = weapon.transform.position;
 
         newProjectile.MoveAlign = VectorMath.RandomizeQuarternion(direction, Accuracy * accuracityMultiplier);
 

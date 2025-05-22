@@ -64,7 +64,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         _onHitWallCloudsPaticleSpawner = transform.Find(ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
 
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        _hitLayerMask = 1 << layer.CharactersLayer | 1 << layer.EnviromentLayer;
+        _hitLayerMask = (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer) | (1 << layer.ProjectilesLayer);
 
         ResetPiercesLeft();
     }
@@ -115,8 +115,9 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         }
     }
 
-    private void LateUpdate()
+    protected override void OnLateUpdate()
     {
+        base.OnLateUpdate();
         _positionPreviousFrame = transform.position;
     }
 
@@ -138,7 +139,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         {
             _piercesLeft--;
         }
-        else
+        else if (!_wasDeflectedThisFrame)
         {
             RemoveSelf();
         }

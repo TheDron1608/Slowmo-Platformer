@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11786349b20d40542bf338baf3a3e23e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ProjectileSize: 1.0625
   Accuracy: 1
   HitEffects:
   - {fileID: 977385987182254359, guid: 613a342179d70234bb4bbd19fe33e19e, type: 3}
@@ -87,6 +88,8 @@ MonoBehaviour:
   - {fileID: -4082839253099350160, guid: 6394eb00646e0fb4aa63dafe64c86aa2, type: 3}
   SelfEffects:
   - {fileID: 977385987182254359, guid: f5e89590c7150c64a9b12a39f2d93611, type: 3}
+  FiendlyFire: 0
+  IsAbleToHit: 1
   BulletSpeed: 70
   MaxRange: 350
   BulletCasingParticle: {fileID: 7287756930975835722, guid: ab452d2dd031b4f409eff6da5945dc39, type: 3}
