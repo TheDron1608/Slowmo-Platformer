@@ -33,17 +33,28 @@ public class ZIndexLayer : MonoBehaviour
     public Transform PhysicsParticlesContainer { get; private set; }
     public Transform ProjectilesContainer { get; private set; }
 
-    private float _alpha = 1f;
+    private LayerAlphaMode _alphaMode;
 
-    public float Alpha
+    public LayerAlphaMode LayerAlpha
     {
-        get => _alpha;
+        get => _alphaMode;
         set
         {
-            if (_alpha == value) return;
+            if (_alphaMode.Alpha == value.Alpha && _alphaMode.OvergoundAlpha == value.OvergoundAlpha) return;
+            _alphaMode = value;
+            SetAlphaForAllChildren(LayerAlpha, transform);
+        }
+    }
 
-            _alpha = value;
-            SetAlphaForAllChildren(_alpha, transform);
+    public struct LayerAlphaMode
+    {
+        public float Alpha;
+        public float OvergoundAlpha;
+
+        public LayerAlphaMode (float alpha, float overgoundAlpha)
+        {
+            Alpha = alpha;
+            OvergoundAlpha = overgoundAlpha;
         }
     }
 
@@ -73,30 +84,32 @@ public class ZIndexLayer : MonoBehaviour
         ProjectilesContainer = transform.Find(PROJECTILES_CONTAINER_NAME);
     }
 
-    private void SetAlphaForAllChildren(float alpha, Transform t)
+    private void SetAlphaForAllChildren(LayerAlphaMode layerAlpha, Transform t, bool foundOvergound = false)
     {
+        foundOvergound |= t.GetComponent<OvergoundSprite>() != null;
+
+        if (t.TryGetComponent(out SpriteRenderer spriteRenderer))
+        {
+            spriteRenderer.color = new Color(
+                spriteRenderer.color.r,
+                spriteRenderer.color.g,
+                spriteRenderer.color.b,
+                foundOvergound ? layerAlpha.OvergoundAlpha : layerAlpha.Alpha
+                );
+        }
+        else if (t.TryGetComponent(out Tilemap tilemap))
+        {
+            tilemap.color = new Color(
+                tilemap.color.r,
+                tilemap.color.g,
+                tilemap.color.b,
+                foundOvergound ? layerAlpha.OvergoundAlpha : layerAlpha.Alpha
+                );
+        }
+
         for (int i = 0; i < t.childCount; i++)
         {
-            SetAlphaForAllChildren(alpha, t.GetChild(i));
-
-            if (t.GetChild(i).TryGetComponent(out SpriteRenderer spriteRenderer))
-            {
-                spriteRenderer.color = new Color(
-                    spriteRenderer.color.r,
-                    spriteRenderer.color.g,
-                    spriteRenderer.color.b,
-                    alpha
-                    );
-            }
-            else if (t.GetChild(i).TryGetComponent(out Tilemap tilemap))
-            {
-                tilemap.color = new Color(
-                    tilemap.color.r,
-                    tilemap.color.g,
-                    tilemap.color.b,
-                    alpha
-                    );
-            }
+            SetAlphaForAllChildren(layerAlpha, t.GetChild(i), foundOvergound);
         }
     }
 

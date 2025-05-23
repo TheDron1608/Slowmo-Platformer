@@ -7,7 +7,8 @@ public class CameraTrack : MonoBehaviour
     public GameObject TrackObject;
     public float TrackSpeed = 5f;
     public float TrackMouseVelocity = 0.1625f;
-    public float LayerAppearDistance = 0.5f;
+    public float LayerAppearDistance = 1.5f;
+    public float OvergoundAppearOffset = 2f;
 
     private Rigidbody _rigidBodyComponent;
     private MultiZLayerCamera _multiZLayerCameraComponent;
@@ -50,21 +51,10 @@ public class CameraTrack : MonoBehaviour
         {
             float distanceToLayer = LayerManager.Instance.ZLayers[i].transform.position.z - transform.position.z - _cameraComponent.nearClipPlane;
 
-            //if (LayerManager.Instance.ZLayers[i] == LayerManager.Instance.GetZLayerOfGameObject(TrackObject))
-            //{
-            //    Debug.Log("distance to " + LayerManager.Instance.ZLayers[i].gameObject.name + " is " + distanceToLayer);
-            //}
-
-            if ( distanceToLayer > 0f && distanceToLayer < LayerAppearDistance)
-            {
-                float targetLayerAlpha = distanceToLayer / LayerAppearDistance;
-
-                LayerManager.Instance.ZLayers[i].Alpha = targetLayerAlpha;
-            }
-            else if (LayerManager.Instance.ZLayers[i].Alpha != 1f)
-            {
-                LayerManager.Instance.ZLayers[i].Alpha = 1f;
-            }
+            LayerManager.Instance.ZLayers[i].LayerAlpha = new(
+                NumberMath.LimitFloatBetweenZeroAndOne(distanceToLayer / LayerAppearDistance),
+                NumberMath.LimitFloatBetweenZeroAndOne(distanceToLayer - OvergoundAppearOffset / LayerAppearDistance)
+                );
         }
     }
 

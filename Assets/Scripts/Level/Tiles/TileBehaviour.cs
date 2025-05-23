@@ -7,7 +7,8 @@ public class TileBehaviour : MonoBehaviour
         NORMAL,
         STICKY,
         BACKGROUND,
-        TRANSPARENT_BACKGOUND
+        TRANSPARENT_BACKGOUND,
+        OVERGOUND
     }
 
     public TileBehaviourType BehaviourType;
