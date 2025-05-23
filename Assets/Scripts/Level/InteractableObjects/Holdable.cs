@@ -198,7 +198,8 @@ public class Holdable : Interactable
             RaycastHit2D[] hits = Physics2D.RaycastAll(
                 collision.contacts[0].point,
                 _velocitySpeedPreviousFrame.normalized,
-                1f
+                1f,
+                LayerManager.Instance.GetZLayerOfGameObject(gameObject).EntireLayerMask
                 );
             for (int i =  0; i < hits.Length; i++)
             {
