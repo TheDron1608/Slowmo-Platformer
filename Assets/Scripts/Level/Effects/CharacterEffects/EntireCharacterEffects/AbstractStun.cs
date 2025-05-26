@@ -1,4 +1,4 @@
-﻿public abstract class AbstractStun : AbstractOverwritingCharacterEffect
+﻿public abstract class AbstractStun : AbstractOverwritingCharacterEffect, IEntireCharacterEffect
 {
     protected override void OnRemove()
     {

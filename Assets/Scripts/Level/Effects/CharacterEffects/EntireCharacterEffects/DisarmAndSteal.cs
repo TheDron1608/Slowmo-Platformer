@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DisarmAndSteal : AbstractCharacterEffectWithSender
+public class DisarmAndSteal : AbstractCharacterEffectWithSender, IEntireCharacterEffect
 {
     protected override void OnReceivedSender(MonoBehaviour sender)
     {

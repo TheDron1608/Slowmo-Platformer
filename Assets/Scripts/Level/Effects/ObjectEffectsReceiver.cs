@@ -124,7 +124,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
-    public void RemoveEffect<T>() where T : AbstractEffect
+    public void RemoveEffect<T>()
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
@@ -167,7 +167,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
-    public bool GetHasEffect<T>() where T : AbstractEffect
+    public bool GetHasEffect<T>()
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
@@ -179,19 +179,19 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return false;
     }
 
-    public T GetEffect<T>() where T : AbstractEffect
+    public T GetEffect<T>()
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (_currentEffects[i] is T)
+            if (_currentEffects[i] is T result)
             {
-                return _currentEffects[i] as T;
+                return result;
             }
         }
-        return null;
+        return default(T);
     }
 
-    public bool TryGetEffect<T>(out T effect) where T : AbstractEffect
+    public bool TryGetEffect<T>(out T effect)
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
@@ -205,7 +205,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return false;
     }
 
-    public List<T> GetEffects<T>() where T : AbstractEffect
+    public List<T> GetEffects<T>()
     {
         List<T> result = new();
 

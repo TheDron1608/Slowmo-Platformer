@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class KnockResistance : AbstractCharacterEffect
+public class KnockResistance : AbstractCharacterEffect, IEntireCharacterEffect
 {
     public float KnockMultiplier = 1f;
 

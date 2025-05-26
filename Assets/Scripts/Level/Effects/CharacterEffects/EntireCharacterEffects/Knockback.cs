@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Knockback : AbstractCharacterEffectWithSender
+public class Knockback : AbstractCharacterEffectWithSender, IEntireCharacterEffect
 {
     public float KnockbackForce = 5f;
     public bool CanFlipSprites = true;

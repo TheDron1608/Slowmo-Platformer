@@ -41,8 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9005100975863942898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63837dc53b1601f468210f95ace07b39, type: 3}
+  m_Script: {fileID: 11500000, guid: 68743002804ac3f4486e089edc1f4b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectPriority: 50
+  EffectPriority: 40
+  AlternativeCharacterEffectIfResisted: {fileID: 0}
+  EffectMaterial: {fileID: 0}
   DamageAmount: 2

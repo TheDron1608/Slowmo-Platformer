@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpeedMultiplier : AbstractCharacterEffect
+public class SpeedMultiplier : AbstractCharacterEffect, IEntireCharacterEffect
 {
     public float SpeedMultiplierAmount = 1f;
 

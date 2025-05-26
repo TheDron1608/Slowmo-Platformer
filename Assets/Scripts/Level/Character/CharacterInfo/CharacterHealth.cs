@@ -3,46 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterHealth : AbstractCharacterComponent
+public class CharacterHealth : DamagableObject
 {
-    [SerializeField] private float _maxHealth = 10f;
-    [SerializeField] private float _minHealth = 0f;
-    [SerializeField] private float _currentHealth = 10f;
-    public float LivingWithDeadlyHealthSeconds = 0f;
-    public bool CanHaveHealthOverMax = false;
-    public List<AbstractEffect> EffectsOnLethal = new();
+    private CharacterComponentsManager _charComponents;
 
-    public float CurrentHealth
+    public CharacterComponentsManager CharComponents
     {
-        get => _currentHealth;
+        get => _charComponents;
+        private set => _charComponents = value;
     }
 
-    public float MaxHealth
+    protected override void OnAwake()
     {
-        get => _maxHealth;
-        set
+        base.OnAwake();
+        GameObject curGameObject = gameObject;
+        do
         {
-            _maxHealth = value;
-            if (_currentHealth > _maxHealth && !CanHaveHealthOverMax)
+            if (curGameObject.TryGetComponent(out CharacterComponentsManager charComponents))
             {
-                _currentHealth = _maxHealth;
+                CharComponents = charComponents;
+                return;
             }
+            curGameObject = curGameObject.transform.parent.gameObject;
         }
+        while (curGameObject.tag == LayerManager.CHARACTER_TAG_NAME);
+        throw new UnityException("not found CharacterComponentsManager component in " + gameObject.name + " or in the same tagged child gameObjects");
     }
 
-    public float MinHealth
-    {
-        get => _minHealth;
-        set
-        {
-            _minHealth = value;
-        }
-    }
 
     public void ApplyDamage(float damage, MonoBehaviour damager, CharacterPart damagedPart)
     {
-        _currentHealth -= damage;
-        if (_currentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<Death>())
+        CurrentHealth -= damage;
+        if (CurrentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<Death>())
         {
             Die(damager, damagedPart);
         }

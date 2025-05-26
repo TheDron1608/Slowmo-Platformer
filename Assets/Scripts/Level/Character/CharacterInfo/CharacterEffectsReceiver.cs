@@ -22,7 +22,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
 
     public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb)
     {
-        if (affectedLimb != null && effect is ICharacterPartEffect)
+        if (affectedLimb != null && !(effect is IEntireCharacterEffect))
         {
             if (LimbApplyCondition(effect, sender, affectedLimb))
             {
