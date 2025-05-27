@@ -1,15 +1,13 @@
 using UnityEngine;
 
-public class Damage : AbstractEffectWithSender
+public class Break : AbstractEffectWithSender, ILethalEffect
 {
-    public float DamageAmount = 1f;
-
     /// <summary>
     /// warning: will delete itself after invoke this function
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        AffectedObject.GetComponent<IDamagable>()?.ApplyDamage(DamageAmount, sender);
+        AffectedObject.GetComponent<BreakbleObject>()?.BreakObject(sender);
 
         RemoveSelf();
     }

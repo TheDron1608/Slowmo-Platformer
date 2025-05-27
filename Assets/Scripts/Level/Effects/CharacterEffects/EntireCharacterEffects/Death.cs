@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Death : AbstractStun
+public class Death : AbstractStun, ILethalEffect
 {
     private bool _diedThisFrame = true;
 

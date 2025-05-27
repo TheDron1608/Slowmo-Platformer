@@ -145,8 +145,9 @@ public class MeleeProjectile : AbstractProjectile
         RaycastHit2D[] hitObjectsBetween = Physics2D.LinecastAll(
             transform.position, 
             hitObject.transform.position,
-            1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EntireLayerMask
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject).EntireLayerMask
             );
+        Debug.DrawLine(transform.position, hitObject.transform.position, Color.red, 1f);
         foreach (RaycastHit2D hitObjectBetween in hitObjectsBetween)
         {
             if (hitObjectBetween.collider == hitObject)
@@ -154,7 +155,10 @@ public class MeleeProjectile : AbstractProjectile
                 return true;
             }
             if (
-                (hitObjectBetween.collider.GetComponent<MeleeProjectile>()?.IsAbleTodeflectMeleeProjectiles ?? false) ||
+                (
+                    hitObjectBetween.collider.GetComponent<MeleeProjectile>() != this && 
+                    (hitObjectBetween.collider.GetComponent<MeleeProjectile>()?.IsAbleTodeflectMeleeProjectiles ?? false)
+                ) ||
                 hitObjectBetween.collider.tag == LayerManager.ENVIROMENT_TAG_NAME
                 )
             {

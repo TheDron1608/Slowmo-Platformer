@@ -150,7 +150,7 @@ public abstract class Weapon : MonoBehaviour
         (sender as AbstractProjectile).OnHitSomeOne -= NewProjectile_OnHitSomething;
         (sender as AbstractProjectile).OnDestroyed -= NewProjectile_OnDestroyed;
 
-        GetComponent<BreakableObject>()?.SpendOneUse();
+        GetComponent<BreakableHoldable>()?.SpendOneUse();
     }
     private void NewProjectile_OnDestroyed(object sender, EventArgs e)
     {

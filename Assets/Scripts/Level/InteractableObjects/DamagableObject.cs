@@ -3,14 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamagableObject : MonoBehaviour
+public class DamagableObject : MonoBehaviour, IDamagable
 {
     [SerializeField] private float _maxHealth = 10f;
     [SerializeField] private float _minHealth = 0f;
     [SerializeField] private float _currentHealth = 10f;
+    [SerializeField] private bool _piercableThrought = false;
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
     public List<AbstractEffect> EffectsOnLethal = new();
+
+    public bool PiercableThrought 
+    {
+        get => _piercableThrought;
+        set => _piercableThrought = value;
+    }
 
     private void Awake()
     {

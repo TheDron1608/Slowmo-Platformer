@@ -64,7 +64,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         _defaultEffectMaterial = GetComponentInChildren<SpriteRenderer>()?.sharedMaterial;
     }
 
-    public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
+    public virtual void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
     {
         if (ApplyCondition(effect, sender) && effect.ApplyCondition(this, sender))
         {
@@ -109,7 +109,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
-    public bool ApplyCondition(AbstractEffect effect, MonoBehaviour sender)
+    public virtual bool ApplyCondition(AbstractEffect effect, MonoBehaviour sender)
     {
         return !GetHasImmuneToEffect(effect);
     }

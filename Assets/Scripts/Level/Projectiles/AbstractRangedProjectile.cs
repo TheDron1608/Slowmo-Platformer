@@ -130,11 +130,11 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
             _onHitWallCloudsPaticleSpawner.SpawnParticle();
         }
 
+        IDamagable damagableHitobject = hitObject.GetComponent<IDamagable>() ?? hitObject.transform.parent.GetComponent<IDamagable>();
+        ObjectEffectsReceiver effectableHitobject = hitObject.GetComponent<ObjectEffectsReceiver>() ?? hitObject.transform.parent.GetComponent<ObjectEffectsReceiver>();
         if (
             _piercesLeft > 0 &&
-            hitObject.transform.parent.TryGetComponent(out CharacterPart hitCharacterPart) &&
-            hitCharacterPart.PartType == CharacterPart.PartTypes.HEAD &&
-            hitCharacterPart.CharComponents.CharacterEffectsReceiver.GetHasEffect<Death>()
+            (damagableHitobject?.PiercableThrought ?? false)
             )
         {
             _piercesLeft--;

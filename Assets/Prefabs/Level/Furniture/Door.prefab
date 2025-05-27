@@ -148,6 +148,15 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 8960481855371658158}
     - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 5514287667137529946}
+    - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 6001834171554667167}
+    - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 2589712915081487126}
+    - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5757841107198251290}
     - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
@@ -178,6 +187,52 @@ MonoBehaviour:
   EffectsOnStartInteract: []
   EffectsWhileInteracting: []
   EffectsOnFinishInteract: []
+--- !u!114 &5514287667137529946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195957013502860756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789ba66565658d24c87724859db55a16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentEffects: []
+--- !u!114 &6001834171554667167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195957013502860756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2292f70c19605f459de84ac6ee5f8fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 7.5
+  _minHealth: 0
+  _currentHealth: 7.5
+  _piercableThrought: 1
+  LivingWithDeadlyHealthSeconds: 0
+  CanHaveHealthOverMax: 0
+  EffectsOnLethal:
+  - {fileID: 10706912552637279, guid: 4deff24a0ab02ca498af308e8f39099e, type: 3}
+--- !u!114 &2589712915081487126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195957013502860756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e95628ca27cddb4091a8c2df73c5c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _brokenPartsParticleSpawners: []
 --- !u!95 &5757841107198251290
 Animator:
   serializedVersion: 7

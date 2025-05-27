@@ -133,9 +133,14 @@ public abstract class AbstractProjectile : MonoBehaviour
         {
             meleeProjectile.OnDeflect(this);
         }
-        if (hitObject.transform.parent.TryGetComponent(out AbstractCharacterComponent charComponent))
+
+        ObjectEffectsReceiver hitObjectEffectsReceiver =
+            hitObject.transform.GetComponent<ObjectEffectsReceiver>() ??
+            hitObject.transform.GetComponentInParent<ObjectEffectsReceiver>();
+
+        if (hitObjectEffectsReceiver != null)
         {
-            charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(HitEffects, this, hitObject.transform.parent.GetComponent<CharacterPart>());
+            hitObjectEffectsReceiver.ApplyEffect(HitEffects, this);
             OnHitSomeOne?.Invoke(this, hitObject);
         }
     }
@@ -160,6 +165,12 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     protected virtual bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
     {
+        //returns true if:
+        //1. if not deflected this frame
+        //2. hit object is not weapon's owner
+        //3. hit object is not weapon's owner's team ally
+        //4. has the highest hit priority at all hit character's parts (if hit multiple character's parts)
+        //5. did not already hit this object this frame
         return
             !_wasDeflectedThisFrame &&
             (

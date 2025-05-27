@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CharacterPartHealth : AbstractCharacterComponent
+public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 {
     public bool Cutable = false;
     public bool Gibable = false;
@@ -11,6 +11,13 @@ public class CharacterPartHealth : AbstractCharacterComponent
     public bool LosingLimbIsLethal = true;
     public float DamageMultiplier = 1.0f;
     public List<AbstractEffect> EffectsOnHit = new();
+    [SerializeField] private bool _piercableThrought = false;
+
+    public bool PiercableThrought
+    {
+        get => _piercableThrought;
+        set => _piercableThrought = value;
+    }
 
     public void ApplyDamage(float damage, MonoBehaviour damager)
     {
