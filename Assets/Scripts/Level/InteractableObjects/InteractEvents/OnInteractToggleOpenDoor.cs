@@ -26,7 +26,7 @@ public class OnInteractToggleOpenDoor : Interactable
     public bool IsOpen
     {
         get => _isOpen;
-        private set
+        set
         {
             _isOpen = value;
             gameObject.tag = value ? LayerManager.FURNITURE_TAG_NAME : LayerManager.ENVIROMENT_TAG_NAME;

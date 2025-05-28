@@ -1,10 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class DamagableObject : MonoBehaviour, IDamagable
 {
+    const float PARTICLES_ON_DAMAGE_MAX_VELOCITY = 6f;
+    const float PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY = 5f;
+
     [SerializeField] private float _maxHealth = 10f;
     [SerializeField] private float _minHealth = 0f;
     [SerializeField] private float _currentHealth = 10f;
@@ -12,6 +16,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
     public List<AbstractEffect> EffectsOnLethal = new();
+    public List<GameObject> ParticlesOnDamage = new();
 
     public bool PiercableThrought 
     {
@@ -58,6 +63,38 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void ApplyDamage(float damage, MonoBehaviour damager)
     {
+        //spawning particles on hit
+        Vector2 hitPoint = Physics2D.Raycast(
+            damager.transform.position,
+            VectorMath.Quartenion2DToVec2(damager.transform.rotation),
+            10f,
+            1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
+            ).point;
+        if (hitPoint != null)
+        {
+
+            for (int i = 0; i < (int)math.ceil(damage); i++)
+            {
+                if (UnityEngine.Random.value > damage) continue; //chance to not spawn particle if damage is less than 1
+
+                GameObject newParticle = ParticleSpawner.SpawnParticle(
+                    NumberMath.PickRandomItemNoSeed(ParticlesOnDamage),
+                    transform,
+                    UnityEngine.Random.value * PARTICLES_ON_DAMAGE_MAX_VELOCITY,
+                    (UnityEngine.Random.value - 0.5f) * 2f * PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
+                    0f,
+                    GetComponent<ObjectEffectsReceiver>()?.EffectMaterial ?? GetComponent<SpriteRenderer>()?.material,
+                    hitPoint,
+                    Quaternion.Inverse(damager.transform.rotation)
+                    );
+
+                if (newParticle.TryGetComponent(out Collider2D newParticleCollider) && TryGetComponent(out Collider2D selfCollider))
+                {
+                    Physics2D.IgnoreCollision(newParticleCollider, selfCollider);
+                }
+            }
+        }
+
         CurrentHealth -= damage;
         if (CurrentHealth <= MinHealth && ((!GetComponent<ObjectEffectsReceiver>()?.GetHasEffect<Death>()) ?? false))
         {

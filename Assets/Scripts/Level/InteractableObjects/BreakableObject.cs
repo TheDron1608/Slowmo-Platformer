@@ -9,11 +9,11 @@ public class BreakbleObject : MonoBehaviour
 
     public virtual void BreakObject(MonoBehaviour breaker)
     {
+        Destroy(gameObject);
+
         for (int i = 0; i < _brokenPartsParticleSpawners.Count; i++)
         {
             _brokenPartsParticleSpawners[i].SpawnParticle();
         }
-
-        Destroy(gameObject);
     }
 }

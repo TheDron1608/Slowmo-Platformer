@@ -147,7 +147,7 @@ public class MeleeProjectile : AbstractProjectile
             hitObject.transform.position,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject).EntireLayerMask
             );
-        Debug.DrawLine(transform.position, hitObject.transform.position, Color.red, 1f);
+
         foreach (RaycastHit2D hitObjectBetween in hitObjectsBetween)
         {
             if (hitObjectBetween.collider == hitObject)
