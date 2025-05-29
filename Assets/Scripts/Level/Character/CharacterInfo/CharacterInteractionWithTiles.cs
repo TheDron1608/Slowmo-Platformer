@@ -12,15 +12,10 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
 
     private void Start()
     {
-        CharComponents.CharacterCollision.OnTileBehavioutTypeCollisionChanged += CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged;
+        CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollision_OnCollisionChanged;
     }
 
-    private void CollisionCharacterInfoComponent_OnTileBehavioutTypeCollisionChanged(object sender, CharacterCollision.OnTileBehavioutTypeCollisionChangedEventArgs e)
-    {
-        UpdateTileInteractions();
-    }
-
-    private void UpdateTileInteractions()
+    private void CharacterCollision_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
     {
         UpdateStickyTileInteraction();
     }
@@ -49,5 +44,10 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
 
             yield return new WaitForFixedUpdate();
         }
+    }
+
+    private void OnDestroy()
+    {
+        CharComponents.CharacterCollision.OnCollisionChanged -= CharacterCollision_OnCollisionChanged;
     }
 }

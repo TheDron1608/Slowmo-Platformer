@@ -97,4 +97,9 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
 
         return null;
     }
+
+    public bool TryInteract(Interactable interactable)
+    {
+        return interactable.TryInteract(CharComponents.gameObject);
+    }
 }

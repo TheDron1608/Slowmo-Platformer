@@ -6,6 +6,7 @@ public class TileBehaviour : MonoBehaviour
     {
         NORMAL,
         STICKY,
+        DOOR,
         BACKGROUND,
         TRANSPARENT_BACKGOUND,
         OVERGOUND

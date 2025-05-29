@@ -17,6 +17,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6777744621790621435}
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
+      propertyPath: Interacting
+      value: 
+      objectReference: {fileID: -7320044556179888264}
+    - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: Pathfinding
       value: 
       objectReference: {fileID: 7635522116767993189}
@@ -91,6 +95,9 @@ PrefabInstance:
       addedObject: {fileID: 699679711382692708}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
+      addedObject: {fileID: -7320044556179888264}
+    - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 4692138698522949242}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
@@ -142,6 +149,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RememberLastEnemyPosition: 1
+--- !u!114 &-7320044556179888264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5393485392465938888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069db541d5abbd24bba04edc75f235e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OpenDoorDelaySeconds: 0.33
 --- !u!114 &4692138698522949242
 MonoBehaviour:
   m_ObjectHideFlags: 0
