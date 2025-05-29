@@ -53,7 +53,6 @@ MonoBehaviour:
   TrackObject: {fileID: 0}
   TrackSpeed: 5
   TrackMouseVelocity: 0.1625
-  LayerAppearDistance: 0.5
 --- !u!114 &861306260983765504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +66,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ZoomOutDistance: 15
+  LayerAppearDistance: 1.5
+  OvergoundAppearOffset: 4
   _startZLayer: {fileID: 0}
 --- !u!114 &2909254365352851872
 MonoBehaviour:

@@ -4,7 +4,7 @@ public class MultiZLayerCamera : MonoBehaviour
 {
     public float ZoomOutDistance = 15f;
     public float LayerAppearDistance = 1.5f;
-    public float OvergoundAppearOffset = 2f;
+    public float OvergoundAppearOffset = 4f;
 
     [SerializeField]
     private ZIndexLayer _startZLayer;
