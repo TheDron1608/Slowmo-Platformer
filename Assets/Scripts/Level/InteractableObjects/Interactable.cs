@@ -30,6 +30,11 @@ public abstract class Interactable : SelectableObject
         return _currentInteractor != null;
     }
 
+    public bool GetIsValidToInteract(GameObject interactor)
+    {
+        return StartInteractCondition(interactor);
+    }
+
     public bool ForceInteract(GameObject interactor)
     {
         StopInteract();

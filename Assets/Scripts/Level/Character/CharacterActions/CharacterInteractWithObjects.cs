@@ -43,6 +43,7 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
         {
             if (
                 colliders[i].gameObject.TryGetComponent(out SelectableObject selectableObjectComponent) &&
+                (!selectableObjectComponent.TryGetComponent(out Interactable interactbleObjectComponent) || interactbleObjectComponent.GetIsValidToInteract(CharComponents.gameObject)) &&
                 selectableObjectComponent.enabled &&
                 Vector3.Distance(CharComponents.Center.transform.position, colliders[i].transform.position) <= selectableObjectComponent.SelectMaxRangeMultiplier * InteractRange &&
                 selectableObjectComponent is T selectableObjectComponentSorted &&
@@ -85,6 +86,7 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
         {
             if (
                 raycastHit.collider.TryGetComponent(out SelectableObject selectableObjectComponent) &&
+                (!selectableObjectComponent.TryGetComponent(out Interactable interactbleObjectComponent) || interactbleObjectComponent.GetIsValidToInteract(CharComponents.gameObject)) &&
                 selectableObjectComponent.enabled &&
                 raycastHit.distance <= InteractRange * selectableObjectComponent.SelectMaxRangeMultiplier &&
                 selectableObjectComponent is T sortedSelectableObject &&
