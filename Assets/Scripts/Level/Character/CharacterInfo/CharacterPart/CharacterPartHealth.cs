@@ -12,11 +12,25 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     public float DamageMultiplier = 1.0f;
     public List<AbstractEffect> EffectsOnHit = new();
     [SerializeField] private bool _piercableThrought = false;
+    [SerializeField] private bool _hitableByMeleeProjectiles = true;
+    [SerializeField] private bool _hitableByRangedProjectiles = true;
 
     public bool PiercableThrought
     {
         get => _piercableThrought;
         set => _piercableThrought = value;
+    }
+
+    public bool HitableByMeleeProjectiles
+    {
+        get => _hitableByMeleeProjectiles;
+        set => _hitableByMeleeProjectiles = value;
+    }
+
+    public bool HitableByRangedProjectiles
+    {
+        get => _hitableByRangedProjectiles;
+        set => _hitableByRangedProjectiles = value;
     }
 
     public void ApplyDamage(float damage, MonoBehaviour damager)

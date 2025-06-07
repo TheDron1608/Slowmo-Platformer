@@ -49,6 +49,7 @@ MonoBehaviour:
   SpawnAngle: 0
   SpawnAngularVeclocity: 360
   OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1 &5632253300552596980
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,6 +99,7 @@ MonoBehaviour:
   SpawnAngle: 5
   SpawnAngularVeclocity: 720
   OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1 &7045557023545277334
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +149,7 @@ MonoBehaviour:
   SpawnAngle: 115
   SpawnAngularVeclocity: 720
   OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1001 &555786682304151848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -211,6 +214,34 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: b7db158da07e62c449a80906e2c34369, type: 2}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _maxUses
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: SpawnObjectsOnBreak.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: 'SpawnObjectsOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2378866027005834179, guid: d89c2f9e2b7a8054b9d82533babf5cfe, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _brokenPartsParticleSpawners.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4898204937078186604}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3748167091239307009}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[2]'
+      value: 
+      objectReference: {fileID: 4875097274711444601}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 0.999392
@@ -369,7 +400,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e95628ca27cddb4091a8c2df73c5c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectOnBreak: {fileID: 0}
-  _maxUses: 10
-  UnlimitedUses: 1
+  SpawnObjectsOnBreak: []
   _brokenPartsParticleSpawners: []

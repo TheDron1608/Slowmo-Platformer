@@ -16,10 +16,11 @@ public class SelectableObject : MonoBehaviour
 
     public float SelectMaxRangeMultiplier = 1f; //value between 0 and 1
 
-    [SerializeField]
     protected SpriteRenderer _spriteRendererComponent;
+
     private Coroutine SelectProcessCoroutine = null;
     private float _currentDarknessProgress = 0f;
+
 
     private bool _selected = false;
     public bool Selected
@@ -75,9 +76,6 @@ public class SelectableObject : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        if (_spriteRendererComponent == null)
-        {
-            if (!TryGetComponent(out _spriteRendererComponent)) throw new UnityException("SpriteRenderer component not found");
-        }
+        if (!TryGetComponent(out _spriteRendererComponent)) throw new UnityException("SpriteRenderer component not found");
     }
 }

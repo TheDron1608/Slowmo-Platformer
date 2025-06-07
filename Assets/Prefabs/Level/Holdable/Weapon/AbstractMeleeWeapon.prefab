@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4590741514344514613, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: UnlimitedUses
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: ThrowRotationForce
       value: 720
@@ -73,10 +77,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 5796788966896388456}
-    - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
-      insertIndex: 4
+      insertIndex: 3
       addedObject: {fileID: 3049281706012927928}
   m_SourcePrefab: {fileID: 100100000, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
 --- !u!1 &7456881602955135124 stripped
@@ -84,22 +85,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
   m_PrefabInstance: {fileID: 9204828803648351503}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5796788966896388456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7456881602955135124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e95628ca27cddb4091a8c2df73c5c55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectOnBreak: {fileID: 0}
-  _maxUses: 10
-  UnlimitedUses: 0
-  _brokenPartsParticleSpawners: []
 --- !u!95 &3049281706012927928
 Animator:
   serializedVersion: 7

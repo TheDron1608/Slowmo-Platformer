@@ -38,4 +38,16 @@ public static class GameObjectUtility
             throw new UnityException("ConvertSimpleColliderToBoxCollider can apply only simple collider2Ds as parameter, " + simpleCollider.GetType() + " received instaed");
         }
     }
+
+    public static Vector2 GetCenterOfCollider(Collider2D collider)
+    {
+        return collider.bounds.center;
+    }
+
+    public static bool TryGetComponentInSelfOrChild<T>(GameObject gameObject, out T component)
+    {
+        if (gameObject.TryGetComponent(out component)) return true;
+        component = gameObject.GetComponentInChildren<T>();
+        return component != null;
+    }
 }

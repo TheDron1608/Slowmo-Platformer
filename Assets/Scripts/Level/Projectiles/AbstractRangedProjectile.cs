@@ -152,6 +152,9 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
 
     protected override bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
     {
-        return base.HitCondition(totalHitObjects, currentHitObjet) && !currentHitObjet.TryGetComponent(out AbstractRangedProjectile rangedProjectile);
+        return 
+            base.HitCondition(totalHitObjects, currentHitObjet) && 
+            !currentHitObjet.TryGetComponent(out AbstractRangedProjectile rangedProjectile) &&
+            (!GameObjectUtility.TryGetComponentInSelfOrChild(currentHitObjet.gameObject, out IDamagable damagableHitObject) || damagableHitObject.HitableByRangedProjectiles);
     }
 }

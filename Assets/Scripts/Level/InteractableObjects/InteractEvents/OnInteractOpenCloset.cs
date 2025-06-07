@@ -6,19 +6,14 @@ public class OnInteractOpenCloset : Interactable
 {
     const string ANIMATOR_CLOSED_PROP_NAME = "Closed";
 
-    public List<GameObject> ObjectsInside = new();
-
     private bool _closed = true;
 
     private Animator _animator;
-    [SerializeField] private GameObject _spawnSource;
-    private ParticleSpawner _spawnSourceParticleSpawner;
 
     protected override void OnAwake()
     {
         base.OnAwake();
         if (!TryGetComponent(out _animator)) throw new UnityException("Animator component not found at " + gameObject.name);
-        if (!_spawnSource.TryGetComponent(out _spawnSourceParticleSpawner)) throw new UnityException("ParticleSpawner component not found at " + _spawnSource.name);
     }
 
     public bool Closed
@@ -29,21 +24,18 @@ public class OnInteractOpenCloset : Interactable
             _closed = value;
             _animator.SetBool(ANIMATOR_CLOSED_PROP_NAME, _closed);
 
-            if (!_closed)
+            List<GameObject> ObjectsInside = GetComponent<BreakableObject>()?.SpawnObjectsOnBreak;
+            if (!_closed && ObjectsInside != null && ObjectsInside.Count > 0)
             {
-                if (ObjectsInside.Count > 0)
+                ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+                Vector3 position = GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>());
+                foreach (GameObject objectInside in ObjectsInside)
                 {
-                    foreach (GameObject objectInside in ObjectsInside)
-                    {
-                        GameObject newObject = Instantiate(objectInside, _spawnSource.transform);
-                        LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(_spawnSource), newObject);
-                    }
-                    ObjectsInside.Clear();
+                    GameObject newObject = Instantiate(objectInside, transform);
+                    LayerManager.Instance.ChangeZIndexForGameObject(layer, newObject);
+                    newObject.transform.position = position;
                 }
-                else
-                {
-                    _spawnSourceParticleSpawner.SpawnParticle();
-                }
+                ObjectsInside.Clear();
             }
         }
     }

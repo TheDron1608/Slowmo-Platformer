@@ -2,9 +2,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakableHoldable : BreakbleObject
+public class BreakableHoldable : BreakableObject
 {
-    public Holdable ObjectOnBreak = null;
     [SerializeField] private int _maxUses = 10;
     public bool UnlimitedUses = true;
 
@@ -53,18 +52,36 @@ public class BreakableHoldable : BreakbleObject
 
     public override void BreakObject(MonoBehaviour breaker)
     {
+        {
+            bool replacedBrokenHoldable = false;
+            ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+            Vector2 spawnPosition = transform.position;
+            if (TryGetComponent(out Collider2D collider))
+            {
+                spawnPosition += GameObjectUtility.GetCenterOfCollider(collider);
+            }
+
+            foreach (GameObject objectOnBreak in SpawnObjectsOnBreak)
+            {
+                if (!replacedBrokenHoldable && objectOnBreak.TryGetComponent(out Holdable holdableObjectOnBreak))
+                {
+                    GetComponent<Holdable>().TransformToAnotherObject(holdableObjectOnBreak);
+                    replacedBrokenHoldable = true;
+                }
+                else
+                {
+                    GameObject newObjectOnBreak = Instantiate(objectOnBreak, transform);
+                    layer.UpdateLayerForGameObject(newObjectOnBreak);
+                    newObjectOnBreak.transform.position = spawnPosition;
+                }
+            }
+        }
+
         for (int i = 0; i < _brokenPartsParticleSpawners.Count; i++)
         {
             _brokenPartsParticleSpawners[i].SpawnParticle();
         }
 
-        if (ObjectOnBreak != null)
-        {
-            GetComponent<Holdable>().TransformToAnotherObject(ObjectOnBreak);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }

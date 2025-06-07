@@ -7,7 +7,7 @@ public class Break : AbstractEffectWithSender, ILethalEffect
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        AffectedObject.GetComponent<BreakbleObject>()?.BreakObject(sender);
+        AffectedObject.GetComponent<BreakableObject>()?.BreakObject(sender);
 
         RemoveSelf();
     }

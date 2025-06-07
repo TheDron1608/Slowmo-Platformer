@@ -48,6 +48,8 @@ MonoBehaviour:
   SpawnVelocity: 4
   SpawnAngle: -135
   SpawnAngularVeclocity: 720
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1 &1510912057361291275
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +61,7 @@ GameObject:
   - component: {fileID: 5459988633981780023}
   - component: {fileID: 6110851119749959589}
   m_Layer: 0
-  m_Name: BrokenPartsParticlesSpawne3
+  m_Name: BrokenPartsParticlesSpawner3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +98,8 @@ MonoBehaviour:
   SpawnVelocity: 6
   SpawnAngle: 45
   SpawnAngularVeclocity: 720
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1 &3678863382195765441
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,6 +148,8 @@ MonoBehaviour:
   SpawnVelocity: 5
   SpawnAngle: -35
   SpawnAngularVeclocity: 720
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1001 &555786682304151848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -192,6 +198,34 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 2a58e8cee7ff2734bb3731e890bbce9e, type: 2}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _maxUses
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: SpawnObjectsOnBreak.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: 'SpawnObjectsOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2378866027005834179, guid: 87766059c3a51d3459fdbf52e86b1196, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _brokenPartsParticleSpawners.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1136049681144375451}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4857763228963586072}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6110851119749959589}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 0.86237645

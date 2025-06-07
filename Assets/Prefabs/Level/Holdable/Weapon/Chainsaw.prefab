@@ -48,6 +48,8 @@ MonoBehaviour:
   SpawnVelocity: 1
   SpawnAngle: 0
   SpawnAngularVeclocity: 0
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1001 &7513292740135840448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,6 +90,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 8eeb09b928d4d5a43b56d550b9ee6d27, type: 2}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _maxUses
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: UnlimitedUses
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 1.0448792

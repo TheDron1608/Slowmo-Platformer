@@ -48,6 +48,8 @@ MonoBehaviour:
   SpawnVelocity: 2.5
   SpawnAngle: 45
   SpawnAngularVeclocity: 720
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1 &1966535567560055112
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,6 +98,8 @@ MonoBehaviour:
   SpawnVelocity: 1.5
   SpawnAngle: 95
   SpawnAngularVeclocity: 180
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1 &7077411534920285825
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,6 +148,8 @@ MonoBehaviour:
   SpawnVelocity: 1
   SpawnAngle: 150
   SpawnAngularVeclocity: 360
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1001 &5079853961392175959
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -200,6 +206,26 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 201702ea34b7f0148a37895899d15d74, type: 2}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _maxUses
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _brokenPartsParticleSpawners.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7819823682181337140}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[1]'
+      value: 
+      objectReference: {fileID: 84808606890145805}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8344726901111479529}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 0.4933883

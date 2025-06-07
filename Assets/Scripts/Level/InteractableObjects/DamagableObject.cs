@@ -13,6 +13,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
     [SerializeField] private float _minHealth = 0f;
     [SerializeField] private float _currentHealth = 10f;
     [SerializeField] private bool _piercableThrought = false;
+    [SerializeField] private bool _hitableByMeleeProjectiles = true;
+    [SerializeField] private bool _hitableByRangedProjectiles = true;
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
     public List<AbstractEffect> EffectsOnLethal = new();
@@ -22,6 +24,18 @@ public class DamagableObject : MonoBehaviour, IDamagable
     {
         get => _piercableThrought;
         set => _piercableThrought = value;
+    }
+
+    public bool HitableByMeleeProjectiles
+    {
+        get => _hitableByMeleeProjectiles;
+        set => _hitableByMeleeProjectiles = value;
+    }
+
+    public bool HitableByRangedProjectiles
+    {
+        get => _hitableByRangedProjectiles;
+        set => _hitableByRangedProjectiles = value;
     }
 
     private void Awake()
@@ -64,34 +78,31 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public void ApplyDamage(float damage, MonoBehaviour damager)
     {
         //spawning particles on hit
-        Vector2 hitPoint = Physics2D.Raycast(
+        RaycastHit2D hit = Physics2D.Raycast(
             damager.transform.position,
             VectorMath.Quartenion2DToVec2(damager.transform.rotation),
-            10f,
-            1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
-            ).point;
-        if (hitPoint != null)
+            Vector2.Distance(damager.transform.position, transform.position),
+            1 << gameObject.layer
+            );
+
+        for (int i = 0; i < (int)math.ceil(damage); i++)
         {
+            if (UnityEngine.Random.value > damage) continue; //chance to not spawn particle if damage is less than 1
 
-            for (int i = 0; i < (int)math.ceil(damage); i++)
+            GameObject newParticle = ParticleSpawner.SpawnParticle(
+                NumberMath.PickRandomItemNoSeed(ParticlesOnDamage),
+                transform,
+                UnityEngine.Random.value * PARTICLES_ON_DAMAGE_MAX_VELOCITY,
+                (UnityEngine.Random.value - 0.5f) * 2f * PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
+                0f,
+                GetComponent<ObjectEffectsReceiver>()?.EffectMaterial ?? GetComponent<SpriteRenderer>()?.material,
+                hit.collider != null ? hit.point : GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>()),
+                Quaternion.Inverse(damager.transform.rotation)
+                );
+
+            if (newParticle.TryGetComponent(out Collider2D newParticleCollider) && TryGetComponent(out Collider2D selfCollider))
             {
-                if (UnityEngine.Random.value > damage) continue; //chance to not spawn particle if damage is less than 1
-
-                GameObject newParticle = ParticleSpawner.SpawnParticle(
-                    NumberMath.PickRandomItemNoSeed(ParticlesOnDamage),
-                    transform,
-                    UnityEngine.Random.value * PARTICLES_ON_DAMAGE_MAX_VELOCITY,
-                    (UnityEngine.Random.value - 0.5f) * 2f * PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
-                    0f,
-                    GetComponent<ObjectEffectsReceiver>()?.EffectMaterial ?? GetComponent<SpriteRenderer>()?.material,
-                    hitPoint,
-                    Quaternion.Inverse(damager.transform.rotation)
-                    );
-
-                if (newParticle.TryGetComponent(out Collider2D newParticleCollider) && TryGetComponent(out Collider2D selfCollider))
-                {
-                    Physics2D.IgnoreCollision(newParticleCollider, selfCollider);
-                }
+                Physics2D.IgnoreCollision(newParticleCollider, selfCollider);
             }
         }
 

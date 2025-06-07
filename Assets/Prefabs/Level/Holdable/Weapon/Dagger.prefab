@@ -49,6 +49,7 @@ MonoBehaviour:
   SpawnAngle: 60
   SpawnAngularVeclocity: 720
   OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1 &7066439144447886200
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,6 +99,7 @@ MonoBehaviour:
   SpawnAngle: 115
   SpawnAngularVeclocity: 720
   OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1001 &4088482987248887168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,6 +156,22 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 0fcafd0c3a7004c48ba587d807400379, type: 2}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _maxUses
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _brokenPartsParticleSpawners.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[0]'
+      value: 
+      objectReference: {fileID: 15501823707556486}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_brokenPartsParticleSpawners.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4577118228398474444}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 0.25005266
