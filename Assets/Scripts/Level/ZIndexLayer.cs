@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[DefaultExecutionOrder(-1)]
 public class ZIndexLayer : MonoBehaviour
 {
     private const string ENVIROMENT_LAYER_NAME = "Enviroment";
@@ -15,6 +16,18 @@ public class ZIndexLayer : MonoBehaviour
     private const string HOLDABLES_CONTAINER_NAME = "Holdables";
     private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
     private const string PROJECTILES_CONTAINER_NAME = "Projectiles";
+
+    public struct LayerAlphaMode
+    {
+        public float Alpha;
+        public float OvergoundAlpha;
+
+        public LayerAlphaMode(float alpha, float overgoundAlpha)
+        {
+            Alpha = alpha;
+            OvergoundAlpha = overgoundAlpha;
+        }
+    }
 
     public int ZIndex = 1;
     public TileManager TileManager;
@@ -32,6 +45,7 @@ public class ZIndexLayer : MonoBehaviour
     public Transform HoldablesContainer { get; private set; }
     public Transform PhysicsParticlesContainer { get; private set; }
     public Transform ProjectilesContainer { get; private set; }
+    public MultiTileMapsContainer MultiTileMapsContainer { get; private set; }
 
     private LayerAlphaMode _alphaMode;
 
@@ -43,18 +57,6 @@ public class ZIndexLayer : MonoBehaviour
             if (_alphaMode.Alpha == value.Alpha && _alphaMode.OvergoundAlpha == value.OvergoundAlpha) return;
             _alphaMode = value;
             SetAlphaForAllChildren(LayerAlpha, transform);
-        }
-    }
-
-    public struct LayerAlphaMode
-    {
-        public float Alpha;
-        public float OvergoundAlpha;
-
-        public LayerAlphaMode (float alpha, float overgoundAlpha)
-        {
-            Alpha = alpha;
-            OvergoundAlpha = overgoundAlpha;
         }
     }
 
@@ -82,6 +84,8 @@ public class ZIndexLayer : MonoBehaviour
         FurnitureContainer = transform.Find(FURNITURE_CONTAINER_NAME);
         HoldablesContainer = transform.Find(HOLDABLES_CONTAINER_NAME);
         ProjectilesContainer = transform.Find(PROJECTILES_CONTAINER_NAME);
+
+        MultiTileMapsContainer = transform.GetComponentInChildren<MultiTileMapsContainer>();
     }
 
     private void SetAlphaForAllChildren(LayerAlphaMode layerAlpha, Transform t, bool foundOvergound = false)

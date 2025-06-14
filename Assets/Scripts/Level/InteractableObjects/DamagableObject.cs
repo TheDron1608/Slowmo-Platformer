@@ -90,7 +90,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
             if (UnityEngine.Random.value > damage) continue; //chance to not spawn particle if damage is less than 1
 
             GameObject newParticle = ParticleSpawner.SpawnParticle(
-                NumberMath.PickRandomItemNoSeed(ParticlesOnDamage),
+                NumberMath.PickRandomItem(ParticlesOnDamage),
                 transform,
                 UnityEngine.Random.value * PARTICLES_ON_DAMAGE_MAX_VELOCITY,
                 (UnityEngine.Random.value - 0.5f) * 2f * PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,

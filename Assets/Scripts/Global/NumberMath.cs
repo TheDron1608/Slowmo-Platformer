@@ -18,13 +18,13 @@ public static class NumberMath
         return min + (int)(Random.value * (max - min));
     }
 
-    public static T PickRandomItemNoSeed<T>(List<T> vector)
+    public static T PickRandomItem<T>(List<T> vector)
     {
         return vector[(int)(Random.value * vector.Count)];
     }
-    public static T PickRandomItemNoSeed<T>(List<T> vector, int limit)
+    public static T PickRandomItem<T>(List<T> vector, int limit)
     {
-        if (limit == -1) return PickRandomItemNoSeed(vector);
+        if (limit == -1) return PickRandomItem(vector);
 
         return vector[(int)(Random.value * Mathf.Min(vector.Count, limit))];
     }

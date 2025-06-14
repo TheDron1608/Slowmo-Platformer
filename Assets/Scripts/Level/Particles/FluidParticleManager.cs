@@ -160,11 +160,11 @@ public class FluidParticleManager : MonoBehaviour
 
         if (velocity > SPEED_TO_USE_DRIP_FLUID)
         {
-            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(DripParticles, maxSize), spawnPosition, spawnRotation, zLayer.FluidParticlesContainer);
+            newParticle = Instantiate(NumberMath.PickRandomItem(DripParticles, maxSize), spawnPosition, spawnRotation, zLayer.FluidParticlesContainer);
         }
         else
         {
-            newParticle = Instantiate(NumberMath.PickRandomItemNoSeed(BlobParticles, maxSize), spawnPosition, spawnRotation, zLayer.FluidParticlesContainer);
+            newParticle = Instantiate(NumberMath.PickRandomItem(BlobParticles, maxSize), spawnPosition, spawnRotation, zLayer.FluidParticlesContainer);
         }
         newParticle.SetProperties(VectorMath.Quartenion2DToVec2(direction) * velocity, lifeTime, material);
         LayerManager.Instance.ChangeZIndexForGameObject(zLayer, newParticle.gameObject);
@@ -174,7 +174,7 @@ public class FluidParticleManager : MonoBehaviour
     private void SpawnSingleHugeBlobFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, Material material)
     {
         FluidParticle newParticle = Instantiate(
-            NumberMath.PickRandomItemNoSeed(HugeBlobParticles), 
+            NumberMath.PickRandomItem(HugeBlobParticles), 
             VectorMath.Vec2ToVec3(VectorMath.RandomizeVec2(postion, HUGE_BLOB_PARTICLES_POSITION_SPREAD), zLayer.transform.position.z),
             VectorMath.RandomizeQuarternion(direction, HUGE_BLOB_PARTICLES_ROTATION_SPREAD),
             zLayer.FluidParticlesContainer
@@ -186,7 +186,7 @@ public class FluidParticleManager : MonoBehaviour
     private void SpawnSingleHugeDripFluidParticle(Vector2 postion, ZIndexLayer zLayer, Quaternion direction, Material material)
     {
         FluidParticle newParticle = Instantiate(
-            NumberMath.PickRandomItemNoSeed(HugeDripParticles),
+            NumberMath.PickRandomItem(HugeDripParticles),
             VectorMath.Vec2ToVec3(VectorMath.RandomizeVec2(postion, HUGE_DRIP_PARTICLES_POSITION_SPREAD), zLayer.transform.position.z),
             VectorMath.RandomizeQuarternion(direction, HUGE_DRIP_PARTICLES_ROTATION_SPREAD),
             zLayer.FluidParticlesContainer
