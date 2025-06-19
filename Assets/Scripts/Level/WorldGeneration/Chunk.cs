@@ -68,8 +68,27 @@ public class Chunk : MonoBehaviour
 
     public void ForceGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnection[] generatedConnections)
     {
-        foreach (Tilemap sourceTileMap in transform.GetComponentsInChildren<Tilemap>())
+        foreach (Transform child in transform)
         {
+            //skip generating if random tilemap generation chance is failed
+            if (child.TryGetComponent(out RandomTilemapGenerateChance tilemapChance) && tilemapChance.GenerateChance < Random.value) continue;
+
+            //generating alternative tilemaps instead of main if chance is successed
+            Tilemap sourceTileMap;
+            if (!child.TryGetComponent(out sourceTileMap)) continue;
+            float randomAlternativeChunkSeed = Random.value;
+            float currentRandomAlternativeChunkSeed = 0f;
+            foreach (RandomTilemapGenerateChance altTileMap in child.GetComponentsInChildren<RandomTilemapGenerateChance>())
+            {
+                currentRandomAlternativeChunkSeed += altTileMap.GenerateChance;
+                if (currentRandomAlternativeChunkSeed > randomAlternativeChunkSeed)
+                {
+                    sourceTileMap = altTileMap.GetComponent<Tilemap>();
+                    break;
+                }
+            }
+
+            //redrawing each tile from prefab's tilemap to scene's tilemap
             Tilemap targetTileMap = generateWhere.GetTileMapByBehaviourType(sourceTileMap.GetComponent<TileBehaviour>().BehaviourType);
             if (targetTileMap == null) continue;
 
