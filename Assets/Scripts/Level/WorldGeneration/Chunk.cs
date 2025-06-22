@@ -1,6 +1,7 @@
 using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class Chunk : MonoBehaviour
 {
@@ -23,42 +24,31 @@ public class Chunk : MonoBehaviour
         return false;
     }
 
-    public bool TryGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnection[] generatedConnections)
+    public Tilemap GetChunkMask()
     {
         foreach (Transform child in transform)
         {
-            if (child.TryGetComponent(out TileBehaviour tileBehaviour) && tileBehaviour.BehaviourType == TileBehaviour.TileBehaviourType.CHUNK_MASK && child.TryGetComponent(out Tilemap sourceTileMap))
+            if (child.TryGetComponent(out TileBehaviour tileBehaviour) && tileBehaviour.BehaviourType == TileBehaviour.TileBehaviourType.CHUNK_MASK && child.TryGetComponent(out Tilemap result))
             {
-                for (int x = sourceTileMap.cellBounds.min.x; x < sourceTileMap.cellBounds.max.x; x++)
-                {
-                    for (int y = sourceTileMap.cellBounds.min.y; y < sourceTileMap.cellBounds.max.y; y++)
-                    {
-                        foreach (Tilemap targetTileMap in generateWhere.GetTileMaps())
-                        {
-                            if (targetTileMap.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? false)
-                            {
-                                if (sourceTileMap.HasTile(new Vector3Int(x, y)) && targetTileMap.HasTile(new Vector3Int(x, y) + position))
-                                {
-                                    /*generateWhere.GetComponent<TileManager>().Debug_MarkArea(
-                                        new Vector2(sourceTileMap.cellBounds.min.x + position.x, sourceTileMap.cellBounds.min.y + position.y), 
-                                        new Vector2(sourceTileMap.cellBounds.max.x + position.x, sourceTileMap.cellBounds.max.y + position.y), 
-                                        Color.red, 
-                                        999f
-                                        );*/
-                                    generatedConnections = default;
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                }
+                return result;
+            }
+        }
+        throw new UnityException("Chunk mask not found");
+    }
 
-                /*generateWhere.GetComponent<TileManager>().Debug_MarkArea(
-                    new Vector2(sourceTileMap.cellBounds.min.x + position.x, sourceTileMap.cellBounds.min.y + position.y),
-                    new Vector2(sourceTileMap.cellBounds.max.x + position.x, sourceTileMap.cellBounds.max.y + position.y),
-                    Color.green,
-                    999f
-                    );*/
+    public bool TryGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnection[] generatedConnections)
+    {
+        Tilemap chunkMask = GetChunkMask();
+
+        for (int x = chunkMask.cellBounds.min.x; x < chunkMask.cellBounds.max.x; x++)
+        {
+            for (int y = chunkMask.cellBounds.min.y; y < chunkMask.cellBounds.max.y; y++)
+            {
+                if (generateWhere.GetHasAnyTileAt(new Vector3Int(x, y) + position))
+                {
+                    generatedConnections = default;
+                    return false;
+                }
             }
         }
 
@@ -89,40 +79,7 @@ public class Chunk : MonoBehaviour
             }
 
             //redrawing each tile from prefab's tilemap to scene's tilemap
-            Tilemap targetTileMap = generateWhere.GetTileMapByBehaviourType(sourceTileMap.GetComponent<TileBehaviour>().BehaviourType);
-            if (targetTileMap == null) continue;
-
-            for (int x = sourceTileMap.cellBounds.min.x; x < sourceTileMap.cellBounds.max.x; x++)
-            {
-                for (int y = sourceTileMap.cellBounds.min.y; y < sourceTileMap.cellBounds.max.y; y++)
-                {
-                    TileBase tile = sourceTileMap.GetTile(new Vector3Int(x, y));
-                    if (tile != null)
-                    {
-                        targetTileMap.SetTile(new Vector3Int(x, y) + position, tile);
-
-                        if (sourceTileMap.GetComponent<TileBehaviour>().ValidAsPlatform)
-                        {
-                            foreach (Tilemap subTargetTileMap in generateWhere.GetTileMaps())
-                            {
-                                if (!subTargetTileMap.GetComponent<TileBehaviour>().ValidAsPlatform || subTargetTileMap == targetTileMap)
-                                {
-                                    continue;
-                                }
-                                else if (subTargetTileMap.GetComponent<TileBehaviour>().OverrideOrder <= sourceTileMap.GetComponent<TileBehaviour>().OverrideOrder)
-                                {
-                                    subTargetTileMap.SetTile(new Vector3Int(x, y) + position, null);
-                                }
-                                else if (subTargetTileMap.HasTile(new Vector3Int(x, y) + position))
-                                {
-                                    targetTileMap.SetTile(new Vector3Int(x, y) + position, null);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            generateWhere.GenerateTilemap(sourceTileMap, position);
         }
 
         ChunkConnection[] connections = GetConnections();
@@ -130,6 +87,7 @@ public class Chunk : MonoBehaviour
         for (int i = 0; i < connections.Length; i++)
         {
             result[i] = Instantiate(connections[i], connections[i].transform.position + position, transform.rotation, generateWhere.transform);
+            result[i].InitPrefabProps(connections[i].transform.parent);
         }
 
         generatedConnections = result;

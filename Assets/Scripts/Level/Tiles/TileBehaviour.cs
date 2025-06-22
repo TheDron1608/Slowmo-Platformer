@@ -21,7 +21,11 @@ public class TileBehaviour : MonoBehaviour
     /// </summary>
     public bool ValidAsPlatform = true;
     /// <summary>
-    /// If ValidAsPlatform is true, will remove all other tiles on this coordinate for every ValidAsPlatform tilemaps
+    /// If true, new added chunks will be removed if OverrideOrder is less or equal, else will not be added
+    /// </summary>
+    public bool Overridable = false;
+    /// <summary>
+    /// If Overridable is true, will remove all other tiles on this coordinate for every overridable tilemaps
     /// </summary>
     public int OverrideOrder = 0;
 }

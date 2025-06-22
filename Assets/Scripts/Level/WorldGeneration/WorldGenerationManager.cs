@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WorldGenerationManager : MonoBehaviour
 {
-    const int GENERATION_FAIL_ITERATIONS_LIMIT = 64;
+    const int GENERATION_FAIL_ITERATIONS_LIMIT = 4;
 
     public List<Chunk> Chunks = new();
     public int Seed;
@@ -21,6 +21,8 @@ public class WorldGenerationManager : MonoBehaviour
 
         for (int i = 1; i < chunksAmount; i++)
         {
+            if (container.GetHasAnyTileAt(prefferedPosition)) break;
+
             foreach (
                 ChunkConnection avaibleConnection in 
                 container.GetComponentsInChildren<ChunkConnection>(false).OrderBy(
@@ -45,6 +47,11 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
+        foreach (ChunkConnection unclosedConnections in container.GetComponentsInChildren<ChunkConnection>(false))
+        {
+            unclosedConnections.CloseChunkConnection();
+        }
+
         Random.state = oldState;
     }
 
@@ -55,7 +62,7 @@ public class WorldGenerationManager : MonoBehaviour
 
         foreach (var layer in LayerManager.Instance.ZLayers)
         {
-            GenerateWorld(layer.MultiTileMapsContainer, Vector3Int.zero, 10, new Vector3Int(50, 50));
+            GenerateWorld(layer.MultiTileMapsContainer, Vector3Int.zero, 256, new Vector3Int(50, 50));
         }
     }
 }
