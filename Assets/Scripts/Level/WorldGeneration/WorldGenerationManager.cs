@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class WorldGenerationManager : MonoBehaviour
@@ -17,28 +16,28 @@ public class WorldGenerationManager : MonoBehaviour
         Random.State oldState = Random.state;
         Random.state = _randomState;
 
-        NumberMath.PickRandomItem(Chunks).ForceGenerateChunk(container, position, out ChunkConnection[] firstChunkConnections);
+        NumberMath.PickRandomItem(Chunks).ForceGenerateChunk(container, position, out ChunkConnectionPosition[] firstChunkConnections);
 
         for (int i = 1; i < chunksAmount; i++)
         {
             if (container.GetHasAnyTileAt(prefferedPosition)) break;
 
             foreach (
-                ChunkConnection avaibleConnection in 
-                container.GetComponentsInChildren<ChunkConnection>(false).OrderBy(
-                    (ChunkConnection connection) => Vector3.Distance(connection.transform.position, prefferedPosition)
+                ChunkConnectionPosition avaibleConnection in 
+                container.GetComponentsInChildren<ChunkConnectionPosition>(false).OrderBy(
+                    (ChunkConnectionPosition connection) => Vector3.Distance(connection.transform.position, prefferedPosition)
                     )
                 )
             {
+                if (!avaibleConnection.isActiveAndEnabled) continue;
+
                 bool successfullGenerating = false;
                 for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
                 {
-                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(container, avaibleConnection, out ChunkConnection newChunkConnection))
+                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(container, avaibleConnection, out ChunkConnectionPosition newChunkConnection))
                     {
-                        newChunkConnection.gameObject.SetActive(false);
-                        avaibleConnection.gameObject.SetActive(false);
-                        Destroy(newChunkConnection.gameObject);
-                        Destroy(avaibleConnection.gameObject);
+                        newChunkConnection.DestroyConnection();
+                        avaibleConnection.DestroyConnection();
                         successfullGenerating = true;
                         break;
                     }
@@ -47,15 +46,33 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
-        foreach (ChunkConnection unclosedConnections in container.GetComponentsInChildren<ChunkConnection>(false))
+        foreach (ChunkConnectionPosition unclosedConnection in container.GetComponentsInChildren<ChunkConnectionPosition>(false))
         {
-            unclosedConnections.CloseChunkConnection();
+            if (!unclosedConnection.isActiveAndEnabled) continue;
+
+            bool needCloseConnection = true;
+            foreach (ChunkConnectionPosition unclosedConnection2 in container.GetComponentsInChildren<ChunkConnectionPosition>(false))
+            {
+                if (unclosedConnection != unclosedConnection2 && unclosedConnection.GetTilePosition() == unclosedConnection2.GetTilePosition())
+                {
+                    unclosedConnection.OnOpenedChunkConnection();
+                    unclosedConnection.DestroyConnection();
+                    unclosedConnection2.DestroyConnection();
+                    needCloseConnection = false;
+                    break;
+                }
+            }
+
+            if (needCloseConnection)
+            {
+                unclosedConnection.OnClosedChunkConnection();
+            }
         }
 
         Random.state = oldState;
     }
 
-    private void Awake()
+    /*private void Awake()
     {
         _randomState = Random.state;
         Random.InitState(Seed);
@@ -64,5 +81,5 @@ public class WorldGenerationManager : MonoBehaviour
         {
             GenerateWorld(layer.MultiTileMapsContainer, Vector3Int.zero, 256, new Vector3Int(50, 50));
         }
-    }
+    }*/
 }

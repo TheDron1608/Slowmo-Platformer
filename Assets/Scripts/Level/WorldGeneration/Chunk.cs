@@ -1,16 +1,14 @@
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class Chunk : MonoBehaviour
 {
-    public ChunkConnection[] GetConnections()
+    public ChunkConnectionPosition[] GetConnections()
     {
-        return transform.GetComponentsInChildren<ChunkConnection>();
+        return transform.GetComponentsInChildren<ChunkConnectionPosition>();
     }
 
-    public bool GetAnyConnectionIsValid(ChunkConnection targetConnection, out ChunkConnection validConnection)
+    public bool GetAnyConnectionIsValid(ChunkConnectionPosition targetConnection, out ChunkConnectionPosition validConnection)
     {
         foreach (var connection in GetConnections())
         {
@@ -36,7 +34,7 @@ public class Chunk : MonoBehaviour
         throw new UnityException("Chunk mask not found");
     }
 
-    public bool TryGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnection[] generatedConnections)
+    public bool TryGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnectionPosition[] generatedConnections)
     {
         Tilemap chunkMask = GetChunkMask();
 
@@ -56,57 +54,40 @@ public class Chunk : MonoBehaviour
         return true;
     }
 
-    public void ForceGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnection[] generatedConnections)
+    public void ForceGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnectionPosition[] generatedConnections)
     {
         foreach (Transform child in transform)
         {
-            //skip generating if random tilemap generation chance is failed
-            if (child.TryGetComponent(out RandomTilemapGenerateChance tilemapChance) && tilemapChance.GenerateChance < Random.value) continue;
-
-            //generating alternative tilemaps instead of main if chance is successed
-            Tilemap sourceTileMap;
-            if (!child.TryGetComponent(out sourceTileMap)) continue;
-            float randomAlternativeChunkSeed = Random.value;
-            float currentRandomAlternativeChunkSeed = 0f;
-            foreach (RandomTilemapGenerateChance altTileMap in child.GetComponentsInChildren<RandomTilemapGenerateChance>())
-            {
-                currentRandomAlternativeChunkSeed += altTileMap.GenerateChance;
-                if (currentRandomAlternativeChunkSeed > randomAlternativeChunkSeed)
-                {
-                    sourceTileMap = altTileMap.GetComponent<Tilemap>();
-                    break;
-                }
-            }
-
-            //redrawing each tile from prefab's tilemap to scene's tilemap
-            generateWhere.GenerateTilemap(sourceTileMap, position);
+            generateWhere.TrySpawnObject(child.gameObject, position);
         }
 
-        ChunkConnection[] connections = GetConnections();
-        ChunkConnection[] result = new ChunkConnection[connections.Length];
+        ChunkConnectionPosition[] connections = GetConnections();
+        ChunkConnectionPosition[] result = new ChunkConnectionPosition[connections.Length];
         for (int i = 0; i < connections.Length; i++)
         {
             result[i] = Instantiate(connections[i], connections[i].transform.position + position, transform.rotation, generateWhere.transform);
-            result[i].InitPrefabProps(connections[i].transform.parent);
+            result[i].InitPrefabProps(connections[i].transform.parent.GetComponent<ChunkConnection>());
         }
 
         generatedConnections = result;
     }
 
-    public bool TryAddChunk(MultiTileMapsContainer container, ChunkConnection sourceChunkConnection, out ChunkConnection connectedChunkConntection)
+    public bool TryAddChunk(MultiTileMapsContainer container, ChunkConnectionPosition sourceChunkConnection, out ChunkConnectionPosition connectedChunkConntection)
     {
         connectedChunkConntection = default;
-        if (!GetAnyConnectionIsValid(sourceChunkConnection, out ChunkConnection newChunkConnection))
+        if (!GetAnyConnectionIsValid(sourceChunkConnection, out ChunkConnectionPosition newChunkConnection))
         {
             return false;
         }
 
-        if (!TryGenerateChunk(container, sourceChunkConnection.GetTilePosition() - newChunkConnection.GetTileRelativePosition(), out ChunkConnection[] newConnections))
+        if (!TryGenerateChunk(container, sourceChunkConnection.GetTilePosition() - newChunkConnection.GetTileRelativePosition(), out ChunkConnectionPosition[] newConnections))
         {
             return false;
         }
 
-        foreach (ChunkConnection newConnection in newConnections)
+        sourceChunkConnection.OnOpenedChunkConnection();
+
+        foreach (ChunkConnectionPosition newConnection in newConnections)
         {
             if (newConnection.GetTilePosition() == sourceChunkConnection.GetTilePosition())
             {

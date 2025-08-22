@@ -1,16 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.WSA;
 
 [CreateAssetMenu(fileName = "CharacterMultiSpriteSO", menuName = "MultiSprites/CharacterMultiSpritesSO")]
 [DefaultExecutionOrder(-1)]
 public class CharacterMultiSpritesSO : AbstractMultiSpriteSO
 {
-    public static CharacterMultiSpritesSO Instance;
-
     /// <summary>
     /// Note: if you will add new item, they MUST be sorted by name alphabetically and be same as sprite name
     /// </summary>
@@ -72,12 +67,7 @@ public class CharacterMultiSpritesSO : AbstractMultiSpriteSO
         get => _animatedCharacerPartsOrderInLayer;
     }
 
-    protected override void OnVirtualValidate()
-    {
-        base.OnVirtualValidate();
-        Instance = this;
-    }
-
+#if UNITY_EDITOR
     [CustomEditor(typeof(CharacterMultiSpritesSO))]
     public class UpdateMultiSprites : Editor
     {
@@ -91,4 +81,5 @@ public class CharacterMultiSpritesSO : AbstractMultiSpriteSO
             }
         }
     }
+#endif
 }

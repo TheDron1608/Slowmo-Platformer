@@ -20,6 +20,34 @@ PrefabInstance:
       propertyPath: m_Interactable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2349861711792540102, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349861711792540102, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349861711792540102, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 395510722137272480}
+    - target: {fileID: 2349861711792540102, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349861711792540102, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349861711792540102, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ButtonOnClickGoToScene, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349861711792540102, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2411774491265838264, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -187,6 +215,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6585336971847499894}
     - targetCorrespondingSourceObject: {fileID: 4222478142320599171, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 395510722137272480}
+    - targetCorrespondingSourceObject: {fileID: 4222478142320599171, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7594608279891649574}
   m_SourcePrefab: {fileID: 100100000, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
@@ -218,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb852b6fa695e34e8e470fc5b7a1a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ChangeTextOnly: 0
   _requiredFloorProgress: -1
   _requiredLevelProgress: -1
   _button: {fileID: 8067301550285819833}
@@ -238,6 +270,7 @@ MonoBehaviour:
   _textContainer: {fileID: 8065048069680236445}
   _imageCointainer: {fileID: 1008979022237336510}
   _bossLevelSprite: {fileID: 21300000, guid: 97cca961cbeddc940b2deb3a79f257e8, type: 3}
+  _sceneTransition: {fileID: 395510722137272480}
 --- !u!114 &8065048069680236445 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2343134867860783586, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
@@ -265,6 +298,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4222478142320599171, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
   m_PrefabInstance: {fileID: 5722019874378679935}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &395510722137272480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498841968838698748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d25935fc44abbb448a703bca1f81d51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoToSceneName: 
 --- !u!114 &7594608279891649574
 MonoBehaviour:
   m_ObjectHideFlags: 0

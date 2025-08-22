@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.U2D;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 [DefaultExecutionOrder(5)]
 public class CharacterPartVisual : AbstractCharacterComponent
@@ -19,8 +16,8 @@ public class CharacterPartVisual : AbstractCharacterComponent
         {
             if (_visualType != value)
             {
-                _spriteRenderer.sortingOrder -= CharacterMultiSpritesSO.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
-                _spriteRenderer.sortingOrder += CharacterMultiSpritesSO.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
+                _spriteRenderer.sortingOrder -= CharComponents.CharacterVisual.MultiSpritesSO.AnimatedCharacerPartsOrderInLayer[VisualType];
+                _spriteRenderer.sortingOrder += CharComponents.CharacterVisual.MultiSpritesSO.AnimatedCharacerPartsOrderInLayer[VisualType];
 
                 _visualType = value;
             }
@@ -42,7 +39,7 @@ public class CharacterPartVisual : AbstractCharacterComponent
         CharComponents.CharacterVisual.OnSampleSpriteChanged += CharacterVisual_OnSampleSpriteChanged;
         CharComponents.CharacterVisual.OnSpriteFlippedChanged += CharacterVisual_OnSpriteFlippedChanged;
 
-        _spriteRenderer.sortingOrder += CharacterMultiSpritesSO.Instance.AnimatedCharacerPartsOrderInLayer[VisualType];
+        _spriteRenderer.sortingOrder += CharComponents.CharacterVisual.MultiSpritesSO.AnimatedCharacerPartsOrderInLayer[VisualType];
         _spriteRenderer.sortingOrder += CharComponents.CharacterVisual.RandomExtraSpriteRendererSortingOrder;
     }
 
@@ -50,7 +47,7 @@ public class CharacterPartVisual : AbstractCharacterComponent
     {
         try
         {
-            _spriteRenderer.sprite = CharacterMultiSpritesSO.Instance.SampleSprites[sampleSprite][(int)VisualType];
+            _spriteRenderer.sprite = CharComponents.CharacterVisual.MultiSpritesSO.GetSampleSprites(sampleSprite)[(int)VisualType];
         }
         catch (KeyNotFoundException)
         {

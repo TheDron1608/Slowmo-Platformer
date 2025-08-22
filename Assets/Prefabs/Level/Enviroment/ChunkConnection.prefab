@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3438969325703289267}
-  - component: {fileID: 5621123173404077988}
+  - component: {fileID: 3614399967744226639}
   m_Layer: 0
   m_Name: ChunkConnectionPosition
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6956241040092834397}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5621123173404077988
+--- !u!114 &3614399967744226639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7840320498336064620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 673d9317161a0ca47b1cd729b61495d0, type: 3}
+  m_Script: {fileID: 11500000, guid: b5480929b39c1a845a94a1c434530ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Direction: 0
@@ -54,6 +54,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6956241040092834397}
+  - component: {fileID: 1648873117561489245}
   m_Layer: 0
   m_Name: ChunkConnection
   m_TagString: Untagged
@@ -77,3 +78,15 @@ Transform:
   - {fileID: 3438969325703289267}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1648873117561489245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7963859735309252081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce657b8866f27ae48a906cbd81a11f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

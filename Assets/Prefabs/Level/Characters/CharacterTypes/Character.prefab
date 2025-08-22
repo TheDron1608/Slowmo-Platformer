@@ -360,10 +360,14 @@ MonoBehaviour:
   _maxHealth: 1
   _minHealth: 0
   _currentHealth: 1
+  _piercableThrought: 0
+  _hitableByMeleeProjectiles: 1
+  _hitableByRangedProjectiles: 1
   LivingWithDeadlyHealthSeconds: 0
   CanHaveHealthOverMax: 0
   EffectsOnLethal:
   - {fileID: -2759489885522232248, guid: 48fe1f79d332f754eb863ebc20405200, type: 3}
+  ParticlesOnDamage: []
 --- !u!114 &4517750751436233566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,6 +556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JumpStateVelocityRange: 5
   MoveSpeedVelocityRange: 5
+  MultiSpritesSO: {fileID: 11400000, guid: f18c3b67c56c15e4db4b7bd1e6ed4f50, type: 2}
 --- !u!114 &974105059069264052
 MonoBehaviour:
   m_ObjectHideFlags: 0

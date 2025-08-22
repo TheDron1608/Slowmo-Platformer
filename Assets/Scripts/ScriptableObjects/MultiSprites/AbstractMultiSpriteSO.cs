@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.WSA;
 
+[DefaultExecutionOrder(-1)]
 public abstract class AbstractMultiSpriteSO : ScriptableObject
 {
     public string TargetSpritesDir = "\\Assets\\Sprites";
@@ -23,28 +23,18 @@ public abstract class AbstractMultiSpriteSO : ScriptableObject
         }
     }
 
-    private Dictionary<Sprite, Sprite[]> _sampleSprites = new();
-    public Dictionary<Sprite, Sprite[]> SampleSprites
+    public Sprite[] GetSampleSprites(Sprite keySprite)
     {
-        get => _sampleSprites;
-    }
-
-    private void OnValidate()
-    {
-        OnVirtualValidate();
-    }
-
-    protected virtual void OnVirtualValidate()
-    {
-        foreach (var listItem in _serializedSampleSprites)
+        foreach (var sampleSprites in _serializedSampleSprites)
         {
-            SampleSprites.Add(listItem.Key, listItem.Value);
+            if (sampleSprites.Key == keySprite) return sampleSprites.Value;
         }
+        throw new UnityException("not found key sprite with value: " + keySprite);
     }
 
     //unity 6.0.026f1 not supports serialized dictionaries
     [SerializeField] private List<SerializableSampleSpritesDictionaryItem> _serializedSampleSprites = new();
-
+#if UNITY_EDITOR
     public void UpdateCharacterTextures()
     {
         _serializedSampleSprites.Clear();
@@ -88,8 +78,11 @@ public abstract class AbstractMultiSpriteSO : ScriptableObject
         }
 
         EditorUtility.SetDirty(this);
-        AssetDatabase.SaveAssetIfDirty(this);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        //AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(this)).SaveAndReimport();
 
-        Debug.Log("Updated");
+        Debug.Log("Updated at " + AssetDatabase.GetAssetPath(this));
     }
+#endif
 }

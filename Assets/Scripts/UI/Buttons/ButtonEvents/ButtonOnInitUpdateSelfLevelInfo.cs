@@ -10,6 +10,8 @@ public class ButtonOnInitUpdateSelfLevelInfo : MonoBehaviour
     private Image _imageCointainer;
     [SerializeField]
     private Sprite _bossLevelSprite;
+    [SerializeField]
+    private ButtonOnClickGoToScene _sceneTransition;
 
     private LevelInfo _levelInfo;
 
@@ -31,5 +33,6 @@ public class ButtonOnInitUpdateSelfLevelInfo : MonoBehaviour
         {
             _imageCointainer.sprite = _bossLevelSprite;
         }
+        _sceneTransition.GoToSceneName = _levelInfo.SceneName;
     }
 }

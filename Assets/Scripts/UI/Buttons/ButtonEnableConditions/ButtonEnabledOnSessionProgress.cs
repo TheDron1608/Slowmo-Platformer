@@ -65,7 +65,7 @@ public class ButtonEnabledOnSessionProgress : MonoBehaviour
             SessionManager.Instance.CurrentSession != null &&
             (
                 SessionManager.Instance.CurrentSession.FloorProgress > _requiredFloorProgress || 
-                (SessionManager.Instance.CurrentSession.LevelProgress >= _requiredLevelProgress && SessionManager.Instance.CurrentSession.FloorProgress == _requiredFloorProgress)
+                (SessionManager.Instance.CurrentSession.LevelProgress >= _requiredLevelProgress && SessionManager.Instance.CurrentSession.FloorProgress >= _requiredFloorProgress)
             );
 
         if (!ChangeTextOnly)

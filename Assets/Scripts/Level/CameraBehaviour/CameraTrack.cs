@@ -1,5 +1,3 @@
-using Unity.Mathematics;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class CameraTrack : MonoBehaviour

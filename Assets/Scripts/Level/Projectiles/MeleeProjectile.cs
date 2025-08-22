@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
 using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Localization.SmartFormat.Core.Parsing;
 
 public class MeleeProjectile : AbstractProjectile
 {

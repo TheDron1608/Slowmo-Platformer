@@ -28,6 +28,7 @@ public class MultiTileMapsContainer : MonoBehaviour
 
     public void GenerateTilemap(Tilemap tilemap, Vector3Int position)
     {
+        if (tilemap == null) return;
         Tilemap targetTileMap = GetTileMapByBehaviourType(tilemap.GetComponent<TileBehaviour>().BehaviourType);
         if (targetTileMap == null) return;
 
@@ -61,6 +62,37 @@ public class MultiTileMapsContainer : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void TrySpawnObject(GameObject spawnObject, Vector3Int position)
+    {
+        if (spawnObject == null) return;
+
+        if (spawnObject.TryGetComponent(out RandomSpawn randomSpawn))
+        {
+            TrySpawnObject(randomSpawn.PickRandomSpawnObject(), position);
+        }
+        else if (spawnObject.GetComponent<RandomSpawnMultiItem>() != null)
+        {
+            foreach (Transform spawnObjectChild in spawnObject.transform)
+            {
+                TrySpawnObject(spawnObjectChild.gameObject, position);
+            }
+        }
+        else if (spawnObject.TryGetComponent(out Tilemap tilemap))
+        {
+            GenerateTilemap(tilemap, position);
+        }
+        else if (!spawnObject.TryGetComponent(out ChunkConnection chunkConnection))
+        {
+            GameObject newObject = Instantiate(
+                spawnObject,
+                spawnObject.transform.position + position,
+                spawnObject.transform.rotation,
+                transform.parent
+                );
+            LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), newObject);
         }
     }
 }

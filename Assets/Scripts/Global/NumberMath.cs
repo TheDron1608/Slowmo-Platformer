@@ -20,13 +20,23 @@ public static class NumberMath
 
     public static T PickRandomItem<T>(List<T> vector)
     {
-        return vector[(int)(Random.value * vector.Count)];
+        return vector[(int)(Random.value * (vector.Count))];
     }
     public static T PickRandomItem<T>(List<T> vector, int limit)
     {
         if (limit == -1) return PickRandomItem(vector);
 
         return vector[(int)(Random.value * Mathf.Min(vector.Count, limit))];
+    }
+    public static T PickRandomItem<T>(T[] array)
+    {
+        return array[(int)(Random.value * (array.Length))];
+    }
+    public static T PickRandomItem<T>(T[] array, int limit)
+    {
+        if (limit == -1) return PickRandomItem(array);
+
+        return array[(int)(Random.value * Mathf.Min(array.Length, limit))];
     }
 
     public static float RelativeLerp(float min, float max, float relativeDelta)

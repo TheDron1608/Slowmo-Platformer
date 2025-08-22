@@ -7,6 +7,7 @@ public class LevelInfo : ScriptableObject
 
     public bool BossLevel = false;
 
+
     [SerializeField]
     private string _levelName;
 
@@ -15,4 +16,6 @@ public class LevelInfo : ScriptableObject
         get => (_levelName != null && _levelName != "") ? _levelName : Level.ToString();
         set  => _levelName = value;
     }
+
+    public string SceneName = ""; 
 }

@@ -74,6 +74,8 @@ public class CharacterVisual : AbstractCharacterComponent
     /// </summary>
     public float MoveSpeedVelocityRange = 8f;
 
+    public CharacterMultiSpritesSO MultiSpritesSO;
+
     private bool _flippedH = false;
     private CharacterPartMainStates _mainState = CharacterPartMainStates.IDLE;
     private float _jumpState = 0f;

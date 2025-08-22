@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class ParticleSpawner : MonoBehaviour
 {

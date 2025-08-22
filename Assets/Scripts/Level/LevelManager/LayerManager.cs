@@ -1,9 +1,6 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 [DefaultExecutionOrder(-1)]
 public class LayerManager : MonoBehaviour
@@ -60,25 +57,25 @@ public class LayerManager : MonoBehaviour
         switch (moveGameObject.tag)
         {
             case PROJECTILE_TAG_NAME:
-                moveGameObject.transform.parent = targetLayer.ProjectilesContainer;
+                moveGameObject.transform.SetParent(targetLayer.ProjectilesContainer);
                 break;
             case FURNITURE_TAG_NAME:
-                moveGameObject.transform.parent = targetLayer.FurnitureContainer;
+                moveGameObject.transform.SetParent(targetLayer.FurnitureContainer);
                 break;
             case HOLDABLE_TAG_NAME:
-                moveGameObject.transform.parent = targetLayer.HoldablesContainer;
+                moveGameObject.transform.SetParent(targetLayer.HoldablesContainer);
                 break;
             case PHYSICS_PARTICLE_TAG_NAME:
-                moveGameObject.transform.parent = targetLayer.PhysicsParticlesContainer;
+                moveGameObject.transform.SetParent(targetLayer.PhysicsParticlesContainer);
                 break;
             case FLUID_PARTICLE_TAG_NAME:
-                moveGameObject.transform.parent = targetLayer.FluidParticlesContainer;
+                moveGameObject.transform.SetParent(targetLayer.FluidParticlesContainer);
                 break;
             case CHARACTER_TAG_NAME:
-                moveGameObject.transform.parent = targetLayer.CharactersContainer;
+                moveGameObject.transform.SetParent(targetLayer.CharactersContainer);
                 break;
             default:
-                moveGameObject.transform.parent = targetLayer.transform;
+                moveGameObject.transform.SetParent(targetLayer.transform);
                 break;
         }
 
