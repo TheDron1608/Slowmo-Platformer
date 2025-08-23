@@ -84,6 +84,10 @@ public class MultiTileMapsContainer : MonoBehaviour
         {
             GenerateTilemap(tilemap, position);
         }
+        else if (spawnObject.TryGetComponent(out ILateGenerationEnviroment generatable))
+        {
+            Instantiate(spawnObject, position, spawnObject.transform.rotation, transform);
+        }
         else if (!spawnObject.TryGetComponent(out ChunkConnection chunkConnection))
         {
             GameObject newObject = Instantiate(
@@ -93,6 +97,7 @@ public class MultiTileMapsContainer : MonoBehaviour
                 transform.parent
                 );
             LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), newObject);
+            LayerManager.Instance.GetZLayerOfGameObject(newObject).UpdateLayerForGameObject(newObject);
         }
     }
 }

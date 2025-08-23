@@ -69,17 +69,22 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
+        foreach (ILateGenerationEnviroment lateGenEnviroment in container.GetComponentsInChildren<ILateGenerationEnviroment>())
+        {
+            lateGenEnviroment.Generate();
+        }
+
         Random.state = oldState;
     }
 
-    /*private void Awake()
+    private void Awake()
     {
         _randomState = Random.state;
         Random.InitState(Seed);
 
         foreach (var layer in LayerManager.Instance.ZLayers)
         {
-            GenerateWorld(layer.MultiTileMapsContainer, Vector3Int.zero, 256, new Vector3Int(50, 50));
+            GenerateWorld(layer.MultiTileMapsContainer, Vector3Int.zero, 16, new Vector3Int(50, 50));
         }
-    }*/
+    }
 }
