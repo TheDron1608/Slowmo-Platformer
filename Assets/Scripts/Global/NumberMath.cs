@@ -129,4 +129,17 @@ public static class NumberMath
         }
         return false;
     }
+
+    /// <summary>
+    /// Return true of false with 50/50 chance
+    /// </summary>
+    public static bool RandomCoinflip()
+    {
+        return Random.value > 0.5f;
+    }
+
+    public static T PickMiddleItemFromList<T>(List<T> list)
+    {
+        return list[list.Count / 2];
+    }
 }

@@ -116,4 +116,9 @@ public static class VectorMath
             vector.x * Mathf.Sin(delta) + vector.y * Mathf.Cos(delta)
         );
     }
+
+    public static Vector2 PickRandomDirection()
+    {
+        return new Vector2(UnityEngine.Random.value - 0.5f, UnityEngine.Random.value - 0.5f).normalized;
+    }
 }

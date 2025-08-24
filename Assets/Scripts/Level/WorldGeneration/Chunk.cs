@@ -65,7 +65,7 @@ public class Chunk : MonoBehaviour
         ChunkConnectionPosition[] result = new ChunkConnectionPosition[connections.Length];
         for (int i = 0; i < connections.Length; i++)
         {
-            result[i] = Instantiate(connections[i], connections[i].transform.position + position, transform.rotation, generateWhere.transform);
+            result[i] = Instantiate(connections[i], connections[i].transform.position + position, transform.rotation, LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).WorldGenerationDataObjectsContainer);
             result[i].InitPrefabProps(connections[i].transform.parent.GetComponent<ChunkConnection>());
         }
 

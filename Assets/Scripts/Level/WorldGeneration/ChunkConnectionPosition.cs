@@ -52,7 +52,7 @@ public class ChunkConnectionPosition : MonoBehaviour
     {
         foreach (GameObject objectOnClose in _originalPrefabConnection.ObjectsOnClosedConnection)
         {
-            transform.parent.GetComponent<MultiTileMapsContainer>().TrySpawnObject(objectOnClose, GetTilePosition() - _tilemapOffset);
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer.TrySpawnObject(objectOnClose, GetTilePosition() - _tilemapOffset);
         }
         DestroyConnection();
     }
@@ -61,7 +61,7 @@ public class ChunkConnectionPosition : MonoBehaviour
     {
         foreach (GameObject objectOnClose in _originalPrefabConnection.ObjectsOnOpenedConnection)
         {
-            transform.parent.GetComponent<MultiTileMapsContainer>().TrySpawnObject(objectOnClose, GetTilePosition() - _tilemapOffset);
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer.TrySpawnObject(objectOnClose, GetTilePosition() - _tilemapOffset);
         }
     }
 

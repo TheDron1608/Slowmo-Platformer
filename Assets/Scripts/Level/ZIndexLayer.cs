@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,6 +17,7 @@ public class ZIndexLayer : MonoBehaviour
     private const string HOLDABLES_CONTAINER_NAME = "Holdables";
     private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
     private const string PROJECTILES_CONTAINER_NAME = "Projectiles";
+    private const string WORLD_GENERATION_DATA_OBJECTS_CONTAINER_NAME = "WorldGenerationDataObjects";
 
     public struct LayerAlphaMode
     {
@@ -45,6 +47,7 @@ public class ZIndexLayer : MonoBehaviour
     public Transform HoldablesContainer { get; private set; }
     public Transform PhysicsParticlesContainer { get; private set; }
     public Transform ProjectilesContainer { get; private set; }
+    public Transform WorldGenerationDataObjectsContainer { get; private set; }
     public MultiTileMapsContainer MultiTileMapsContainer { get; private set; }
 
     private LayerAlphaMode _alphaMode;
@@ -84,6 +87,7 @@ public class ZIndexLayer : MonoBehaviour
         FurnitureContainer = transform.Find(FURNITURE_CONTAINER_NAME);
         HoldablesContainer = transform.Find(HOLDABLES_CONTAINER_NAME);
         ProjectilesContainer = transform.Find(PROJECTILES_CONTAINER_NAME);
+        WorldGenerationDataObjectsContainer = transform.Find(WORLD_GENERATION_DATA_OBJECTS_CONTAINER_NAME);
 
         MultiTileMapsContainer = transform.GetComponentInChildren<MultiTileMapsContainer>();
     }
@@ -175,5 +179,15 @@ public class ZIndexLayer : MonoBehaviour
                 gameObject.layer = gameObject.transform.parent.gameObject.layer;
                 break;
         }
+    }
+
+    public ZIndexLayer PickLayerAbove()
+    {
+        return LayerManager.Instance.ZLayers.ElementAtOrDefault(LayerManager.Instance.ZLayers.IndexOf(this) + 1);
+    }
+
+    public ZIndexLayer PickLayerUnder()
+    {
+        return LayerManager.Instance.ZLayers.ElementAtOrDefault(LayerManager.Instance.ZLayers.IndexOf(this) - 1);
     }
 }
