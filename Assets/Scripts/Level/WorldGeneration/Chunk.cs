@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -6,6 +7,11 @@ public class Chunk : MonoBehaviour
     public ChunkConnectionPosition[] GetConnections()
     {
         return transform.GetComponentsInChildren<ChunkConnectionPosition>();
+    }
+
+    public DoorGenerationPosition[] GetDoorGenerationPositions()
+    {
+        return transform.GetComponentsInChildren<DoorGenerationPosition>();
     }
 
     public bool GetAnyConnectionIsValid(ChunkConnectionPosition targetConnection, out ChunkConnectionPosition validConnection)
@@ -34,7 +40,7 @@ public class Chunk : MonoBehaviour
         throw new UnityException("Chunk mask not found");
     }
 
-    public bool TryGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnectionPosition[] generatedConnections)
+    public bool TryGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkInfo chunkInfo)
     {
         Tilemap chunkMask = GetChunkMask();
 
@@ -44,50 +50,69 @@ public class Chunk : MonoBehaviour
             {
                 if (generateWhere.GetHasAnyTileAt(new Vector3Int(x, y) + position))
                 {
-                    generatedConnections = default;
+                    chunkInfo = default;
                     return false;
                 }
             }
         }
 
-        ForceGenerateChunk(generateWhere, position, out generatedConnections);
+        ForceGenerateChunk(generateWhere, position, out chunkInfo);
         return true;
     }
 
-    public void ForceGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkConnectionPosition[] generatedConnections)
+    public void ForceGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkInfo chunkInfo)
     {
+        GameObject chunkInfoGO = new GameObject("ChunkInfo");
+        chunkInfoGO.transform.parent = LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).WorldGenerationDataObjectsContainer.transform;
+        chunkInfo = chunkInfoGO.AddComponent<ChunkInfo>();
+
         foreach (Transform child in transform)
         {
             generateWhere.TrySpawnObject(child.gameObject, position);
         }
 
         ChunkConnectionPosition[] connections = GetConnections();
-        ChunkConnectionPosition[] result = new ChunkConnectionPosition[connections.Length];
+        chunkInfo.Connections = new ChunkConnectionPosition[connections.Length];
         for (int i = 0; i < connections.Length; i++)
         {
-            result[i] = Instantiate(connections[i], connections[i].transform.position + position, transform.rotation, LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).WorldGenerationDataObjectsContainer);
-            result[i].InitPrefabProps(connections[i].transform.parent.GetComponent<ChunkConnection>());
+            Vector3 spawnPosition = new Vector3(
+                connections[i].transform.position.x + position.x,
+                connections[i].transform.position.y + position.y,
+                LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).transform.position.z
+                );
+            chunkInfo.Connections[i] = Instantiate(connections[i], spawnPosition, transform.rotation, LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).WorldGenerationDataObjectsContainer);
+            chunkInfo.Connections[i].InitPrefabProps(connections[i].transform.parent.GetComponent<ChunkConnection>());
         }
-
-        generatedConnections = result;
+        DoorGenerationPosition[] doors = GetDoorGenerationPositions();
+        chunkInfo.DoorGenPositions = new DoorGenerationPosition[doors.Length];
+        for (int i = 0; i < doors.Length; i++)
+        {
+            Vector3 spawnPosition = new Vector3(
+                doors[i].transform.position.x + position.x,
+                doors[i].transform.position.y + position.y,
+                LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).transform.position.z
+                );
+            chunkInfo.DoorGenPositions[i] = Instantiate(doors[i], spawnPosition, transform.rotation, LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).WorldGenerationDataObjectsContainer);
+        }
     }
 
-    public bool TryAddChunk(MultiTileMapsContainer container, ChunkConnectionPosition sourceChunkConnection, out ChunkConnectionPosition connectedChunkConntection)
+    public bool TryAddChunk(MultiTileMapsContainer container, ChunkConnectionPosition sourceChunkConnection, out ChunkInfo newChunkInfo, out ChunkConnectionPosition connectedChunkConntection)
     {
+        newChunkInfo = default;
         connectedChunkConntection = default;
         if (!GetAnyConnectionIsValid(sourceChunkConnection, out ChunkConnectionPosition newChunkConnection))
         {
             return false;
         }
 
-        if (!TryGenerateChunk(container, sourceChunkConnection.GetTilePosition() - newChunkConnection.GetTileRelativePosition(), out ChunkConnectionPosition[] newConnections))
+        if (!TryGenerateChunk(container, sourceChunkConnection.GetTilePosition() - newChunkConnection.GetTileRelativePosition(), out newChunkInfo))
         {
             return false;
         }
 
         sourceChunkConnection.OnOpenedChunkConnection();
 
-        foreach (ChunkConnectionPosition newConnection in newConnections)
+        foreach (ChunkConnectionPosition newConnection in newChunkInfo.Connections)
         {
             if (newConnection.GetTilePosition() == sourceChunkConnection.GetTilePosition())
             {
@@ -97,5 +122,21 @@ public class Chunk : MonoBehaviour
         }
 
         return true;
+    }
+
+    public bool TryGenerateChunkWithDoor(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkInfo newChunk, out DoorGenerationPosition door)
+    {
+        int randomDoorArrayKey = (int)(UnityEngine.Random.value * GetDoorGenerationPositions().Length);
+
+        if (TryGenerateChunk(generateWhere, position - VectorMath.Vec2IntToVec3Int(TileManager.PositionToTilePosition(GetDoorGenerationPositions()[randomDoorArrayKey].transform.position)), out newChunk))
+        {
+            door = newChunk.DoorGenPositions[randomDoorArrayKey];
+            return true;
+        }
+        else
+        {
+            door = default;
+            return false;
+        }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class WorldGenerationManager : MonoBehaviour
 {
     const int GENERATION_FAIL_ITERATIONS_LIMIT = 4;
+    const int GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT = 12;
 
     public int BuildingsAmount = 8;
     public int MinBuildingRooms = 3;
@@ -18,38 +19,59 @@ public class WorldGenerationManager : MonoBehaviour
 
     public void GenerateLevel()
     {
+        //setting variables
         UnityEngine.Random.state = _randomState;
 
         Vector3Int currentBuildingEnterPosition = Vector3Int.zero;
+        Vector3Int currentBuildingExitPosition = Vector3Int.zero;
         ZIndexLayer currentBuildingLayer = NumberMath.PickMiddleItemFromList(LayerManager.Instance.ZLayers);
+        BuildingInfo prevBuilding = null;
 
+        //generating buildings
         for (int i = 0; i < BuildingsAmount; i++)
         {
-            Vector3Int currentBuildingExitPosition = 
-                currentBuildingEnterPosition + 
-                new Vector3Int(
-                    (int)math.floor((UnityEngine.Random.value - 0.5f) * BuildingDistance), 
-                    (int)math.floor((UnityEngine.Random.value - 0.5f) * BuildingDistance)
-                    );
-
-            GenerateBuilding(
-                currentBuildingLayer,
-                currentBuildingEnterPosition,
-                NumberMath.PickRandomInRangeNoSeed(MinBuildingRooms, MaxBuildingRooms),
-                currentBuildingExitPosition
-                );
-
-            currentBuildingEnterPosition = currentBuildingExitPosition;
-            if (NumberMath.RandomCoinflip())
+            for (int attemp = 0; attemp < GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT; attemp++)
             {
-                currentBuildingLayer = currentBuildingLayer.PickLayerAbove() ?? currentBuildingLayer.PickLayerUnder(); 
-            }
-            else
-            {
-                currentBuildingLayer = currentBuildingLayer.PickLayerUnder() ?? currentBuildingLayer.PickLayerAbove();
+                currentBuildingExitPosition = 
+                    currentBuildingEnterPosition + 
+                    new Vector3Int(
+                        (int)math.floor((UnityEngine.Random.value - 0.5f) * BuildingDistance), 
+                        (int)math.floor((UnityEngine.Random.value - 0.5f) * BuildingDistance)
+                        );
+
+                //trying generate building, if failed GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT times finish generating
+                if (TryGenerateBuilding(
+                    currentBuildingLayer,
+                    currentBuildingEnterPosition,
+                    NumberMath.PickRandomInRangeNoSeed(MinBuildingRooms, MaxBuildingRooms),
+                    currentBuildingExitPosition,
+                    out BuildingInfo newBuilding
+                    ))
+                {
+                    //connect prev and current building with door
+                    if (prevBuilding != null)
+                    {
+                        DoorGenerationPosition.GenerateDoorPair(prevBuilding.Exit, newBuilding.Enter);
+                    }
+                    prevBuilding = newBuilding;
+
+                    //pick random layer above or under for next building
+                    currentBuildingEnterPosition = currentBuildingExitPosition;
+                    if (NumberMath.RandomCoinflip())
+                    {
+                        currentBuildingLayer = currentBuildingLayer.PickLayerAbove() ?? currentBuildingLayer.PickLayerUnder();
+                    }
+                    else
+                    {
+                        currentBuildingLayer = currentBuildingLayer.PickLayerUnder() ?? currentBuildingLayer.PickLayerAbove();
+                    }
+
+                    break;
+                }
             }
         }
 
+        //generating enviroment with OnFinishLevelEnviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
         {
             foreach (GenerateOnFinishLevelEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishLevelEnviroment>(false))
@@ -63,10 +85,18 @@ public class WorldGenerationManager : MonoBehaviour
         }
     }
 
-    public void GenerateBuilding(ZIndexLayer layer, Vector3Int position, int chunksAmount, Vector3Int prefferedPosition)
+    public bool TryGenerateBuilding(ZIndexLayer layer, Vector3Int position, int chunksAmount, Vector3Int prefferedPosition, out BuildingInfo newBuildingInfo)
     {
-        NumberMath.PickRandomItem(Chunks).ForceGenerateChunk(layer.MultiTileMapsContainer, position, out ChunkConnectionPosition[] firstChunkConnections);
+        //initializing building info
+        GameObject newBuildingInfoGO = new GameObject("BuildingInfo");
+        newBuildingInfoGO.transform.parent = layer.WorldGenerationDataObjectsContainer.transform;
+        newBuildingInfo = newBuildingInfoGO.AddComponent<BuildingInfo>();
 
+        //creating first room with enter door, if failed return false
+        if (!NumberMath.PickRandomItem(Chunks).TryGenerateChunkWithDoor(layer.MultiTileMapsContainer, position, out ChunkInfo firstChunk, out newBuildingInfo.Enter)) return false;
+        newBuildingInfo.AddChunk(firstChunk);
+
+        //creating other rooms
         for (int i = 1; i < chunksAmount; i++)
         {
             if (layer.MultiTileMapsContainer.GetHasAnyTileAt(prefferedPosition)) break;
@@ -83,10 +113,11 @@ public class WorldGenerationManager : MonoBehaviour
                 bool successfullGenerating = false;
                 for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
                 {
-                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(layer.MultiTileMapsContainer, avaibleConnection, out ChunkConnectionPosition newChunkConnection))
+                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(layer.MultiTileMapsContainer, avaibleConnection, out ChunkInfo newChunkInfo, out ChunkConnectionPosition newChunkConnection))
                     {
                         newChunkConnection.DestroyConnection();
                         avaibleConnection.DestroyConnection();
+                        newBuildingInfo.AddChunk(newChunkInfo);
                         successfullGenerating = true;
                         break;
                     }
@@ -95,6 +126,10 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
+        //setting exit door
+        newBuildingInfo.Exit = NumberMath.PickRandomItem(newBuildingInfo.Chunks.Last().DoorGenPositions);
+
+        //closing unused room connections
         foreach (ChunkConnectionPosition unclosedConnection in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<ChunkConnectionPosition>(false))
         {
             if (!unclosedConnection.isActiveAndEnabled) continue;
@@ -118,6 +153,7 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
+        //generating enviroment with OnFinishBuildingEnviroment attr
         foreach (GenerateOnFinishBuildingEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishBuildingEnviroment>(false))
         {
             lateGenEnviroment.Generate();
@@ -126,6 +162,8 @@ public class WorldGenerationManager : MonoBehaviour
         {
             lateGenEnviroment.gameObject.SetActive(false);
         }
+
+        return true;
     }
 
     private void Awake()

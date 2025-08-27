@@ -171,10 +171,6 @@ public class ZIndexLayer : MonoBehaviour
                 gameObject.layer = HoldablesLayer;
                 break;
 
-            case LayerManager.PROJECTILE_TAG_NAME:
-                gameObject.layer = ProjectilesLayer;
-                break;
-
             default:
                 gameObject.layer = gameObject.transform.parent.gameObject.layer;
                 break;

@@ -84,11 +84,7 @@ public class MultiTileMapsContainer : MonoBehaviour
         {
             GenerateTilemap(tilemap, position);
         }
-        else if (spawnObject.TryGetComponent(out LateGenerateionEnviroment lateGeneratable))
-        {
-            Instantiate(spawnObject, position, spawnObject.transform.rotation, LayerManager.Instance.GetZLayerOfGameObject(gameObject).WorldGenerationDataObjectsContainer);
-        }
-        else if (!spawnObject.TryGetComponent(out ChunkConnection chunkConnection))
+        else if (spawnObject.TryGetComponent(out LateGenerateionEnviroment lateGeneratable) || !spawnObject.TryGetComponent(out ChunkConnection chunkConnection))
         {
             GameObject newObject = Instantiate(
                 spawnObject,

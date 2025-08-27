@@ -121,4 +121,9 @@ public static class VectorMath
     {
         return new Vector2(UnityEngine.Random.value - 0.5f, UnityEngine.Random.value - 0.5f).normalized;
     }
+
+    public static Vector3Int Vec2IntToVec3Int(Vector2Int vec)
+    {
+        return new Vector3Int(vec.x, vec.y);
+    }
 }
