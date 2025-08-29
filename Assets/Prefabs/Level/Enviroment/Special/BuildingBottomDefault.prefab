@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: FillTile
       value: 
       objectReference: {fileID: 11400000, guid: a61eb2688f3fc9d479230c9840925320, type: 2}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: OvergoundFillTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 5732821e026ac044eb9c9796f91b75dc, type: 2}
     - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -54,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9059842874588092670, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
       propertyPath: m_Name
-      value: BuildingBottomInteriourTiles2
+      value: BuildingBottomDefault
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

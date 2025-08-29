@@ -9,7 +9,7 @@ public class BuildingBottom : GenerateOnFinishLevelEnviroment
     public GameObject OffsetStart;
     public GameObject OffsetEnd;
     public TileBase FillTile;
-    public TileBehaviour.TileBehaviourType FillTileType;
+    public TileBase OvergoundFillTile;
 
     public override void Generate()
     {
@@ -26,7 +26,8 @@ public class BuildingBottom : GenerateOnFinishLevelEnviroment
         }
 
         MultiTileMapsContainer generateWhere = LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer;
-        Tilemap targetTilemap = generateWhere.GetTileMapByBehaviourType(FillTileType);
+        Tilemap targetTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL);
+        Tilemap targetOvergoundTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.OVERGROUND);
 
         int x1 = (int)math.floor(OffsetStart.transform.position.x);
         int y1 = (int)math.floor(lowestBuildingBottomPosition) - MIN_VERTICAL_RANGE;
@@ -42,10 +43,11 @@ public class BuildingBottom : GenerateOnFinishLevelEnviroment
                 if (!generateWhere.GetHasAnyTileAt(tilePos))
                 {
                     targetTilemap.SetTile(tilePos, FillTile);
+                    targetOvergoundTilemap.SetTile(tilePos, OvergoundFillTile);
                 }
             }
         }
-        
+
         Destroy(gameObject);
     }
 }

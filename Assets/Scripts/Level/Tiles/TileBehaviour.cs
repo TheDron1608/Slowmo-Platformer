@@ -10,7 +10,7 @@ public class TileBehaviour : MonoBehaviour
         BACKGROUND,
         WINDOWS,
         BACKGROUND_DECORATIONS,
-        OVERGOUND,
+        OVERGROUND,
         OVERGROUND_DECORATIONS,
         CHUNK_MASK
     }

@@ -16,9 +16,21 @@ PrefabInstance:
       propertyPath: RoofTile
       value: 
       objectReference: {fileID: 11400000, guid: e7d66d8214b31cc4a90f4ed9db6c1603, type: 2}
+    - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
+      propertyPath: RoofFillTile
+      value: 
+      objectReference: {fileID: 11400000, guid: e7d66d8214b31cc4a90f4ed9db6c1603, type: 2}
+    - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
+      propertyPath: OvergoundFillTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 5732821e026ac044eb9c9796f91b75dc, type: 2}
+    - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
+      propertyPath: OvergoundRoofFillTile
+      value: 
+      objectReference: {fileID: 11400000, guid: e7d66d8214b31cc4a90f4ed9db6c1603, type: 2}
     - target: {fileID: 6688311775778431186, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
       propertyPath: m_Name
-      value: BuildingRoofedTopInteriourTiles2
+      value: BuildingRoofedTopDefault
       objectReference: {fileID: 0}
     - target: {fileID: 8130120505858892481, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
       propertyPath: m_LocalPosition.x
