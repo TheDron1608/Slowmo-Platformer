@@ -1,8 +1,10 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BuildingBottom : GenerateOnFinishLevelEnviroment
+public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
 {
     const int MIN_VERTICAL_RANGE = 50;
 
@@ -10,6 +12,8 @@ public class BuildingBottom : GenerateOnFinishLevelEnviroment
     public GameObject OffsetEnd;
     public TileBase FillTile;
     public TileBase OvergoundFillTile;
+    public int BuildingWallDecorationsPerHeight = 35;
+    public List<GenerateOnFinishLevelEnviroment> AvaibleBuildingWallDecorations = new();
 
     public override void Generate()
     {
@@ -46,6 +50,18 @@ public class BuildingBottom : GenerateOnFinishLevelEnviroment
                     targetOvergoundTilemap.SetTile(tilePos, OvergoundFillTile);
                 }
             }
+        }
+
+        for (int i = 0; i < math.abs((y1 - y2) / BuildingWallDecorationsPerHeight); i++)
+        {
+            GameObject newDecoration = Instantiate(
+                NumberMath.PickRandomItem(AvaibleBuildingWallDecorations).gameObject,
+                new Vector3(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)),
+                transform.rotation,
+                LayerManager.Instance.GetZLayerOfGameObject(gameObject).WorldGenerationDataObjectsContainer
+                );
+            LayerManager.Instance.GetZLayerOfGameObject(newDecoration).UpdateLayerForGameObject(newDecoration);
+            LayerManager.Instance.GetZLayerOfGameObject(newDecoration).TileManager.Debug_MarkTile(new Vector2(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)), Color.red, 999f);
         }
 
         Destroy(gameObject);

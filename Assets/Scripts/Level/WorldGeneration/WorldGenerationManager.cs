@@ -82,13 +82,25 @@ public class WorldGenerationManager : MonoBehaviour
         //generating enviroment with OnFinishLevelEnviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
         {
-            foreach (GenerateOnFinishLevelEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishLevelEnviroment>(false))
+            foreach (GenerateOnFinishAllBuildingEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishAllBuildingEnviroment>(false))
             {
                 lateGenEnviroment.Generate();
             }
-            foreach (GenerateOnFinishLevelEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishLevelEnviroment>(false))
+            foreach (GenerateOnFinishAllBuildingEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishAllBuildingEnviroment>(false))
             {
                 lateGenEnviroment.gameObject.SetActive(false);
+            }
+        }
+        //generating enviroment with OnFinishLevelEnviroment attr
+        foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
+        {
+            foreach (GenerateOnFinishLevelEnviroment veryLateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishLevelEnviroment>(false))
+            {
+                veryLateGenEnviroment.Generate();
+            }
+            foreach (GenerateOnFinishLevelEnviroment veryLateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishLevelEnviroment>(false))
+            {
+                veryLateGenEnviroment.gameObject.SetActive(false);
             }
         }
     }

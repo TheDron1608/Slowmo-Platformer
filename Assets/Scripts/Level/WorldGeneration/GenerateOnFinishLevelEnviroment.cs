@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class GenerateOnFinishLevelEnviroment : LateGenerateionEnviroment
+public abstract class GenerateOnFinishLevelEnviroment : MonoBehaviour
 {
+    public abstract void Generate();
 }
