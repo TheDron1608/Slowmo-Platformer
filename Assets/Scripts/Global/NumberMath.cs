@@ -15,7 +15,7 @@ public static class NumberMath
     }
     public static int PickRandomInRangeNoSeed(int min, int max)
     {
-        return min + (int)(Random.value * (max - min));
+        return min + Mathf.RoundToInt(Random.value * (max - min));
     }
 
     public static T PickRandomItem<T>(List<T> vector)

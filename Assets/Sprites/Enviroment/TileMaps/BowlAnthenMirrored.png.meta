@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 39be89a9f3235ce42a6699def0deb3ad
+guid: e6c64d13ae63bfc47be027376c4d3c1f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5658265973195849038
-    second: Anthen_0
+      213: 1718392948701207760
+    second: BowlAnthen_0
   - first:
-      213: 9216822603759730298
-    second: Anthen_1
+      213: -5179316747090610779
+    second: BowlAnthen_1
   - first:
-      213: -5056828444778979135
-    second: Anthen_2
+      213: -6094800540527157274
+    second: BowlAnthen_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -106,139 +106,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Anthen_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e4db4018ce2368e40800000000000000
-      internalID: 5658265973195849038
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Anthen_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a7eb3e6435bb8ef70800000000000000
-      internalID: 9216822603759730298
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Anthen_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1c0abda525982d9b0800000000000000
-      internalID: -5056828444778979135
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Anthen_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 976248816da1ec444bc3f1f9346a8436
-      internalID: -1658161340
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Anthen_4
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f4648d4306bdad34c875124ae54949bc
-      internalID: 1848116177
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Anthen_5
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 064a420c58e8cdc4da5ddd989f17688f
-      internalID: -1826401179
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Anthen_6
+      name: BowlAnthenMirrored_0
       rect:
         serializedVersion: 2
         x: 0
@@ -253,14 +121,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 136d0eb3f1270714481512568ca251b7
-      internalID: 833744686
+      spriteID: a1ea3133d8e59fd439a71ec6961e3cc0
+      internalID: -2116031703
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Anthen_7
+      name: BowlAnthenMirrored_1
       rect:
         serializedVersion: 2
         x: 16
@@ -275,14 +143,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b594971fd406ca04d83a772c94e35c59
-      internalID: 163474098
+      spriteID: 8e4cb462a194b714abb4a3871dc66c52
+      internalID: -1676722175
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Anthen_8
+      name: BowlAnthenMirrored_2
       rect:
         serializedVersion: 2
         x: 32
@@ -297,8 +165,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62bbc0b033766724590895fe40903252
-      internalID: -1588643528
+      spriteID: 771bd2c08d646314f857306916fadc23
+      internalID: 233521081
       vertices: []
       indices: 
       edges: []
@@ -307,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bda1ab5dd3163324a9cff80597504734
+    spriteID: 456e33ca86dc33f4f88f46bce911dede
     internalID: 0
     vertices: []
     indices: 
@@ -317,15 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Anthen_0: 5658265973195849038
-      Anthen_1: 9216822603759730298
-      Anthen_2: -5056828444778979135
-      Anthen_3: -1658161340
-      Anthen_4: 1848116177
-      Anthen_5: -1826401179
-      Anthen_6: 833744686
-      Anthen_7: 163474098
-      Anthen_8: -1588643528
+      BowlAnthenMirrored_0: -2116031703
+      BowlAnthenMirrored_1: -1676722175
+      BowlAnthenMirrored_2: 233521081
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

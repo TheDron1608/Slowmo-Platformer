@@ -81,7 +81,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject).WorldGenerationDataObjectsContainer
                 );
             LayerManager.Instance.GetZLayerOfGameObject(newDecoration).UpdateLayerForGameObject(newDecoration);
-            LayerManager.Instance.GetZLayerOfGameObject(newDecoration).TileManager.Debug_MarkTile(new Vector2(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)), Color.red, 999f);
+            //LayerManager.Instance.GetZLayerOfGameObject(newDecoration).TileManager.Debug_MarkTile(new Vector2(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)), Color.red, 999f);
         }
 
         Destroy(gameObject);

@@ -42,11 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 6235057943778728915, guid: 30641cba52d54374c84c9767210d1f5c, type: 3}
     - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
       propertyPath: AvaibleBuildingRoofDecorations.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
       propertyPath: AvaibleBuildingWallDecorations.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
       propertyPath: AvaibleWallBuildingDecorations.Array.size
@@ -57,9 +57,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6235057943778728915, guid: 30641cba52d54374c84c9767210d1f5c, type: 3}
     - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
+      propertyPath: 'AvaibleBuildingRoofDecorations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8816130746004750914, guid: c1f8d84bd0a0af7408789bcbfff8c5ab, type: 3}
+    - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
+      propertyPath: 'AvaibleBuildingRoofDecorations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6603378490387685862, guid: b3d53900b0532674487ebd24ece3f989, type: 3}
+    - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
+      propertyPath: 'AvaibleBuildingRoofDecorations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 6603378490387685862, guid: ee657d468d251a64c8dbdf6a6a0fe8e0, type: 3}
+    - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
       propertyPath: 'AvaibleBuildingWallDecorations.Array.data[0]'
       value: 
       objectReference: {fileID: 7396169187247402805, guid: 8f5bcf379267dfd40a1a231b3f6ff78f, type: 3}
+    - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
+      propertyPath: 'AvaibleBuildingWallDecorations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3963293598338348903, guid: e994883277cedb141b8a8390eab5de35, type: 3}
     - target: {fileID: -8564186317186881135, guid: 469e8202f6eb8834c80c37d7fdbe79a3, type: 3}
       propertyPath: 'AvaibleWallBuildingDecorations.Array.data[0]'
       value: 
