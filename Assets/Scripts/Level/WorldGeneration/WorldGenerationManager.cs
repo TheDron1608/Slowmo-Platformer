@@ -135,8 +135,6 @@ public class WorldGenerationManager : MonoBehaviour
                 {
                     if (NumberMath.PickRandomItem(Chunks).TryAddChunk(layer.MultiTileMapsContainer, avaibleConnection, out ChunkInfo newChunkInfo, out ChunkConnectionPosition newChunkConnection))
                     {
-                        newChunkConnection.DestroyConnection();
-                        avaibleConnection.DestroyConnection();
                         newBuildingInfo.AddChunk(newChunkInfo);
                         successfullGenerating = true;
                         break;

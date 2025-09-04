@@ -116,6 +116,8 @@ public class Chunk : MonoBehaviour
         {
             if (newConnection.GetTilePosition() == sourceChunkConnection.GetTilePosition())
             {
+                newConnection.DestroyConnection();
+                sourceChunkConnection.DestroyConnection();
                 connectedChunkConntection = newConnection;
                 break;
             }
