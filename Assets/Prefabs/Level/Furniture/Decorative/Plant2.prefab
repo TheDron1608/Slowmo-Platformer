@@ -189,6 +189,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: LootSpawnType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: _brokenPartsParticleSpawners.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -202,7 +206,7 @@ PrefabInstance:
       objectReference: {fileID: 1153608224704067819}
     - target: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_Name
-      value: Plant4
+      value: Plant2
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_Size.x
@@ -327,7 +331,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f3fdc74a03eab134c80769f66bf93491, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8e68a7484cccfb849a0ce60cf71d77c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

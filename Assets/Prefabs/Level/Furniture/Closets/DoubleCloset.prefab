@@ -88,9 +88,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: LootSpawnType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_Name
-      value: Closet 1
+      value: DoubleCloset
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_Size.x
@@ -169,8 +173,6 @@ MonoBehaviour:
   EffectsOnStartInteract: []
   EffectsWhileInteracting: []
   EffectsOnFinishInteract: []
-  ObjectsInside: []
-  _spawnSource: {fileID: 0}
 --- !u!212 &926031609225963072
 SpriteRenderer:
   m_ObjectHideFlags: 0

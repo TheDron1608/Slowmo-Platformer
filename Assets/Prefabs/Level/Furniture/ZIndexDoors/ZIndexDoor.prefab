@@ -88,9 +88,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: LootSpawnType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_Name
-      value: ZIndexDoor 1
+      value: ZIndexDoor
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_Size.y
@@ -126,7 +130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
@@ -161,7 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 0
-  _spriteRendererComponent: {fileID: 0}
   AnimationOnStartInteract: 2
   AnimationOnFinishInteract: 1
   EffectsOnStartInteract: []

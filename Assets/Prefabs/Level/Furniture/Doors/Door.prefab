@@ -330,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a0378acab723948ae1660d018d1c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LootSpawnType: 2
   SpawnObjectsOnBreak: []
   _brokenPartsParticleSpawners:
   - {fileID: 2418567987889953235}
@@ -425,6 +426,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BehaviourType: 2
   ValidAsPlatform: 0
+  Overridable: 0
+  OverrideOrder: 0
 --- !u!224 &6096328102071833852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 53351414323084833, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}

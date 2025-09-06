@@ -24,19 +24,7 @@ public class OnInteractOpenCloset : Interactable
             _closed = value;
             _animator.SetBool(ANIMATOR_CLOSED_PROP_NAME, _closed);
 
-            List<GameObject> ObjectsInside = GetComponent<BreakableObject>()?.SpawnObjectsOnBreak;
-            if (!_closed && ObjectsInside != null && ObjectsInside.Count > 0)
-            {
-                ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-                Vector3 position = GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>());
-                foreach (GameObject objectInside in ObjectsInside)
-                {
-                    GameObject newObject = Instantiate(objectInside, transform);
-                    LayerManager.Instance.ChangeZIndexForGameObject(layer, newObject);
-                    newObject.transform.position = position;
-                }
-                ObjectsInside.Clear();
-            }
+            GetComponent<BreakableObject>()?.ReleaseObjectsInside();
         }
     }
 

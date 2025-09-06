@@ -5,33 +5,14 @@ using UnityEngine;
 
 public class BreakableObject : MonoBehaviour
 {
+    public LootDropChanceInfo.LootSpawnerTypes LootSpawnType;
     public List<GameObject> SpawnObjectsOnBreak = new();
 
     [SerializeField] protected List<ParticleSpawner> _brokenPartsParticleSpawners;
 
     public virtual void BreakObject(MonoBehaviour breaker)
     {
-        {
-            ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-            Vector2 spawnPosition;
-            if (TryGetComponent(out Collider2D collider))
-            {
-                spawnPosition = GameObjectUtility.GetCenterOfCollider(collider);
-            }
-            else
-            {
-                spawnPosition = transform.position;
-            }
-
-            Vector3 position = GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>());
-            foreach (GameObject objectInside in SpawnObjectsOnBreak)
-            {
-                GameObject newObject = Instantiate(objectInside, transform);
-                LayerManager.Instance.ChangeZIndexForGameObject(layer, newObject);
-                newObject.transform.position = position;
-            }
-            SpawnObjectsOnBreak.Clear();
-        }
+        ReleaseObjectsInside();
 
         for (int i = 0; i < _brokenPartsParticleSpawners.Count; i++)
         {
@@ -39,5 +20,24 @@ public class BreakableObject : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    public void ReleaseObjectsInside()
+    {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        Vector2 spawnPosition = TryGetComponent(out Collider2D collider) ? GameObjectUtility.GetCenterOfCollider(collider) : transform.position;
+
+        foreach (GameObject objectInside in SpawnObjectsOnBreak)
+        {
+            GameObject newObject = Instantiate(objectInside, spawnPosition, objectInside.transform.rotation, transform);
+            LayerManager.Instance.ChangeZIndexForGameObject(layer, newObject);
+        }
+        SpawnObjectsOnBreak.Clear();
+
+        foreach (GameObject objectInsideGlobal in SpawnManager.Instance.GetLootDropsByType(LootSpawnType))
+        {
+            GameObject newObject = Instantiate(objectInsideGlobal, spawnPosition, objectInsideGlobal.transform.rotation, transform);
+            LayerManager.Instance.ChangeZIndexForGameObject(layer, newObject);
+        }
     }
 }

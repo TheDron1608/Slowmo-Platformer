@@ -15,6 +15,7 @@ public static class NumberMath
     }
     public static int PickRandomInRangeNoSeed(int min, int max)
     {
+        if (min == max) return max;
         return min + Mathf.RoundToInt(Random.value * (max - min));
     }
 

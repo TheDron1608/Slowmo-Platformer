@@ -15,6 +15,7 @@ public class WorldGenerationManager : MonoBehaviour
     public List<Chunk> Chunks = new();
     public Vector2 GenerateDirection = Vector2.one;
     public float ExtraRoomGenerationChance = 0.1f;
+    public List<List<GameObject>> PossibleLootboxContent = new();
     public int Seed;
 
     private UnityEngine.Random.State _randomState;

@@ -16,9 +16,11 @@ public class SessionManager : MonoBehaviour
         public TimeSpan PlayTime = new TimeSpan(0, 0, 0); //0 seconds
     }
 
-
     public static SessionManager Instance;
 
+
+    [SerializeField] private GameObject _tempSessionManagersPrefab;
+    private GameObject _tempSessionManagersInstance = null;
     private SessionData _currentSession;
 
     public SessionData CurrentSession
@@ -26,8 +28,22 @@ public class SessionManager : MonoBehaviour
         get => _currentSession;
         set
         {
+            if (value != _currentSession)
+            {
+                if (_tempSessionManagersInstance != null)
+                {
+                    Destroy(_tempSessionManagersInstance);
+                }
+                if (value != null)
+                {
+                    _tempSessionManagersInstance = Instantiate(_tempSessionManagersPrefab);
+                    DontDestroyOnLoad(_tempSessionManagersInstance);
+                }
+            }
+
             _currentSession = value;
             CurrentSessionChanged?.Invoke(this, EventArgs.Empty);
+            
         }
     }
 
