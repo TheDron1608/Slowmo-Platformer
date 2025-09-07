@@ -153,6 +153,10 @@ public class ZIndexLayer : MonoBehaviour
             case LayerManager.ZLAYER_TAG_NAME:
                 break;
 
+            case LayerManager.PROJECTILE_TAG_NAME:
+                gameObject.layer = ProjectilesLayer; 
+                break;
+
             case LayerManager.ENVIROMENT_TAG_NAME:
                 gameObject.layer = EnviromentLayer;
                 break;

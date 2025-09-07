@@ -30,8 +30,8 @@ public abstract class AbstractProjectile : MonoBehaviour
     {
         if (!TryGetComponent(out _effectsReceiver)) throw new UnityException("ObjectEffectsReceiver component not found at " + gameObject.name);
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        layer.UpdateLayerForGameObject(gameObject);
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
+        layer.UpdateLayerForGameObject(gameObject);
     }
 
     public virtual Weapon Weapon

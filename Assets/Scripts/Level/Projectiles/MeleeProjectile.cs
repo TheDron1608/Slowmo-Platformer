@@ -82,7 +82,6 @@ public class MeleeProjectile : AbstractProjectile
 
             if (HitCondition(hitObjects, hitObjects[i]))
             {
-                Debug.Log(hitObjects[i]);
                 AddCurrentHittingCollidersItem(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
             }
