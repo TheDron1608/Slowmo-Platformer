@@ -106,7 +106,7 @@ public class ParticleSpawner : MonoBehaviour
     {
         PhysicsParticle newParticle = Instantiate(particle, LayerManager.Instance.GetZLayerOfGameObject(source.gameObject).PhysicsParticlesContainer);
 
-        newParticle.transform.position = overridePosition.GetValueOrDefault(source.position);
+        newParticle.transform.position = VectorMath.Vec2ToVec3(overridePosition.GetValueOrDefault(source.position), newParticle.transform.position.z);
         newParticle.transform.rotation = overrideRotation.GetValueOrDefault(source.rotation);
 
         if (newParticle.TryGetComponent(out SpriteRenderer newParticleSpriteRenderer))
@@ -164,7 +164,7 @@ public class ParticleSpawner : MonoBehaviour
         var main = newParticle.main;
         main.startSpeed = SpawnVelocity;
 
-        newParticle.transform.position = overridePosition.GetValueOrDefault(source.position);
+        newParticle.transform.position = VectorMath.Vec2ToVec3(overridePosition.GetValueOrDefault(source.position), newParticle.transform.position.z);
         Vector3 eulerAngle = overrideRotation.GetValueOrDefault(source.rotation).eulerAngles;
         newParticle.transform.eulerAngles = new Vector3(
             eulerAngle.x,

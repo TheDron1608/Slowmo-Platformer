@@ -29,7 +29,9 @@ public class PhysicsParticle : MonoBehaviour
     {
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
 
-        LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForGameObject(gameObject);
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
+        layer.UpdateLayerForGameObject(gameObject);
     }
 
     private void OnCollisionStay2D(Collision2D collision)

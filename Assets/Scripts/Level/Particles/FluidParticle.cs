@@ -40,7 +40,10 @@ public class FluidParticle : MonoBehaviour
 
     private void Awake()
     {
-        _currentEnviromentLayerMask = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer;
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
+        layer.UpdateLayerForGameObject(gameObject);
+        _currentEnviromentLayerMask = 1 << layer.EnviromentLayer;
         _flyingSprite = GetComponent<SpriteRenderer>().sprite;
     }
 
