@@ -114,8 +114,7 @@ public class WorldGenerationManager : MonoBehaviour
         newBuildingInfo = newBuildingInfoGO.AddComponent<BuildingInfo>();
 
         //creating first room with enter door, if failed return false
-        if (!NumberMath.PickRandomItem(Chunks).TryGenerateChunkWithDoor(layer.MultiTileMapsContainer, position, out ChunkInfo firstChunk, out newBuildingInfo.Enter)) return false;
-        newBuildingInfo.AddChunk(firstChunk);
+        if (!NumberMath.PickRandomItem(Chunks).TryGenerateChunkWithDoor(layer, position, newBuildingInfo, out ChunkInfo firstChunk, out newBuildingInfo.Enter)) return false;
 
         //creating default rooms
         for (int i = 1; i < chunksAmount; i++)
@@ -123,9 +122,9 @@ public class WorldGenerationManager : MonoBehaviour
             if (layer.MultiTileMapsContainer.GetHasAnyTileAt(prefferedPosition)) break;
 
             foreach (
-                ChunkConnectionPosition avaibleConnection in
-                layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<ChunkConnectionPosition>(false).OrderBy(
-                    (ChunkConnectionPosition connection) => Vector3.Distance(connection.transform.position, prefferedPosition)
+                ChunkConnection avaibleConnection in
+                layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<ChunkConnection>(false).OrderBy(
+                    (ChunkConnection connection) => Vector3.Distance(connection.transform.position, prefferedPosition)
                     )
                 )
             {
@@ -134,57 +133,37 @@ public class WorldGenerationManager : MonoBehaviour
                 bool successfullGenerating = false;
                 for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
                 {
-                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(layer.MultiTileMapsContainer, avaibleConnection, out ChunkInfo newChunkInfo, out ChunkConnectionPosition newChunkConnection))
+                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(layer, avaibleConnection, newBuildingInfo, out ChunkInfo newChunkInfo, out ChunkConnection newChunkConnection))
                     {
-                        newBuildingInfo.AddChunk(newChunkInfo);
                         successfullGenerating = true;
                         break;
                     }
                 }
-                if (successfullGenerating) break;
+                if (successfullGenerating)
+                {
+                    break;
+                }
             }
         }
 
         //generating extra rooms
+        /*
         foreach (ChunkInfo chunk in newBuildingInfo.Chunks)
         {
-            foreach (ChunkConnectionPosition connection in chunk.Connections)
+            foreach (ChunkConnection connection in chunk.Connections)
             {
                 if (!connection.isActiveAndEnabled) continue;
 
                 if (UnityEngine.Random.value < ExtraRoomGenerationChance)
                 {
-                    NumberMath.PickRandomItem(Chunks).TryAddChunk(layer.MultiTileMapsContainer, connection, out ChunkInfo newExtraChunkInfo, out ChunkConnectionPosition newExtraConnectionPosition);
+                    NumberMath.PickRandomItem(Chunks).TryAddChunk(layer, connection, newBuildingInfo, out ChunkInfo newExtraChunkInfo, out ChunkConnection newExtraConnectionPosition);
                 }
             }
         }
+        */
 
         //setting exit door
         newBuildingInfo.Exit = NumberMath.PickRandomItem(newBuildingInfo.Chunks.Last().DoorGenPositions);
-
-        //closing unused room connections
-        foreach (ChunkConnectionPosition unclosedConnection in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<ChunkConnectionPosition>(false))
-        {
-            if (!unclosedConnection.isActiveAndEnabled) continue;
-
-            bool needCloseConnection = true;
-            foreach (ChunkConnectionPosition unclosedConnection2 in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<ChunkConnectionPosition>(false))
-            {
-                if (unclosedConnection != unclosedConnection2 && unclosedConnection.GetTilePosition() == unclosedConnection2.GetTilePosition())
-                {
-                    unclosedConnection.OnOpenedChunkConnection();
-                    unclosedConnection.DestroyConnection();
-                    unclosedConnection2.DestroyConnection();
-                    needCloseConnection = false;
-                    break;
-                }
-            }
-
-            if (needCloseConnection)
-            {
-                unclosedConnection.OnClosedChunkConnection();
-            }
-        }
 
         //generating enviroment with OnFinishBuildingEnviroment attr
         foreach (GenerateOnFinishBuildingEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishBuildingEnviroment>(false))

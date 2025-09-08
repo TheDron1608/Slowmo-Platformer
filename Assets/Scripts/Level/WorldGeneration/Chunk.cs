@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Chunk : MonoBehaviour
 {
-    public ChunkConnectionPosition[] GetConnections()
+    public ChunkConnection[] GetConnections()
     {
-        return transform.GetComponentsInChildren<ChunkConnectionPosition>();
+        return transform.GetComponentsInChildren<ChunkConnection>();
     }
 
     public DoorGenerationPosition[] GetDoorGenerationPositions()
@@ -14,7 +15,7 @@ public class Chunk : MonoBehaviour
         return transform.GetComponentsInChildren<DoorGenerationPosition>();
     }
 
-    public bool GetAnyConnectionIsValid(ChunkConnectionPosition targetConnection, out ChunkConnectionPosition validConnection)
+    public bool GetAnyConnectionIsValid(ChunkConnection targetConnection, out ChunkConnection validConnection)
     {
         foreach (var connection in GetConnections())
         {
@@ -40,7 +41,7 @@ public class Chunk : MonoBehaviour
         throw new UnityException("Chunk mask not found");
     }
 
-    public bool TryGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkInfo chunkInfo)
+    public bool TryGenerateChunk(ZIndexLayer generateWhere, Vector3Int position, BuildingInfo building, out ChunkInfo chunkInfo)
     {
         Tilemap chunkMask = GetChunkMask();
 
@@ -48,7 +49,7 @@ public class Chunk : MonoBehaviour
         {
             for (int y = chunkMask.cellBounds.min.y; y < chunkMask.cellBounds.max.y; y++)
             {
-                if (generateWhere.GetHasAnyTileAt(new Vector3Int(x, y) + position))
+                if (generateWhere.MultiTileMapsContainer.GetHasAnyTileAt(new Vector3Int(x, y) + position))
                 {
                     chunkInfo = default;
                     return false;
@@ -56,68 +57,59 @@ public class Chunk : MonoBehaviour
             }
         }
 
-        ForceGenerateChunk(generateWhere, position, out chunkInfo);
+        ForceGenerateChunk(generateWhere, position, building, out chunkInfo);
         return true;
     }
 
-    public void ForceGenerateChunk(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkInfo chunkInfo)
+    public void ForceGenerateChunk(ZIndexLayer generateWhere, Vector3Int position, BuildingInfo building, out ChunkInfo chunkInfo)
     {
         GameObject chunkInfoGO = new GameObject("ChunkInfo");
-        chunkInfoGO.transform.parent = LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).WorldGenerationDataObjectsContainer.transform;
+        chunkInfoGO.transform.parent = generateWhere.WorldGenerationDataObjectsContainer.transform;
         chunkInfo = chunkInfoGO.AddComponent<ChunkInfo>();
+
+        chunkInfo.Building = building;
+        building.Chunks.Add(chunkInfo);
 
         foreach (Transform child in transform)
         {
-            generateWhere.TrySpawnObject(child.gameObject, position);
+            generateWhere.TrySpawnObject(child.gameObject, position, building, chunkInfo);
         }
 
-        ChunkConnectionPosition[] connections = GetConnections();
-        chunkInfo.Connections = new ChunkConnectionPosition[connections.Length];
-        for (int i = 0; i < connections.Length; i++)
+        
+        chunkInfo.DoorGenPositions = new List<DoorGenerationPosition>();
+        foreach (DoorGenerationPosition door in GetDoorGenerationPositions())
         {
             Vector3 spawnPosition = new Vector3(
-                connections[i].transform.position.x + position.x,
-                connections[i].transform.position.y + position.y,
-                LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).transform.position.z
+                door.transform.position.x + position.x,
+                door.transform.position.y + position.y,
+                generateWhere.transform.position.z
                 );
-            chunkInfo.Connections[i] = Instantiate(connections[i], spawnPosition, transform.rotation, LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).WorldGenerationDataObjectsContainer);
-            chunkInfo.Connections[i].InitPrefabProps(connections[i].transform.parent.GetComponent<ChunkConnection>());
+            chunkInfo.DoorGenPositions.Add(Instantiate(door, spawnPosition, transform.rotation, generateWhere.WorldGenerationDataObjectsContainer));
         }
-        DoorGenerationPosition[] doors = GetDoorGenerationPositions();
-        chunkInfo.DoorGenPositions = new DoorGenerationPosition[doors.Length];
-        for (int i = 0; i < doors.Length; i++)
-        {
-            Vector3 spawnPosition = new Vector3(
-                doors[i].transform.position.x + position.x,
-                doors[i].transform.position.y + position.y,
-                LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).transform.position.z
-                );
-            chunkInfo.DoorGenPositions[i] = Instantiate(doors[i], spawnPosition, transform.rotation, LayerManager.Instance.GetZLayerOfGameObject(generateWhere.gameObject).WorldGenerationDataObjectsContainer);
-        }
+        
     }
 
-    public bool TryAddChunk(MultiTileMapsContainer container, ChunkConnectionPosition sourceChunkConnection, out ChunkInfo newChunkInfo, out ChunkConnectionPosition connectedChunkConntection)
+    public bool TryAddChunk(ZIndexLayer addWhere, ChunkConnection sourceChunkConnection, BuildingInfo building, out ChunkInfo newChunkInfo, out ChunkConnection connectedChunkConntection)
     {
         newChunkInfo = default;
         connectedChunkConntection = default;
-        if (!GetAnyConnectionIsValid(sourceChunkConnection, out ChunkConnectionPosition newChunkConnection))
+        if (!GetAnyConnectionIsValid(sourceChunkConnection, out ChunkConnection newChunkConnection))
         {
             return false;
         }
 
-        if (!TryGenerateChunk(container, sourceChunkConnection.GetTilePosition() - newChunkConnection.GetTileRelativePosition(), out newChunkInfo))
+        if (!TryGenerateChunk(addWhere, sourceChunkConnection.GetTilePosition() - newChunkConnection.GetRelativeTilePosition(), building, out newChunkInfo))
         {
             return false;
         }
 
-        sourceChunkConnection.OnOpenedChunkConnection();
+        sourceChunkConnection.State = ChunkConnection.ChunkConnectionState.OPENED;
 
-        foreach (ChunkConnectionPosition newConnection in newChunkInfo.Connections)
+        foreach (ChunkConnection newConnection in newChunkInfo.Connections)
         {
             if (newConnection.GetTilePosition() == sourceChunkConnection.GetTilePosition())
             {
                 newConnection.DestroyConnection();
-                sourceChunkConnection.DestroyConnection();
                 connectedChunkConntection = newConnection;
                 break;
             }
@@ -126,11 +118,16 @@ public class Chunk : MonoBehaviour
         return true;
     }
 
-    public bool TryGenerateChunkWithDoor(MultiTileMapsContainer generateWhere, Vector3Int position, out ChunkInfo newChunk, out DoorGenerationPosition door)
+    public bool TryGenerateChunkWithDoor(ZIndexLayer generateWhere, Vector3Int position, BuildingInfo building, out ChunkInfo newChunk, out DoorGenerationPosition door)
     {
         int randomDoorArrayKey = (int)(UnityEngine.Random.value * GetDoorGenerationPositions().Length);
 
-        if (TryGenerateChunk(generateWhere, position - VectorMath.Vec2IntToVec3Int(TileManager.PositionToTilePosition(GetDoorGenerationPositions()[randomDoorArrayKey].transform.position)), out newChunk))
+        if (TryGenerateChunk(
+            generateWhere, 
+            position - VectorMath.Vec2IntToVec3Int(TileManager.PositionToTilePosition(GetDoorGenerationPositions()[randomDoorArrayKey].transform.position)), 
+            building,
+            out newChunk)
+            )
         {
             door = newChunk.DoorGenPositions[randomDoorArrayKey];
             return true;

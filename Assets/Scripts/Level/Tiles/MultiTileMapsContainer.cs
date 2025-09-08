@@ -64,36 +64,4 @@ public class MultiTileMapsContainer : MonoBehaviour
             }
         }
     }
-
-    public void TrySpawnObject(GameObject spawnObject, Vector3Int position)
-    {
-        if (spawnObject == null) return;
-
-        if (spawnObject.TryGetComponent(out RandomSpawn randomSpawn))
-        {
-            TrySpawnObject(randomSpawn.PickRandomSpawnObject(), position);
-        }
-        else if (spawnObject.GetComponent<RandomSpawnMultiItem>() != null)
-        {
-            foreach (Transform spawnObjectChild in spawnObject.transform)
-            {
-                TrySpawnObject(spawnObjectChild.gameObject, position);
-            }
-        }
-        else if (spawnObject.TryGetComponent(out Tilemap tilemap))
-        {
-            GenerateTilemap(tilemap, position);
-        }
-        else if (spawnObject.TryGetComponent(out LateGenerateionEnviroment lateGeneratable) || !spawnObject.TryGetComponent(out ChunkConnection chunkConnection))
-        {
-            GameObject newObject = Instantiate(
-                spawnObject,
-                spawnObject.transform.position + position,
-                spawnObject.transform.rotation,
-                LayerManager.Instance.GetZLayerOfGameObject(gameObject).WorldGenerationDataObjectsContainer
-                );
-            LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), newObject);
-            LayerManager.Instance.GetZLayerOfGameObject(newObject).UpdateLayerForGameObject(newObject);
-        }
-    }
 }

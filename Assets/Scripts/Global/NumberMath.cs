@@ -1,43 +1,43 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
+using Unity.Mathematics;
 using UnityEngine;
 
 public static class NumberMath
 {
     public static float RelativeRandomizeFloatNoSeed(float value, float randomSpread)
     {
-        return value + (Random.value - 0.5f) * 2f * randomSpread;
+        return value + (UnityEngine.Random.value - 0.5f) * 2f * randomSpread;
     }
 
     public static float PickRandomInRangeNoSeed(float min, float max)
     {
-        return min + (Random.value * (max - min));
+        return min + (UnityEngine.Random.value * (max - min));
     }
     public static int PickRandomInRangeNoSeed(int min, int max)
     {
         if (min == max) return max;
-        return min + Mathf.RoundToInt(Random.value * (max - min));
+        return min + Mathf.RoundToInt(UnityEngine.Random.value * (max - min));
     }
 
     public static T PickRandomItem<T>(List<T> vector)
     {
-        return vector[(int)(Random.value * (vector.Count))];
+        return vector[(int)(UnityEngine.Random.value * (vector.Count))];
     }
     public static T PickRandomItem<T>(List<T> vector, int limit)
     {
         if (limit == -1) return PickRandomItem(vector);
 
-        return vector[(int)(Random.value * Mathf.Min(vector.Count, limit))];
+        return vector[(int)(UnityEngine.Random.value * Mathf.Min(vector.Count, limit))];
     }
     public static T PickRandomItem<T>(T[] array)
     {
-        return array[(int)(Random.value * (array.Length))];
+        return array[(int)(UnityEngine.Random.value * (array.Length))];
     }
     public static T PickRandomItem<T>(T[] array, int limit)
     {
         if (limit == -1) return PickRandomItem(array);
 
-        return array[(int)(Random.value * Mathf.Min(array.Length, limit))];
+        return array[(int)(UnityEngine.Random.value * Mathf.Min(array.Length, limit))];
     }
 
     public static float RelativeLerp(float min, float max, float relativeDelta)
@@ -136,11 +136,20 @@ public static class NumberMath
     /// </summary>
     public static bool RandomCoinflip()
     {
-        return Random.value > 0.5f;
+        return UnityEngine.Random.value > 0.5f;
     }
 
     public static T PickMiddleItemFromList<T>(List<T> list)
     {
         return list[list.Count / 2];
+    }
+
+    public static Vector3Int Vec3ToVec3Int(Vector3 vec3)
+    {
+        return new Vector3Int(
+            (int)math.floor(vec3.x),
+            (int)math.floor(vec3.y),
+            (int)math.floor(vec3.z)
+            );
     }
 }

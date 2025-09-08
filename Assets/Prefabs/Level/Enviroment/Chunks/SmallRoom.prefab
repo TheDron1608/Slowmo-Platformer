@@ -9355,6 +9355,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 7054287954662327214}
     m_Modifications:
     - target: {fileID: 1648873117561489245, guid: 5aaaae768a0b9824ba91d0024052517a, type: 3}
+      propertyPath: Direction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1648873117561489245, guid: 5aaaae768a0b9824ba91d0024052517a, type: 3}
       propertyPath: ObjectsOnClosedConnection.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -25472,6 +25476,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7054287954662327214}
     m_Modifications:
+    - target: {fileID: 1648873117561489245, guid: 5aaaae768a0b9824ba91d0024052517a, type: 3}
+      propertyPath: Direction
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1648873117561489245, guid: 5aaaae768a0b9824ba91d0024052517a, type: 3}
       propertyPath: ObjectsOnClosedConnection.Array.size
       value: 1

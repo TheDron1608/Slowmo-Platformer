@@ -190,4 +190,35 @@ public class ZIndexLayer : MonoBehaviour
     {
         return LayerManager.Instance.ZLayers.ElementAtOrDefault(LayerManager.Instance.ZLayers.IndexOf(this) - 1);
     }
+
+    public void TrySpawnObject(GameObject spawnObject, Vector3Int position, BuildingInfo building, ChunkInfo chunk)
+    {
+        if (spawnObject == null) return;
+
+        if (spawnObject.TryGetComponent(out RandomSpawn randomSpawn))
+        {
+            TrySpawnObject(randomSpawn.PickRandomSpawnObject(), position, building, chunk);
+        }
+        else if (spawnObject.GetComponent<RandomSpawnMultiItem>() != null)
+        {
+            foreach (Transform spawnObjectChild in spawnObject.transform)
+            {
+                TrySpawnObject(spawnObjectChild.gameObject, position, building, chunk);
+            }
+        }
+        else if (spawnObject.TryGetComponent(out Tilemap tilemap))
+        {
+            MultiTileMapsContainer.GenerateTilemap(tilemap, position);
+        }
+        else if (spawnObject.TryGetComponent(out ComplexGenerateionEnviroment complexGeneratable))
+        {
+            complexGeneratable.PreGenerate(this, position, building, chunk);
+        }
+        else if (spawnObject.GetComponent<NonGeneratableObject>() == null)
+        {
+            GameObject newObject = Instantiate(spawnObject, position + spawnObject.transform.position, spawnObject.transform.rotation, transform);
+            LayerManager.Instance.ChangeZIndexForGameObject(this, newObject);
+            UpdateLayerForGameObject(newObject);
+        }
+    }
 }
