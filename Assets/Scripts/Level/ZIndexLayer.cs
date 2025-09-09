@@ -208,7 +208,7 @@ public class ZIndexLayer : MonoBehaviour
         }
         else if (spawnObject.TryGetComponent(out Tilemap tilemap))
         {
-            MultiTileMapsContainer.GenerateTilemap(tilemap, position);
+            MultiTileMapsContainer.GenerateTilemap(tilemap, position + NumberMath.Vec3ToVec3Int(tilemap.transform.position));
         }
         else if (spawnObject.TryGetComponent(out ComplexGenerateionEnviroment complexGeneratable))
         {

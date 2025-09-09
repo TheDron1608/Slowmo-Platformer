@@ -98,7 +98,7 @@ public class Chunk : MonoBehaviour
             return false;
         }
 
-        if (!TryGenerateChunk(addWhere, sourceChunkConnection.GetTilePosition() - newChunkConnection.GetRelativeTilePosition(), building, out newChunkInfo))
+        if (!TryGenerateChunk(addWhere, sourceChunkConnection.GetTilePosition() - newChunkConnection.GetTilePosition(), building, out newChunkInfo))
         {
             return false;
         }

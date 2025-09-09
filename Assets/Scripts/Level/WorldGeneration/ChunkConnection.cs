@@ -22,8 +22,7 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
     public List<GameObject> ObjectsOnOpenedConnection;
     public List<GameObject> ObjectsOnClosedConnection;
 
-    [SerializeField] private Transform _chunkConnectionPosition;
-
+    private ChunkConnection _originalPrefab;
     private ChunkInfo _chunk;
     private ChunkConnectionState _state = ChunkConnectionState.CLOSED;
 
@@ -37,36 +36,42 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
         get => _state;
         set => _state = value;
     }
+    public ChunkConnection OriginalPrefab
+    {
+        get => _originalPrefab;
+        set => _originalPrefab = value;
+    }
 
     public override void Generate()
     {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         List<GameObject> targetGenerationObjs;
-        if (State == ChunkConnectionState.CLOSED) targetGenerationObjs = ObjectsOnClosedConnection;
-        else if (State == ChunkConnectionState.OPENED) targetGenerationObjs = ObjectsOnOpenedConnection;
+        if (State == ChunkConnectionState.CLOSED) targetGenerationObjs = OriginalPrefab.ObjectsOnClosedConnection;
+        else if (State == ChunkConnectionState.OPENED) targetGenerationObjs = OriginalPrefab.ObjectsOnOpenedConnection;
         else targetGenerationObjs = new();
 
         foreach (GameObject targetGemeratonObj in targetGenerationObjs)
         {
-            LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
+            layer.TrySpawnObject(
                 targetGemeratonObj, 
-                NumberMath.Vec3ToVec3Int(targetGemeratonObj.transform.position), 
+                NumberMath.Vec3ToVec3Int(transform.position - OriginalPrefab.transform.position), 
                 _chunk?.Building,
                 _chunk
                 );
         }
-        DestroyConnection();
+        //DestroyConnection();
 }
 
     public override void PreGenerate(ZIndexLayer preGenerateWhere, Vector3 position, BuildingInfo building, ChunkInfo chunk)
     {
-        ChunkConnection newConnection = Instantiate(this, position + _chunkConnectionPosition.position, transform.rotation, preGenerateWhere.WorldGenerationDataObjectsContainer);
-
+        ChunkConnection newConnection = Instantiate(this, position + transform.position, transform.rotation, preGenerateWhere.WorldGenerationDataObjectsContainer);
         newConnection.Chunk = chunk;
+        newConnection.OriginalPrefab = this;
         chunk.Connections.Add(newConnection);
 
         foreach (Transform child in newConnection.transform)
         {
-            child.gameObject.SetActive(false);
+            Destroy(child.gameObject);
         }
     }
 
@@ -87,11 +92,6 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
 
     public Vector3Int GetTilePosition()
     {
-        return new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y));
-    }
-
-    public Vector3Int GetRelativeTilePosition()
-    {
-        return new Vector3Int((int)math.floor(_chunkConnectionPosition.position.x), (int)math.floor(_chunkConnectionPosition.position.y));
+        return new Vector3Int((int)math.round(transform.position.x), (int)math.round(transform.position.y));
     }
 }

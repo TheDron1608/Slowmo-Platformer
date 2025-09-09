@@ -39,7 +39,7 @@ public class MultiTileMapsContainer : MonoBehaviour
                 TileBase tile = tilemap.GetTile(new Vector3Int(x, y));
                 if (tile != null)
                 {
-                    targetTileMap.SetTile(new Vector3Int(x, y) + position, tile);
+                    targetTileMap.SetTile(new Vector3Int(x, y) + position , tile);
 
                     if (tilemap.GetComponent<TileBehaviour>().Overridable)
                     {
