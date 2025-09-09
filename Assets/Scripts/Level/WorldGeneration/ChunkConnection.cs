@@ -42,7 +42,7 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
         set => _originalPrefab = value;
     }
 
-    public override void Generate()
+    public override List<GameObject> Generate()
     {
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         List<GameObject> targetGenerationObjs;
@@ -50,16 +50,20 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
         else if (State == ChunkConnectionState.OPENED) targetGenerationObjs = OriginalPrefab.ObjectsOnOpenedConnection;
         else targetGenerationObjs = new();
 
+        List<GameObject> result = new();
         foreach (GameObject targetGemeratonObj in targetGenerationObjs)
         {
-            layer.TrySpawnObject(
-                targetGemeratonObj, 
-                NumberMath.Vec3ToVec3Int(transform.position - OriginalPrefab.transform.position), 
-                _chunk?.Building,
-                _chunk
+            result.AddRange(
+                    layer.TrySpawnObject(
+                    targetGemeratonObj, 
+                    NumberMath.Vec3ToVec3Int(transform.position - OriginalPrefab.transform.position), 
+                    _chunk?.Building,
+                    _chunk
+                    ) ?? new List<GameObject>(0)
                 );
         }
-        //DestroyConnection();
+
+        return result;
 }
 
     public override void PreGenerate(ZIndexLayer preGenerateWhere, Vector3 position, BuildingInfo building, ChunkInfo chunk)

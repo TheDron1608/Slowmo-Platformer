@@ -18,7 +18,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
     public TileBase OvergoundRoofFillTile;
     public int RoofHeight = 3;
 
-    public override void Generate()
+    public override List<GameObject> Generate()
     {
         MultiTileMapsContainer generateWhere = LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer;
 
@@ -85,5 +85,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
         }
 
         Destroy(gameObject);
+
+        return new List<GameObject> { targetTilemap.gameObject }; 
     }
 }

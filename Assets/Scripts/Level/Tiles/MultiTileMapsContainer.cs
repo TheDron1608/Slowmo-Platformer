@@ -26,11 +26,11 @@ public class MultiTileMapsContainer : MonoBehaviour
         return false;
     }
 
-    public void GenerateTilemap(Tilemap tilemap, Vector3Int position)
+    public GameObject GenerateTilemap(Tilemap tilemap, Vector3Int position)
     {
-        if (tilemap == null) return;
+        if (tilemap == null) return null;
         Tilemap targetTileMap = GetTileMapByBehaviourType(tilemap.GetComponent<TileBehaviour>().BehaviourType);
-        if (targetTileMap == null) return;
+        if (targetTileMap == null) return null;
 
         for (int x = tilemap.cellBounds.min.x; x < tilemap.cellBounds.max.x; x++)
         {
@@ -63,5 +63,7 @@ public class MultiTileMapsContainer : MonoBehaviour
                 }
             }
         }
+
+        return targetTileMap.gameObject;
     }
 }

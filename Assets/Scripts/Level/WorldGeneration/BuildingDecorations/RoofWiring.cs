@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -9,7 +11,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
     public TileBase DrawTile;
     public int MaxLength = 35;
 
-    public override void Generate()
+    public override List<GameObject> Generate()
     {
         bool leftOrRightDirection = NumberMath.RandomCoinflip();
         Vector3Int position = new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y));
@@ -17,7 +19,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
 
         for (int y = position.y; y < HEIGHT + position.y; y++)
         {
-            if (targetTilemaps.GetHasAnyTileAt(new Vector3Int(position.x, y))) return;
+            if (targetTilemaps.GetHasAnyTileAt(new Vector3Int(position.x, y))) return null;
         }
 
         for (
@@ -30,14 +32,16 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
             {
                 if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(new Vector3Int(x, position.y + HEIGHT)))
                 {
-                    ForceGenerate(targetTilemaps, position, leftOrRightDirection);
+                    return ForceGenerate(targetTilemaps, position, leftOrRightDirection);
                 }
                 break;
             }
         }
+
+        return null;
     }
 
-    private void ForceGenerate(MultiTileMapsContainer targetTilemaps, Vector3Int position, bool leftOrRightDirection)
+    private List<GameObject> ForceGenerate(MultiTileMapsContainer targetTilemaps, Vector3Int position, bool leftOrRightDirection)
     {
         Tilemap targetTilemap = targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS);
 
@@ -63,5 +67,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
         }
 
         Destroy(gameObject);
+
+        return new List<GameObject> { targetTilemap.gameObject };
     }
 }

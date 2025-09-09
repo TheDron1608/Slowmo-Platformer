@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -9,7 +10,7 @@ public class Anthen : GenerateOnFinishLevelEnviroment
 
     public TileBase DrawTile;
 
-    public override void Generate()
+    public override List<GameObject> Generate()
     {
         int targetHeight = NumberMath.PickRandomInRangeNoSeed(MIN_HEIGHT, MAX_HEIGHT);
         MultiTileMapsContainer targetTilemap = LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer;
@@ -17,12 +18,14 @@ public class Anthen : GenerateOnFinishLevelEnviroment
 
         for (int i = 0; i < targetHeight; i++)
         {
-            if (targetTilemap.GetHasAnyTileAt(targetPosition + (Vector3Int.up * i))) return;
+            if (targetTilemap.GetHasAnyTileAt(targetPosition + (Vector3Int.up * i))) return null;
         }
 
         for (int i = 0; i < targetHeight; i++)
         {
             targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(targetPosition + (Vector3Int.up * i), DrawTile);
         }
+
+        return new List<GameObject> { targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).gameObject };
     }
 }

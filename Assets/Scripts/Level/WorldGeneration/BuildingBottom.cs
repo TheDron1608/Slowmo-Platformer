@@ -15,7 +15,7 @@ public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
     public int BuildingWallDecorationsPerHeight = 35;
     public List<GenerateOnFinishLevelEnviroment> AvaibleBuildingWallDecorations = new();
 
-    public override void Generate()
+    public override List<GameObject> Generate()
     {
         float lowestBuildingBottomPosition = OffsetStart.transform.position.y;
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
@@ -65,5 +65,7 @@ public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
         }
 
         Destroy(gameObject);
+
+        return new List<GameObject> { targetTilemap.gameObject };
     }
 }

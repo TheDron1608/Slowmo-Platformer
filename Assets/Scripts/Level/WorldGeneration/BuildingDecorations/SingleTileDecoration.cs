@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,12 +8,12 @@ public class SingleTileDecoration : GenerateOnFinishLevelEnviroment
     public TileBase DrawTile;
     public TileBase MirroredDrawTile;
 
-    public override void Generate()
+    public override List<GameObject> Generate()
     {
         MultiTileMapsContainer targetTilemap = LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer;
         Vector3Int targetPosition = new((int)math.floor(transform.position.x), (int)math.floor(transform.position.y));
 
-        if (targetTilemap.GetHasAnyTileAt(targetPosition)) return;
+        if (targetTilemap.GetHasAnyTileAt(targetPosition)) return null;
 
         if (targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(targetPosition + Vector3Int.left))
         {
@@ -29,5 +30,7 @@ public class SingleTileDecoration : GenerateOnFinishLevelEnviroment
                 NumberMath.RandomCoinflip() ? MirroredDrawTile : DrawTile
                 );
         }
+
+        return new List<GameObject> { targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).gameObject };
     }
 }

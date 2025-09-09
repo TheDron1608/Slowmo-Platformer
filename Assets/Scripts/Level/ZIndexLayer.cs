@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -191,34 +192,56 @@ public class ZIndexLayer : MonoBehaviour
         return LayerManager.Instance.ZLayers.ElementAtOrDefault(LayerManager.Instance.ZLayers.IndexOf(this) - 1);
     }
 
-    public void TrySpawnObject(GameObject spawnObject, Vector3Int position, BuildingInfo building, ChunkInfo chunk)
+    /// <summary>
+    /// generates object on relative position, can spawn random and multiple objects/complex generation objects, 
+    /// also draws tilemap over existing tilemap
+    /// </summary>
+    /// <param name="spawnObject">spawned object</param>
+    /// <param name="position">relative offset of generated object</param>
+    /// <param name="building">appends new object to building's info, also can be used in generation process</param>
+    /// <param name="chunk">appends new object to chunks's info, also can be used in generation process</param>
+    /// <returns>
+    /// list of:
+    /// * spawned objects/
+    /// * tilmaps wich were drawn over
+    /// * null if spawned only complex generation object or failed generating
+    /// </returns>
+    public List<GameObject> TrySpawnObject(GameObject spawnObject, Vector3Int position, BuildingInfo building, ChunkInfo chunk)
     {
-        if (spawnObject == null) return;
+        if (spawnObject == null) return null;
 
         if (spawnObject.TryGetComponent(out RandomSpawn randomSpawn))
         {
-            TrySpawnObject(randomSpawn.PickRandomSpawnObject(), position, building, chunk);
+            return TrySpawnObject(randomSpawn.PickRandomSpawnObject(), position, building, chunk);
         }
         else if (spawnObject.GetComponent<RandomSpawnMultiItem>() != null)
         {
+            List<GameObject> result = new();
             foreach (Transform spawnObjectChild in spawnObject.transform)
             {
-                TrySpawnObject(spawnObjectChild.gameObject, position, building, chunk);
+                result.AddRange(TrySpawnObject(spawnObjectChild.gameObject, position, building, chunk) ?? new List<GameObject>(0));
             }
+            return result;
         }
         else if (spawnObject.TryGetComponent(out Tilemap tilemap))
         {
-            MultiTileMapsContainer.GenerateTilemap(tilemap, position + NumberMath.Vec3ToVec3Int(tilemap.transform.position));
+            return new List<GameObject> { MultiTileMapsContainer.GenerateTilemap(tilemap, position + NumberMath.Vec3ToVec3Int(tilemap.transform.position)) };
         }
         else if (spawnObject.TryGetComponent(out ComplexGenerateionEnviroment complexGeneratable))
         {
             complexGeneratable.PreGenerate(this, position, building, chunk);
+            return null;
         }
         else if (spawnObject.GetComponent<NonGeneratableObject>() == null)
         {
             GameObject newObject = Instantiate(spawnObject, position + spawnObject.transform.position, spawnObject.transform.rotation, transform);
             LayerManager.Instance.ChangeZIndexForGameObject(this, newObject);
             UpdateLayerForGameObject(newObject);
+            return new List<GameObject> { newObject };
+        }
+        else
+        {
+            return null; 
         }
     }
 }

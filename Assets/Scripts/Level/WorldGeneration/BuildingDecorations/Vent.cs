@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -8,7 +9,7 @@ public class Vent : GenerateOnFinishLevelEnviroment
     public int MaxWidth = 8;
     public TileBase DrawTile;
 
-    public override void Generate()
+    public override List<GameObject> Generate()
     {
         int targetHeight = NumberMath.PickRandomInRangeNoSeed(MinWidth, MaxWidth);
         MultiTileMapsContainer targetTilemap = LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer;
@@ -17,7 +18,7 @@ public class Vent : GenerateOnFinishLevelEnviroment
 
         for (int i = 0; i < targetHeight; i++)
         {
-            if (targetTilemap.GetHasAnyTileAt(targetPosition + (Vector3Int.up * i))) return;
+            if (targetTilemap.GetHasAnyTileAt(targetPosition + (Vector3Int.up * i))) return null;
         }
 
         for (int i = 0; i < targetHeight; i++)
@@ -27,9 +28,11 @@ public class Vent : GenerateOnFinishLevelEnviroment
                 !targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(targetPosition + (targetGenerateDirection * i) + Vector3Int.down)
                 )
             {
-                return;
+                break;
             }
             targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(targetPosition + (targetGenerateDirection * i), DrawTile);
         }
+
+        return new List<GameObject> { targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).gameObject };
     }
 }
