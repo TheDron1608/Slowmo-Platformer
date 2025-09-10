@@ -72,7 +72,7 @@ public class WorldGenerationManager : MonoBehaviour
                     }
                     prevBuilding = newBuilding;
 
-                    currentBuildingEnterPosition = new Vector3Int((int)newBuilding.Exit.transform.position.x, (int)newBuilding.Exit.transform.position.y);
+                    currentBuildingEnterPosition = NumberMath.Vec3ToVec3Int(newBuilding.Exit.Offset + newBuilding.Exit.TargetGeneration.transform.position);
                     currentBuildingLayerIndex = layerIndex;
 
                     break;
@@ -80,28 +80,20 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
-        //generating enviroment with OnFinishLevelEnviroment attr
+        //generating enviroment with OnFinishAllBuilding Enviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
         {
-            foreach (GenerateOnFinishAllBuildingEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishAllBuildingEnviroment>(false))
+            foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishAllBuildingEnviroment>(false))
             {
-                lateGenEnviroment.Generate();
-            }
-            foreach (GenerateOnFinishAllBuildingEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishAllBuildingEnviroment>(false))
-            {
-                lateGenEnviroment.gameObject.SetActive(false);
+                lateGenEnviroment.TargetGeneration.Generate(lateGenEnviroment);
             }
         }
         //generating enviroment with OnFinishLevelEnviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
         {
-            foreach (GenerateOnFinishLevelEnviroment veryLateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishLevelEnviroment>(false))
+            foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishLevelEnviroment>(false))
             {
-                veryLateGenEnviroment.Generate();
-            }
-            foreach (GenerateOnFinishLevelEnviroment veryLateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishLevelEnviroment>(false))
-            {
-                veryLateGenEnviroment.gameObject.SetActive(false);
+                lateGenEnviroment.TargetGeneration.Generate(lateGenEnviroment);
             }
         }
     }
@@ -109,9 +101,8 @@ public class WorldGenerationManager : MonoBehaviour
     public bool TryGenerateBuilding(ZIndexLayer layer, Vector3Int position, int chunksAmount, Vector3Int prefferedPosition, out BuildingInfo newBuildingInfo)
     {
         //initializing building info
-        GameObject newBuildingInfoGO = new GameObject("BuildingInfo");
-        newBuildingInfoGO.transform.parent = layer.WorldGenerationDataObjectsContainer.transform;
-        newBuildingInfo = newBuildingInfoGO.AddComponent<BuildingInfo>();
+        newBuildingInfo = new();
+        layer.BuildinsInfo.Add(newBuildingInfo);
 
         //creating first room with enter door, if failed return false
         if (!NumberMath.PickRandomItem(Chunks).TryGenerateChunkWithDoor(layer, position, newBuildingInfo, out ChunkInfo firstChunk, out newBuildingInfo.Enter)) return false;
@@ -122,18 +113,23 @@ public class WorldGenerationManager : MonoBehaviour
             if (layer.MultiTileMapsContainer.GetHasAnyTileAt(prefferedPosition)) break;
 
             foreach (
-                ChunkConnection avaibleConnection in
-                layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<ChunkConnection>(false).OrderBy(
-                    (ChunkConnection connection) => Vector3.Distance(connection.transform.position, prefferedPosition)
+                ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo avaibleConnection in
+                layer.GetGenerationTempInfoByType<ChunkConnection>(false).OrderBy(
+                    (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) => Vector3.Distance(connection.Offset, prefferedPosition)
                     )
                 )
             {
-                if (!avaibleConnection.isActiveAndEnabled) continue;
+                if (avaibleConnection.Generated) continue;
 
                 bool successfullGenerating = false;
                 for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
                 {
-                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(layer, avaibleConnection, newBuildingInfo, out ChunkInfo newChunkInfo, out ChunkConnection newChunkConnection))
+                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(
+                        layer, 
+                        avaibleConnection as ChunkConnection.PreGeneratedChunkConnectionTempInfo, 
+                        newBuildingInfo,
+                        out ChunkInfo newChunkInfo, 
+                        out ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunkConnection))
                     {
                         successfullGenerating = true;
                         break;
@@ -166,13 +162,9 @@ public class WorldGenerationManager : MonoBehaviour
         newBuildingInfo.Exit = NumberMath.PickRandomItem(newBuildingInfo.Chunks.Last().DoorGenPositions);
 
         //generating enviroment with OnFinishBuildingEnviroment attr
-        foreach (GenerateOnFinishBuildingEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishBuildingEnviroment>(false))
+        foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishBuildingEnviroment>(false))
         {
-            lateGenEnviroment.Generate();
-        }
-        foreach (GenerateOnFinishBuildingEnviroment lateGenEnviroment in layer.WorldGenerationDataObjectsContainer.GetComponentsInChildren<GenerateOnFinishBuildingEnviroment>(false))
-        {
-            lateGenEnviroment.gameObject.SetActive(false);
+            lateGenEnviroment.TargetGeneration.Generate(lateGenEnviroment);
         }
 
         return true;

@@ -10,15 +10,20 @@ public class Anthen : GenerateOnFinishLevelEnviroment
 
     public TileBase DrawTile;
 
-    public override List<GameObject> Generate()
+    public override List<GameObject> Generate(PreGeneratedEnviromentTempInfo generationInfo)
     {
+        base.Generate(generationInfo);
+
         int targetHeight = NumberMath.PickRandomInRangeNoSeed(MIN_HEIGHT, MAX_HEIGHT);
-        MultiTileMapsContainer targetTilemap = LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer;
-        Vector3Int targetPosition = new((int)math.floor(transform.position.x), (int)math.floor(transform.position.y));
+        MultiTileMapsContainer targetTilemap = generationInfo.GenerateWhere.MultiTileMapsContainer;
+        Vector3Int targetPosition = NumberMath.Vec3ToVec3Int(generationInfo.Offset);
 
         for (int i = 0; i < targetHeight; i++)
         {
-            if (targetTilemap.GetHasAnyTileAt(targetPosition + (Vector3Int.up * i))) return null;
+            if (targetTilemap.GetHasAnyTileAt(targetPosition + (Vector3Int.up * i)))
+            {
+                return null;
+            }
         }
 
         for (int i = 0; i < targetHeight; i++)

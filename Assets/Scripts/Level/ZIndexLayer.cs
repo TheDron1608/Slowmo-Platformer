@@ -18,7 +18,6 @@ public class ZIndexLayer : MonoBehaviour
     private const string HOLDABLES_CONTAINER_NAME = "Holdables";
     private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
     private const string PROJECTILES_CONTAINER_NAME = "Projectiles";
-    private const string WORLD_GENERATION_DATA_OBJECTS_CONTAINER_NAME = "WorldGenerationDataObjects";
 
     public struct LayerAlphaMode
     {
@@ -48,10 +47,11 @@ public class ZIndexLayer : MonoBehaviour
     public Transform HoldablesContainer { get; private set; }
     public Transform PhysicsParticlesContainer { get; private set; }
     public Transform ProjectilesContainer { get; private set; }
-    public Transform WorldGenerationDataObjectsContainer { get; private set; }
     public MultiTileMapsContainer MultiTileMapsContainer { get; private set; }
 
     private LayerAlphaMode _alphaMode;
+    private List<BuildingInfo> _buildingsInfo = new();
+    private List<ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo> _generationTempInfo = new();
 
     public LayerAlphaMode LayerAlpha
     {
@@ -62,6 +62,28 @@ public class ZIndexLayer : MonoBehaviour
             _alphaMode = value;
             SetAlphaForAllChildren(LayerAlpha, transform);
         }
+    }
+    public List<BuildingInfo> BuildinsInfo
+    {
+        get => _buildingsInfo;
+        set => _buildingsInfo = value;
+    }
+    public List<ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo> GenerationTempInfo
+    {
+        get => _generationTempInfo;
+        set => _generationTempInfo = value;
+    }
+    public List<ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo> GetGenerationTempInfoByType<T>(bool includeGenerated) where T : ComplexGenerateionEnviroment
+    {
+        List<ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo> result = new();
+        for (int i = 0; i < _generationTempInfo.Count; i++)
+        {
+            if (_generationTempInfo[i].TargetGeneration.GetComponent<T>() != null && (!_generationTempInfo[i].Generated || includeGenerated))
+            {
+                result.Add(_generationTempInfo[i]);
+            }
+        }
+        return result;
     }
 
     private void Awake()
@@ -88,7 +110,6 @@ public class ZIndexLayer : MonoBehaviour
         FurnitureContainer = transform.Find(FURNITURE_CONTAINER_NAME);
         HoldablesContainer = transform.Find(HOLDABLES_CONTAINER_NAME);
         ProjectilesContainer = transform.Find(PROJECTILES_CONTAINER_NAME);
-        WorldGenerationDataObjectsContainer = transform.Find(WORLD_GENERATION_DATA_OBJECTS_CONTAINER_NAME);
 
         MultiTileMapsContainer = transform.GetComponentInChildren<MultiTileMapsContainer>();
     }

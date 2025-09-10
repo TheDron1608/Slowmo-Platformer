@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class ChunkConnection : GenerateOnFinishBuildingEnviroment
 {
+    public class PreGeneratedChunkConnectionTempInfo : PreGeneratedEnviromentTempInfo
+    {
+        public enum ChunkConnectionState
+        {
+            CLOSED,
+            OPENED
+        }
+
+        public ChunkConnectionState State = ChunkConnectionState.CLOSED;
+
+        public PreGeneratedChunkConnectionTempInfo(ZIndexLayer generateWhere, Vector3 offset, ComplexGenerateionEnviroment targetGeneration, BuildingInfo building, ChunkInfo chunk) : base(generateWhere, offset, targetGeneration, building, chunk)
+        {
+
+        }
+    }
+
     public enum ChunkConnectionDirection
     {
         TOP,
@@ -12,42 +28,25 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
         RIGHT
     }
 
-    public enum ChunkConnectionState
-    {
-        CLOSED,
-        OPENED
-    }
 
     public ChunkConnectionDirection Direction;
     public List<GameObject> ObjectsOnOpenedConnection;
     public List<GameObject> ObjectsOnClosedConnection;
 
-    private ChunkConnection _originalPrefab;
-    private ChunkInfo _chunk;
-    private ChunkConnectionState _state = ChunkConnectionState.CLOSED;
+    public override List<GameObject> Generate(PreGeneratedEnviromentTempInfo generationInfo)
+    {
+        base.Generate(generationInfo);
 
-    public ChunkInfo Chunk
-    {
-        get => _chunk;
-        private set => _chunk = value;
-    }
-    public ChunkConnectionState State
-    {
-        get => _state;
-        set => _state = value;
-    }
-    public ChunkConnection OriginalPrefab
-    {
-        get => _originalPrefab;
-        set => _originalPrefab = value;
-    }
-
-    public override List<GameObject> Generate()
-    {
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        ZIndexLayer layer = generationInfo.GenerateWhere;
         List<GameObject> targetGenerationObjs;
-        if (State == ChunkConnectionState.CLOSED) targetGenerationObjs = OriginalPrefab.ObjectsOnClosedConnection;
-        else if (State == ChunkConnectionState.OPENED) targetGenerationObjs = OriginalPrefab.ObjectsOnOpenedConnection;
+        if ((generationInfo as PreGeneratedChunkConnectionTempInfo).State == PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED)
+        {
+            targetGenerationObjs = ObjectsOnClosedConnection;
+        }
+        else if ((generationInfo as PreGeneratedChunkConnectionTempInfo).State == PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED)
+        {
+            targetGenerationObjs = ObjectsOnOpenedConnection;
+        }
         else targetGenerationObjs = new();
 
         List<GameObject> result = new();
@@ -56,27 +55,22 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
             result.AddRange(
                     layer.TrySpawnObject(
                     targetGemeratonObj, 
-                    NumberMath.Vec3ToVec3Int(transform.position - OriginalPrefab.transform.position), 
-                    _chunk?.Building,
-                    _chunk
+                    NumberMath.Vec3ToVec3Int(generationInfo.Offset), 
+                    generationInfo.Building,
+                    generationInfo.Chunk
                     ) ?? new List<GameObject>(0)
                 );
         }
 
         return result;
-}
+    }
 
-    public override void PreGenerate(ZIndexLayer preGenerateWhere, Vector3 position, BuildingInfo building, ChunkInfo chunk)
+    public override PreGeneratedEnviromentTempInfo PreGenerate(ZIndexLayer preGenerateWhere, Vector3 position, BuildingInfo building, ChunkInfo chunk)
     {
-        ChunkConnection newConnection = Instantiate(this, position + transform.position, transform.rotation, preGenerateWhere.WorldGenerationDataObjectsContainer);
-        newConnection.Chunk = chunk;
-        newConnection.OriginalPrefab = this;
-        chunk.Connections.Add(newConnection);
-
-        foreach (Transform child in newConnection.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        //preGenerateWhere.TileManager.Debug_MarkTile(position, Color.red, 999f);
+        PreGeneratedChunkConnectionTempInfo newTempInfo = new PreGeneratedChunkConnectionTempInfo(preGenerateWhere, position, this, building, chunk);
+        preGenerateWhere.GenerationTempInfo.Add(newTempInfo);
+        return newTempInfo;
     }
 
     public bool GetConnectionIsValid(ChunkConnection targetConnection)
@@ -86,12 +80,6 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
             (Direction == ChunkConnectionDirection.BOTTOM && targetConnection.Direction == ChunkConnectionDirection.TOP) ||
             (Direction == ChunkConnectionDirection.LEFT && targetConnection.Direction == ChunkConnectionDirection.RIGHT) ||
             (Direction == ChunkConnectionDirection.RIGHT && targetConnection.Direction == ChunkConnectionDirection.LEFT);
-    }
-
-    public void DestroyConnection()
-    {
-        gameObject.SetActive(false);
-        Destroy(gameObject);
     }
 
     public Vector3Int GetTilePosition()

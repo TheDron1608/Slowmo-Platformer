@@ -11,15 +11,20 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
     public TileBase DrawTile;
     public int MaxLength = 35;
 
-    public override List<GameObject> Generate()
+    public override List<GameObject> Generate(PreGeneratedEnviromentTempInfo generationInfo)
     {
+        base.Generate(generationInfo);
+
         bool leftOrRightDirection = NumberMath.RandomCoinflip();
-        Vector3Int position = new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y));
-        MultiTileMapsContainer targetTilemaps = LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer;
+        Vector3Int position = NumberMath.Vec3ToVec3Int(generationInfo.Offset);
+        MultiTileMapsContainer targetTilemaps =generationInfo.GenerateWhere.MultiTileMapsContainer;
 
         for (int y = position.y; y < HEIGHT + position.y; y++)
         {
-            if (targetTilemaps.GetHasAnyTileAt(new Vector3Int(position.x, y))) return null;
+            if (targetTilemaps.GetHasAnyTileAt(new Vector3Int(position.x, y)))
+            {
+                return null;
+            }
         }
 
         for (
@@ -65,8 +70,6 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
                 targetTilemap.SetTile(new Vector3Int(x, position.y + HEIGHT), DrawTile);
             }
         }
-
-        Destroy(gameObject);
 
         return new List<GameObject> { targetTilemap.gameObject };
     }

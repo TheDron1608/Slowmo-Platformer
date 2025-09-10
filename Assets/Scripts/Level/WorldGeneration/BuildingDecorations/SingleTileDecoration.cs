@@ -8,12 +8,17 @@ public class SingleTileDecoration : GenerateOnFinishLevelEnviroment
     public TileBase DrawTile;
     public TileBase MirroredDrawTile;
 
-    public override List<GameObject> Generate()
+    public override List<GameObject> Generate(PreGeneratedEnviromentTempInfo generationInfo)
     {
-        MultiTileMapsContainer targetTilemap = LayerManager.Instance.GetZLayerOfGameObject(gameObject).MultiTileMapsContainer;
-        Vector3Int targetPosition = new((int)math.floor(transform.position.x), (int)math.floor(transform.position.y));
+        base.Generate(generationInfo);
 
-        if (targetTilemap.GetHasAnyTileAt(targetPosition)) return null;
+        MultiTileMapsContainer targetTilemap = generationInfo.GenerateWhere.MultiTileMapsContainer;
+        Vector3Int targetPosition = NumberMath.Vec3ToVec3Int(generationInfo.Offset);
+
+        if (targetTilemap.GetHasAnyTileAt(targetPosition))
+        {
+            return null;
+        }
 
         if (targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(targetPosition + Vector3Int.left))
         {

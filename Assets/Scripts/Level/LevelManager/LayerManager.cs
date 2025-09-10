@@ -75,9 +75,6 @@ public class LayerManager : MonoBehaviour
             case CHARACTER_TAG_NAME:
                 moveGameObject.transform.SetParent(targetLayer.CharactersContainer);
                 break;
-            case WORLD_GENERATION_DATA_TAG_NAME:
-                moveGameObject.transform.SetParent(targetLayer.WorldGenerationDataObjectsContainer);
-                break;
             default:
                 moveGameObject.transform.SetParent(targetLayer.transform);
                 break;
