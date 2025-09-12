@@ -21,6 +21,13 @@ public abstract class ComplexGenerateionEnviroment : MonoBehaviour
             TargetGeneration = targetGeneration;
             Building = building;
             Chunk = chunk;
+
+            GenerateWhere.GenerationTempInfo.Add(this);
+        }
+
+        public virtual void Remove()
+        {
+            GenerateWhere.GenerationTempInfo.Remove(this);
         }
     }
 

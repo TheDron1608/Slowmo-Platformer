@@ -96,6 +96,16 @@ public class Chunk : MonoBehaviour
 
         sourceChunkConnection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
 
+        Vector2Int sourceChunkTileOffset = TileManager.PositionToTilePosition(sourceChunkConnection.Offset + sourceChunkConnection.TargetGeneration.transform.position);
+        foreach (ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunk in newChunkInfo.Connections)
+        {
+            if (TileManager.PositionToTilePosition(newChunk.Offset + newChunk.TargetGeneration.transform.position) == sourceChunkTileOffset)
+            {
+                newChunk.Remove();
+                break;
+            }
+        }
+
         return true;
     }
 

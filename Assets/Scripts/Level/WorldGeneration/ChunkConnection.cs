@@ -16,7 +16,13 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
 
         public PreGeneratedChunkConnectionTempInfo(ZIndexLayer generateWhere, Vector3 offset, ComplexGenerateionEnviroment targetGeneration, BuildingInfo building, ChunkInfo chunk) : base(generateWhere, offset, targetGeneration, building, chunk)
         {
+            chunk.Connections.Add(this);
+        }
 
+        public override void Remove()
+        {
+            base.Remove();
+            Chunk.Connections.Remove(this);
         }
     }
 
@@ -69,7 +75,6 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
     {
         //preGenerateWhere.TileManager.Debug_MarkTile(position, Color.red, 999f);
         PreGeneratedChunkConnectionTempInfo newTempInfo = new PreGeneratedChunkConnectionTempInfo(preGenerateWhere, position, this, building, chunk);
-        preGenerateWhere.GenerationTempInfo.Add(newTempInfo);
         return newTempInfo;
     }
 
