@@ -94,15 +94,21 @@ public class Chunk : MonoBehaviour
             return false;
         }
 
-        sourceChunkConnection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
 
-        Vector2Int sourceChunkTileOffset = TileManager.PositionToTilePosition(sourceChunkConnection.Offset + sourceChunkConnection.TargetGeneration.transform.position);
-        foreach (ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunk in newChunkInfo.Connections)
+        foreach (ChunkInfo chunk in building.Chunks)
         {
-            if (TileManager.PositionToTilePosition(newChunk.Offset + newChunk.TargetGeneration.transform.position) == sourceChunkTileOffset)
+            if (newChunkInfo == chunk) continue;
+            foreach (ChunkConnection.PreGeneratedChunkConnectionTempInfo connection in chunk.Connections)
             {
-                newChunk.Remove();
-                break;
+                for (int i = 0; i < newChunkInfo.Connections.Count; i++)
+                {
+                    if (TileManager.PositionToTilePosition(connection.Offset + connection.TargetGeneration.transform.position) == TileManager.PositionToTilePosition(newChunkInfo.Connections[i].Offset + newChunkInfo.Connections[i].TargetGeneration.transform.position))
+                    {
+                        connection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
+                        newChunkInfo.Connections[i].Remove();
+                        i--;
+                    }
+                }
             }
         }
 
