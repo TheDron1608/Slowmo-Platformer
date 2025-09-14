@@ -115,7 +115,7 @@ public class WorldGenerationManager : MonoBehaviour
             foreach (
                 ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo avaibleConnection in
                 layer.GetGenerationTempInfoByType<ChunkConnection>(false).OrderBy(
-                    (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) => Vector3.Distance(connection.Offset, prefferedPosition)
+                    (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) => Vector3.Distance(connection.Offset + connection.TargetGeneration.transform.position, prefferedPosition)
                     )
                 )
             {

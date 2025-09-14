@@ -73,9 +73,7 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
 
     public override PreGeneratedEnviromentTempInfo PreGenerate(ZIndexLayer preGenerateWhere, Vector3 position, BuildingInfo building, ChunkInfo chunk)
     {
-        //preGenerateWhere.TileManager.Debug_MarkTile(position, Color.red, 999f);
-        PreGeneratedChunkConnectionTempInfo newTempInfo = new PreGeneratedChunkConnectionTempInfo(preGenerateWhere, position, this, building, chunk);
-        return newTempInfo;
+        return new PreGeneratedChunkConnectionTempInfo(preGenerateWhere, position, this, building, chunk);
     }
 
     public bool GetConnectionIsValid(ChunkConnection targetConnection)
