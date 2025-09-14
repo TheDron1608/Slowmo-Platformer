@@ -18,6 +18,7 @@ public class ZIndexLayer : MonoBehaviour
     private const string HOLDABLES_CONTAINER_NAME = "Holdables";
     private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
     private const string PROJECTILES_CONTAINER_NAME = "Projectiles";
+    private const string INTERACTABLE_ENVIROMENT_CONTAINER_NAME = "InteractableEnviroment";
 
     public struct LayerAlphaMode
     {
@@ -47,6 +48,7 @@ public class ZIndexLayer : MonoBehaviour
     public Transform HoldablesContainer { get; private set; }
     public Transform PhysicsParticlesContainer { get; private set; }
     public Transform ProjectilesContainer { get; private set; }
+    public Transform InteractableEnviromentContainer {  get; private set; }
     public MultiTileMapsContainer MultiTileMapsContainer { get; private set; }
 
     private LayerAlphaMode _alphaMode;
@@ -108,6 +110,7 @@ public class ZIndexLayer : MonoBehaviour
         PhysicsParticlesContainer = transform.Find(PHYSICS_PARTICLES_CONTAINER_NAME);
         CharactersContainer = transform.Find(CHARACTERS_CONTAINER_NAME);
         FurnitureContainer = transform.Find(FURNITURE_CONTAINER_NAME);
+        InteractableEnviromentContainer = transform.Find(INTERACTABLE_ENVIROMENT_CONTAINER_NAME);
         HoldablesContainer = transform.Find(HOLDABLES_CONTAINER_NAME);
         ProjectilesContainer = transform.Find(PROJECTILES_CONTAINER_NAME);
 

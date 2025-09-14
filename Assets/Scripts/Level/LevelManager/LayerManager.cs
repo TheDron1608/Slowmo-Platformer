@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 [DefaultExecutionOrder(-1)]
 public class LayerManager : MonoBehaviour
@@ -74,6 +75,9 @@ public class LayerManager : MonoBehaviour
                 break;
             case CHARACTER_TAG_NAME:
                 moveGameObject.transform.SetParent(targetLayer.CharactersContainer);
+                break;
+            case ENVIROMENT_TAG_NAME:
+                moveGameObject.transform.SetParent(targetLayer.InteractableEnviromentContainer);
                 break;
             default:
                 moveGameObject.transform.SetParent(targetLayer.transform);
