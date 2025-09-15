@@ -153,8 +153,10 @@ public class ParticleSpawner : MonoBehaviour
         Quaternion? overrideRotation = null
         )
     {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(source.gameObject);
+        ParticleSystem newParticle = Instantiate(particle, layer.PhysicsParticlesContainer);
 
-        ParticleSystem newParticle = Instantiate(particle, LayerManager.Instance.GetZLayerOfGameObject(source.gameObject).PhysicsParticlesContainer);
+        LayerManager.Instance.ChangeZIndexForGameObject(layer, newParticle.gameObject);
 
         ParticleSystem.Burst firstBurst = newParticle.emission.GetBurst(0);
         firstBurst.count = 1;

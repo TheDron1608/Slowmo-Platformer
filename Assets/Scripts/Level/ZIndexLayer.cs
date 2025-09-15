@@ -172,6 +172,10 @@ public class ZIndexLayer : MonoBehaviour
         {
             tileMapRenderer.sortingOrder = tileMapRenderer.sortingOrder % 1000 + ZIndex * 1000;
         }
+        else if (gameObject.TryGetComponent(out ParticleSystemRenderer particleSystem))
+        {
+            particleSystem.sortingOrder = particleSystem.sortingOrder % 1000 + ZIndex * 1000;
+        }
 
         switch (gameObject.tag)
         {
