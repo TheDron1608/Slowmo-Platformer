@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CharacterPartsManager : AbstractCharacterComponent
 {
@@ -91,6 +92,17 @@ public class CharacterPartsManager : AbstractCharacterComponent
             }
         }
         return result;
+    }
+
+    public void GiveNewEquipment(CharacterEquipmentPart equipment)
+    {
+        GetCharacterPart(equipment.EquipAtType)?.DestroyPart();
+
+        CharacterPart newEquipment = Instantiate(
+            equipment,
+            CharComponents.CharacterPartsContainer.transform
+            );
+        AddCharacterPart(newEquipment);
     }
 
     private void OnDestroy()

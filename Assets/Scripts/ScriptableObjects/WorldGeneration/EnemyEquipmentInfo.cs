@@ -13,7 +13,6 @@ public class EnemyEquipmentInfo : ScriptableObject
     }
 
     public List<EnemySpawnEquipment> PossibleEquipment = new();
-    public List<Holdable> PossibleWeapon;
 
     public List<CharacterEquipmentPart> PickRandomEquipment()
     {
@@ -27,10 +26,5 @@ public class EnemyEquipmentInfo : ScriptableObject
         }
 
         return result;
-    }
-
-    public Holdable PickRandomWeapon()
-    {
-        return NumberMath.PickRandomItem(PossibleWeapon);           
     }
 }

@@ -7,5 +7,6 @@ public class EnemySpawnInfo : ScriptableObject
 {
     public CharacterComponentsManager Enemy;
     public EnemyEquipmentInfo Equipment;
+    public EnemyWeaponInfo Weapon;
     public float Rarity = 1f;
 }

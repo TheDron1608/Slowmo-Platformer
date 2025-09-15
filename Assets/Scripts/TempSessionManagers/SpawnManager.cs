@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
     public static SpawnManager Instance;
 
     public List<LootDropChanceInfo> LootDrops = new();
+    public List<EnemySpawnInfo> EnemyPool = new();
 
     public List<GameObject> GetLootDropsByType(LootDropChanceInfo.LootSpawnerTypes type)
     {
@@ -20,6 +21,20 @@ public class SpawnManager : MonoBehaviour
             }
         }
         return result;
+    }
+
+    public EnemySpawnInfo PickRandomEnemy()
+    {
+        float enemyKey = 0;
+        EnemyPool.ForEach((enemy) => enemyKey += enemy.Rarity);
+        enemyKey *= Random.value;
+
+        foreach (EnemySpawnInfo enemy in EnemyPool)
+        {
+            if (enemyKey <= enemy.Rarity) return enemy;
+            enemyKey -= enemy.Rarity;
+        }
+        throw new UnityException("enemy key out of enemy pool range");
     }
 
     private void Awake()

@@ -193,4 +193,17 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
         return true;
     }
+
+    public void GiveNewHoldable(Holdable holdable)
+    {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject);
+        Holdable newHoldable = Instantiate(
+            holdable,
+            CharComponents.transform.position,
+            holdable.transform.rotation,
+            layer.HoldablesContainer
+            );
+        LayerManager.Instance.ChangeZIndexForGameObject(layer, newHoldable.gameObject);
+        ForceGrab(newHoldable);
+    }
 }
