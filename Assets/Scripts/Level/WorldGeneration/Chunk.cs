@@ -88,7 +88,7 @@ public class Chunk : MonoBehaviour
             return false;
         }
 
-        if (!TryGenerateChunk(addWhere, NumberMath.Vec3ToVec3Int(sourceChunkConnection.Offset + sourceChunkConnection.TargetGeneration.transform.position) - newChunkConnection.GetTilePosition(), building, out newChunkInfo))
+        if (!TryGenerateChunk(addWhere, NumberMath.Vec3ToVec3Int(sourceChunkConnection.GetSpawnPosition()) - newChunkConnection.GetTilePosition(), building, out newChunkInfo))
         {
             //addWhere.TileManager.Debug_MarkTile(sourceChunkConnection.Offset - newChunkConnection.GetTilePosition(), Color.blue, 999f);
             return false;
@@ -102,7 +102,7 @@ public class Chunk : MonoBehaviour
             {
                 for (int i = 0; i < newChunkInfo.Connections.Count; i++)
                 {
-                    if (TileManager.PositionToTilePosition(connection.Offset + connection.TargetGeneration.transform.position) == TileManager.PositionToTilePosition(newChunkInfo.Connections[i].Offset + newChunkInfo.Connections[i].TargetGeneration.transform.position))
+                    if (TileManager.PositionToTilePosition(connection.GetSpawnPosition()) == TileManager.PositionToTilePosition(newChunkInfo.Connections[i].GetSpawnPosition()))
                     {
                         connection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
                         newChunkInfo.Connections[i].Remove();

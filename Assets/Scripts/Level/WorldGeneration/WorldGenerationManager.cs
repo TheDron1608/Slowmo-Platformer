@@ -72,7 +72,7 @@ public class WorldGenerationManager : MonoBehaviour
                     }
                     prevBuilding = newBuilding;
 
-                    currentBuildingEnterPosition = NumberMath.Vec3ToVec3Int(newBuilding.Exit.Offset + newBuilding.Exit.TargetGeneration.transform.position);
+                    currentBuildingEnterPosition = NumberMath.Vec3ToVec3Int(newBuilding.Exit.GetSpawnPosition());
                     currentBuildingLayerIndex = layerIndex;
 
                     break;
@@ -115,7 +115,7 @@ public class WorldGenerationManager : MonoBehaviour
             foreach (
                 ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo avaibleConnection in
                 layer.GetGenerationTempInfoByType<ChunkConnection>(false).OrderBy(
-                    (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) => Vector3.Distance(connection.Offset + connection.TargetGeneration.transform.position, prefferedPosition)
+                    (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) => Vector3.Distance(connection.GetSpawnPosition(), prefferedPosition)
                     )
                 )
             {

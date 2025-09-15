@@ -24,7 +24,7 @@ public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
         Tilemap targetOvergoundTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.OVERGROUND);
 
         int x1 = (int)math.floor(generationInfo.Offset.x + OffsetStart.transform.position.x);
-        int y1 = generationInfo.Building.LowerstCoorY - MIN_VERTICAL_RANGE;
+        int y1 = BuildingInfo.GlobalLowestCoorY - MIN_VERTICAL_RANGE;
         int x2 = (int)math.floor(generationInfo.Offset.x + OffsetEnd.transform.position.x);
         int y2 = (int)math.floor(generationInfo.Offset.y + math.max(OffsetStart.transform.position.y, OffsetEnd.transform.position.y));
 
@@ -60,7 +60,8 @@ public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
         if (building != null)
         {
             int posY = (int)(position.y + math.min(OffsetEnd.transform.position.y, OffsetStart.transform.position.x));
-            if (building.LowerstCoorY > posY) building.LowerstCoorY = posY;
+            if (building.LowestCoorY > posY) building.LowestCoorY = posY;
+            if (BuildingInfo.GlobalLowestCoorY > posY) BuildingInfo.GlobalLowestCoorY = posY;
         }
         return base.PreGenerate(preGenerateWhere, position, building, chunk);
     }

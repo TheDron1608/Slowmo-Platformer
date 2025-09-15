@@ -29,6 +29,11 @@ public abstract class ComplexGenerateionEnviroment : MonoBehaviour
         {
             GenerateWhere.GenerationTempInfo.Remove(this);
         }
+
+        public Vector3 GetSpawnPosition()
+        {
+            return Offset + TargetGeneration.transform.position;
+        }
     }
 
     private ChunkInfo _chunk;

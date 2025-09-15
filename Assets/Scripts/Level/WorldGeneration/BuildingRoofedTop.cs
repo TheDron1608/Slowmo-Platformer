@@ -17,6 +17,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
     public TileBase RoofFillTile;
     public TileBase OvergoundRoofFillTile;
     public int RoofHeight = 3;
+    public int RoofSeparationMinHeightDifference = 25;
 
     public override List<GameObject> Generate(PreGeneratedEnviromentTempInfo generationInfo)
     {
@@ -27,7 +28,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
         int x1 = (int)math.floor(generationInfo.Offset.x + OffsetStart.transform.position.x);
         int y1 = (int)math.floor(generationInfo.Offset.y + math.max(OffsetStart.transform.position.y, OffsetEnd.transform.position.y));
         int x2 = (int)math.floor(generationInfo.Offset.x + OffsetEnd.transform.position.x);
-        int y2 = (int)math.floor(generationInfo.Offset.y + generationInfo.Building.HighestCoorY);
+        int y2 = generationInfo.Building.HighestCoorY;
 
         Tilemap targetTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL);
         Tilemap targetOvergoundTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.OVERGROUND);
@@ -92,6 +93,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
         {
             int posY = (int)(position.y + math.max(OffsetEnd.transform.position.y, OffsetStart.transform.position.x));
             if (building.HighestCoorY < posY) building.HighestCoorY = posY;
+            if (BuildingInfo.GlobalHighestCoorY < posY) BuildingInfo.GlobalHighestCoorY = posY;
         }
         return base.PreGenerate(preGenerateWhere, position, building, chunk);
     }
