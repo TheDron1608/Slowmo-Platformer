@@ -5,6 +5,8 @@ using static ChunkConnection;
 
 public class DoorGenerationPosition : LateGenerateionEnviroment
 {
+    public float RemoveOtherObjectsRadius = 1f;
+
     public class PreGeneratedDoorTempInfo : PreGeneratedEnviromentTempInfo
     {
         public PreGeneratedDoorTempInfo(ZIndexLayer generateWhere, Vector3 offset, ComplexGenerateionEnviroment targetGeneration, BuildingInfo building, ChunkInfo chunk) : base(generateWhere, offset, targetGeneration, building, chunk)
@@ -33,6 +35,20 @@ public class DoorGenerationPosition : LateGenerateionEnviroment
         ZIndexLayer layer = generationInfo.GenerateWhere;
         OnInteractEnterMultiZDoor newDoor = Instantiate(Door, generationInfo.Offset + transform.position, transform.rotation, layer.FurnitureContainer);
         LayerManager.Instance.ChangeZIndexForGameObject(layer, newDoor.gameObject);
+
+        for (int i = 0; i < generationInfo.Chunk.ObjectsInside.Count; i++)
+        {
+            if (
+                Vector2.Distance(generationInfo.Chunk.ObjectsInside[i].transform.position, newDoor.transform.position) <= RemoveOtherObjectsRadius &&
+                generationInfo.Chunk.ObjectsInside[i] != newDoor.gameObject
+                )
+            {
+                Destroy(generationInfo.Chunk.ObjectsInside[i].gameObject);
+                generationInfo.Chunk.ObjectsInside.RemoveAt(i);
+                i--;
+            }
+        }
+
         return new List<GameObject> { newDoor.gameObject };
     }
 

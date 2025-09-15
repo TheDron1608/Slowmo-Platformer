@@ -265,6 +265,9 @@ public class ZIndexLayer : MonoBehaviour
             GameObject newObject = Instantiate(spawnObject, position + spawnObject.transform.position, spawnObject.transform.rotation, transform);
             LayerManager.Instance.ChangeZIndexForGameObject(this, newObject);
             UpdateLayerForGameObject(newObject);
+
+            chunk?.AddObjectInside(newObject);
+
             return new List<GameObject> { newObject };
         }
         else

@@ -10,8 +10,12 @@ public class BreakableObject : MonoBehaviour
 
     [SerializeField] protected List<ParticleSpawner> _brokenPartsParticleSpawners;
 
+    public event EventHandler<MonoBehaviour> OnBroken;
+
     public virtual void BreakObject(MonoBehaviour breaker)
     {
+        OnBroken?.Invoke(this, breaker);
+
         ReleaseObjectsInside();
 
         for (int i = 0; i < _brokenPartsParticleSpawners.Count; i++)
