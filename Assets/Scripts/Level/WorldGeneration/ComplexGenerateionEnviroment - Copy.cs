@@ -59,7 +59,6 @@ public abstract class ComplexGenerateionEnviroment : MonoBehaviour
     public virtual PreGeneratedEnviromentTempInfo PreGenerate(ZIndexLayer preGenerateWhere, Vector3 position, BuildingInfo building, ChunkInfo chunk)
     {
         PreGeneratedEnviromentTempInfo newTempInfo = new PreGeneratedEnviromentTempInfo(preGenerateWhere, position, this, building, chunk);
-        preGenerateWhere.GenerationTempInfo.Add(newTempInfo);
         return newTempInfo;
     }
 }

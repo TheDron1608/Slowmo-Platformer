@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class Chunk : MonoBehaviour
 {
+    public int BaseEnemiesAmount = 1;
+
     public ChunkConnection[] GetConnections()
     {
         return transform.GetComponentsInChildren<ChunkConnection>();

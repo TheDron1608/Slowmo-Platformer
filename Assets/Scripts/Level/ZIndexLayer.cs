@@ -225,7 +225,6 @@ public class ZIndexLayer : MonoBehaviour
     /// can spawn random and multiple objects, like:
     /// * simple GameObject (if has not NonGeneratableObject component)
     /// * ComplexGenerateionEnviroments' objects
-    /// * SpawnManagerDependedSpawners' objects, 
     /// also draws tilemap over existing tilemap
     /// </summary>
     /// <param name="spawnObject">spawned object</param>
@@ -237,7 +236,6 @@ public class ZIndexLayer : MonoBehaviour
     /// * spawned objects
     /// * tilmaps wich were drawn over
     /// * null if spawned only complex generation object or failed generating
-    /// * spawned by SpawnManagerDependedSpawner's gameObjects
     /// </returns>
     public List<GameObject> TrySpawnObject(GameObject spawnObject, Vector3Int position, BuildingInfo building, ChunkInfo chunk)
     {
@@ -264,10 +262,6 @@ public class ZIndexLayer : MonoBehaviour
         {
             complexGeneratable.PreGenerate(this, position, building, chunk);
             return null;
-        }
-        else if (spawnObject.TryGetComponent(out SpawnManagerDependedSpawner spawner))
-        {
-            return spawner.Spawn(this, position);
         }
         else if (spawnObject.GetComponent<NonGeneratableObject>() == null)
         {
