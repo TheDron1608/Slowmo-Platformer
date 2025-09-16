@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
-[DefaultExecutionOrder(-1)]
+[DefaultExecutionOrder(-5)]
 public class LayerManager : MonoBehaviour
 {
     public const string ZLAYER_TAG_NAME = "ZLayer";

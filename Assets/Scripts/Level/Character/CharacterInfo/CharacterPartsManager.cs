@@ -96,12 +96,18 @@ public class CharacterPartsManager : AbstractCharacterComponent
 
     public void GiveNewEquipment(CharacterEquipmentPart equipment)
     {
-        GetCharacterPart(equipment.EquipAtType)?.DestroyPart();
+        if (equipment == null) return;
+
+        foreach (CharacterEquipmentPart limbEquipment in GetCharacterPartEquipment(GetCharacterPart(equipment.EquipAtType)))
+        {
+            limbEquipment.DestroyPart();
+        }
 
         CharacterPart newEquipment = Instantiate(
             equipment,
-            CharComponents.CharacterPartsContainer.transform
+            transform
             );
+        LayerManager.Instance.GetZLayerOfGameObject(newEquipment.gameObject).UpdateLayerForGameObject(newEquipment.gameObject);
         AddCharacterPart(newEquipment);
     }
 

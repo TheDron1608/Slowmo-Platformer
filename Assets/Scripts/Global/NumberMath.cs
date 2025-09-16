@@ -21,10 +21,12 @@ public static class NumberMath
 
     public static T PickRandomItem<T>(List<T> vector)
     {
+        if (vector.Count == 0) return default;
         return vector[(int)(UnityEngine.Random.value * (vector.Count))];
     }
     public static T PickRandomItem<T>(List<T> vector, int limit)
     {
+        if (vector.Count == 0) return default;
         if (limit == -1) return PickRandomItem(vector);
 
         return vector[(int)(UnityEngine.Random.value * Mathf.Min(vector.Count, limit))];

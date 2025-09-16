@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager Instance;
@@ -25,6 +26,8 @@ public class SpawnManager : MonoBehaviour
 
     public EnemySpawnInfo PickRandomEnemy()
     {
+        if (EnemyPool.Count == 0) return null;
+
         float enemyKey = 0;
         EnemyPool.ForEach((enemy) => enemyKey += enemy.Rarity);
         enemyKey *= Random.value;

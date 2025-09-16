@@ -1,8 +1,39 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[DefaultExecutionOrder(-2)]
 public class MultiTileMapsContainer : MonoBehaviour
 {
+    private bool _requestUpdateNavigationAtEndOfFrame = false;
+    private ZIndexLayer _layer;
+
+    private void Awake()
+    {
+        _layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        Tilemap.tilemapTileChanged += Tilemap_tilemapTileChanged;
+    }
+
+    private void Tilemap_tilemapTileChanged(Tilemap arg1, Tilemap.SyncTile[] arg2)
+    {
+        if (LayerManager.Instance.GetZLayerOfGameObject(arg1.gameObject) != _layer) return;
+
+        if (arg1.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? false)
+        {
+            _requestUpdateNavigationAtEndOfFrame = true;
+            Tilemap.tilemapTileChanged -= Tilemap_tilemapTileChanged;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (_requestUpdateNavigationAtEndOfFrame)
+        {
+            _layer.TileManager.UpdateEntireTileAINavigationInfo();
+            _requestUpdateNavigationAtEndOfFrame = false;
+            Tilemap.tilemapTileChanged += Tilemap_tilemapTileChanged;
+        }
+    }
+
     public Tilemap GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType behaviourType)
     {
         foreach (TileBehaviour tileBehaviour in transform.GetComponentsInChildren<TileBehaviour>())

@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -73,7 +75,8 @@ public class TileManager : MonoBehaviour
     }
 
     private Tilemap[] _tilemaps;
-    private List<NavigationPlatformInfo> _navigationPlatforms;
+    private Tilemap[] _validAsPlatformTilemaps;
+    private List<NavigationPlatformInfo> _navigationPlatforms = new();
 
     public static Vector2Int PositionToTilePosition(Vector2 position)
     {
@@ -88,7 +91,16 @@ public class TileManager : MonoBehaviour
     private void Awake()
     {
         _tilemaps = GetComponentsInChildren<Tilemap>();
-        UpdateTileAINavigationInfo();
+
+        List<Tilemap> validAsPlatformTilemapsList = new();
+        foreach (var tilemap in _tilemaps)
+        {
+            if (tilemap.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? false)
+            {
+                validAsPlatformTilemapsList.Add(tilemap);
+            }
+        }
+        _validAsPlatformTilemaps = validAsPlatformTilemapsList.ToArray();
     }
 
     public List<TileBehaviour.TileBehaviourType> GetTileBehavioursAt(Vector2 position)
@@ -128,6 +140,18 @@ public class TileManager : MonoBehaviour
         return false;
     }
 
+    public bool GetHasValidAsPlatformAt(Vector3Int position)
+    {
+        foreach (Tilemap tilemap in _validAsPlatformTilemaps)
+        {
+            if (tilemap.HasTile(position))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool GetTileValidAsPlatformAt(Vector2 position)
     {
         Vector3Int tilePosition =
@@ -158,37 +182,46 @@ public class TileManager : MonoBehaviour
         return null;
     }
 
-    public void UpdateTileAINavigationInfo()
+    public void UpdateEntireTileAINavigationInfo()
     {
         _navigationPlatforms = new();
 
+        NavigationPlatformInfo currentPlatform = null;
+
+        BoundsInt totalCellBounds = _tilemaps.First().cellBounds;
         foreach (Tilemap tilemap in _tilemaps)
         {
-            if (!tilemap.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? true) continue;
-
-            NavigationPlatformInfo currentPlatform = null;
-            foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
+            if ((totalCellBounds.min.x > tilemap.cellBounds.min.x) || (totalCellBounds.min.y > tilemap.cellBounds.min.y))
             {
-                if (tilemap.HasTile(pos) && !tilemap.HasTile(pos + Vector3Int.up))
-                {
-                    if (currentPlatform == null)
-                    {
-                        currentPlatform = new();
-                        currentPlatform.Position = pos;
-                        currentPlatform.Width = 1;
-                    }
-                    else
-                    {
-                        currentPlatform.Width++;
-                    }
-                }
-                else if (currentPlatform != null)
-                {
-                    //currentPlatform.Debug_DrawPlatform(Color.black, 999f);
+                totalCellBounds.min = tilemap.cellBounds.min;
+            }
+            if ((totalCellBounds.max.x < tilemap.cellBounds.max.x) || (totalCellBounds.max.y < tilemap.cellBounds.max.y))
+            {
+                totalCellBounds.max = tilemap.cellBounds.max;
+            }
+        }
 
-                    _navigationPlatforms.Add(currentPlatform);
-                    currentPlatform = null;
+        foreach (Vector3Int pos in totalCellBounds.allPositionsWithin)
+        {
+            if (GetHasValidAsPlatformAt(pos) && !GetHasValidAsPlatformAt(pos + Vector3Int.up))
+            {
+                if (currentPlatform == null)
+                {
+                    currentPlatform = new();
+                    currentPlatform.Position = pos;
+                    currentPlatform.Width = 1;
                 }
+                else
+                {
+                    currentPlatform.Width++;
+                }
+            }
+            else if (currentPlatform != null)
+            {
+                //currentPlatform.Debug_DrawPlatform(Color.black, 999f);
+
+                _navigationPlatforms.Add(currentPlatform);
+                currentPlatform = null;
             }
         }
     }

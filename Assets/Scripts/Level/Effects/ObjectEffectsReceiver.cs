@@ -135,7 +135,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 OnEffectRemoved?.Invoke(this, _currentEffects[i]);
                 GameObject.Destroy(_currentEffects[i].gameObject);
                 _currentEffects.RemoveAt(i);
-                i--;
+                break;
             }
         }
         UpdateEffectMaterial();
@@ -152,7 +152,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 OnEffectRemoved?.Invoke(this, _currentEffects[i]);
                 GameObject.Destroy(_currentEffects[i].gameObject);
                 _currentEffects.RemoveAt(i);
-                i--;
+                break;
             }
         }
         UpdateEffectMaterial();
@@ -164,6 +164,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         for (int i = 0; i < _currentEffects.Count; i++)
         {
             RemoveEffect(effects[i]);
+            break;
         }
     }
 

@@ -7,8 +7,11 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
         float minDistance = MaxEnemyDetectRange;
         ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         CharacterTeam result = null;
-        foreach (CharacterComponentsManager character in currentLayer.CharactersContainer.GetComponentsInChildren<CharacterComponentsManager>())
+        foreach (Transform characterTransform in currentLayer.CharactersContainer.transform)
         {
+            if (!characterTransform.gameObject.activeSelf) continue;
+            if (!characterTransform.TryGetComponent(out CharacterComponentsManager character)) continue;
+
             float charDistance = Vector2.Distance(transform.position, character.transform.position);
             if (
                 charDistance < minDistance &&

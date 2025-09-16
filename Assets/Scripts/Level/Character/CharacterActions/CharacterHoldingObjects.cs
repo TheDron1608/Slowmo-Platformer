@@ -196,6 +196,8 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     public void GiveNewHoldable(Holdable holdable)
     {
+        if (holdable == null) return;
+
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject);
         Holdable newHoldable = Instantiate(
             holdable,

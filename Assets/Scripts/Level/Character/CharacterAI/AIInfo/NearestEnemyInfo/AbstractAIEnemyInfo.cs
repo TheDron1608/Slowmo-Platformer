@@ -4,7 +4,7 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
 {
     public float MaxEnemyDetectRange = 10f;
 
-    protected CharacterTeam _nearestEnemy;
+    protected CharacterTeam _nearestEnemy = null;
     protected float? _nearestEnemyDistance = null;
     protected Vector2? _lastEnemyPosition = null;
     protected float _timeSinceLastEnemyDetection = 0f;

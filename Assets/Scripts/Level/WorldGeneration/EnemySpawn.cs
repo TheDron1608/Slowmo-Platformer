@@ -8,6 +8,8 @@ public class EnemySpawn : SpawnManagerDependedSpawner
     {
         EnemySpawnInfo spawnInfo = SpawnManager.Instance.PickRandomEnemy();
 
+        if (spawnInfo == null || spawnInfo.Enemy == null) return null;
+
         //spawn character
         CharacterComponentsManager newEnemy = Instantiate(
             spawnInfo.Enemy,
@@ -18,10 +20,10 @@ public class EnemySpawn : SpawnManagerDependedSpawner
         LayerManager.Instance.ChangeZIndexForGameObject(generateWhere, newEnemy.gameObject);
 
         //give weapon
-        newEnemy.CharacterHolding.GiveNewHoldable(spawnInfo.Weapon.PickRandomWeapon());
+        newEnemy.CharacterHolding.GiveNewHoldable(spawnInfo.Weapon?.PickRandomWeapon());
 
         //give equipment
-        foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment.PickRandomEquipment()) {
+        foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment?.PickRandomEquipment()) {
             newEnemy.CharacterPartsManager.GiveNewEquipment(randomEquipment);
         }
 
