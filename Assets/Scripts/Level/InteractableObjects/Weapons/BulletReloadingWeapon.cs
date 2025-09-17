@@ -12,17 +12,14 @@ public class BulletReloadingWeapon : RangedWeapon
     public int AmmoAmountPerUnload = 1;
     public int MaxLoadedAmmo = 1;
 
-    protected override bool OnTryAttackSuccess(Vector2 direction)
+    protected override void OnTryAttackFail(Vector2 direction)
     {
         if (IsReloading)
         {
             TryFinishReload();
-            return false;
         }
 
-        base.OnTryAttackSuccess(direction);
-
-        return true;
+        base.OnTryAttackFail(direction);
     }
 
     protected override bool ReloadCondition()

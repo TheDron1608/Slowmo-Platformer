@@ -55,7 +55,7 @@ public class RangedWeapon : ThrowableWeapon
     public bool IsReloading
     {
         get => _isReloading;
-        set => _isReloading = value;
+        private set => _isReloading = value;
     }
 
 
@@ -164,7 +164,6 @@ public class RangedWeapon : ThrowableWeapon
     protected virtual void OnReload()
     {
         IsReloading = true;
-        Unloaded = true;
         _animator.SetBool(ANIMATOR_IS_RELOADING_PROP_NAME, true);
     }
 

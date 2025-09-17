@@ -6,9 +6,4 @@ public class DoNotAim : AbstractAIAttacking
     {
         CharComponents.CharacterAiming.AimWeaponDown = true;
     }
-
-    private void OnDisable()
-    {
-        CharComponents.CharacterAiming.AimWeaponDown = false;
-    }
 }
