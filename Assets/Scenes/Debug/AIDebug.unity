@@ -624,7 +624,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8250013439591236225, guid: aff5da73dbd227449ba01949f1796d33, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1068,7 +1068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5635036139829324690, guid: 9a126daef42f3574ab721cccf4d914ec, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15365,6 +15365,10 @@ PrefabInstance:
     - target: {fileID: 8250013439591236225, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: m_Name
       value: DefaultSlowReactionEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8250013439591236225, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

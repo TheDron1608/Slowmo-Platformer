@@ -1,11 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class SlowReactionAIAttacking : AbstractAIAttacking
 {
+    public float StartAttackDelaySeconds = 1f;
     public float MaxRangeForMeleeAttack = 1.75f;
     public bool AlwaysHammerWeaponBeforeAttack = true;
 
     private Vector2? _currentAttackPoint;
+    private bool _attackIsDelaying = true;
+    private Coroutine _attackDelayingCoroutine = null;
 
     private void FixedUpdate()
     {
@@ -51,18 +55,38 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
                 )
             {
                 CharComponents.CharacterAiming.TargetAimPoint = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
-                if (CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.TargetAimPoint))
-                {
-                    _currentAttackPoint = CharComponents.CharacterAiming.TargetAimPoint;
-                }
 
+                if (_attackIsDelaying == true)
+                {
+                    CharComponents.CharacterAiming.AimWeaponDown = false;
+                    if (_attackDelayingCoroutine == null) _attackDelayingCoroutine = StartCoroutine(AwaitStartAttackDelay());
+                }
+                else
+                {
+                    if (CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.TargetAimPoint))
+                    {
+                        _currentAttackPoint = CharComponents.CharacterAiming.TargetAimPoint;
+                    }
+                }
+            }
+            else
+            {
+                _attackIsDelaying = true;
             }
         }
         else
         {
             //stops hammering weapon if no enemy nearby
             CharComponents.CharacterAttacking.TryStopHammerringWeapon();
+            _attackIsDelaying = true;
         }
+    }
+
+    private IEnumerator AwaitStartAttackDelay()
+    {
+        yield return new WaitForSeconds(StartAttackDelaySeconds);
+        _attackIsDelaying = false;
+        _attackDelayingCoroutine = null;
     }
 
     protected override void OnAwake()

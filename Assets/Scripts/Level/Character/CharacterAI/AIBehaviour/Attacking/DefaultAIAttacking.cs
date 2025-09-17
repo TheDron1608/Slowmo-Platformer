@@ -1,10 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class DefaultAIAttacking : AbstractAIAttacking
 {
-    const float MAX_AIM_POINT_DISTANCE_TO_TARGET_TO_ATTACK = 1f;
-
+    public float StartAttackDelaySeconds = 1f;
     public bool AlwaysHammerWeaponBeforeAttack = true;
+
+    private bool _attackIsDelaying = true;
+    private Coroutine _attackDelayingCoroutine = null;
 
     private void FixedUpdate()
     {
@@ -42,7 +45,6 @@ public class DefaultAIAttacking : AbstractAIAttacking
             //trying attack if no need to hammer weapon or start chainsaw
             else if (
                 CharComponents.CharacterAttacking.IsAbleToAttack && 
-                Vector2.Distance(CharComponents.CharacterAiming.CurrentAimPoint, CharComponents.CharacterAiming.TargetAimPoint) <= MAX_AIM_POINT_DISTANCE_TO_TARGET_TO_ATTACK &&
                     (
                     CharComponents.CharacterAttacking.UnarmedAttackProjectile != null ||
                         (
@@ -63,13 +65,34 @@ public class DefaultAIAttacking : AbstractAIAttacking
                     )
                 )
             {
-                CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+                if (_attackIsDelaying == true)
+                {
+                    CharComponents.CharacterAiming.AimWeaponDown = false;
+                    if (_attackDelayingCoroutine == null) _attackDelayingCoroutine = StartCoroutine(AwaitStartAttackDelay());
+                }
+                else
+                {
+                    CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+                }
+            }
+            else
+            {
+                _attackIsDelaying = true;
             }
         }
         else
         {
             //stops hammering weapon if no enemy nearby
             CharComponents.CharacterAttacking.TryStopHammerringWeapon();
+            CharComponents.CharacterAiming.AimWeaponDown = true;
+            _attackIsDelaying = true;
         }
+    }
+
+    private IEnumerator AwaitStartAttackDelay()
+    {
+        yield return new WaitForSeconds(StartAttackDelaySeconds);
+        _attackIsDelaying = false;
+        _attackDelayingCoroutine = null;
     }
 }
