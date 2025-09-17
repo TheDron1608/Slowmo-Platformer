@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class DefaultAIAttacking : AbstractAIAttacking
 {
+    const float MAX_AIM_POINT_DISTANCE_TO_TARGET_TO_ATTACK = 1f;
+
     public bool AlwaysHammerWeaponBeforeAttack = true;
 
     private void FixedUpdate()
@@ -40,6 +42,7 @@ public class DefaultAIAttacking : AbstractAIAttacking
             //trying attack if no need to hammer weapon or start chainsaw
             else if (
                 CharComponents.CharacterAttacking.IsAbleToAttack && 
+                Vector2.Distance(CharComponents.CharacterAiming.CurrentAimPoint, CharComponents.CharacterAiming.TargetAimPoint) <= MAX_AIM_POINT_DISTANCE_TO_TARGET_TO_ATTACK &&
                     (
                     CharComponents.CharacterAttacking.UnarmedAttackProjectile != null ||
                         (

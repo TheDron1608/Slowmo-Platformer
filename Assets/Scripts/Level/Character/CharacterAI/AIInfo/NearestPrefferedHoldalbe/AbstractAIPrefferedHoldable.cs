@@ -27,8 +27,6 @@ public abstract class AbstractAIPrefferedHoldable : AbstractAIInfo
         Transform holdablesContainer = currentLayer.HoldablesContainer.transform;
         foreach (Holdable holdable in holdablesContainer.GetComponentsInChildren<Holdable>())
         {
-            float distanceToHoldable = Vector2.Distance(CharComponents.Center.transform.position, holdable.transform.position);
-
             if (PickUpCondition(holdable))
             {
                 if (
@@ -48,14 +46,13 @@ public abstract class AbstractAIPrefferedHoldable : AbstractAIInfo
     {
         return
             holdable.CurrentHolder == null &&
-            CharComponents.CharacterHolding.LastHoldObject != holdable &&
             holdable.AIPickUpPriority >= MinWeaponPriority &&
             Vector2.Distance(CharComponents.Center.transform.position, holdable.transform.position) <= MaxWeaponDetectRange &&
             (CanCatchDangerousHoldable || !holdable.GetIsDangerouslyFast()) &&
-            (!holdable.TryGetComponent(out RangedWeapon rangedWeapon) || rangedWeapon.LoadedLivingAmmoLeft > 0 || rangedWeapon.AmmoLeft > 0) &&
+            (!holdable.TryGetComponent(out RangedWeapon rangedWeapon) || !rangedWeapon.GetIsOutOfAmmo()) &&
             Physics2D.Linecast(
                 CharComponents.Center.transform.position,
-                holdable.transform.position,
+                holdable.TryGetComponent(out Collider2D col) ? GameObjectUtility.GetCenterOfCollider(col) : holdable.transform.position,
                 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
                 ).collider == null;
     }
