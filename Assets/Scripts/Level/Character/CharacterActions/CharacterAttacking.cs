@@ -164,10 +164,6 @@ public class CharacterAttacking : AbstractCharacterComponent
 
 
         yield return new WaitForSeconds(CLUMSY_RANGED_POST_ATTACK_DELAY_SECONDS);
-        if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
-        {
-            CharComponents.CharacterAiming.AimWeaponDown = true;
-        }
     }
 
     public bool ForceAttack(Vector2 direction)

@@ -4,6 +4,7 @@ using UnityEngine;
 public class DefaultAIAttacking : AbstractAIAttacking
 {
     public float StartAttackDelaySeconds = 1f;
+    public float StopAttackAimingDelaySeconds = 3.5f;
     public bool AlwaysHammerWeaponBeforeAttack = true;
 
     private bool _attackIsDelaying = true;
@@ -65,7 +66,7 @@ public class DefaultAIAttacking : AbstractAIAttacking
                     )
                 )
             {
-                if (_attackIsDelaying == true)
+                if (_attackIsDelaying)
                 {
                     CharComponents.CharacterAiming.AimWeaponDown = false;
                     if (_attackDelayingCoroutine == null) _attackDelayingCoroutine = StartCoroutine(AwaitStartAttackDelay());
@@ -75,17 +76,12 @@ public class DefaultAIAttacking : AbstractAIAttacking
                     CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
                 }
             }
-            else
-            {
-                _attackIsDelaying = true;
-            }
         }
-        else
+        else if (_selfStateBehaviourAI.NearestEnemyInfo.TimeSinceLastEnemyDetection > StopAttackAimingDelaySeconds)
         {
-            //stops hammering weapon if no enemy nearby
+            _attackIsDelaying = true;
             CharComponents.CharacterAttacking.TryStopHammerringWeapon();
             CharComponents.CharacterAiming.AimWeaponDown = true;
-            _attackIsDelaying = true;
         }
     }
 

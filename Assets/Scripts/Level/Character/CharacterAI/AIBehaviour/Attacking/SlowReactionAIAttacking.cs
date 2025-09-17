@@ -4,6 +4,7 @@ using UnityEngine;
 public class SlowReactionAIAttacking : AbstractAIAttacking
 {
     public float StartAttackDelaySeconds = 1f;
+    public float StopAimingDelaySeconds = 3.5f;
     public float MaxRangeForMeleeAttack = 1.75f;
     public bool AlwaysHammerWeaponBeforeAttack = true;
 
@@ -16,7 +17,11 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
         if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null)
         {
             //aiming at enemy
-            CharComponents.CharacterAiming.TargetAimPoint = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
+            if (_currentAttackPoint == null)
+            {
+                _currentAttackPoint = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
+                CharComponents.CharacterAiming.TargetAimPoint = _currentAttackPoint.Value;
+            }
 
             //trying hammer weapon if AlwayHammerWeaponBeforeAttack else attack immediantely
             if (
@@ -54,18 +59,16 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
                     )
                 )
             {
-                CharComponents.CharacterAiming.TargetAimPoint = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
-
-                if (_attackIsDelaying == true)
+                if (_attackIsDelaying)
                 {
                     CharComponents.CharacterAiming.AimWeaponDown = false;
                     if (_attackDelayingCoroutine == null) _attackDelayingCoroutine = StartCoroutine(AwaitStartAttackDelay());
                 }
-                else
+                else if (CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim())
                 {
                     if (CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.TargetAimPoint))
                     {
-                        _currentAttackPoint = CharComponents.CharacterAiming.TargetAimPoint;
+                        _currentAttackPoint = null;
                     }
                 }
             }
@@ -74,10 +77,12 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
                 _attackIsDelaying = true;
             }
         }
-        else
+        else if (_selfStateBehaviourAI.NearestEnemyInfo.TimeSinceLastEnemyDetection > StopAimingDelaySeconds)
         {
             //stops hammering weapon if no enemy nearby
             CharComponents.CharacterAttacking.TryStopHammerringWeapon();
+            _currentAttackPoint = null;
+            CharComponents.CharacterAiming.AimWeaponDown = true;
             _attackIsDelaying = true;
         }
     }
