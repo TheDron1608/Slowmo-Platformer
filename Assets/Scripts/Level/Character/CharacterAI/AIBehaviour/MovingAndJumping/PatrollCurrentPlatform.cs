@@ -5,6 +5,7 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
 {
     public float PatroolSpeedMultiplier = 0.8f;
     public float OnReachedPatformEndAwaitingTime = 1f;
+    public bool CanOpenDoors = false;
 
     private enum PatrollDirection
     {
@@ -16,6 +17,22 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
 
     private PatrollDirection _currentPatrollDirection = PatrollDirection.UNSET;
     private Coroutine _currentPatrollDirectionSetCoroutine = null;
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollision_OnCollisionChanged;
+    }
+
+    private void CharacterCollision_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
+    {
+        if (!CanOpenDoors && (e.Collider?.TryGetComponent(out OnInteractToggleOpenDoor door) ?? false))
+        {
+            _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(
+                _currentPatrollDirection == PatrollDirection.LEFT ? PatrollDirection.RIGHT : PatrollDirection.LEFT)
+                );
+        }
+    }
 
     private void OnEnable()
     {
