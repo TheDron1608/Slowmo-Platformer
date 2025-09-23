@@ -130,9 +130,18 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         }
 
         //setting current holded object's location
+        RaycastHit2D holdableEnviromentHit = Physics2D.Raycast(
+            CharComponents.Center.transform.position,
+            currentAim,
+            _currentHoldObject.HoldDistanceWhenIsHolded + _currentHoldObject.GetComponent<BoxCollider2D>().size.x / 2,
+            1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
+            );
+
         Vector2 holdObjectPositionXY = Vector2.Lerp(
             _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
-            VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
+            holdableEnviromentHit.collider != null ? 
+                holdableEnviromentHit.point - currentAim * _currentHoldObject.GetComponent<BoxCollider2D>().size.x / 2 : 
+                VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
             aimDelta
             );
 
