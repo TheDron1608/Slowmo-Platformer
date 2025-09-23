@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: HeavyFullyArmored
   m_EditorClassIdentifier: 
   PossibleEquipment:
-  - SpawnChance: 1
-    EquipmentPool:
+  - EquipmentPool:
     - {fileID: 5056606012987258098, guid: 47a304df1d0362d459b849d63822b92d, type: 3}
-  - SpawnChance: 1
-    EquipmentPool:
     - {fileID: 5056606012987258098, guid: 4a742d92cd60b754b8b85b28bd995ea3, type: 3}

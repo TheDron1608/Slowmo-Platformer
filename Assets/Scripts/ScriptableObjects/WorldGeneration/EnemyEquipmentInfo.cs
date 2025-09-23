@@ -8,7 +8,6 @@ public class EnemyEquipmentInfo : ScriptableObject
     [Serializable]
     public class EnemySpawnEquipment
     {
-        public float SpawnChance = 1f;
         public List<CharacterEquipmentPart> EquipmentPool;
     }
 
@@ -16,15 +15,6 @@ public class EnemyEquipmentInfo : ScriptableObject
 
     public List<CharacterEquipmentPart> PickRandomEquipment()
     {
-        List<CharacterEquipmentPart> result = new();
-
-        foreach (EnemySpawnEquipment equipmentInfo in PossibleEquipment)
-        {
-            if (equipmentInfo.SpawnChance < 1f && UnityEngine.Random.value > equipmentInfo.SpawnChance) continue;
-
-            result.Add(NumberMath.PickRandomItem(equipmentInfo.EquipmentPool));
-        }
-
-        return result;
+        return NumberMath.PickRandomItem(PossibleEquipment).EquipmentPool;
     }
 }

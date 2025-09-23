@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: MinorFullyArmored
   m_EditorClassIdentifier: 
   PossibleEquipment:
-  - SpawnChance: 1
-    EquipmentPool:
+  - EquipmentPool:
     - {fileID: 5056606012987258098, guid: 1b07b832d2901db47a0d4d8fbf9b1dd1, type: 3}
-  - SpawnChance: 1
-    EquipmentPool:
     - {fileID: 5056606012987258098, guid: e5d9ef642ff5d5b44a3648b0e0df9c7e, type: 3}
