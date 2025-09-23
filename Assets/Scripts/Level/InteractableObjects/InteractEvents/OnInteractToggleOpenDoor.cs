@@ -68,7 +68,6 @@ public class OnInteractToggleOpenDoor : Interactable
 
     protected override void OnStartInteact(GameObject interactor)
     {
-        Debug.Log(interactor);
         base.OnStartInteact(interactor);
         if (IsOpen)
         {

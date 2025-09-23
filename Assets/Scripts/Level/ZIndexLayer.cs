@@ -208,6 +208,8 @@ public class ZIndexLayer : MonoBehaviour
                 gameObject.layer = gameObject.transform.parent.gameObject.layer;
                 break;
         }
+
+        SetAlphaForAllChildren(LayerAlpha, gameObject.transform);
     }
 
     public ZIndexLayer PickLayerAbove()

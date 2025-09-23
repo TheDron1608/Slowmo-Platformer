@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class CharacterInteractWithObjects : AbstractCharacterComponent
 {
     const float RAYCASTS_ACROSS_RADIAN_STEP = 0.05f;
+
+    public event EventHandler<Interactable> OnInteracted;
 
     public float InteractRange = 1f;
 
@@ -102,6 +105,14 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
 
     public bool TryInteract(Interactable interactable)
     {
-        return interactable.TryInteract(CharComponents.gameObject);
+        if (interactable.TryInteract(CharComponents.gameObject))
+        {
+            OnInteracted?.Invoke(gameObject, interactable);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

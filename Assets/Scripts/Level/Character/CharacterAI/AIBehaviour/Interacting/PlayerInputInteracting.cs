@@ -45,7 +45,7 @@ public class PlayerInputInteracting : AbstractAIInteracting
     {
         if (CurrentSelectedInteractObject != null)
         {
-            CurrentSelectedInteractObject.TryInteract(CharComponents.gameObject);
+            CharComponents.CharacterInteract.TryInteract(CurrentSelectedInteractObject);
         }
     }
 
