@@ -12,7 +12,7 @@ public class BulletProjectile : AbstractRangedProjectile
 
         BulletProjectile newProjectile = Instantiate(
                 this,
-                weapon.transform.position,
+                weapon.ProjectileSpawnPosition.transform.position,
                 direction,
                 LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).ProjectilesContainer
                 );

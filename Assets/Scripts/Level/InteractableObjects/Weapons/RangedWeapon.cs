@@ -12,7 +12,6 @@ public class RangedWeapon : ThrowableWeapon
         BUCKSHOT_BURST
     }
 
-    protected const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
     protected const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
     protected const string CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudParticleSpawner";
     protected const string ANIMATOR_IS_RELOADING_PROP_NAME = "IsReloading";
@@ -27,7 +26,6 @@ public class RangedWeapon : ThrowableWeapon
 
     private bool _isReloading = false;
     private bool _unloaded = false;
-    private Transform _projectileSpawnPosition;
     private ParticleSpawner _bulletParticleSpawner;
     private ParticleSpawner _cloudParticleSpawner;
 
@@ -36,7 +34,6 @@ public class RangedWeapon : ThrowableWeapon
     {
         base.OnAwake();
 
-        _projectileSpawnPosition = transform.Find(PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME);
         _bulletParticleSpawner = transform.Find(BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
         _cloudParticleSpawner = transform.Find(CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
     }

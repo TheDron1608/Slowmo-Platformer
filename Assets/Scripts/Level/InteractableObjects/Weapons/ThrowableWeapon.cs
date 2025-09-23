@@ -23,11 +23,6 @@ public abstract class ThrowableWeapon : Weapon
         }
     }
 
-    private void Awake()
-    {
-        OnAwake();
-    }
-
     protected override void OnAwake()
     {
         base.OnAwake();

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
+    protected const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
 
     [Header("Weapon")]
     [SerializeField] private float _attackCooldown = .25f;
@@ -17,6 +18,7 @@ public abstract class Weapon : MonoBehaviour
     public float DurationBetweenRepeatAttacks = 0.0667f; //in seconds
 
     private bool _isInCooldown = false;
+    private Transform _projectileSpawnPosition;
     private List<AbstractProjectile> _projectiles = new();
 
     public float AttackCooldown
@@ -47,6 +49,12 @@ public abstract class Weapon : MonoBehaviour
         set => _projectiles = value;
     }
 
+    public Transform ProjectileSpawnPosition
+    {
+        get => _projectileSpawnPosition;
+        protected set => _projectileSpawnPosition = value;
+    }
+
 
     private void Awake()
     {
@@ -55,7 +63,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-
+        _projectileSpawnPosition = transform.Find(PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME);
     }
 
     public Vector2 GetCurrentAvaibleAim()

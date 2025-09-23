@@ -42,7 +42,7 @@ public class MeleeProjectile : AbstractProjectile
 
         MeleeProjectile newProjectile = Instantiate(
                 this,
-                weapon.transform.position,
+                weapon.ProjectileSpawnPosition.transform.position,
                 VectorMath.RandomizeQuarternion(direction, Accuracy),
                 LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).ProjectilesContainer
                 );
