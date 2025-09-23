@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 [DefaultExecutionOrder(-2)]
 public class MultiTileMapsContainer : MonoBehaviour
 {
-    private bool _requestUpdateNavigationAtEndOfFrame = false;
+    private bool _requestUpdateNavigationAtEndOfFrame = true;
     private ZIndexLayer _layer;
 
     private void Awake()
