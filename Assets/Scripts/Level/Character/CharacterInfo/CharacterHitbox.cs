@@ -1,12 +1,21 @@
-using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using static CharacterVisual;
-using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterHitbox : AbstractCharacterComponent
 {
+    const float FLIP_H_CHANGE_DURATION = 0.1f;
+
+    private Coroutine _changeHitboxSmoothlyCoroutine = null;
+
+    public bool GetIsChangingHitBox()
+    {
+        return _changeHitboxSmoothlyCoroutine != null;
+    }
+
     [Serializable]
     public class HitBoxTransform
     {
@@ -26,8 +35,14 @@ public class CharacterHitbox : AbstractCharacterComponent
     protected override void OnAwake()
     {
         base.OnAwake();
-        SetHitBoxTransform(AvaibleHitBoxTransforms.DEFAULT);
+        SetHitBoxTransform(AvaibleHitBoxTransforms.DEFAULT, 0.1f);
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
+        CharComponents.CharacterVisual.OnSpriteFlippedChanged += CharacterVisual_OnSpriteFlippedChanged;
+    }
+
+    private void CharacterVisual_OnSpriteFlippedChanged(object sender, bool e)
+    {
+        UpdateFlipHHitBoxTransform();
     }
 
     /// <summary>
@@ -63,29 +78,62 @@ public class CharacterHitbox : AbstractCharacterComponent
 
     public List<HitBoxTransform> HitBoxTransforms = new();
 
-    public void SetHitBoxTransform(AvaibleHitBoxTransforms value)
+    public void UpdateFlipHHitBoxTransform()
     {
-        if (_currentHitBoxTransform == value) return;
+        SetHitBoxTransform(_currentHitBoxTransform, FLIP_H_CHANGE_DURATION);
+    }
 
-        SetColliderTransform(HitBoxTransforms[(int)value]);
+    public void SetHitBoxTransform(AvaibleHitBoxTransforms value, float smoothChangeDuration)
+    {
+        if (_currentHitBoxTransform == value && (CharComponents.CharacterVisual.FlippedH ^ transform.localScale.x < 0f)) return;
+
+        SetColliderTransform(HitBoxTransforms[(int)value], smoothChangeDuration);
 
         _currentHitBoxTransform = value;
     }
 
-    private void SetColliderTransform(HitBoxTransform value)
+    private void SetColliderTransform(HitBoxTransform value, float smoothChangeDuration)
     {
-        transform.localPosition = value.Position;
-        transform.localRotation = value.Rotation;
-        transform.localScale = value.Scale;
-        if (TryGetComponent(out CapsuleCollider2D capsule))
-        {
-            capsule.direction = value.FlipCapsuleDirection ? CapsuleDirection2D.Horizontal : CapsuleDirection2D.Vertical;
-        }
+        if (_changeHitboxSmoothlyCoroutine != null) StopCoroutine(_changeHitboxSmoothlyCoroutine);
+        _changeHitboxSmoothlyCoroutine = StartCoroutine(ChangeHitboxSmoothly(value, smoothChangeDuration));
 
         if (HitBoxTransforms[(int)_currentHitBoxTransform] != value)
         {
             CharComponents.CharacterStuckedObjects.RemoveAllStuckedObjects();
         }
+    }
+
+    private IEnumerator ChangeHitboxSmoothly(HitBoxTransform targetHitbox, float smoothChangeDuration)
+    {
+        Vector3 basePosition = transform.localPosition;
+        Vector3 baseScale = transform.localScale;
+        Quaternion baseRotation = transform.localRotation;
+        float timeSpent = 0f;
+
+        while (timeSpent < smoothChangeDuration)
+        {
+            if (timeSpent > smoothChangeDuration / 2f && TryGetComponent(out CapsuleCollider2D capsule))
+            {
+                capsule.direction = targetHitbox.FlipCapsuleDirection ? CapsuleDirection2D.Horizontal : CapsuleDirection2D.Vertical;
+            }
+
+            transform.localPosition = math.lerp(basePosition, new Vector3(
+                CharComponents.CharacterVisual.FlippedH ? -targetHitbox.Position.x : targetHitbox.Position.x,
+                targetHitbox.Position.y,
+                targetHitbox.Position.z
+                ), timeSpent / smoothChangeDuration);
+            transform.localScale = math.lerp(baseScale, new Vector3(
+                CharComponents.CharacterVisual.FlippedH ? -targetHitbox.Scale.x : targetHitbox.Scale.x, 
+                targetHitbox.Scale.y, 
+                targetHitbox.Scale.z
+                ), timeSpent / smoothChangeDuration);
+            transform.localRotation = math.slerp(baseRotation, targetHitbox.Rotation, timeSpent / smoothChangeDuration);
+
+            yield return new WaitForFixedUpdate();
+            timeSpent += Time.deltaTime;
+        }
+
+        _changeHitboxSmoothlyCoroutine = null;
     }
 
     public Collider2D GetCollider()

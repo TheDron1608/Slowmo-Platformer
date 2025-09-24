@@ -104,9 +104,13 @@ public static class VectorMath
         return vector + randomziedDirection * accuracy;
     }
 
-    public static Vector2 ReverseVectorXY(Vector2 vector)
+    public static Vector2 ReverseVector2XY(Vector2 vector)
     {
         return new Vector2(vector.y, vector.x);
+    }
+    public static Vector2 ReverseVector3XY(Vector3 vector)
+    {
+        return new Vector3(vector.y, vector.x, vector.z);
     }
 
     public static Vector2 RotateVec2(Vector2 vector, float delta)

@@ -28,7 +28,6 @@ public class DefaultAIInteracting : AbstractAIInteracting
         yield return new WaitForSeconds(OpenDoorDelaySeconds);
         if (!door.IsOpen)
         {
-            Debug.Log(gameObject.name);
             CharComponents.CharacterInteract.TryInteract(door);
         }
     }

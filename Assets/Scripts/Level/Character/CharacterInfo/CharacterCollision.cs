@@ -127,11 +127,11 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         float rayCastHitRange = 
             (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
-                CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x : 
-                CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y
+                CharComponents.CharacterRigidBodyCapsuleCollider.size.x * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x) : 
+                CharComponents.CharacterRigidBodyCapsuleCollider.size.y * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y)
             ) / 2 + COLLISION_HIT_DETECION_THICKNESS;
 
-        //Debug.DrawLine(from, from + align * rayCastHitRange, Color.green);
+        Debug.DrawLine(from, from + align * rayCastHitRange, Color.green);
         return Physics2D.Raycast(from, align, rayCastHitRange, 1 << _currentZLayer.EnviromentLayer).collider?.gameObject;
     }
 
@@ -144,10 +144,12 @@ public class CharacterCollision : AbstractCharacterComponent
     private GameObject RaycastHitFromHead(Vector2 align)
     {
         float extraOffset = math.abs(
-            CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y - 
-            CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x
+            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
+            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x)
             ) / 2;
-        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? new Vector2(0f, extraOffset) : new Vector2(extraOffset, 0f);
+        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
+            new Vector2(0f, extraOffset) : 
+            new Vector2(extraOffset, 0f);
 
         Vector2 rayCastHitOrigin =
             VectorMath.Vec3ToVec2(transform.position) +
@@ -159,11 +161,13 @@ public class CharacterCollision : AbstractCharacterComponent
     private GameObject RaycastHitFromLegs(Vector2 align)
     {
         float extraOffset = math.abs(
-            CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y - 
-            CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x
+            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
+            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x)
             ) / 2;
 
-        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? new Vector2(0f, extraOffset) : new Vector2(extraOffset, 0f);
+        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
+            new Vector2(0f, extraOffset) :
+            new Vector2(extraOffset, 0f);
 
         Vector2 rayCastHitOrigin =
             VectorMath.Vec3ToVec2(transform.position) + 
