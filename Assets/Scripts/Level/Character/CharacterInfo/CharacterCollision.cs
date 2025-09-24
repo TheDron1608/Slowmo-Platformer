@@ -131,7 +131,7 @@ public class CharacterCollision : AbstractCharacterComponent
                 CharComponents.CharacterRigidBodyCapsuleCollider.size.y * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y)
             ) / 2 + COLLISION_HIT_DETECION_THICKNESS;
 
-        Debug.DrawLine(from, from + align * rayCastHitRange, Color.green);
+        //Debug.DrawLine(from, from + align * rayCastHitRange, Color.green);
         return Physics2D.Raycast(from, align, rayCastHitRange, 1 << _currentZLayer.EnviromentLayer).collider?.gameObject;
     }
 
@@ -288,7 +288,7 @@ public class CharacterCollision : AbstractCharacterComponent
     public void UpdateHitVelocity()
     {
         if (
-            VectorMath.Vec2ToDistance(CharComponents.CharacterRigidBody.linearVelocity) >= SpeedToHitOtherCharacters && 
+            GetHasEnoughVelocityToHit() && 
             (
                 (CanHitWhileHardStnned && CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>()) ||
                 (CanHitWhileRolling && CharComponents.CharacterRolling.IsRolling) ||
@@ -301,6 +301,7 @@ public class CharacterCollision : AbstractCharacterComponent
                 if (
                     hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
                     otherCharComponent.CharComponents.CharacterCollision != this &&
+                    !otherCharComponent.CharComponents.CharacterCollision.GetHasEnoughVelocityToHit() &&
                     !CharComponents.CharacterEffectsReceiver.GetCharacterIsLastSender(otherCharComponent)
                     )
                 {
@@ -316,6 +317,11 @@ public class CharacterCollision : AbstractCharacterComponent
                 }
             }
         }
+    }
+
+    public bool GetHasEnoughVelocityToHit()
+    {
+        return VectorMath.Vec2ToDistance(CharComponents.CharacterRigidBody.linearVelocity) >= SpeedToHitOtherCharacters;
     }
 
     public Vector2 GetColliderSize()
