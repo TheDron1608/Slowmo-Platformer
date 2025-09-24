@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class CharacterHoldingObjects : AbstractCharacterComponent
 {
+    const float DISARM_DROP_VELOCITY_MULTIPLIER = 0.1f;
+
     public class OnThewEventArgs
     {
         public OnThewEventArgs(Holdable thrownObject, Vector2 direction)
@@ -19,6 +21,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     [SerializeField] private bool _isAbleToGrabObjects = true;
     [SerializeField] private bool _isAbleToThrowObjects = true;
+    [SerializeField] private bool _canBeDisarmed = true;
     [SerializeField] private Holdable _currentHoldObject = null;
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
@@ -80,6 +83,12 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     {
         get => _isAbleToThrowObjects;
         set => _isAbleToThrowObjects = value;
+    }
+
+    public bool CanBeDisarmed
+    {
+        get => _canBeDisarmed;
+        set => _canBeDisarmed = value;  
     }
 
     protected override void OnAwake()
@@ -165,6 +174,21 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             return false;
         }
 
+    }
+
+    public bool TryDisarm(CharacterHoldingObjects giveDisarmedHoldableTo = null)
+    {
+        if (!CanBeDisarmed) return false;
+
+        if (ForceThrow(CharComponents.CharacterAiming.GetCurrentAimNormalized(), DISARM_DROP_VELOCITY_MULTIPLIER))
+        {
+            giveDisarmedHoldableTo?.TryGrab(LastHoldObject);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public bool ForceThrow(Vector2 align, float throwForceMultiplier = 1f)

@@ -15,6 +15,6 @@ public class EnemyEquipmentInfo : ScriptableObject
 
     public List<CharacterEquipmentPart> PickRandomEquipment()
     {
-        return NumberMath.PickRandomItem(PossibleEquipment).EquipmentPool;
+        return NumberMath.PickRandomItem(PossibleEquipment)?.EquipmentPool;
     }
 }
