@@ -82,6 +82,7 @@ public class MeleeProjectile : AbstractProjectile
 
             if (HitCondition(hitObjects, hitObjects[i]))
             {
+                Debug.Log(hitObjects[i].gameObject.name);
                 AddCurrentHittingCollidersItem(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
             }
@@ -95,7 +96,7 @@ public class MeleeProjectile : AbstractProjectile
 
         if (!Weapon.IsDestroyed())
         {
-            transform.position = Weapon.transform.position;
+            transform.position = Weapon.ProjectileSpawnPosition.transform.position;
         }
     }
 
