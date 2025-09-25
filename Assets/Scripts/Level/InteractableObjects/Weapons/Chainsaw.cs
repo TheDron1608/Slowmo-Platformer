@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Chainsaw : MeleeWeapon
@@ -13,14 +14,15 @@ public class Chainsaw : MeleeWeapon
     const string KNOCKBACK_COLLIDER_GAMEOBJECT_NAME = "KnockbackCollider";
 
     [Header("Chainsaw")]
-    public float FullUnpowerRequiredTime = 5f; //in seconds
-    public float ChanceToSucessStart = 0.1f;
+    public float MaxFuel = 10f;
+    public float MaxStartSuccessChance = .75f;
+    public float MinStartSuccessChance = 0.25f;
+    public float MaxJampChancePerSecond = 0.667f;
+    public float MinJamChancePerSecond = 0f;
 
-    private float _chainsawPowerLeft = 0f;
-    /// <summary>
-    /// Value between 1 and 0, increases by ChanceToSucessLoad if previous attempt to load was failed
-    /// </summary>
-    private float _currentChanceToSuccessStart = 0f;
+    private float _fuelLeft;
+
+
     private bool _isStarting = false;
     private bool _started = false;
 
@@ -35,15 +37,7 @@ public class Chainsaw : MeleeWeapon
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
         if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
         _cloudsParticleSpawner = transform.Find(CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
-    }
-
-    /// <summary>
-    /// Value between 1 and 0, recreases every frame, when reaches 0 unloads  itself
-    /// </summary>
-    public float ChainsawPowerLeft
-    {
-        get => _chainsawPowerLeft;
-        set => _chainsawPowerLeft = value;
+        FuelLeft = MaxFuel;
     }
 
     public bool IsStarting
@@ -58,7 +52,6 @@ public class Chainsaw : MeleeWeapon
         set
         {
             _started = value;
-            ChainsawPowerLeft = 1f;
             _animator.SetBool(ANIMATOR_STARTED_PROP_NAME, value);
             if (value)
             {
@@ -74,6 +67,12 @@ public class Chainsaw : MeleeWeapon
         }
     }
 
+    public float FuelLeft
+    {
+        get => _fuelLeft;
+        set => _fuelLeft = value;
+    }
+
     public bool TryStart()
     {
         if (Started || IsStarting) return false;
@@ -84,16 +83,14 @@ public class Chainsaw : MeleeWeapon
         return true;
     }
 
-    public bool ForceTryStart()
+    public bool OnTryStartFinish()
     {
         IsStarting = false;
 
         if (Started) return false;
 
-        _currentChanceToSuccessStart += ChanceToSucessStart;
-        if (Random.value < _currentChanceToSuccessStart)
+        if (FuelLeft > 0 && UnityEngine.Random.value < math.lerp(MinStartSuccessChance, MaxStartSuccessChance, FuelLeft / MaxFuel))
         {
-            _currentChanceToSuccessStart = 0f;
             Started = true;
             return true;
         }
@@ -112,7 +109,7 @@ public class Chainsaw : MeleeWeapon
     {
         while (true)
         {
-            if (Random.value < CLOUDS_PARTICLE_SPAWN_CHANCE)
+            if (UnityEngine.Random.value < CLOUDS_PARTICLE_SPAWN_CHANCE)
             {
                 _cloudsParticleSpawner.SpawnParticle();
             }
@@ -122,26 +119,13 @@ public class Chainsaw : MeleeWeapon
 
     private void FixedUpdate()
     {
-        UpdateChainsawPower();
-    }
+        if (Started && Projectiles.Count > 0)
+        {
+            FuelLeft -= Time.fixedDeltaTime;
 
-    private void UpdateChainsawPower()
-    {
-        if (ChainsawPowerLeft > 0f && IsInCooldown)
-        {
-            ChainsawPowerLeft -= Time.fixedDeltaTime / FullUnpowerRequiredTime;
-            if (_chainsawPowerLeft < 0f)
+            if (FuelLeft <= 0 || UnityEngine.Random.value < math.lerp(MaxJampChancePerSecond, MinJamChancePerSecond, FuelLeft / MaxFuel) * Time.fixedDeltaTime)
             {
-                ChainsawPowerLeft = 0f;
                 Started = false;
-            }
-        }
-        else if (ChainsawPowerLeft <= 1f && !IsInCooldown)
-        {
-            ChainsawPowerLeft += Time.fixedDeltaTime / FullUnpowerRequiredTime;
-            if (ChainsawPowerLeft > 1f)
-            {
-                ChainsawPowerLeft = 1f;
             }
         }
     }

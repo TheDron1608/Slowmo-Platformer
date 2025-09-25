@@ -6,7 +6,7 @@ public class ForceTryStartChainsawOnExit : StateMachineBehaviour
     {
         if (animator.TryGetComponent(out Chainsaw chainsaw))
         {
-            chainsaw.ForceTryStart();
+            chainsaw.OnTryStartFinish();
         }
     }
 }
