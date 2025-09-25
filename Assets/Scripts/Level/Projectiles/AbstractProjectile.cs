@@ -174,6 +174,10 @@ public abstract class AbstractProjectile : MonoBehaviour
         return
             !_wasDeflectedThisFrame &&
             (
+                !currentHitObjet.TryGetComponent(out AbstractProjectile projectile) ||
+                Weapon != projectile.Weapon
+            ) &&
+            (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
                 (
                     Owner == null ||

@@ -154,8 +154,10 @@ public class MeleeProjectile : AbstractProjectile
             }
             if (
                 (
-                    hitObjectBetween.collider.GetComponent<MeleeProjectile>() != this && 
-                    (hitObjectBetween.collider.GetComponent<MeleeProjectile>()?.IsAbleTodeflectMeleeProjectiles ?? false)
+                    hitObject.TryGetComponent(out MeleeProjectile meleeProjectile) && 
+                    meleeProjectile != this &&
+                    (meleeProjectile.Weapon == null || meleeProjectile.Weapon != Weapon) &&
+                    meleeProjectile.IsAbleTodeflectMeleeProjectiles
                 ) ||
                 hitObjectBetween.collider.tag == LayerManager.ENVIROMENT_TAG_NAME
                 )
