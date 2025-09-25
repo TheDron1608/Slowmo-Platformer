@@ -151,7 +151,13 @@ public class Holdable : Interactable
         _spriteRendererComponent.sortingOrder += (int)(UnityEngine.Random.value * 99f);
     }
 
-    private void Update()
+    private void FixedUpdate()
+    {
+        UpdateStuckStatus();
+        _velocitySpeedPreviousFrame = _rigidBodyComponent.linearVelocity;
+    }
+
+    private void UpdateStuckStatus()
     {
         if (_isStuck)
         {
@@ -161,7 +167,7 @@ public class Holdable : Interactable
         {
             _rigidBodyComponent.excludeLayers = 0;
 
-            if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) <= SpeedToGetThrough)
+            if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) <= SpeedToGetThrough)
             {
                 _colliderComponent.enabled = true;
                 _thrownColliderComponent.enabled = false;
@@ -172,20 +178,16 @@ public class Holdable : Interactable
                 _thrownColliderComponent.enabled = true;
             }
 
-            if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) <= SpeedToHitCharacter)
+            if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) <= SpeedToHitCharacter)
             {
                 _rigidBodyComponent.includeLayers = _colliderComponent.includeLayers;
             }
             else
             {
                 _rigidBodyComponent.includeLayers = _thrownColliderComponent.includeLayers;
+
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
-        _velocitySpeedPreviousFrame = _rigidBodyComponent.linearVelocity;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -321,8 +323,6 @@ public class Holdable : Interactable
         newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
         transform.rotation = newRotation;
 
-        _rigidBodyComponent.simulated = true;
-        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
         if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))
         {
@@ -333,14 +333,19 @@ public class Holdable : Interactable
             _rigidBodyComponent.angularVelocity = ThrowRotationForce;
         }
 
+        CurrentHolder.CurrentHoldObject = null;
+        CurrentHolder = null;
+
+        _rigidBodyComponent.simulated = true;
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+        UpdateStuckStatus();
+
         if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) >= MIN_VELOCITY_TO_DISABLE_GRAVITY)
         {
             _rigidBodyComponent.gravityScale = 0f;
             _enableGravityCoroutine = StartCoroutine(EnableGravityAfterDelay());
         }
 
-        CurrentHolder.CurrentHoldObject = null;
-        CurrentHolder = null;
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out Weapon weapon)) 

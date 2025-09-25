@@ -127,8 +127,8 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         float rayCastHitRange = 
             (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
-                CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x : 
-                CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y
+                CharComponents.CharacterRigidBodyCapsuleCollider.size.x * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x) : 
+                CharComponents.CharacterRigidBodyCapsuleCollider.size.y * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y)
             ) / 2 + COLLISION_HIT_DETECION_THICKNESS;
 
         //Debug.DrawLine(from, from + align * rayCastHitRange, Color.green);
@@ -144,10 +144,12 @@ public class CharacterCollision : AbstractCharacterComponent
     private GameObject RaycastHitFromHead(Vector2 align)
     {
         float extraOffset = math.abs(
-            CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y - 
-            CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x
+            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
+            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x)
             ) / 2;
-        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? new Vector2(0f, extraOffset) : new Vector2(extraOffset, 0f);
+        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
+            new Vector2(0f, extraOffset) : 
+            new Vector2(extraOffset, 0f);
 
         Vector2 rayCastHitOrigin =
             VectorMath.Vec3ToVec2(transform.position) +
@@ -159,11 +161,13 @@ public class CharacterCollision : AbstractCharacterComponent
     private GameObject RaycastHitFromLegs(Vector2 align)
     {
         float extraOffset = math.abs(
-            CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y - 
-            CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x
+            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
+            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x)
             ) / 2;
 
-        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? new Vector2(0f, extraOffset) : new Vector2(extraOffset, 0f);
+        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
+            new Vector2(0f, extraOffset) :
+            new Vector2(extraOffset, 0f);
 
         Vector2 rayCastHitOrigin =
             VectorMath.Vec3ToVec2(transform.position) + 
@@ -284,7 +288,7 @@ public class CharacterCollision : AbstractCharacterComponent
     public void UpdateHitVelocity()
     {
         if (
-            VectorMath.Vec2ToDistance(CharComponents.CharacterRigidBody.linearVelocity) >= SpeedToHitOtherCharacters && 
+            GetHasEnoughVelocityToHit() && 
             (
                 (CanHitWhileHardStnned && CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>()) ||
                 (CanHitWhileRolling && CharComponents.CharacterRolling.IsRolling) ||
@@ -297,6 +301,7 @@ public class CharacterCollision : AbstractCharacterComponent
                 if (
                     hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
                     otherCharComponent.CharComponents.CharacterCollision != this &&
+                    !otherCharComponent.CharComponents.CharacterCollision.GetHasEnoughVelocityToHit() &&
                     !CharComponents.CharacterEffectsReceiver.GetCharacterIsLastSender(otherCharComponent)
                     )
                 {
@@ -312,6 +317,11 @@ public class CharacterCollision : AbstractCharacterComponent
                 }
             }
         }
+    }
+
+    public bool GetHasEnoughVelocityToHit()
+    {
+        return VectorMath.Vec2ToDistance(CharComponents.CharacterRigidBody.linearVelocity) >= SpeedToHitOtherCharacters;
     }
 
     public Vector2 GetColliderSize()

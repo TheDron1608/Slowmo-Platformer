@@ -45,16 +45,16 @@ public class CharacterPartsManager : AbstractCharacterComponent
         _characterParts.Remove(e);
     }
 
-    public void SetHitBoxTransform(CharacterHitbox.AvaibleHitBoxTransforms transform)
+    public void SetHitBoxTransform(CharacterHitbox.AvaibleHitBoxTransforms transform, float smoothChangeDuration)
     {
         for (int i = 0; i < _characterParts.Count; i++)
         {
             if (_characterParts[i] is CharacterLimbPart limbPart)
             {
-                limbPart.CharPartHitbox.SetHitBoxTransform(transform);
+                limbPart.CharPartHitbox.SetHitBoxTransform(transform, smoothChangeDuration);
             }
         }
-        CharComponents.CharacterRigidBodyCapsuleColliderHitBox.SetHitBoxTransform(transform);
+        CharComponents.CharacterRigidBodyCapsuleColliderHitBox.SetHitBoxTransform(transform, smoothChangeDuration);
     }
 
     public void SetHitBoxHitableByProjectiles(bool value)

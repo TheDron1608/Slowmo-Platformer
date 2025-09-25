@@ -95,7 +95,7 @@ public class MeleeProjectile : AbstractProjectile
 
         if (!Weapon.IsDestroyed())
         {
-            transform.position = Weapon.transform.position;
+            transform.position = Weapon.ProjectileSpawnPosition.transform.position;
         }
     }
 

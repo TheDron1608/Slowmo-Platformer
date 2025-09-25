@@ -31,7 +31,7 @@ public class EnemySpawn : GenerateOnFinishAllBuildingEnviroment
         newEnemy.CharacterHolding.GiveNewHoldable(spawnInfo.Weapon?.PickRandomWeapon());
 
         //give equipment
-        foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment?.PickRandomEquipment()) {
+        foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment?.PickRandomEquipment() ?? new List<CharacterEquipmentPart>()) {
             newEnemy.CharacterPartsManager.GiveNewEquipment(randomEquipment);
         }
 
