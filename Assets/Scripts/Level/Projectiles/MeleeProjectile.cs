@@ -21,10 +21,9 @@ public class MeleeProjectile : AbstractProjectile
         protected set
         {
             base.Weapon = value;
-            if (Weapon != null && Weapon.TryGetComponent(out Holdable holdableWeapon) && TryGetComponent(out SpriteRenderer spriteRenderer))
+            if (Weapon != null && Weapon.TryGetComponent(out Holdable holdableWeapon) && TryGetComponent(out DynamicMaterial dynamicMaterial))
             {
-                spriteRenderer.sharedMaterial = holdableWeapon.EffectsReceiver.EffectMaterial;
-                GetComponent<ObjectEffectsReceiver>()?.UpdateDefaultEffectMaterialToCurrent();
+                dynamicMaterial.OverrideMaterial = holdableWeapon.EffectsReceiver.EffectMaterial;
             }
         }
     }

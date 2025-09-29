@@ -13,11 +13,6 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
     {
         base.OnAwake();
         if (!TryGetComponent(out _charComponents)) throw new UnityException("CharacterComponentsManager component not found at " + gameObject.name);
-        _defaultEffectMaterial =
-            (
-            _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.BODY) ??
-            _charComponents.CharacterPartsManager.GetCharacterPart(CharacterPart.PartTypes.HEAD)
-            ).CharPartVisual.SharedMaterial;
     }
 
     public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb)
@@ -142,9 +137,9 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         {
             foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
             {
-                if (charPart.EffectMaterialOverridedByEntireEffects)
+                if (charPart.GetComponent<CharacterLimbPart>() != null && charPart.TryGetComponent(out DynamicMaterial dynamicMaterial))
                 {
-                    return charPart.CharPartVisual.SharedMaterial;
+                    return dynamicMaterial.GetCurrentMaterial();
                 }
             }
 
@@ -152,13 +147,11 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         }
         protected set
         {
-            var newMaterial = value ?? _defaultEffectMaterial;
-
             foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
             {
-                if (charPart.EffectMaterialOverridedByEntireEffects)
+                if (charPart.GetComponent<CharacterLimbPart>() != null && charPart.TryGetComponent(out DynamicMaterial dynamicMaterial))
                 {
-                    charPart.CharPartVisual.SharedMaterial = newMaterial;
+                    dynamicMaterial.OverrideMaterial = value;
                 }
             }
         }

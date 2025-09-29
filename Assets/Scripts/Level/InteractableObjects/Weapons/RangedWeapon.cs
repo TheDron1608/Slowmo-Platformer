@@ -36,6 +36,13 @@ public class RangedWeapon : ThrowableWeapon
 
         _bulletParticleSpawner = transform.Find(BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
         _cloudParticleSpawner = transform.Find(CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
+        GetComponent<DynamicMaterial>().OnMaterialChanged += RangedWeapon_OnMaterialChanged;
+    }
+
+    private void RangedWeapon_OnMaterialChanged(object sender, System.EventArgs e)
+    {
+        _cloudParticleSpawner.OverrideEffectMaterial = GetComponent<DynamicMaterial>().GetCurrentMaterial();
+        Debug.Log(_cloudParticleSpawner.OverrideEffectMaterial.name);
     }
 
     //PUBLIC PROPERTIES

@@ -9,7 +9,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
 {
     [SerializeField] private List<AbstractEffect> _currentEffects = new();
     private MonoBehaviour _lastSender = null;
-    protected Material _defaultEffectMaterial = null;
 
     public event EventHandler<AbstractEffect> OnEffectAdded;
     public event EventHandler<AbstractEffect> OnEffectRemoved;
@@ -37,7 +36,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             ApplyEffect(effect, null);
         }
-        _defaultEffectMaterial = GetComponentInChildren<SpriteRenderer>()?.sharedMaterial;
     }
 
     private void AddLastEffectSender(MonoBehaviour effectSender)
@@ -57,11 +55,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 (LastSender.TryGetComponent(out AbstractProjectile projectileSender) && projectileSender.Owner != null && projectileSender.Owner.CharComponents == character.CharComponents) ||
                 (LastSender.TryGetComponent(out Holdable holdableSender) && holdableSender.CurrentHolder != null && holdableSender.CurrentHolder.CharComponents == character.CharComponents)
             );
-    }
-
-    public void UpdateDefaultEffectMaterialToCurrent()
-    {
-        _defaultEffectMaterial = GetComponentInChildren<SpriteRenderer>()?.sharedMaterial;
     }
 
     public virtual void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
@@ -97,14 +90,13 @@ public class ObjectEffectsReceiver : MonoBehaviour
     {
         get
         {
-            return GetComponentInChildren<SpriteRenderer>()?.sharedMaterial;
+            return GetComponent<DynamicMaterial>()?.GetCurrentMaterial();
         }
         protected set
         {
-            var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            if (spriteRenderer != null)
+            if (TryGetComponent(out DynamicMaterial dynamicMaterial))
             {
-                spriteRenderer.sharedMaterial = value;
+                dynamicMaterial.OverrideMaterial = value;
             }
         }
     }
@@ -244,6 +236,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 return;
             }
         }
-        EffectMaterial = _defaultEffectMaterial;
+        EffectMaterial = null;
     }
 }

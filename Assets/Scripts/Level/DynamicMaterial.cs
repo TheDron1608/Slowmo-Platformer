@@ -1,10 +1,13 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class DynamicMaterial : MonoBehaviour
 {
     [SerializeField] private LevelColorset.ColorType _defaultColor;
-    private LevelColorset.ColorType? _overrideColor = null;
+    private Material _overrideMaterial = null;
+
+    public event EventHandler OnMaterialChanged;
 
     public LevelColorset.ColorType DefaultColor
     {
@@ -15,34 +18,46 @@ public class DynamicMaterial : MonoBehaviour
             UpdateColor();
         }
     }
-    public LevelColorset.ColorType? OverrideColor
+    public Material OverrideMaterial
     {
-        get => _overrideColor;
+        get => _overrideMaterial;
         set
         {
-            _overrideColor = value;
+            _overrideMaterial = value;
             UpdateColor();
         }
     }
 
+    public Material GetCurrentMaterial()
+    {
+        return OverrideMaterial ?? ColorManager.Instance.ColorSet.GetMaterialByType(DefaultColor);
+    }
+
     private void UpdateColor()
     {
-        Material targetMaterial = 
-            OverrideColor.HasValue ?
-            ColorManager.Instance.ColorSet.GetMaterialByType(OverrideColor.Value) :
-            ColorManager.Instance.ColorSet.GetMaterialByType(DefaultColor);
-
         if (TryGetComponent(out SpriteRenderer spriteRenderer))
         {
-            spriteRenderer.sharedMaterial = targetMaterial;
+            if (spriteRenderer.sharedMaterial != GetCurrentMaterial()) 
+            {
+                spriteRenderer.sharedMaterial = GetCurrentMaterial();
+                OnMaterialChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
         else if (TryGetComponent(out TilemapRenderer tilemapRenderer))
         {
-            tilemapRenderer.sharedMaterial = targetMaterial;
+            if (tilemapRenderer.sharedMaterial != GetCurrentMaterial())
+            {
+                tilemapRenderer.sharedMaterial = GetCurrentMaterial();
+                OnMaterialChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
         else if (TryGetComponent(out ParticleSystemRenderer particleSystem))
         {
-            particleSystem.sharedMaterial = targetMaterial;
+            if (particleSystem.sharedMaterial != GetCurrentMaterial())
+            {
+                particleSystem.sharedMaterial = GetCurrentMaterial();
+                OnMaterialChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
