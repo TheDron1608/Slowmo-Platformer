@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2034677109461973112}
   - component: {fileID: 9191548071030554266}
   - component: {fileID: 2774152788232219988}
+  - component: {fileID: 2512313314498285070}
   - component: {fileID: 6513727275606585188}
   m_Layer: 0
   m_Name: AbstractCharacterPart
@@ -55,7 +56,8 @@ MonoBehaviour:
   SpawnVelocity: 2.5
   SpawnAngle: 75
   SpawnAngularVeclocity: 720
-  ExtendEffectMaterialObject: {fileID: 0}
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!114 &9191548071030554266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,6 +84,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentEffects: []
+--- !u!114 &2512313314498285070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7806379692574833265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520d100269564114db44399500a96378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultColor: 305
 --- !u!212 &6513727275606585188
 SpriteRenderer:
   m_ObjectHideFlags: 0

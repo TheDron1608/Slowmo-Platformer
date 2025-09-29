@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8058129393259162476}
   - component: {fileID: 8145630360655912481}
+  - component: {fileID: 4789793739081649213}
   m_Layer: 0
   m_Name: TempSessionManager
   m_TagString: Untagged
@@ -48,3 +49,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d64d4da4755787a4d8ef6c98df83b8c0, type: 2}
   EnemyPool:
   - {fileID: 11400000, guid: e242a38beae302149b8fc51e8e231cb0, type: 2}
+--- !u!114 &4789793739081649213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590695979345743307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32493c0a2c27f804c81668635cf37018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorSet: {fileID: 0}

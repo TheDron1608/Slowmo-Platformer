@@ -79,6 +79,8 @@ MonoBehaviour:
   SpawnVelocity: -0.5
   SpawnAngle: -90
   SpawnAngularVeclocity: 180
+  OverrideEffectMaterial: {fileID: 0}
+  OneShot: 0
 --- !u!1001 &4978152234715277919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,6 +89,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2685268677759089243, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+      propertyPath: _defaultColor
+      value: 503
+      objectReference: {fileID: 0}
     - target: {fileID: 1144781636253479490, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
       propertyPath: m_Controller
       value: 

@@ -98,6 +98,10 @@ PrefabInstance:
       propertyPath: UnlimitedUses
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4911796199315391801, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _defaultColor
+      value: 203
+      objectReference: {fileID: 0}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 1.0448792
@@ -214,8 +218,11 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   AttackRangeMultiplier: 1
-  FullUnpowerRequiredTime: 5
-  ChanceToSucessStart: 0.1
+  MaxFuel: 10
+  MaxStartSuccessChance: 0.75
+  MinStartSuccessChance: 0.25
+  MaxJampChancePerSecond: 0.667
+  MinJamChancePerSecond: 0
 --- !u!4 &3791572060948805129 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}

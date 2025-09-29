@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4590741514344514613}
   - component: {fileID: 7107846151242222728}
   - component: {fileID: 7194316829583383013}
+  - component: {fileID: -4930267753669941194}
   - component: {fileID: 668012051540842779}
   - component: {fileID: 3991735836254190343}
   - component: {fileID: 7542320353197997920}
@@ -51,7 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 1
-  _spriteRendererComponent: {fileID: 668012051540842779}
   AnimationOnStartInteract: 0
   AnimationOnFinishInteract: 0
   EffectsOnStartInteract: []
@@ -80,9 +80,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2494f2453a63384596cae51366ebf3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LootSpawnType: 0
   SpawnObjectsOnBreak: []
   _brokenPartsParticleSpawners: []
-  ObjectOnBreak: {fileID: 0}
   _maxUses: 10
   UnlimitedUses: 1
 --- !u!114 &7107846151242222728
@@ -125,6 +125,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &-4930267753669941194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784046987221869979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520d100269564114db44399500a96378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultColor: 200
 --- !u!212 &668012051540842779
 SpriteRenderer:
   m_ObjectHideFlags: 0

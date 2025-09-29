@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110b659e698b92d43bf7c5a914d89521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BaseEnemiesAmount: 1
 --- !u!1001 &3316314259623755584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,7 +146,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChunkMask
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4609279555131864266, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

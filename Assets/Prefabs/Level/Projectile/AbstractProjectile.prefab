@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1176369955813481343}
   - component: {fileID: 1144781636253479490}
   - component: {fileID: 8012772702988615103}
+  - component: {fileID: -2685268677759089243}
   - component: {fileID: 3398433313020528201}
   - component: {fileID: 5403247039622281927}
   - component: {fileID: 5222059404700704507}
@@ -71,6 +72,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentEffects: []
+--- !u!114 &-2685268677759089243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287883283165750693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520d100269564114db44399500a96378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultColor: 502
 --- !u!212 &3398433313020528201
 SpriteRenderer:
   m_ObjectHideFlags: 0

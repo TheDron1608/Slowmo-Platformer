@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d53a0c1942e0f344916527c350c63d7, type: 3}
+  m_Name: DefaultLevelColorset
+  m_EditorClassIdentifier: 
+  NormalTiles: {fileID: 2100000, guid: da9bdeb23696df3429e4c58431a1f4c9, type: 2}
+  StickyTiles: {fileID: 2100000, guid: f39e2865eaf5dec4da2e56d7b2cea1df, type: 2}
+  Backgound: {fileID: 2100000, guid: 66949c8d8aa51a84e85193e32f4619ac, type: 2}
+  BackgroundDecations: {fileID: 2100000, guid: 66949c8d8aa51a84e85193e32f4619ac, type: 2}
+  Overgound: {fileID: 2100000, guid: 8eb81e3987c36d14bb1a26ae899c073e, type: 2}
+  OvergroundDecorations: {fileID: 2100000, guid: 8eb81e3987c36d14bb1a26ae899c073e, type: 2}
+  Furniture: {fileID: 2100000, guid: da9bdeb23696df3429e4c58431a1f4c9, type: 2}
+  LootFurniture: {fileID: 2100000, guid: da9bdeb23696df3429e4c58431a1f4c9, type: 2}
+  DecorativeFurniture: {fileID: 2100000, guid: f39e2865eaf5dec4da2e56d7b2cea1df, type: 2}
+  Door: {fileID: 2100000, guid: da9bdeb23696df3429e4c58431a1f4c9, type: 2}
+  DefaultHoldable: {fileID: 2100000, guid: 8eb81e3987c36d14bb1a26ae899c073e, type: 2}
+  Tier1Weapon: {fileID: 2100000, guid: 8eb81e3987c36d14bb1a26ae899c073e, type: 2}
+  Tier2Weapon: {fileID: 2100000, guid: 01f932c0fcd7d8b40a5bed493f143899, type: 2}
+  Tier3Weapon: {fileID: 2100000, guid: 7e0276925bcffb742a3670f5d56d66ea, type: 2}
+  PlayerCharacter: {fileID: 2100000, guid: b8601256155757c4a8677e8b0e4269a8, type: 2}
+  PlayerCharacterEyes: {fileID: 2100000, guid: da9bdeb23696df3429e4c58431a1f4c9, type: 2}
+  PlayerCharacterCape: {fileID: 2100000, guid: c7140e89aa3192b438bb5218d2c9fbb9, type: 2}
+  ClumsyEnemy: {fileID: 2100000, guid: 769ee9b7af483c548bc95eae7437107b, type: 2}
+  ClumsyEnemyEyes: {fileID: 2100000, guid: b8601256155757c4a8677e8b0e4269a8, type: 2}
+  NormalEnemy: {fileID: 2100000, guid: c7140e89aa3192b438bb5218d2c9fbb9, type: 2}
+  NormalEnemyEyes: {fileID: 2100000, guid: b8601256155757c4a8677e8b0e4269a8, type: 2}
+  FastEnemy: {fileID: 2100000, guid: 7e0276925bcffb742a3670f5d56d66ea, type: 2}
+  FastEnemyEyes: {fileID: 2100000, guid: b8601256155757c4a8677e8b0e4269a8, type: 2}
+  ThrowerEnemy: {fileID: 2100000, guid: ff3793fbe67e7ff43be703f564190b33, type: 2}
+  ThrowerEnemyEyes: {fileID: 2100000, guid: 806f6ff9193ca5c4287d48106cc45243, type: 2}
+  DeflectorEnemy: {fileID: 2100000, guid: 77c2111672e324f468a3b070d5207ed8, type: 2}
+  DeflectorEnemyEyes: {fileID: 2100000, guid: da9bdeb23696df3429e4c58431a1f4c9, type: 2}
+  DefaultEquipment: {fileID: 2100000, guid: f9b6ac68d0c24ac4e93f0aaaa102097e, type: 2}
+  MinorArmorEquipment: {fileID: 2100000, guid: f9b6ac68d0c24ac4e93f0aaaa102097e, type: 2}
+  HeavyArmorEquipment: {fileID: 2100000, guid: 8eb81e3987c36d14bb1a26ae899c073e, type: 2}
+  DefaultGlasses: {fileID: 2100000, guid: b8601256155757c4a8677e8b0e4269a8, type: 2}
+  DefaultMeleeProjectile: {fileID: 2100000, guid: da9bdeb23696df3429e4c58431a1f4c9, type: 2}
+  DefaultEnemyMeleeProjectile: {fileID: 2100000, guid: c7140e89aa3192b438bb5218d2c9fbb9, type: 2}
+  DefaultRangedProjectile: {fileID: 2100000, guid: da9bdeb23696df3429e4c58431a1f4c9, type: 2}
+  DefaultEnemyRangedProjectile: {fileID: 2100000, guid: c7140e89aa3192b438bb5218d2c9fbb9, type: 2}
