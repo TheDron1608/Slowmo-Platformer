@@ -42,7 +42,6 @@ public class RangedWeapon : ThrowableWeapon
     private void RangedWeapon_OnMaterialChanged(object sender, System.EventArgs e)
     {
         _cloudParticleSpawner.OverrideEffectMaterial = GetComponent<DynamicMaterial>().GetCurrentMaterial();
-        Debug.Log(_cloudParticleSpawner.OverrideEffectMaterial.name);
     }
 
     //PUBLIC PROPERTIES
