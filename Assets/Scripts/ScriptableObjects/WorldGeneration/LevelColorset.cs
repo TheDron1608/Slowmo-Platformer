@@ -27,6 +27,7 @@ public class LevelColorset : ScriptableObject
         OVERGROUND = 4,
         OVERGROUND_DECATIONS = 5,
         LAYER_OVERLAY = 6,
+        BACKGROUND_OVERLAY = 7,
 
         //furniture
         INTERACTABLE_FURNITURE = 100,
@@ -96,6 +97,7 @@ public class LevelColorset : ScriptableObject
     [ColorTypeAttr(ColorType.OVERGROUND)] public Material Overgound;
     [ColorTypeAttr(ColorType.OVERGROUND_DECATIONS)] public Material OvergroundDecorations;
     [ColorTypeAttr(ColorType.LAYER_OVERLAY)] public Material LayerOverlay;
+    [ColorTypeAttr(ColorType.BACKGROUND_OVERLAY)] public Material BackgroundOverlay;
     [Header("Furniture")]
     [ColorTypeAttr(ColorType.INTERACTABLE_FURNITURE)] public Material Furniture;
     [ColorTypeAttr(ColorType.LOOT_FURNITURE)] public Material LootFurniture;
