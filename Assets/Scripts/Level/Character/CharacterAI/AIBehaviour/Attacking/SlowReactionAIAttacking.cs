@@ -109,4 +109,13 @@ public class SlowReactionAIAttacking : AbstractAIAttacking
     {
         CharComponents.CharacterAttacking.OnAttack -= CharacterAttacking_OnAttack;
     }
+
+    private void OnDisable()
+    {
+        if (_attackDelayingCoroutine != null)
+        {
+            StopCoroutine(_attackDelayingCoroutine);
+            _attackDelayingCoroutine = null;
+        }
+    }
 }

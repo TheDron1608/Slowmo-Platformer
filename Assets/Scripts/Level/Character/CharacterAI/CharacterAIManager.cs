@@ -37,6 +37,10 @@ public class CharacterAIManager : AbstractCharacterComponent
     {
         base.OnAwake();
         UpdateStateBehaviourAIs();
+    }
+
+    private void OnEnable()
+    {
         UpdateCurrentActionStateBehaviour();
     }
 

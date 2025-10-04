@@ -7,9 +7,8 @@ public abstract class AbstractAIInfo : AbstractCharacterComponent
     protected const float UPDATE_AI_DELAY_SECONDS = 0.1f;
     protected bool _requireUpdateInfo = true;
 
-    protected override void OnAwake()
+    private void OnEnable()
     {
-        base.OnAwake();
         StartCoroutine(UpdateRequireInfoLoop());
     }
 
@@ -41,5 +40,10 @@ public abstract class AbstractAIInfo : AbstractCharacterComponent
     protected virtual void OnFixedUpdate()
     {
 
+    }
+
+    private void OnDisable()
+    {
+        _requireUpdateInfo = true;
     }
 }

@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Localization.SmartFormat.Core.Parsing;
 
 public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
 {

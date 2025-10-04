@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1108622081295078433}
   - component: {fileID: -493878796595810239}
+  - component: {fileID: 6047378315453534410}
   m_Layer: 0
   m_Name: EmptyAIManager
   m_TagString: Character
@@ -45,3 +46,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stateBehaviourAIs: []
+--- !u!114 &6047378315453534410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904800031124303244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c26c6dd209ce44a95f14ff4e641602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DistanceToDistable: 50
