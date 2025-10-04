@@ -66,9 +66,9 @@ public class DefaultAIAttacking : AbstractAIAttacking
                     )
                 )
             {
+                CharComponents.CharacterAiming.AimWeaponDown = false;
                 if (CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<RangedWeapon>() != null && _attackIsDelaying)
                 {
-                    CharComponents.CharacterAiming.AimWeaponDown = false;
                     if (_attackDelayingCoroutine == null) _attackDelayingCoroutine = StartCoroutine(AwaitStartAttackDelay());
                 }
                 else
