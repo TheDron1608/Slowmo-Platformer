@@ -5,6 +5,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
 {
     [Serializable]

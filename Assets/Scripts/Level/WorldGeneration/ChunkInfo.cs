@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 public class ChunkInfo
 {
     public List<ChunkConnection.PreGeneratedChunkConnectionTempInfo> Connections = new();
-    public List<ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo> DoorGenPositions = new();
+    public List<DoorGenerationPosition.PreGeneratedDoorTempInfo> DoorGenPositions = new();
     public BuildingInfo Building;
     public List<GameObject> ObjectsInside = new();
 

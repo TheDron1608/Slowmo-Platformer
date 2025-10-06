@@ -80,12 +80,15 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
+        //generate next level door
+        prevBuilding.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.NEXTLEVEL);
+
         //generating enviroment with OnFinishAllBuilding Enviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
         {
             foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishAllBuildingEnviroment>(false))
             {
-                lateGenEnviroment.TargetGeneration.Generate(lateGenEnviroment);
+                lateGenEnviroment.Generate();
             }
         }
         //generating enviroment with OnFinishLevelEnviroment attr
@@ -93,7 +96,7 @@ public class WorldGenerationManager : MonoBehaviour
         {
             foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishLevelEnviroment>(false))
             {
-                lateGenEnviroment.TargetGeneration.Generate(lateGenEnviroment);
+                lateGenEnviroment.Generate();
             }
         }
     }
@@ -164,7 +167,7 @@ public class WorldGenerationManager : MonoBehaviour
         //generating enviroment with OnFinishBuildingEnviroment attr
         foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishBuildingEnviroment>(false))
         {
-            lateGenEnviroment.TargetGeneration.Generate(lateGenEnviroment);
+            lateGenEnviroment.Generate();
         }
 
         return true;

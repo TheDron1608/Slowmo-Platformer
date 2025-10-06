@@ -25,6 +25,11 @@ public abstract class ComplexGenerateionEnviroment : MonoBehaviour
             GenerateWhere.GenerationTempInfo.Add(this);
         }
 
+        public List<GameObject> Generate()
+        {
+            return TargetGeneration.Generate(this);
+        }
+
         public virtual void Remove()
         {
             GenerateWhere.GenerationTempInfo.Remove(this);

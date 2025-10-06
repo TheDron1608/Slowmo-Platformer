@@ -8,8 +8,8 @@ public class BuildingInfo
     public static int GlobalHighestCoorY = int.MinValue;
 
     public List<ChunkInfo> Chunks = new();
-    public ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo Enter;
-    public ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo Exit;
+    public DoorGenerationPosition.PreGeneratedDoorTempInfo Enter;
+    public DoorGenerationPosition.PreGeneratedDoorTempInfo Exit;
     public int LowestCoorY = int.MaxValue;
     public int HighestCoorY = int.MinValue;
 

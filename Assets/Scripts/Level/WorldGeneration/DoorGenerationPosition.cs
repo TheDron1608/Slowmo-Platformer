@@ -1,17 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static ChunkConnection;
 
 public class DoorGenerationPosition : LateGenerateionEnviroment
 {
-    public float RemoveOtherObjectsRadius = 1f;
-
     public class PreGeneratedDoorTempInfo : PreGeneratedEnviromentTempInfo
     {
+        public enum DoorGenerationTypes
+        {
+            CLOSED,
+            ZINDEXDOOR,
+            NEXTLEVEL
+        }
+
+        public DoorGenerationTypes DoorType = DoorGenerationTypes.CLOSED;
+
         public PreGeneratedDoorTempInfo(ZIndexLayer generateWhere, Vector3 offset, ComplexGenerateionEnviroment targetGeneration, BuildingInfo building, ChunkInfo chunk) : base(generateWhere, offset, targetGeneration, building, chunk)
         {
             chunk.DoorGenPositions.Add(this);
+        }
+
+        public List<GameObject> Generate(DoorGenerationTypes doorType)
+        {
+            DoorType = doorType;
+            return Generate();
         }
 
         public override void Remove()
@@ -21,7 +33,26 @@ public class DoorGenerationPosition : LateGenerateionEnviroment
         }
     }
 
-    public OnInteractEnterMultiZDoor Door;
+    public float RemoveOtherObjectsRadius = 1f;
+
+    public GameObject ClosedDoor;
+    public OnInteractEnterMultiZDoor ZIndexDoor;
+    public OnInteractEnterNextLevelDoor NextLevelDoor;
+
+    private GameObject GetCurrentTargetGenerationDoor(PreGeneratedDoorTempInfo generationInfo)
+    {
+        switch (generationInfo.DoorType)
+        {
+            case PreGeneratedDoorTempInfo.DoorGenerationTypes.CLOSED:
+                return ClosedDoor.gameObject;
+            case PreGeneratedDoorTempInfo.DoorGenerationTypes.ZINDEXDOOR:
+                return ZIndexDoor.gameObject;
+            case PreGeneratedDoorTempInfo.DoorGenerationTypes.NEXTLEVEL:
+                return NextLevelDoor.gameObject;
+            default:
+                throw new UnityException("generationInfo.DoorType is unset or has no valid value; value: " + generationInfo.DoorType);
+        }
+    }
 
     public override PreGeneratedEnviromentTempInfo PreGenerate(ZIndexLayer preGenerateWhere, Vector3 position, BuildingInfo building, ChunkInfo chunk)
     {
@@ -32,8 +63,10 @@ public class DoorGenerationPosition : LateGenerateionEnviroment
     {
         base.Generate(generationInfo);
 
+        if (!(generationInfo is PreGeneratedDoorTempInfo doorGenerationInfo)) throw new UnityException("DoorGenPosition.Generate(generationInfo) generationInfo arg must be of type PreGeneratedDoorTempInfo");
+
         ZIndexLayer layer = generationInfo.GenerateWhere;
-        OnInteractEnterMultiZDoor newDoor = Instantiate(Door, generationInfo.Offset + transform.position, transform.rotation, layer.FurnitureContainer);
+        GameObject newDoor = Instantiate(GetCurrentTargetGenerationDoor(doorGenerationInfo), generationInfo.Offset + transform.position, transform.rotation, layer.FurnitureContainer);
         LayerManager.Instance.ChangeZIndexForGameObject(layer, newDoor.gameObject);
 
         for (int i = 0; i < generationInfo.Chunk.ObjectsInside.Count; i++)
@@ -49,13 +82,13 @@ public class DoorGenerationPosition : LateGenerateionEnviroment
             }
         }
 
-        return new List<GameObject> { newDoor.gameObject };
+        return new List<GameObject> { newDoor };
     }
 
-    public static void GenerateDoorPair(PreGeneratedEnviromentTempInfo door1, PreGeneratedEnviromentTempInfo door2)
+    public static void GenerateDoorPair(PreGeneratedDoorTempInfo door1, PreGeneratedDoorTempInfo door2)
     {
-        OnInteractEnterMultiZDoor newDoor1 = door1.TargetGeneration.Generate(door1).First().GetComponent<OnInteractEnterMultiZDoor>();
-        OnInteractEnterMultiZDoor newDoor2 = door2.TargetGeneration.Generate(door2).First().GetComponent<OnInteractEnterMultiZDoor>();
+        OnInteractEnterMultiZDoor newDoor1 = door1.Generate(PreGeneratedDoorTempInfo.DoorGenerationTypes.ZINDEXDOOR).First().GetComponent<OnInteractEnterMultiZDoor>();
+        OnInteractEnterMultiZDoor newDoor2 = door2.Generate(PreGeneratedDoorTempInfo.DoorGenerationTypes.ZINDEXDOOR).First().GetComponent<OnInteractEnterMultiZDoor>();
 
         newDoor1.Exit = newDoor2;
         newDoor2.Exit = newDoor1;

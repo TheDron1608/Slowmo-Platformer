@@ -122,7 +122,7 @@ public class Chunk : MonoBehaviour
         Vector3Int position, 
         BuildingInfo building, 
         out ChunkInfo newChunk, 
-        out ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo door
+        out DoorGenerationPosition.PreGeneratedDoorTempInfo door
         )
     {
         int randomDoorArrayKey = (int)(UnityEngine.Random.value * GetDoorGenerationPositions().Length);
