@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class OnInteractEnterMultiZDoor : Interactable
+public class OnInteractEnterMultiZDoor : AnimatedInteractable
 {
     private MultiZLayerCamera _multiZLayerCameraComponent;
     private ZIndexLayer _zLayer;

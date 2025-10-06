@@ -172,9 +172,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 0
-  AnimationOnStartInteract: 2
-  AnimationOnFinishInteract: 1
   EffectsOnStartInteract: []
+  AnimationOnStartInteract: 2
+  AnimationOnFinishInteract: 4
+  SelfAnimatorOnStartIntreactTriggerName: Open
+  SelfAnimatorOnFinishIntreactTriggerName: 
   EffectsWhileInteracting: []
   EffectsOnFinishInteract: []
   SceneName: WorldGenerationDebug
