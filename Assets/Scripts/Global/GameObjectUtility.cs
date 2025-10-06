@@ -50,4 +50,16 @@ public static class GameObjectUtility
         component = gameObject.GetComponentInChildren<T>();
         return component != null;
     }
+
+    public static bool TryGetComponentInSelfOrParent<T>(GameObject gameObject, out T component)
+    {
+        return gameObject.TryGetComponent(out component) || gameObject.transform.parent.TryGetComponent(out component);
+    }
+
+    public static bool TryGetComponentInSelfOrParentOrChild<T>(GameObject gameObject, out T component)
+    {
+        if (TryGetComponentInSelfOrParent(gameObject, out component)) return true;
+        component = gameObject.GetComponentInChildren<T>();
+        return component != null;
+    }
 }

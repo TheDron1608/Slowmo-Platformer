@@ -133,7 +133,7 @@ public class MeleeProjectile : AbstractProjectile
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
                 Owner != charComponent.CharComponents.CharacterHolding
             ) &&
-            (!GameObjectUtility.TryGetComponentInSelfOrChild(currentHitObjet.gameObject, out IDamagable damagableHitObject) || damagableHitObject.HitableByMeleeProjectiles) &&
+            (!GameObjectUtility.TryGetComponentInSelfOrParentOrChild(currentHitObjet.gameObject, out IDamagable damagableHitObject) || damagableHitObject.HitableByMeleeProjectiles) &&
             GetHasNoBlocksBetweenHitObject(currentHitObjet);
     }
 

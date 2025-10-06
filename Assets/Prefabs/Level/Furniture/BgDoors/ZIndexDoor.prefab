@@ -169,11 +169,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 0
+  EffectsOnStartInteract: []
   AnimationOnStartInteract: 2
   AnimationOnFinishInteract: 1
-  EffectsOnStartInteract: []
+  SelfAnimatorOnStartIntreactTriggerName: 
+  SelfAnimatorOnFinishIntreactTriggerName: 
   EffectsWhileInteracting:
   - {fileID: 3692422950068839780, guid: 315e6127a681f434a829f281edbf911e, type: 3}
+  - {fileID: 6689704956347576190, guid: 98af01dc9e154674ab8c66d53b52d67b, type: 3}
   EffectsOnFinishInteract: []
   Exit: {fileID: 0}
 --- !u!212 &3538226666340415462

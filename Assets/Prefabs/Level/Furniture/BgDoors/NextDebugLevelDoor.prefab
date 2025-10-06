@@ -172,7 +172,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 0
-  EffectsOnStartInteract: []
+  EffectsOnStartInteract:
+  - {fileID: 6689704956347576190, guid: 98af01dc9e154674ab8c66d53b52d67b, type: 3}
   AnimationOnStartInteract: 2
   AnimationOnFinishInteract: 4
   SelfAnimatorOnStartIntreactTriggerName: Open

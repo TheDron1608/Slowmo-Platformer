@@ -2421,6 +2421,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebugPlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 2752006914712465162, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
+      propertyPath: _currentEffects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752006914712465162, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
+      propertyPath: '_currentEffects.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6689704956347576190, guid: 98af01dc9e154674ab8c66d53b52d67b, type: 3}
     - target: {fileID: 4874870635505095739, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2679,7 +2687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4722062218309720960, guid: ed765400a25e05746b75d37bac6927a0, type: 3}
       propertyPath: BuildingsAmount
-      value: 2
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4722062218309720960, guid: ed765400a25e05746b75d37bac6927a0, type: 3}
       propertyPath: MaxBuildingRooms

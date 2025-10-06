@@ -23,13 +23,13 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
     public bool HitableByMeleeProjectiles
     {
-        get => _hitableByMeleeProjectiles;
+        get => _hitableByMeleeProjectiles && CharComponents.CharacterHealth.HitableByMeleeProjectiles;
         set => _hitableByMeleeProjectiles = value;
     }
 
     public bool HitableByRangedProjectiles
     {
-        get => _hitableByRangedProjectiles;
+        get => _hitableByRangedProjectiles && CharComponents.CharacterHealth.HitableByRangedProjectiles;
         set => _hitableByRangedProjectiles = value;
     }
 
