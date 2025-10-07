@@ -12,6 +12,11 @@ public class ZIndexLayer : MonoBehaviour
     private const string FURNITURE_LAYER_NAME = "Furniture";
     private const string PROJECTILES_LAYER_NAME = "Projectiles";
 
+    private const string BACKGROUND_SORTING_LAYER_NAME = "Background";
+    private const string OBJECTS_SORTING_LAYER_NAME = "Objects";
+    private const string ENVIROMENT_SORTING_LAYER_NAME = "Enviroment";
+    private const string OVERGROUND_SORTING_LAYER_NAME = "Overground";
+
     private const string FLUID_PARTICLES_CONTAINER_NAME = "FluidParticles";
     private const string CHARACTERS_CONTAINER_NAME = "Characters";
     private const string FURNITURE_CONTAINER_NAME = "Furniture";
@@ -41,6 +46,11 @@ public class ZIndexLayer : MonoBehaviour
     public int FurnituresLayer { get; private set; }
     public int ProjectilesLayer { get; private set; }
     public int EntireLayerMask { get; private set; }
+
+    public int BackgroundSortingLayer { get; private set; }
+    public int ObjectsSortingLayer { get; private set; }
+    public int EnviromentSortingLayer { get; private set; }
+    public int OvergroundSortingLayer { get; private set; }
 
     public Transform FluidParticlesContainer { get; private set; }
     public Transform CharactersContainer { get; private set; }
@@ -104,6 +114,11 @@ public class ZIndexLayer : MonoBehaviour
         FurnituresLayer = LayerMask.NameToLayer($"Z{ZIndex}{FURNITURE_LAYER_NAME}");
         ProjectilesLayer = LayerMask.NameToLayer($"Z{ZIndex}{PROJECTILES_LAYER_NAME}");
 
+        BackgroundSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{BACKGROUND_SORTING_LAYER_NAME}");
+        ObjectsSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OBJECTS_SORTING_LAYER_NAME}");
+        EnviromentSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{ENVIROMENT_SORTING_LAYER_NAME}");
+        OvergroundSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OVERGROUND_SORTING_LAYER_NAME}");
+
         EntireLayerMask = (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
 
         FluidParticlesContainer = transform.Find(FLUID_PARTICLES_CONTAINER_NAME);
@@ -164,17 +179,41 @@ public class ZIndexLayer : MonoBehaviour
 
     public void UpdateLayerForGameObject(GameObject gameObject)
     {
-        if (gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
+        if (gameObject.TryGetComponent(out Renderer renderer))
         {
-            spriteRenderer.sortingOrder = spriteRenderer.sortingOrder % 1000 + ZIndex * 1000;
-        }
-        else if (gameObject.TryGetComponent(out TilemapRenderer tileMapRenderer))
-        {
-            tileMapRenderer.sortingOrder = tileMapRenderer.sortingOrder % 1000 + ZIndex * 1000;
-        }
-        else if (gameObject.TryGetComponent(out ParticleSystemRenderer particleSystem))
-        {
-            particleSystem.sortingOrder = particleSystem.sortingOrder % 1000 + ZIndex * 1000;
+            renderer.sortingOrder = renderer.sortingOrder % 1000 + ZIndex * 1000;
+
+            switch (gameObject.tag)
+            {
+                case LayerManager.PROJECTILE_TAG_NAME:
+                case LayerManager.CHARACTER_TAG_NAME:
+                case LayerManager.FURNITURE_TAG_NAME:
+                case LayerManager.HOLDABLE_TAG_NAME:
+                case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
+                    renderer.sortingLayerID = ObjectsSortingLayer;
+                    break;
+
+                case LayerManager.FLUID_PARTICLE_TAG_NAME:
+                    renderer.sortingLayerID = BackgroundSortingLayer;
+                    break;
+
+                case LayerManager.ENVIROMENT_TAG_NAME:
+                    switch (gameObject.GetComponent<TileBehaviour>()?.BehaviourType)
+                    {
+                        case TileBehaviour.TileBehaviourType.BACKGROUND:
+                        case TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS:
+                            renderer.sortingLayerID = BackgroundSortingLayer; 
+                            break;
+                        case TileBehaviour.TileBehaviourType.OVERGROUND:
+                        case TileBehaviour.TileBehaviourType.OVERGROUND_DECORATIONS:
+                            renderer.sortingLayerID = OvergroundSortingLayer;
+                            break;
+                        default:
+                            renderer.sortingLayerID = EnviromentSortingLayer; 
+                            break;
+                    }
+                    break;
+            }
         }
 
         switch (gameObject.tag)
