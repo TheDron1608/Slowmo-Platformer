@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,6 +18,21 @@ public class ChunkInfo
         {
             breakableObj.OnBroken += BreakableObj_OnBroken;
         }
+    }
+
+    public ChunkConnection.PreGeneratedChunkConnectionTempInfo PickRandomFilteredConnection(ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState filter)
+    {
+        return NumberMath.PickRandomItem(Connections.Where((connection) => connection.State == filter).ToArray());
+    }
+
+    public Vector3 PickDoorAvgPosition()
+    {
+        Vector3 result = Vector2.zero;
+        foreach (var doorGen in DoorGenPositions)
+        {
+            result += doorGen.GetSpawnPosition();
+        }
+        return result / DoorGenPositions.Count;
     }
 
     private void BreakableObj_OnBroken(object sender, MonoBehaviour e)

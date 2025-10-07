@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class WorldGenerationManager : MonoBehaviour
@@ -14,8 +15,8 @@ public class WorldGenerationManager : MonoBehaviour
     public int BuildingDistance = 25;
     public List<Chunk> Chunks = new();
     public Vector2 GenerateDirection = Vector2.one;
-    public float ExtraRoomGenerationChance = 0.1f;
-    public List<List<GameObject>> PossibleLootboxContent = new();
+    public int MinParallelRooms = 1;
+    public int MaxParallelRooms = 3;
     public int Seed;
 
     private UnityEngine.Random.State _randomState;
@@ -115,6 +116,9 @@ public class WorldGenerationManager : MonoBehaviour
         {
             if (layer.MultiTileMapsContainer.GetHasAnyTileAt(prefferedPosition)) break;
 
+            int parallelRoomsAmount = NumberMath.PickRandomInRangeNoSeed(MinParallelRooms, MaxParallelRooms);
+            int currentParallelRoomsAmount = 0;
+            bool finishGenerating = false;
             foreach (
                 ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo avaibleConnection in
                 layer.GetGenerationTempInfoByType<ChunkConnection>(false).OrderBy(
@@ -124,7 +128,6 @@ public class WorldGenerationManager : MonoBehaviour
             {
                 if (avaibleConnection.Generated) continue;
 
-                bool successfullGenerating = false;
                 for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
                 {
                     if (NumberMath.PickRandomItem(Chunks).TryAddChunk(
@@ -134,35 +137,28 @@ public class WorldGenerationManager : MonoBehaviour
                         out ChunkInfo newChunkInfo, 
                         out ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunkConnection))
                     {
-                        successfullGenerating = true;
+                        currentParallelRoomsAmount++;
+                        if (currentParallelRoomsAmount >= parallelRoomsAmount)
+                        {
+                            finishGenerating = true;
+                        }
                         break;
                     }
                 }
-                if (successfullGenerating)
+                if (finishGenerating)
                 {
                     break;
                 }
             }
         }
-
-        //generating extra rooms
-        /*
-        foreach (ChunkInfo chunk in newBuildingInfo.Chunks)
-        {
-            foreach (ChunkConnection connection in chunk.Connections)
-            {
-                if (!connection.isActiveAndEnabled) continue;
-
-                if (UnityEngine.Random.value < ExtraRoomGenerationChance)
-                {
-                    NumberMath.PickRandomItem(Chunks).TryAddChunk(layer, connection, newBuildingInfo, out ChunkInfo newExtraChunkInfo, out ChunkConnection newExtraConnectionPosition);
-                }
-            }
-        }
-        */
+        
 
         //setting exit door
-        newBuildingInfo.Exit = NumberMath.PickRandomItem(newBuildingInfo.Chunks.Last().DoorGenPositions);
+        newBuildingInfo.Exit = NumberMath.PickRandomItem(
+            newBuildingInfo.Chunks.OrderBy(
+                (ChunkInfo connection) => Vector3.Distance(connection.PickDoorAvgPosition(), prefferedPosition)
+                ).First().DoorGenPositions
+            );
 
         //generating enviroment with OnFinishBuildingEnviroment attr
         foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishBuildingEnviroment>(false))

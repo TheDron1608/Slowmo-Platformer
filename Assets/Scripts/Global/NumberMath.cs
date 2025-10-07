@@ -33,6 +33,7 @@ public static class NumberMath
     }
     public static T PickRandomItem<T>(T[] array)
     {
+        if (array.Length == 0) return default;
         return array[(int)(UnityEngine.Random.value * (array.Length))];
     }
     public static T PickRandomItem<T>(T[] array, int limit)
