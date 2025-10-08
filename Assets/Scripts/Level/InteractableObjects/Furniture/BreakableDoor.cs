@@ -24,7 +24,7 @@ public class BreakableDoor : BreakableObject
             foreach (GameObject objectOnBreak in SpawnObjectsOnBreak)
             {
                 GameObject newObjectOnBreak = Instantiate(objectOnBreak, transform);
-                layer.UpdateLayerForGameObject(newObjectOnBreak);
+                layer.UpdateLayerForAllChildren(newObjectOnBreak.transform);
                 newObjectOnBreak.transform.position = spawnPosition;
             }
 

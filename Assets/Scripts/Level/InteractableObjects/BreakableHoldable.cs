@@ -71,7 +71,7 @@ public class BreakableHoldable : BreakableObject
                 else
                 {
                     GameObject newObjectOnBreak = Instantiate(objectOnBreak, transform);
-                    layer.UpdateLayerForGameObject(newObjectOnBreak);
+                    layer.UpdateLayerForAllChildren(newObjectOnBreak.transform);
                     newObjectOnBreak.transform.position = spawnPosition;
                 }
             }

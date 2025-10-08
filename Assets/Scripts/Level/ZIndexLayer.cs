@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
 [DefaultExecutionOrder(-1)]
@@ -136,6 +137,16 @@ public class ZIndexLayer : MonoBehaviour
     {
         foundOvergound |= t.GetComponent<OvergoundSprite>() != null;
 
+        SetAlphaForGameObject(layerAlpha, t, foundOvergound);
+
+        for (int i = 0; i < t.childCount; i++)
+        {
+            SetAlphaForAllChildren(layerAlpha, t.GetChild(i), foundOvergound);
+        }
+    }
+
+    private void SetAlphaForGameObject(LayerAlphaMode layerAlpha, Transform t, bool foundOvergound = false)
+    {
         if (t.TryGetComponent(out SpriteRenderer spriteRenderer))
         {
             spriteRenderer.color = new Color(
@@ -154,11 +165,6 @@ public class ZIndexLayer : MonoBehaviour
                 foundOvergound ? layerAlpha.OvergoundAlpha : layerAlpha.Alpha
                 );
         }
-
-        for (int i = 0; i < t.childCount; i++)
-        {
-            SetAlphaForAllChildren(layerAlpha, t.GetChild(i), foundOvergound);
-        }
     }
 
     public void UpdateLayerForAllChildren()
@@ -171,49 +177,72 @@ public class ZIndexLayer : MonoBehaviour
 
         for (int i = 0; i < t.childCount; i++)
         {
-            UpdateLayerForGameObject(t.GetChild(i).gameObject);
-
             UpdateLayerForAllChildren(t.GetChild(i));
         }
     }
 
-    public void UpdateLayerForGameObject(GameObject gameObject)
+    private void UpdateLayerForGameObject(GameObject gameObject)
     {
         if (gameObject.TryGetComponent(out Renderer renderer))
         {
             renderer.sortingOrder = renderer.sortingOrder % 1000 + ZIndex * 1000;
+        }
 
-            switch (gameObject.tag)
-            {
-                case LayerManager.PROJECTILE_TAG_NAME:
-                case LayerManager.CHARACTER_TAG_NAME:
-                case LayerManager.FURNITURE_TAG_NAME:
-                case LayerManager.HOLDABLE_TAG_NAME:
-                case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
-                    renderer.sortingLayerID = ObjectsSortingLayer;
-                    break;
+        switch (gameObject.tag)
+        {
+            case LayerManager.PROJECTILE_TAG_NAME:
+            case LayerManager.CHARACTER_TAG_NAME:
+            case LayerManager.FURNITURE_TAG_NAME:
+            case LayerManager.HOLDABLE_TAG_NAME:
+            case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
+                SetLightRendererLayer(
+                    gameObject,
+                    ObjectsSortingLayer,
+                    new int[] { BackgroundSortingLayer, ObjectsSortingLayer },
+                    new int[] { }
+                );
+                break;
 
-                case LayerManager.FLUID_PARTICLE_TAG_NAME:
-                    renderer.sortingLayerID = BackgroundSortingLayer;
-                    break;
+            case LayerManager.FLUID_PARTICLE_TAG_NAME:
+                SetLightRendererLayer(
+                    gameObject,
+                    BackgroundSortingLayer,
+                    new int[] { BackgroundSortingLayer },
+                    new int[] { }
+                );
+                break;
 
-                case LayerManager.ENVIROMENT_TAG_NAME:
-                    switch (gameObject.GetComponent<TileBehaviour>()?.BehaviourType)
-                    {
-                        case TileBehaviour.TileBehaviourType.BACKGROUND:
-                        case TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS:
-                            renderer.sortingLayerID = BackgroundSortingLayer; 
-                            break;
-                        case TileBehaviour.TileBehaviourType.OVERGROUND:
-                        case TileBehaviour.TileBehaviourType.OVERGROUND_DECORATIONS:
-                            renderer.sortingLayerID = OvergroundSortingLayer;
-                            break;
-                        default:
-                            renderer.sortingLayerID = EnviromentSortingLayer; 
-                            break;
-                    }
-                    break;
-            }
+            case LayerManager.ENVIROMENT_TAG_NAME:
+                switch (gameObject.GetComponent<TileBehaviour>()?.BehaviourType)
+                {
+                    case TileBehaviour.TileBehaviourType.BACKGROUND:
+                    case TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS:
+                        SetLightRendererLayer(
+                            gameObject,
+                            BackgroundSortingLayer,
+                            new int[] { BackgroundSortingLayer },
+                            new int[] { }
+                        );
+                        break;
+                    case TileBehaviour.TileBehaviourType.OVERGROUND:
+                    case TileBehaviour.TileBehaviourType.OVERGROUND_DECORATIONS:
+                        SetLightRendererLayer(
+                            gameObject,
+                            OvergroundSortingLayer,
+                            new int[] { OvergroundSortingLayer },
+                            new int[] { OvergroundSortingLayer }
+                        );
+                        break;
+                    default:
+                        SetLightRendererLayer(
+                            gameObject,
+                            EnviromentSortingLayer,
+                            new int[] { EnviromentSortingLayer, BackgroundSortingLayer, ObjectsSortingLayer },
+                            new int[] { BackgroundSortingLayer, ObjectsSortingLayer }
+                        );
+                        break;
+                }
+                break;
         }
 
         switch (gameObject.tag)
@@ -248,7 +277,22 @@ public class ZIndexLayer : MonoBehaviour
                 break;
         }
 
-        SetAlphaForAllChildren(LayerAlpha, gameObject.transform);
+        SetAlphaForGameObject(LayerAlpha, gameObject.transform);
+    }
+
+    private void SetLightRendererLayer(GameObject gameObject, int sortingLayerId, int[] lightTargetSortingLayers, int[] shadowTargetSortingLayers)
+    {
+        if (gameObject.TryGetComponent(out Renderer renderer)) {
+            renderer.sortingLayerID = sortingLayerId;
+        }
+        if (gameObject.TryGetComponent(out Light2D light2D))
+        {
+            light2D.ApplyToSortingLayers = lightTargetSortingLayers;
+        }
+        if (gameObject.TryGetComponent(out ShadowCaster2D shadowCaster2D))
+        {
+            shadowCaster2D.ApplyToSortingLayers = shadowTargetSortingLayers;
+        }
     }
 
     public ZIndexLayer PickLayerAbove()

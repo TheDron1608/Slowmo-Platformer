@@ -30,7 +30,7 @@ public class OnInteractToggleOpenDoor : Interactable
         {
             _isOpen = value;
             gameObject.tag = value ? LayerManager.FURNITURE_TAG_NAME : LayerManager.ENVIROMENT_TAG_NAME;
-            gameObject.layer = value ? _layer.FurnituresLayer : _layer.EnviromentLayer;
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForAllChildren(transform);
             _collider.isTrigger = value;
         }
     }

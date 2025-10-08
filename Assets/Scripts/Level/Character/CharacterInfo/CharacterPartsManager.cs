@@ -107,7 +107,7 @@ public class CharacterPartsManager : AbstractCharacterComponent
             equipment,
             transform
             );
-        LayerManager.Instance.GetZLayerOfGameObject(newEquipment.gameObject).UpdateLayerForGameObject(newEquipment.gameObject);
+        LayerManager.Instance.GetZLayerOfGameObject(newEquipment.gameObject).UpdateLayerForAllChildren(newEquipment.transform);
         AddCharacterPart(newEquipment);
     }
 

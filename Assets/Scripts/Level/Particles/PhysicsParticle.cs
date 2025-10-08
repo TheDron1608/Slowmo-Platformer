@@ -31,7 +31,6 @@ public class PhysicsParticle : MonoBehaviour
 
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
-        layer.UpdateLayerForGameObject(gameObject);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
