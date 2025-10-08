@@ -293,10 +293,13 @@ PrefabInstance:
       addedObject: {fileID: 6454227685744098692}
     - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 4729785835883487910}
+    - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1115958857480448983}
     - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4729785835883487910}
+      addedObject: {fileID: 4901091424601245381}
   m_SourcePrefab: {fileID: 100100000, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
 --- !u!61 &863664289256100165 stripped
 BoxCollider2D:
@@ -416,6 +419,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4729785835883487910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136883466268061558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb43f9770b01c141a07470acb1c7f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BehaviourType: 2
+  ValidAsPlatform: 0
+  Overridable: 0
+  OverrideOrder: 0
 --- !u!114 &1115958857480448983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,14 +481,14 @@ MonoBehaviour:
   m_PreviousTrimEdge: 0.05
   m_PreviousEdgeProcessing: 1
   m_PreviousShadowCastingSource: 2
-  m_PreviousShadowShape2DSource: {fileID: 0}
+  m_PreviousShadowShape2DSource: {fileID: 863664289256100165}
   references:
     version: 2
     RefIds:
     - rid: 2454877602912403559
       type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
---- !u!114 &4729785835883487910
+--- !u!114 &4901091424601245381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -478,13 +497,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1136883466268061558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beb43f9770b01c141a07470acb1c7f02, type: 3}
+  m_Script: {fileID: 11500000, guid: b69e016e883c8924594bbcc9ac0cf5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BehaviourType: 2
-  ValidAsPlatform: 0
-  Overridable: 0
-  OverrideOrder: 0
 --- !u!224 &6096328102071833852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 53351414323084833, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}

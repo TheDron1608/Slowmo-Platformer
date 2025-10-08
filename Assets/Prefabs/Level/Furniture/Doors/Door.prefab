@@ -192,6 +192,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 987710182626711385, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a106f5492afc66e43acf765f6ea0d27f, type: 3}
     - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: _brokenPartsParticleSpawners.Array.size
       value: 2
@@ -242,11 +246,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
@@ -294,10 +298,13 @@ PrefabInstance:
       addedObject: {fileID: 4198133634627122123}
     - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 4729785835883487910}
+    - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 644431726890199640}
     - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4729785835883487910}
+      addedObject: {fileID: 5893112749346593878}
   m_SourcePrefab: {fileID: 100100000, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
 --- !u!61 &863664289256100165 stripped
 BoxCollider2D:
@@ -362,6 +369,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4729785835883487910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136883466268061558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb43f9770b01c141a07470acb1c7f02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BehaviourType: 2
+  ValidAsPlatform: 0
+  Overridable: 0
+  OverrideOrder: 0
 --- !u!114 &644431726890199640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,7 +438,7 @@ MonoBehaviour:
     - rid: 2454877602912403558
       type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
---- !u!114 &4729785835883487910
+--- !u!114 &5893112749346593878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -424,13 +447,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1136883466268061558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beb43f9770b01c141a07470acb1c7f02, type: 3}
+  m_Script: {fileID: 11500000, guid: b69e016e883c8924594bbcc9ac0cf5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BehaviourType: 2
-  ValidAsPlatform: 0
-  Overridable: 0
-  OverrideOrder: 0
 --- !u!224 &6096328102071833852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 53351414323084833, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}

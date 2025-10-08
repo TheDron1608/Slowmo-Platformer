@@ -3,6 +3,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
+using System.Runtime.CompilerServices;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using System.Reflection;
+
 
 [DefaultExecutionOrder(-1)]
 public class ZIndexLayer : MonoBehaviour
@@ -285,13 +289,13 @@ public class ZIndexLayer : MonoBehaviour
         if (gameObject.TryGetComponent(out Renderer renderer)) {
             renderer.sortingLayerID = sortingLayerId;
         }
-        if (gameObject.TryGetComponent(out Light2D light2D))
+        if (gameObject.TryGetComponent(out DynamicLightSortingLayer lightSortingLayer))
         {
-            light2D.ApplyToSortingLayers = lightTargetSortingLayers;
+            lightSortingLayer.SortingLayer = lightTargetSortingLayers;
         }
-        if (gameObject.TryGetComponent(out ShadowCaster2D shadowCaster2D))
+        if (gameObject.TryGetComponent(out DynamicShadowCasterSortingLayer shadowSortingLayer))
         {
-            shadowCaster2D.ApplyToSortingLayers = shadowTargetSortingLayers;
+            shadowSortingLayer.SortingLayer = shadowTargetSortingLayers;
         }
     }
 

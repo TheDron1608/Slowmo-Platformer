@@ -115,6 +115,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6161538541606763395, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1305443831302698541}
+    - targetCorrespondingSourceObject: {fileID: 6161538541606763395, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3573790223739171622}
   m_SourcePrefab: {fileID: 100100000, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
 --- !u!1 &18481369919161199 stripped
 GameObject:
@@ -174,6 +177,18 @@ MonoBehaviour:
     - rid: 2454877602729951316
       type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &3573790223739171622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18481369919161199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69e016e883c8924594bbcc9ac0cf5d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!66 &7532457467535589392 stripped
 CompositeCollider2D:
   m_CorrespondingSourceObject: {fileID: 4416672468875704572, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
