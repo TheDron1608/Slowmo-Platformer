@@ -11,29 +11,19 @@ public class MultiZLayerCamera : MonoBehaviour
 
     private Camera _cameraComponent;
 
-    private int _currentIndex = 1;
-    public int CurrentZIndex
+    private ZIndexLayer _currentLayer;
+    public ZIndexLayer CurrentZLayer
     {
-        get => _currentIndex;
-        set
+        get => _currentLayer;
+        private set
         {
-            _currentIndex = value;
-            transform.position = new Vector3(
-                transform.position.x,
-                transform.position.y,
-                GetCurrentZIndexLayer().transform.position.z - ZoomOutDistance
-                );
-
-            //for (int i = 0; i < ZIndexLayer.ZLayers.Count; i++)
-            //{
-            //    ZIndexLayer.ZLayers[i].gameObject.SetActive(ZIndexLayer.ZLayers[i].GetZLayer() == CurrentZIndex);
-            //}
+            _currentLayer = value;
         }
     }
 
     private void Awake()
     {
-        _currentIndex = _startZLayer.ZIndex;
+        _currentLayer = _startZLayer;
         if (!TryGetComponent(out _cameraComponent)) throw new UnityException("Camera component not found");
     }
 
@@ -56,12 +46,17 @@ public class MultiZLayerCamera : MonoBehaviour
         }
     }
 
-    public ZIndexLayer GetCurrentZIndexLayer()
+    private void FixedUpdate()
     {
-        for (int i = 0; i < LayerManager.Instance.ZLayers.Count; i++)
+        CurrentZLayer = GetCurrentZIndexLayer();
+    }
+
+    private ZIndexLayer GetCurrentZIndexLayer()
+    {
+        for (int i = LayerManager.Instance.ZLayers.Count - 1; i > 0; i--)
         {
-            if (LayerManager.Instance.ZLayers[i].ZIndex == CurrentZIndex) return LayerManager.Instance.ZLayers[i];
+            if (transform.position.z + LayerAppearDistance < LayerManager.Instance.ZLayers[i].transform.position.z) return LayerManager.Instance.ZLayers[i];
         }
-        throw new UnityException($"ZIndex {CurrentZIndex} not found");
+        return null;
     }
 }
