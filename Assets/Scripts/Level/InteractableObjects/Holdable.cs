@@ -97,21 +97,24 @@ public class Holdable : Interactable
 
             if (value != null)
             {
-                if (value.TryGetComponent(out AbstractCharacterComponent charComponent))
+                if (value.TryGetComponent(out IStuckToObject stuckToObject))
                 {
-                    _rigidBodyComponent.bodyType = RigidbodyType2D.Kinematic;
-                    transform.parent = charComponent.CharComponents.transform;
-                    charComponent.CharComponents.CharacterStuckedObjects.StuckedObjects.Add(this);
+                    _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+                    stuckToObject.AddStuckedObject(this);
                 }
-
+                else if (value.TryGetComponent(out AbstractCharacterComponent charComponent))
+                {
+                    _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+                    charComponent.CharComponents.CharacterStuckedObjects.AddStuckedObject(this);
+                }
                 else if
                     (
                         value.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) &&
                         VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToGetThrough &&
                         (stuckWhoRigidBody.bodyType == RigidbodyType2D.Static || stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic)
                     )
-                {
                     _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+                {
                 }
                 _isStuck = true;
             }
@@ -121,7 +124,7 @@ public class Holdable : Interactable
                 _isStuck = false;
                 if (_stuckedToCollider.TryGetComponent(out AbstractCharacterComponent charComponent))
                 {
-                    charComponent.CharComponents.CharacterStuckedObjects.StuckedObjects.Remove(this);
+                    charComponent.CharComponents.CharacterStuckedObjects.RemoveStuckedObject(this);
                 }
                 _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
             }
@@ -415,6 +418,8 @@ public class Holdable : Interactable
         StuckedToCollider = null;
 
         ExcludedCollideThrower = newHolder.CharComponents;
+
+        GetComponent<BreakableHoldable>()?.RemoveAllStuckedObjects();
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out ThrowableWeapon throwableWeapon))

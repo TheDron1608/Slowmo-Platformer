@@ -28,6 +28,8 @@ public class BreakableDoor : BreakableObject
                 newObjectOnBreak.transform.position = spawnPosition;
             }
 
+            RemoveAllStuckedObjects();
+
             SpawnObjectsOnBreak.Clear();
         }
 

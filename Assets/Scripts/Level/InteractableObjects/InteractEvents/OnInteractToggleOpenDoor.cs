@@ -28,10 +28,14 @@ public class OnInteractToggleOpenDoor : Interactable
         get => _isOpen;
         set
         {
+            if (_isOpen == value) return;
+
             _isOpen = value;
             gameObject.tag = value ? LayerManager.FURNITURE_TAG_NAME : LayerManager.ENVIROMENT_TAG_NAME;
             LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForAllChildren(transform);
             _collider.isTrigger = value;
+
+            GetComponent<IStuckToObject>()?.RemoveAllStuckedObjects();
         }
     }
 

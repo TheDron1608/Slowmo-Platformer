@@ -1,9 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using static CharacterVisual;
 
-public class CharacterStuckedObjects : AbstractCharacterComponent
+public class CharacterStuckedObjects : AbstractCharacterComponent, IStuckToObject
 {
     public float RemoveObjectVelocity = 3.5f;
     public float RemoveObjectMaxRandomAngularVelocity = 360f;
@@ -13,7 +14,17 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
     public List<Holdable> StuckedObjects
     {
         get => _stuckedObjects;
-        set => _stuckedObjects = value;
+    }
+
+    public void AddStuckedObject(Holdable obj)
+    {
+        _stuckedObjects.Add(obj);
+        StartCoroutine(StuckObjectTrack(obj));
+    }
+
+    public void RemoveStuckedObject(Holdable obj)
+    {
+        _stuckedObjects.Remove(obj);
     }
 
     public void RemoveAllStuckedObjects()
@@ -45,5 +56,22 @@ public class CharacterStuckedObjects : AbstractCharacterComponent
                 stuckObjectRigidBody.linearVelocity = (VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) + direction * 3).normalized * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
             }
         }
+    }
+
+    private IEnumerator StuckObjectTrack(Holdable stuckObject)
+    {
+        GameObject trackObject = new GameObject("stuckObject",  typeof(SpriteRenderer));
+        trackObject.transform.parent = CharComponents.CharacterRigidBodyCapsuleColliderHitBox.transform;
+        trackObject.transform.position = stuckObject.transform.position;
+
+        do
+        {
+            stuckObject.transform.position = trackObject.transform.position;
+
+            yield return new WaitForEndOfFrame();
+        }
+        while (!stuckObject.IsDestroyed() && stuckObject.StuckedToCollider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents);
+
+        Destroy(trackObject);
     }
 }

@@ -52,11 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 1
-  AnimationOnStartInteract: 0
-  AnimationOnFinishInteract: 0
   EffectsOnStartInteract: []
-  EffectsWhileInteracting: []
-  EffectsOnFinishInteract: []
   AIPickUpPriority: 0
   RotatableWhenIsHolded: 1
   ResetRotationWhenIsHolded: 0
@@ -82,6 +78,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LootSpawnType: 0
   SpawnObjectsOnBreak: []
+  RemoveObjectOnBreakVelocity: 0
+  RemoveObjectOnBreakMaxRandomAngularVelocity: 0
   _brokenPartsParticleSpawners: []
   _maxUses: 10
   UnlimitedUses: 1

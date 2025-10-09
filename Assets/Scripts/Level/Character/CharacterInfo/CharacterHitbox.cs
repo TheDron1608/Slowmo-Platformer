@@ -96,11 +96,6 @@ public class CharacterHitbox : AbstractCharacterComponent
     {
         if (_changeHitboxSmoothlyCoroutine != null) StopCoroutine(_changeHitboxSmoothlyCoroutine);
         _changeHitboxSmoothlyCoroutine = StartCoroutine(ChangeHitboxSmoothly(value, smoothChangeDuration));
-
-        if (HitBoxTransforms[(int)_currentHitBoxTransform] != value)
-        {
-            CharComponents.CharacterStuckedObjects.RemoveAllStuckedObjects();
-        }
     }
 
     private IEnumerator ChangeHitboxSmoothly(HitBoxTransform targetHitbox, float smoothChangeDuration)

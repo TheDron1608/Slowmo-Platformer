@@ -82,6 +82,8 @@ public class BreakableHoldable : BreakableObject
             _brokenPartsParticleSpawners[i].SpawnParticle();
         }
 
+        RemoveAllStuckedObjects();
+
         Destroy(gameObject);
     }
 }
