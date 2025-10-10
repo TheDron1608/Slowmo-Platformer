@@ -34,7 +34,7 @@ public class CharacterCollision : AbstractCharacterComponent
     public PhysicsMaterial2D OnFallenPhysicsMaterial;
     public PhysicsMaterial2D OnNotOnFloorPhysicsMaterial;
 
-    const float COLLISION_HIT_DETECION_THICKNESS = 0.1f;
+    const float COLLISION_HIT_DETECION_THICKNESS = 0.05f;
     const float COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET = 0.7f; //value between 0 and 1
 
     public event EventHandler<OnCollisionChangedEventArgs> OnCollisionChanged;
@@ -132,7 +132,7 @@ public class CharacterCollision : AbstractCharacterComponent
             ) / 2 + COLLISION_HIT_DETECION_THICKNESS;
 
         //Debug.DrawLine(from, from + align * rayCastHitRange, Color.green);
-        return Physics2D.Raycast(from, align, rayCastHitRange, 1 << _currentZLayer.EnviromentLayer).collider?.gameObject;
+        return Physics2D.OverlapPoint(from + align * rayCastHitRange, 1 << _currentZLayer.EnviromentLayer)?.gameObject;
     }
 
     private GameObject RaycastHitFromCenter(Vector2 align)
