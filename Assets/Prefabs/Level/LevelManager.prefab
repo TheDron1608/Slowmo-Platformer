@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3145986112994402437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2537323382219654583}
+  m_Layer: 0
+  m_Name: CloudParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2537323382219654583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3145986112994402437}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4110802808599864788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3623795727511082278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8316361587589555608}
+  m_Layer: 0
+  m_Name: FluidParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8316361587589555608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3623795727511082278}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4110802808599864788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4360252234397813454
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,7 +93,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4110802808599864788}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2288510536422220207
@@ -59,10 +122,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e640cae4b38b740bcabaca9c894dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxParticles: 256
-  MaxSimulatedParticlesLife: 15
-  ParticleDissapearDuration: 2
-  ParticlesOnLevel: []
+  PhysicsParticlesMaxAmount: 256
+  FluidParticlesMaxAmount: 512
+  CloudParticlesMaxAmount: 64
+  UnusedPhysicsParticleContainer: {fileID: 4976560999766120094}
+  UnusedFluidParticleContainer: {fileID: 8316361587589555608}
+  UnusedCloudParticleContainer: {fileID: 2537323382219654583}
+  _emptyPhysicsParticleInstance: {fileID: 1440645133787257351, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
+  _emptyFluidParticleInstance: {fileID: 2307209281133744081, guid: 0dc1a29b76474f24b8282d26dcf16a59, type: 3}
+  _emptyCloudParticleInstance: {fileID: 2489607063802310916, guid: 1ceea4385d764fc4d8c1371b79aa60ee, type: 3}
 --- !u!114 &4722062218309720960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +143,79 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed049ad6df3185468d75ccc03af97df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BuildingsAmount: 8
+  MinBuildingRooms: 3
+  MaxBuildingRooms: 12
+  BuildingDistance: 25
   Chunks:
   - {fileID: 506989354111729446, guid: 4a7ba1fd5b781e44faf3c175edc28908, type: 3}
   - {fileID: 1940515277747391731, guid: 3f3afec0247735942b50794ef10e137f, type: 3}
+  GenerateDirection: {x: 1, y: 1}
+  MinParallelRooms: 1
+  MaxParallelRooms: 3
   Seed: 0
+--- !u!1 &4829675721774256220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4976560999766120094}
+  m_Layer: 0
+  m_Name: PhysicsParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4976560999766120094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4829675721774256220}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4110802808599864788}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5834207345548179653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4110802808599864788}
+  m_Layer: 0
+  m_Name: UnusedParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4110802808599864788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5834207345548179653}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.353835, y: 4.124487, z: -0.0145145375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4976560999766120094}
+  - {fileID: 8316361587589555608}
+  - {fileID: 2537323382219654583}
+  m_Father: {fileID: 5385443437079559187}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -36,12 +36,6 @@ public class RangedWeapon : ThrowableWeapon
 
         _bulletParticleSpawner = transform.Find(BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
         _cloudParticleSpawner = transform.Find(CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
-        GetComponent<DynamicMaterial>().OnMaterialChanged += RangedWeapon_OnMaterialChanged;
-    }
-
-    private void RangedWeapon_OnMaterialChanged(object sender, System.EventArgs e)
-    {
-        _cloudParticleSpawner.OverrideEffectMaterial = GetComponent<DynamicMaterial>().GetCurrentMaterial();
     }
 
     //PUBLIC PROPERTIES
@@ -135,11 +129,11 @@ public class RangedWeapon : ThrowableWeapon
         _bulletParticleSpawner.OverrideEffectMaterial = Projectile.GetComponent<ObjectEffectsReceiver>().EffectMaterial;
         if (Projectile is AbstractRangedProjectile rangedProjectile)
         {
-            _bulletParticleSpawner.SpawnParticle(amount, 0.05f, rangedProjectile.BulletCasingParticle.gameObject);
+            _bulletParticleSpawner.SpawnMultipleParticles(rangedProjectile.BulletCasingParticle, amount, 0.05f);
         }
         else
         {
-            _bulletParticleSpawner.SpawnParticle(amount);
+            _bulletParticleSpawner.SpawnMultipleParticles(amount, 0.05f);
         }
     }
 
@@ -182,7 +176,7 @@ public class RangedWeapon : ThrowableWeapon
 
         if (GetIsOutOfAmmo())
         {
-            _cloudParticleSpawner.SpawnParticle(1);
+            _cloudParticleSpawner.SpawnParticle();
         }
     }
 

@@ -2,9 +2,11 @@ using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class FluidParticle : MonoBehaviour
+public class FluidParticle : AbstractParticle
 {
-    const float MAX_FLUID_PARTICLE_LIFETIME_SECONDS = 10f;
+    const float MIN_FLUID_PARTICLE_LIFETIME_SECONDS = 0.25f;
+    const float MAX_FLUID_PARTCIEL_LIFETIME_SECONDS = 1f;
+    const float LIMIT_FLUID_PARTICLE_LIFETIME_SECONDS = 10f;
     const float FLUID_STOP_VELOCITY_MULTIPLIER = 10f;
     const float FLUID_GRAVITY_MULTIPLIER = 0.5f;
     const float MIN_APPEAR_SPEED_LIFETIME_REQUIRED = 0.125f;
@@ -19,7 +21,6 @@ public class FluidParticle : MonoBehaviour
     private Coroutine _moveCoroutine;
     private Vector3 _previousPosition;
     private int _currentEnviromentLayerMask;
-    private Coroutine _removeCoroutine;
     private bool _addedExtraFlyingSortingOrder = false;
     private Sprite _flyingSprite;
 
@@ -40,16 +41,27 @@ public class FluidParticle : MonoBehaviour
 
     private void Awake()
     {
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
-        _currentEnviromentLayerMask = 1 << layer.EnviromentLayer;
         _flyingSprite = GetComponent<SpriteRenderer>().sprite;
     }
 
-    public void SetProperties(Vector2 velocity, float lifeTime, Material material)
+    public override void SetParticleAttrs(
+        Vector2 position, 
+        Vector2 direction, 
+        float velocity, 
+        float angularVelocity, 
+        Material material, 
+        ZIndexLayer layer, 
+        Sprite sprite = null, 
+        Animator animator = null, 
+        BoxCollider2D collider = null,
+        string particleName = "untitled"
+        )
     {
-        _velocity = velocity;
-        _lifeTime = lifeTime;
+        base.SetParticleAttrs(position, direction, velocity, angularVelocity, material, layer, sprite, animator, collider, particleName);
+
+        _currentEnviromentLayerMask = 1 << layer.EnviromentLayer;
+        _velocity = direction * velocity;
+        _lifeTime = NumberMath.PickRandomInRangeNoSeed(MIN_FLUID_PARTICLE_LIFETIME_SECONDS, MAX_FLUID_PARTCIEL_LIFETIME_SECONDS);
 
         if (material != null && TryGetComponent(out SpriteRenderer newParticleSpriteRenderer))
         {
@@ -62,7 +74,7 @@ public class FluidParticle : MonoBehaviour
         }
         _moveCoroutine = StartCoroutine(MoveCoroutine());
 
-        GetComponent<Animator>().SetFloat(ANIMATOR_APPEAR_SPEED_PARAM_NAME, Mathf.Max(1f, MIN_APPEAR_SPEED_LIFETIME_REQUIRED / lifeTime > 0 ? lifeTime : 1f));
+        GetComponent<Animator>().SetFloat(ANIMATOR_APPEAR_SPEED_PARAM_NAME, Mathf.Max(1f, MIN_APPEAR_SPEED_LIFETIME_REQUIRED / _lifeTime > 0 ? _lifeTime : 1f));
     }
 
     private IEnumerator MoveCoroutine()
@@ -103,14 +115,8 @@ public class FluidParticle : MonoBehaviour
                 }
                 else
                 {
-                    InstantRemoveFluidParticle();
+                    RemoveParticle();
                 }
-                break;
-            }
-
-            if (_awaitTime > MAX_FLUID_PARTICLE_LIFETIME_SECONDS)
-            {
-                RemoveFluidParticle();
                 break;
             }
 
@@ -152,42 +158,6 @@ public class FluidParticle : MonoBehaviour
         GetComponent<Animator>().enabled = true;
         SetAddedExtraFlyingSortingOrder(false);
         _velocity = Vector2.zero;
-        RemoveNeighbourFluidParticlesAndSetSortingOrder();
-    }
-
-    private void RemoveNeighbourFluidParticlesAndSetSortingOrder()
-    {
-        int highestRemovedParticleSortingOrder = 0;
-        Transform particlesContainer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).FluidParticlesContainer;
-        for (int i = 0; i < particlesContainer.childCount; i++)
-        {
-            Transform particle = particlesContainer.GetChild(i);
-            if (
-                particle != null &&
-                particle.TryGetComponent(out FluidParticle fluidparticle) &&
-                fluidparticle.GetIsStatic() &&
-                fluidparticle != this
-                )
-            {
-                float distanceToFluidParticle = Vector2.Distance(transform.position, particle.position);
-
-                if (
-                    distanceToFluidParticle <= MAX_DISTANCE_TO_REMOVE_NEAREST_PARTICLE &&
-                    (
-                        (GetComponent<SpriteRenderer>().material == fluidparticle.GetComponent<SpriteRenderer>().material && Size >= fluidparticle.Size) ||
-                        Size > fluidparticle.Size
-                    )
-                    )
-                {
-                    fluidparticle.RemoveFluidParticle();
-                }
-                else if (distanceToFluidParticle <= MAX_DISTANCE_TO_INCREASE_SPRITE_SORTING_ORDER)
-                {
-                    highestRemovedParticleSortingOrder = math.max(highestRemovedParticleSortingOrder, (fluidparticle.GetComponent<SpriteRenderer>().sortingOrder + 1) % 100);
-                }
-            }
-        }
-        GetComponent<SpriteRenderer>().sortingOrder += highestRemovedParticleSortingOrder;
     }
 
     public bool GetIsStatic()
@@ -195,46 +165,10 @@ public class FluidParticle : MonoBehaviour
         return _velocity == Vector2.zero;
     }
 
-    public bool GetIsRemoving()
+    public override void RemoveParticle()
     {
-        return _removeCoroutine != null;
-    }
+        base.RemoveParticle();
 
-    public void RemoveFluidParticle()
-    {
-        if (_removeCoroutine == null)
-        {
-            _removeCoroutine = StartCoroutine(RemoveFluidParticleProcess());
-        }
-    }
-
-    public void InstantRemoveFluidParticle()
-    {
-        GameObject.Destroy(gameObject);
-    }
-
-    private IEnumerator RemoveFluidParticleProcess()
-    {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        while (spriteRenderer.color.a > 0f)
-        {
-            spriteRenderer.color = new Color(
-                spriteRenderer.color.r,
-                spriteRenderer.color.g,
-                spriteRenderer.color.b,
-                spriteRenderer.color.a - Time.deltaTime / REMOVE_DURATION_SECONDS
-                );
-            yield return new WaitForEndOfFrame();
-        }
-
-        GameObject.Destroy(gameObject);
-    }
-
-    private void OnDestroy()
-    {
-        if (FluidParticleManager.Instance != null)
-        {
-            FluidParticleManager.Instance.OnRemoveFluidParticle(this);
-        }
+        transform.parent = ParticlesManager.Instance.UnusedFluidParticleContainer;
     }
 }

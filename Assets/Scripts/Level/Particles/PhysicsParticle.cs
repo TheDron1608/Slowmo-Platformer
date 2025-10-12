@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 
-public class PhysicsParticle : MonoBehaviour
+public class PhysicsParticle : AbstractParticle
 {
-    private Rigidbody2D _rigidBodyComponent;
-
+    protected Rigidbody2D _rigidBodyComponent;
     private bool _enabledPhysics = true;
 
     public bool EnabledPhysics
@@ -20,17 +20,39 @@ public class PhysicsParticle : MonoBehaviour
         }
     }
 
-    private void Awake()
+    public override void SetParticleAttrs(
+        Vector2 position,
+        Vector2 direction,
+        float velocity,
+        float angularVelocity,
+        Material material,
+        ZIndexLayer layer,
+        Sprite sprite = null,
+        Animator animator = null,
+        BoxCollider2D collider = null,
+        string particleName = "untitled"
+        )
     {
-        OnAwake();
+        base.SetParticleAttrs(position, direction, velocity, angularVelocity, material, layer, sprite, animator, collider, particleName);
+
+        _rigidBodyComponent.linearVelocity = direction * velocity;
+        _rigidBodyComponent.angularVelocity = angularVelocity;
+        EnabledPhysics = true;
     }
 
-    protected virtual void OnAwake()
-    {
-        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
 
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
+    public override void RemoveParticle()
+    {
+        base.RemoveParticle();
+
+        EnabledPhysics = false;
+        transform.parent = ParticlesManager.Instance.UnusedPhysicsParticleContainer;
+    }
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -38,7 +60,7 @@ public class PhysicsParticle : MonoBehaviour
         if (_enabledPhysics)
         {
             if (
-                _rigidBodyComponent.linearVelocity == Vector2.zero && 
+                _rigidBodyComponent.linearVelocity == Vector2.zero &&
                 collision.gameObject.TryGetComponent(out Rigidbody2D collisionRigidBody) &&
                 (
                     collisionRigidBody.bodyType != RigidbodyType2D.Dynamic ||

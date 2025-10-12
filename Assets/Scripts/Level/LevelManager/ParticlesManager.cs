@@ -1,0 +1,114 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
+
+[DefaultExecutionOrder(-4)]
+public class ParticlesManager : MonoBehaviour
+{
+    [Header("Limits")]
+    public int PhysicsParticlesMaxAmount = 256;
+    public int FluidParticlesMaxAmount = 512;
+    public int CloudParticlesMaxAmount = 64;
+    [Header("UnusedInstancesContainers")]
+    public Transform UnusedPhysicsParticleContainer;
+    public Transform UnusedFluidParticleContainer;
+    public Transform UnusedCloudParticleContainer;
+    [Header("SpawnInstances")]
+    [SerializeField] private PhysicsParticle _emptyPhysicsParticleInstance;
+    [SerializeField] private FluidParticle _emptyFluidParticleInstance;
+    [SerializeField] private CloudParticle _emptyCloudParticleInstance;
+
+    private List<PhysicsParticle> _physicsParticles;
+    private List<FluidParticle> _fluidParticles;
+    private List<CloudParticle> _cloudParticles;
+
+    public static ParticlesManager Instance;
+
+    private void Awake()
+    {
+        if (Instance != null) throw new Exception("limit of 1 ParticleManager per scene");
+        Instance = this;
+
+        InitParticles();
+    }
+
+    private void InitParticles()
+    {
+        _physicsParticles = new List<PhysicsParticle>(PhysicsParticlesMaxAmount);
+        for (int i = 0; i < PhysicsParticlesMaxAmount; i++)
+        {
+            _physicsParticles.Insert(i, Instantiate(_emptyPhysicsParticleInstance, UnusedPhysicsParticleContainer));
+            _physicsParticles[i].gameObject.SetActive(false);
+        }
+        _fluidParticles = new List<FluidParticle>(FluidParticlesMaxAmount);
+        for (int i = 0; i < FluidParticlesMaxAmount; i++)
+        {
+            _fluidParticles.Insert(i, Instantiate(_emptyFluidParticleInstance, UnusedFluidParticleContainer));
+            _fluidParticles[i].gameObject.SetActive(false);
+        }
+        _cloudParticles = new List<CloudParticle>(CloudParticlesMaxAmount);
+        for (int i = 0; i < CloudParticlesMaxAmount; i++)
+        {
+            _cloudParticles.Insert(i, Instantiate(_emptyCloudParticleInstance, UnusedCloudParticleContainer));
+            _cloudParticles[i].gameObject.SetActive(false);
+        }
+    }
+
+    public AbstractParticle GetUnusedPhysicsParticle(AbstractParticle prefab)
+    {
+        Transform unusedParticlesContainer = GetUnusedParticlesContainerByType(prefab);
+        if (unusedParticlesContainer.childCount > 0)
+        {
+            return unusedParticlesContainer.GetChild(0).GetComponent<AbstractParticle>();
+        }
+        else
+        {
+            AbstractParticle farestParticle = null;
+            float currentDistance = -1f;
+            foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
+            {
+                Transform usedParticlesContainer = layer.GetParticlesContainerByType(prefab);
+                if (
+                    usedParticlesContainer.childCount > 0
+                    )
+                {
+                    float distance = Vector2.Distance(usedParticlesContainer.GetChild(0).transform.position, Camera.main.transform.position);
+                    if (distance > currentDistance)
+                    {
+                        currentDistance = distance;
+                        farestParticle = usedParticlesContainer.GetChild(0).GetComponent<AbstractParticle>();
+                    }
+                }
+            }
+            return farestParticle ?? throw new UnityException("not found any " + prefab.name + " particle");
+        }
+    }
+
+    private Transform GetUnusedParticlesContainerByType(AbstractParticle prefab)
+    {
+        if (prefab is PhysicsParticle)
+        {
+            return UnusedPhysicsParticleContainer;
+        }
+        else if (prefab is FluidParticle)
+        {
+            return UnusedFluidParticleContainer;
+        }
+        else if (prefab is CloudParticle)
+        {
+            return UnusedCloudParticleContainer;
+        }
+        else
+        {
+            throw new UnityException("could not find container for type " + (prefab?.name ?? "null"));
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+}

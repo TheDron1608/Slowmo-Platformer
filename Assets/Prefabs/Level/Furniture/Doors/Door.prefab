@@ -44,12 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultParticle: {fileID: 3108160054792827033, guid: a1acacd71934c764fb77f0fbb7ae86c0, type: 3}
+  DefaultParticle: {fileID: 7629983597656334640, guid: a1acacd71934c764fb77f0fbb7ae86c0, type: 3}
   SpawnVelocity: 1.75
   SpawnAngle: 0
   SpawnAngularVeclocity: 90
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1 &5531837787900222701
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,12 +93,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultParticle: {fileID: 3108160054792827033, guid: 7f1743d3ed804d14cbb6a9437d12c104, type: 3}
+  DefaultParticle: {fileID: 7629983597656334640, guid: 7f1743d3ed804d14cbb6a9437d12c104, type: 3}
   SpawnVelocity: 2.25
   SpawnAngle: 0
   SpawnAngularVeclocity: 150
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1001 &6063825111864371933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -276,6 +274,18 @@ PrefabInstance:
       propertyPath: _hitableByRangedProjectiles
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: 8b8a234d81575c7428ba57e0691a219a, type: 3}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: 2bc4fa7af89c41d42bc987cac77f98bd, type: 3}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: eb02ffa700b350b44a83c3f75f9dab86, type: 3}
     m_RemovedComponents:
     - {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
     m_RemovedGameObjects: []
@@ -347,6 +357,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LootSpawnType: 2
   SpawnObjectsOnBreak: []
+  RemoveObjectOnBreakVelocity: 3.5
+  RemoveObjectOnBreakMaxRandomAngularVelocity: 360
   _brokenPartsParticleSpawners:
   - {fileID: 2418567987889953235}
   - {fileID: 5891868711555266241}

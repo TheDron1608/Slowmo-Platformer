@@ -1,11 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
-using System.Runtime.CompilerServices;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using System.Reflection;
 
 
 [DefaultExecutionOrder(-1)]
@@ -23,10 +19,11 @@ public class ZIndexLayer : MonoBehaviour
     private const string OVERGROUND_SORTING_LAYER_NAME = "Overground";
 
     private const string FLUID_PARTICLES_CONTAINER_NAME = "FluidParticles";
+    private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
+    private const string CLOUD_PARTICLES_CONTAINER_NAME = "CloudParticles";
     private const string CHARACTERS_CONTAINER_NAME = "Characters";
     private const string FURNITURE_CONTAINER_NAME = "Furniture";
     private const string HOLDABLES_CONTAINER_NAME = "Holdables";
-    private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
     private const string PROJECTILES_CONTAINER_NAME = "Projectiles";
     private const string INTERACTABLE_ENVIROMENT_CONTAINER_NAME = "InteractableEnviroment";
 
@@ -62,6 +59,7 @@ public class ZIndexLayer : MonoBehaviour
     public Transform FurnitureContainer { get; private set; }
     public Transform HoldablesContainer { get; private set; }
     public Transform PhysicsParticlesContainer { get; private set; }
+    public Transform CloudParticlesContainer { get; private set; }
     public Transform ProjectilesContainer { get; private set; }
     public Transform InteractableEnviromentContainer {  get; private set; }
     public MultiTileMapsContainer MultiTileMapsContainer { get; private set; }
@@ -128,6 +126,7 @@ public class ZIndexLayer : MonoBehaviour
 
         FluidParticlesContainer = transform.Find(FLUID_PARTICLES_CONTAINER_NAME);
         PhysicsParticlesContainer = transform.Find(PHYSICS_PARTICLES_CONTAINER_NAME);
+        CloudParticlesContainer = transform.Find(CLOUD_PARTICLES_CONTAINER_NAME);
         CharactersContainer = transform.Find(CHARACTERS_CONTAINER_NAME);
         FurnitureContainer = transform.Find(FURNITURE_CONTAINER_NAME);
         InteractableEnviromentContainer = transform.Find(INTERACTABLE_ENVIROMENT_CONTAINER_NAME);
@@ -365,6 +364,26 @@ public class ZIndexLayer : MonoBehaviour
         else
         {
             return null; 
+        }
+    }
+
+    public Transform GetParticlesContainerByType(AbstractParticle prefab)
+    {
+        if (prefab is PhysicsParticle)
+        {
+            return PhysicsParticlesContainer;
+        }
+        else if (prefab is FluidParticle)
+        {
+            return FluidParticlesContainer;
+        }
+        else if (prefab is CloudParticle)
+        {
+            return CloudParticlesContainer;
+        }
+        else
+        {
+            throw new UnityException("could not find container for type " + prefab.name);
         }
     }
 }

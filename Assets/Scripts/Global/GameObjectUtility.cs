@@ -62,4 +62,10 @@ public static class GameObjectUtility
         component = gameObject.GetComponentInChildren<T>();
         return component != null;
     }
+
+    public static T GetComponentWithPossibleFail<T>(GameObject getWhere) where T : Component
+    {
+        if (getWhere.TryGetComponent(out T component)) return component;
+        return default;
+    }
 }

@@ -204,10 +204,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cutable: 0
   Gibable: 0
-  CanBleed: 0
   LosingLimbIsLethal: 1
   DamageMultiplier: 1
+  ParticlesOnHit:
+  - {fileID: 407663546126203460, guid: bb2d30019a83b8441be5d651f2d4b9d6, type: 3}
+  - {fileID: 407663546126203460, guid: 02276394e3056ee4faf263d40d09cec6, type: 3}
+  - {fileID: 407663546126203460, guid: 07af275fa1a63834aaf86567509b0389, type: 3}
+  - {fileID: 407663546126203460, guid: a662fe7384888c34e8482de747704c6a, type: 3}
+  - {fileID: 407663546126203460, guid: 94a77d674c4eb5640a7fe54112b5062a, type: 3}
+  ParticlesPerDamage: 0.5
+  ParticlesAmountOnRemove: 15
   EffectsOnHit: []
+  _piercableThrought: 0
+  _hitableByMeleeProjectiles: 1
+  _hitableByRangedProjectiles: 1
 --- !u!114 &1779693669216706162 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9191548071030554266, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}

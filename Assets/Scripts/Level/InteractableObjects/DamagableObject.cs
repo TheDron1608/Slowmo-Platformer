@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class DamagableObject : MonoBehaviour, IDamagable
 {
+    const float PARTICLES_ON_DAMAGE_MIN_VELOCITY = 3f;
     const float PARTICLES_ON_DAMAGE_MAX_VELOCITY = 6f;
-    const float PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY = 5f;
+    const float PARTICLES_ON_DAMAGE_MIN_ANGULAR_VELOCITY = -360f;
+    const float PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY = 360f;
+    const float PARTICLES_ON_DAMAGE_ACCURACY = 0.7f;
 
     [SerializeField] private float _maxHealth = 10f;
     [SerializeField] private float _minHealth = 0f;
@@ -18,7 +21,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
     public List<AbstractEffect> EffectsOnLethal = new();
-    public List<GameObject> ParticlesOnDamage = new();
+    public List<AbstractParticle> ParticlesOnDamage = new();
 
     public bool PiercableThrought 
     {
@@ -85,25 +88,22 @@ public class DamagableObject : MonoBehaviour, IDamagable
             1 << gameObject.layer
             );
 
-        for (int i = 0; i < (int)math.ceil(damage); i++)
+        //chance to not spawn particle if damage is less than 1
+        if (UnityEngine.Random.value < damage)
         {
-            if (UnityEngine.Random.value > damage) continue; //chance to not spawn particle if damage is less than 1
-
-            GameObject newParticle = ParticleSpawner.SpawnParticle(
-                NumberMath.PickRandomItem(ParticlesOnDamage),
-                transform,
-                UnityEngine.Random.value * PARTICLES_ON_DAMAGE_MAX_VELOCITY,
-                (UnityEngine.Random.value - 0.5f) * 2f * PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
-                0f,
-                GetComponent<ObjectEffectsReceiver>()?.EffectMaterial ?? GetComponent<SpriteRenderer>()?.material,
+            ParticleSpawner.SpawnInstantlyMultipleParticles(
+                ParticlesOnDamage,
                 hit.collider != null ? hit.point : GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>()),
-                Quaternion.Inverse(damager.transform.rotation)
+                VectorMath.Quartenion2DToVec2(damager.transform.rotation),
+                PARTICLES_ON_DAMAGE_MIN_VELOCITY,
+                PARTICLES_ON_DAMAGE_MAX_VELOCITY,
+                PARTICLES_ON_DAMAGE_MIN_ANGULAR_VELOCITY,
+                PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
+                GetComponent<ObjectEffectsReceiver>()?.EffectMaterial ?? GetComponent<SpriteRenderer>()?.material,
+                LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+                (int)damage,
+                PARTICLES_ON_DAMAGE_ACCURACY
                 );
-
-            if (newParticle.TryGetComponent(out Collider2D newParticleCollider) && TryGetComponent(out Collider2D selfCollider))
-            {
-                Physics2D.IgnoreCollision(newParticleCollider, selfCollider);
-            }
         }
 
         CurrentHealth -= damage;
