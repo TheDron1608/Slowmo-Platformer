@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CharacterPositionPoint : AbstractCharacterComponent
 {
+    private Vector3 _positionThisFrame;
     private Vector3 _positionPreviousFrame;
 
     public Vector3 PositionPreviousFrame
@@ -11,14 +12,15 @@ public class CharacterPositionPoint : AbstractCharacterComponent
         private set => _positionPreviousFrame = value;
     }
 
-    private void FixedUpdate()
+    private void Awake()
     {
-        StartCoroutine(SetPositionPrevFrameAfterUpdate(transform.position));
+        _positionThisFrame = transform.position;
+        _positionPreviousFrame = transform.position;
     }
 
-    private IEnumerator SetPositionPrevFrameAfterUpdate(Vector3 value)
+    private void FixedUpdate()
     {
-        yield return new WaitForFixedUpdate();
-        PositionPreviousFrame = value;
+        _positionPreviousFrame = _positionThisFrame;
+        _positionThisFrame = transform.position;
     }
 }

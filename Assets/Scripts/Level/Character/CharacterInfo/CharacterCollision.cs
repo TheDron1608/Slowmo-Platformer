@@ -51,6 +51,8 @@ public class CharacterCollision : AbstractCharacterComponent
     private GameObject _colliderFromLeftWall = null;
     private GameObject _colliderFromRightWall = null;
 
+    public event EventHandler<ZIndexLayer> OnZIndexLayerChanged;
+
 
     public float TimeInAir
     {
@@ -65,7 +67,11 @@ public class CharacterCollision : AbstractCharacterComponent
     public ZIndexLayer CurrentZLayer
     {
         get => _currentZLayer;
-        private set => _currentZLayer = value;
+        private set
+        {
+            if (_currentZLayer != value) OnZIndexLayerChanged?.Invoke(this, value);
+            _currentZLayer = value;
+        }
     }
     public Vector3 PositionPrevFrame
     {
