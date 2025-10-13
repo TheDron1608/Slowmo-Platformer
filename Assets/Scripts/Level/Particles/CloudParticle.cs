@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CloudParticle : AbstractParticle
 {
-    const float GRAVITY_OFFSET = 0.1f;
+    const float GRAVITY_OFFSET = 0.3f;
 
     private Vector2 _currentVelocity;
 

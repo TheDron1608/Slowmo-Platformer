@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class AbstractRangedProjectile : AbstractProjectile
 {
     const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
-    const string ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME = "OnHitWallCloudParticle";
+    const float PARTICLES_ON_WALL_HIT_VELOCITY = 1f;
+    const float PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY = 360f;
     const string PROJECTILE_TIP_GAMEOBJECT_NAME = "ProjectileTip";
 
     public float BulletSpeed = 35f;
@@ -13,11 +14,12 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
     public PhysicsParticle BulletCasingParticle;
     public int MaxPierces = 0; //times projectiles will not doestroy iteself if gibs or cuts off damaged character
 
+    [SerializeField] private List<AbstractParticle> _particlesOnWallHit = new();
+
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
     private Transform _projectileTip;
     private Vector3 _positionPreviousFrame;
-    private ParticleSpawner _onHitWallCloudsPaticleSpawner;
     private int _hitLayerMask;
 
     private float _rangeMoved = 0f;
@@ -61,7 +63,6 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         base.OnAwake();
         _positionPreviousFrame = transform.position;
         _projectileTip = transform.Find(PROJECTILE_TIP_GAMEOBJECT_NAME);
-        _onHitWallCloudsPaticleSpawner = transform.Find(ON_HIT_WALL_CLOUDS_PARTICLE_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
 
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         _hitLayerMask = (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer) | (1 << layer.ProjectilesLayer);
@@ -127,7 +128,15 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
 
         if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME)
         {
-            _onHitWallCloudsPaticleSpawner.SpawnParticle();
+            ParticleSpawner.SpawnParticle(
+                NumberMath.PickRandomItem(_particlesOnWallHit),
+                _projectileTip.transform.position,
+                -VectorMath.Quartenion2DToVec2(transform.rotation),
+                PARTICLES_ON_WALL_HIT_VELOCITY,
+                NumberMath.PickRandomInRangeNoSeed(-PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY, PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY),
+                hitObject.TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : GetComponent<Renderer>().sharedMaterial,
+                LayerManager.Instance.GetZLayerOfGameObject(gameObject)
+                );
         }
 
         IDamagable damagableHitobject = hitObject.GetComponent<IDamagable>() ?? hitObject.transform.parent.GetComponent<IDamagable>();

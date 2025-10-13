@@ -92,5 +92,9 @@ MonoBehaviour:
   IsAbleToHit: 1
   BulletSpeed: 70
   MaxRange: 350
-  BulletCasingParticle: {fileID: 7287756930975835722, guid: ab452d2dd031b4f409eff6da5945dc39, type: 3}
+  BulletCasingParticle: {fileID: 4905632556298053785, guid: ab452d2dd031b4f409eff6da5945dc39, type: 3}
   MaxPierces: 1
+  _particlesOnWallHit:
+  - {fileID: 5763894312763135589, guid: 3882dab32888c32419b6cbacb6d7fa96, type: 3}
+  - {fileID: 5763894312763135589, guid: b969146ed1a8c664e9eccb71f97b0a76, type: 3}
+  - {fileID: 5763894312763135589, guid: f46907b29ec794d40971d3e2e400ad9f, type: 3}

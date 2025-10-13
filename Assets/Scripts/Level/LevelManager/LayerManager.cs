@@ -14,6 +14,7 @@ public class LayerManager : MonoBehaviour
     public const string FURNITURE_TAG_NAME = "Furniture";
     public const string PHYSICS_PARTICLE_TAG_NAME = "PhysicsParticle";
     public const string FLUID_PARTICLE_TAG_NAME = "FluidParticle";
+    public const string CLOUD_PARTICLE_TAG_NAME = "CloudParticle";
     public const string WORLD_GENERATION_DATA_TAG_NAME = "WorldGenerationData";
 
     public static LayerManager Instance;
@@ -72,6 +73,9 @@ public class LayerManager : MonoBehaviour
                 break;
             case FLUID_PARTICLE_TAG_NAME:
                 moveGameObject.transform.SetParent(targetLayer.FluidParticlesContainer);
+                break;
+            case CLOUD_PARTICLE_TAG_NAME:
+                moveGameObject.transform.SetParent(targetLayer.CloudParticlesContainer);
                 break;
             case CHARACTER_TAG_NAME:
                 moveGameObject.transform.SetParent(targetLayer.CharactersContainer);

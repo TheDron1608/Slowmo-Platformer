@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class RemoveParticleOnExit : StateMachineBehaviour
+public class RemoveParticleOnEnter : StateMachineBehaviour
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Destroy(animator.gameObject);
+        animator.GetComponent<AbstractParticle>().RemoveParticle();
     }
 }

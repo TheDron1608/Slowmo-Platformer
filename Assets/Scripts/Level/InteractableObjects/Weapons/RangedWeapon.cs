@@ -126,14 +126,9 @@ public class RangedWeapon : ThrowableWeapon
 
     public void SpawnBulletParticles(int amount)
     {
-        _bulletParticleSpawner.OverrideEffectMaterial = Projectile.GetComponent<ObjectEffectsReceiver>().EffectMaterial;
-        if (Projectile is AbstractRangedProjectile rangedProjectile)
+        if (Projectile.TryGetComponent(out AbstractRangedProjectile rangedProjectile))
         {
             _bulletParticleSpawner.SpawnMultipleParticles(rangedProjectile.BulletCasingParticle, amount, 0.05f);
-        }
-        else
-        {
-            _bulletParticleSpawner.SpawnMultipleParticles(amount, 0.05f);
         }
     }
 
