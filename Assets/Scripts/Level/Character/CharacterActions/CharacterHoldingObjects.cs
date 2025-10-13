@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 public class CharacterHoldingObjects : AbstractCharacterComponent
 {
     const float DISARM_DROP_VELOCITY_MULTIPLIER = 0.1f;
+    const float DISTANCE_TO_CAMERA_TO_DISABLE_HOLDABLE_WALL_COLLISION = 50f;
+    const float HOLDABLE_WALL_COLLISION_SPEED_MULTIPLIER = 12.5f;
 
     public class OnThewEventArgs
     {
@@ -27,6 +29,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     public float MaxGrabRangeMultiplier = 1f;
 
     private Holdable _lastHoldObject = null;
+    private float? _overrideHoldObjectDistance = null;
 
     public event EventHandler<OnThewEventArgs> OnThrewHoldable;
     public event EventHandler<Holdable> OnPickedUpHoldable;
@@ -103,39 +106,41 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     private void CharacterCollision_OnZIndexLayerChanged(object sender, ZIndexLayer e)
     {
-        if (_currentHoldObject != null)
-        {
-            LayerManager.Instance.ChangeZIndexForGameObject(e, _currentHoldObject.gameObject);
-        }
+        LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), _currentHoldObject.gameObject);
     }
 
     private void FixedUpdate()
     {
-        if (_currentHoldObject == null) return;
+        if (
+            _currentHoldObject != null &&
+            _currentHoldObject.HoldDistanceWhenIsHolded > 0.05f &&
+            Vector2.Distance(Camera.main.transform.position, _currentHoldObject.transform.position) < DISTANCE_TO_CAMERA_TO_DISABLE_HOLDABLE_WALL_COLLISION
+            )
+        {
+            Vector2 currentAim = CharComponents.CharacterAiming.GetCurrentAimNormalized();
+            BoxCollider2D holdableCollider = _currentHoldObject.GetComponent<BoxCollider2D>();
+            float holdableColliderLength = holdableCollider.size.x / 2 + holdableCollider.offset.x;
 
-        Vector2 currentAim = CharComponents.CharacterAiming.GetCurrentAimNormalized();
+            //setting current holded object's location
+            RaycastHit2D hit = Physics2D.Raycast(
+                CharComponents.Center.transform.position,
+                currentAim,
+                _currentHoldObject.HoldDistanceWhenIsHolded + holdableColliderLength,
+                1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
+                );
 
-        //setting current holded object's location
-        RaycastHit2D holdableEnviromentHit = Physics2D.Raycast(
-            CharComponents.Center.transform.position,
-            currentAim,
-            _currentHoldObject.HoldDistanceWhenIsHolded + _currentHoldObject.GetComponent<BoxCollider2D>().size.x / 2 + _currentHoldObject.GetComponent<BoxCollider2D>().offset.x,
-            1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
-            );
+            _overrideHoldObjectDistance =
+                math.lerp(_overrideHoldObjectDistance.GetValueOrDefault(
+                    _currentHoldObject.HoldDistanceWhenIsHolded),
+                    hit.collider != null ? hit.distance - holdableColliderLength : _currentHoldObject.HoldDistanceWhenIsHolded,
+                    Time.fixedDeltaTime * HOLDABLE_WALL_COLLISION_SPEED_MULTIPLIER
+                    );
 
-        Vector2 holdObjectPositionXY = Vector2.Lerp(
-            _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
-            holdableEnviromentHit.collider != null ?
-                holdableEnviromentHit.point - currentAim * (_currentHoldObject.GetComponent<BoxCollider2D>().size.x / 2 + _currentHoldObject.GetComponent<BoxCollider2D>().offset.x) :
-                VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _currentHoldObject.HoldDistanceWhenIsHolded,
-            CharComponents.CharacterAiming.AimSpeed * Time.fixedDeltaTime
-            );
-
-        _currentHoldObject.transform.position = new Vector3(
-            holdObjectPositionXY.x,
-            holdObjectPositionXY.y,
-            CharComponents.Center.transform.position.z
-            );
+        }
+        else
+        {
+            _overrideHoldObjectDistance = null;
+        }
     }
 
     private void Update()
@@ -174,6 +179,11 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
                     );
             }
         }
+
+        _currentHoldObject.transform.position = VectorMath.Vec2ToVec3(
+            VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded),
+            CharComponents.Center.transform.position.z
+            );
     }
 
     public bool TryThrow(Vector2 align, float throwForceMultiplier = 1f)

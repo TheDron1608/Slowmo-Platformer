@@ -44,12 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultParticle: {fileID: 3108160054792827033, guid: 0cbacfef278115b478a0dfb19ef71762, type: 3}
+  DefaultParticle: {fileID: 7629983597656334640, guid: 0cbacfef278115b478a0dfb19ef71762, type: 3}
   SpawnVelocity: 0.25
   SpawnAngle: 0
   SpawnAngularVeclocity: 15
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1 &2546768812293805002
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +98,6 @@ MonoBehaviour:
   SpawnAngle: 0
   SpawnAngularVeclocity: -15
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1 &4320027281904006989
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +138,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4320027281904006989}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -160,7 +158,7 @@ MonoBehaviour:
   m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
+  m_NormalMapQuality: 0
   m_UseNormalMap: 0
   m_ShadowsEnabled: 1
   m_ShadowIntensity: 0.75
@@ -192,7 +190,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4320027281904006989}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a26f8a021b0e464087710d2a3b903ab, type: 3}
   m_Name: 
@@ -246,7 +244,6 @@ MonoBehaviour:
   SpawnAngle: 0
   SpawnAngularVeclocity: 45
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1 &6278494093523972093
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +293,6 @@ MonoBehaviour:
   SpawnAngle: 0
   SpawnAngularVeclocity: 5
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1001 &5901432936844244719
 PrefabInstance:
   m_ObjectHideFlags: 0
