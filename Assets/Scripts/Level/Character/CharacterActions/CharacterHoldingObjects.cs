@@ -7,7 +7,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 {
     const float DISARM_DROP_VELOCITY_MULTIPLIER = 0.1f;
     const float DISTANCE_TO_CAMERA_TO_DISABLE_HOLDABLE_WALL_COLLISION = 50f;
-    const float HOLDABLE_WALL_COLLISION_SPEED_MULTIPLIER = 12.5f;
+    const float PICKUP_SPEED_MULTIPLIER = 15f;
 
     public class OnThewEventArgs
     {
@@ -129,12 +129,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
                 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
                 );
 
-            _overrideHoldObjectDistance =
-                math.lerp(_overrideHoldObjectDistance.GetValueOrDefault(
-                    _currentHoldObject.HoldDistanceWhenIsHolded),
-                    hit.collider != null ? hit.distance - holdableColliderLength : _currentHoldObject.HoldDistanceWhenIsHolded,
-                    Time.fixedDeltaTime * HOLDABLE_WALL_COLLISION_SPEED_MULTIPLIER
-                    );
+            _overrideHoldObjectDistance = hit.collider != null ? hit.distance - holdableCollider.size.x / 2 : null;
 
         }
         else
@@ -180,8 +175,15 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             }
         }
 
-        _currentHoldObject.transform.position = VectorMath.Vec2ToVec3(
+        Vector2 holdObjectPositionXY = Vector2.Lerp(
+            _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
             VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded),
+            CharComponents.CharacterAiming.AimSpeed * Time.fixedDeltaTime
+            );
+
+        _currentHoldObject.transform.position = new Vector3(
+            holdObjectPositionXY.x,
+            holdObjectPositionXY.y,
             CharComponents.Center.transform.position.z
             );
     }
