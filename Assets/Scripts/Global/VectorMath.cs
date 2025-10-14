@@ -126,6 +126,10 @@ public static class VectorMath
         return new Vector2(UnityEngine.Random.value - 0.5f, UnityEngine.Random.value - 0.5f).normalized;
     }
 
+    public static Vector2Int Vec2ToVec2Int(Vector2 vec)
+    {
+        return new Vector2Int((int)math.round(vec.x), (int)math.round(vec.y));
+    }
     public static Vector3Int Vec2IntToVec3Int(Vector2Int vec)
     {
         return new Vector3Int(vec.x, vec.y);

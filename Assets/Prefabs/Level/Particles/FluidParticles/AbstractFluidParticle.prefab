@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2194783935696325328}
   - component: {fileID: 2307209281133744081}
-  - component: {fileID: -8450455711161619078}
   - component: {fileID: 7699351198922754960}
   m_Layer: 0
   m_Name: AbstractFluidParticle
@@ -46,29 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f4082f7c2346644abb37582482fabe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinLifeTime: 0.05
+  MaxLifeTime: 0.25
+  FlyingSprite: {fileID: 21300000, guid: 5bb4c1e206c386848a89080b1839a3fb, type: 3}
   _size: 0
---- !u!95 &-8450455711161619078
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3252408666521354248}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &7699351198922754960
 SpriteRenderer:
   m_ObjectHideFlags: 0
