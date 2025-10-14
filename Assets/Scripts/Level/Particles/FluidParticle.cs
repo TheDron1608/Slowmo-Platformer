@@ -117,6 +117,7 @@ public class FluidParticle : AbstractParticle
 
     private void DripOnBackground()
     {
+        LayerManager.Instance.GetZLayerOfGameObject(gameObject).TileManager.Debug_MarkTile(transform.position, Color.red, 999f);
         if (_flyCoroutine != null)
         {
             StopCoroutine(_flyCoroutine);
@@ -131,11 +132,18 @@ public class FluidParticle : AbstractParticle
         dynamicTexture.filterMode = FilterMode.Point;
         FillTexture(dynamicTexture, new Color(0, 0, 0, 0));
 
+        Vector2 velocityNormalizedPosition = VectorMath.PositionToPixelPosition(_velocity.normalized);
         _spriteRenderer.sprite = Sprite.Create(
             dynamicTexture,
             new Rect(0, 0, dynamicTexture.width, dynamicTexture.height),
-            new Vector2(0.5f, 0.5f),
+            new Vector2(velocityNormalizedPosition.x, velocityNormalizedPosition.y),
             16
+            );
+
+        transform.position = VectorMath.PositionToPixelPosition(new Vector3(
+            transform.position.x + dynamicTexture.width / 16 * _velocity.normalized.x,
+            transform.position.y + dynamicTexture.height / 16 * _velocity.normalized.y, 
+            transform.position.z)
             );
 
         if (_spreadCoroutine != null)
@@ -147,9 +155,15 @@ public class FluidParticle : AbstractParticle
 
     private IEnumerator SpreadCoroutine(Texture2D targetTexture)
     {
+        Vector2Int startPosition = new(
+            targetTexture.width / 2 - (int)math.round(_velocity.normalized.x * targetTexture.width / 2), 
+            targetTexture.height / 2 - (int)math.round(_velocity.normalized.y * targetTexture.height / 2)
+            );
+
         for (int i = 0; i < math.ceil(BASE_FLUID_SPREAD_ITERATIONS * FluidAmount); i++)
         {
-            targetTexture.SetPixel(i, i, Color.white);
+            Vector2Int targetPosition = startPosition + VectorMath.Vec2ToVec2Int(_velocity.normalized * i);
+            targetTexture.SetPixel(targetPosition.x, targetPosition.y, Color.white / i);
             targetTexture.Apply();
             yield return new WaitForSeconds(1f / SPREAD_FPS);
         }

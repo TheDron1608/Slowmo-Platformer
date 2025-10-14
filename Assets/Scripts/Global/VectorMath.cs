@@ -134,4 +134,13 @@ public static class VectorMath
     {
         return new Vector3Int(vec.x, vec.y);
     }
+
+    public static Vector3 PositionToPixelPosition(Vector3 position)
+    {
+        return new Vector3(
+            position.x - (position.x % (1f / 16f)),
+            position.y - (position.y % (1f / 16f)), 
+            position.z
+            );
+    }
 }

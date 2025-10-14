@@ -6,8 +6,8 @@ using UnityEngine;
 public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 {
     const float BLEED_PARTICLES_ACCURACY = 0.85f;
-    const float BLEED_PARTICLES_MIN_SPAWN_VELOCITY = 1f;
-    const float BLEED_PARTICLES_MAX_SPAWN_VELOCITY = 4f;
+    const float BLEED_PARTICLES_MIN_SPAWN_VELOCITY = 2f;
+    const float BLEED_PARTICLES_MAX_SPAWN_VELOCITY = 6f;
     const float BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY = -180f;
     const float BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY = 180f;
 
@@ -16,7 +16,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     public bool LosingLimbIsLethal = true;
     public float DamageMultiplier = 1.0f;
     public List<AbstractParticle> ParticlesOnHit;
-    public float ParticlesPerDamage = 0.5f;
+    public float ParticlesPerDamage = 1.5f;
     public int ParticlesAmountOnRemove = 15;
     public List<AbstractEffect> EffectsOnHit = new();
     [SerializeField] private bool _piercableThrought = false;
@@ -64,7 +64,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
                 CharComponents.CharacterEffectsReceiver.EffectMaterial,
                 CharComponents.CharacterCollision.CurrentZLayer,
-                math.min(1, (int)math.floor(damage / ParticlesPerDamage)),
+                math.min(1, (int)math.floor(damage * ParticlesPerDamage)),
                 BLEED_PARTICLES_ACCURACY
                 );
         }
