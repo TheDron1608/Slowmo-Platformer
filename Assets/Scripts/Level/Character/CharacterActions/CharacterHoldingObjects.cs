@@ -106,7 +106,10 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     private void CharacterCollision_OnZIndexLayerChanged(object sender, ZIndexLayer e)
     {
-        LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), _currentHoldObject.gameObject);
+        if (_currentHoldObject != null)
+        {
+            LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), _currentHoldObject.gameObject);
+        }
     }
 
     private void FixedUpdate()
@@ -129,7 +132,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
                 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
                 );
 
-            _overrideHoldObjectDistance = hit.collider != null ? hit.distance - holdableColliderLength : null;
+            _overrideHoldObjectDistance = hit.collider != null ? hit.distance - holdableCollider.size.x / 2 : null;
 
         }
         else
@@ -178,7 +181,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         Vector2 holdObjectPositionXY = Vector2.Lerp(
             _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
             VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded),
-            CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
+            CharComponents.CharacterAiming.AimSpeed * Time.fixedDeltaTime
             );
 
         _currentHoldObject.transform.position = new Vector3(
@@ -265,5 +268,10 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             );
         LayerManager.Instance.ChangeZIndexForGameObject(layer, newHoldable.gameObject);
         ForceGrab(newHoldable);
+    }
+
+    private void OnDestroy()
+    {
+        CharComponents.CharacterCollision.OnZIndexLayerChanged -= CharacterCollision_OnZIndexLayerChanged;
     }
 }

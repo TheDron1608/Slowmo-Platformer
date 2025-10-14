@@ -40,7 +40,7 @@ public class CharacterCollision : AbstractCharacterComponent
     public event EventHandler<OnCollisionChangedEventArgs> OnCollisionChanged;
     public event EventHandler<AbstractCharacterComponent> OnHitOtherCharacters;
 
-    private ZIndexLayer _currentZLayer;
+    private ZIndexLayer _currentZLayer = null;
     private float _timeInAir;
     private float _timeOnGround;
     private bool _wasGroundedPrevFrame = true;
@@ -256,7 +256,7 @@ public class CharacterCollision : AbstractCharacterComponent
 
     private void UpdateCurrentZLayer()
     {
-        _currentZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        CurrentZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
     }
 
     private void UpdateTimeOnAirOrGround()
