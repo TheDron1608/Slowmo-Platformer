@@ -57,6 +57,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 ParticlesOnHit,
                 hitPointPosition,
                 VectorMath.Quartenion2DToVec2(damager.transform.rotation),
+                0f,
                 BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
                 BLEED_PARTICLES_MAX_SPAWN_VELOCITY,
                 BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
@@ -139,6 +140,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 ParticlesOnHit,
                 cutPointPosition,
                 VectorMath.Quartenion2DToVec2(cutter.transform.rotation),
+                0f,
                 BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
                 BLEED_PARTICLES_MAX_SPAWN_VELOCITY,
                 BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
@@ -180,11 +182,13 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
         if (ParticlesOnHit.Count > 0)
         {
+            GameObjectUtility.TryGetComponentInSelfOrChild<Collider2D>(gameObject, out Collider2D collider);
             ParticleSpawner.SpawnInstantlyMultipleParticles(
                 ParticlesOnHit,
-                VectorMath.Vec3ToVec2(transform.position) + GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>()),
+                VectorMath.Vec3ToVec2(transform.position) + GameObjectUtility.GetCenterOfCollider(collider),
                 Vector2.zero,
                 0f,
+                BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
                 BLEED_PARTICLES_MAX_SPAWN_VELOCITY,
                 BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
                 BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,

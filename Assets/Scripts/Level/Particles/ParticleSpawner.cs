@@ -23,6 +23,7 @@ public class ParticleSpawner : MonoBehaviour
                 particle,
                 transform.position,
                 VectorMath.Quartenion2DToVec2(transform.rotation),
+                SpawnAngle,
                 SpawnVelocity,
                 SpawnAngularVeclocity,
                 OverrideEffectMaterial != null ? OverrideEffectMaterial : (GameObjectUtility.TryGetComponentInSelfOrParent(gameObject, out SpriteRenderer selfSprite) ? selfSprite.sharedMaterial : null),
@@ -41,7 +42,7 @@ public class ParticleSpawner : MonoBehaviour
         {
             StartCoroutine(SpawnMultiplieParticles(particle, amount, duration));
         }
-        else
+        else if (amount == 1)
         {
             SpawnParticle(particle);
         }
@@ -59,6 +60,7 @@ public class ParticleSpawner : MonoBehaviour
         List<AbstractParticle> particles,
         Vector2 position,
         Vector2 direction,
+        float angle,
         float minSpawnVelocity,
         float maxSpawnVelocity,
         float minSpawnAngularVelocity,
@@ -76,6 +78,7 @@ public class ParticleSpawner : MonoBehaviour
                 NumberMath.PickRandomItem(particles),
                 position,
                 VectorMath.RandomizeVec2(direction, accuracy),
+                angle,
                 NumberMath.PickRandomInRangeNoSeed(minSpawnVelocity, maxSpawnVelocity),
                 NumberMath.PickRandomInRangeNoSeed(minSpawnAngularVelocity, maxSpawnAngularVelocity),
                 material,
@@ -90,6 +93,7 @@ public class ParticleSpawner : MonoBehaviour
         AbstractParticle particle, 
         Vector2 position, 
         Vector2 direction, 
+        float angle,
         float spawnVelocity, 
         float spawnAngularVelocity, 
         Material material, 
@@ -101,6 +105,7 @@ public class ParticleSpawner : MonoBehaviour
         spawnParticle.SetParticleAttrs(
             position,
             direction,
+            angle,
             spawnVelocity,
             spawnAngularVelocity,
             material,

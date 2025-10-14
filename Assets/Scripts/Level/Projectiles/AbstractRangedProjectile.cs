@@ -132,6 +132,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
                 NumberMath.PickRandomItem(_particlesOnWallHit),
                 _projectileTip.transform.position,
                 -VectorMath.Quartenion2DToVec2(transform.rotation),
+                0f,
                 PARTICLES_ON_WALL_HIT_VELOCITY,
                 NumberMath.PickRandomInRangeNoSeed(-PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY, PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY),
                 hitObject.TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : GetComponent<Renderer>().sharedMaterial,

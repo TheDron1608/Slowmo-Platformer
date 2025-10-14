@@ -9,6 +9,7 @@ public abstract class AbstractParticle : MonoBehaviour
     public virtual void SetParticleAttrs(
         Vector2 position,
         Vector2 direction,
+        float angle,
         float velocity,
         float angularVelocity,
         Material material,
@@ -20,8 +21,13 @@ public abstract class AbstractParticle : MonoBehaviour
         )
     {
         gameObject.SetActive(true);
-        transform.position = position;
+        transform.position = VectorMath.Vec2ToVec3(position, transform.position.z);
         gameObject.name = particleName;
+
+        Quaternion newRotation = new();
+        newRotation.eulerAngles = new(0, 0, angle);
+        transform.rotation = newRotation;
+
         if (sprite != null && material != null && TryGetComponent(out SpriteRenderer rendererComponent))
         {
             rendererComponent.sprite = sprite;

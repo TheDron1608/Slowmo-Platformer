@@ -47,7 +47,8 @@ public class FluidParticle : AbstractParticle
     public override void SetParticleAttrs(
         Vector2 position, 
         Vector2 direction, 
-        float velocity, 
+        float angle,
+        float velocity,
         float angularVelocity, 
         Material material, 
         ZIndexLayer layer, 
@@ -57,7 +58,7 @@ public class FluidParticle : AbstractParticle
         string particleName = "untitled"
         )
     {
-        base.SetParticleAttrs(position, direction, velocity, angularVelocity, material, layer, sprite, animator, collider, particleName);
+        base.SetParticleAttrs(position, direction, angle, velocity, angularVelocity, material, layer, sprite, animator, collider, particleName);
 
         _currentEnviromentLayerMask = 1 << layer.EnviromentLayer;
         _velocity = direction * velocity;

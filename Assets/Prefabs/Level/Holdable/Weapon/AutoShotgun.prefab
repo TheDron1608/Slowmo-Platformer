@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -0.0625
       objectReference: {fileID: 0}
+    - target: {fileID: 132082839724116269, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 132082839724116269, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 132082839724116269, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 1638512053977861497, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: Particle
       value: 
@@ -19,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 1638512053977861497, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultParticle
       value: 
-      objectReference: {fileID: 3108160054792827033, guid: 72a0cc45b5d20e0499eadc7625fea378, type: 3}
+      objectReference: {fileID: 7629983597656334640, guid: 72a0cc45b5d20e0499eadc7625fea378, type: 3}
     - target: {fileID: 2360972246015209950, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0625
@@ -68,6 +80,10 @@ PrefabInstance:
       propertyPath: Particle
       value: 
       objectReference: {fileID: 6019177567979709644, guid: 21fe314279d42a247901a48f5bdbecb6, type: 3}
+    - target: {fileID: 4674798138573560245, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: SpawnAngle
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 5269442816591699166, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_Name
       value: AutoShotgun

@@ -129,7 +129,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
                 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
                 );
 
-            _overrideHoldObjectDistance = hit.collider != null ? hit.distance - holdableCollider.size.x / 2 : null;
+            _overrideHoldObjectDistance = hit.collider != null ? hit.distance - holdableColliderLength : null;
 
         }
         else
@@ -178,7 +178,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         Vector2 holdObjectPositionXY = Vector2.Lerp(
             _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
             VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded),
-            CharComponents.CharacterAiming.AimSpeed * Time.fixedDeltaTime
+            CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
             );
 
         _currentHoldObject.transform.position = new Vector3(
