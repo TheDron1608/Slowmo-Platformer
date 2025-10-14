@@ -5,12 +5,19 @@ using UnityEngine;
 
 public class BreakableObject : MonoBehaviour, IStuckToObject
 {
+    const float BREAK_PARTICLES_ACCURACY = 0.85f;
+    const float BREAK_PARTICLES_MIN_SPAWN_VELOCITY = 1f;
+    const float BREAK_PARTICLES_MAX_SPAWN_VELOCITY = 4f;
+    const float BREAK_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY = -180f;
+    const float BREAK_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY = 180f;
+    const float BREAK_DIRECTIVE_PARTICLES_ACCURACY = 0.4f;
+
     public LootDropChanceInfo.LootSpawnerTypes LootSpawnType;
     public List<GameObject> SpawnObjectsOnBreak = new();
     public float RemoveObjectOnBreakVelocity = 3.5f;
     public float RemoveObjectOnBreakMaxRandomAngularVelocity = 360f;
 
-    [SerializeField] protected List<ParticleSpawner> _brokenPartsParticleSpawners;
+    [SerializeField] private List<AbstractParticle> _partcilesOnBreak;
 
     private List<Holdable> _stuckedObjects = new();
 
@@ -37,10 +44,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
 
         ReleaseObjectsInside();
 
-        for (int i = 0; i < _brokenPartsParticleSpawners.Count; i++)
-        {
-            _brokenPartsParticleSpawners[i].SpawnParticle();
-        }
+        SpawnBrokenParticles(breaker);
 
         RemoveAllStuckedObjects();
 
@@ -80,5 +84,25 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
                 stuckObjectRigidBody.angularVelocity = RemoveObjectOnBreakMaxRandomAngularVelocity * (UnityEngine.Random.value * 2 - 1);
             }
         }
+    }
+
+    protected void SpawnBrokenParticles(MonoBehaviour breaker)
+    {
+        if (_partcilesOnBreak.Count == 0) return;
+
+        ParticleSpawner.SpawnInstantlyMultipleParticles(
+            _partcilesOnBreak,
+            GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>()),
+            VectorMath.Quartenion2DToVec2(breaker.transform.rotation),
+            NumberMath.PickRandomInRangeNoSeed(0f, 360f),
+            BREAK_PARTICLES_MIN_SPAWN_VELOCITY,
+            BREAK_PARTICLES_MAX_SPAWN_VELOCITY,
+            BREAK_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
+            BREAK_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
+            GetComponent<Renderer>()?.sharedMaterial,
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+            _partcilesOnBreak.Count,
+            BREAK_DIRECTIVE_PARTICLES_ACCURACY
+            );
     }
 }

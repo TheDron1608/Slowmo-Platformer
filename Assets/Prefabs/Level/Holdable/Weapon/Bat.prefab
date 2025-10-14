@@ -49,7 +49,6 @@ MonoBehaviour:
   SpawnAngle: -135
   SpawnAngularVeclocity: 720
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1 &1510912057361291275
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +98,6 @@ MonoBehaviour:
   SpawnAngle: 45
   SpawnAngularVeclocity: 720
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1 &3678863382195765441
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +147,6 @@ MonoBehaviour:
   SpawnAngle: -35
   SpawnAngularVeclocity: 720
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1001 &555786682304151848
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,9 +204,25 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _partcilesOnBreak.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: SpawnObjectsOnBreak.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: da4b6713823b3a149a4b995d77df06b3, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: eedca544310b26c42bb06423d8a1da86, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: bad105deb7b35c6458c57ebe6accd16c, type: 3}
     - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: 'SpawnObjectsOnBreak.Array.data[0]'
       value: 

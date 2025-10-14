@@ -89,7 +89,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
             );
 
         //chance to not spawn particle if damage is less than 1
-        if (UnityEngine.Random.value < damage)
+        if (ParticlesOnDamage.Count > 0 && UnityEngine.Random.value < damage)
         {
             ParticleSpawner.SpawnInstantlyMultipleParticles(
                 ParticlesOnDamage,

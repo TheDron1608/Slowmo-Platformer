@@ -49,7 +49,6 @@ MonoBehaviour:
   SpawnAngle: 45
   SpawnAngularVeclocity: 720
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1 &1966535567560055112
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +98,6 @@ MonoBehaviour:
   SpawnAngle: 95
   SpawnAngularVeclocity: 180
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1 &7077411534920285825
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +147,6 @@ MonoBehaviour:
   SpawnAngle: 150
   SpawnAngularVeclocity: 360
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1001 &5079853961392175959
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -210,6 +207,22 @@ PrefabInstance:
       propertyPath: _maxUses
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _partcilesOnBreak.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 8634098b90af3194294d3a4d77011e17, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 7d33d9e6bcea5a74096e84deba630bb0, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: bc5f5aaba7fb98b499be218981b6b26e, type: 3}
     - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: _brokenPartsParticleSpawners.Array.size
       value: 3
