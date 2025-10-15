@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 {
-    const float BLEED_PARTICLES_ACCURACY = 0.85f;
+    const float BLEED_PARTICLES_ACCURACY = 0.66f;
     const float BLEED_PARTICLES_MIN_SPAWN_VELOCITY = 2f;
     const float BLEED_PARTICLES_MAX_SPAWN_VELOCITY = 6f;
     const float BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY = -180f;
@@ -52,7 +52,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
             Vector3 hitPointPosition =
                 damager.gameObject.transform.position +
                 VectorMath.Quartenion2DToVec3(damager.transform.rotation) *
-                Vector2.Distance(damager.gameObject.transform.position, transform.position);
+                Vector2.Distance(damager.gameObject.transform.position, CharComponents.Center.transform.position);
             ParticleSpawner.SpawnInstantlyMultipleParticles(
                 ParticlesOnHit,
                 hitPointPosition,

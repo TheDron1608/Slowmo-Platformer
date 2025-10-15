@@ -100,8 +100,9 @@ public static class VectorMath
 
     public static Vector2 RandomizeVec2(Vector2 vector, float accuracy)
     {
-        Vector2 randomziedDirection = new Vector2((UnityEngine.Random.value - 0.5f) * 2, (UnityEngine.Random.value - 0.5f) * 2).normalized;
-        return vector + randomziedDirection * accuracy;
+        float random = UnityEngine.Random.value * 260f;
+        Vector2 randomziedDirection = new Vector2(math.cos(random), math.sin(random));
+        return (vector.normalized * accuracy + randomziedDirection * (1f - accuracy)).normalized;
     }
 
     public static Vector2 ReverseVector2XY(Vector2 vector)
