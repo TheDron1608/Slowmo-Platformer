@@ -2,6 +2,8 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
@@ -10,15 +12,15 @@ public class FluidParticle : AbstractParticle
     const float LIMIT_FLUID_PARTICLE_LIFETIME_SECONDS = 10f;
     const float FLUID_GRAVITY_MULTIPLIER = 0.5f;
     const int FLYING_SPRITE_SORTING_ORDER_ADD = 99;
-    const float BASE_FLUID_SPREAD_ITERATIONS_PER_VELOCITY = 3f;
+    const float BASE_FLUID_SPREAD_ITERATIONS = 8f;
     const float MIN_DRAW_SKIP_CHANCE = 0.3f;
     const float MAX_DRAW_SKIP_CHANCE = 0.9f;
-    const int SPREAD_FPS = 10;
+    const int SPREAD_FPS = 20;
 
     public float MinLifeTime = 0.05f;
     public float MaxLifeTime = 0.25f;
-    public float MaxThickness = 3f;
-    public float MinThickness = 1f;
+    public float MaxAmount = 3f;
+    public float MinAmount = 1f;
     public Sprite FlyingSprite;
 
     private Vector2  _velocity;
@@ -29,6 +31,7 @@ public class FluidParticle : AbstractParticle
     private int _currentEnviromentLayerMask;
     private bool _addedExtraFlyingSortingOrder = false;
     private SpriteRenderer _spriteRenderer;
+    private ZIndexLayer _layer;
 
     private void SetAddedExtraFlyingSortingOrder(bool value)
     {
@@ -57,6 +60,8 @@ public class FluidParticle : AbstractParticle
         )
     {
         base.SetParticleAttrs(position, direction, angle, velocity, angularVelocity, material, layer, sprite, animator, collider, particleName);
+
+        _layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
 
         _currentEnviromentLayerMask = 1 << layer.EnviromentLayer;
         _velocity = direction * velocity;
@@ -95,7 +100,7 @@ public class FluidParticle : AbstractParticle
             yield return new WaitForFixedUpdate();
             _currentLifeTime += Time.fixedDeltaTime;
 
-            bool isOnBackgound = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TileManager.GetHasTileBehaviourAt(
+            bool isOnBackgound = _layer.TileManager.GetHasTileBehaviourAt(
                     transform.position, TileBehaviour.TileBehaviourType.BACKGROUND
                     );
 
@@ -135,37 +140,47 @@ public class FluidParticle : AbstractParticle
 
         SetAddedExtraFlyingSortingOrder(false);
 
-        transform.rotation = LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform.rotation;
-
-        int targetResolution = (int)math.ceil(BASE_FLUID_SPREAD_ITERATIONS_PER_VELOCITY * _velocity.magnitude * 2f);
-        Texture2D dynamicTexture = new(targetResolution, targetResolution);
-        dynamicTexture.filterMode = FilterMode.Point;
-        FillTexture(dynamicTexture, new Color(0, 0, 0, 0));
-
-        Vector2 velocityNormalizedPosition = VectorMath.PositionToPixelPosition(_velocity.normalized);
-        _spriteRenderer.sprite = Sprite.Create(
-            dynamicTexture,
-            new Rect(0, 0, dynamicTexture.width, dynamicTexture.height),
-            new Vector2(0.5f, 0.5f),
-            16
-            );
-
         transform.position = VectorMath.PositionToPixelPosition(transform.position);
 
         if (_spreadCoroutine != null)
         {
             StopCoroutine(_spreadCoroutine);
         }
-        _spreadCoroutine = StartCoroutine(SpreadCoroutine(dynamicTexture, _velocity, math.lerp(MaxThickness, MinThickness, _currentLifeTime / (MaxLifeTime + MinLifeTime))));
+        _spreadCoroutine = StartCoroutine(SpreadCoroutine(
+            _velocity, 
+            math.lerp(MaxAmount, MinAmount, NumberMath.LimitFloatBetweenZeroAndOne(_currentLifeTime / (MaxLifeTime + MinLifeTime)))
+            ));
     }
 
-    private IEnumerator SpreadCoroutine(Texture2D targetTexture, Vector2 velocity, float thickness)
+    private IEnumerator SpreadCoroutine(Vector2 velocity, float amount, Texture2D targetTexture = null)
     {
-        int spreadLength = (int)math.ceil(BASE_FLUID_SPREAD_ITERATIONS_PER_VELOCITY * velocity.magnitude);
+
+        int spreadLength = (int)math.ceil(BASE_FLUID_SPREAD_ITERATIONS * amount);
         int currentLength = 0;
+
+        if (targetTexture == null)
+        {
+            transform.rotation = _layer.transform.rotation;
+            targetTexture = new(spreadLength * 2, spreadLength * 2);
+            targetTexture.filterMode = FilterMode.Point;
+            ClearPixels(targetTexture, new Color(1, 1, 1, 0));
+
+            _spriteRenderer.sprite = Sprite.Create(
+                targetTexture,
+                new Rect(0, 0, targetTexture.width, targetTexture.height),
+                new Vector2(0.5f, 0.5f),
+                16
+                );
+        }
+        else if (targetTexture.width < spreadLength || targetTexture.height < spreadLength)
+        {
+            targetTexture.Reinitialize(spreadLength * 2, spreadLength * 2);
+            ClearSemiTransparentPixels(targetTexture, new Color(1, 1, 1, 0));
+        }
+
         Vector2Int startPosition = new(
-            targetTexture.width / 2, 
-            targetTexture.height / 2 
+            targetTexture.width / 2,
+            targetTexture.height / 2
             );
 
         while (currentLength < spreadLength)
@@ -177,7 +192,7 @@ public class FluidParticle : AbstractParticle
                 if (UnityEngine.Random.value < math.lerp(MIN_DRAW_SKIP_CHANCE, MAX_DRAW_SKIP_CHANCE, i / spreadLength)) continue;
 
                 Vector2Int targetPosition = startPosition + VectorMath.Vec2ToVec2Int(velocity.normalized * i);
-                DrawCircle(targetTexture, targetPosition, (int)math.floor(thickness * (currentLength - i) / spreadLength), Color.white);
+                DrawFluidPoint(targetTexture, targetPosition, (int)math.floor(amount * (currentLength - i) / spreadLength), Color.white);
             }
             targetTexture.Apply();
             yield return new WaitForSeconds(1f / SPREAD_FPS);
@@ -202,29 +217,53 @@ public class FluidParticle : AbstractParticle
         transform.parent = ParticlesManager.Instance.UnusedFluidParticleContainer;
     }
 
-    private void FillTexture(Texture2D texture, Color color)
+    private void ClearSemiTransparentPixels(Texture2D texture, Color color)
     {
-        for (int i = 0; i < texture.width; i++)
+        for (int x = 0; x < texture.width; x++)
         {
-            for (int j = 0; j < texture.height; j++)
+            for (int y = 0; y < texture.height; y++)
             {
-                texture.SetPixel(i, j, color);
+                if (texture.GetPixel(x, y).a < 1)
+                {
+                    texture.SetPixel(x, y, color);
+                }
             }
         }
-        texture.Apply();
     }
 
-    private void DrawCircle(Texture2D texture, Vector2Int position, int radius, Color color)
+    private void ClearPixels(Texture2D texture, Color color)
+    {
+        for (int x = 0; x < texture.width; x++)
+        {
+            for (int y = 0; y < texture.height; y++)
+            {
+                texture.SetPixel(x, y, color);
+            }
+        }
+    }
+
+    private void DrawFluidPoint(Texture2D texture, Vector2Int position, int radius, Color color)
     {
         for (int y = -radius; y <= radius; y++)
         {
             for (int x = -radius; x <= radius; x++)
             {
-                if (x * x + y * y <= radius * radius)
+                if (
+                    x * x + y * y <= radius * radius &&
+                    GetPixelPositionIsCollidingWall(texture, position.x + x, position.y + y)
+                    )
                 {
                     texture.SetPixel(position.x + x, position.y + y, color);
                 }
             }
         }
+    }
+
+    private bool GetPixelPositionIsCollidingWall(Texture2D texture, int x, int y)
+    {
+        return _layer.TileManager.GetHasTileBehaviourAt(
+            VectorMath.Vec3ToVec2(transform.position) + new Vector2(x - texture.width / 2, y - texture.height / 2) / 16, 
+            TileBehaviour.TileBehaviourType.BACKGROUND
+            );
     }
 }
