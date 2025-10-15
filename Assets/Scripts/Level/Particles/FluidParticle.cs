@@ -16,6 +16,7 @@ public class FluidParticle : AbstractParticle
     const float MIN_DRAW_SKIP_CHANCE = 0.3f;
     const float MAX_DRAW_SKIP_CHANCE = 0.9f;
     const int SPREAD_FPS = 20;
+    const int DRIP_TEXTURE_RESOLUTION = 32;
 
     public float MinLifeTime = 0.05f;
     public float MaxLifeTime = 0.25f;
@@ -24,6 +25,7 @@ public class FluidParticle : AbstractParticle
     public Sprite FlyingSprite;
 
     private Vector2  _velocity;
+    private Sprite _dripSprite;
     private float _lifeTime;
     private float _currentLifeTime = 0f;
     private Coroutine _flyCoroutine;
@@ -43,6 +45,14 @@ public class FluidParticle : AbstractParticle
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        Texture2D dripTexture = new(DRIP_TEXTURE_RESOLUTION, DRIP_TEXTURE_RESOLUTION);
+        dripTexture.filterMode = FilterMode.Point;
+        _dripSprite = Sprite.Create(
+            dripTexture,
+            new Rect(0, 0, dripTexture.width, dripTexture.height),
+            new Vector2(0.5f, 0.5f),
+            16
+            );
     }
 
     public override void SetParticleAttrs(
@@ -141,6 +151,7 @@ public class FluidParticle : AbstractParticle
         SetAddedExtraFlyingSortingOrder(false);
 
         transform.position = VectorMath.PositionToPixelPosition(transform.position);
+        transform.rotation = _layer.transform.rotation;
 
         if (_spreadCoroutine != null)
         {
@@ -152,35 +163,17 @@ public class FluidParticle : AbstractParticle
             ));
     }
 
-    private IEnumerator SpreadCoroutine(Vector2 velocity, float amount, Texture2D targetTexture = null)
+    private IEnumerator SpreadCoroutine(Vector2 velocity, float amount)
     {
+        ClearPixels(_dripSprite.texture, new Color(1, 1, 1, 0));
+        _spriteRenderer.sprite = _dripSprite;
 
-        int spreadLength = (int)math.ceil(BASE_FLUID_SPREAD_ITERATIONS * amount);
+        int spreadLength = math.min((int)math.ceil(BASE_FLUID_SPREAD_ITERATIONS * amount), DRIP_TEXTURE_RESOLUTION / 2);
         int currentLength = 0;
 
-        if (targetTexture == null)
-        {
-            transform.rotation = _layer.transform.rotation;
-            targetTexture = new(spreadLength * 2, spreadLength * 2);
-            targetTexture.filterMode = FilterMode.Point;
-            ClearPixels(targetTexture, new Color(1, 1, 1, 0));
-
-            _spriteRenderer.sprite = Sprite.Create(
-                targetTexture,
-                new Rect(0, 0, targetTexture.width, targetTexture.height),
-                new Vector2(0.5f, 0.5f),
-                16
-                );
-        }
-        else if (targetTexture.width < spreadLength || targetTexture.height < spreadLength)
-        {
-            targetTexture.Reinitialize(spreadLength * 2, spreadLength * 2);
-            ClearSemiTransparentPixels(targetTexture, new Color(1, 1, 1, 0));
-        }
-
         Vector2Int startPosition = new(
-            targetTexture.width / 2,
-            targetTexture.height / 2
+            _dripSprite.texture.width / 2,
+            _dripSprite.texture.height / 2
             );
 
         while (currentLength < spreadLength)
@@ -192,9 +185,9 @@ public class FluidParticle : AbstractParticle
                 if (UnityEngine.Random.value < math.lerp(MIN_DRAW_SKIP_CHANCE, MAX_DRAW_SKIP_CHANCE, i / spreadLength)) continue;
 
                 Vector2Int targetPosition = startPosition + VectorMath.Vec2ToVec2Int(velocity.normalized * i);
-                DrawFluidPoint(targetTexture, targetPosition, (int)math.floor(amount * (currentLength - i) / spreadLength), Color.white);
+                DrawFluidPoint(_dripSprite.texture, targetPosition, (int)math.floor(amount * (currentLength - i) / spreadLength), Color.white);
             }
-            targetTexture.Apply();
+            _dripSprite.texture.Apply();
             yield return new WaitForSeconds(1f / SPREAD_FPS);
         }
     }
