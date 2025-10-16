@@ -198,6 +198,7 @@ public class ZIndexLayer : MonoBehaviour
             case LayerManager.FURNITURE_TAG_NAME:
             case LayerManager.HOLDABLE_TAG_NAME:
             case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
+            case LayerManager.CLOUD_PARTICLE_TAG_NAME:
                 SetLightRendererLayer(
                     gameObject,
                     ObjectsSortingLayer,

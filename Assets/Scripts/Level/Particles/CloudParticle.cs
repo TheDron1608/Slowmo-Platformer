@@ -23,6 +23,10 @@ public class CloudParticle : AbstractParticle
     {
         base.SetParticleAttrs(original, position, direction, angle, velocity, angularVelocity, material, layer);
 
+        Animator animator = gameObject.GetComponent<Animator>();
+        Animator originalAnimator = original.GetComponent<Animator>();
+        animator.runtimeAnimatorController = originalAnimator.runtimeAnimatorController;
+
         _currentVelocity = direction * velocity;
     }
 
