@@ -84,6 +84,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
                 stuckObjectRigidBody.angularVelocity = RemoveObjectOnBreakMaxRandomAngularVelocity * (UnityEngine.Random.value * 2 - 1);
             }
         }
+        StuckedObjects.Clear();
     }
 
     protected void SpawnBrokenParticles(MonoBehaviour breaker)

@@ -41,6 +41,7 @@ public class CharacterStuckedObjects : AbstractCharacterComponent, IStuckToObjec
                 stuckObjectRigidBody.angularVelocity = RemoveObjectMaxRandomAngularVelocity * (UnityEngine.Random.value * 2 - 1);
             }
         }
+        _stuckedObjects.Clear();
     }
 
     public void RemoveAllStuckedObjects(Vector2 direction)
