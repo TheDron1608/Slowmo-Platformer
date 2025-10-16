@@ -31,6 +31,7 @@ public abstract class AbstractParticle : MonoBehaviour
         renderer.sharedMaterial = material ?? originalRenderer.sharedMaterial;
 
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
+        transform.SetAsLastSibling();
     }
 
     public virtual void RemoveParticle()

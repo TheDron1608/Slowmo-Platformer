@@ -7,6 +7,7 @@ using UnityEngine;
 public class CloudParticle : AbstractParticle
 {
     const float GRAVITY_OFFSET = 0.3f;
+    const string ANIMATOR_RESET_TRIGGER_NAME = "Reset";
 
     private Vector2 _currentVelocity;
 
@@ -26,6 +27,7 @@ public class CloudParticle : AbstractParticle
         Animator animator = gameObject.GetComponent<Animator>();
         Animator originalAnimator = original.GetComponent<Animator>();
         animator.runtimeAnimatorController = originalAnimator.runtimeAnimatorController;
+        animator.SetTrigger(ANIMATOR_RESET_TRIGGER_NAME);
 
         _currentVelocity = direction * velocity;
     }

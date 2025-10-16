@@ -104,6 +104,7 @@ public class FluidParticle : AbstractParticle
         _velocity = direction * velocity;
         _lifeTime = NumberMath.PickRandomInRangeNoSeed(MinLifeTime, MaxLifeTime);
         _currentLifeTime = 0f;
+        _spriteRenderer.sprite = FlyingSprite;
 
         if (material != null && TryGetComponent(out SpriteRenderer newParticleSpriteRenderer))
         {
