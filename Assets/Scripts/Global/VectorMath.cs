@@ -131,6 +131,12 @@ public static class VectorMath
     {
         return new Vector2Int((int)math.round(vec.x), (int)math.round(vec.y));
     }
+
+    public static Vector3Int Vec3ToVec3Int(Vector3 vec)
+    {
+        return new Vector3Int((int)math.round(vec.x), (int)math.round(vec.y), (int)math.round(vec.z));
+    }
+
     public static Vector3Int Vec2IntToVec3Int(Vector2Int vec)
     {
         return new Vector3Int(vec.x, vec.y);

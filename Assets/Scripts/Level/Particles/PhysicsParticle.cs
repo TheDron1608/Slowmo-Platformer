@@ -21,20 +21,22 @@ public class PhysicsParticle : AbstractParticle
     }
 
     public override void SetParticleAttrs(
+        AbstractParticle original,
         Vector2 position,
         Vector2 direction,
         float angle,
         float velocity,
         float angularVelocity,
         Material material,
-        ZIndexLayer layer,
-        Sprite sprite = null,
-        Animator animator = null,
-        BoxCollider2D collider = null,
-        string particleName = "untitled"
+        ZIndexLayer layer
         )
     {
-        base.SetParticleAttrs(position, direction, angle, velocity, angularVelocity, material, layer, sprite, animator, collider, particleName);
+        base.SetParticleAttrs(original, position, direction, angle, velocity, angularVelocity, material, layer);
+
+        BoxCollider2D colliderComponent = GetComponent<BoxCollider2D>();
+        BoxCollider2D originalColliderComponent = original.GetComponent<BoxCollider2D>();
+        colliderComponent.size = originalColliderComponent.size;
+        colliderComponent.offset = originalColliderComponent.offset;
 
         _rigidBodyComponent.linearVelocity = direction * velocity;
         _rigidBodyComponent.angularVelocity = angularVelocity;

@@ -11,17 +11,21 @@ public class FluidParticle : AbstractParticle
 {
     const float LIMIT_FLUID_PARTICLE_LIFETIME_SECONDS = 10f;
     const float FLUID_GRAVITY_MULTIPLIER = 0.5f;
-    const int FLYING_SPRITE_SORTING_ORDER_ADD = 99;
+    const int BACKGROUND_SORTING_OREDER_ADD = 0;
+    const int FLYING_SPRITE_SORTING_ORDER_ADD = 50;
+    const int FOREGROUND_SORTING_ORDER_ADD = 650;
     const float BASE_FLUID_SPREAD_ITERATIONS = 8f;
     const float MIN_DRAW_SKIP_CHANCE = 0.3f;
     const float MAX_DRAW_SKIP_CHANCE = 0.9f;
-    const int SPREAD_FPS = 20;
+    const int SPREAD_FPS = 30;
     const int DRIP_TEXTURE_RESOLUTION = 32;
+    const float DRIP_ON_FOREGROUND_PARTICLE_LENGTH_MULTIPLIER = 0.1f;
 
     public float MinLifeTime = 0.05f;
     public float MaxLifeTime = 0.25f;
     public float MaxAmount = 3f;
     public float MinAmount = 1f;
+    public float LengthMultiplier = 1f;
     public Sprite FlyingSprite;
 
     private Vector2  _velocity;
@@ -31,15 +35,32 @@ public class FluidParticle : AbstractParticle
     private Coroutine _flyCoroutine;
     private Coroutine _spreadCoroutine;
     private int _currentEnviromentLayerMask;
-    private bool _addedExtraFlyingSortingOrder = false;
+    private int _addedExtraFlyingSortingOrder = 0;
     private SpriteRenderer _spriteRenderer;
     private ZIndexLayer _layer;
 
-    private void SetAddedExtraFlyingSortingOrder(bool value)
+    private void SetAddedExtraFlyingSortingOrder(int value)
     {
         if (_addedExtraFlyingSortingOrder == value) return;
-        _spriteRenderer.sortingOrder += FLYING_SPRITE_SORTING_ORDER_ADD * (value ? 1 : -1);
+        _spriteRenderer.sortingOrder -= _addedExtraFlyingSortingOrder;
+        _spriteRenderer.sortingOrder += value;
         _addedExtraFlyingSortingOrder = value;
+
+        _spriteRenderer.sortingLayerID = GetCurrentLayerSotringOrder(_layer);
+    }
+
+    public int GetCurrentLayerSotringOrder(ZIndexLayer layer)
+    {
+        switch (_addedExtraFlyingSortingOrder)
+        {
+            case FLYING_SPRITE_SORTING_ORDER_ADD:
+                return layer.ObjectsSortingLayer;
+            case BACKGROUND_SORTING_OREDER_ADD:
+                return layer.BackgroundSortingLayer;
+            case FOREGROUND_SORTING_ORDER_ADD:
+                return layer.EnviromentSortingLayer;
+        }
+        throw new UnityException("not found valid value for current added extra soring order: " + _addedExtraFlyingSortingOrder);
     }
 
     private void Awake()
@@ -56,20 +77,25 @@ public class FluidParticle : AbstractParticle
     }
 
     public override void SetParticleAttrs(
-        Vector2 position, 
-        Vector2 direction, 
+        AbstractParticle original,
+        Vector2 position,
+        Vector2 direction,
         float angle,
         float velocity,
-        float angularVelocity, 
-        Material material, 
-        ZIndexLayer layer, 
-        Sprite sprite = null, 
-        Animator animator = null, 
-        BoxCollider2D collider = null,
-        string particleName = "untitled"
+        float angularVelocity,
+        Material material,
+        ZIndexLayer layer
         )
     {
-        base.SetParticleAttrs(position, direction, angle, velocity, angularVelocity, material, layer, sprite, animator, collider, particleName);
+        base.SetParticleAttrs(original, position, direction, angle, velocity, angularVelocity, material, layer);
+
+        FluidParticle originalFluidParticle = original.GetComponent<FluidParticle>();
+        MinLifeTime = originalFluidParticle.MinLifeTime;
+        MaxLifeTime = originalFluidParticle.MaxLifeTime;
+        MaxAmount = originalFluidParticle.MaxAmount;
+        MinAmount = originalFluidParticle.MinAmount;
+        LengthMultiplier = originalFluidParticle.LengthMultiplier;
+        FlyingSprite = originalFluidParticle.FlyingSprite;
 
         _layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
 
@@ -99,7 +125,7 @@ public class FluidParticle : AbstractParticle
         }
 
         _spriteRenderer.sprite = FlyingSprite;
-        SetAddedExtraFlyingSortingOrder(true);
+        SetAddedExtraFlyingSortingOrder(FLYING_SPRITE_SORTING_ORDER_ADD);
 
         _currentLifeTime = 0f;
         while (true)
@@ -125,11 +151,12 @@ public class FluidParticle : AbstractParticle
                 break;
             }
 
-            if (Physics2D.OverlapPoint(transform.position, 1 << _currentEnviromentLayerMask) != null)
+            Collider2D evniromentHit = Physics2D.OverlapPoint(transform.position, _currentEnviromentLayerMask);
+            if (evniromentHit != null)
             {
-                if (isOnBackgound)
+                if (evniromentHit.gameObject.TryGetComponent(out TileBehaviour hitTileBehaviour) && hitTileBehaviour.ValidAsPlatform)
                 {
-                    DripOnBackground();
+                    DripOnForeground();
                 }
                 else
                 {
@@ -148,7 +175,7 @@ public class FluidParticle : AbstractParticle
             _flyCoroutine = null;
         }
 
-        SetAddedExtraFlyingSortingOrder(false);
+        SetAddedExtraFlyingSortingOrder(BACKGROUND_SORTING_OREDER_ADD);
 
         transform.position = VectorMath.PositionToPixelPosition(transform.position);
         transform.rotation = _layer.transform.rotation;
@@ -159,16 +186,44 @@ public class FluidParticle : AbstractParticle
         }
         _spreadCoroutine = StartCoroutine(SpreadCoroutine(
             _velocity, 
-            math.lerp(MaxAmount, MinAmount, NumberMath.LimitFloatBetweenZeroAndOne(_currentLifeTime / (MaxLifeTime + MinLifeTime)))
+            math.lerp(MaxAmount, MinAmount, NumberMath.LimitFloatBetweenZeroAndOne(_currentLifeTime / (MaxLifeTime + MinLifeTime))),
+            LengthMultiplier,
+            true
             ));
     }
 
-    private IEnumerator SpreadCoroutine(Vector2 velocity, float amount)
+
+    private void DripOnForeground()
+    {
+        if (_flyCoroutine != null)
+        {
+            StopCoroutine(_flyCoroutine);
+            _flyCoroutine = null;
+        }
+
+        SetAddedExtraFlyingSortingOrder(FOREGROUND_SORTING_ORDER_ADD);
+
+        transform.position = VectorMath.PositionToPixelPosition(transform.position);
+        transform.rotation = _layer.transform.rotation;
+
+        if (_spreadCoroutine != null)
+        {
+            StopCoroutine(_spreadCoroutine);
+        }
+        _spreadCoroutine = StartCoroutine(SpreadCoroutine(
+            _velocity,
+            math.lerp(MaxAmount, MinAmount, NumberMath.LimitFloatBetweenZeroAndOne(_currentLifeTime / (MaxLifeTime + MinLifeTime))),
+            LengthMultiplier * DRIP_ON_FOREGROUND_PARTICLE_LENGTH_MULTIPLIER,
+            false
+            ));
+    }
+
+    private IEnumerator SpreadCoroutine(Vector2 velocity, float amount, float lengthMultiplier, bool backgroundOrForeground)
     {
         ClearPixels(_dripSprite.texture, new Color(1, 1, 1, 0));
         _spriteRenderer.sprite = _dripSprite;
 
-        int spreadLength = math.min((int)math.ceil(BASE_FLUID_SPREAD_ITERATIONS * amount), DRIP_TEXTURE_RESOLUTION / 2);
+        int spreadLength = math.max(math.min((int)math.ceil(BASE_FLUID_SPREAD_ITERATIONS * amount * lengthMultiplier), DRIP_TEXTURE_RESOLUTION / 2), 1);
         int currentLength = 0;
 
         Vector2Int startPosition = new(
@@ -185,7 +240,7 @@ public class FluidParticle : AbstractParticle
                 if (UnityEngine.Random.value < math.lerp(MIN_DRAW_SKIP_CHANCE, MAX_DRAW_SKIP_CHANCE, i / spreadLength)) continue;
 
                 Vector2Int targetPosition = startPosition + VectorMath.Vec2ToVec2Int(velocity.normalized * i);
-                DrawFluidPoint(_dripSprite.texture, targetPosition, (int)math.floor(amount * (currentLength - i) / spreadLength), Color.white);
+                DrawFluidPoint(_dripSprite.texture, targetPosition, (int)math.floor(amount * (currentLength - i) / spreadLength), Color.white, backgroundOrForeground);
             }
             _dripSprite.texture.Apply();
             yield return new WaitForSeconds(1f / SPREAD_FPS);
@@ -235,7 +290,7 @@ public class FluidParticle : AbstractParticle
         }
     }
 
-    private void DrawFluidPoint(Texture2D texture, Vector2Int position, int radius, Color color)
+    private void DrawFluidPoint(Texture2D texture, Vector2Int position, int radius, Color color, bool backgroundOrForeground)
     {
         for (int y = -radius; y <= radius; y++)
         {
@@ -243,7 +298,7 @@ public class FluidParticle : AbstractParticle
             {
                 if (
                     x * x + y * y <= radius * radius &&
-                    GetPixelPositionIsCollidingWall(texture, position.x + x, position.y + y)
+                    GetPixelPositionIsValid(texture, position.x + x, position.y + y, backgroundOrForeground)
                     )
                 {
                     texture.SetPixel(position.x + x, position.y + y, color);
@@ -252,11 +307,20 @@ public class FluidParticle : AbstractParticle
         }
     }
 
-    private bool GetPixelPositionIsCollidingWall(Texture2D texture, int x, int y)
+    private bool GetPixelPositionIsValid(Texture2D texture, int x, int y, bool backgroundOrForeground)
     {
-        return _layer.TileManager.GetHasTileBehaviourAt(
-            VectorMath.Vec3ToVec2(transform.position) + new Vector2(x - texture.width / 2, y - texture.height / 2) / 16, 
-            TileBehaviour.TileBehaviourType.BACKGROUND
-            );
+        if (backgroundOrForeground)
+        {
+            return _layer.TileManager.GetHasTileBehaviourAt(
+                VectorMath.Vec3ToVec2(transform.position) + new Vector2(x - texture.width / 2, y - texture.height / 2) / 16, 
+                TileBehaviour.TileBehaviourType.BACKGROUND
+                );
+        }
+        else
+        {
+            return _layer.TileManager.GetHasValidAsPlatformAt(
+                VectorMath.Vec3ToVec2(transform.position) + new Vector2(x - texture.width / 2, y - texture.height / 2) / 16
+                );
+        }
     }
 }

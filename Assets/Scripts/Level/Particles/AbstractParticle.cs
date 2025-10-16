@@ -7,41 +7,29 @@ using UnityEngine;
 public abstract class AbstractParticle : MonoBehaviour
 {
     public virtual void SetParticleAttrs(
+        AbstractParticle original,
         Vector2 position,
         Vector2 direction,
         float angle,
         float velocity,
         float angularVelocity,
         Material material,
-        ZIndexLayer layer,
-        Sprite sprite = null,
-        Animator animator = null,
-        BoxCollider2D collider = null,
-        string particleName = "untitled"
+        ZIndexLayer layer
         )
     {
         gameObject.SetActive(true);
         transform.position = VectorMath.Vec2ToVec3(position, transform.position.z);
-        gameObject.name = particleName;
+        gameObject.name = original.gameObject.name;
 
         Quaternion newRotation = new();
         newRotation.eulerAngles = new(0, 0, angle);
         transform.rotation = newRotation;
 
-        if (sprite != null && material != null && TryGetComponent(out SpriteRenderer rendererComponent))
-        {
-            rendererComponent.sprite = sprite;
-            rendererComponent.sharedMaterial = material;
-        }
-        if (animator != null && TryGetComponent(out Animator animatorComponent))
-        {
-            animatorComponent.runtimeAnimatorController = animator.runtimeAnimatorController;
-        }
-        if (collider != null && TryGetComponent(out BoxCollider2D colliderComponent))
-        {
-            colliderComponent.size = collider.size;
-            colliderComponent.offset = collider.offset;
-        }
+        SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer originalRenderer = original.GetComponent<SpriteRenderer>();
+        renderer.sprite = originalRenderer.sprite;
+        renderer.sharedMaterial = material ?? originalRenderer.sharedMaterial;
+
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
     }
 

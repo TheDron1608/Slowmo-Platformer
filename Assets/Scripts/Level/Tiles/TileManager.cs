@@ -152,6 +152,17 @@ public class TileManager : MonoBehaviour
         return false;
     }
 
+    public bool GetHasValidAsPlatformAt(Vector2 position)
+    {
+        Vector3Int tilePosition =
+            new Vector3Int(
+            (int)math.floor(position.x),
+            (int)math.floor(position.y)
+            );
+
+        return GetHasValidAsPlatformAt(tilePosition);
+    }
+
     public bool GetTileValidAsPlatformAt(Vector2 position)
     {
         Vector3Int tilePosition =

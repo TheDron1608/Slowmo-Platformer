@@ -207,10 +207,11 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.FLUID_PARTICLE_TAG_NAME:
+                int targetLayer = gameObject.GetComponent<FluidParticle>()?.GetCurrentLayerSotringOrder(this) ?? BackgroundSortingLayer;
                 SetLightRendererLayer(
                     gameObject,
-                    BackgroundSortingLayer,
-                    new int[] { BackgroundSortingLayer },
+                    targetLayer,
+                    new int[] { targetLayer },
                     new int[] { }
                 );
                 break;

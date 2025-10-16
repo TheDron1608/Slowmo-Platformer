@@ -11,20 +11,17 @@ public class CloudParticle : AbstractParticle
     private Vector2 _currentVelocity;
 
     public override void SetParticleAttrs(
-        Vector2 position, 
+        AbstractParticle original,
+        Vector2 position,
         Vector2 direction,
         float angle,
-        float velocity, 
-        float angularVelocity, 
-        Material material, 
-        ZIndexLayer layer, 
-        Sprite sprite = null,
-        Animator animator = null, 
-        BoxCollider2D collider = null,
-        string particleName = "untitled"
+        float velocity,
+        float angularVelocity,
+        Material material,
+        ZIndexLayer layer
         )
     {
-        base.SetParticleAttrs(position, direction, angle, velocity, angularVelocity, material, layer, sprite, animator, collider, particleName);
+        base.SetParticleAttrs(original, position, direction, angle, velocity, angularVelocity, material, layer);
 
         _currentVelocity = direction * velocity;
     }

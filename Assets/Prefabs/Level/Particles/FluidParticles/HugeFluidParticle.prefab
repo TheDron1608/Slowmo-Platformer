@@ -49,16 +49,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2307209281133744081, guid: 0dc1a29b76474f24b8282d26dcf16a59, type: 3}
+      propertyPath: MaxAmount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307209281133744081, guid: 0dc1a29b76474f24b8282d26dcf16a59, type: 3}
+      propertyPath: MinAmount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307209281133744081, guid: 0dc1a29b76474f24b8282d26dcf16a59, type: 3}
       propertyPath: MaxLifeTime
-      value: 0.8
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2307209281133744081, guid: 0dc1a29b76474f24b8282d26dcf16a59, type: 3}
       propertyPath: MinLifeTime
-      value: 0.4
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3252408666521354248, guid: 0dc1a29b76474f24b8282d26dcf16a59, type: 3}
       propertyPath: m_Name
-      value: SmallFluidParticle
+      value: HugeFluidParticle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

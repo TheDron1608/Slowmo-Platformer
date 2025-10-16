@@ -103,17 +103,14 @@ public class ParticleSpawner : MonoBehaviour
         AbstractParticle spawnParticle = ParticlesManager.Instance.GetUnusedPhysicsParticle(particle);
 
         spawnParticle.SetParticleAttrs(
+            particle,
             position,
             direction,
             angle,
             spawnVelocity,
             spawnAngularVelocity,
             material,
-            layer,
-            GameObjectUtility.GetComponentWithPossibleFail<SpriteRenderer>(particle.gameObject)?.sprite,
-            GameObjectUtility.GetComponentWithPossibleFail<Animator>(particle.gameObject),
-            GameObjectUtility.GetComponentWithPossibleFail<BoxCollider2D>(particle.gameObject),
-            particle.gameObject.name
+            layer
             );
 
         return spawnParticle;

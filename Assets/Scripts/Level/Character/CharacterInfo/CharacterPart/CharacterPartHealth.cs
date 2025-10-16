@@ -15,9 +15,12 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     public bool Gibable = false;
     public bool LosingLimbIsLethal = true;
     public float DamageMultiplier = 1.0f;
-    public List<AbstractParticle> ParticlesOnHit;
+    public List<AbstractParticle> ParticlesOnHit = new();
+    public List<AbstractParticle> ParticlesOnGib = new();
+    public List<AbstractParticle> ParticlesOnCutOff = new();
+    public List<AbstractParticle> ParticlesOnLethalHit = new();
     public float ParticlesPerDamage = 1.5f;
-    public int ParticlesAmountOnRemove = 15;
+    public int ParticlesAmountOnLethal = 15;
     public List<AbstractEffect> EffectsOnHit = new();
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
@@ -46,13 +49,13 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         GetComponent<CharacterPart>().CharPartEffectsReceiver.ApplyEffect(EffectsOnHit, damager);
         CharComponents.CharacterHealth.ApplyDamage(damage, damager, GetComponent<CharacterPart>());
 
+        Vector3 hitPointPosition =
+            damager.transform.position +
+            VectorMath.Quartenion2DToVec3(damager.transform.rotation) *
+            Vector2.Distance(damager.transform.position, CharComponents.Center.transform.position);
 
         if (ParticlesOnHit.Count > 0)
         {
-            Vector3 hitPointPosition =
-                damager.gameObject.transform.position +
-                VectorMath.Quartenion2DToVec3(damager.transform.rotation) *
-                Vector2.Distance(damager.gameObject.transform.position, CharComponents.Center.transform.position);
             ParticleSpawner.SpawnInstantlyMultipleParticles(
                 ParticlesOnHit,
                 hitPointPosition,
@@ -64,7 +67,25 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
                 CharComponents.CharacterEffectsReceiver.EffectMaterial,
                 CharComponents.CharacterCollision.CurrentZLayer,
-                math.min(1, (int)math.floor(damage * ParticlesPerDamage)),
+                math.max(1, (int)math.floor(damage * ParticlesPerDamage)),
+                BLEED_PARTICLES_ACCURACY
+                );
+        }
+
+        if (CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() && ParticlesOnLethalHit.Count > 0)
+        {
+            ParticleSpawner.SpawnInstantlyMultipleParticles(
+                ParticlesOnLethalHit,
+                hitPointPosition,
+                VectorMath.Quartenion2DToVec2(damager.transform.rotation),
+                0f,
+                BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
+                BLEED_PARTICLES_MAX_SPAWN_VELOCITY,
+                BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
+                BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
+                CharComponents.CharacterEffectsReceiver.EffectMaterial,
+                CharComponents.CharacterCollision.CurrentZLayer,
+                ParticlesAmountOnLethal,
                 BLEED_PARTICLES_ACCURACY
                 );
         }
@@ -130,14 +151,14 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
             }
         }
 
-        if (ParticlesOnHit.Count > 0)
+        if (ParticlesOnCutOff.Count > 0)
         {
             Vector3 cutPointPosition =
                 cutter.gameObject.transform.position +
                 VectorMath.Quartenion2DToVec3(cutter.transform.rotation) *
                 Vector2.Distance(cutter.gameObject.transform.position, transform.position);
             ParticleSpawner.SpawnInstantlyMultipleParticles(
-                ParticlesOnHit,
+                ParticlesOnCutOff,
                 cutPointPosition,
                 VectorMath.Quartenion2DToVec2(cutter.transform.rotation),
                 0f,
@@ -147,7 +168,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
                 CharComponents.CharacterEffectsReceiver.EffectMaterial,
                 CharComponents.CharacterCollision.CurrentZLayer,
-                ParticlesAmountOnRemove,
+                ParticlesAmountOnLethal,
                 BLEED_PARTICLES_ACCURACY
                 );
         }
@@ -180,12 +201,12 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
             CharComponents.CharacterHealth.Die(gibber, GetComponent<CharacterPart>());
         }
 
-        if (ParticlesOnHit.Count > 0)
+        if (ParticlesOnGib.Count > 0)
         {
             GameObjectUtility.TryGetComponentInSelfOrChild<Collider2D>(gameObject, out Collider2D collider);
             ParticleSpawner.SpawnInstantlyMultipleParticles(
-                ParticlesOnHit,
-                VectorMath.Vec3ToVec2(transform.position) + GameObjectUtility.GetCenterOfCollider(collider),
+                ParticlesOnGib,
+                GameObjectUtility.GetCenterOfCollider(collider),
                 Vector2.zero,
                 0f,
                 BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
@@ -194,7 +215,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
                 CharComponents.CharacterEffectsReceiver.EffectMaterial,
                 CharComponents.CharacterCollision.CurrentZLayer,
-                ParticlesAmountOnRemove,
+                ParticlesAmountOnLethal,
                 0f
                 );
         }

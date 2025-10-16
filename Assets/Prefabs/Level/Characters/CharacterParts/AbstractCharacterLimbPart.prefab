@@ -207,7 +207,27 @@ MonoBehaviour:
   LosingLimbIsLethal: 1
   DamageMultiplier: 1
   ParticlesOnHit:
+  - {fileID: 7918486479222219331, guid: 6a499658affb47043acc172395d9f01e, type: 3}
   - {fileID: 7918486479222219331, guid: f85dbca7a440c534885c4bc5659944ac, type: 3}
+  ParticlesOnGib:
+  - {fileID: 7918486479222219331, guid: b5622afb1068d5048a0b18f967a699ee, type: 3}
+  - {fileID: 7918486479222219331, guid: 67f9e3ba0e3d0ac41959b6b06e0e34a9, type: 3}
+  - {fileID: 7918486479222219331, guid: 6a499658affb47043acc172395d9f01e, type: 3}
+  - {fileID: 7918486479222219331, guid: f85dbca7a440c534885c4bc5659944ac, type: 3}
+  - {fileID: 7918486479222219331, guid: b5622afb1068d5048a0b18f967a699ee, type: 3}
+  - {fileID: 7918486479222219331, guid: b5622afb1068d5048a0b18f967a699ee, type: 3}
+  ParticlesOnCutOff:
+  - {fileID: 7918486479222219331, guid: 67f9e3ba0e3d0ac41959b6b06e0e34a9, type: 3}
+  - {fileID: 7918486479222219331, guid: 6a499658affb47043acc172395d9f01e, type: 3}
+  - {fileID: 7918486479222219331, guid: f85dbca7a440c534885c4bc5659944ac, type: 3}
+  - {fileID: 7918486479222219331, guid: 67f9e3ba0e3d0ac41959b6b06e0e34a9, type: 3}
+  - {fileID: 7918486479222219331, guid: 6a499658affb47043acc172395d9f01e, type: 3}
+  ParticlesOnLethalHit:
+  - {fileID: 7918486479222219331, guid: 67f9e3ba0e3d0ac41959b6b06e0e34a9, type: 3}
+  - {fileID: 7918486479222219331, guid: 6a499658affb47043acc172395d9f01e, type: 3}
+  - {fileID: 7918486479222219331, guid: f85dbca7a440c534885c4bc5659944ac, type: 3}
+  - {fileID: 7918486479222219331, guid: 67f9e3ba0e3d0ac41959b6b06e0e34a9, type: 3}
+  - {fileID: 7918486479222219331, guid: 6a499658affb47043acc172395d9f01e, type: 3}
   ParticlesPerDamage: 0.5
   ParticlesAmountOnRemove: 15
   EffectsOnHit: []
