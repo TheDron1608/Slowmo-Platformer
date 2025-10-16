@@ -13,12 +13,13 @@ public class FluidParticle : AbstractParticle
     const float FLUID_GRAVITY_MULTIPLIER = 0.5f;
     const int BACKGROUND_SORTING_OREDER_ADD = 0;
     const int FLYING_SPRITE_SORTING_ORDER_ADD = 50;
-    const int FOREGROUND_SORTING_ORDER_ADD = 650;
+    const int FOREGROUND_SORTING_ORDER_ADD = 700;
     const float BASE_FLUID_SPREAD_ITERATIONS = 8f;
     const float MIN_DRAW_SKIP_CHANCE = 0.3f;
     const float MAX_DRAW_SKIP_CHANCE = 0.9f;
     const int SPREAD_FPS = 30;
     const int DRIP_TEXTURE_RESOLUTION = 32;
+    const float DRIP_OVERLAY_CLOSEST_PARTICLE_MAX_DISTANCE = 1.05f;
     const float DRIP_ON_FOREGROUND_PARTICLE_LENGTH_MULTIPLIER = 0.1f;
 
     public float MinLifeTime = 0.05f;
@@ -176,6 +177,7 @@ public class FluidParticle : AbstractParticle
         }
 
         SetAddedExtraFlyingSortingOrder(BACKGROUND_SORTING_OREDER_ADD);
+        UpdateOverlayingClosestParticles();
 
         transform.position = VectorMath.PositionToPixelPosition(transform.position);
         transform.rotation = _layer.transform.rotation;
@@ -202,6 +204,7 @@ public class FluidParticle : AbstractParticle
         }
 
         SetAddedExtraFlyingSortingOrder(FOREGROUND_SORTING_ORDER_ADD);
+        UpdateOverlayingClosestParticles();
 
         transform.position = VectorMath.PositionToPixelPosition(transform.position);
         transform.rotation = _layer.transform.rotation;
@@ -262,6 +265,8 @@ public class FluidParticle : AbstractParticle
             _spreadCoroutine = null;
         }
 
+        _spriteRenderer.sortingOrder -= _spriteRenderer.sortingOrder % 100;
+
         transform.parent = ParticlesManager.Instance.UnusedFluidParticleContainer;
     }
 
@@ -321,6 +326,23 @@ public class FluidParticle : AbstractParticle
             return _layer.TileManager.GetHasValidAsPlatformAt(
                 VectorMath.Vec3ToVec2(transform.position) + new Vector2(x - texture.width / 2, y - texture.height / 2) / 16
                 );
+        }
+    }
+
+    private void UpdateOverlayingClosestParticles()
+    {
+        foreach (Transform particle in _layer.FluidParticlesContainer)
+        {
+            if (
+                particle.TryGetComponent(out FluidParticle fluidParticle) &&
+                fluidParticle._spriteRenderer.sharedMaterial == _spriteRenderer.sharedMaterial &&
+                fluidParticle._spriteRenderer.sortingLayerID == _spriteRenderer.sortingLayerID &&
+                fluidParticle._spriteRenderer.sortingOrder >= _spriteRenderer.sortingOrder &&
+                Vector2.Distance(fluidParticle.transform.position, transform.position) < DRIP_OVERLAY_CLOSEST_PARTICLE_MAX_DISTANCE
+                )
+            {
+                _spriteRenderer.sortingOrder = _spriteRenderer.sortingOrder - (_spriteRenderer.sortingOrder % 100) + ((fluidParticle._spriteRenderer.sortingOrder + 1) % 100);
+            }
         }
     }
 }
