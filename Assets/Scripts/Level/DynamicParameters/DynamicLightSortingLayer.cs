@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 [DefaultExecutionOrder(-20)]
 public class DynamicLightSortingLayer : MonoBehaviour
 {
-    const float DISTANCE_TO_DISABLE = 70f;
+    const float DISTANCE_TO_DISABLE = 50f;
 
     private FieldInfo _sortingLayer;
     private MethodInfo _updateSortingLayer;
