@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
 
-public class PhysicsParticle : AbstractParticle
+public class PhysicsParticle : AbstractSpriteParticle
 {
     protected Rigidbody2D _rigidBodyComponent;
     private bool _enabledPhysics = true;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CloudParticle : AbstractParticle
+public class CloudParticle : AbstractSpriteParticle
 {
     const float GRAVITY_OFFSET = 0.3f;
     const string ANIMATOR_RESET_TRIGGER_NAME = "Reset";

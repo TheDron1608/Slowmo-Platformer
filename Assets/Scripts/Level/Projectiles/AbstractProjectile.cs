@@ -128,7 +128,7 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     public virtual void OnHit(GameObject hitObject)
     {
-        if (hitObject.TryGetComponent(out MeleeProjectile meleeProjectile))
+        if (hitObject.TryGetComponent(out MeleeProjectile meleeProjectile) && meleeProjectile.DeflectCondition(this))
         {
             meleeProjectile.OnDeflect(this);
         }

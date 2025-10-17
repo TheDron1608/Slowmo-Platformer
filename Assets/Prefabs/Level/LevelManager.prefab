@@ -125,12 +125,15 @@ MonoBehaviour:
   PhysicsParticlesMaxAmount: 256
   FluidParticlesMaxAmount: 512
   CloudParticlesMaxAmount: 64
+  LightParticlesMaxAmount: 32
   UnusedPhysicsParticleContainer: {fileID: 4976560999766120094}
   UnusedFluidParticleContainer: {fileID: 8316361587589555608}
   UnusedCloudParticleContainer: {fileID: 2537323382219654583}
+  UnusedLightParticleContainer: {fileID: 610251231848327545}
   _emptyPhysicsParticleInstance: {fileID: 1440645133787257351, guid: 45e01879280bf894ba3f72fe87d63b45, type: 3}
   _emptyFluidParticleInstance: {fileID: 2307209281133744081, guid: 0dc1a29b76474f24b8282d26dcf16a59, type: 3}
   _emptyCloudParticleInstance: {fileID: 2489607063802310916, guid: 1ceea4385d764fc4d8c1371b79aa60ee, type: 3}
+  _emptyLightParticleInstance: {fileID: 8458563997198648403, guid: 2afb9435b88e18b40bce166db3efd8b2, type: 3}
 --- !u!114 &4722062218309720960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,12 +213,44 @@ Transform:
   m_GameObject: {fileID: 5834207345548179653}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.353835, y: 4.124487, z: -0.0145145375}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4976560999766120094}
   - {fileID: 8316361587589555608}
   - {fileID: 2537323382219654583}
+  - {fileID: 610251231848327545}
   m_Father: {fileID: 5385443437079559187}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6019413744934443217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 610251231848327545}
+  m_Layer: 0
+  m_Name: LightParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &610251231848327545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6019413744934443217}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4110802808599864788}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -12,18 +12,22 @@ public class ParticlesManager : MonoBehaviour
     public int PhysicsParticlesMaxAmount = 256;
     public int FluidParticlesMaxAmount = 512;
     public int CloudParticlesMaxAmount = 64;
+    public int LightParticlesMaxAmount = 32;
     [Header("UnusedInstancesContainers")]
     public Transform UnusedPhysicsParticleContainer;
     public Transform UnusedFluidParticleContainer;
     public Transform UnusedCloudParticleContainer;
+    public Transform UnusedLightParticleContainer;
     [Header("SpawnInstances")]
     [SerializeField] private PhysicsParticle _emptyPhysicsParticleInstance;
     [SerializeField] private FluidParticle _emptyFluidParticleInstance;
     [SerializeField] private CloudParticle _emptyCloudParticleInstance;
+    [SerializeField] private LightParticle _emptyLightParticleInstance;
 
     private List<PhysicsParticle> _physicsParticles;
     private List<FluidParticle> _fluidParticles;
     private List<CloudParticle> _cloudParticles;
+    private List<LightParticle> _lightParticles;
 
     public static ParticlesManager Instance;
 
@@ -54,6 +58,12 @@ public class ParticlesManager : MonoBehaviour
         {
             _cloudParticles.Insert(i, Instantiate(_emptyCloudParticleInstance, UnusedCloudParticleContainer));
             _cloudParticles[i].gameObject.SetActive(false);
+        }
+        _lightParticles = new List<LightParticle>(LightParticlesMaxAmount);
+        for (int i = 0; i < LightParticlesMaxAmount; i++)
+        {
+            _lightParticles.Insert(i, Instantiate(_emptyLightParticleInstance, UnusedLightParticleContainer));
+            _lightParticles[i].gameObject.SetActive(false);
         }
     }
 
@@ -100,6 +110,10 @@ public class ParticlesManager : MonoBehaviour
         else if (prefab is CloudParticle)
         {
             return UnusedCloudParticleContainer;
+        }
+        else if (prefab is LightParticle)
+        {
+            return UnusedLightParticleContainer;
         }
         else
         {

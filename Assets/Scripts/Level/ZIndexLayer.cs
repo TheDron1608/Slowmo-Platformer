@@ -21,6 +21,7 @@ public class ZIndexLayer : MonoBehaviour
     private const string FLUID_PARTICLES_CONTAINER_NAME = "FluidParticles";
     private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
     private const string CLOUD_PARTICLES_CONTAINER_NAME = "CloudParticles";
+    private const string LIGHT_PARTICLES_CONTAINER_NAME = "LightParticles";
     private const string CHARACTERS_CONTAINER_NAME = "Characters";
     private const string FURNITURE_CONTAINER_NAME = "Furniture";
     private const string HOLDABLES_CONTAINER_NAME = "Holdables";
@@ -54,12 +55,13 @@ public class ZIndexLayer : MonoBehaviour
     public int EnviromentSortingLayer { get; private set; }
     public int OvergroundSortingLayer { get; private set; }
 
-    public Transform FluidParticlesContainer { get; private set; }
     public Transform CharactersContainer { get; private set; }
     public Transform FurnitureContainer { get; private set; }
     public Transform HoldablesContainer { get; private set; }
     public Transform PhysicsParticlesContainer { get; private set; }
+    public Transform FluidParticlesContainer { get; private set; }
     public Transform CloudParticlesContainer { get; private set; }
+    public Transform LightParticlesContainer { get; private set; }
     public Transform ProjectilesContainer { get; private set; }
     public Transform InteractableEnviromentContainer {  get; private set; }
     public MultiTileMapsContainer MultiTileMapsContainer { get; private set; }
@@ -127,6 +129,7 @@ public class ZIndexLayer : MonoBehaviour
         FluidParticlesContainer = transform.Find(FLUID_PARTICLES_CONTAINER_NAME);
         PhysicsParticlesContainer = transform.Find(PHYSICS_PARTICLES_CONTAINER_NAME);
         CloudParticlesContainer = transform.Find(CLOUD_PARTICLES_CONTAINER_NAME);
+        LightParticlesContainer = transform.Find(LIGHT_PARTICLES_CONTAINER_NAME);
         CharactersContainer = transform.Find(CHARACTERS_CONTAINER_NAME);
         FurnitureContainer = transform.Find(FURNITURE_CONTAINER_NAME);
         InteractableEnviromentContainer = transform.Find(INTERACTABLE_ENVIROMENT_CONTAINER_NAME);
@@ -199,6 +202,7 @@ public class ZIndexLayer : MonoBehaviour
             case LayerManager.HOLDABLE_TAG_NAME:
             case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
             case LayerManager.CLOUD_PARTICLE_TAG_NAME:
+            case LayerManager.LIGHT_PARTICLE_TAG_NAME:
                 SetLightRendererLayer(
                     gameObject,
                     ObjectsSortingLayer,
@@ -382,6 +386,10 @@ public class ZIndexLayer : MonoBehaviour
         else if (prefab is CloudParticle)
         {
             return CloudParticlesContainer;
+        }
+        else if (prefab is LightParticle)
+        {
+            return LightParticlesContainer;
         }
         else
         {

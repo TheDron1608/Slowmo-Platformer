@@ -4,16 +4,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractParticle : MonoBehaviour
+public abstract class AbstractSpriteParticle : AbstractParticle
 {
-    private bool _isSpawned = false;
-    public bool IsSpawned
-    {
-        get => _isSpawned; 
-        private set => _isSpawned = value;
-    }
-
-    public virtual void SetParticleAttrs(
+    public override void SetParticleAttrs(
         AbstractParticle original,
         Vector2 position,
         Vector2 direction,
@@ -24,7 +17,8 @@ public abstract class AbstractParticle : MonoBehaviour
         ZIndexLayer layer
         )
     {
-        IsSpawned = true;
+        base.SetParticleAttrs(original, position, direction, angle, velocity, angularVelocity, material, layer);
+
         gameObject.SetActive(true);
         transform.position = VectorMath.Vec2ToVec3(position, transform.position.z);
         gameObject.name = original.gameObject.name;
@@ -33,26 +27,12 @@ public abstract class AbstractParticle : MonoBehaviour
         newRotation.eulerAngles = new(0, 0, angle);
         transform.rotation = newRotation;
 
+        SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer originalRenderer = original.GetComponent<SpriteRenderer>();
+        renderer.sprite = originalRenderer.sprite;
+        renderer.sharedMaterial = material ?? originalRenderer.sharedMaterial;
+
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
         transform.SetAsLastSibling();
-    }
-
-    public virtual void RemoveParticle()
-    {
-        IsSpawned = false;
-        gameObject.SetActive(false);
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    private void Awake()
-    {
-        OnAwake();
-    }
-
-    protected virtual void OnAwake()
-    {
     }
 }

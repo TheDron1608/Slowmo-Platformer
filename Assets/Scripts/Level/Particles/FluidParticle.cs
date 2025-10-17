@@ -7,7 +7,7 @@ using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
-public class FluidParticle : AbstractParticle
+public class FluidParticle : AbstractSpriteParticle
 {
     const float LIMIT_FLUID_PARTICLE_LIFETIME_SECONDS = 10f;
     const float FLUID_GRAVITY_MULTIPLIER = 0.5f;

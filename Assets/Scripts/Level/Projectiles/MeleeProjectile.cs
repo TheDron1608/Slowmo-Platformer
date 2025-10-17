@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class MeleeProjectile : AbstractProjectile
 {
+    const float DEFLECT_PARTICLE_VELOCITY = 2.5f;
+
     public float WallKnockback = 5f;
     public float BlockKnockback = 15f;
     public bool IsAbleTodeflectRangedProjectiles = true;
     public bool IsAbleTodeflectMeleeProjectiles = true;
     public List<AbstractEffect> EffectsOnDeflect = new();
     public List<AbstractEffect> SelfEffectsOnDeflect = new();
+    public AbstractParticle ParticleOnDeflect = null;
 
     private bool _didHitAnyWallOnce = false;
     private Rigidbody2D _rigidBody;
     private int _hitWallLayerMask;
+    private AbstractParticle _currentSpawnedParticle = null;
 
     public override Weapon Weapon 
     { 
@@ -73,18 +77,17 @@ public class MeleeProjectile : AbstractProjectile
         // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
         for (int i = 0; i < hitObjects.Length; i++)
         {
-            if (hitObjects[i].TryGetComponent(out AbstractProjectile projectileHitObject) && projectileHitObject.OwnerOrLastHolder != Owner)
-            {
-                OnDeflect(projectileHitObject);
-            }
             if (!IsAbleToHit) break;
 
-            if (HitCondition(hitObjects, hitObjects[i]))
+            if (hitObjects[i].TryGetComponent(out AbstractProjectile deflectedProjectile) && DeflectCondition(deflectedProjectile))
+            {
+                OnDeflect(hitObjects[i].GetComponent<AbstractProjectile>());
+            }
+            else if (HitCondition(hitObjects, hitObjects[i]))
             {
                 AddCurrentHittingCollidersItem(hitObjects[i]);
                 OnHit(hitObjects[i].gameObject);
             }
-            if (!IsAbleToHit) break;
         }
     }
 
@@ -98,11 +101,42 @@ public class MeleeProjectile : AbstractProjectile
         }
     }
 
+    public virtual bool DeflectCondition(AbstractProjectile deflected)
+    {
+        return
+            deflected != this && 
+            (
+                deflected.OwnerOrLastHolder == null ||
+                (
+                    deflected.OwnerOrLastHolder != Owner &&
+                    (
+                        FiendlyFire ||
+                        deflected.FiendlyFire ||
+                        (!OwnerOrLastHolder?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(deflected.OwnerOrLastHolder.CharComponents.CharacterTeam) ?? true)
+                    )
+                )
+            );
+    }
+
     public virtual void OnDeflect(AbstractProjectile defleclectedProjectile)
     {
         defleclectedProjectile.OnDeflected(this);
         defleclectedProjectile.EffectsReceiver.ApplyEffect(EffectsOnDeflect, this);
         Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnDeflect, this);
+
+        if (ParticleOnDeflect != null && (!_currentSpawnedParticle?.IsSpawned ?? true))
+        {
+            _currentSpawnedParticle = ParticleSpawner.SpawnParticle(
+                ParticleOnDeflect,
+                (transform.position + defleclectedProjectile.transform.position) / 2,
+                VectorMath.Quartenion2DToVec2(transform.rotation),
+                0f,
+                DEFLECT_PARTICLE_VELOCITY,
+                0f,
+                EffectsReceiver.EffectMaterial,
+                LayerManager.Instance.GetZLayerOfGameObject(gameObject)
+            );
+        }
     }
 
     public override void OnHit(GameObject hitObject)
