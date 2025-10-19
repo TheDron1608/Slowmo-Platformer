@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractRangedProjectile : AbstractProjectile
+public class RangedProjectile : AbstractProjectile
 {
     const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
     const float PARTICLES_ON_WALL_HIT_VELOCITY = 1f;
@@ -13,18 +13,17 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
     public float MaxRange = 350f;
     public PhysicsParticle BulletCasingParticle;
     public int MaxPierces = 0; //times projectiles will not doestroy iteself if gibs or cuts off damaged character
-
-    [SerializeField] private List<AbstractParticle> _particlesOnWallHit = new();
+    public List<AbstractParticle> ParticlesOnWallHit = new();
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
     private Transform _projectileTip;
     private Vector3 _positionPreviousFrame;
+    private ZIndexLayer _layer;
     private int _hitLayerMask;
 
     private float _rangeMoved = 0f;
     private float _piercesLeft;
-    private bool _isFirstFrame = true;
 
     public Quaternion MoveAlign
     {
@@ -53,54 +52,36 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         get => _projectileTip;
     }
 
-    public void ResetPiercesLeft()
-    {
-        _piercesLeft = MaxPierces;
-    }
-
     protected override void OnAwake()
     {
         base.OnAwake();
-        _positionPreviousFrame = transform.position;
+
         _projectileTip = transform.Find(PROJECTILE_TIP_GAMEOBJECT_NAME);
+    }
 
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+    protected override void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
+    {
+        base.SetAttrs(original, direction, position, layer, weapon);
+
+        _positionPreviousFrame = transform.position;
+        _layer = layer;
         _hitLayerMask = (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer) | (1 << layer.ProjectilesLayer);
+        MoveAlign = direction;
 
-        ResetPiercesLeft();
+        RangedProjectile rangedOriginal = original.GetComponent<RangedProjectile>();
+        BulletSpeed = rangedOriginal.BulletSpeed;
+        MaxRange = rangedOriginal.MaxRange;
+        BulletCasingParticle = rangedOriginal.BulletCasingParticle;
+        MaxPierces = rangedOriginal.MaxPierces;
+        ParticlesOnWallHit = rangedOriginal.ParticlesOnWallHit;
+
+        _rangeMoved = 0f;
+        _piercesLeft = MaxPierces;
     }
 
     protected override void OnUpdate()
     {
         base.OnUpdate();
-
-        if (_isFirstFrame)
-        {
-            _isFirstFrame = false;
-            return;
-        }
-
-        RaycastHit2D[] hitObjects = Physics2D.LinecastAll(_positionPreviousFrame, _projectileTip.position, _hitLayerMask);
-
-        Collider2D[] hitObjectsColliders = new Collider2D[hitObjects.Length];
-        for (int i = 0; i < hitObjects.Length; i++)
-        {
-            hitObjectsColliders[i] = hitObjects[i].collider;
-        }
-
-        // invokes OnHit trigger if:
-        // 1. is not hitbox of projectile's weapon's owner
-        // 2. has the highest CharacterHitbox.HitPrority value than other CharacterHitboxes of the same character
-        // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
-        foreach (Collider2D hitObjectsCollider in hitObjectsColliders)
-        {
-            if (!IsAbleToHit) break;
-            if (HitCondition(hitObjectsColliders, hitObjectsCollider))
-            {
-                _currentHittingColliders.Add(hitObjectsCollider);
-                OnHit(hitObjectsCollider.gameObject);
-            }
-        }
 
         float deltaRange = BulletSpeed * Time.deltaTime;
         transform.position = new Vector3(
@@ -112,33 +93,54 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         _rangeMoved += deltaRange;
         if (_rangeMoved > MaxRange )
         {
-            RemoveSelf();
+            RemoveProjectile();
         }
     }
 
-    protected override void OnLateUpdate()
+    private void FixedUpdate()
     {
-        base.OnLateUpdate();
+        RaycastHit2D[] hits = Physics2D.LinecastAll(_positionPreviousFrame, _projectileTip.position, _hitLayerMask);
+        List<Collider2D> hitColliders = new List<Collider2D>(hits.Length);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            hitColliders.Insert(i, hits[i].collider);
+        }
+
+        // invokes OnHit trigger if:
+        // 1. is not hitbox of projectile's weapon's owner
+        // 2. has the highest CharacterHitbox.HitPrority value than other CharacterHitboxes of the same character
+        // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (!IsAbleToHit) break;
+            if (HitCondition(hitColliders, hitColliders[i]))
+            {
+                _currentHittingColliders.Add(hitColliders[i]);
+
+                if (hitColliders[i].tag == LayerManager.ENVIROMENT_TAG_NAME)
+                {
+                    ParticleSpawner.SpawnParticle(
+                        NumberMath.PickRandomItem(ParticlesOnWallHit),
+                        hits[i].point,
+                        -VectorMath.Quartenion2DToVec2(transform.rotation),
+                        0f,
+                        PARTICLES_ON_WALL_HIT_VELOCITY,
+                        NumberMath.PickRandomInRangeNoSeed(-PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY, PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY),
+                        hitColliders[i].TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : GetComponent<Renderer>().sharedMaterial,
+                        _layer
+                        );
+                }
+
+                OnHit(hitColliders[i].gameObject);
+            }
+        }
+
         _positionPreviousFrame = transform.position;
     }
 
     public override void OnHit(GameObject hitObject)
     {
         base.OnHit(hitObject);
-
-        if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME)
-        {
-            ParticleSpawner.SpawnParticle(
-                NumberMath.PickRandomItem(_particlesOnWallHit),
-                _projectileTip.transform.position,
-                -VectorMath.Quartenion2DToVec2(transform.rotation),
-                0f,
-                PARTICLES_ON_WALL_HIT_VELOCITY,
-                NumberMath.PickRandomInRangeNoSeed(-PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY, PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY),
-                hitObject.TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : GetComponent<Renderer>().sharedMaterial,
-                LayerManager.Instance.GetZLayerOfGameObject(gameObject)
-                );
-        }
 
         IDamagable damagableHitobject = hitObject.GetComponent<IDamagable>() ?? hitObject.transform.parent.GetComponent<IDamagable>();
         ObjectEffectsReceiver effectableHitobject = hitObject.GetComponent<ObjectEffectsReceiver>() ?? hitObject.transform.parent.GetComponent<ObjectEffectsReceiver>();
@@ -151,7 +153,7 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         }
         else if (!_wasDeflectedThisFrame)
         {
-            RemoveSelf();
+            RemoveProjectile();
         }
     }
 
@@ -160,11 +162,17 @@ public abstract class AbstractRangedProjectile : AbstractProjectile
         _currentHittingColliders.Remove(collision);
     }
 
-    protected override bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
+    protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
     {
         return 
             base.HitCondition(totalHitObjects, currentHitObjet) && 
-            !currentHitObjet.TryGetComponent(out AbstractRangedProjectile rangedProjectile) &&
+            !currentHitObjet.TryGetComponent(out RangedProjectile rangedProjectile) &&
             (!GameObjectUtility.TryGetComponentInSelfOrParentOrChild(currentHitObjet.gameObject, out IDamagable damagableHitObject) || damagableHitObject.HitableByRangedProjectiles);
+    }
+
+    public override void RemoveProjectile()
+    {
+        base.RemoveProjectile();
+        transform.parent = ProjectilesManager.Instance.UnusedRangedProjectilesContainer;
     }
 }

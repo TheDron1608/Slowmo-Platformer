@@ -111,45 +111,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
             CharComponents.CharacterHealth.Die(cutter, GetComponent<CharacterPart>());
         }
 
-        if (TryGetComponent(out ParticleSpawner limbParticleSpawner))
-        {
-            if (CharComponents.CharacterRigidBody.linearVelocityX < 0f)
-            {
-                limbParticleSpawner.SpawnAngle = limbParticleSpawner.SpawnAngle + (90f - limbParticleSpawner.SpawnAngle) * 2;
-                limbParticleSpawner.SpawnAngularVeclocity *= -1f;
-            }
-            AbstractParticle limbParticle = limbParticleSpawner.SpawnParticle();
-
-            if (limbParticle.TryGetComponent(out BoxCollider2D particleCollider) && (GetComponent<CharacterLimbPart>()?.CharPartHitbox.TryGetComponent(out Collider2D limbCollider) ?? false))
-            {
-                GameObjectUtility.ConvertSimpleColliderToBoxCollider(particleCollider, limbCollider);
-            }
-            if (limbParticle.TryGetComponent(out SpriteRenderer particleSprite) && TryGetComponent(out SpriteRenderer limbSprite))
-            {
-                particleSprite.sprite = null;
-                GameObject newParticleRootSpriteContainer = new GameObject(name);
-                newParticleRootSpriteContainer.transform.parent = limbParticle.transform;
-                newParticleRootSpriteContainer.transform.localPosition = Vector3.zero;
-                SpriteRenderer newParticleRootSprite = newParticleRootSpriteContainer.AddComponent<SpriteRenderer>();
-                newParticleRootSprite.sprite = limbSprite.sprite;
-                newParticleRootSprite.sortingOrder = limbSprite.sortingOrder;
-                newParticleRootSprite.sharedMaterial = limbSprite.sharedMaterial;
-
-                foreach (CharacterEquipmentPart equipment in GetComponent<CharacterPart>().GetEquipedAtParts())
-                {
-                    if (equipment.TryGetComponent(out SpriteRenderer equipmentSprite))
-                    {
-                        GameObject newParticleSpriteContainer = new GameObject(equipment.name);
-                        newParticleSpriteContainer.transform.parent = limbParticle.transform;
-                        newParticleSpriteContainer.transform.localPosition = Vector3.zero;
-                        SpriteRenderer newParticleSprite = newParticleSpriteContainer.AddComponent<SpriteRenderer>();
-                        newParticleSprite.sprite = equipmentSprite.sprite;
-                        newParticleSprite.sortingOrder = limbSprite.sortingOrder + (equipmentSprite.sortingOrder % 10);
-                        newParticleSprite.sharedMaterial = equipmentSprite.sharedMaterial;
-                    }
-                }
-            }
-        }
+        SpawnCutLimbParticle();
 
         if (ParticlesOnCutOff.Count > 0)
         {
@@ -179,6 +141,53 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         }
 
         GameObject.Destroy(gameObject);
+    }
+
+    private void SpawnCutLimbParticle()
+    {
+        if (TryGetComponent(out ParticleSpawner limbParticleSpawner))
+        {
+            if (CharComponents.CharacterRigidBody.linearVelocityX < 0f)
+            {
+                limbParticleSpawner.SpawnAngle = limbParticleSpawner.SpawnAngle + (90f - limbParticleSpawner.SpawnAngle) * 2;
+                limbParticleSpawner.SpawnAngularVeclocity *= -1f;
+            }
+            AbstractParticle limbParticle = limbParticleSpawner.SpawnParticle();
+
+            if (limbParticle.TryGetComponent(out BoxCollider2D particleCollider) && (GetComponent<CharacterLimbPart>()?.CharPartHitbox.TryGetComponent(out Collider2D limbCollider) ?? false))
+            {
+                GameObjectUtility.ConvertSimpleColliderToBoxCollider(particleCollider, limbCollider);
+            }
+            if (limbParticle.TryGetComponent(out SpriteRenderer particleSprite) && TryGetComponent(out SpriteRenderer limbParticleSprite))
+            {
+                particleSprite.sprite = null;
+                GameObject newParticleRootSpriteContainer = new GameObject(name);
+                newParticleRootSpriteContainer.transform.parent = limbParticle.transform;
+                newParticleRootSpriteContainer.transform.localPosition = Vector3.zero;
+                newParticleRootSpriteContainer.transform.rotation = limbParticle.transform.rotation;
+                SpriteRenderer newParticleRootSprite = newParticleRootSpriteContainer.AddComponent<SpriteRenderer>();
+                newParticleRootSprite.sprite = limbParticleSprite.sprite;
+                newParticleRootSprite.sortingOrder = limbParticleSprite.sortingOrder;
+                newParticleRootSprite.sortingLayerID = particleSprite.sortingLayerID;
+                newParticleRootSprite.sharedMaterial = limbParticleSprite.sharedMaterial;
+
+                foreach (CharacterEquipmentPart equipment in GetComponent<CharacterPart>().GetEquipedAtParts())
+                {
+                    if (equipment.TryGetComponent(out SpriteRenderer equipmentSprite))
+                    {
+                        GameObject newParticleSpriteContainer = new GameObject(equipment.name);
+                        newParticleSpriteContainer.transform.parent = limbParticle.transform;
+                        newParticleSpriteContainer.transform.localPosition = Vector3.zero;
+                        newParticleSpriteContainer.transform.rotation = limbParticle.transform.rotation;
+                        SpriteRenderer newParticleSprite = newParticleSpriteContainer.AddComponent<SpriteRenderer>();
+                        newParticleSprite.sprite = equipmentSprite.sprite;
+                        newParticleSprite.sortingOrder = limbParticleSprite.sortingOrder + (equipmentSprite.sortingOrder % 10);
+                        newParticleSprite.sortingLayerID = particleSprite.sortingLayerID;
+                        newParticleSprite.sharedMaterial = equipmentSprite.sharedMaterial;
+                    }
+                }
+            }
+        }
     }
 
     public bool TryGib(MonoBehaviour gibber)

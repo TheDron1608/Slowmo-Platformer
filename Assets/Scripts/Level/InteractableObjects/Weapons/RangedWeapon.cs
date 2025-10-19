@@ -126,7 +126,7 @@ public class RangedWeapon : ThrowableWeapon
 
     public void SpawnBulletParticles(int amount)
     {
-        if (Projectile.TryGetComponent(out AbstractRangedProjectile rangedProjectile))
+        if (Projectile.TryGetComponent(out RangedProjectile rangedProjectile))
         {
             _bulletParticleSpawner.SpawnMultipleParticles(rangedProjectile.BulletCasingParticle, amount, 0.05f);
         }
@@ -163,6 +163,12 @@ public class RangedWeapon : ThrowableWeapon
     {
         IsReloading = false;
         _animator.SetBool(ANIMATOR_IS_RELOADING_PROP_NAME, false);
+    }
+
+    protected override bool OnTryAttackSuccess(Vector2 direction)
+    {
+        SpendAmmo();
+        return base.OnTryAttackSuccess(direction);
     }
 
     protected override void OnTryAttackFail(Vector2 direction)

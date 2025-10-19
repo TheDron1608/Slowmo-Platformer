@@ -357,7 +357,7 @@ public class Holdable : Interactable
             {
                 if (weapon.Projectiles[i] is MeleeProjectile)
                 {
-                    weapon.Projectiles[i].RemoveSelf();
+                    weapon.Projectiles[i].RemoveProjectile();
                 }
             }
         }

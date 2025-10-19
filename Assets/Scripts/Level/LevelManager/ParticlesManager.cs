@@ -5,7 +5,6 @@ using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[DefaultExecutionOrder(-4)]
 public class ParticlesManager : MonoBehaviour
 {
     [Header("Limits")]

@@ -64,6 +64,38 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 1c80394c3bcae8b4dbd22f4cfad04823, type: 2}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: Accuracy
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: WallKnockback
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: RepeatWallKnockback
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: HitEffects.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[1]'
+      value: 
+      objectReference: {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[2]'
+      value: 
+      objectReference: {fileID: 344805414714566387, guid: 380b5d937a336c841acbafb75ab8a65e, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[3]'
+      value: 
+      objectReference: {fileID: 484576719013597578, guid: 69713a4334def064e9b325428379aae9, type: 3}
     - target: {fileID: 8745035720388786408, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_IncludeLayers.m_Bits
       value: 138547328
@@ -92,42 +124,5 @@ PrefabInstance:
     - {fileID: 2165468274999763034, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 5532322455371515256}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
---- !u!1 &4147169451795623401 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
-  m_PrefabInstance: {fileID: 1834705965554822751}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5532322455371515256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4147169451795623401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48248e806973db14683ccf2927ef849f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProjectileSize: 0.9
-  Accuracy: 1
-  HitEffects:
-  - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
-  - {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
-  - {fileID: 344805414714566387, guid: 380b5d937a336c841acbafb75ab8a65e, type: 3}
-  - {fileID: 484576719013597578, guid: 69713a4334def064e9b325428379aae9, type: 3}
-  SelfEffects: []
-  FiendlyFire: 0
-  IsAbleToHit: 1
-  WallKnockback: 7
-  BlockKnockback: 15
-  IsAbleTodeflectRangedProjectiles: 1
-  IsAbleTodeflectMeleeProjectiles: 1
-  EffectsOnDeflect: []
-  SelfEffectsOnDeflect: []
-  ParticleOnDeflect: {fileID: 3817894844019546139, guid: c668b1317e6e15344b6e44ac791f2fc1, type: 3}

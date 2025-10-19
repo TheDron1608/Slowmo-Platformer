@@ -26,7 +26,7 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
                 {
                     float distanceToProjectile = Vector2.Distance(CharComponents.Center.transform.position, projectile.transform.position);
                     if (
-                        projectile.GetComponent<AbstractRangedProjectile>() != null &&
+                        projectile.GetComponent<RangedProjectile>() != null &&
                         distanceToProjectile <= currentProjectile.ProjectileSize + PROJECTILE_DEFLECTION_PREPARE_DETECTION_EXTRA_DISTANCE &&
                         GetProjectileMovingToCharacter(projectile)
                         )
@@ -62,7 +62,7 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
     {
         return
             (
-                deflected.GetComponent<AbstractRangedProjectile>() != null &&
+                deflected.GetComponent<RangedProjectile>() != null &&
                 NumberMath.GetListContainsComponent<AbstractRangedProjectileDeflection, AbstractEffect>(deflector.EffectsOnDeflect)
             ) ||
             (

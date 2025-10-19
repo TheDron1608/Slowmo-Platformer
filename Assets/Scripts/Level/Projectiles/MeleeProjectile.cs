@@ -8,8 +8,9 @@ public class MeleeProjectile : AbstractProjectile
 
     public float WallKnockback = 5f;
     public float BlockKnockback = 15f;
-    public bool IsAbleTodeflectRangedProjectiles = true;
-    public bool IsAbleTodeflectMeleeProjectiles = true;
+    public bool RepeatWallKnockback = false;
+    public bool IsAbleToDeflectRangedProjectiles = true;
+    public bool IsAbleToDeflectMeleeProjectiles = true;
     public List<AbstractEffect> EffectsOnDeflect = new();
     public List<AbstractEffect> SelfEffectsOnDeflect = new();
     public AbstractParticle ParticleOnDeflect = null;
@@ -35,47 +36,41 @@ public class MeleeProjectile : AbstractProjectile
     protected override void OnAwake()
     {
         base.OnAwake();
-        if (!TryGetComponent(out _rigidBody)) throw new UnityException("RigidBody2D component not found");
 
-        _hitWallLayerMask = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer;
+        if (!TryGetComponent(out _rigidBody)) throw new UnityException("RigidBody2D component not found");
     }
 
-    protected override List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1, Weapon weapon = null)
+    protected override void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
     {
+        base.SetAttrs(original, direction, position, layer, weapon);
 
-        MeleeProjectile newProjectile = Instantiate(
-                this,
-                weapon.ProjectileSpawnPosition.transform.position,
-                VectorMath.RandomizeQuarternion(direction, Accuracy),
-                LayerManager.Instance.GetZLayerOfGameObject(weapon.gameObject).ProjectilesContainer
-                );
+        _hitWallLayerMask = 1 << layer.EnviromentLayer;
 
-        newProjectile.Weapon = weapon;
-        if (weapon != null && weapon.TryGetComponent(out Holdable holdableWeapon))
-        {
-            newProjectile.Owner = holdableWeapon.CurrentHolder;
-        }
-        else if (weapon != null && weapon.TryGetComponent(out UnarmedWeapon unarmedWeapon))
-        {
-            newProjectile.Owner = unarmedWeapon.CharComponents.CharacterHolding;
-        }
+        MeleeProjectile meleeOriginal = original.GetComponent<MeleeProjectile>();
+        WallKnockback = meleeOriginal.WallKnockback;
+        BlockKnockback = meleeOriginal.BlockKnockback;
+        RepeatWallKnockback = meleeOriginal.RepeatWallKnockback;
+        IsAbleToDeflectRangedProjectiles = meleeOriginal.IsAbleToDeflectRangedProjectiles;
+        IsAbleToDeflectMeleeProjectiles = meleeOriginal.IsAbleToDeflectMeleeProjectiles;
+        EffectsOnDeflect = meleeOriginal.EffectsOnDeflect;
+        SelfEffectsOnDeflect = meleeOriginal.SelfEffectsOnDeflect;
+        ParticleOnDeflect = meleeOriginal.ParticleOnDeflect;
 
-        return new List<AbstractProjectile>() { newProjectile };
+        _didHitAnyWallOnce = false;
     }
 
     private void FixedUpdate()
     {
         if (!IsAbleToHit) return;
 
-        List<Collider2D> hitObjectsList = new();
-        _rigidBody.Overlap(hitObjectsList);
-        Collider2D[] hitObjects = hitObjectsList.ToArray();
+        List<Collider2D> hitObjects = new();
+        _rigidBody.Overlap(hitObjects);
 
         // invokes OnHit trigger if:
         // 1. is not hitbox of projectile's weapon's owner
         // 2. has the highest CharacterHitbox.HitPrority value than other CharacterHitboxes of the same character
         // 3. did not hit this hitbox before (resets when projectile leaves hitbox) 
-        for (int i = 0; i < hitObjects.Length; i++)
+        for (int i = 0; i < hitObjects.Count; i++)
         {
             if (!IsAbleToHit) break;
 
@@ -101,6 +96,21 @@ public class MeleeProjectile : AbstractProjectile
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (RepeatWallKnockback && collision.gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null)
+        {
+            if (Weapon.TryGetComponent(out Holdable holdableWeapon) && holdableWeapon.CurrentHolder != null && holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody))
+            {
+                holderRigidBody.linearVelocity -= VectorMath.Quartenion2DToVec2(transform.rotation) * WallKnockback * Time.deltaTime;
+            }
+            else if (Weapon.TryGetComponent(out Rigidbody2D weaponRigidBody) && weaponRigidBody.simulated)
+            {
+                weaponRigidBody.linearVelocity -= VectorMath.Quartenion2DToVec2(transform.rotation) * WallKnockback * Time.deltaTime;
+            }
+        }
+    }
+
     public virtual bool DeflectCondition(AbstractProjectile deflected)
     {
         return
@@ -110,8 +120,8 @@ public class MeleeProjectile : AbstractProjectile
                 (
                     deflected.OwnerOrLastHolder != Owner &&
                     (
-                        FiendlyFire ||
-                        deflected.FiendlyFire ||
+                        FriendlyFire ||
+                        deflected.FriendlyFire ||
                         (!OwnerOrLastHolder?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(deflected.OwnerOrLastHolder.CharComponents.CharacterTeam) ?? true)
                     )
                 )
@@ -159,7 +169,7 @@ public class MeleeProjectile : AbstractProjectile
         }
     }
 
-    protected override bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
+    protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
     {
         return
             base.HitCondition(totalHitObjects, currentHitObjet) &&
@@ -190,7 +200,7 @@ public class MeleeProjectile : AbstractProjectile
                     hitObject.TryGetComponent(out MeleeProjectile meleeProjectile) && 
                     meleeProjectile != this &&
                     (meleeProjectile.Weapon == null || meleeProjectile.Weapon != Weapon) &&
-                    meleeProjectile.IsAbleTodeflectMeleeProjectiles
+                    meleeProjectile.IsAbleToDeflectMeleeProjectiles
                 ) ||
                 hitObjectBetween.collider.tag == LayerManager.ENVIROMENT_TAG_NAME
                 )
@@ -199,5 +209,11 @@ public class MeleeProjectile : AbstractProjectile
             }
         }
         return true;
+    }
+
+    public override void RemoveProjectile()
+    {
+        base.RemoveProjectile();
+        transform.parent = ProjectilesManager.Instance.UnusedMeleeProjectilesContainer;
     }
 }

@@ -64,6 +64,38 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 39521939d64d9ab4e92a67d1621f8c8b, type: 2}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: WallKnockback
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: HitEffects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: SelfEffects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[1]'
+      value: 
+      objectReference: {fileID: -7230639950384262476, guid: 632f89f98857e344a9a0577c42603646, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'SelfEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: EffectsOnDeflect.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'EffectsOnDeflect.Array.data[0]'
+      value: 
+      objectReference: {fileID: -9155648336183534320, guid: ab125f754165b894bb0e8f94e63d7c6a, type: 3}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Size.x
       value: 1.1324302
@@ -83,42 +115,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 8179383447119305257}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
---- !u!1 &1102265913505224939 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
-  m_PrefabInstance: {fileID: 3438378452406655837}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8179383447119305257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1102265913505224939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9b75ed1f04389a4e9db9917141964b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProjectileSize: 1.065
-  Accuracy: 1
-  HitEffects:
-  - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
-  - {fileID: -7230639950384262476, guid: 632f89f98857e344a9a0577c42603646, type: 3}
-  SelfEffects:
-  - {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
-  FiendlyFire: 0
-  IsAbleToHit: 1
-  WallKnockback: 0
-  BlockKnockback: 15
-  IsAbleTodeflectRangedProjectiles: 1
-  IsAbleTodeflectMeleeProjectiles: 1
-  EffectsOnDeflect:
-  - {fileID: -9155648336183534320, guid: ab125f754165b894bb0e8f94e63d7c6a, type: 3}
-  SelfEffectsOnDeflect: []
-  ParticleOnDeflect: {fileID: 3817894844019546139, guid: c668b1317e6e15344b6e44ac791f2fc1, type: 3}

@@ -44,12 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultParticle: {fileID: 7597030459040477674, guid: e53acd43f68216446a0ac0047b099071, type: 3}
+  DefaultParticle: {fileID: 5763894312763135589, guid: b969146ed1a8c664e9eccb71f97b0a76, type: 3}
   SpawnVelocity: 1
   SpawnAngle: 0
   SpawnAngularVeclocity: 0
   OverrideEffectMaterial: {fileID: 0}
-  OneShot: 0
 --- !u!1001 &7513292740135840448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -213,7 +212,7 @@ MonoBehaviour:
   _attackCooldown: 0.15
   _attackCooldownMultiplier: 1
   PlayerInputAutoAttackOnPress: 1
-  Projectile: {fileID: 5532322455371515256, guid: 9177004b0f9f1de44868f9be139f294e, type: 3}
+  Projectile: {fileID: 5034291969455746302, guid: 9177004b0f9f1de44868f9be139f294e, type: 3}
   AccuracyMultiplier: 0.85
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667

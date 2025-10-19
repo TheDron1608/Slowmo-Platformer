@@ -8,6 +8,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: BulletCasingParticle
+      value: 
+      objectReference: {fileID: 1730583820078388358, guid: f09f84c364d419846bacf6f0239c99fb, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: HitEffects.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: SelfEffects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'HitEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'HitEffects.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'HitEffects.Array.data[2]'
+      value: 
+      objectReference: {fileID: 344805414714566387, guid: c3750bf0cca22184d9d3d277ab7bd499, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'HitEffects.Array.data[3]'
+      value: 
+      objectReference: {fileID: 484576719013597578, guid: 69713a4334def064e9b325428379aae9, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'HitEffects.Array.data[4]'
+      value: 
+      objectReference: {fileID: -4082839253099350160, guid: 356a4a5448836a3489c3605d0abf3805, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'SelfEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 977385987182254359, guid: f5e89590c7150c64a9b12a39f2d93611, type: 3}
     - target: {fileID: 6109845450025029626, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: m_Name
       value: MediumCaliberBulletProjectile
@@ -55,45 +91,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6109845450025029626, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 5100441996019854660}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
---- !u!1 &6149151337722936875 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6109845450025029626, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
-  m_PrefabInstance: {fileID: 116148693787259345}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5100441996019854660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6149151337722936875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11786349b20d40542bf338baf3a3e23e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProjectileSize: 1.0625
-  Accuracy: 1
-  HitEffects:
-  - {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
-  - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
-  - {fileID: 344805414714566387, guid: c3750bf0cca22184d9d3d277ab7bd499, type: 3}
-  - {fileID: 484576719013597578, guid: 69713a4334def064e9b325428379aae9, type: 3}
-  - {fileID: -4082839253099350160, guid: 356a4a5448836a3489c3605d0abf3805, type: 3}
-  SelfEffects:
-  - {fileID: 977385987182254359, guid: f5e89590c7150c64a9b12a39f2d93611, type: 3}
-  FiendlyFire: 0
-  IsAbleToHit: 1
-  BulletSpeed: 35
-  MaxRange: 350
-  BulletCasingParticle: {fileID: 1730583820078388358, guid: f09f84c364d419846bacf6f0239c99fb, type: 3}
-  MaxPierces: 0
-  _particlesOnWallHit:
-  - {fileID: 5763894312763135589, guid: 3882dab32888c32419b6cbacb6d7fa96, type: 3}
-  - {fileID: 5763894312763135589, guid: b969146ed1a8c664e9eccb71f97b0a76, type: 3}
-  - {fileID: 5763894312763135589, guid: f46907b29ec794d40971d3e2e400ad9f, type: 3}

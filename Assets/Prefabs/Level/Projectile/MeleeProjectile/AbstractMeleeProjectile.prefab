@@ -59,5 +59,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1287883283165750693, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6677512809597469345}
   m_SourcePrefab: {fileID: 100100000, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+--- !u!1 &2376664744356365238 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1287883283165750693, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+  m_PrefabInstance: {fileID: 3541202579567175187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6677512809597469345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2376664744356365238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b75ed1f04389a4e9db9917141964b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmountOnSpawn: 1
+  Accuracy: 1
+  HitEffects: []
+  SelfEffects: []
+  FriendlyFire: 0
+  IsAbleToHit: 1
+  WallKnockback: 5
+  BlockKnockback: 15
+  RepeatWallKnockback: 0
+  IsAbleToDeflectRangedProjectiles: 1
+  IsAbleToDeflectMeleeProjectiles: 1
+  EffectsOnDeflect: []
+  SelfEffectsOnDeflect: []
+  ParticleOnDeflect: {fileID: 3817894844019546139, guid: c668b1317e6e15344b6e44ac791f2fc1, type: 3}

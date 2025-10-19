@@ -1,6 +1,6 @@
 ﻿interface IRangedProjectileEffect
 {
-    public AbstractRangedProjectile RangedProjectile
+    public RangedProjectile RangedProjectile
     {
         get;
     }

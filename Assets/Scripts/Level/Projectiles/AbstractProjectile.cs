@@ -4,22 +4,30 @@ using UnityEngine;
 
 public abstract class AbstractProjectile : MonoBehaviour
 {
-    public float ProjectileSize = 1f;
+    const string ANIMATOR_RESET_TRIGGER_NAME = "Reset";
+
+    public int AmountOnSpawn = 1;
     public float Accuracy = 1f;
     public List<AbstractEffect> HitEffects = new();
     public List<AbstractEffect> SelfEffects = new();
-    public bool FiendlyFire = false;
+    public bool FriendlyFire = false;
     public bool IsAbleToHit = true;
 
     private Weapon _weapon = null;
     private Weapon _deflector = null;
     private CharacterHoldingObjects _owner = null;
     protected List<Collider2D> _currentHittingColliders = new();
-    private ObjectEffectsReceiver _effectsReceiver;
     protected bool _wasDeflectedThisFrame = false;
+    private ObjectEffectsReceiver _effectsReceiver;
+    private BoxCollider2D _colliderComponent;
 
     public event EventHandler<GameObject> OnHitSomeOne;
     public event EventHandler OnDestroyed;
+
+    public float ProjectileSize
+    {
+        get => _colliderComponent.size.x;
+    }
 
     private void Awake()
     {
@@ -29,8 +37,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     protected virtual void OnAwake()
     {
         if (!TryGetComponent(out _effectsReceiver)) throw new UnityException("ObjectEffectsReceiver component not found at " + gameObject.name);
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
+        if (!TryGetComponent(out _colliderComponent)) throw new UnityException("BoxCollider2D component not found at " + gameObject.name);
     }
 
     public virtual Weapon Weapon
@@ -57,17 +64,63 @@ public abstract class AbstractProjectile : MonoBehaviour
         get => _effectsReceiver;
     }
 
-    public List<AbstractProjectile> SpawnProjectile(Vector2 direction, float accuracityMultiplier = 1f, Weapon weapon = null)
+    public List<AbstractProjectile> SpawnProjectile(Vector2 direction, Vector2 position, ZIndexLayer layer, Weapon weapon = null, float accuracityMultiplier = 1f)
     {
-        return SpawnProjectile(VectorMath.Vec2ToQuarterninon2D(direction), accuracityMultiplier, weapon);
+        return SpawnProjectile(VectorMath.Vec2ToQuarterninon2D(direction), position, layer, weapon, accuracityMultiplier);
     }
 
-    public List<AbstractProjectile> SpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null)
+    public List<AbstractProjectile> SpawnProjectile(Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon = null, float accuracityMultiplier = 1f)
     {
-        List<AbstractProjectile> result = OnSpawnProjectile(direction, accuracityMultiplier, weapon);
+        List<AbstractProjectile> result = new(AmountOnSpawn);
+
+        for (int i = 0; i < AmountOnSpawn; i++)
+        {
+            AbstractProjectile newProjectile = ProjectilesManager.Instance.GetUnusedProjectile(this);
+            newProjectile.SetAttrs(this, VectorMath.RandomizeQuarternion(direction, Accuracy * accuracityMultiplier), position, layer, weapon);
+            result.Insert(i, newProjectile);
+        }
+
         ApplySelfEffectOnWeaponUser(result, weapon);
+
         return result;
     }
+
+    protected virtual void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
+    {
+        Weapon = weapon;
+        if (weapon?.TryGetComponent(out Holdable holdableWeapon) ?? false)
+        {
+            Owner = holdableWeapon.CurrentHolder ?? holdableWeapon.LastHolder;
+        }
+        transform.rotation = direction;
+        transform.position = weapon.ProjectileSpawnPosition.transform.position;
+        _deflector = null;
+        gameObject.SetActive(true);
+
+        gameObject.name = original.gameObject.name;
+        AmountOnSpawn = original.AmountOnSpawn;
+        Accuracy = original.Accuracy;
+        HitEffects = original.HitEffects;
+        SelfEffects = original.SelfEffects;
+        FriendlyFire = original.FriendlyFire;
+        IsAbleToHit = original.IsAbleToHit;
+
+        Animator animator = GetComponent<Animator>();
+        Animator originalAnimator = original.GetComponent<Animator>();
+        animator.runtimeAnimatorController = originalAnimator.runtimeAnimatorController;
+        animator.SetTrigger(ANIMATOR_RESET_TRIGGER_NAME);
+
+        BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+        BoxCollider2D originalBoxCollider = original.GetComponent<BoxCollider2D>();
+        boxCollider.size = originalBoxCollider.size;
+        boxCollider.offset = originalBoxCollider.offset;
+
+        _currentHittingColliders = new();
+        _wasDeflectedThisFrame = false;
+
+        LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
+    }
+
 
     private void LateUpdate()
     {
@@ -98,8 +151,6 @@ public abstract class AbstractProjectile : MonoBehaviour
             _currentHittingColliders.Add(item);
         }
     }
-
-    protected abstract List<AbstractProjectile> OnSpawnProjectile(Quaternion direction, float accuracityMultiplier = 1f, Weapon weapon = null);
 
     public virtual void OnDeflected(MeleeProjectile deflector)
     {
@@ -144,15 +195,6 @@ public abstract class AbstractProjectile : MonoBehaviour
         }
     }
 
-    public void RemoveSelf()
-    {
-        if (Weapon != null)
-        {
-            Weapon.Projectiles.Remove(this);
-        }
-        Destroy(gameObject);
-    }
-
     private void Update()
     {
         OnUpdate();
@@ -162,7 +204,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     {
     }
 
-    protected virtual bool HitCondition(Collider2D[] totalHitObjects, Collider2D currentHitObjet)
+    protected virtual bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
     {
         //returns true if:
         //1. if not deflected this frame
@@ -181,7 +223,7 @@ public abstract class AbstractProjectile : MonoBehaviour
                 (
                     Owner == null ||
                     charComponent.CharComponents.CharacterHolding != Owner &&
-                    (FiendlyFire || !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(Owner.CharComponents.CharacterTeam))
+                    (FriendlyFire || !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(Owner.CharComponents.CharacterTeam))
                 )
             ) &&
             (
@@ -195,10 +237,10 @@ public abstract class AbstractProjectile : MonoBehaviour
             !_currentHittingColliders.Contains(currentHitObjet);
     }
 
-    private bool GetIsHighestHitPriority(Collider2D[] colliders, CharacterHitbox currentHitBox)
+    private bool GetIsHighestHitPriority(List<Collider2D> colliders, CharacterHitbox currentHitBox)
     {
         int currentHighestPriority = currentHitBox.HitPriority;
-        for (int i = 0; i < colliders.Length; i++)
+        for (int i = 0; i < colliders.Count; i++)
         {
             if (
                 colliders[i].TryGetComponent(out CharacterHitbox charHitbox) &&
@@ -215,5 +257,14 @@ public abstract class AbstractProjectile : MonoBehaviour
     private void OnDestroy()
     {
         OnDestroyed?.Invoke(this, EventArgs.Empty);
+    }
+
+    public virtual void RemoveProjectile()
+    {
+        if (Weapon != null)
+        {
+            Weapon.Projectiles.Remove(this);
+        }
+        gameObject.SetActive(false);
     }
 }

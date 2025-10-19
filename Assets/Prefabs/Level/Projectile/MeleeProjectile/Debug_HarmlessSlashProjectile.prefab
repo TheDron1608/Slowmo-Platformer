@@ -64,6 +64,26 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ebe639c7db5bd4c4284f5e2b5d29b1c9, type: 2}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: SelfEffects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'SelfEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: EffectsOnDeflect.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'EffectsOnDeflect.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'EffectsOnDeflect.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Size.x
       value: 1.5087446
@@ -83,41 +103,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 8179383447119305257}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
---- !u!1 &1102265913505224939 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2376664744356365238, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
-  m_PrefabInstance: {fileID: 3438378452406655837}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8179383447119305257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1102265913505224939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9b75ed1f04389a4e9db9917141964b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProjectileSize: 1.435
-  Accuracy: 1
-  HitEffects: []
-  SelfEffects:
-  - {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
-  FiendlyFire: 0
-  IsAbleToHit: 1
-  WallKnockback: 5
-  BlockKnockback: 15
-  IsAbleTodeflectRangedProjectiles: 1
-  IsAbleTodeflectMeleeProjectiles: 1
-  EffectsOnDeflect:
-  - {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
-  - {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
-  SelfEffectsOnDeflect: []
-  ParticleOnDeflect: {fileID: 3817894844019546139, guid: c668b1317e6e15344b6e44ac791f2fc1, type: 3}

@@ -35,27 +35,11 @@ public class DynamicMaterial : MonoBehaviour
 
     private void UpdateColor()
     {
-        if (TryGetComponent(out SpriteRenderer spriteRenderer))
+        if (TryGetComponent(out Renderer renderer))
         {
-            if (spriteRenderer.sharedMaterial != GetCurrentMaterial()) 
+            if (renderer.sharedMaterial != GetCurrentMaterial())
             {
-                spriteRenderer.sharedMaterial = GetCurrentMaterial();
-                OnMaterialChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-        else if (TryGetComponent(out TilemapRenderer tilemapRenderer))
-        {
-            if (tilemapRenderer.sharedMaterial != GetCurrentMaterial())
-            {
-                tilemapRenderer.sharedMaterial = GetCurrentMaterial();
-                OnMaterialChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-        else if (TryGetComponent(out ParticleSystemRenderer particleSystem))
-        {
-            if (particleSystem.sharedMaterial != GetCurrentMaterial())
-            {
-                particleSystem.sharedMaterial = GetCurrentMaterial();
+                renderer.sharedMaterial = GetCurrentMaterial();
                 OnMaterialChanged?.Invoke(this, EventArgs.Empty);
             }
         }

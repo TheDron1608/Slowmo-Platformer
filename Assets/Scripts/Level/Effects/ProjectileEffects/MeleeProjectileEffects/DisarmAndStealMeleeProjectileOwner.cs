@@ -25,7 +25,7 @@ public class DisarmAndStealMeleeProjectileOwner : AbstractMeleeProjectileDeflect
             }
         }
 
-        MeleeProjectile.RemoveSelf();
+        MeleeProjectile.RemoveProjectile();
 
         RemoveSelf();
     }

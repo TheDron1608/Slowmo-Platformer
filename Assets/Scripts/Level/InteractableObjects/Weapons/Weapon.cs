@@ -140,7 +140,13 @@ public abstract class Weapon : MonoBehaviour
     {
         IsInCooldown = true;
 
-        List<AbstractProjectile> newProjectiles = Projectile.SpawnProjectile(direction, AccuracyMultiplier, this);
+        List<AbstractProjectile> newProjectiles = Projectile.SpawnProjectile(
+            direction, 
+            transform.position,
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+            this,
+            AccuracyMultiplier
+            );
 
         _projectiles.AddRange(newProjectiles);
         for (int i = 0; i < newProjectiles.Count; i++)
@@ -148,7 +154,6 @@ public abstract class Weapon : MonoBehaviour
             newProjectiles[i].OnHitSomeOne += NewProjectile_OnHitSomething;
             newProjectiles[i].OnDestroyed += NewProjectile_OnDestroyed;
         }
-
 
         return true;
     }

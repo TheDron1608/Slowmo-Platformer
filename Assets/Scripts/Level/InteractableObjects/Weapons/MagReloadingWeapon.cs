@@ -163,6 +163,7 @@ public class MagReloadingWeapon : RangedWeapon
     private IEnumerator SpawnParticleAfterDuration(int amount)
     {
         yield return new WaitForSeconds(AWAIT_TIME_TO_SPAWN_BULLET_PARTICLE_ON_ATTACK);
+
         SpawnBulletParticles(amount);
     }
 }

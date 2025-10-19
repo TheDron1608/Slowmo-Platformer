@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class AbstractRangedProjectileEffectWithSender : AbstractProjectileEffectWithSender, IRangedProjectileEffect
 {
-    private AbstractRangedProjectile _rangedProjectile;
+    private RangedProjectile _rangedProjectile;
 
-    public AbstractRangedProjectile RangedProjectile
+    public RangedProjectile RangedProjectile
     {
         get => _rangedProjectile;
     }
@@ -15,7 +15,7 @@ public abstract class AbstractRangedProjectileEffectWithSender : AbstractProject
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<AbstractRangedProjectile>() != null;
+            affectWho.GetComponent<RangedProjectile>() != null;
     }
 
     protected override void OnApply()
