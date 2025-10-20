@@ -142,4 +142,9 @@ public class CharacterHitbox : AbstractCharacterComponent
             throw new UnityException("Collider2D component not found in " + gameObject.name);
         }
     }
+
+    private void OnDestroy()
+    {
+        CharComponents.CharacterVisual.OnSpriteFlippedChanged -= CharacterVisual_OnSpriteFlippedChanged;
+    }
 }

@@ -71,7 +71,7 @@ public class CharacterStuckedObjects : AbstractCharacterComponent, IStuckToObjec
 
             yield return new WaitForEndOfFrame();
         }
-        while (!stuckObject.IsDestroyed() && stuckObject.StuckedToCollider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents);
+        while (!stuckObject.IsDestroyed() && (!stuckObject.StuckedToCollider?.IsDestroyed() ?? false) && stuckObject.StuckedToCollider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents);
 
         Destroy(trackObject);
     }
