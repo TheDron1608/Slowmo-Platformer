@@ -213,6 +213,7 @@ public abstract class AbstractProjectile : MonoBehaviour
         //4. has the highest hit priority at all hit character's parts (if hit multiple character's parts)
         //5. did not already hit this object this frame
         return
+            gameObject.activeSelf &&
             !_wasDeflectedThisFrame &&
             (
                 !currentHitObjet.TryGetComponent(out AbstractProjectile projectile) ||

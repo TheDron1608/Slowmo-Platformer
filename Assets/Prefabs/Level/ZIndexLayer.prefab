@@ -33,13 +33,13 @@ Transform:
   m_Children:
   - {fileID: 3574043339304363985}
   - {fileID: 7874095448606706971}
-  - {fileID: 1668429190073256938}
   - {fileID: 6451635974988100058}
-  - {fileID: 940554732863601988}
   - {fileID: 4920455243894621306}
+  - {fileID: 940554732863601988}
   - {fileID: 7636934972741481822}
   - {fileID: 5032109731548073303}
   - {fileID: 6933709097714178522}
+  - {fileID: 1668429190073256938}
   - {fileID: 7807182031919384236}
   - {fileID: 8001291977399716724}
   - {fileID: 5276738633041741830}
@@ -59,6 +59,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ZIndex: 1
   TileManager: {fileID: 8888074391506838146}
+  _charactersContainer: {fileID: 3574043339304363985}
+  _furnitureContainer: {fileID: 7874095448606706971}
+  _holdablesContainer: {fileID: 6451635974988100058}
+  _physicsParticlesContainer: {fileID: 4920455243894621306}
+  _fluidParticlesContainer: {fileID: 940554732863601988}
+  _cloudParticlesContainer: {fileID: 7636934972741481822}
+  _lightParticlesContainer: {fileID: 5032109731548073303}
+  _projectilesContainer: {fileID: 6933709097714178522}
+  _interactableEnviromentContainer: {fileID: 1668429190073256938}
+  _multiTileMapsContainer: {fileID: 4781984060066008176}
 --- !u!65 &1935265379690982033
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -561,6 +571,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f2d488a00d085543ba73fffc290b255, type: 3}
+--- !u!114 &4781984060066008176 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4820303836886292238, guid: 6f2d488a00d085543ba73fffc290b255, type: 3}
+  m_PrefabInstance: {fileID: 51841863037999998}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6322f44c8bdb7418507230f5e2ea9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8001291977399716724 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8048602478138626058, guid: 6f2d488a00d085543ba73fffc290b255, type: 3}

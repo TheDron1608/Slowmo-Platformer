@@ -7,26 +7,19 @@ using UnityEngine.Tilemaps;
 [DefaultExecutionOrder(-1)]
 public class ZIndexLayer : MonoBehaviour
 {
-    private const string ENVIROMENT_LAYER_NAME = "Enviroment";
-    private const string CHARACTERS_LAYER_NAME = "Characters";
-    private const string HOLDABLES_LAYER_NAME = "Holdables";
-    private const string FURNITURE_LAYER_NAME = "Furniture";
-    private const string PROJECTILES_LAYER_NAME = "Projectiles";
+    const int MAX_Z_LAYERS = 3;
 
-    private const string BACKGROUND_SORTING_LAYER_NAME = "Background";
-    private const string OBJECTS_SORTING_LAYER_NAME = "Objects";
-    private const string ENVIROMENT_SORTING_LAYER_NAME = "Enviroment";
-    private const string OVERGROUND_SORTING_LAYER_NAME = "Overground";
+    const string ENVIROMENT_LAYER_NAME = "Enviroment";
+    const string CHARACTERS_LAYER_NAME = "Characters";
+    const string HOLDABLES_LAYER_NAME = "Holdables";
+    const string FURNITURE_LAYER_NAME = "Furniture";
+    const string PROJECTILES_LAYER_NAME = "Projectiles";
+    const string PARTICLES_LAYER_NAME = "Particles";
 
-    private const string FLUID_PARTICLES_CONTAINER_NAME = "FluidParticles";
-    private const string PHYSICS_PARTICLES_CONTAINER_NAME = "PhysicsParticles";
-    private const string CLOUD_PARTICLES_CONTAINER_NAME = "CloudParticles";
-    private const string LIGHT_PARTICLES_CONTAINER_NAME = "LightParticles";
-    private const string CHARACTERS_CONTAINER_NAME = "Characters";
-    private const string FURNITURE_CONTAINER_NAME = "Furniture";
-    private const string HOLDABLES_CONTAINER_NAME = "Holdables";
-    private const string PROJECTILES_CONTAINER_NAME = "Projectiles";
-    private const string INTERACTABLE_ENVIROMENT_CONTAINER_NAME = "InteractableEnviroment";
+    const string BACKGROUND_SORTING_LAYER_NAME = "Background";
+    const string OBJECTS_SORTING_LAYER_NAME = "Objects";
+    const string ENVIROMENT_SORTING_LAYER_NAME = "Enviroment";
+    const string OVERGROUND_SORTING_LAYER_NAME = "Overground";
 
     public struct LayerAlphaMode
     {
@@ -48,6 +41,7 @@ public class ZIndexLayer : MonoBehaviour
     public int HoldablesLayer { get; private set; }
     public int FurnituresLayer { get; private set; }
     public int ProjectilesLayer { get; private set; }
+    public int ParticlesLayer { get; private set; }
     public int EntireLayerMask { get; private set; }
 
     public int BackgroundSortingLayer { get; private set; }
@@ -55,16 +49,27 @@ public class ZIndexLayer : MonoBehaviour
     public int EnviromentSortingLayer { get; private set; }
     public int OvergroundSortingLayer { get; private set; }
 
-    public Transform CharactersContainer { get; private set; }
-    public Transform FurnitureContainer { get; private set; }
-    public Transform HoldablesContainer { get; private set; }
-    public Transform PhysicsParticlesContainer { get; private set; }
-    public Transform FluidParticlesContainer { get; private set; }
-    public Transform CloudParticlesContainer { get; private set; }
-    public Transform LightParticlesContainer { get; private set; }
-    public Transform ProjectilesContainer { get; private set; }
-    public Transform InteractableEnviromentContainer {  get; private set; }
-    public MultiTileMapsContainer MultiTileMapsContainer { get; private set; }
+    public Transform CharactersContainer { get => _charactersContainer; }
+    public Transform FurnitureContainer { get => _furnitureContainer; }
+    public Transform HoldablesContainer { get => _holdablesContainer; }
+    public Transform PhysicsParticlesContainer { get => _physicsParticlesContainer; }
+    public Transform FluidParticlesContainer { get => _fluidParticlesContainer; }
+    public Transform CloudParticlesContainer { get => _cloudParticlesContainer; }
+    public Transform LightParticlesContainer { get => _lightParticlesContainer; }
+    public Transform ProjectilesContainer { get => _projectilesContainer; }
+    public Transform InteractableEnviromentContainer {  get => _interactableEnviromentContainer; }
+    public MultiTileMapsContainer MultiTileMapsContainer { get => _multiTileMapsContainer; }
+
+    [SerializeField] private Transform _charactersContainer;
+    [SerializeField] private Transform _furnitureContainer;
+    [SerializeField] private Transform _holdablesContainer;
+    [SerializeField] private Transform _physicsParticlesContainer;
+    [SerializeField] private Transform _fluidParticlesContainer;
+    [SerializeField] private Transform _cloudParticlesContainer;
+    [SerializeField] private Transform _lightParticlesContainer;
+    [SerializeField] private Transform _projectilesContainer;
+    [SerializeField] private Transform _interactableEnviromentContainer;
+    [SerializeField] private MultiTileMapsContainer _multiTileMapsContainer;
 
     private LayerAlphaMode _alphaMode;
     private List<BuildingInfo> _buildingsInfo = new();
@@ -105,7 +110,7 @@ public class ZIndexLayer : MonoBehaviour
 
     private void Awake()
     {
-        if (ZIndex < 1 || ZIndex > 5) throw new UnityException("ZIndexLayer ZIndex max value is 5 and min value is 1");
+        if (ZIndex < 1 || ZIndex > MAX_Z_LAYERS) throw new UnityException("ZIndexLayer ZIndex max value is "+ MAX_Z_LAYERS+" and min value is 1");
 
         InitializeEnviromoentLayers();
         UpdateLayerForAllChildren();
@@ -118,6 +123,7 @@ public class ZIndexLayer : MonoBehaviour
         HoldablesLayer = LayerMask.NameToLayer($"Z{ZIndex}{HOLDABLES_LAYER_NAME}");
         FurnituresLayer = LayerMask.NameToLayer($"Z{ZIndex}{FURNITURE_LAYER_NAME}");
         ProjectilesLayer = LayerMask.NameToLayer($"Z{ZIndex}{PROJECTILES_LAYER_NAME}");
+        ParticlesLayer = LayerMask.NameToLayer($"Z{ZIndex}{PARTICLES_LAYER_NAME}");
 
         BackgroundSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{BACKGROUND_SORTING_LAYER_NAME}");
         ObjectsSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OBJECTS_SORTING_LAYER_NAME}");
@@ -125,18 +131,6 @@ public class ZIndexLayer : MonoBehaviour
         OvergroundSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OVERGROUND_SORTING_LAYER_NAME}");
 
         EntireLayerMask = (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
-
-        FluidParticlesContainer = transform.Find(FLUID_PARTICLES_CONTAINER_NAME);
-        PhysicsParticlesContainer = transform.Find(PHYSICS_PARTICLES_CONTAINER_NAME);
-        CloudParticlesContainer = transform.Find(CLOUD_PARTICLES_CONTAINER_NAME);
-        LightParticlesContainer = transform.Find(LIGHT_PARTICLES_CONTAINER_NAME);
-        CharactersContainer = transform.Find(CHARACTERS_CONTAINER_NAME);
-        FurnitureContainer = transform.Find(FURNITURE_CONTAINER_NAME);
-        InteractableEnviromentContainer = transform.Find(INTERACTABLE_ENVIROMENT_CONTAINER_NAME);
-        HoldablesContainer = transform.Find(HOLDABLES_CONTAINER_NAME);
-        ProjectilesContainer = transform.Find(PROJECTILES_CONTAINER_NAME);
-
-        MultiTileMapsContainer = transform.GetComponentInChildren<MultiTileMapsContainer>();
     }
 
     private void SetAlphaForAllChildren(LayerAlphaMode layerAlpha, Transform t, bool foundOvergound = false)
@@ -276,9 +270,13 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.HOLDABLE_TAG_NAME:
+                gameObject.layer = HoldablesLayer;
+                break;
+
             case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
             case LayerManager.FLUID_PARTICLE_TAG_NAME:
-                gameObject.layer = HoldablesLayer;
+            case LayerManager.CLOUD_PARTICLE_TAG_NAME:
+                gameObject.layer = ParticlesLayer;
                 break;
 
             default:
