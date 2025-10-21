@@ -34,6 +34,7 @@ public class WorldGenerationManager : MonoBehaviour
         for (int i = 0; i < BuildingsAmount; i++)
         {
             //trying generating building at next/current layer til not find valid layer, if no valid layer stop generating
+            int attemptingBuildingLayerIndex;
             int buildingLayerStep;
             if (currentBuildingLayerIndex == 0)
             {
@@ -48,18 +49,13 @@ public class WorldGenerationManager : MonoBehaviour
                 buildingLayerStep = NumberMath.RandomCoinflip() ? -1 : 1;
             }
 
-            for (
-                int layerIndex = currentBuildingLayerIndex + buildingLayerStep;
-                layerIndex != currentBuildingLayerIndex;
-                layerIndex += buildingLayerStep
-                )
+            for (int layerIndexAdd = 1; layerIndexAdd < LayerManager.Instance.ZLayers.Count + 1; layerIndexAdd++)
             {
-                if (layerIndex >= LayerManager.Instance.ZLayers.Count) layerIndex = 0;
-                if (layerIndex < 0) layerIndex = LayerManager.Instance.ZLayers.Count - 1;
+                attemptingBuildingLayerIndex = (currentBuildingLayerIndex + layerIndexAdd) % LayerManager.Instance.ZLayers.Count;
 
                 //trying generate building, if failed GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT times finish generating
                 if (TryGenerateBuilding(
-                    LayerManager.Instance.ZLayers[currentBuildingLayerIndex],
+                    LayerManager.Instance.ZLayers[attemptingBuildingLayerIndex],
                     currentBuildingEnterPosition,
                     NumberMath.PickRandomInRangeNoSeed(MinBuildingRooms, MaxBuildingRooms),
                     new Vector3Int((int)(GenerateDirection.normalized.x * 99999), (int)(GenerateDirection.normalized.y * 99999)),
@@ -74,7 +70,7 @@ public class WorldGenerationManager : MonoBehaviour
                     prevBuilding = newBuilding;
 
                     currentBuildingEnterPosition = NumberMath.Vec3ToVec3Int(newBuilding.Exit.GetSpawnPosition());
-                    currentBuildingLayerIndex = layerIndex;
+                    currentBuildingLayerIndex = attemptingBuildingLayerIndex;
 
                     break;
                 }
