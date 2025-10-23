@@ -12,9 +12,17 @@ public class Chunk : MonoBehaviour
         return transform.GetComponentsInChildren<ChunkConnection>();
     }
 
-    public DoorGenerationPosition[] GetDoorGenerationPositions()
+    public List<DoorGenerationPosition> GetDoorGenerationPositions()
     {
-        return transform.GetComponentsInChildren<DoorGenerationPosition>();
+        List<DoorGenerationPosition> result = new List<DoorGenerationPosition>();
+        foreach (Transform child in transform)
+        {
+            if (child.TryGetComponent(out DoorGenerationPosition doorGenPos))
+            {
+                result.Add(doorGenPos);
+            }
+        }
+        return result;
     }
 
     public bool GetAnyConnectionIsValid(ChunkConnection targetConnection, out ChunkConnection validConnection)
@@ -125,7 +133,15 @@ public class Chunk : MonoBehaviour
         out DoorGenerationPosition.PreGeneratedDoorTempInfo door
         )
     {
-        int randomDoorArrayKey = (int)(UnityEngine.Random.value * GetDoorGenerationPositions().Length);
+        if (GetDoorGenerationPositions().Count == 0)
+        {
+            Debug.Log("none");
+            newChunk = null;
+            door = default;
+            return false;
+        }
+
+        int randomDoorArrayKey = (int)(UnityEngine.Random.value * (GetDoorGenerationPositions().Count - 1));
 
         if (TryGenerateChunk(
             generateWhere, 

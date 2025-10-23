@@ -6,6 +6,9 @@ public class CameraTrack : MonoBehaviour
     public float TrackSpeed = 5f;
     public float TrackMouseVelocity = 0.1625f;
 
+    public float? LockPositionX = null;
+    public float? LockPositionY = null;
+
     private Rigidbody _rigidBodyComponent;
     private MultiZLayerCamera _multiZLayerCameraComponent;
 
@@ -31,8 +34,8 @@ public class CameraTrack : MonoBehaviour
 
         Vector2 trackTargetPositionXY = TrackObject.transform.position - (TrackObject.transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition)) * TrackMouseVelocity * (1920f / Screen.width);
         Vector3 trackTargetPosition = new Vector3(
-            trackTargetPositionXY.x,
-            trackTargetPositionXY.y,
+            LockPositionX.GetValueOrDefault(trackTargetPositionXY.x),
+            LockPositionY.GetValueOrDefault(trackTargetPositionXY.y),
             TrackObject.transform.position.z - _multiZLayerCameraComponent.ZoomOutDistance
             );
 

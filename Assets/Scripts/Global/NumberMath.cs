@@ -155,4 +155,9 @@ public static class NumberMath
             (int)math.floor(vec3.z)
             );
     }
+
+    public static float LimitFloatInRange(float value, float min, float max)
+    {
+        return math.min(max, math.max(min, value));
+    }
 }

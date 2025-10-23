@@ -147,7 +147,6 @@ public class WorldGenerationManager : MonoBehaviour
                 }
             }
         }
-        
 
         //setting exit door
         newBuildingInfo.Exit = NumberMath.PickRandomItem(
