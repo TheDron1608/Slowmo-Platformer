@@ -302,13 +302,19 @@ public class CharacterCollision : AbstractCharacterComponent
             )
             )
         {
-            foreach (RaycastHit2D hit in Physics2D.LinecastAll(CharComponents.Center.transform.position, CharComponents.Center.PositionPreviousFrame, 1 << CurrentZLayer.CharactersLayer))
+            float hitRadius = (CharComponents.CharacterRigidBodyCapsuleCollider.size.x + CharComponents.CharacterRigidBodyCapsuleCollider.size.y) / 2;
+
+            foreach (Transform otherCharacterTransform in _currentZLayer.CharactersContainer)
             {
                 if (
-                    hit.collider.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
+                    otherCharacterTransform.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
+                    Vector2.Distance(otherCharComponent.CharComponents.Center.transform.position, CharComponents.Center.transform.position) < hitRadius &&
                     otherCharComponent.CharComponents.CharacterCollision != this &&
                     !otherCharComponent.CharComponents.CharacterCollision.GetHasEnoughVelocityToHit() &&
-                    !CharComponents.CharacterEffectsReceiver.GetCharacterIsLastSender(otherCharComponent)
+                    (
+                        !CharComponents.CharacterEffectsReceiver.GetCharacterIsLastSender(otherCharComponent) ||
+                        !CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>()
+                    )
                     )
                 {
                     //hit self
