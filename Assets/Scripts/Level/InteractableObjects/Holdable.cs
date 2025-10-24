@@ -42,6 +42,7 @@ public class Holdable : Interactable
     private ObjectEffectsReceiver _effectsReceiver;
 
     private Collider2D _stuckedToCollider = null;
+    private Quaternion _rotationPrevFrame = Quaternion.identity;
     private Vector2 _velocitySpeedPreviousFrame = Vector2.zero;
     private bool _isStuck = false;
     private Coroutine _enableGravityCoroutine;
@@ -114,9 +115,10 @@ public class Holdable : Interactable
                         (stuckWhoRigidBody.bodyType == RigidbodyType2D.Static || stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic)
                     )
                     _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
-                {
-                }
+
                 _isStuck = true;
+
+                transform.rotation = _rotationPrevFrame;
             }
 
             else
@@ -158,6 +160,7 @@ public class Holdable : Interactable
     {
         UpdateStuckStatus();
         _velocitySpeedPreviousFrame = _rigidBodyComponent.linearVelocity;
+        _rotationPrevFrame = transform.rotation;
     }
 
     private void UpdateStuckStatus()

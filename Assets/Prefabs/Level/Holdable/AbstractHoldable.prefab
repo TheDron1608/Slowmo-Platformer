@@ -80,7 +80,7 @@ MonoBehaviour:
   SpawnObjectsOnBreak: []
   RemoveObjectOnBreakVelocity: 0
   RemoveObjectOnBreakMaxRandomAngularVelocity: 0
-  _brokenPartsParticleSpawners: []
+  _partcilesOnBreak: []
   _maxUses: 10
   UnlimitedUses: 1
 --- !u!114 &7107846151242222728
@@ -250,7 +250,7 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 277094656
+    m_Bits: 269500672
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
