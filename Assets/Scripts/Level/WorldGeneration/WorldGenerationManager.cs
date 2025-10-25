@@ -15,8 +15,7 @@ public class WorldGenerationManager : MonoBehaviour
     public int BuildingDistance = 25;
     public List<Chunk> Chunks = new();
     public Vector2 GenerateDirection = Vector2.one;
-    public int MinParallelRooms = 1;
-    public int MaxParallelRooms = 3;
+    public int ParallelRooms = 3;
     public int Seed;
 
     private UnityEngine.Random.State _randomState;
@@ -27,7 +26,7 @@ public class WorldGenerationManager : MonoBehaviour
         UnityEngine.Random.state = _randomState;
 
         Vector3Int currentBuildingEnterPosition = Vector3Int.zero;
-        int currentBuildingLayerIndex = LayerManager.Instance.ZLayers.Count / 2;
+        int currentBuildingLayerIndex = (int)math.floor(LayerManager.Instance.ZLayers.Count / 2f) - 1;
         BuildingInfo prevBuilding = null;
 
         //generating buildings
@@ -112,17 +111,18 @@ public class WorldGenerationManager : MonoBehaviour
         {
             if (layer.MultiTileMapsContainer.GetHasAnyTileAt(prefferedPosition)) break;
 
-            int parallelRoomsAmount = NumberMath.PickRandomInRangeNoSeed(MinParallelRooms, MaxParallelRooms);
             int currentParallelRoomsAmount = 0;
             bool finishGenerating = false;
             foreach (
                 ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo avaibleConnection in
-                layer.GetGenerationTempInfoByType<ChunkConnection>(false).OrderBy(
+                layer.GetGenerationTempInfoByType<ChunkConnection>(false).Where(
+                    (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) => !connection.Generated && connection.TargetGeneration.GetComponent<ChunkConnection>().GetConnectionIsPreffered(prefferedPosition - connection.GetSpawnPosition())
+                    ).OrderBy(
                     (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) => Vector3.Distance(connection.GetSpawnPosition(), prefferedPosition)
                     )
                 )
             {
-                if (avaibleConnection.Generated) continue;
+                //layer.TileManager.Debug_MarkTile(avaibleConnection.GetSpawnPosition(), Color.green, 999f);
 
                 for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
                 {
@@ -134,7 +134,7 @@ public class WorldGenerationManager : MonoBehaviour
                         out ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunkConnection))
                     {
                         currentParallelRoomsAmount++;
-                        if (currentParallelRoomsAmount >= parallelRoomsAmount)
+                        if (currentParallelRoomsAmount >= ParallelRooms)
                         {
                             finishGenerating = true;
                         }

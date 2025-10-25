@@ -89,4 +89,11 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
     {
         return new Vector3Int((int)math.round(transform.position.x), (int)math.round(transform.position.y));
     }
+
+    public bool GetConnectionIsPreffered(Vector2 direction)
+    {
+        return
+            (Direction == ChunkConnectionDirection.RIGHT && direction.x >= 0) || (Direction == ChunkConnectionDirection.LEFT && direction.x <= 0) ||
+            (Direction == ChunkConnectionDirection.TOP && direction.y >= 0) || (Direction == ChunkConnectionDirection.BOTTOM && direction.y <= 0);
+    }
 }

@@ -39,6 +39,19 @@ public class Chunk : MonoBehaviour
         return false;
     }
 
+    public List<ChunkConnection> GetValidConnections(ChunkConnection targetConnection)
+    {
+        List<ChunkConnection> result = new();
+        foreach (var connection in GetConnections())
+        {
+            if (connection.GetConnectionIsValid(targetConnection))
+            {
+                result.Add(connection);
+            }
+        }
+        return result;
+    }
+
     public Tilemap GetChunkMask()
     {
         foreach (Transform child in transform)
@@ -93,17 +106,17 @@ public class Chunk : MonoBehaviour
     {
         newChunkInfo = default;
         connectedChunkConntection = default;
-        if (!GetAnyConnectionIsValid(sourceChunkConnection.TargetGeneration.GetComponent<ChunkConnection>(), out ChunkConnection newChunkConnection))
+        List<ChunkConnection> validConnections = GetValidConnections(sourceChunkConnection.TargetGeneration.GetComponent<ChunkConnection>());
+
+        foreach (ChunkConnection connection in validConnections)
         {
-            return false;
+            if (TryGenerateChunk(addWhere, NumberMath.Vec3ToVec3Int(sourceChunkConnection.GetSpawnPosition()) - connection.GetTilePosition(), building, out newChunkInfo))
+            {
+                break;
+            }
         }
 
-        if (!TryGenerateChunk(addWhere, NumberMath.Vec3ToVec3Int(sourceChunkConnection.GetSpawnPosition()) - newChunkConnection.GetTilePosition(), building, out newChunkInfo))
-        {
-            //addWhere.TileManager.Debug_MarkTile(sourceChunkConnection.Offset - newChunkConnection.GetTilePosition(), Color.blue, 999f);
-            return false;
-        }
-
+        if (newChunkInfo == null) return false;
 
         foreach (ChunkInfo chunk in building.Chunks)
         {
