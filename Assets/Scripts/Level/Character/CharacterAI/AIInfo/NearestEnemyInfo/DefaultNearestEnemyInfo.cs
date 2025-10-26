@@ -2,8 +2,6 @@ using UnityEngine;
 
 public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
 {
-    private CharacterInteractWithObjects _currentInteractTrackCharacter = null;
-
     protected override void OnUpdateInfo()
     {
         float minDistance = MaxEnemyDetectRange;

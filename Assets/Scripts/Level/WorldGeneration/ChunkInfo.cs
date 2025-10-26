@@ -9,6 +9,13 @@ public class ChunkInfo
     public List<DoorGenerationPosition.PreGeneratedDoorTempInfo> DoorGenPositions = new();
     public BuildingInfo Building;
     public List<GameObject> ObjectsInside = new();
+    public Chunk OriginalChunk;
+    public int DistanceFromMainGenerationBranch = 0;
+
+    public ChunkInfo(Chunk originalChunk)
+    {
+        OriginalChunk = originalChunk;
+    }
 
     public void AddObjectInside(GameObject obj)
     {

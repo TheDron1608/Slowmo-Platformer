@@ -88,7 +88,7 @@ public class Chunk : MonoBehaviour
 
     public void ForceGenerateChunk(ZIndexLayer generateWhere, Vector3Int position, BuildingInfo building, out ChunkInfo chunkInfo)
     {
-        chunkInfo = new();
+        chunkInfo = new(this);
         building.Chunks.Add(chunkInfo);
         chunkInfo.Building = building;
 

@@ -43,6 +43,14 @@ public static class NumberMath
         return array[(int)(UnityEngine.Random.value * Mathf.Min(array.Length, limit))];
     }
 
+    public static T PickRandomItem<T>(List<T> vector, T excludeObject)
+    {
+        int randomIndex = (int)(UnityEngine.Random.value * (vector.Count - 1));
+        if (randomIndex >= vector.IndexOf(excludeObject)) randomIndex++;
+
+        return vector[randomIndex];
+    }
+
     public static float RelativeLerp(float min, float max, float relativeDelta)
     {
         return (max - min) / (relativeDelta - min);
