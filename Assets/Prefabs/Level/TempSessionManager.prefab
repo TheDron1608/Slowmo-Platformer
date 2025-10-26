@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8058129393259162476}
   - component: {fileID: 8145630360655912481}
   - component: {fileID: 4789793739081649213}
+  - component: {fileID: 1351074446885944845}
   m_Layer: 0
   m_Name: TempSessionManager
   m_TagString: Untagged
@@ -62,3 +63,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ColorSet: {fileID: 11400000, guid: a42765518ab7cca4a82577d60d53c9ce, type: 2}
+--- !u!114 &1351074446885944845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590695979345743307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ed049ad6df3185468d75ccc03af97df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildingsAmount: 8
+  MinBuildingRooms: 3
+  MaxBuildingRooms: 12
+  BuildingDistance: 25
+  Chunks:
+  - {fileID: 506989354111729446, guid: db9c5c38358cac4469de3655bc877f2f, type: 3}
+  - {fileID: 506989354111729446, guid: 6b7d4422e93bc104398ba43cef7a9037, type: 3}
+  - {fileID: 506989354111729446, guid: 4a7ba1fd5b781e44faf3c175edc28908, type: 3}
+  - {fileID: 1940515277747391731, guid: 3f3afec0247735942b50794ef10e137f, type: 3}
+  - {fileID: 506989354111729446, guid: 60023bb7a06e9934c8099ac09bda372a, type: 3}
+  - {fileID: 506989354111729446, guid: f35598f6b74aa404bad2a556227ebebf, type: 3}
+  GenerateDirection: {x: 1, y: 1}
+  ParallelRooms: 3
+  Seed: 0

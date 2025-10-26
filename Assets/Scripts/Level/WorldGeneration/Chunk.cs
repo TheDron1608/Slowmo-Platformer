@@ -72,7 +72,8 @@ public class Chunk : MonoBehaviour
         {
             for (int y = chunkMask.cellBounds.min.y; y < chunkMask.cellBounds.max.y; y++)
             {
-                if (generateWhere.MultiTileMapsContainer.GetHasAnyTileAt(new Vector3Int(x, y) + position))
+                Vector3Int currentTilePos = new Vector3Int(x, y);
+                if (chunkMask.HasTile(currentTilePos) && generateWhere.MultiTileMapsContainer.GetHasAnyTileAt(currentTilePos + position))
                 {
                     //generateWhere.TileManager.Debug_MarkArea(new Vector3(chunkMask.cellBounds.min.x, chunkMask.cellBounds.min.y), new Vector3(chunkMask.cellBounds.max.x, chunkMask.cellBounds.max.y), Color.red, 999f);
                     chunkInfo = default;
@@ -80,7 +81,7 @@ public class Chunk : MonoBehaviour
                 }
             }
         }
-
+        //generateWhere.TileManager.Debug_MarkArea(new Vector3(chunkMask.cellBounds.min.x, chunkMask.cellBounds.min.y), new Vector3(chunkMask.cellBounds.max.x, chunkMask.cellBounds.max.y), Color.green, 999f);
         ForceGenerateChunk(generateWhere, position, building, out chunkInfo);
         return true;
     }

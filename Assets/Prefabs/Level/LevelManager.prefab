@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 2288510536422220207}
   - component: {fileID: 7857507522207618143}
   - component: {fileID: 6870792342462933236}
-  - component: {fileID: 4722062218309720960}
+  - component: {fileID: 1996947898019187454}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -218,7 +218,7 @@ MonoBehaviour:
   UnusedRangedProjectilesContainer: {fileID: 3825893427998124886}
   _emptyMeleeProjectileInstance: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
   _emptyRangedProjectileInstance: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
---- !u!114 &4722062218309720960
+--- !u!114 &1996947898019187454
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,24 +227,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4360252234397813454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed049ad6df3185468d75ccc03af97df, type: 3}
+  m_Script: {fileID: 11500000, guid: 81c806bce00e0df4eaf6175ccc67fc75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildingsAmount: 8
-  MinBuildingRooms: 3
-  MaxBuildingRooms: 12
-  BuildingDistance: 25
-  Chunks:
-  - {fileID: 506989354111729446, guid: db9c5c38358cac4469de3655bc877f2f, type: 3}
-  - {fileID: 506989354111729446, guid: 6b7d4422e93bc104398ba43cef7a9037, type: 3}
-  - {fileID: 506989354111729446, guid: 4a7ba1fd5b781e44faf3c175edc28908, type: 3}
-  - {fileID: 1940515277747391731, guid: 3f3afec0247735942b50794ef10e137f, type: 3}
-  - {fileID: 506989354111729446, guid: 60023bb7a06e9934c8099ac09bda372a, type: 3}
-  - {fileID: 506989354111729446, guid: f35598f6b74aa404bad2a556227ebebf, type: 3}
-  GenerateDirection: {x: 1, y: 1}
-  MinParallelRooms: 1
-  MaxParallelRooms: 3
-  Seed: 0
+  HideRestrictInteriourWalls: 1
+  _restricleInteriourWallsTile: {fileID: 11400000, guid: ffbcd7a16f92f3649a793e3e18a4c769, type: 2}
 --- !u!1 &4829675721774256220
 GameObject:
   m_ObjectHideFlags: 0
