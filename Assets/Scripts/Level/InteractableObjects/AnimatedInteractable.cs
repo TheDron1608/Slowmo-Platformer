@@ -7,15 +7,6 @@ using static CharacterVisual;
 
 public abstract class AnimatedInteractable : Interactable
 {
-
-    private GameObject _currentInteractor = null;
-
-    public GameObject CurrentInteractor
-    {
-        get => _currentInteractor;
-        private set => _currentInteractor = value;
-    }
-
     [Header("AnimatedInteractalbe")]
     public CharacterPartBusyStates AnimationOnStartInteract = CharacterPartBusyStates.NONE;
     public CharacterPartBusyStates AnimationOnFinishInteract = CharacterPartBusyStates.NONE;
@@ -26,17 +17,6 @@ public abstract class AnimatedInteractable : Interactable
     public List<AbstractEffect> EffectsWhileInteracting = new();
     public List<AbstractEffect> EffectsOnFinishInteract = new();
 
-    public bool GetIsOccured()
-    {
-        return _currentInteractor != null;
-    }
-
-    public bool ForceInteract(GameObject interactor)
-    {
-        StopInteract();
-        return TryInteract(interactor);
-    }
-
     /// <summary>
     /// called when StartAnimation started
     /// </summary>
@@ -46,7 +26,6 @@ public abstract class AnimatedInteractable : Interactable
 
         if (interactor.TryGetComponent(out CharacterVisual characterVisual))
         {
-            _currentInteractor = interactor;
             if (AnimationOnStartInteract != CharacterVisual.CharacterPartBusyStates.NONE)
             {
                 characterVisual.CurrentBusyAnimation = AnimationOnStartInteract;
@@ -62,9 +41,7 @@ public abstract class AnimatedInteractable : Interactable
 
     private void CharacterVisual_OnFirstBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
     {
-        if (_currentInteractor == null) return;
-
-        OnFinishInteract(_currentInteractor);
+        OnFinishInteract((sender as MonoBehaviour).gameObject);
 
         if (SelfAnimatorOnFinishIntreactTriggerName != "")
         {
@@ -72,52 +49,17 @@ public abstract class AnimatedInteractable : Interactable
         }
 
         CharacterVisual charVisual;
-        if (!_currentInteractor.TryGetComponent(out charVisual)) return;
+        if (!(sender as MonoBehaviour).TryGetComponent(out charVisual)) return;
 
         charVisual.OnBusyStateChanged -= CharacterVisual_OnFirstBusyStateChanged;
 
         if (AnimationOnFinishInteract != CharacterVisual.CharacterPartBusyStates.NONE)
         {
-            charVisual.OnBusyStateChanged += CharacterVisual_OnSecondBusyStateChanged;
-
             if (AnimationOnFinishInteract != CharacterVisual.CharacterPartBusyStates.NONE)
             {
                 charVisual.CurrentBusyAnimation = AnimationOnFinishInteract;
             }
         }
-        else
-        {
-            _currentInteractor = null;
-        }
-    }
-
-    private void CharacterVisual_OnSecondBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
-    {
-        if (_currentInteractor == null) return;
-
-        OnFinishInteractAnimationFinished(_currentInteractor);
-
-        CharacterVisual charVisual = _currentInteractor.GetComponent<CharacterVisual>();
-        if (charVisual == null) return;
-
-        charVisual.OnBusyStateChanged -= CharacterVisual_OnSecondBusyStateChanged;
-
-        _currentInteractor = null;
-    }
-
-    public void StopInteract()
-    {
-        OnStopInteract(_currentInteractor);
-
-        CharacterVisual charVisual = _currentInteractor.GetComponent<CharacterVisual>();
-        if (charVisual == null) return;
-
-        charVisual.OnBusyStateChanged -= CharacterVisual_OnFirstBusyStateChanged;
-        charVisual.OnBusyStateChanged -= CharacterVisual_OnSecondBusyStateChanged;
-
-        charVisual.BreakBusyAnimation();
-
-        _currentInteractor = null;
     }
 
     /// <summary>

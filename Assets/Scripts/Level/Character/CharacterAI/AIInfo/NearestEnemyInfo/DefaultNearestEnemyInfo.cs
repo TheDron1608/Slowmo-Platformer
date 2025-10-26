@@ -37,34 +37,15 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
         }
         if (_nearestEnemy != null)
         {
+            _lastEnemy = _nearestEnemy;
             _lastEnemyPosition = _nearestEnemy.transform.position;
             _lastEnemyLayer = LayerManager.Instance.GetZLayerOfGameObject(_nearestEnemy.gameObject);
         }
 
-        SetCurrentInteractTrackCharacter(_nearestEnemy?.CharComponents.CharacterInteract);
         _nearestEnemy = result;
         _nearestEnemyDistance = minDistance;
-    }
 
-    private void SetCurrentInteractTrackCharacter(CharacterInteractWithObjects value)
-    {
-        if (_currentInteractTrackCharacter != value)
-        {
-            if (_currentInteractTrackCharacter != null)
-            {
-                _currentInteractTrackCharacter.OnInteracted -= CurrentInteractTrackCharacter_OnInteracted;
-            }
-            if (value != null)
-            {
-                value.OnInteracted += CurrentInteractTrackCharacter_OnInteracted;
-            }
-            _currentInteractTrackCharacter = value;
-        }
-    }
-
-    private void CurrentInteractTrackCharacter_OnInteracted(object sender, Interactable e)
-    {
-        if (e.TryGetComponent(out OnInteractEnterMultiZDoor zDoor))
+        if (_nearestEnemy == null && (_lastEnemy?.CharComponents.CharacterInteract.LastInteractObject?.TryGetComponent(out OnInteractEnterMultiZDoor zDoor) ?? false))
         {
             _lastEnemyPosition = zDoor.Exit.transform.position;
             _lastEnemyLayer = zDoor.Exit.ZLayer;

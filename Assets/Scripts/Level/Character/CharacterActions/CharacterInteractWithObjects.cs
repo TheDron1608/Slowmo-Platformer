@@ -12,11 +12,17 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
     public float InteractRange = 1f;
 
     private bool _isAbleToInteractWithObjects = true;
+    private Interactable _lastInteractObject = null;
 
     public bool IsAbleToInteractWithObjects
     {
         get => _isAbleToInteractWithObjects;
         set => _isAbleToInteractWithObjects = value;
+    }
+
+    public Interactable LastInteractObject
+    {
+        get => _lastInteractObject;
     }
 
     /// <summary>
@@ -107,7 +113,8 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
     {
         if (interactable.TryInteract(CharComponents.gameObject))
         {
-            OnInteracted?.Invoke(gameObject, interactable);
+            _lastInteractObject = interactable;
+            OnInteracted?.Invoke(this, interactable);
             return true;
         }
         else

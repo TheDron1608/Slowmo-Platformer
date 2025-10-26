@@ -61,7 +61,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
     protected override void OnUpdateInfo()
     {
-        PathChain?.Clear();
+        PathChain = new();
 
         if (!PathTarget.HasValue)
         {
@@ -80,46 +80,41 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                     validDoors.Add(door);
                 }
             }
-
             if (validDoors.Count == 0)
             {
                 return;
             }
 
-            validDoors.OrderBy(door => Vector2.Distance(door.transform.position, CharComponents.transform.position));
+            OnInteractEnterMultiZDoor validDoor = validDoors.OrderBy(door => Vector2.Distance(door.transform.position, CharComponents.transform.position)).First();
 
-            foreach (var validDoor in validDoors)
-            {
-                if (TryGeneratePathChainOnSingleLayer(
-                        characterTilePosition,
-                        TileManager.PositionToTilePosition(validDoor.transform.position),
-                        validDoor.ZLayer,
-                        false,
-                        validDoor,
-                        out var pathToValidDoor
-                        ) &&
-                    TryGeneratePathChainOnSingleLayer(
-                        TileManager.PositionToTilePosition(validDoor.Exit.transform.position),
-                        PathTarget.Value.Position,
-                        PathTarget.Value.Layer,
-                        CanJumpToTarget,
-                        null,
-                        out var pathFromValidDoorToTarget
-                        )
+            if (TryGeneratePathChainOnSingleLayer(
+                    characterTilePosition,
+                    TileManager.PositionToTilePosition(validDoor.transform.position),
+                    validDoor.ZLayer,
+                    false,
+                    validDoor,
+                    out var pathToValidDoor
+                    ) &&
+                TryGeneratePathChainOnSingleLayer(
+                    TileManager.PositionToTilePosition(validDoor.Exit.transform.position),
+                    PathTarget.Value.Position,
+                    PathTarget.Value.Layer,
+                    CanJumpToTarget,
+                    null,
+                    out var pathFromValidDoorToTarget
                     )
-                {
+                )
+            {
 
-                    foreach (var pathToValidDoorItem in pathToValidDoor)
-                    {
-                        PathChain.AddLast(pathToValidDoorItem);
-                    }
-                    foreach (var pathFromValidDoorItem in pathFromValidDoorToTarget)
-                    {
-                        PathChain.AddLast(pathFromValidDoorItem);
-                    }
+                foreach (var pathToValidDoorItem in pathToValidDoor)
+                {
+                    PathChain.AddLast(pathToValidDoorItem);
+                }
+                foreach (var pathFromValidDoorItem in pathFromValidDoorToTarget)
+                {
+                    PathChain.AddLast(pathFromValidDoorItem);
                 }
             }
-
         }
         else
         {
