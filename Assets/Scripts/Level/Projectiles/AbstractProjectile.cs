@@ -26,7 +26,7 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     public float ProjectileSize
     {
-        get => _colliderComponent.size.x;
+        get => GetComponent<BoxCollider2D>().size.x;
     }
 
     private void Awake()

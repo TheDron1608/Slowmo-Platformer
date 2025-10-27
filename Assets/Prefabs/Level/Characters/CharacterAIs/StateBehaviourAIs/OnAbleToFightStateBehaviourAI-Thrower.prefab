@@ -130,6 +130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda5091bbec65374891b4aaf2f843ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RangedAttackDelaySeconds: 0.25
+  MeleeAttackDelaySeconds: 0
+  StopAttackAimingDelaySeconds: 3.5
   AlwaysHammerWeaponBeforeAttack: 1
 --- !u!114 &6777744621790621435
 MonoBehaviour:
