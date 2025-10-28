@@ -170,6 +170,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 477290967914500188}
   - {fileID: 3269020057479711706}
+  - {fileID: -582482241720123407}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -282,6 +283,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Unloaded
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: IsReloading
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8173332072625261026}
@@ -518,6 +522,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3639fd41506c9429df5f8efe14ce9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-582482241720123407
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85b577d493555b4fad8a1b55daafe9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: 1
 --- !u!1102 &-560853470892487427
 AnimatorState:
   serializedVersion: 6
@@ -820,6 +837,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: Unloaded
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: IsReloading
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5191502206798739446}
