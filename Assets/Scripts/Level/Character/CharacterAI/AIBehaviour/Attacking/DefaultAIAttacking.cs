@@ -17,6 +17,7 @@ public class DefaultAIAttacking : AbstractDelayedAttacking
 
     protected override void OnLostEnemy()
     {
+        CharComponents.CharacterAiming.AimWeaponDown = true;
         if (_attackDelayingCoroutine != null)
         {
             StopCoroutine(_attackDelayingCoroutine);

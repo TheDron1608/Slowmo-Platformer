@@ -307,6 +307,7 @@ public class CharacterCollision : AbstractCharacterComponent
             foreach (Transform otherCharacterTransform in _currentZLayer.CharactersContainer)
             {
                 if (
+                    otherCharacterTransform.gameObject.activeSelf &&
                     otherCharacterTransform.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
                     Vector2.Distance(otherCharComponent.CharComponents.Center.transform.position, CharComponents.Center.transform.position) < hitRadius &&
                     otherCharComponent.CharComponents.CharacterCollision != this &&

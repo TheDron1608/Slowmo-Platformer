@@ -89,26 +89,33 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
     {
         if (CharComponents.CharacterMoving == null) return;
 
+        float currentInputAxis = MoveActionReference.action.ReadValue<Vector2>().x;
+
         if (CurrentDeviceTracker.GetGamepadIsConnected())
         {
-            float currentInputAxix = MoveActionReference.action.ReadValue<Vector2>().x;
-            float roundedInputAxis;
-            if (
-                (currentInputAxix > 0 && currentInputAxix < MinMoveSpeed) ||
-                (currentInputAxix < 0 && currentInputAxix > -MinMoveSpeed)
-                )
+            if (math.abs(currentInputAxis) < MinMoveSpeed)
             {
-                roundedInputAxis = 0f;
+                currentInputAxis = 0f;
             }
-            else
-            {
-                roundedInputAxis = currentInputAxix;
-            }
-            CharComponents.CharacterMoving.TryMove(roundedInputAxis);
         }
         else
         {
-            CharComponents.CharacterMoving.TryMove(math.round(MoveActionReference.action.ReadValue<Vector2>().x));
+            currentInputAxis = math.round(currentInputAxis);
+        }
+
+        BreakAimIfMoving(currentInputAxis);
+        CharComponents.CharacterMoving.TryMove(currentInputAxis);
+    }
+
+    private void BreakAimIfMoving(float moveDirection)
+    {
+        if (
+            moveDirection != 0 &&
+            CharComponents.CharacterClumsyness.ClumsyRangedAttack &&
+            CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.AIM
+            )
+        {
+            CharComponents.CharacterAttacking.BreakClumsyRangedAttack();
         }
     }
 

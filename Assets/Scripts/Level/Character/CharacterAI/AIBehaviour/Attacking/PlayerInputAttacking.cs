@@ -81,8 +81,21 @@ public class PlayerInputAttacking : AbstractAIAttacking
     //AIM
     private void Update()
     {
+        UpdateAimWeaponDown();
         UpdateAimInput();
         UpdateAutoAttack();
+    }
+
+    private void UpdateAimWeaponDown()
+    {
+        if (
+            CharComponents.CharacterClumsyness.ClumsyRangedAttack && 
+            CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0f &&
+            CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<RangedWeapon>() != null
+            )
+        {
+            CharComponents.CharacterAiming.AimWeaponDown = true;
+        }
     }
 
     private void UpdateAimInput()

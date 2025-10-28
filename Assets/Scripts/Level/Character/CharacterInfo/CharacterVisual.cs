@@ -144,10 +144,28 @@ public class CharacterVisual : AbstractCharacterComponent
         return _currentBusyAnimation != CharacterPartBusyStates.NONE;
     }
 
+    public bool IsClumsyAnimation()
+    {
+        return
+            CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE ||
+            CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPartBusyStates.CLUMSY_MELEE_ATTACK ||
+            CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE ||
+            CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterPartBusyStates.AIM;
+    }
+
     public void BreakBusyAnimation()
     {
         if (!IsBusy()) return;
 
+        CharComponents.Animator.SetTrigger(ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME);
+    }
+
+    /// <summary>
+    /// Invoke only if you are sure any busy animation is currenly active
+    /// </summary>
+    public void ForceResetBusyAnimation()
+    {
+        CurrentBusyAnimation = CharacterPartBusyStates.NONE;
         CharComponents.Animator.SetTrigger(ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME);
     }
 

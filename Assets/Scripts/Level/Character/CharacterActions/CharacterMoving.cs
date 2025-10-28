@@ -110,23 +110,16 @@ public class CharacterMoving : AbstractCharacterComponent
     /// <param name="direction">Value between -1 and 1</param>
     public void TryMove(float direction)
     {
-        if (
-            _currentMoveDirection == direction ||
-            _awaitingMoveDirection == direction ||
-            (CharComponents.CharacterVisual.IsBusy() && CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE) ||
-            !IsAbleToMove
-            )
+        if (IsAbleToMove && !CharComponents.CharacterVisual.IsBusy())
         {
-            return;
-        }
-
-        if (GetIsNeedChangeClumsyDirection(direction))
-        {
-            TrySetClumsyAlign(direction, false);
-        }
-        else
-        {
-            ForceMove(direction);
+            if (GetIsNeedChangeClumsyDirection(direction))
+            {
+                TrySetClumsyAlign(direction, false);
+            }
+            else
+            {
+                ForceMove(direction);
+            }
         }
     }
 
@@ -159,10 +152,13 @@ public class CharacterMoving : AbstractCharacterComponent
     public bool GetIsNeedChangeClumsyDirection(float direction)
     {
         return
+            _awaitingMoveDirection != direction &&
             CharComponents.CharacterClumsyness.ClumsyMovement &&
             (CharComponents.CharacterVisual.FlippedH ^ direction < 0f) &&
             direction != 0f &&
-            (!CharComponents.CharacterVisual.IsBusy() || CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.CLUMSY_MOVE_ALIGN_CHANGE) &&
+            (
+                !CharComponents.CharacterVisual.IsBusy()
+            ) &&
             IsAbleToMove;
     }
 
