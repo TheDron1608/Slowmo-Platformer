@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5129013206825978598}
   - component: {fileID: 5198372404950219954}
   - component: {fileID: 861306260983765504}
-  - component: {fileID: 2909254365352851872}
+  - component: {fileID: 4052824767388784654}
   - component: {fileID: 8883288890940901592}
   - component: {fileID: 5794369553210328502}
   - component: {fileID: 7088939488286704452}
@@ -69,19 +69,18 @@ MonoBehaviour:
   LayerAppearDistance: 2
   OvergoundAppearOffset: 4
   _startZLayer: {fileID: 0}
---- !u!114 &2909254365352851872
+--- !u!114 &4052824767388784654
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7212635690638980574}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c377fc9330bf934abe5b13279093d19, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a9bd5abca70ab1429d9e85870ad681e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FullHDFieldOfView: 50
 --- !u!20 &8883288890940901592
 Camera:
   m_ObjectHideFlags: 0
