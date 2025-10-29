@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public abstract class ThrowableWeapon : Weapon
 {
@@ -21,6 +22,11 @@ public abstract class ThrowableWeapon : Weapon
             _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, value);
             _isThrown = value;
         }
+    }
+
+    private void OnEnable()
+    {
+        _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, _isThrown);
     }
 
     protected override void OnAwake()

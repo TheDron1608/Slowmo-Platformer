@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Particle: {fileID: 0}
+  DefaultParticle: {fileID: 0}
   SpawnVelocity: 1
   SpawnAngle: -90
   SpawnAngularVeclocity: 0
-  DurationBetweenSpawningParticles: 0.05
+  OverrideEffectMaterial: {fileID: 0}
 --- !u!1001 &705177182057279150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,7 +101,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6961995766991140918, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8885461014169822765, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
