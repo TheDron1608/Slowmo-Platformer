@@ -309,6 +309,20 @@ public class Holdable : Interactable
         }
     }
 
+    protected override bool StartInteractCondition(GameObject interactor)
+    {
+        return
+            base.StartInteractCondition(interactor) &&
+            (
+                CurrentHolder == null ||
+                (
+                    interactor.TryGetComponent(out CharacterHoldingObjects holder) &&
+                    holder.CanDisarm &&
+                    CurrentHolder != holder
+                )
+            );
+    }
+
     protected override void OnStartInteact(GameObject interactor)
     {
         if (interactor.TryGetComponent(out CharacterHoldingObjects charHoldingObjects))

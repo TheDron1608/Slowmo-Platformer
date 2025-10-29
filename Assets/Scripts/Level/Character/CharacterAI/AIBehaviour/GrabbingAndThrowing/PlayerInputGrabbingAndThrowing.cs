@@ -1,5 +1,8 @@
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -70,36 +73,11 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 
     private void UpdateSelectedGrabObject()
     {
-        //trying catch dangerous thrown weapon with extra grab range
-        CharComponents.CharacterInteract.InteractRange += GrabDangerousHoldablesExtraRange;
-
-        Holdable avaibleToCatchDangerousHoldable =
-            CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Holdable>(
-                CharComponents.CharacterAiming.GetCurrentAimNormalized(),
-                1 << CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer
-            );
-
-        CharComponents.CharacterInteract.InteractRange -= GrabDangerousHoldablesExtraRange;
-
-        if (avaibleToCatchDangerousHoldable?.GetIsDangerouslyFast() ?? false)
-        {
-            CurrentSelectedGrabObject = avaibleToCatchDangerousHoldable;
-        }
-
-        //if there is no avaible to catch dangerous thrown weapons trying grab holdables regulary without extra range
-        else if (CharComponents.CharacterHolding != null && CharComponents.CharacterHolding.CurrentHoldObject == null)
-        {
-            CurrentSelectedGrabObject =
-                CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Holdable>(
-                    CharComponents.CharacterAiming.GetCurrentAimNormalized(),
-                    1 << CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer
-                );
-        }
-
-        else
-        {
-            CurrentSelectedGrabObject = null;
-        }
+        CurrentSelectedGrabObject = CharComponents.CharacterHolding.GetAvaibleHoldables().OrderBy(
+            (Holdable holdable) =>
+                (VectorMath.Vec3ToVec2(holdable.transform.position - CharComponents.Center.transform.position).normalized - CharComponents.CharacterAiming.GetTargetAimNormalized()).magnitude +
+                (!holdable.GetComponent<RangedWeapon>()?.GetIsOutOfAmmo() ?? true ? -1000f : 0f)
+            ).FirstOrDefault();
     }
 
     private void OnDestroy()

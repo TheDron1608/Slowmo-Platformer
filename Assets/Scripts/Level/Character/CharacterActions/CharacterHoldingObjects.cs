@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,7 +24,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     [SerializeField] private bool _isAbleToGrabObjects = true;
     [SerializeField] private bool _isAbleToThrowObjects = true;
-    [SerializeField] private bool _canBeDisarmed = true;
+    [SerializeField] private bool _canDisarm = false;
     [SerializeField] private Holdable _currentHoldObject = null;
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
@@ -88,10 +89,29 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         set => _isAbleToThrowObjects = value;
     }
 
-    public bool CanBeDisarmed
+    public bool CanDisarm
     {
-        get => _canBeDisarmed;
-        set => _canBeDisarmed = value;  
+        get => _canDisarm;
+        set => _canDisarm = value;  
+    }
+
+    public List<Holdable> GetAvaibleHoldables()
+    {
+        List<Holdable> result = new();
+        foreach (Transform holdableTransform in CharComponents.CharacterCollision.CurrentZLayer.HoldablesContainer)
+        {
+            if (
+                holdableTransform.TryGetComponent(out Holdable holdable) &&
+                holdable.GetIsValidToInteract(CharComponents.gameObject) &&
+                Vector2.Distance(CharComponents.Center.transform.position, holdableTransform.transform.position) <= 
+                    CharComponents.CharacterInteract.InteractRange * CharComponents.CharacterHolding.MaxGrabRangeMultiplier * holdable.SelectMaxRangeMultiplier
+                )
+            {
+                result.Add(holdable);
+            }
+        }
+
+        return result;
     }
 
     protected override void OnAwake()
@@ -206,12 +226,13 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     public bool TryDisarm(CharacterHoldingObjects giveDisarmedHoldableTo = null)
     {
-        if (!CanBeDisarmed) return false;
-
-        if (ForceThrow(CharComponents.CharacterAiming.GetCurrentAimNormalized(), DISARM_DROP_VELOCITY_MULTIPLIER))
+        if (giveDisarmedHoldableTo != null && !giveDisarmedHoldableTo.CanDisarm)
         {
-            giveDisarmedHoldableTo?.TryGrab(LastHoldObject);
-            return true;
+            return false;
+        }
+        else if (ForceThrow(CharComponents.CharacterAiming.GetCurrentAimNormalized(), DISARM_DROP_VELOCITY_MULTIPLIER))
+        {
+            return giveDisarmedHoldableTo?.TryGrab(LastHoldObject) ?? true;
         }
         else
         {

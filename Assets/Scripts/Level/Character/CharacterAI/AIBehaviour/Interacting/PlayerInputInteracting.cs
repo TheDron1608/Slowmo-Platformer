@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -56,14 +57,10 @@ public class PlayerInputInteracting : AbstractAIInteracting
 
     private void UpdateSelectedInteractObject()
     {
-        if (CharComponents.CharacterInteract != null)
-        {
-            CurrentSelectedInteractObject =
-                CharComponents.CharacterInteract.GetInteractableObjectAtEntireDirection<Interactable>(
-                    CharComponents.CharacterAiming.GetCurrentAimNormalized(),
-                    CharComponents.CharacterCollision.CurrentZLayer.EntireLayerMask - (1 << CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer)
-                );
-        }
+        CurrentSelectedInteractObject = CharComponents.CharacterInteract.GetAvaibleInteractables().OrderBy(
+            (Interactable interactable) =>
+                (VectorMath.Vec3ToVec2(interactable.transform.position - CharComponents.Center.transform.position).normalized - CharComponents.CharacterAiming.GetTargetAimNormalized()).magnitude
+            ).FirstOrDefault();
     }
 
     private void OnDestroy()

@@ -39,9 +39,8 @@ public class DynamicLightSortingLayer : MonoBehaviour
             _currentValue = value;
         }
     }
-
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         _lightComponent.enabled = Vector2.Distance(Camera.main.transform.position, transform.position) < DISTANCE_TO_DISABLE && Camera.main.GetComponent<MultiZLayerCamera>().CurrentZLayer == LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-    }
+    }*/
 }
