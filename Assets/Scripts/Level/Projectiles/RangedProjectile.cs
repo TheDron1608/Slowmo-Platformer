@@ -166,7 +166,7 @@ public class RangedProjectile : AbstractProjectile
     {
         return 
             base.HitCondition(totalHitObjects, currentHitObjet) && 
-            !currentHitObjet.TryGetComponent(out RangedProjectile rangedProjectile) &&
+            currentHitObjet.GetComponent<AbstractProjectile>() == null &&
             (!GameObjectUtility.TryGetComponentInSelfOrParentOrChild(currentHitObjet.gameObject, out IDamagable damagableHitObject) || damagableHitObject.HitableByRangedProjectiles);
     }
 

@@ -75,11 +75,11 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[0]'
       value: 
-      objectReference: {fileID: 977385987182254359, guid: f722d8551c659cd4db9afcd20167da01, type: 3}
+      objectReference: {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[1]'
       value: 
-      objectReference: {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
+      objectReference: {fileID: 977385987182254359, guid: f722d8551c659cd4db9afcd20167da01, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'SelfEffects.Array.data[0]'
       value: 
@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: 'EffectsOnDeflect.Array.data[0]'
       value: 
       objectReference: {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: IsAbleToDeflectRangedProjectiles
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Size.x
       value: 1.5087446

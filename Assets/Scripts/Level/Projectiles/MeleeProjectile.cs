@@ -114,6 +114,10 @@ public class MeleeProjectile : AbstractProjectile
     public virtual bool DeflectCondition(AbstractProjectile deflected)
     {
         return
+            (
+                (deflected.GetComponent<MeleeProjectile>() != null && IsAbleToDeflectMeleeProjectiles) ||
+                (deflected.GetComponent<RangedProjectile>() != null && IsAbleToDeflectRangedProjectiles)
+            ) &&
             deflected != this && 
             (
                 deflected.OwnerOrLastHolder == null ||
