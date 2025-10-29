@@ -45,6 +45,7 @@ public class CharacterCollision : AbstractCharacterComponent
     private float _timeOnGround;
     private bool _wasGroundedPrevFrame = true;
     private Vector2 _positionPrevFrame;
+    private List<AbstractCharacterComponent> _currentCollidingCharacters = new();
 
     private GameObject _colliderFromFloor = null;
     private GameObject _colliderFromRoof = null;
@@ -77,6 +78,11 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         get => _positionPrevFrame;
         private set => _positionPrevFrame = value;
+    }
+    public List<AbstractCharacterComponent> CurrentCollidingCharacters
+    {
+        get => _currentCollidingCharacters;
+        private set => _currentCollidingCharacters = value;
     }
     
     public bool IsCollidingFloor()
@@ -250,7 +256,7 @@ public class CharacterCollision : AbstractCharacterComponent
         UpdateCurrentZLayer();
         UpdateTileCollidingInfo();
         UpdateTimeOnAirOrGround();
-        UpdateHitVelocity();
+        UpdateCollidingCharacters();
         UpdatePhysicsMaterial();
     }
 
@@ -291,30 +297,38 @@ public class CharacterCollision : AbstractCharacterComponent
         if (prevColliderFromRightWall != _colliderFromRightWall) OnCollisionChanged?.Invoke(this, new OnCollisionChangedEventArgs(_colliderFromRightWall != null, Vector2.down, _colliderFromRightWall));
     }
 
-    public void UpdateHitVelocity()
+    public void UpdateCollidingCharacters()
     {
-        if (
-            GetHasEnoughVelocityToHit() && 
-            (
-                (CanHitWhileHardStnned && CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>()) ||
-                (CanHitWhileRolling && CharComponents.CharacterRolling.IsRolling) ||
-                CanHitWhileMoving
-            )
-            )
-        {
-            float hitRadius = (CharComponents.CharacterRigidBodyCapsuleCollider.size.x + CharComponents.CharacterRigidBodyCapsuleCollider.size.y) / 2;
+        CurrentCollidingCharacters = new();
+        float hitRadius = (CharComponents.CharacterRigidBodyCapsuleCollider.size.x + CharComponents.CharacterRigidBodyCapsuleCollider.size.y) / 2;
 
-            foreach (Transform otherCharacterTransform in _currentZLayer.CharactersContainer)
+        foreach (Transform otherCharacterTransform in _currentZLayer.CharactersContainer)
+        {
+            if (
+                otherCharacterTransform.gameObject.activeSelf &&
+                otherCharacterTransform.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
+                Vector2.Distance(otherCharComponent.CharComponents.Center.transform.position, CharComponents.Center.transform.position) < hitRadius &&
+                otherCharComponent.CharComponents.CharacterCollision != this &&
+                !otherCharComponent.CharComponents.CharacterCollision.GetHasEnoughVelocityToHit()
+                )
             {
+                CurrentCollidingCharacters.Add(otherCharComponent);
+
                 if (
-                    otherCharacterTransform.gameObject.activeSelf &&
-                    otherCharacterTransform.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
-                    Vector2.Distance(otherCharComponent.CharComponents.Center.transform.position, CharComponents.Center.transform.position) < hitRadius &&
-                    otherCharComponent.CharComponents.CharacterCollision != this &&
-                    !otherCharComponent.CharComponents.CharacterCollision.GetHasEnoughVelocityToHit() &&
                     (
-                        !CharComponents.CharacterEffectsReceiver.GetCharacterIsLastSender(otherCharComponent) ||
-                        !CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>()
+                        CanHitWhileMoving && 
+                        CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0f
+                    ) || 
+                    (
+                        CanHitWhileHardStnned && 
+                        CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>() &&
+                        !CharComponents.CharacterEffectsReceiver.GetCharacterIsLastSender(otherCharComponent) &&
+                        GetHasEnoughVelocityToHit()
+                    ) ||
+                    (
+                        CanHitWhileRolling && 
+                        CharComponents.CharacterRolling.IsRolling &&
+                        !CharComponents.CharacterRolling.CurrentRollHitCharacters.Contains(otherCharComponent)
                     )
                     )
                 {
@@ -322,9 +336,15 @@ public class CharacterCollision : AbstractCharacterComponent
                     Vector2 affectingVelocity = CharComponents.CharacterRigidBody.linearVelocity / 2f;
                     CharComponents.CharacterRigidBody.linearVelocity -= affectingVelocity;
                     CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnHitOtherCharacters, otherCharComponent);
+
                     //hit other character
                     otherCharComponent.CharComponents.CharacterRigidBody.linearVelocity += affectingVelocity;
                     otherCharComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnHitOtherCharacters, this);
+
+                    if (CharComponents.CharacterRolling.IsRolling)
+                    {
+                        CharComponents.CharacterRolling.CurrentRollHitCharacters.Add(otherCharComponent);
+                    }
 
                     OnHitOtherCharacters?.Invoke(this, otherCharComponent);
                 }
