@@ -16,6 +16,7 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
     }
 
     private PatrollDirection _currentPatrollDirection = PatrollDirection.UNSET;
+    private Coroutine _currentPatrollDirectionSetCoroutine = null;
 
     protected override void OnAwake()
     {
@@ -27,7 +28,9 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
     {
         if (!CanOpenDoors && (e.Collider?.TryGetComponent(out OnInteractToggleOpenDoor door) ?? false))
         {
-            _currentPatrollDirection = _currentPatrollDirection == PatrollDirection.LEFT ? PatrollDirection.RIGHT : PatrollDirection.LEFT;
+            _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(
+                _currentPatrollDirection == PatrollDirection.LEFT ? PatrollDirection.RIGHT : PatrollDirection.LEFT)
+                );
         }
     }
 
@@ -55,11 +58,17 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
             }
             else if (characterTilePosition == new Vector2Int(currentPlatform.Position.x, currentPlatform.Position.y + 1))
             {
-                _currentPatrollDirection = PatrollDirection.RIGHT;
+                if (_currentPatrollDirectionSetCoroutine == null)
+                {
+                    _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(PatrollDirection.RIGHT));
+                }
             }
             else if (characterTilePosition == new Vector2Int(currentPlatform.TailPositionX, currentPlatform.Position.y + 1))
             {
-                _currentPatrollDirection = PatrollDirection.LEFT;
+                if (_currentPatrollDirectionSetCoroutine == null)
+                {
+                    _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(PatrollDirection.LEFT));
+                }
             }
             else if (_currentPatrollDirection == PatrollDirection.UNSET)
             {
@@ -83,5 +92,12 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
         {
             _selfStateBehaviourAI.Pathfinding.PathTarget = null;
         }
+    }
+
+    private IEnumerator SetPatrollDirectionAfterDelay(PatrollDirection value)
+    {
+        yield return new WaitForSeconds(OnReachedPatformEndAwaitingTime);
+        _currentPatrollDirection = value;
+        _currentPatrollDirectionSetCoroutine = null;
     }
 }

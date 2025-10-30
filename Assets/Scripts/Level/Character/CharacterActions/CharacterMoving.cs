@@ -11,13 +11,10 @@ public class CharacterMoving : AbstractCharacterComponent
         Right = 1
     }
 
-    [SerializeField] private bool _isAbleToMove = true;
-    public bool StopMovingOnCollidingCharacters = true;
-
     private float _currentMoveDirection;
     private bool _isAbleToMoveThisFrame = true;
+    [SerializeField] private bool _isAbleToMove = true;
     private float _lastMoveDirectrion = 0f;
-    private float _lastActiveMoveDirection = 0f;
     private float? _awaitingMoveDirection = null;
 
     public bool IsAbleToMoveThisFrame
@@ -56,7 +53,6 @@ public class CharacterMoving : AbstractCharacterComponent
     {
         base.OnAwake();
         CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
-        _lastActiveMoveDirection = NumberMath.RandomCoinflip() ? -1f : 1f;
     }
 
     public bool IsMoving()
@@ -72,107 +68,40 @@ public class CharacterMoving : AbstractCharacterComponent
     private void UpdateMoving()
     {
         bool isAlreadyReachedMaxSpeed = GetIsMaxSpeed();
-        float moveDirectionThisFrame = _currentMoveDirection;
 
-        //force stop if colliding right wall or character
-        if (
-            moveDirectionThisFrame > 0f &&
-            (CharComponents.CharacterCollision.IsCollidingRightWall() || GetIsCollidedByCharacterFromRight())
-            )
+        if (_currentMoveDirection > 0f && CharComponents.CharacterCollision.IsCollidingRightWall())
         {
             if (CharComponents.CharacterRigidBody.linearVelocityX > 0) CharComponents.CharacterRigidBody.linearVelocityX = 0f;
             _isAbleToMoveThisFrame = false;
             OnMoveAlignChanged?.Invoke(this, 0f);
         }
-        //force stop if colliding left wall or character
-        else if (
-            moveDirectionThisFrame < 0f &&
-            (CharComponents.CharacterCollision.IsCollidingLeftWall() || GetIsCollidedByCharacterFromLeft())
-            )
+        else if (_currentMoveDirection < 0f && CharComponents.CharacterCollision.IsCollidingLeftWall())
         {
             if (CharComponents.CharacterRigidBody.linearVelocityX < 0) CharComponents.CharacterRigidBody.linearVelocityX = 0f;
             _isAbleToMoveThisFrame = false;
             OnMoveAlignChanged?.Invoke(this, 0f);
         }
-        //force move if colliding idle character
-        else if (
-            moveDirectionThisFrame == 0f &&
-            GetIsCollidedByCharacterFromCenter()
-            )
-        {
-            moveDirectionThisFrame = _lastActiveMoveDirection;
-        }
-        //move successfully
         else
         {
             _isAbleToMoveThisFrame = true;
             if (!IsAbleToMove)
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, moveDirectionThisFrame * Speed, Speed * SpeedAccelerationOnUnableToMoveMultiplier * Time.fixedDeltaTime);
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnUnableToMoveMultiplier * Time.fixedDeltaTime);
             }
             else if (CharComponents.CharacterCollision.IsCollidingFloor())
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, moveDirectionThisFrame * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime);
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime);
             }
             else
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, moveDirectionThisFrame * Speed, Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime);
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime);
             }
         }
 
         if (!isAlreadyReachedMaxSpeed && GetIsMaxSpeed())
         {
-            OnReachedMaxSpeed?.Invoke(this, moveDirectionThisFrame);
+            OnReachedMaxSpeed?.Invoke(this, _currentMoveDirection);
         }
-    }
-
-    private bool GetIsCollidedByCharacterFromLeft()
-    {
-        if (!StopMovingOnCollidingCharacters) return false;
-
-        foreach (AbstractCharacterComponent collidingCharacter in CharComponents.CharacterCollision.CurrentCollidingCharacters)
-        {
-            if (
-                collidingCharacter.CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0 &&
-                CharComponents.Center.transform.position.x > collidingCharacter.CharComponents.Center.transform.position.x
-                )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    private bool GetIsCollidedByCharacterFromRight()
-    {
-        if (!StopMovingOnCollidingCharacters) return false;
-
-        foreach (AbstractCharacterComponent collidingCharacter in CharComponents.CharacterCollision.CurrentCollidingCharacters)
-        {
-            if (
-                collidingCharacter.CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0 &&
-                CharComponents.Center.transform.position.x < collidingCharacter.CharComponents.Center.transform.position.x
-                )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    private bool GetIsCollidedByCharacterFromCenter()
-    {
-        if (!StopMovingOnCollidingCharacters) return false;
-
-        foreach (AbstractCharacterComponent collidingCharacter in CharComponents.CharacterCollision.CurrentCollidingCharacters)
-        {
-            if (collidingCharacter.CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /// <summary>
@@ -202,10 +131,6 @@ public class CharacterMoving : AbstractCharacterComponent
     public void ForceMove(float direction)
     {
         _lastMoveDirectrion = direction;
-        if (direction != 0f)
-        {
-            _lastActiveMoveDirection = direction;
-        }
 
         if (!_isAbleToMove) return;
         if (_currentMoveDirection == direction && _lastMoveDirectrion == direction) return;
