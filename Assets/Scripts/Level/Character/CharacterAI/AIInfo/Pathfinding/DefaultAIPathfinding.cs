@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DefaultAIPathfinding : AbstractAIPathfinding
@@ -106,14 +107,8 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                 )
             {
 
-                foreach (var pathToValidDoorItem in pathToValidDoor)
-                {
-                    PathChain.AddLast(pathToValidDoorItem);
-                }
-                foreach (var pathFromValidDoorItem in pathFromValidDoorToTarget)
-                {
-                    PathChain.AddLast(pathFromValidDoorItem);
-                }
+                PathChain.AddRange(pathToValidDoor);
+                PathChain.AddRange(pathFromValidDoorToTarget);
             }
         }
         else

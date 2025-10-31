@@ -38,6 +38,7 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
     {
         _currentPatrollDirection = PatrollDirection.UNSET;
         CharComponents.CharacterMoving.Speed *= PatroolSpeedMultiplier;
+        _currentPatrollDirectionSetCoroutine = null;
     }
 
     private void OnDisable()

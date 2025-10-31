@@ -64,6 +64,14 @@ public class CharacterAiming : AbstractCharacterComponent
         CharComponents.CharacterHolding.OnThrewHoldable += CharacterHolding_OnThrewHoldable;
     }
 
+    private void OnEnable()
+    {
+        _targetAimPoint = CharComponents.Center.transform.position;
+        _currentAimPoint = CharComponents.Center.transform.position;
+        CharComponents.CharacterHolding.OnPickedUpHoldable += CharacterHolding_OnPickedUpHoldable;
+        CharComponents.CharacterHolding.OnThrewHoldable += CharacterHolding_OnThrewHoldable;
+    }
+
     private void CharacterHolding_OnPickedUpHoldable(object sender, Holdable e)
     {
         if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
@@ -136,8 +144,9 @@ public class CharacterAiming : AbstractCharacterComponent
         return CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<RangedWeapon>() != null && CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded;
     }
 
-    public void OnAimPerformed()
+    private void OnDisable()
     {
-
+        CharComponents.CharacterHolding.OnPickedUpHoldable -= CharacterHolding_OnPickedUpHoldable;
+        CharComponents.CharacterHolding.OnThrewHoldable -= CharacterHolding_OnThrewHoldable;
     }
 }

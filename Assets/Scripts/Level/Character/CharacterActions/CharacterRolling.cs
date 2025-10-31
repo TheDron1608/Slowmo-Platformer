@@ -46,6 +46,11 @@ public class CharacterRolling : AbstractCharacterComponent
         CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
     }
 
+    private void OnEnable()
+    {
+        IsRolling = false;
+    }
+
     private void CharacterCollisionInfo_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
     {
         if (!RollCondition())

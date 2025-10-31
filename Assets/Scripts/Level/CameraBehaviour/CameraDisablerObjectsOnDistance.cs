@@ -28,7 +28,6 @@ public class CameraDisablerObjectsOnDistance : MonoBehaviour
 
     private void UpdateEnabled()
     {
-        Debug.Log(TrackedObjects.Count);
         foreach (var trackedObject in TrackedObjects)
         {
             bool newValue = Vector2.Distance(transform.position, trackedObject.transform.position) < trackedObject.DistanceToDistable;

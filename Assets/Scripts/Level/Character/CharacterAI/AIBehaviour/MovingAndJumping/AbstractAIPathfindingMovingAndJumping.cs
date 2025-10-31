@@ -9,18 +9,6 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     const float COLLISION_DETECTION_DISTANCE_PRECISSION = 0.05f;
 
     private LinkedListNode<AbstractAIPathfinding.PathChainElement> _currentChain = null;
-    private bool _awaitingUpdateChain = false;
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        _selfStateBehaviourAI.Pathfinding.OnPathUpdated += AIPathfinding_OnPathUpdated;
-    }
-
-    private void AIPathfinding_OnPathUpdated(object sender, System.EventArgs e)
-    {
-        _awaitingUpdateChain = true;
-    }
 
     private void FixedUpdate()
     {
@@ -34,18 +22,12 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     {
         Vector2Int characterTilePosition = TileManager.PositionToTilePosition(CharComponents.transform.position);
 
-        if (_awaitingUpdateChain && CharComponents.CharacterCollision.IsCollidingFloor() && !CharComponents.CharacterVisual.IsBusy())
+        if (_currentChain?.List != _selfStateBehaviourAI.Pathfinding.PathChain && CharComponents.CharacterCollision.IsCollidingFloor())
         {
-            _awaitingUpdateChain = false;
             _currentChain = _selfStateBehaviourAI.Pathfinding.PathChain?.First;
-            while (_currentChain != null && _currentChain.Value.TargetPosition == characterTilePosition)
-            {
-                OnReachedChainTarget();
-            }
         }
         else if (_selfStateBehaviourAI.Pathfinding.PathTarget.HasValue && _selfStateBehaviourAI.Pathfinding.PathTarget.Value.Position == characterTilePosition)
         {
-            _awaitingUpdateChain = false;
             _currentChain = null;
         }
 
@@ -123,11 +105,5 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         }
 
         _currentChain = _currentChain?.Next;
-        UpdateActionsToReachPathTarget();
-    }
-
-    private void OnDestroy()
-    {
-        _selfStateBehaviourAI.Pathfinding.OnPathUpdated -= AIPathfinding_OnPathUpdated;
     }
 }

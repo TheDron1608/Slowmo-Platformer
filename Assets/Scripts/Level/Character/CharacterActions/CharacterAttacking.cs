@@ -43,6 +43,13 @@ public class CharacterAttacking : AbstractCharacterComponent
         set => _isAbleToStartChainsaw = value;
     }
 
+    private void OnEnable()
+    {
+        _awaitingMeleeAttackDirection = null;
+        _clumsyRangedAttackCoroutine = null;
+        CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
+    }
+
     public bool TryHammerWeapon()
     {
         if (IsAbleToHammer && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && !hammerWeapon.Hammered)

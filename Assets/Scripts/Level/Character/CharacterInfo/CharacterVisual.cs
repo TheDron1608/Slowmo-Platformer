@@ -98,6 +98,12 @@ public class CharacterVisual : AbstractCharacterComponent
         _randomizedExtraSpriteSortingOrder = (int)(UnityEngine.Random.value * 99f);
     }
 
+    private void OnEnable()
+    {
+        _mainState = CharacterPartMainStates.IDLE;
+        _currentBusyAnimation = CharacterPartBusyStates.NONE;
+    }
+
     public bool FlippedH
     {
         get => _flippedH;

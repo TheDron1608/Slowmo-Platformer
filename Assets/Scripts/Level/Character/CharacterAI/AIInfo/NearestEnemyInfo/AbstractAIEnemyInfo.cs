@@ -9,7 +9,7 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
     protected CharacterTeam _lastEnemy = null;
     protected Vector2? _lastEnemyPosition = null;
     protected ZIndexLayer _lastEnemyLayer = null;
-    protected float _timeSinceLastEnemyDetection = 0f;
+    protected float _timeSinceLastEnemyDetection = 999f;
 
     public CharacterTeam NearestEnemy
     {

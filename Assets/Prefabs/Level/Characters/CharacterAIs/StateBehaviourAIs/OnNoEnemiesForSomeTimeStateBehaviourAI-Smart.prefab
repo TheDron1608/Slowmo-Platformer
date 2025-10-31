@@ -19,7 +19,7 @@ PrefabInstance:
     - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       propertyPath: Pathfinding
       value: 
-      objectReference: {fileID: 1873954419817209943}
+      objectReference: {fileID: 3013010435715966763}
     - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       propertyPath: MovingAndJumping
       value: 
@@ -101,7 +101,7 @@ PrefabInstance:
       addedObject: {fileID: 5010661093674508445}
     - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1873954419817209943}
+      addedObject: {fileID: 3013010435715966763}
     - targetCorrespondingSourceObject: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5167105316368865448}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 10
---- !u!114 &1873954419817209943
+--- !u!114 &3013010435715966763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

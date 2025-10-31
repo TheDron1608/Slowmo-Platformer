@@ -8,7 +8,7 @@ public class SimpleAIPathfinding : AbstractAIPathfinding
 {
     protected override void OnUpdateInfo()
     {
-        PathChain.Clear();
+        PathChain = new();
 
         if (PathTarget.HasValue)
         {

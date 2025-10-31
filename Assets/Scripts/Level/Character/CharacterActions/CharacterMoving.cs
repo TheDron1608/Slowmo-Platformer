@@ -55,6 +55,11 @@ public class CharacterMoving : AbstractCharacterComponent
         CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
     }
 
+    private void OnEnable()
+    {
+        _currentMoveDirection = 0f;
+    }
+
     public bool IsMoving()
     {
         return Math.Abs(CharComponents.CharacterMoving.GetCurrentMoveDirection()) < 0.05f;
