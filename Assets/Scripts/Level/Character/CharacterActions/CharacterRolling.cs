@@ -1,8 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using static CharacterVisual;
 
 public class CharacterRolling : AbstractCharacterComponent
 {
@@ -22,6 +21,7 @@ public class CharacterRolling : AbstractCharacterComponent
     private bool _isRolling = false;
     private float _currentRollDirection = 0f;
     private float _currentExtraSpeed = 0f;
+    private List<AbstractCharacterComponent> _currentRollHitCharacters = new();
 
     public event EventHandler OnRoll;
     public event EventHandler OnFinishRoll;
@@ -38,17 +38,27 @@ public class CharacterRolling : AbstractCharacterComponent
             }
         }
     }
+    public List<AbstractCharacterComponent> CurrentRollHitCharacters
+    {
+        get => _currentRollHitCharacters;
+    }
 
     protected override void OnAwake()
     {
         base.OnAwake();
-        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
-        CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
     }
 
     private void OnEnable()
     {
         IsRolling = false;
+        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+        CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
+    }
+
+    private void OnDisable()
+    {
+        CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
+        CharComponents.CharacterCollision.OnCollisionChanged -= CharacterCollisionInfo_OnCollisionChanged;
     }
 
     private void CharacterCollisionInfo_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
@@ -59,7 +69,7 @@ public class CharacterRolling : AbstractCharacterComponent
         }
     }
 
-    private void CharacterVisual_OnBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
+    private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
         if (e.OldState == CharacterVisual.CharacterPartBusyStates.ROLL)
         {
@@ -71,6 +81,7 @@ public class CharacterRolling : AbstractCharacterComponent
                 CharComponents.CharacterAiming.AimWeaponDown = false;
             }
 
+            _currentRollHitCharacters = new();
             OnFinishRoll?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -104,12 +115,17 @@ public class CharacterRolling : AbstractCharacterComponent
     {
         if (!IsRolling) return;
 
+        IsRolling = false;
+
         CharComponents.CharacterVisual.BreakBusyAnimation();
 
         if (!CharComponents.CharacterClumsyness.ClumsyRangedAttack)
         {
             CharComponents.CharacterAiming.AimWeaponDown = false;
         }
+
+        _currentRollHitCharacters = new();
+        OnFinishRoll?.Invoke(this, EventArgs.Empty);
     }
 
     private bool RollCondition()

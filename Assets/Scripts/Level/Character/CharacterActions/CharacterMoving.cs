@@ -14,7 +14,8 @@ public class CharacterMoving : AbstractCharacterComponent
     private float _currentMoveDirection;
     private bool _isAbleToMoveThisFrame = true;
     [SerializeField] private bool _isAbleToMove = true;
-    private float _lastMoveDirectrion = 0f;
+    private float _lastMoveDirection = 0f;
+    private float _lastActiveMoveDirection = 0f;
     private float? _awaitingMoveDirection = null;
 
     public bool IsAbleToMoveThisFrame
@@ -31,7 +32,7 @@ public class CharacterMoving : AbstractCharacterComponent
 
             if (value)
             {
-                TryMove(_lastMoveDirectrion);
+                TryMove(_lastMoveDirection);
             }
             else
             {
@@ -39,6 +40,15 @@ public class CharacterMoving : AbstractCharacterComponent
                 OnMoveAlignChanged?.Invoke(this, _currentMoveDirection);
             }
         }
+    }
+    public float LastMoveDirection
+    {
+        get => _lastMoveDirection;
+    }
+
+    public float LastActiveMoveDirection
+    {
+        get => _lastActiveMoveDirection;
     }
 
     public float Speed = 5f;
@@ -53,6 +63,7 @@ public class CharacterMoving : AbstractCharacterComponent
     {
         base.OnAwake();
         CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
+        _lastActiveMoveDirection = NumberMath.RandomCoinflip() ? -1f : 1f;
     }
 
     private void OnEnable()
@@ -135,10 +146,14 @@ public class CharacterMoving : AbstractCharacterComponent
 
     public void ForceMove(float direction)
     {
-        _lastMoveDirectrion = direction;
+        _lastMoveDirection = direction;
+        if (direction != 0f)
+        {
+            _lastActiveMoveDirection = direction;
+        }
 
         if (!_isAbleToMove) return;
-        if (_currentMoveDirection == direction && _lastMoveDirectrion == direction) return;
+        if (_currentMoveDirection == direction && _lastMoveDirection == direction) return;
 
         OnMoveAlignChanged?.Invoke(this, direction);
 
@@ -190,7 +205,7 @@ public class CharacterMoving : AbstractCharacterComponent
     }
     public float GetLastMoveDirection()
     {
-        return _lastMoveDirectrion;
+        return _lastMoveDirection;
     }
 
     public bool GetIsMaxSpeed()
