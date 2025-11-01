@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: Railing
+  m_Script: {fileID: 11500000, guid: 5ce0133d612613c4a99d3e602d24c0f8, type: 3}
+  m_Name: Railling
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 4193726631227913137, guid: f8a37186f7941c549bd5095d46f32119, type: 3}
   m_DefaultGameObject: {fileID: 0}
@@ -76,3 +76,4 @@ MonoBehaviour:
     - {x: -1, y: 0, z: 0}
     - {x: 1, y: 0, z: 0}
     m_RuleTransform: 0
+  CanBeSpilledByFluidParticles: 0

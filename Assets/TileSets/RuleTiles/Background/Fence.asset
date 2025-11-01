@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ce0133d612613c4a99d3e602d24c0f8, type: 3}
   m_Name: Fence
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: -5397573168801136404, guid: 75b542460c37a4e4c8649c7f5698b0d9, type: 3}
@@ -144,3 +144,4 @@ MonoBehaviour:
     - {x: 0, y: 1, z: 0}
     - {x: 1, y: 0, z: 0}
     m_RuleTransform: 0
+  CanBeSpilledByFluidParticles: 0

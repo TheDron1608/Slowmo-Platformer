@@ -138,11 +138,7 @@ public class FluidParticle : AbstractSpriteParticle
             yield return new WaitForFixedUpdate();
             _currentLifeTime += Time.fixedDeltaTime;
 
-            bool isOnBackgound = _layer.TileManager.GetHasTileBehaviourAt(
-                    transform.position, TileBehaviour.TileBehaviourType.BACKGROUND
-                    );
-
-            if (_currentLifeTime > _lifeTime && isOnBackgound)
+            if (_currentLifeTime > _lifeTime && GetIsOnBackground())
             {
                 DripOnBackground();
                 break;
@@ -167,6 +163,14 @@ public class FluidParticle : AbstractSpriteParticle
                 break;
             }
         }
+    }
+
+    private bool GetIsOnBackground()
+    {
+        return 
+            _layer.MultiTileMapsContainer.GetTileMapByBehaviourType(
+            TileBehaviour.TileBehaviourType.BACKGROUND
+            ).GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.CanBeSpilledByFluidParticles ?? false;
     }
 
     private void DripOnBackground()
@@ -317,10 +321,9 @@ public class FluidParticle : AbstractSpriteParticle
     {
         if (backgroundOrForeground)
         {
-            return _layer.TileManager.GetHasTileBehaviourAt(
-                VectorMath.Vec3ToVec2(transform.position) + new Vector2(x - texture.width / 2, y - texture.height / 2) / 16, 
-                TileBehaviour.TileBehaviourType.BACKGROUND
-                );
+            return _layer.MultiTileMapsContainer.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND)
+                .GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x + (x - texture.width / 2) / 16f), (int)math.floor(transform.position.y + (y - texture.height / 2) / 16f), 0))
+                ?.CanBeSpilledByFluidParticles ?? false;
         }
         else
         {
