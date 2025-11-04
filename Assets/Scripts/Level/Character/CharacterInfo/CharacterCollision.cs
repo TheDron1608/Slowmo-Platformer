@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class CharacterCollision : AbstractCharacterComponent
 {
@@ -51,6 +52,11 @@ public class CharacterCollision : AbstractCharacterComponent
     private GameObject _colliderFromRoof = null;
     private GameObject _colliderFromLeftWall = null;
     private GameObject _colliderFromRightWall = null;
+
+    private ForegroundRuleTile _collidedTileFromFloor = null;
+    private ForegroundRuleTile _collidedTileFromRoof = null;
+    private ForegroundRuleTile _collidedTileFromLeftWall = null;
+    private ForegroundRuleTile _collidedTileFromRightWall = null;
 
     public event EventHandler<ZIndexLayer> OnZIndexLayerChanged;
 
@@ -102,21 +108,21 @@ public class CharacterCollision : AbstractCharacterComponent
         return _colliderFromRightWall != null;
     }
 
-    public TileBehaviour.TileBehaviourType? GetTileBehaviourTypeFromFloor()
+    public ForegroundRuleTile.ForegroundBehaviourType? GetTileBehaviourTypeFromFloor()
     {
-        return _colliderFromFloor?.GetComponent<TileBehaviour>()?.BehaviourType;
+        return _collidedTileFromFloor?.BehaviourType;
     }
-    public TileBehaviour.TileBehaviourType? GetTileBehaviourTypeFromRoof()
+    public ForegroundRuleTile.ForegroundBehaviourType? GetTileBehaviourTypeFromRoof()
     {
-        return _colliderFromRoof?.GetComponent<TileBehaviour>()?.BehaviourType;
+        return _collidedTileFromRoof?.BehaviourType;
     }
-    public TileBehaviour.TileBehaviourType? GetTileBehaviourTypeFromLeftWall()
+    public ForegroundRuleTile.ForegroundBehaviourType? GetTileBehaviourTypeFromLeftWall()
     {
-        return _colliderFromLeftWall?.GetComponent<TileBehaviour>()?.BehaviourType;
+        return _collidedTileFromLeftWall?.BehaviourType;
     }
-    public TileBehaviour.TileBehaviourType? GetTileBehaviourTypeFromRightWall()
+    public ForegroundRuleTile.ForegroundBehaviourType? GetTileBehaviourTypeFromRightWall()
     {
-        return _colliderFromRightWall?.GetComponent<TileBehaviour>()?.BehaviourType;
+        return _collidedTileFromRightWall?.BehaviourType;
     }
 
     protected override void OnAwake()
@@ -137,12 +143,12 @@ public class CharacterCollision : AbstractCharacterComponent
         return
             CharComponents.CharacterInteractionWithTiles.IsAbleToStickOnWalls &&
             (
-                GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
-                GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
+                GetTileBehaviourTypeFromLeftWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY ||
+                GetTileBehaviourTypeFromRightWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY
             );
     }
 
-    private GameObject RaycastHitFromCollider(Vector2 from, Vector2 align)
+    private GameObject RaycastHitFromCollider(Vector2 from, Vector2 align, out ForegroundRuleTile collidedTile)
     {
         float rayCastHitRange = 
             (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
@@ -151,16 +157,27 @@ public class CharacterCollision : AbstractCharacterComponent
             ) / 2 + COLLISION_HIT_DETECION_THICKNESS;
 
         //Debug.DrawLine(from, from + align * rayCastHitRange, Color.green);
-        return Physics2D.OverlapPoint(from + align * rayCastHitRange, 1 << _currentZLayer.EnviromentLayer)?.gameObject;
+        Vector2 checkPosition = from + align * rayCastHitRange;
+        GameObject result = Physics2D.OverlapPoint(checkPosition, 1 << _currentZLayer.EnviromentLayer)?.gameObject;
+        if (result != null)
+        {
+            collidedTile = _currentZLayer.MultiTileMapsContainer.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(checkPosition.x), (int)math.floor(checkPosition.y), 0));
+            return result;
+        }
+        else
+        {
+            collidedTile = null;
+            return null;
+        }
     }
 
-    private GameObject RaycastHitFromCenter(Vector2 align)
+    private GameObject RaycastHitFromCenter(Vector2 align, out ForegroundRuleTile collidedTile)
     {
         Vector2 rayCastHitOrigin = VectorMath.Vec3ToVec2(transform.position) + CharComponents.CharacterRigidBodyCapsuleCollider.offset * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale;
-        return RaycastHitFromCollider(rayCastHitOrigin, align);
+        return RaycastHitFromCollider(rayCastHitOrigin, align, out collidedTile);
     }
 
-    private GameObject RaycastHitFromHead(Vector2 align)
+    private GameObject RaycastHitFromHead(Vector2 align, out ForegroundRuleTile collidedTile)
     {
         float extraOffset = math.abs(
             math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
@@ -174,10 +191,10 @@ public class CharacterCollision : AbstractCharacterComponent
             VectorMath.Vec3ToVec2(transform.position) +
             (CharComponents.CharacterRigidBodyCapsuleCollider.offset * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale + extraOffsetVec2);
 
-        return RaycastHitFromCollider(rayCastHitOrigin, align);
+        return RaycastHitFromCollider(rayCastHitOrigin, align, out collidedTile);
     }
 
-    private GameObject RaycastHitFromLegs(Vector2 align)
+    private GameObject RaycastHitFromLegs(Vector2 align, out ForegroundRuleTile collidedTile)
     {
         float extraOffset = math.abs(
             math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
@@ -192,69 +209,63 @@ public class CharacterCollision : AbstractCharacterComponent
             VectorMath.Vec3ToVec2(transform.position) + 
             (CharComponents.CharacterRigidBodyCapsuleCollider.offset * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale - extraOffsetVec2);
 
-        return RaycastHitFromCollider(rayCastHitOrigin, align);
+        return RaycastHitFromCollider(rayCastHitOrigin, align, out collidedTile);
     }
 
-
-    private GameObject UpdateTileCollidingFromDirection(Vector2 direction)
-    {
-        return RaycastHitFromCenter(direction);
-    }
-
-    private GameObject UpdateTileCollidingFromFloor()
+    private GameObject UpdateTileCollidingFromFloor(out ForegroundRuleTile collidedTile)
     {
         if (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical)
         {
-            return RaycastHitFromLegs(Vector2.down);
+            return RaycastHitFromLegs(Vector2.down, out collidedTile);
         }
         else
         {
             return
-                RaycastHitFromCenter(Vector2.down) ??
-                RaycastHitFromHead(Vector2.down) ??
-                RaycastHitFromLegs(Vector2.down);
+                RaycastHitFromCenter(Vector2.down, out collidedTile) ??
+                RaycastHitFromHead(Vector2.down, out collidedTile) ??
+                RaycastHitFromLegs(Vector2.down, out collidedTile);
         }
     }
-    private GameObject UpdateTileCollidingFromRoof()
+    private GameObject UpdateTileCollidingFromRoof(out ForegroundRuleTile collidedTile)
     {
         if (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical)
         {
-            return RaycastHitFromHead(Vector2.up);
+            return RaycastHitFromHead(Vector2.up, out collidedTile);
         }
         else
         {
             return
-                RaycastHitFromCenter(Vector2.up) ??
-                RaycastHitFromHead(Vector2.up) ??
-                RaycastHitFromLegs(Vector2.up);
+                RaycastHitFromCenter(Vector2.up, out collidedTile) ??
+                RaycastHitFromHead(Vector2.up, out collidedTile) ??
+                RaycastHitFromLegs(Vector2.up, out collidedTile);
         }
     }
-    private GameObject UpdateTileCollidingFromLeftWall()
+    private GameObject UpdateTileCollidingFromLeftWall(out ForegroundRuleTile collidedTile)
     {
         if (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical)
         {
             return
-                RaycastHitFromCenter(Vector2.left) ??
-                RaycastHitFromHead(Vector2.left) ??
-                RaycastHitFromLegs(Vector2.left);
+                RaycastHitFromCenter(Vector2.left, out collidedTile) ??
+                RaycastHitFromHead(Vector2.left, out collidedTile) ??
+                RaycastHitFromLegs(Vector2.left, out collidedTile);
         }
         else
         {
-            return RaycastHitFromLegs(Vector2.left);
+            return RaycastHitFromLegs(Vector2.left, out collidedTile);
         }
     }
-    private GameObject UpdateTileCollidingFromRightWall()
+    private GameObject UpdateTileCollidingFromRightWall(out ForegroundRuleTile collidedTile)
     {
         if (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical)
         {
             return
-                RaycastHitFromCenter(Vector2.right) ??
-                RaycastHitFromHead(Vector2.right) ??
-                RaycastHitFromLegs(Vector2.right);
+                RaycastHitFromCenter(Vector2.right, out collidedTile) ??
+                RaycastHitFromHead(Vector2.right, out collidedTile) ??
+                RaycastHitFromLegs(Vector2.right, out collidedTile);
         }
         else
         {
-            return RaycastHitFromHead(Vector2.right);
+            return RaycastHitFromHead(Vector2.right, out collidedTile);
         }
     }
 
@@ -293,10 +304,10 @@ public class CharacterCollision : AbstractCharacterComponent
         GameObject prevColliderFromLeftWall = _colliderFromLeftWall;
         GameObject prevColliderFromRightWall = _colliderFromRightWall;
 
-        _colliderFromFloor = UpdateTileCollidingFromFloor();
-        _colliderFromRoof = UpdateTileCollidingFromRoof();
-        _colliderFromLeftWall = UpdateTileCollidingFromLeftWall();
-        _colliderFromRightWall = UpdateTileCollidingFromRightWall();
+        _colliderFromFloor = UpdateTileCollidingFromFloor(out _collidedTileFromFloor);
+        _colliderFromRoof = UpdateTileCollidingFromRoof(out _collidedTileFromRoof);
+        _colliderFromLeftWall = UpdateTileCollidingFromLeftWall(out _collidedTileFromLeftWall);
+        _colliderFromRightWall = UpdateTileCollidingFromRightWall(out _collidedTileFromRightWall);
 
         if (prevColliderFromFloor != _colliderFromFloor) OnCollisionChanged?.Invoke(this, new OnCollisionChangedEventArgs(_colliderFromFloor != null, Vector2.down, _colliderFromFloor));
         if (prevColliderFromRoof != _colliderFromRoof) OnCollisionChanged?.Invoke(this, new OnCollisionChangedEventArgs(_colliderFromRoof != null, Vector2.down, _colliderFromRoof));

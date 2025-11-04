@@ -8,13 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 277369197053086146}
     m_Modifications:
+    - target: {fileID: 4467948467247029561, guid: 116dbb6d671161041a72b82c649e5e4b, type: 3}
+      propertyPath: GenerateChance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8018863466238355179, guid: 116dbb6d671161041a72b82c649e5e4b, type: 3}
       propertyPath: m_Name
       value: RandomDoor
       objectReference: {fileID: 0}
     - target: {fileID: 8485622545845886485, guid: 116dbb6d671161041a72b82c649e5e4b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0625
+      value: 0.9375
       objectReference: {fileID: 0}
     - target: {fileID: 8485622545845886485, guid: 116dbb6d671161041a72b82c649e5e4b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -67,7 +71,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8018863466238355179, guid: 116dbb6d671161041a72b82c649e5e4b, type: 3}
   m_PrefabInstance: {fileID: 2240816505618456478}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5275703325264844560
+--- !u!1001 &6106342960919390664
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -114,11 +118,11 @@ PrefabInstance:
     - target: {fileID: 8156529704842945751, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
       propertyPath: m_TileAssetArray.Array.data[0].m_Data
       value: 
-      objectReference: {fileID: 11400000, guid: e0ef98e59bcf013428398efb2fbc6bac, type: 2}
+      objectReference: {fileID: 11400000, guid: 6fefc9f3321001c42801173b7bde89b2, type: 2}
     - target: {fileID: 8156529704842945751, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[0].m_Data
       value: 
-      objectReference: {fileID: -1668081236, guid: 827065f97649755489e1587911515a1e, type: 3}
+      objectReference: {fileID: -960066633, guid: 06ae8d003292baf479c2dc0c6228339a, type: 3}
     - target: {fileID: 8156529704842945751, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
       propertyPath: m_TileColorArray.Array.data[0].m_Data.a
       value: 1
@@ -308,15 +312,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
---- !u!224 &4427020663800885029 stripped
+--- !u!224 &2370838988138664445 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8383732105861429301, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
-  m_PrefabInstance: {fileID: 5275703325264844560}
+  m_PrefabInstance: {fileID: 6106342960919390664}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5293621330740810879 stripped
+--- !u!1 &6124823083140262567 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 18481369919161199, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
-  m_PrefabInstance: {fileID: 5275703325264844560}
+  m_PrefabInstance: {fileID: 6106342960919390664}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6203848844063512667
 PrefabInstance:
@@ -328,7 +332,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3902924612848696304, guid: b055c93197c4d49499f6e8d4c83b3f4a, type: 3}
       propertyPath: Direction
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3902924612848696304, guid: b055c93197c4d49499f6e8d4c83b3f4a, type: 3}
       propertyPath: ObjectsOnClosedConnection.Array.size
@@ -341,14 +345,14 @@ PrefabInstance:
     - target: {fileID: 3902924612848696304, guid: b055c93197c4d49499f6e8d4c83b3f4a, type: 3}
       propertyPath: 'ObjectsOnClosedConnection.Array.data[0]'
       value: 
-      objectReference: {fileID: 5293621330740810879}
+      objectReference: {fileID: 6124823083140262567}
     - target: {fileID: 3902924612848696304, guid: b055c93197c4d49499f6e8d4c83b3f4a, type: 3}
       propertyPath: 'ObjectsOnOpenedConnection.Array.data[0]'
       value: 
       objectReference: {fileID: 8093042658958047605}
     - target: {fileID: 6077450902916028111, guid: b055c93197c4d49499f6e8d4c83b3f4a, type: 3}
       propertyPath: m_Name
-      value: SmallConnectionStickyLeft
+      value: SmallConnectionDoorAlwaysRight
       objectReference: {fileID: 0}
     - target: {fileID: 6179244867632468377, guid: b055c93197c4d49499f6e8d4c83b3f4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -398,7 +402,7 @@ PrefabInstance:
       addedObject: {fileID: 7699473120600048011}
     - targetCorrespondingSourceObject: {fileID: 6179244867632468377, guid: b055c93197c4d49499f6e8d4c83b3f4a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4427020663800885029}
+      addedObject: {fileID: 2370838988138664445}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b055c93197c4d49499f6e8d4c83b3f4a, type: 3}
 --- !u!4 &277369197053086146 stripped

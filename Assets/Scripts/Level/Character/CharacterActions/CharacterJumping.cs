@@ -124,11 +124,11 @@ public class CharacterJumping : AbstractCharacterComponent
                 CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
             }
 
-            if (CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY)
+            if (CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY)
             {
                 CharComponents.CharacterRigidBody.linearVelocityX += JumpOffWallForce;
             }
-            else if (CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY)
+            else if (CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY)
             {
                 CharComponents.CharacterRigidBody.linearVelocityX -= JumpOffWallForce;
             }

@@ -149,19 +149,18 @@ public class FluidParticle : AbstractSpriteParticle
                 break;
             }
 
-            Collider2D evniromentHit = Physics2D.OverlapPoint(transform.position, _currentEnviromentLayerMask);
-            if (evniromentHit != null)
+            if (
+                _layer.MultiTileMapsContainer.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND)
+                .GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.ValidAsPlatform ?? false
+                )
             {
-                if (evniromentHit.gameObject.TryGetComponent(out TileBehaviour hitTileBehaviour) && hitTileBehaviour.ValidAsPlatform)
-                {
-                    DripOnForeground();
-                }
-                else
-                {
-                    RemoveParticle();
-                }
-                break;
+                DripOnForeground();
             }
+            else
+            {
+                RemoveParticle();
+            }
+            break;
         }
     }
 

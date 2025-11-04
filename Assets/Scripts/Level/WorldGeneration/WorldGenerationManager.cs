@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using UnityEditor.Build.Pipeline;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class WorldGenerationManager : MonoBehaviour
     public int MaxBuildingRooms = 12;
     public int BuildingDistance = 25;
     public List<Chunk> Chunks = new();
+    public List<BuildingEnterChunk> EnterBuildingChunks = new();
     public Vector2 GenerateDirection = Vector2.one;
     public int ParallelRooms = 3;
     public int Seed;
@@ -103,8 +105,9 @@ public class WorldGenerationManager : MonoBehaviour
         newBuildingInfo = new();
         layer.BuildinsInfo.Add(newBuildingInfo);
 
-        //creating first room with enter door, if failed return false
-        if (!NumberMath.PickRandomItem(Chunks).TryGenerateChunkWithDoor(layer, position, newBuildingInfo, out ChunkInfo firstChunk, out newBuildingInfo.Enter)) return false;
+        //creating first room with enter door, if failed generation or could not spawn any enter doors return false
+        if (!NumberMath.PickRandomItem(EnterBuildingChunks).TryGenerateChunkWithEnterAt(layer, position, newBuildingInfo, out ChunkInfo firstChunk)) return false;
+        newBuildingInfo.Enter = firstChunk.DoorGenPositions.First();
 
         //creating default rooms
         for (int i = 1; i < chunksAmount; i++)
@@ -156,11 +159,18 @@ public class WorldGenerationManager : MonoBehaviour
         }
 
         //setting exit door
-        newBuildingInfo.Exit = NumberMath.PickRandomItem(
-            newBuildingInfo.Chunks.OrderBy(
+        foreach (ChunkInfo chunk in newBuildingInfo.Chunks.OrderBy(
                 (ChunkInfo connection) => Vector3.Distance(connection.PickDoorAvgPosition(), prefferedPosition)
-                ).First().DoorGenPositions
-            );
+            ))
+        {
+            if (chunk.DoorGenPositions.Count > 0)
+            {
+                newBuildingInfo.Exit = chunk.DoorGenPositions.OrderBy(
+                    (DoorGenerationPosition.PreGeneratedDoorTempInfo door) => Vector3.Distance(door.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition))
+                    ).First();
+                break;
+            }
+        }
 
         //generating enviroment with OnFinishBuildingEnviroment attr
         foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishBuildingEnviroment>(false))

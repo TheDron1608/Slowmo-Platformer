@@ -75,7 +75,6 @@ public class TileManager : MonoBehaviour
     }
 
     private Tilemap[] _tilemaps;
-    private Tilemap[] _validAsPlatformTilemaps;
     private List<NavigationPlatformInfo> _navigationPlatforms = new();
 
     public static Vector2Int PositionToTilePosition(Vector2 position)
@@ -91,16 +90,6 @@ public class TileManager : MonoBehaviour
     private void Awake()
     {
         _tilemaps = GetComponentsInChildren<Tilemap>();
-
-        List<Tilemap> validAsPlatformTilemapsList = new();
-        foreach (var tilemap in _tilemaps)
-        {
-            if (tilemap.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? false)
-            {
-                validAsPlatformTilemapsList.Add(tilemap);
-            }
-        }
-        _validAsPlatformTilemaps = validAsPlatformTilemapsList.ToArray();
     }
 
     public List<TileBehaviour.TileBehaviourType> GetTileBehavioursAt(Vector2 position)
@@ -142,14 +131,7 @@ public class TileManager : MonoBehaviour
 
     public bool GetHasValidAsPlatformAt(Vector3Int position)
     {
-        foreach (Tilemap tilemap in _validAsPlatformTilemaps)
-        {
-            if (tilemap.HasTile(position))
-            {
-                return true;
-            }
-        }
-        return false;
+        return GetComponent<MultiTileMapsContainer>().GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).GetTile<ForegroundRuleTile>(position)?.ValidAsPlatform ?? false;
     }
 
     public bool GetHasValidAsPlatformAt(Vector2 position)
@@ -161,24 +143,6 @@ public class TileManager : MonoBehaviour
             );
 
         return GetHasValidAsPlatformAt(tilePosition);
-    }
-
-    public bool GetTileValidAsPlatformAt(Vector2 position)
-    {
-        Vector3Int tilePosition =
-            new Vector3Int(
-            (int)math.floor(position.x),
-            (int)math.floor(position.y)
-            );
-
-        foreach (Tilemap tilemap in _tilemaps)
-        {
-            if ((tilemap.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? false) && tilemap.HasTile(tilePosition))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public NavigationPlatformInfo GetPlatformUnderPoint(Vector2Int point)
@@ -538,7 +502,7 @@ public class TileManager : MonoBehaviour
         {
             for (int y = filteredStart.y; y <= filteredEnd.y; y++)
             {
-                if (GetTileValidAsPlatformAt(new Vector2(x, y)))
+                if (GetHasValidAsPlatformAt(new Vector2(x, y)))
                 {
                     return result;
                 }
@@ -561,7 +525,7 @@ public class TileManager : MonoBehaviour
         {
             for (int y = filteredStart.y; y <= filteredEnd.y; y++)
             {
-                if (GetTileValidAsPlatformAt(new Vector2(x, y)))
+                if (GetHasValidAsPlatformAt(new Vector2(x, y)))
                 {
                     //Debug_MarkArea(filteredStart, filteredEnd, Color.red, 1f);
                     return true;

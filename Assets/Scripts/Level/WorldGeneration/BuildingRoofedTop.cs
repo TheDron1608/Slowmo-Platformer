@@ -30,7 +30,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
         int x2 = (int)math.floor(generationInfo.Offset.x + OffsetEnd.transform.position.x);
         int y2 = generationInfo.Building.HighestCoorY;
 
-        Tilemap targetTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL);
+        Tilemap targetTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND);
         Tilemap targetOvergoundTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.OVERGROUND);
 
         for (int x = x1; x <= x2; x++)

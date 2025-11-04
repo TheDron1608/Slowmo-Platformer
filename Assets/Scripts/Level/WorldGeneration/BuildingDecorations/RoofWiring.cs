@@ -35,7 +35,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
         {
             if (targetTilemaps.GetHasAnyTileAt(new Vector3Int(x, position.y + HEIGHT)))
             {
-                if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(new Vector3Int(x, position.y + HEIGHT)))
+                if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(new Vector3Int(x, position.y + HEIGHT)))
                 {
                     return ForceGenerate(targetTilemaps, position, leftOrRightDirection);
                 }
@@ -61,7 +61,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
             x += leftOrRightDirection ? 1 : -1
             )
         {
-            if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(new Vector3Int(x, position.y + HEIGHT)))
+            if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(new Vector3Int(x, position.y + HEIGHT)))
             {
                 break;
             }

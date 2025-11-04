@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: Lined
+  m_Script: {fileID: 11500000, guid: 033ab170876158040998713c5d6ff98b, type: 3}
+  m_Name: Sticky
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: -2740548199904276423, guid: 827065f97649755489e1587911515a1e, type: 3}
   m_DefaultGameObject: {fileID: 0}
@@ -268,3 +268,6 @@ MonoBehaviour:
     - {x: 0, y: -1, z: 0}
     - {x: 1, y: -1, z: 0}
     m_RuleTransform: 0
+  BehaviourType: 1
+  ValidAsPlatform: 1
+  OverrideOrder: 2

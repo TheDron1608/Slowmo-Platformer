@@ -15,12 +15,12 @@ public class WallWiring : GenerateOnFinishLevelEnviroment
         Vector3Int position = NumberMath.Vec3ToVec3Int(generationInfo.Offset);
         MultiTileMapsContainer targetTilemaps = generationInfo.GenerateWhere.MultiTileMapsContainer;
 
-        if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).GetTile(position) != null)
+        if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).GetTile(position) != null)
         {
             return null;
         }
 
-        bool leftOrRightDirection = targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).GetTile(position + Vector3Int.left) != null;
+        bool leftOrRightDirection = targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).GetTile(position + Vector3Int.left) != null;
 
         for (
             int x = position.x;
@@ -30,7 +30,7 @@ public class WallWiring : GenerateOnFinishLevelEnviroment
         {
             if (targetTilemaps.GetHasAnyTileAt(new Vector3Int(x, position.y)))
             {
-                if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(new Vector3Int(x, position.y)))
+                if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(new Vector3Int(x, position.y)))
                 {
                     return ForceGenerate(targetTilemaps, position, leftOrRightDirection);
                 }
@@ -51,7 +51,7 @@ public class WallWiring : GenerateOnFinishLevelEnviroment
             x += leftOrRightDirection ? 1 : -1
             )
         {
-            if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(new Vector3Int(x, position.y)))
+            if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(new Vector3Int(x, position.y)))
             {
                 break;
             }

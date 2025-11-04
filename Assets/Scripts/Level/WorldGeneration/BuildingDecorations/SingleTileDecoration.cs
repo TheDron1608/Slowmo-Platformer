@@ -20,11 +20,11 @@ public class SingleTileDecoration : GenerateOnFinishLevelEnviroment
             return null;
         }
 
-        if (targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(targetPosition + Vector3Int.left))
+        if (targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(targetPosition + Vector3Int.left))
         {
             targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(targetPosition, DrawTile);
         }
-        else if (targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(targetPosition + Vector3Int.right))
+        else if (targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(targetPosition + Vector3Int.right))
         {
             targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(targetPosition, MirroredDrawTile);
         }

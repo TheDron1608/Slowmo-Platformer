@@ -147,6 +147,11 @@ public static class VectorMath
         return new Vector2Int(vec.x, vec.y);
     }
 
+    public static Vector3 Vec3IntToVec3(Vector3Int vec)
+    {
+        return new Vector3(vec.x, vec.y, vec.z);
+    }
+
     public static Vector3 PositionToPixelPosition(Vector3 position)
     {
         return new Vector3(

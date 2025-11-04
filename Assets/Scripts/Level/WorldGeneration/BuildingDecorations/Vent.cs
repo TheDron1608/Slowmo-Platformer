@@ -31,7 +31,7 @@ public class Vent : GenerateOnFinishLevelEnviroment
         {
             if (
                 targetTilemap.GetHasAnyTileAt(targetPosition + (targetGenerateDirection * i)) ||
-                !targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL).HasTile(targetPosition + (targetGenerateDirection * i) + Vector3Int.down)
+                !targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(targetPosition + (targetGenerateDirection * i) + Vector3Int.down)
                 )
             {
                 break;

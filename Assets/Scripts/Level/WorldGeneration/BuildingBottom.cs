@@ -20,7 +20,7 @@ public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
         base.Generate(generationInfo);
 
         MultiTileMapsContainer generateWhere = generationInfo.GenerateWhere.MultiTileMapsContainer;
-        Tilemap targetTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.NORMAL);
+        Tilemap targetTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND);
         Tilemap targetOvergoundTilemap = generateWhere.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.OVERGROUND);
 
         int x1 = (int)math.floor(generationInfo.Offset.x + OffsetStart.transform.position.x);

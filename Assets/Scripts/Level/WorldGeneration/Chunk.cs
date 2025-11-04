@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -12,17 +13,9 @@ public class Chunk : MonoBehaviour
         return transform.GetComponentsInChildren<ChunkConnection>();
     }
 
-    public List<DoorGenerationPosition> GetDoorGenerationPositions()
+    public DoorGenerationPosition[] GetDoorGenerationPositions()
     {
-        List<DoorGenerationPosition> result = new List<DoorGenerationPosition>();
-        foreach (Transform child in transform)
-        {
-            if (child.TryGetComponent(out DoorGenerationPosition doorGenPos))
-            {
-                result.Add(doorGenPos);
-            }
-        }
-        return result;
+        return transform.GetComponentsInChildren<DoorGenerationPosition>();
     }
 
     public bool GetAnyConnectionIsValid(ChunkConnection targetConnection, out ChunkConnection validConnection)
@@ -72,7 +65,7 @@ public class Chunk : MonoBehaviour
         {
             for (int y = chunkMask.cellBounds.min.y; y < chunkMask.cellBounds.max.y; y++)
             {
-                Vector3Int currentTilePos = new Vector3Int(x, y);
+                Vector3Int currentTilePos = new Vector3Int(x, y, 0);
                 if (chunkMask.HasTile(currentTilePos) && generateWhere.MultiTileMapsContainer.GetHasAnyTileAt(currentTilePos + position))
                 {
                     //generateWhere.TileManager.Debug_MarkArea(new Vector3(chunkMask.cellBounds.min.x, chunkMask.cellBounds.min.y), new Vector3(chunkMask.cellBounds.max.x, chunkMask.cellBounds.max.y), Color.red, 999f);
@@ -122,6 +115,7 @@ public class Chunk : MonoBehaviour
         foreach (ChunkInfo chunk in building.Chunks)
         {
             if (newChunkInfo == chunk) continue;
+            bool stopFindingChunkconnections = false;
             foreach (ChunkConnection.PreGeneratedChunkConnectionTempInfo connection in chunk.Connections)
             {
                 for (int i = 0; i < newChunkInfo.Connections.Count; i++)
@@ -130,47 +124,14 @@ public class Chunk : MonoBehaviour
                     {
                         connection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
                         newChunkInfo.Connections[i].Remove();
-                        i--;
+                        stopFindingChunkconnections = true;
+                        break;
                     }
                 }
+                if (stopFindingChunkconnections) break;
             }
         }
 
         return true;
-    }
-
-    public bool TryGenerateChunkWithDoor(
-        ZIndexLayer generateWhere, 
-        Vector3Int position, 
-        BuildingInfo building, 
-        out ChunkInfo newChunk, 
-        out DoorGenerationPosition.PreGeneratedDoorTempInfo door
-        )
-    {
-        if (GetDoorGenerationPositions().Count == 0)
-        {
-            Debug.Log("none");
-            newChunk = null;
-            door = default;
-            return false;
-        }
-
-        int randomDoorArrayKey = (int)(UnityEngine.Random.value * (GetDoorGenerationPositions().Count - 1));
-
-        if (TryGenerateChunk(
-            generateWhere, 
-            position - VectorMath.Vec2IntToVec3Int(TileManager.PositionToTilePosition(GetDoorGenerationPositions()[randomDoorArrayKey].transform.position)), 
-            building,
-            out newChunk)
-            )
-        {
-            door = newChunk.DoorGenPositions[randomDoorArrayKey];
-            return true;
-        }
-        else
-        {
-            door = default;
-            return false;
-        }
     }
 }

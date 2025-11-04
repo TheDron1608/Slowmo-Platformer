@@ -25,8 +25,8 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
         if (!IsAbleToStickOnWalls) return;
 
         if (
-            CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == TileBehaviour.TileBehaviourType.STICKY ||
-            CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall() == TileBehaviour.TileBehaviourType.STICKY
+            CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY ||
+            CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY
             )
         {
             StartCoroutine(UpdateStickyTileInteractionProcess());

@@ -20,8 +20,7 @@ public class LevelColorset : ScriptableObject
     public enum ColorType
     {
         //enviroment
-        NORMAL_TILES = 0,
-        STICKY_TILES = 1,
+        FOREGROUND = 1,
         BACKGROUND = 2,
         BACKGROUND_DECORATIONS = 3,
         OVERGROUND = 4,
@@ -90,8 +89,7 @@ public class LevelColorset : ScriptableObject
     }
 
     [Header("Enviroment")]
-    [ColorTypeAttr(ColorType.NORMAL_TILES)] public Material NormalTiles;
-    [ColorTypeAttr(ColorType.STICKY_TILES)] public Material StickyTiles;
+    [ColorTypeAttr(ColorType.FOREGROUND)] public Material Foreground;
     [ColorTypeAttr(ColorType.BACKGROUND)] public Material Backgound;
     [ColorTypeAttr(ColorType.BACKGROUND_DECORATIONS)] public Material BackgroundDecations;
     [ColorTypeAttr(ColorType.OVERGROUND)] public Material Overgound;

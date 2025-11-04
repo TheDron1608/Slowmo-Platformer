@@ -6,10 +6,12 @@ public class MultiTileMapsContainer : MonoBehaviour
 {
     private bool _requestUpdateNavigationAtEndOfFrame = true;
     private ZIndexLayer _layer;
+    private Tilemap[] _tilemaps;
 
     private void Awake()
     {
         _layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        _tilemaps = transform.GetComponentsInChildren<Tilemap>();
         Tilemap.tilemapTileChanged += Tilemap_tilemapTileChanged;
     }
 
@@ -17,10 +19,14 @@ public class MultiTileMapsContainer : MonoBehaviour
     {
         if (LayerManager.Instance.GetZLayerOfGameObject(arg1.gameObject) != _layer) return;
 
-        if (arg1.GetComponent<TileBehaviour>()?.ValidAsPlatform ?? false)
+        foreach (Tilemap.SyncTile tile in arg2)
         {
-            _requestUpdateNavigationAtEndOfFrame = true;
-            Tilemap.tilemapTileChanged -= Tilemap_tilemapTileChanged;
+            if (tile.tile is ForegroundRuleTile foregroundTile && foregroundTile.ValidAsPlatform)
+            {
+                _requestUpdateNavigationAtEndOfFrame = true;
+                Tilemap.tilemapTileChanged -= Tilemap_tilemapTileChanged;
+                return;
+            }
         }
     }
 
@@ -43,14 +49,9 @@ public class MultiTileMapsContainer : MonoBehaviour
         return null;
     }
 
-    public Tilemap[] GetTileMaps()
-    {
-        return transform.GetComponentsInChildren<Tilemap>();
-    }
-
     public bool GetHasAnyTileAt(Vector3Int position)
     {
-        foreach (Tilemap tilemap in GetTileMaps())
+        foreach (Tilemap tilemap in _tilemaps)
         {
             if (tilemap.HasTile(position)) return true;
         }
@@ -70,26 +71,19 @@ public class MultiTileMapsContainer : MonoBehaviour
                 TileBase tile = tilemap.GetTile(new Vector3Int(x, y));
                 if (tile != null)
                 {
-                    targetTileMap.SetTile(new Vector3Int(x, y) + position , tile);
-
-                    if (tilemap.GetComponent<TileBehaviour>().Overridable)
+                    Vector3Int tilePos = new Vector3Int(x, y) + position;
+                    if (tile is ForegroundRuleTile foregroundTile)
                     {
-                        foreach (Tilemap subTargetTileMap in GetTileMaps())
+                        ForegroundRuleTile oldForegroundTile = GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).GetTile<ForegroundRuleTile>(tilePos);
+                        if (oldForegroundTile == null || foregroundTile.OverrideOrder >= oldForegroundTile.OverrideOrder)
                         {
-                            if (!subTargetTileMap.GetComponent<TileBehaviour>().Overridable || subTargetTileMap == targetTileMap)
-                            {
-                                continue;
-                            }
-                            else if (subTargetTileMap.GetComponent<TileBehaviour>().OverrideOrder <= tilemap.GetComponent<TileBehaviour>().OverrideOrder)
-                            {
-                                subTargetTileMap.SetTile(new Vector3Int(x, y) + position, null);
-                            }
-                            else if (subTargetTileMap.HasTile(new Vector3Int(x, y) + position))
-                            {
-                                targetTileMap.SetTile(new Vector3Int(x, y) + position, null);
-                                break;
-                            }
+                            GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND).SetTile(tilePos, null);
+                            GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).SetTile(tilePos, foregroundTile);
                         }
+                    }
+                    else
+                    {
+                        GetTileMapByBehaviourType(tilemap.GetComponent<TileBehaviour>().BehaviourType).SetTile(tilePos, tile);
                     }
                 }
             }
