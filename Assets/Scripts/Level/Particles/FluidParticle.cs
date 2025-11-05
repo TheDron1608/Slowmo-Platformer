@@ -21,6 +21,7 @@ public class FluidParticle : AbstractSpriteParticle
     const int DRIP_TEXTURE_RESOLUTION = 32;
     const float DRIP_OVERLAY_CLOSEST_PARTICLE_MAX_DISTANCE = 1.05f;
     const float DRIP_ON_FOREGROUND_PARTICLE_LENGTH_MULTIPLIER = 0.1f;
+    const int DRIP_ON_FOREGROUND_PARTICLE_MAX_SIZE = 4;
 
     public float MinLifeTime = 0.05f;
     public float MaxLifeTime = 0.25f;
@@ -111,10 +112,8 @@ public class FluidParticle : AbstractSpriteParticle
             newParticleSpriteRenderer.material = material;
         }
 
-        if (_flyCoroutine != null)
-        {
-            StopCoroutine(_flyCoroutine);
-        }
+        StopAllCoroutines();
+        _spreadCoroutine = null;
         _flyCoroutine = StartCoroutine(FlyCoroutine());
     }
 
@@ -143,24 +142,16 @@ public class FluidParticle : AbstractSpriteParticle
                 DripOnBackground();
                 break;
             }
+            else if (GetIsOnForeground())
+            {
+                DripOnForeground();
+                break;
+            }
             else if (_currentLifeTime > LIMIT_FLUID_PARTICLE_LIFETIME_SECONDS)
             {
                 RemoveParticle();
                 break;
             }
-
-            if (
-                _layer.MultiTileMapsContainer.GetForeground()
-                .GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.ValidAsPlatform ?? false
-                )
-            {
-                DripOnForeground();
-            }
-            else
-            {
-                RemoveParticle();
-            }
-            break;
         }
     }
 
@@ -169,6 +160,12 @@ public class FluidParticle : AbstractSpriteParticle
         return 
             _layer.MultiTileMapsContainer.GetBackground()
             .GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.CanBeSpilledByFluidParticles ?? false;
+    }
+    private bool GetIsOnForeground()
+    {
+        return
+            _layer.MultiTileMapsContainer.GetForeground()
+            .GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.ValidAsPlatform ?? false;
     }
 
     private void DripOnBackground()
@@ -246,7 +243,13 @@ public class FluidParticle : AbstractSpriteParticle
                 if (UnityEngine.Random.value < math.lerp(MIN_DRAW_SKIP_CHANCE, MAX_DRAW_SKIP_CHANCE, i / spreadLength)) continue;
 
                 Vector2Int targetPosition = startPosition + VectorMath.Vec2ToVec2Int(velocity.normalized * i);
-                DrawFluidPoint(_dripSprite.texture, targetPosition, (int)math.floor(amount * (currentLength - i) / spreadLength), Color.white, backgroundOrForeground);
+                DrawFluidPoint(
+                    _dripSprite.texture, 
+                    targetPosition, 
+                    (int)math.floor(amount * (currentLength - i) / spreadLength), 
+                    Color.white, 
+                    backgroundOrForeground
+                    );
             }
             _dripSprite.texture.Apply();
             yield return new WaitForSeconds(1f / SPREAD_FPS);
@@ -300,12 +303,14 @@ public class FluidParticle : AbstractSpriteParticle
 
     private void DrawFluidPoint(Texture2D texture, Vector2Int position, int radius, Color color, bool backgroundOrForeground)
     {
-        for (int y = -radius; y <= radius; y++)
+        int limitedRadius = backgroundOrForeground ? radius : math.min(radius, DRIP_ON_FOREGROUND_PARTICLE_MAX_SIZE);
+
+        for (int y = -limitedRadius; y <= limitedRadius; y++)
         {
-            for (int x = -radius; x <= radius; x++)
+            for (int x = -limitedRadius; x <= limitedRadius; x++)
             {
                 if (
-                    x * x + y * y <= radius * radius &&
+                    x * x + y * y <= limitedRadius * limitedRadius &&
                     GetPixelPositionIsValid(texture, position.x + x, position.y + y, backgroundOrForeground)
                     )
                 {
