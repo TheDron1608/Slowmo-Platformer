@@ -32,8 +32,10 @@ public class ChunkInfo
         return NumberMath.PickRandomItem(Connections.Where((connection) => connection.State == filter).ToArray());
     }
 
-    public Vector3 PickDoorAvgPosition()
+    public Vector3? PickDoorAvgPosition()
     {
+        if (DoorGenPositions.Count == 0) return null;
+
         Vector3 result = Vector2.zero;
         foreach (var doorGen in DoorGenPositions)
         {

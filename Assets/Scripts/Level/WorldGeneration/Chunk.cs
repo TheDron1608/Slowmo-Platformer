@@ -6,8 +6,6 @@ using UnityEngine.Tilemaps;
 
 public class Chunk : MonoBehaviour
 {
-    public int BaseEnemiesAmount = 1;
-
     public ChunkConnection[] GetConnections()
     {
         return transform.GetComponentsInChildren<ChunkConnection>();
@@ -123,7 +121,7 @@ public class Chunk : MonoBehaviour
                     if (TileManager.PositionToTilePosition(connection.GetSpawnPosition()) == TileManager.PositionToTilePosition(newChunkInfo.Connections[i].GetSpawnPosition()))
                     {
                         connection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
-                        newChunkInfo.Connections[i].Remove();
+                        newChunkInfo.Connections[i].Generated = true;
                         stopFindingChunkconnections = true;
                         break;
                     }

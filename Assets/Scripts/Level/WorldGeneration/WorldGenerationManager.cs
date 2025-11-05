@@ -158,27 +158,32 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
-        //setting exit door
-        foreach (ChunkInfo chunk in newBuildingInfo.Chunks.OrderBy(
-                (ChunkInfo connection) => Vector3.Distance(connection.PickDoorAvgPosition(), prefferedPosition)
-            ))
-        {
-            if (chunk.DoorGenPositions.Count > 0)
-            {
-                newBuildingInfo.Exit = chunk.DoorGenPositions.OrderBy(
-                    (DoorGenerationPosition.PreGeneratedDoorTempInfo door) => Vector3.Distance(door.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition))
-                    ).First();
-                break;
-            }
-        }
-
         //generating enviroment with OnFinishBuildingEnviroment attr
         foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo lateGenEnviroment in layer.GetGenerationTempInfoByType<GenerateOnFinishBuildingEnviroment>(false))
         {
             lateGenEnviroment.Generate();
         }
 
-        return true;
+        //setting exit door
+        bool successfullExitGeneration = false;
+        Vector3 prefferedPositionVec3 = VectorMath.Vec3IntToVec3(prefferedPosition);
+        foreach (ChunkInfo chunk in newBuildingInfo.Chunks.Where(
+            (ChunkInfo connection) => connection.PickDoorAvgPosition() != null
+        ).OrderBy(
+            (ChunkInfo connection) => Vector2.Distance(connection.PickDoorAvgPosition().Value, prefferedPositionVec3)
+        ))
+        {
+            if (chunk.DoorGenPositions.Count > 0)
+            {
+                newBuildingInfo.Exit = chunk.DoorGenPositions.OrderBy(
+                    (DoorGenerationPosition.PreGeneratedDoorTempInfo door) => Vector2.Distance(door.GetSpawnPosition(), prefferedPositionVec3)
+                    ).First();
+                successfullExitGeneration = true;
+                break;
+            }
+        }
+
+        return successfullExitGeneration;
     }
 
     private void Awake()
