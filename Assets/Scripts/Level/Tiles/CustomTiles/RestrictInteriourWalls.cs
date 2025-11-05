@@ -1,15 +1,28 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "RestrictInteriourWalls", menuName = "2D/Tiles/CustomTiles/RestrictInteriourWalls")]
 public class RestrictInteriourWalls : Tile
 {
-    public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go)
+#if UNITY_EDITOR
+    [Header("debug option")]
+    [SerializeField] private Sprite _debugTileSprite;
+
+    [CustomEditor(typeof(RestrictInteriourWalls))]
+    public class ToggleInvisibleTile : Editor
     {
-        if (!Application.isEditor)
+        public override void OnInspectorGUI()
         {
-            sprite = null;
+            base.OnInspectorGUI();
+
+            if (GUILayout.Button("ToggleInvisibleTile"))
+            {
+                RestrictInteriourWalls selfTile = target as RestrictInteriourWalls;
+
+                selfTile.sprite = selfTile.sprite == null ? selfTile._debugTileSprite : null;
+            }
         }
-        return base.StartUp(position, tilemap, go);
     }
+#endif
 }
