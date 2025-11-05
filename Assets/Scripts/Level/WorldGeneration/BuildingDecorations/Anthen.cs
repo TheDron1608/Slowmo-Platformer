@@ -28,9 +28,9 @@ public class Anthen : GenerateOnFinishLevelEnviroment
 
         for (int i = 0; i < targetHeight; i++)
         {
-            targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(targetPosition + (Vector3Int.up * i), DrawTile);
+            targetTilemap.GetBackgroundDecorations().SetTile(targetPosition + (Vector3Int.up * i), DrawTile);
         }
 
-        return new List<GameObject> { targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).gameObject };
+        return new List<GameObject> { targetTilemap.GetBackgroundDecorations().gameObject };
     }
 }

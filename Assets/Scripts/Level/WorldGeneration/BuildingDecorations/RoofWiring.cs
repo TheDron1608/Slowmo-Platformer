@@ -35,7 +35,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
         {
             if (targetTilemaps.GetHasAnyTileAt(new Vector3Int(x, position.y + HEIGHT)))
             {
-                if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(new Vector3Int(x, position.y + HEIGHT)))
+                if (targetTilemaps.GetForeground().HasTile(new Vector3Int(x, position.y + HEIGHT)))
                 {
                     return ForceGenerate(targetTilemaps, position, leftOrRightDirection);
                 }
@@ -48,7 +48,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
 
     private List<GameObject> ForceGenerate(MultiTileMapsContainer targetTilemaps, Vector3Int position, bool leftOrRightDirection)
     {
-        Tilemap targetTilemap = targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS);
+        Tilemap targetTilemap = targetTilemaps.GetBackgroundDecorations();
 
         for (int y = position.y; y < HEIGHT + position.y; y++)
         {
@@ -61,7 +61,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
             x += leftOrRightDirection ? 1 : -1
             )
         {
-            if (targetTilemaps.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(new Vector3Int(x, position.y + HEIGHT)))
+            if (targetTilemaps.GetForeground().HasTile(new Vector3Int(x, position.y + HEIGHT)))
             {
                 break;
             }

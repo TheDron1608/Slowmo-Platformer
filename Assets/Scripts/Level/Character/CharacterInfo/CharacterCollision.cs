@@ -161,7 +161,7 @@ public class CharacterCollision : AbstractCharacterComponent
         GameObject result = Physics2D.OverlapPoint(checkPosition, 1 << _currentZLayer.EnviromentLayer)?.gameObject;
         if (result != null)
         {
-            collidedTile = _currentZLayer.MultiTileMapsContainer.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(checkPosition.x), (int)math.floor(checkPosition.y), 0));
+            collidedTile = _currentZLayer.MultiTileMapsContainer.GetForeground().GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(checkPosition.x), (int)math.floor(checkPosition.y), 0));
             return result;
         }
         else

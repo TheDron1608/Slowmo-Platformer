@@ -31,14 +31,14 @@ public class Vent : GenerateOnFinishLevelEnviroment
         {
             if (
                 targetTilemap.GetHasAnyTileAt(targetPosition + (targetGenerateDirection * i)) ||
-                !targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(targetPosition + (targetGenerateDirection * i) + Vector3Int.down)
+                !targetTilemap.GetForeground().HasTile(targetPosition + (targetGenerateDirection * i) + Vector3Int.down)
                 )
             {
                 break;
             }
-            targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(targetPosition + (targetGenerateDirection * i), DrawTile);
+            targetTilemap.GetBackgroundDecorations().SetTile(targetPosition + (targetGenerateDirection * i), DrawTile);
         }
 
-        return new List<GameObject> { targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).gameObject };
+        return new List<GameObject> { targetTilemap.GetBackgroundDecorations().gameObject };
     }
 }

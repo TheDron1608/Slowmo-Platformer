@@ -20,22 +20,22 @@ public class SingleTileDecoration : GenerateOnFinishLevelEnviroment
             return null;
         }
 
-        if (targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(targetPosition + Vector3Int.left))
+        if (targetTilemap.GetForeground().HasTile(targetPosition + Vector3Int.left))
         {
-            targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(targetPosition, DrawTile);
+            targetTilemap.GetBackgroundDecorations().SetTile(targetPosition, DrawTile);
         }
-        else if (targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).HasTile(targetPosition + Vector3Int.right))
+        else if (targetTilemap.GetForeground().HasTile(targetPosition + Vector3Int.right))
         {
-            targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(targetPosition, MirroredDrawTile);
+            targetTilemap.GetBackgroundDecorations().SetTile(targetPosition, MirroredDrawTile);
         }
         else
         {
-            targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).SetTile(
+            targetTilemap.GetBackgroundDecorations().SetTile(
                 targetPosition, 
                 NumberMath.RandomCoinflip() ? MirroredDrawTile : DrawTile
                 );
         }
 
-        return new List<GameObject> { targetTilemap.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS).gameObject };
+        return new List<GameObject> { targetTilemap.GetBackgroundDecorations().gameObject };
     }
 }

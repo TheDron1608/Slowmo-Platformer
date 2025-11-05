@@ -1,12 +1,45 @@
+using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [DefaultExecutionOrder(-2)]
 public class MultiTileMapsContainer : MonoBehaviour
 {
+    [SerializeField] private Tilemap _foreground;
+    [SerializeField] private Tilemap _background;
+    [SerializeField] private Tilemap _backgroundDecorations;
+    [SerializeField] private Tilemap _overground;
+    [SerializeField] private Tilemap _overgroundDecorations;
+
     private bool _requestUpdateNavigationAtEndOfFrame = true;
     private ZIndexLayer _layer;
     private Tilemap[] _tilemaps;
+
+    public Tilemap[] GetTileMaps()
+    {
+        return _tilemaps;
+    }
+    public Tilemap GetForeground()
+    {
+        return _foreground;
+    }
+    public Tilemap GetBackround()
+    {
+        return _background;
+    }
+    public Tilemap GetBackgroundDecorations()
+    {
+        return _backgroundDecorations;
+    }
+    public Tilemap GetOverground()
+    {
+        return _overground;
+    }
+    public Tilemap GetOvergroundDecorations()
+    {
+        return _overgroundDecorations;
+    }
 
     private void Awake()
     {
@@ -58,6 +91,59 @@ public class MultiTileMapsContainer : MonoBehaviour
         return false;
     }
 
+    public List<TileBehaviour.TileBehaviourType> GetTileBehavioursAt(Vector2 position)
+    {
+        List<TileBehaviour.TileBehaviourType> result = new();
+        Vector3Int tilePosition =
+            new Vector3Int(
+            (int)math.floor(position.x),
+            (int)math.floor(position.y)
+            );
+
+        foreach (Tilemap tilemap in _tilemaps)
+        {
+            if (tilemap.HasTile(tilePosition))
+            {
+                result.Add(tilemap.GetComponent<TileBehaviour>().BehaviourType);
+            }
+        }
+        return result;
+    }
+
+    public bool GetHasTileBehaviourAt(Vector2 position, TileBehaviour.TileBehaviourType behaviour)
+    {
+        Vector3Int tilePosition =
+        new Vector3Int(
+            (int)math.floor(position.x),
+            (int)math.floor(position.y)
+            );
+
+        foreach (Tilemap tilemap in _tilemaps)
+        {
+            if (tilemap.GetComponent<TileBehaviour>()?.BehaviourType == behaviour && tilemap.HasTile(tilePosition))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetHasValidAsPlatformAt(Vector3Int position)
+    {
+        return GetComponent<MultiTileMapsContainer>().GetForeground().GetTile<ForegroundRuleTile>(position)?.ValidAsPlatform ?? false;
+    }
+
+    public bool GetHasValidAsPlatformAt(Vector2 position)
+    {
+        Vector3Int tilePosition =
+            new Vector3Int(
+            (int)math.floor(position.x),
+            (int)math.floor(position.y)
+            );
+
+        return GetHasValidAsPlatformAt(tilePosition);
+    }
+
     public GameObject GenerateTilemap(Tilemap tilemap, Vector3Int position)
     {
         if (tilemap == null) return null;
@@ -74,11 +160,11 @@ public class MultiTileMapsContainer : MonoBehaviour
                     Vector3Int tilePos = new Vector3Int(x, y) + position;
                     if (tile is ForegroundRuleTile foregroundTile)
                     {
-                        ForegroundRuleTile oldForegroundTile = GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).GetTile<ForegroundRuleTile>(tilePos);
+                        ForegroundRuleTile oldForegroundTile = GetForeground().GetTile<ForegroundRuleTile>(tilePos);
                         if (oldForegroundTile == null || foregroundTile.OverrideOrder >= oldForegroundTile.OverrideOrder)
                         {
-                            GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND).SetTile(tilePos, null);
-                            GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).SetTile(tilePos, foregroundTile);
+                            GetBackgroundDecorations().SetTile(tilePos, null);
+                            GetForeground().SetTile(tilePos, foregroundTile);
                         }
                     }
                     else

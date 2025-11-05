@@ -150,7 +150,7 @@ public class FluidParticle : AbstractSpriteParticle
             }
 
             if (
-                _layer.MultiTileMapsContainer.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND)
+                _layer.MultiTileMapsContainer.GetForeground()
                 .GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.ValidAsPlatform ?? false
                 )
             {
@@ -167,9 +167,8 @@ public class FluidParticle : AbstractSpriteParticle
     private bool GetIsOnBackground()
     {
         return 
-            _layer.MultiTileMapsContainer.GetTileMapByBehaviourType(
-            TileBehaviour.TileBehaviourType.BACKGROUND
-            ).GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.CanBeSpilledByFluidParticles ?? false;
+            _layer.MultiTileMapsContainer.GetBackround()
+            .GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.CanBeSpilledByFluidParticles ?? false;
     }
 
     private void DripOnBackground()
@@ -320,13 +319,13 @@ public class FluidParticle : AbstractSpriteParticle
     {
         if (backgroundOrForeground)
         {
-            return _layer.MultiTileMapsContainer.GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.BACKGROUND)
+            return _layer.MultiTileMapsContainer.GetBackround()
                 .GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x + (x - texture.width / 2) / 16f), (int)math.floor(transform.position.y + (y - texture.height / 2) / 16f), 0))
                 ?.CanBeSpilledByFluidParticles ?? false;
         }
         else
         {
-            return _layer.TileManager.GetHasValidAsPlatformAt(
+            return _layer.MultiTileMapsContainer.GetHasValidAsPlatformAt(
                 VectorMath.Vec3ToVec2(transform.position) + new Vector2(x - texture.width / 2, y - texture.height / 2) / 16
                 );
         }

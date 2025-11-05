@@ -74,8 +74,8 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private Tilemap[] _tilemaps;
     private List<NavigationPlatformInfo> _navigationPlatforms = new();
+    private MultiTileMapsContainer _multiTilesMaps;
 
     public static Vector2Int PositionToTilePosition(Vector2 position)
     {
@@ -89,60 +89,7 @@ public class TileManager : MonoBehaviour
 
     private void Awake()
     {
-        _tilemaps = GetComponentsInChildren<Tilemap>();
-    }
-
-    public List<TileBehaviour.TileBehaviourType> GetTileBehavioursAt(Vector2 position)
-    {
-        List<TileBehaviour.TileBehaviourType> result = new();
-        Vector3Int tilePosition = 
-            new Vector3Int(
-            (int)math.floor(position.x),
-            (int)math.floor(position.y)
-            );
-
-        foreach (Tilemap tilemap in _tilemaps)
-        {
-            if (tilemap.HasTile(tilePosition))
-            {
-                result.Add(tilemap.GetComponent<TileBehaviour>().BehaviourType);
-            }
-        }
-        return result;
-    }
-
-    public bool GetHasTileBehaviourAt(Vector2 position, TileBehaviour.TileBehaviourType behaviour)
-    {
-        Vector3Int tilePosition =
-        new Vector3Int(
-            (int)math.floor(position.x),
-            (int)math.floor(position.y)
-            );
-
-        foreach (Tilemap tilemap in _tilemaps)
-        {
-            if (tilemap.GetComponent<TileBehaviour>()?.BehaviourType == behaviour && tilemap.HasTile(tilePosition))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public bool GetHasValidAsPlatformAt(Vector3Int position)
-    {
-        return GetComponent<MultiTileMapsContainer>().GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType.FOREBGROUND).GetTile<ForegroundRuleTile>(position)?.ValidAsPlatform ?? false;
-    }
-
-    public bool GetHasValidAsPlatformAt(Vector2 position)
-    {
-        Vector3Int tilePosition =
-            new Vector3Int(
-            (int)math.floor(position.x),
-            (int)math.floor(position.y)
-            );
-
-        return GetHasValidAsPlatformAt(tilePosition);
+        _multiTilesMaps = GetComponent<MultiTileMapsContainer>();
     }
 
     public NavigationPlatformInfo GetPlatformUnderPoint(Vector2Int point)
@@ -163,8 +110,8 @@ public class TileManager : MonoBehaviour
 
         NavigationPlatformInfo currentPlatform = null;
 
-        BoundsInt totalCellBounds = _tilemaps.First().cellBounds;
-        foreach (Tilemap tilemap in _tilemaps)
+        BoundsInt totalCellBounds = _multiTilesMaps.GetTileMaps().First().cellBounds;
+        foreach (Tilemap tilemap in _multiTilesMaps.GetTileMaps())
         {
             if ((totalCellBounds.min.x > tilemap.cellBounds.min.x) || (totalCellBounds.min.y > tilemap.cellBounds.min.y))
             {
@@ -178,7 +125,7 @@ public class TileManager : MonoBehaviour
 
         foreach (Vector3Int pos in totalCellBounds.allPositionsWithin)
         {
-            if (GetHasValidAsPlatformAt(pos) && !GetHasValidAsPlatformAt(pos + Vector3Int.up))
+            if (_multiTilesMaps.GetHasValidAsPlatformAt(pos) && !_multiTilesMaps.GetHasValidAsPlatformAt(pos + Vector3Int.up))
             {
                 if (currentPlatform == null)
                 {
@@ -502,7 +449,7 @@ public class TileManager : MonoBehaviour
         {
             for (int y = filteredStart.y; y <= filteredEnd.y; y++)
             {
-                if (GetHasValidAsPlatformAt(new Vector2(x, y)))
+                if (_multiTilesMaps.GetHasValidAsPlatformAt(new Vector2(x, y)))
                 {
                     return result;
                 }
@@ -525,7 +472,7 @@ public class TileManager : MonoBehaviour
         {
             for (int y = filteredStart.y; y <= filteredEnd.y; y++)
             {
-                if (GetHasValidAsPlatformAt(new Vector2(x, y)))
+                if (_multiTilesMaps.GetHasValidAsPlatformAt(new Vector2(x, y)))
                 {
                     //Debug_MarkArea(filteredStart, filteredEnd, Color.red, 1f);
                     return true;
