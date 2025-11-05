@@ -16,6 +16,7 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
     }
 
     private PatrollDirection _currentPatrollDirection = PatrollDirection.UNSET;
+    private PatrollDirection _awaitingPartrollDirection = PatrollDirection.UNSET;
     private Coroutine _currentPatrollDirectionSetCoroutine = null;
 
     protected override void OnAwake()
@@ -35,10 +36,15 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
     }
 
     private void OnEnable()
-    {
-        _currentPatrollDirection = PatrollDirection.UNSET;
+    {  
         CharComponents.CharacterMoving.Speed *= PatroolSpeedMultiplier;
         _currentPatrollDirectionSetCoroutine = null;
+
+        if (_awaitingPartrollDirection != PatrollDirection.UNSET)
+        {
+            _currentPatrollDirection = _awaitingPartrollDirection;
+            _awaitingPartrollDirection = PatrollDirection.UNSET;
+        }
     }
 
     private void OnDisable()
@@ -97,8 +103,12 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
 
     private IEnumerator SetPatrollDirectionAfterDelay(PatrollDirection value)
     {
+        _awaitingPartrollDirection = value;
+
         yield return new WaitForSeconds(OnReachedPatformEndAwaitingTime);
+
         _currentPatrollDirection = value;
         _currentPatrollDirectionSetCoroutine = null;
+        _awaitingPartrollDirection = PatrollDirection.UNSET;
     }
 }

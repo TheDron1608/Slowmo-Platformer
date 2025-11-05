@@ -121,8 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c1d34a0968c24459cfc5468e692732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanConflictPosition: 1
   PatroolSpeedMultiplier: 0.8
-  OnReachedPatformEndAwaitingTime: 3.5
+  OnReachedPatformEndAwaitingTime: 0.5
   CanOpenDoors: 0
 --- !u!114 &1978577951770494429
 MonoBehaviour:

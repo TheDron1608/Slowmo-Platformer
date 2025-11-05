@@ -67,7 +67,9 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
                     CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.None);
                 }
                 //stop move and apply reaching chain target if path chain target is occured by another character
-                else if (CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(GetHasSameTargetPosition))
+                else if (
+                    CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(GetIsBlockingTargetPosition)
+                    )
                 {
                     CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.None);
                     OnReachedChainTarget();
@@ -105,7 +107,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
                     CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.None);
                 }
                 //stop move and apply reaching chain target if path chain target is occured by another character
-                else if (CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(GetHasSameTargetPosition))
+                else if (CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(GetIsBlockingTargetPosition))
                 {
                     CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.None);
                     OnReachedChainTarget();
@@ -162,20 +164,26 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         }
     }
 
-    private bool GetHasSameTargetPosition(AbstractCharacterComponent sameTargetPositionWith)
+    private bool GetIsBlockingTargetPosition(AbstractCharacterComponent checkWho)
     {
-        Vector2Int selfTargetPosition = 
-            _selfStateBehaviourAI?.Pathfinding.PathTarget != null ? 
-            _selfStateBehaviourAI.Pathfinding.PathTarget.Value.Position : 
-            TileManager.PositionToTilePosition(CharComponents.Center.transform.position);
+        if (checkWho.CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0)
+        {
+            return false;
+        }
+        else
+        {
+            Vector2Int selfTargetPosition = 
+                _selfStateBehaviourAI?.Pathfinding.PathTarget != null ? 
+                _selfStateBehaviourAI.Pathfinding.PathTarget.Value.Position : 
+                TileManager.PositionToTilePosition(CharComponents.Center.transform.position);
 
-        Vector2Int sameWithTargetPosition = 
-            sameTargetPositionWith.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.Pathfinding.PathTarget != null ? 
-            sameTargetPositionWith.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.Pathfinding.PathTarget.Value.Position : 
-            TileManager.PositionToTilePosition(sameTargetPositionWith.CharComponents.Center.transform.position);
+            Vector2Int sameWithTargetPosition = 
+                checkWho.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.Pathfinding.PathTarget != null ? 
+                checkWho.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.Pathfinding.PathTarget.Value.Position : 
+                TileManager.PositionToTilePosition(checkWho.CharComponents.Center.transform.position);
 
-        return
-            selfTargetPosition == sameWithTargetPosition;
+            return selfTargetPosition == sameWithTargetPosition;
+        }
     }
 
     private void OnReachedChainTarget()
