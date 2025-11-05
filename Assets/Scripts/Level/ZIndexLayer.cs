@@ -359,6 +359,7 @@ public class ZIndexLayer : MonoBehaviour
         {
             GameObject newObject = Instantiate(spawnObject, position + spawnObject.transform.position, spawnObject.transform.rotation, transform);
             LayerManager.Instance.ChangeZIndexForGameObject(this, newObject);
+            LayerManager.Instance.TrySetLevelBottom(newObject.transform.position.y);
             UpdateLayerForGameObject(newObject);
 
             chunk?.AddObjectInside(newObject);

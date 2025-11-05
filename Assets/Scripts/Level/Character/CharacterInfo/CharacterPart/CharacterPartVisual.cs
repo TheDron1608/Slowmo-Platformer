@@ -30,6 +30,11 @@ public class CharacterPartVisual : AbstractCharacterComponent
         set => _spriteRenderer.sharedMaterial = value;
     }
 
+    public bool IsVisible()
+    {
+        return _spriteRenderer.isVisible;
+    }
+
     protected override void OnAwake()
     {
         base.OnAwake();

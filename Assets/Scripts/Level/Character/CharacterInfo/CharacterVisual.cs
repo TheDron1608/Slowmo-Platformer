@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
@@ -207,6 +208,11 @@ public class CharacterVisual : AbstractCharacterComponent
     public int RandomExtraSpriteRendererSortingOrder
     {
         get => _randomizedExtraSpriteSortingOrder;
+    }
+
+    public bool GetIsVisible()
+    {
+        return CharComponents.CharacterPartsManager.CharacterParts.First()?.CharPartVisual.IsVisible() ?? false;
     }
 
     private void Update()

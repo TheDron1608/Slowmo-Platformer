@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -149,6 +150,7 @@ public class MultiTileMapsContainer : MonoBehaviour
         if (tilemap == null) return null;
         Tilemap targetTileMap = GetTileMapByBehaviourType(tilemap.GetComponent<TileBehaviour>().BehaviourType);
         if (targetTileMap == null) return null;
+        LayerManager.Instance.TrySetLevelBottom(position.y - tilemap.cellBounds.yMin);
 
         for (int x = tilemap.cellBounds.min.x; x < tilemap.cellBounds.max.x; x++)
         {

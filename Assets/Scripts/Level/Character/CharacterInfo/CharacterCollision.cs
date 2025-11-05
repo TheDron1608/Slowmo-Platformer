@@ -272,6 +272,7 @@ public class CharacterCollision : AbstractCharacterComponent
     private void FixedUpdate()
     {
         UpdateCurrentZLayer();
+        UpdateIsOutFromMapBottom();
         UpdateTileCollidingInfo();
         UpdateTimeOnAirOrGround();
         UpdateHitVelocity();
@@ -281,6 +282,15 @@ public class CharacterCollision : AbstractCharacterComponent
     private void UpdateCurrentZLayer()
     {
         CurrentZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+    }
+
+    private void UpdateIsOutFromMapBottom()
+    {
+        if (CharComponents.Center.transform.position.y < LayerManager.Instance.GetLevelBottom() && !CharComponents.CharacterVisual.GetIsVisible())
+        {
+            CharComponents.CharacterHealth.Die(null, null);
+            Destroy(CharComponents.gameObject);
+        }
     }
 
     private void UpdateTimeOnAirOrGround()

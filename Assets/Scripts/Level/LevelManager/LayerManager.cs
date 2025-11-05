@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
 
 [DefaultExecutionOrder(-5)]
 public class LayerManager : MonoBehaviour
@@ -21,6 +20,17 @@ public class LayerManager : MonoBehaviour
     public static LayerManager Instance;
 
     public List<ZIndexLayer> ZLayers;
+
+    private float _levelBottom = float.MaxValue;
+
+    public void TrySetLevelBottom(float value)
+    {
+        _levelBottom = Mathf.Min(value, _levelBottom);
+    }
+    public float GetLevelBottom()
+    {
+        return _levelBottom;
+    }
 
     private void Awake()
     {
