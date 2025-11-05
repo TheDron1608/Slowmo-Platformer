@@ -68,4 +68,14 @@ public static class GameObjectUtility
         if (getWhere.TryGetComponent(out T component)) return component;
         return default;
     }
+
+    public static GameObject[] GetAllPrimaryChildrenOfGameObject(Transform parent)
+    {
+        GameObject[] result = new GameObject[parent.childCount];
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            result[i] = parent.GetChild(i).gameObject;
+        }
+        return result;
+    }
 }

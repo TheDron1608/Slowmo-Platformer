@@ -4,8 +4,12 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "RestrictInteriourWalls", menuName = "2D/Tiles/CustomTiles/RestrictInteriourWalls")]
 public class RestrictInteriourWalls : Tile
 {
-    private void Awake()
+    public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go)
     {
-        sprite = null;
+        if (!Application.isEditor)
+        {
+            sprite = null;
+        }
+        return base.StartUp(position, tilemap, go);
     }
 }

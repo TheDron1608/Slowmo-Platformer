@@ -36,24 +36,24 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
 
 
     public ChunkConnectionDirection Direction;
-    public List<GameObject> ObjectsOnOpenedConnection;
-    public List<GameObject> ObjectsOnClosedConnection;
+    public Transform OnOpenedConnectionContainer;
+    public Transform OnClosedConnectionContainer;
 
     public override List<GameObject> Generate(PreGeneratedEnviromentTempInfo generationInfo)
     {
         base.Generate(generationInfo);
 
         ZIndexLayer layer = generationInfo.GenerateWhere;
-        List<GameObject> targetGenerationObjs;
+        GameObject[] targetGenerationObjs;
         if ((generationInfo as PreGeneratedChunkConnectionTempInfo).State == PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED)
         {
-            targetGenerationObjs = ObjectsOnClosedConnection;
+            targetGenerationObjs = GameObjectUtility.GetAllPrimaryChildrenOfGameObject(OnClosedConnectionContainer);
         }
         else if ((generationInfo as PreGeneratedChunkConnectionTempInfo).State == PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED)
         {
-            targetGenerationObjs = ObjectsOnOpenedConnection;
+            targetGenerationObjs = GameObjectUtility.GetAllPrimaryChildrenOfGameObject(OnOpenedConnectionContainer);
         }
-        else targetGenerationObjs = new();
+        else targetGenerationObjs = new GameObject[0];
 
         List<GameObject> result = new();
         foreach (GameObject targetGemeratonObj in targetGenerationObjs)
