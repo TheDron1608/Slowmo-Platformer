@@ -24,7 +24,7 @@ public class MultiTileMapsContainer : MonoBehaviour
     {
         return _foreground;
     }
-    public Tilemap GetBackround()
+    public Tilemap GetBackground()
     {
         return _background;
     }
@@ -163,7 +163,7 @@ public class MultiTileMapsContainer : MonoBehaviour
                         ForegroundRuleTile oldForegroundTile = GetForeground().GetTile<ForegroundRuleTile>(tilePos);
                         if (oldForegroundTile == null || foregroundTile.OverrideOrder >= oldForegroundTile.OverrideOrder)
                         {
-                            GetBackgroundDecorations().SetTile(tilePos, null);
+                            GetBackground().SetTile(tilePos, null);
                             GetForeground().SetTile(tilePos, foregroundTile);
                         }
                     }

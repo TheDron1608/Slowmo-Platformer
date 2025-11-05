@@ -167,7 +167,7 @@ public class FluidParticle : AbstractSpriteParticle
     private bool GetIsOnBackground()
     {
         return 
-            _layer.MultiTileMapsContainer.GetBackround()
+            _layer.MultiTileMapsContainer.GetBackground()
             .GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.CanBeSpilledByFluidParticles ?? false;
     }
 
@@ -319,7 +319,7 @@ public class FluidParticle : AbstractSpriteParticle
     {
         if (backgroundOrForeground)
         {
-            return _layer.MultiTileMapsContainer.GetBackround()
+            return _layer.MultiTileMapsContainer.GetBackground()
                 .GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x + (x - texture.width / 2) / 16f), (int)math.floor(transform.position.y + (y - texture.height / 2) / 16f), 0))
                 ?.CanBeSpilledByFluidParticles ?? false;
         }
