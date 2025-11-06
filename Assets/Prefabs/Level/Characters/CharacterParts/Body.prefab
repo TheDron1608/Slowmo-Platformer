@@ -26,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: HitBoxTransforms.Array.data[2].Scale.x
-      value: 1.35
+      value: 1.05
       objectReference: {fileID: 0}
     - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: HitBoxTransforms.Array.data[2].Scale.y
-      value: 0.9
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: HitBoxTransforms.Array.data[1].Position.x
@@ -39,6 +39,10 @@ PrefabInstance:
     - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: HitBoxTransforms.Array.data[1].Position.y
       value: -0.33625
+      objectReference: {fileID: 0}
+    - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: HitBoxTransforms.Array.data[2].Position.y
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 889091056331334270, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: HitBoxTransforms.Array.data[1].FlipCapsuleDirection
@@ -51,6 +55,10 @@ PrefabInstance:
     - target: {fileID: 1779693669216706162, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: _visualType
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419856629753208264, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4420606020725903244, guid: e29bf4a9453d46746bdf7eae008db9cd, type: 3}
       propertyPath: m_Sprite

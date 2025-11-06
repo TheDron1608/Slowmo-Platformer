@@ -51,49 +51,17 @@ public class CharacterRolling : AbstractCharacterComponent
     private void OnEnable()
     {
         IsRolling = false;
-        CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
-        CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollisionInfo_OnCollisionChanged;
-    }
-
-    private void OnDisable()
-    {
-        CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
-        CharComponents.CharacterCollision.OnCollisionChanged -= CharacterCollisionInfo_OnCollisionChanged;
-    }
-
-    private void CharacterCollisionInfo_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
-    {
-        if (!RollCondition())
-        {
-            ForceStopRolling();
-        }
-    }
-
-    private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
-    {
-        if (e.OldState == CharacterVisual.CharacterPartBusyStates.ROLL)
-        {
-            IsRolling = false;
-            CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
-
-            if (!CharComponents.CharacterClumsyness.ClumsyRangedAttack)
-            {
-                CharComponents.CharacterAiming.AimWeaponDown = false;
-            }
-
-            _currentRollHitCharacters = new();
-            OnFinishRoll?.Invoke(this, EventArgs.Empty);
-        }
     }
 
     public bool TryRoll(float direction)
     {
-        _currentRollDirection = direction;
 
-        if (!IsAbleToRoll || IsRolling || !RollCondition())
+        if (!IsAbleToRoll || IsRolling || !RollCondition(direction))
         {
             return false;
         }
+
+        _currentRollDirection = direction;
 
         IsRolling = true;
 
@@ -116,8 +84,13 @@ public class CharacterRolling : AbstractCharacterComponent
         if (!IsRolling) return;
 
         IsRolling = false;
+        CharComponents.CharacterMoving.SpeedAccelerationOnGroundMultiplier /= AccelerationMultiplier;
 
-        CharComponents.CharacterVisual.BreakBusyAnimation();
+        if (CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.ROLL)
+        {
+            CharComponents.CharacterVisual.BreakBusyAnimation();
+            CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
+        }
 
         if (!CharComponents.CharacterClumsyness.ClumsyRangedAttack)
         {
@@ -128,31 +101,39 @@ public class CharacterRolling : AbstractCharacterComponent
         OnFinishRoll?.Invoke(this, EventArgs.Empty);
     }
 
-    private bool RollCondition()
+    private bool RollCondition(float direction)
     {
         return
             (
-                (_currentRollDirection > 0 && !CharComponents.CharacterCollision.IsCollidingRightWall()) ||
-                (_currentRollDirection < 0 && !CharComponents.CharacterCollision.IsCollidingLeftWall())
+                (direction > 0 && !CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall().HasValue) ||
+                (direction < 0 && !CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall().HasValue)
             ) &&
             CharComponents.CharacterCollision.IsCollidingFloor();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (!IsRolling) return;
-
-        CharComponents.CharacterRigidBody.linearVelocityX = 
-            math.lerp(
-                CharComponents.CharacterRigidBody.linearVelocityX, 
-                (RollSpeed + _currentExtraSpeed) * _currentRollDirection, 
-                (RollSpeed + _currentExtraSpeed) * Time.fixedDeltaTime
-                );
-
-        _currentExtraSpeed -= Time.deltaTime * ExtraSpeedOnStart / ExtraSpeedDuration;
-        if (_currentExtraSpeed < 0f)
+        if (IsRolling)
         {
-            _currentExtraSpeed = 0f;
+            if (RollCondition(_currentRollDirection))
+            {
+                CharComponents.CharacterRigidBody.linearVelocityX = 
+                    math.lerp(
+                        CharComponents.CharacterRigidBody.linearVelocityX, 
+                        (RollSpeed + _currentExtraSpeed) * _currentRollDirection, 
+                        (RollSpeed + _currentExtraSpeed) * Time.fixedDeltaTime
+                        );
+
+                _currentExtraSpeed -= Time.fixedDeltaTime * ExtraSpeedOnStart / ExtraSpeedDuration;
+                if (_currentExtraSpeed < 0f)
+                {
+                    _currentExtraSpeed = 0f;
+                }
+            }
+            else
+            {
+                ForceStopRolling();
+            }
         }
     }
 }
