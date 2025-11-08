@@ -7,8 +7,10 @@ using UnityEngine.UI;
 
 public class Healthbar : MonoBehaviour
 {
-    const float MIN_HEALTHBAR_WIDTH = 10f;
-    const float MAX_HEALTHBAR_WIDTH = 2000f;
+    const float CHARACTER_HEALTH_AMOUNT_TO_REACH_MAX_HEALTHBAR_WIDTH = 10f;
+    const float MIN_HEALTHBAR_WIDTH = 30f;
+    const float MAX_HEALTHBAR_WIDTH = 800f;
+    const float MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT = 100f;
     const float HEALTH_CHANGE_SPEED_MULTIPLIER = 2f;
 
     public CharacterHealth HealthTrackedCharacter;
@@ -20,7 +22,14 @@ public class Healthbar : MonoBehaviour
     public Image HealthbarHealthChange;
     public TextMeshProUGUI HealthbarText;
 
+    private RectTransform _selfRectTransform;
+
     private string _deathText = "DEAD";
+
+    private void Awake()
+    {
+        _selfRectTransform = GetComponent<RectTransform>() ?? throw new UnityException("RectTransform component not found");
+    }
 
     private void Update()
     {
@@ -29,7 +38,11 @@ public class Healthbar : MonoBehaviour
         HealthbarHealth.fillAmount = NumberMath.LimitFloatBetweenZeroAndOne(HealthTrackedCharacter.CurrentHealth / HealthTrackedCharacter.MaxHealth);
         HealthbarHealthChange.fillAmount = math.lerp(HealthbarHealthChange.fillAmount, HealthbarHealth.fillAmount, Time.deltaTime * HEALTH_CHANGE_SPEED_MULTIPLIER);
 
-        if (HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
+        if (_selfRectTransform.sizeDelta.x < MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT)
+        {
+            HealthbarText.text = "";
+        }
+        else if (GetTrackedIsDead())
         {
             HealthbarText.text = _deathText;
         }
@@ -41,6 +54,11 @@ public class Healthbar : MonoBehaviour
         {
             HealthbarText.text = "";
         }
+
+        _selfRectTransform.sizeDelta = new Vector2(
+            NumberMath.LimitFloatInRange(HealthTrackedCharacter.MaxHealth * (MAX_HEALTHBAR_WIDTH / CHARACTER_HEALTH_AMOUNT_TO_REACH_MAX_HEALTHBAR_WIDTH), MIN_HEALTHBAR_WIDTH, MAX_HEALTHBAR_WIDTH),
+            _selfRectTransform.sizeDelta.y
+            );
     }
 
     public void SetDeathText(string text)
@@ -50,6 +68,12 @@ public class Healthbar : MonoBehaviour
 
     public bool GetTrackedIsDead()
     {
-        return _deathText == HealthbarText.text;
+        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
+    }
+
+    public void SetHealthbarMaterial(Material material)
+    {
+        HealthbarHealth.material = material;
+        HealthbarHealthChange.material = material;
     }
 }
