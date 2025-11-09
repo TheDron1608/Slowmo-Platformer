@@ -21,7 +21,8 @@ public class UIElementTrackTarget : MonoBehaviour
         GameObject newGO = new("TrackTarget_" + trackingUIElement.gameObject.name);
         newGO.transform.parent = parent;
 
-        newGO.AddComponent<RectTransform>();
+        RectTransform newGORectTransform = newGO.AddComponent<RectTransform>();
+        newGORectTransform.sizeDelta = trackingUIElement.GetComponent<RectTransform>().sizeDelta;
 
         UIElementTrackTarget newGOTrackTarget = newGO.AddComponent<UIElementTrackTarget>();
         newGOTrackTarget.TrackingUIElement = trackingUIElement;

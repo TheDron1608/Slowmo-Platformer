@@ -68,6 +68,11 @@ public class MagReloadingWeapon : RangedWeapon
         return AmmoLeft <= MagSize && LoadedLivingAmmoLeft <= 0;
     }
 
+    public SpriteRenderer GetMagparticleRenderer()
+    {
+        return _magsPraticleSpawner.DefaultParticle.GetComponent<SpriteRenderer>();
+    }
+
     public override void SpendAmmo(int spendAmount = 1)
     {
         base.SpendAmmo(spendAmount);

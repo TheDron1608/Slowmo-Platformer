@@ -12,6 +12,7 @@ public abstract class AbstractProjectile : MonoBehaviour
     public List<AbstractEffect> SelfEffects = new();
     public bool FriendlyFire = false;
     public bool IsAbleToHit = true;
+    public Sprite GameplayUISprite;
 
     private Weapon _weapon = null;
     private Weapon _deflector = null;
