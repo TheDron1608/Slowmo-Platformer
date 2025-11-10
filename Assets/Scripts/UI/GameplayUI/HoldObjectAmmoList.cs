@@ -14,7 +14,7 @@ public class HoldObjectAmmoList : MonoBehaviour
     [Header("const references")]
     [SerializeField] private RectTransform _spawnPosition;
     [SerializeField] private RectTransform _trackTargetsContainer;
-    [SerializeField] private GameObject _overGameobject;
+    [SerializeField] private GameObject _overflowGameobject;
     [SerializeField] private TextMeshProUGUI _overflowText;
 
     private void Start()
@@ -74,7 +74,7 @@ public class HoldObjectAmmoList : MonoBehaviour
             UIElementTrackTarget.CreateTrackTarget(_trackTargetsContainer, newGO.transform);
         }
 
-        _overGameobject.transform.SetAsLastSibling();
+        _overflowGameobject.transform.SetAsLastSibling();
     }
 
     private void UpdateAmmoOverflow()
@@ -82,11 +82,11 @@ public class HoldObjectAmmoList : MonoBehaviour
         if (AmmoSprite != null && AmmoAmount > GetListCapacity())
         {
             _overflowText.text = "+" + (AmmoAmount - GetOverflownListCapacity());
-            _overGameobject.SetActive(true);
+            _overflowGameobject.SetActive(true);
         }
         else
         {
-            _overGameobject.SetActive(false);
+            _overflowGameobject.SetActive(false);
         }
     }
 
@@ -126,5 +126,6 @@ public class HoldObjectAmmoList : MonoBehaviour
         {
             Destroy(ammo.gameObject);
         }
+        UpdateAmmoOverflow();
     }
 }
