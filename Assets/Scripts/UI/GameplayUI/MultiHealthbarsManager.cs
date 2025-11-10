@@ -14,11 +14,10 @@ public class MultiHealthbarsManager : MonoBehaviour
 
     private List<Healthbar> _currentHealthbars = new();
 
-    public Healthbar AddHealthbar(CharacterHealth healthbarOwner, Material healthbarMaterial)
+    public Healthbar AddHealthbar(CharacterHealth healthbarOwner)
     {
         Healthbar newHealthbar = Instantiate(_spawnHealthbar, _healthbarsSpawnPosition);
         newHealthbar.HealthTrackedCharacter = healthbarOwner;
-        newHealthbar.SetHealthbarMaterial(healthbarMaterial);
         _currentHealthbars.Add(newHealthbar);
         UIElementTrackTarget.CreateTrackTarget(_healthbarsTrackTargetsContainer, newHealthbar.transform);
 
@@ -32,6 +31,18 @@ public class MultiHealthbarsManager : MonoBehaviour
         if (_currentHealthbars.Remove(remove))
         {
             Destroy(remove.gameObject);
+        }
+    }
+    public void RemoveHealthbar(CharacterHealth healthbarOwner)
+    {
+        foreach (Healthbar healthbar in _currentHealthbars)
+        {
+            if (healthbar.HealthTrackedCharacter == healthbarOwner)
+            {
+                _currentHealthbars.Remove(healthbar);
+                Destroy(healthbar.gameObject);
+                break;
+            }
         }
     }
 

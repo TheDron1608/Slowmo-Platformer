@@ -14,6 +14,7 @@ public class MagReloadingWeapon : RangedWeapon
     [Header("Mag reloading weapon")]
     [SerializeField] private int _magSize = 16;
     [SerializeField] private bool _bulletLoadedInChamber = true;
+    public Sprite GameplayUIMagSprite;
 
     private ParticleSpawner _magsPraticleSpawner;
 
@@ -66,11 +67,6 @@ public class MagReloadingWeapon : RangedWeapon
     public override bool GetIsOutOfAmmo()
     {
         return AmmoLeft <= MagSize && LoadedLivingAmmoLeft <= 0;
-    }
-
-    public SpriteRenderer GetMagparticleRenderer()
-    {
-        return _magsPraticleSpawner.DefaultParticle.GetComponent<SpriteRenderer>();
     }
 
     public override void SpendAmmo(int spendAmount = 1)

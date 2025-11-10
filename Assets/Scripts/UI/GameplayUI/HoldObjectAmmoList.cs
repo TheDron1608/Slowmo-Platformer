@@ -8,11 +8,7 @@ using UnityEngine.UI;
 
 public class HoldObjectAmmoList : MonoBehaviour
 {
-    const float LIST_HEIGHT = 50f;
-
-
     private int _ammoAmount = 0;
-    private float _ammoSpriteWidth = 50f;
     private Sprite _ammoSprite = null;
 
     [Header("const references")]
@@ -31,29 +27,16 @@ public class HoldObjectAmmoList : MonoBehaviour
         get => _ammoAmount;
         set
         {
+            if (value > _ammoAmount)
+            {
+                AddAmmo(math.abs(value - _ammoAmount));
+            }
+            else if (value < _ammoAmount)
+            {
+                RemoveLastAmmo(math.abs(value - _ammoAmount));
+            }
             _ammoAmount = value;
-            if (_ammoAmount > _spawnPosition.childCount)
-            {
-                AddAmmo(_ammoAmount - _spawnPosition.childCount);
-            }
-            else if (_ammoAmount < _spawnPosition.childCount)
-            {
-                RemoveLastAmmo(_spawnPosition.childCount - _ammoAmount);
-            }
             UpdateAmmoOverflow();
-        }
-    }
-
-    public float AmmoSpriteWidth
-    {
-        get => _ammoSpriteWidth;
-        set
-        {
-            _ammoSpriteWidth = value;
-            foreach (RectTransform rect in _trackTargetsContainer.GetComponentInChildren<RectTransform>())
-            {
-                rect.sizeDelta = new Vector2(_ammoSpriteWidth, LIST_HEIGHT);
-            }
         }
     }
 
@@ -68,6 +51,7 @@ public class HoldObjectAmmoList : MonoBehaviour
                 image.sprite = _ammoSprite;
                 image.SetNativeSize();
             }
+            UpdateAmmoOverflow();
         }
     }
 
@@ -75,12 +59,13 @@ public class HoldObjectAmmoList : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
+            if (_spawnPosition.childCount > GetListCapacity()) break;
+
             GameObject newGO = new GameObject("BulletImage");
             newGO.transform.parent = _spawnPosition;
-            newGO.transform.localPosition = Vector3.zero;
+            newGO.transform.position = _spawnPosition.transform.position;
 
             RectTransform newGORectTransform = newGO.AddComponent<RectTransform>();
-            newGORectTransform.sizeDelta = new Vector2(AmmoSpriteWidth, LIST_HEIGHT);
 
             Image newGOImage = newGO.AddComponent<Image>();
             newGOImage.sprite = _ammoSprite;
@@ -94,7 +79,7 @@ public class HoldObjectAmmoList : MonoBehaviour
 
     private void UpdateAmmoOverflow()
     {
-        if (AmmoAmount > GetListCapacity())
+        if (AmmoSprite != null && AmmoAmount > GetListCapacity())
         {
             _overflowText.text = "+" + (AmmoAmount - GetOverflownListCapacity());
             _overGameobject.SetActive(true);
@@ -107,24 +92,39 @@ public class HoldObjectAmmoList : MonoBehaviour
 
     private int GetListCapacity()
     {
-        return (int)math.floor(math.abs(_trackTargetsContainer.rect.width) / AmmoSpriteWidth);
+        return (int)math.floor(math.abs(_trackTargetsContainer.rect.width) / (math.abs(AmmoSprite.rect.width) * (100f / AmmoSprite.pixelsPerUnit)));
     }
 
     private int GetOverflownListCapacity()
     {
-        return (int)math.floor((math.abs(_trackTargetsContainer.rect.width) - math.abs(_overflowText.rectTransform.rect.width)) / AmmoSpriteWidth);
+        return (int)math.floor((math.abs(_trackTargetsContainer.rect.width) - math.abs(_overflowText.rectTransform.rect.width)) / (math.abs(AmmoSprite.rect.width) * (100f / AmmoSprite.pixelsPerUnit)));
     }
 
     private void RemoveLastAmmo(int amount = 1)
     {
-        for (int i = 0; i < math.min(amount, _spawnPosition.childCount); i++)
+        int targetAmount = math.min(amount, _spawnPosition.childCount);
+        for (int i = 0; i < targetAmount; i++)
         {
-            Destroy(_spawnPosition.GetChild(i).gameObject);
+            if (_ammoAmount - amount + i > GetListCapacity())
+            {
+                Transform moveAmmo = _trackTargetsContainer.GetChild(0);
+                moveAmmo.SetAsLastSibling();
+                moveAmmo.transform.position = _spawnPosition.transform.position;
+                _spawnPosition.GetChild(0).SetAsLastSibling();
+            }
+            else if (_spawnPosition.childCount > 0)
+            {
+                Destroy(_spawnPosition.GetChild(i).gameObject);
+            }
         }
     }
 
     public void RemoveAllAmmo()
     {
-        AmmoAmount = 0;
+        _ammoAmount = 0;
+        foreach (Transform ammo in _spawnPosition.transform)
+        {
+            Destroy(ammo.gameObject);
+        }
     }
 }

@@ -47,6 +47,7 @@ public class Holdable : Interactable
     private bool _isStuck = false;
     private Coroutine _enableGravityCoroutine;
     private CharacterComponentsManager _excludedCollideThrower;
+    private string _localizedName = "";
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
     public event EventHandler<OnThrownEventArgs> OnThrown;
@@ -138,6 +139,16 @@ public class Holdable : Interactable
     public ObjectEffectsReceiver EffectsReceiver
     {
         get => _effectsReceiver;
+    }
+
+    public string GetLocalizedName()
+    {
+        return _localizedName;
+    }
+
+    public void SetLocalizedName(string value)
+    {
+        _localizedName = value;
     }
 
     private void Awake()

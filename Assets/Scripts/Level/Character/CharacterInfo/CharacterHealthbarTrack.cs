@@ -5,17 +5,13 @@ using UnityEngine;
 
 public class CharacterHealthbarTrack : AbstractCharacterComponent
 {
-    public Material HealthbarMaterial;
-
-    private Healthbar _currentHealthbar = null;
-
-    private void Start()
+    private void OnEnable()
     {
-        _currentHealthbar = GameplayUIManager.Instance?.MultiHealthbarsManager.AddHealthbar(CharComponents.CharacterHealth, HealthbarMaterial);
+        GameplayUIManager.Instance?.AddTrackedCharacter(CharComponents);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        GameplayUIManager.Instance?.MultiHealthbarsManager.RemoveHealthbar(_currentHealthbar);
+        GameplayUIManager.Instance?.RemoveTrackedCharacter(CharComponents);
     }
 }
