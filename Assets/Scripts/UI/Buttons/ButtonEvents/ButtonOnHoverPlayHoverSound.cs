@@ -11,7 +11,7 @@ public class ButtonOnHoverPlayHoverSound : MonoBehaviour, IPointerEnterHandler
     {
         if (_button.IsInteractable())
         {
-            SoundManager.Instance.PlaySound(SoundManager.Instance.ButtonSelectSound);
+            SoundManager.Instance?.PlaySound(SoundManager.Instance.ButtonSelectSound);
         }
     }
 }

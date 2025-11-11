@@ -38,6 +38,7 @@ public class PlayerInputInteracting : AbstractAIInteracting
 
     private void InteractActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
+        if (GameplayUIManager.GamePaused()) return;
         HandleInteract();
     }
 

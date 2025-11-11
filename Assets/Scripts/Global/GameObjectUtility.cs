@@ -78,4 +78,15 @@ public static class GameObjectUtility
         }
         return result;
     }
+
+    public static bool TryGetComponentInParentRecursive<T>(Transform transform, out T result)
+    {
+        Transform currentTransform = transform;
+        while (!currentTransform.TryGetComponent(out result))
+        {
+            currentTransform = currentTransform.parent;
+            if (currentTransform == null) return false;
+        }
+        return true;
+    }
 }

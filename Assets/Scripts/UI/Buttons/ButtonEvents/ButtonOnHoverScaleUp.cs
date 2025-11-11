@@ -23,12 +23,12 @@ public class ButtonOnHoverScaleUp : MonoBehaviour, IPointerEnterHandler, IPointe
         {
             if (_scalingUp)
             {
-                float newScale = Mathf.LerpUnclamped(transform.localScale.x, IMAGE_ON_HOVER_SCALE_MULTIPLIER, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.deltaTime);
+                float newScale = Mathf.LerpUnclamped(transform.localScale.x, IMAGE_ON_HOVER_SCALE_MULTIPLIER, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
                 transform.localScale = new Vector3(newScale, newScale, newScale);
             }
             else
             {
-                float newScale = Mathf.LerpUnclamped(transform.localScale.x, 1f, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.deltaTime);
+                float newScale = Mathf.LerpUnclamped(transform.localScale.x, 1f, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
                 transform.localScale = new Vector3(newScale, newScale, newScale);
             }
         }

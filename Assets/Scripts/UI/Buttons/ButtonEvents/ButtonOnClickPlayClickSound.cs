@@ -13,6 +13,6 @@ public class ButtonOnClickPlayClickSound : MonoBehaviour
 
     public void PlayClickSound()
     {
-        SoundManager.Instance.PlaySound(SoundManager.Instance.ButtonClickSound);
+        SoundManager.Instance?.PlaySound(SoundManager.Instance.ButtonClickSound);
     }
 }

@@ -24,6 +24,7 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
 
     private void JumpActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
+        if (GameplayUIManager.GamePaused()) return;
         HandleStartJumpInput();
     }
     private void JumpActionReference_OnActionCanceled(InputAction.CallbackContext context)
