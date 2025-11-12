@@ -10,14 +10,13 @@ public class Healthbar : MonoBehaviour
     const float CHARACTER_HEALTH_AMOUNT_TO_REACH_MAX_HEALTHBAR_WIDTH = 10f;
     const float MIN_HEALTHBAR_WIDTH = 30f;
     const float MAX_HEALTHBAR_WIDTH = 800f;
-    const float MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT = 100f;
+    const float MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT = 150f;
     const float HEALTH_CHANGE_SPEED_MULTIPLIER = 2f;
 
     public CharacterHealth HealthTrackedCharacter;
     public bool ShowHealthNumber = false;
 
     [Header("const references")]
-    public Image HealthbarBackground;
     public Image HealthbarHealth;
     public Image HealthbarHealthChange;
     public TextMeshProUGUI HealthbarText;

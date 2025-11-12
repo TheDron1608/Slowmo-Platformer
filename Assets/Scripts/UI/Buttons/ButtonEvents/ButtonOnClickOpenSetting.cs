@@ -19,6 +19,7 @@ public class ButtonOnClickOpenSetting : MonoBehaviour
                 SettingInstance = Instantiate(SettingPrefab);
             }
             SettingInstance.transform.SetParent(canvas.transform, false);
+            SettingInstance.gameObject.SetActive(true);
         }
         else
         {
@@ -28,6 +29,7 @@ public class ButtonOnClickOpenSetting : MonoBehaviour
 
     public void CloseSetting()
     {
+        SettingInstance.gameObject.SetActive(false);
         SettingInstance.transform.SetParent(null, false);
         DontDestroyOnLoad(SettingPrefab.gameObject);
     }
