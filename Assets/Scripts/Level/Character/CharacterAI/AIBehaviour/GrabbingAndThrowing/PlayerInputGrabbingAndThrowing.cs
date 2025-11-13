@@ -74,11 +74,18 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 
     private void UpdateSelectedGrabObject()
     {
-        CurrentSelectedGrabObject = CharComponents.CharacterHolding.GetAvaibleHoldables().OrderBy(
-            (Holdable holdable) =>
-                (VectorMath.Vec3ToVec2(holdable.transform.position - CharComponents.Center.transform.position).normalized - CharComponents.CharacterAiming.GetTargetAimNormalized()).magnitude +
-                (!holdable.GetComponent<RangedWeapon>()?.GetIsOutOfAmmo() ?? true ? -1000f : 0f)
-            ).FirstOrDefault();
+        if (CharComponents.CharacterHolding.CurrentHoldObject == null)
+        {
+            CurrentSelectedGrabObject = CharComponents.CharacterHolding.GetAvaibleHoldables().OrderBy(
+                (Holdable holdable) =>
+                    (VectorMath.Vec3ToVec2(holdable.transform.position - CharComponents.Center.transform.position).normalized - CharComponents.CharacterAiming.GetTargetAimNormalized()).magnitude +
+                    (!holdable.GetComponent<RangedWeapon>()?.GetIsOutOfAmmo() ?? true ? -1000f : 0f)
+                ).FirstOrDefault();
+        }
+        else
+        {
+            CurrentSelectedGrabObject = null;
+        }
     }
 
     private void OnDestroy()

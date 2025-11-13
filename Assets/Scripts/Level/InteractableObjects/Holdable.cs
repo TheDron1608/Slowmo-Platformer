@@ -101,22 +101,14 @@ public class Holdable : Interactable
             {
                 if (value.TryGetComponent(out IStuckToObject stuckToObject))
                 {
-                    _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
                     stuckToObject.AddStuckedObject(this);
                 }
                 else if (value.TryGetComponent(out AbstractCharacterComponent charComponent))
                 {
-                    _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
                     charComponent.CharComponents.CharacterStuckedObjects.AddStuckedObject(this);
                 }
-                else if
-                    (
-                        value.TryGetComponent(out Rigidbody2D stuckWhoRigidBody) &&
-                        VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToGetThrough &&
-                        (stuckWhoRigidBody.bodyType == RigidbodyType2D.Static || stuckWhoRigidBody.bodyType == RigidbodyType2D.Kinematic)
-                    )
-                    _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
 
+                _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
                 _isStuck = true;
 
                 transform.rotation = _rotationPrevFrame;
@@ -447,7 +439,7 @@ public class Holdable : Interactable
 
         ExcludedCollideThrower = newHolder.CharComponents;
 
-        GetComponent<BreakableHoldable>()?.RemoveAllStuckedObjects();
+        //GetComponent<BreakableHoldable>()?.RemoveAllStuckedObjects();
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out ThrowableWeapon throwableWeapon))

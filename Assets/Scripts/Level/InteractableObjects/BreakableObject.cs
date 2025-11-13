@@ -28,12 +28,13 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         get => _stuckedObjects;
     }
 
-    public void AddStuckedObject(Holdable obj)
+    public virtual void AddStuckedObject(Holdable obj)
     {
         _stuckedObjects.Add(obj);
+        StuckTrackTarget.CreateTrack(obj, transform);
     }
 
-    public void RemoveStuckedObject(Holdable obj)
+    public virtual void RemoveStuckedObject(Holdable obj)
     {
         _stuckedObjects.Remove(obj);
     }

@@ -19,7 +19,7 @@ public class CharacterStuckedObjects : AbstractCharacterComponent, IStuckToObjec
     public void AddStuckedObject(Holdable obj)
     {
         _stuckedObjects.Add(obj);
-        StartCoroutine(StuckObjectTrack(obj));
+        StuckTrackTarget.CreateTrack(obj, CharComponents.CharacterRigidBodyCapsuleCollider.transform);
     }
 
     public void RemoveStuckedObject(Holdable obj)
@@ -32,47 +32,12 @@ public class CharacterStuckedObjects : AbstractCharacterComponent, IStuckToObjec
         for (int i = 0; i < _stuckedObjects.Count; i++)
         {
             Holdable stuckObject = _stuckedObjects[i];
-            if (stuckObject == null) continue;
-
-            stuckObject.StuckedToCollider = null;
+            RemoveStuckedObject(stuckObject);
             if (stuckObject.TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
             {
                 stuckObjectRigidBody.linearVelocity = VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
                 stuckObjectRigidBody.angularVelocity = RemoveObjectMaxRandomAngularVelocity * (UnityEngine.Random.value * 2 - 1);
             }
         }
-        _stuckedObjects.Clear();
-    }
-
-    public void RemoveAllStuckedObjects(Vector2 direction)
-    {
-        for (int i = 0; i < _stuckedObjects.Count; i++)
-        {
-            Holdable stuckObject = _stuckedObjects[i];
-            if (stuckObject == null) continue;
-
-            stuckObject.StuckedToCollider = null;
-            if (stuckObject.TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
-            {
-                stuckObjectRigidBody.linearVelocity = (VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) + direction * 3).normalized * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;
-            }
-        }
-    }
-
-    private IEnumerator StuckObjectTrack(Holdable stuckObject)
-    {
-        GameObject trackObject = new GameObject("stuckObject",  typeof(SpriteRenderer));
-        trackObject.transform.parent = CharComponents.CharacterRigidBodyCapsuleColliderHitBox.transform;
-        trackObject.transform.position = stuckObject.transform.position;
-
-        do
-        {
-            stuckObject.transform.position = trackObject.transform.position;
-
-            yield return new WaitForEndOfFrame();
-        }
-        while (!stuckObject.IsDestroyed() && (!stuckObject.StuckedToCollider?.IsDestroyed() ?? false) && stuckObject.StuckedToCollider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents);
-
-        Destroy(trackObject);
     }
 }

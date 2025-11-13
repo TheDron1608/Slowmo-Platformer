@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-internal interface IStuckToObject
+public interface IStuckToObject
 {
     public List<Holdable> StuckedObjects
     {
