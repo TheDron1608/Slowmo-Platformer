@@ -8,6 +8,7 @@ public class BuildingInfo
     public static int GlobalHighestCoorY = int.MinValue;
 
     public List<ChunkInfo> Chunks = new();
+    public ZIndexLayer Layer;
     public DoorGenerationPosition.PreGeneratedDoorTempInfo Enter;
     public DoorGenerationPosition.PreGeneratedDoorTempInfo Exit;
     public int LowestCoorY = int.MaxValue;

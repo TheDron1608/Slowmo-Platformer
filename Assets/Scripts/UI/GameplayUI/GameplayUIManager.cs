@@ -51,12 +51,14 @@ public class GameplayUIManager : MonoBehaviour
     {
         _trackedCharacters.Add(character);
         MultiHealthbarsManager.AddHealthbar(character.CharacterHealth);
+        HoldObjectInfo.TrackedHolder = _trackedCharacters.Count == 1 ? character.CharacterHolding : null;
     }
 
     public void RemoveTrackedCharacter(CharacterComponentsManager character)
     {
         _trackedCharacters.Remove(character);
         MultiHealthbarsManager.RemoveHealthbar(character.CharacterHealth);
+        HoldObjectInfo.TrackedHolder = _trackedCharacters.Count == 1 ? _trackedCharacters[0].CharacterHolding : null;
     }
 
     private bool ShowHoldObjectInfoCondition()

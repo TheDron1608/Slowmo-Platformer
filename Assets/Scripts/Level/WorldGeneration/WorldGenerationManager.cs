@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
-using UnityEditor.Build.Pipeline;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public class WorldGenerationManager : MonoBehaviour
@@ -21,6 +19,24 @@ public class WorldGenerationManager : MonoBehaviour
     public int Seed;
 
     private UnityEngine.Random.State _randomState;
+    private List<BuildingInfo> _generatedBuildings = new();
+
+    public static WorldGenerationManager Instance;
+
+    public List<BuildingInfo> GeneratedBuildings
+    {
+        get => _generatedBuildings;
+        private set => _generatedBuildings = value;
+    }
+
+    private void Awake()
+    {
+        if (Instance != null) throw new UnityException("limit of 1 WorldGenerationManager instance per scene");
+        Instance = this;
+
+        _randomState = UnityEngine.Random.state;
+        UnityEngine.Random.InitState(Seed);
+    }
 
     public void GenerateLevel()
     {
@@ -63,6 +79,7 @@ public class WorldGenerationManager : MonoBehaviour
                     out BuildingInfo newBuilding
                     ))
                 {
+                    GeneratedBuildings.Add(newBuilding);
                     //connect prev and current building with door
                     if (prevBuilding != null)
                     {
@@ -104,6 +121,7 @@ public class WorldGenerationManager : MonoBehaviour
         //initializing building info
         newBuildingInfo = new();
         layer.BuildinsInfo.Add(newBuildingInfo);
+        newBuildingInfo.Layer = layer;
 
         //creating first room with enter door, if failed generation or could not spawn any enter doors return false
         if (!NumberMath.PickRandomItem(EnterBuildingChunks).TryGenerateChunkWithEnterAt(layer, position, newBuildingInfo, out ChunkInfo firstChunk)) return false;
@@ -186,11 +204,8 @@ public class WorldGenerationManager : MonoBehaviour
         return successfullExitGeneration;
     }
 
-    private void Awake()
+    private void OnDestroy()
     {
-        _randomState = UnityEngine.Random.state;
-        UnityEngine.Random.InitState(Seed);
-
-        GenerateLevel();
+        Instance = null;
     }
 }
