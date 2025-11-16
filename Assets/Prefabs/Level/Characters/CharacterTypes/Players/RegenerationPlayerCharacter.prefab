@@ -50,8 +50,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5225945479333914668, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
       propertyPath: m_Name
-      value: PlayerCharacter
+      value: RegenerationPlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 5644515783962643202, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 33399073aee655a43a7a062267e36116, type: 2}
+    - target: {fileID: 6341814008985116821, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 55bb1c207060941458cbc51b57813875, type: 2}
+    - target: {fileID: 7794574548420166558, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 55bb1c207060941458cbc51b57813875, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

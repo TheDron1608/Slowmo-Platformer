@@ -5,7 +5,7 @@ public class PLevelInitializer : MonoBehaviour
 {
     private void Start()
     {
-        WorldGenerationManager.Instance.GenerateLevel();
-        SpawnManager.Instance.SpawnPlayerCharacterAtStartPosition();
+        WorldGenerationManager.Instance?.GenerateLevel();
+        SpawnManager.Instance?.SpawnPlayerCharacterAtStartPosition();
     }
 }

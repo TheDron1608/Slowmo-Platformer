@@ -41,9 +41,6 @@ public class LevelColorset : ScriptableObject
         TIER3_WEAPON = 203,
 
         //characters
-        PLAYER_CHARACTER = 300,
-        PLAYER_CHARACTER_EYES = 301,
-        PLAYER_CHARACTER_CAPE = 302,
         CLUMSY_ENEMY = 303,
         CLUMSY_ENEMY_EYES = 304,
         NORMAL_ENEMY = 305,
@@ -107,9 +104,6 @@ public class LevelColorset : ScriptableObject
     [ColorTypeAttr(ColorType.TIER2_WEAPON)] public Material Tier2Weapon;
     [ColorTypeAttr(ColorType.TIER3_WEAPON)] public Material Tier3Weapon;
     [Header("Characters")]
-    [ColorTypeAttr(ColorType.PLAYER_CHARACTER)] public Material PlayerCharacter;
-    [ColorTypeAttr(ColorType.PLAYER_CHARACTER_EYES)] public Material PlayerCharacterEyes;
-    [ColorTypeAttr(ColorType.PLAYER_CHARACTER_CAPE)] public Material PlayerCharacterCape;
     [ColorTypeAttr(ColorType.CLUMSY_ENEMY)] public Material ClumsyEnemy;
     [ColorTypeAttr(ColorType.CLUMSY_ENEMY_EYES)] public Material ClumsyEnemyEyes;
     [ColorTypeAttr(ColorType.NORMAL_ENEMY)] public Material NormalEnemy;

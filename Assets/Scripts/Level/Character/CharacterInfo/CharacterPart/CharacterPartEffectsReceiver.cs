@@ -6,6 +6,14 @@ using UnityEngine;
 
 public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
 {
+    public CharacterComponentsManager CharComponents;
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        CharComponents = GetComponentInParent<CharacterComponentsManager>();
+    }
+
     public override void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
     {
         if (effect is IEntireCharacterEffect)
@@ -28,6 +36,7 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
                     limbPart.GetEquipedAtParts(),
                     (equpmentPart) => equpmentPart.CharPartEffectsReceiver.ApplyCondition(effect, sender)
                     )
-            );
+            ) &&
+            CharComponents.CharacterEffectsReceiver.ApplyCondition(effect, sender);
     }
 }

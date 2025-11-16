@@ -137,9 +137,9 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         {
             foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
             {
-                if (charPart.GetComponent<CharacterLimbPart>() != null && charPart.TryGetComponent(out DynamicMaterial dynamicMaterial))
+                if (charPart.GetComponent<CharacterLimbPart>() != null && charPart.TryGetComponent(out SpriteRenderer charPartRenderer))
                 {
-                    return dynamicMaterial.GetCurrentMaterial();
+                    return charPartRenderer.sharedMaterial;
                 }
             }
 

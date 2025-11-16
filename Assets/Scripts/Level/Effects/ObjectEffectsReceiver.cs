@@ -217,7 +217,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         List<EffectImmunity> immunities = GetEffects<EffectImmunity>();
         foreach (EffectImmunity immunity in immunities)
         {
-            if (immunity.ImmuneTo.Equals(effect))
+            if (immunity.GetIsImmuneTo(effect))
             {
                 return true;
             }
