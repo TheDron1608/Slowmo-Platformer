@@ -17,7 +17,7 @@ public class ButtonOnSecondClickQuitGameplay : MonoBehaviour
     private bool warned = false;
     private Coroutine resetWarnCoroutine;
 
-    public void AttemptChangeScene()
+    public void QuiatGameplay()
     {
         if (!warned)
         {
@@ -29,7 +29,10 @@ public class ButtonOnSecondClickQuitGameplay : MonoBehaviour
         else
         {
             StopCoroutine(resetWarnCoroutine);
+
             GameplayUIManager.GetInstance().Pause.Paused = false;
+            SessionManager.Instance.CurrentSession = null;
+
             UIManager.Instance.LoadSceneWithEffect(MainMenuScenename);
         }
     }
