@@ -15,6 +15,7 @@ public class Healthbar : MonoBehaviour
 
     public bool ShowHealthNumber = false;
     public float CameraShakeOnDamageForce = 0.1f;
+    public float DamagedScreenOverlayFillOnDamage = 0.5f;
 
     [Header("const references")]
     public Image HealthbarHealth;
@@ -40,6 +41,7 @@ public class Healthbar : MonoBehaviour
     private void HealthTrackedCharacter_OnHitByProjectile(object sender, AbstractProjectile e)
     {
         Camera.main?.GetComponent<CameraShake>()?.Shake(CameraShakeOnDamageForce);
+        UIManager.Instance.DamagedScreenOverlay.FillAmount += DamagedScreenOverlayFillOnDamage;
     }
 
     private void Awake()
@@ -92,6 +94,11 @@ public class Healthbar : MonoBehaviour
     {
         HealthbarHealth.material = material;
         HealthbarHealthChange.material = material;
+    }
+
+    public float GetFillAmount()
+    {
+        return HealthbarHealth.fillAmount;
     }
 
     private void OnDestroy()

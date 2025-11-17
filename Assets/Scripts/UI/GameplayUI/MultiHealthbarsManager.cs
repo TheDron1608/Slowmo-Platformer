@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MultiHealthbarsManager : MonoBehaviour
 {
     const int MAX_HEALTHBARS = 6;
+    const float DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER = 5f;
 
     [SerializeField] private Healthbar _spawnHealthbar;
     [SerializeField] private RectTransform _healthbarsSpawnPosition;
@@ -46,6 +48,17 @@ public class MultiHealthbarsManager : MonoBehaviour
         }
     }
 
+    public float PickAvgHealthbarsFillAmount()
+    {
+        float result = 0;
+        foreach (Healthbar healthbar in _currentHealthbars)
+        {
+            result += healthbar.GetFillAmount();
+        }
+        result /= _currentHealthbars.Count;
+        return result;
+    }
+
     private bool TryRemoveDeadHealthbar()
     {
         foreach (Healthbar healthbar in _currentHealthbars)
@@ -62,5 +75,19 @@ public class MultiHealthbarsManager : MonoBehaviour
     private void FixedUpdate()
     {
         if (_currentHealthbars.Count >= MAX_HEALTHBARS) TryRemoveDeadHealthbar();
+
+        if (_currentHealthbars.Count > 0)
+        {
+            UIManager.Instance.DamagedScreenOverlay.Show();
+            UIManager.Instance.DamagedScreenOverlay.FillAmount = math.lerp(
+                UIManager.Instance.DamagedScreenOverlay.FillAmount, 
+                1f - math.sin(PickAvgHealthbarsFillAmount() * math.PI / 2),
+                Time.deltaTime * DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER
+                );
+        }
+        else
+        {
+            UIManager.Instance.DamagedScreenOverlay.Hide();
+        }
     }
 }

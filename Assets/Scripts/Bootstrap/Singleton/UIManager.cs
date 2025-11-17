@@ -1,34 +1,33 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 [DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
 {
     [Serializable]
-    public class UIManagerSceenOverlay
+    public class ScreenOverlay
     {
         [SerializeField]
-        private GameObject _screenOverlayPrefab;
+        protected GameObject _screenOverlayPrefab;
 
-        private GameObject _currentScreenOverlay;
+        protected GameObject _currentScreenOverlay;
 
-        public void Show()
+        public virtual void Show()
         {
             if (_currentScreenOverlay != null) return;
 
             _currentScreenOverlay = Instantiate(_screenOverlayPrefab, Instance._screenOverlayContainer.transform);
 
-            if (_currentScreenOverlay.TryGetComponent<AnimatedImage>(out AnimatedImage animatedImageComponent)) {
+            if (_currentScreenOverlay.TryGetComponent(out AnimatedImage animatedImageComponent)) {
                 animatedImageComponent.AnimationFinished += AnimatedImage_OnAnimationFinished;
             }
         }
 
 
-        public void Hide()
+        public virtual void Hide()
         {
             if (_currentScreenOverlay == null) return;
 
@@ -43,11 +42,35 @@ public class UIManager : MonoBehaviour
         public event EventHandler ScreenOverlayAnimationFinished;
     }
 
+    [Serializable]
+    public class FillableScreenOverlay : ScreenOverlay
+    {
+        const string DAMAGED_SHADER_FILL_AMOUNT_PROP_NAME = "_FillAmount";
 
+        private float _fillAmount = 0f;
 
-    public UIManagerSceenOverlay InputBindingScreenOverlay;
-    public UIManagerSceenOverlay SceneStartScreenOverlay;
-    public UIManagerSceenOverlay SceneEndScreenOverlay;
+        public float FillAmount
+        {
+            get => _fillAmount;
+            set
+            {
+                if (_fillAmount == value) return;
+                _currentScreenOverlay.GetComponentInChildren<Image>().material.SetFloat(DAMAGED_SHADER_FILL_AMOUNT_PROP_NAME, value);
+                _fillAmount = value;
+            }
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            _currentScreenOverlay?.GetComponentInChildren<Image>().material.SetFloat(DAMAGED_SHADER_FILL_AMOUNT_PROP_NAME, _fillAmount);
+        }
+    }
+
+    public ScreenOverlay InputBindingScreenOverlay;
+    public ScreenOverlay SceneStartScreenOverlay;
+    public ScreenOverlay SceneEndScreenOverlay;
+    public FillableScreenOverlay DamagedScreenOverlay;
 
     public static UIManager Instance;
 
