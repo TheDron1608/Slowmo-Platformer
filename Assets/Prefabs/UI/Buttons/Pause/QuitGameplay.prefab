@@ -68,7 +68,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Areyou sure?
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 18f574bf051798548ab008a2662fcfd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7d0a104b07ad9944983251a4d8675f16, type: 2}
   m_sharedMaterial: {fileID: 2514830258335604305, guid: 18f574bf051798548ab008a2662fcfd4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &4074063633413872860
@@ -327,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9137645660856052781, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_Name
-      value: MainMenuButton
+      value: QuitGameplay
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

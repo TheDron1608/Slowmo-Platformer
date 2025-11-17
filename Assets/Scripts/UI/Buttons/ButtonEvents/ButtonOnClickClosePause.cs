@@ -7,6 +7,6 @@ public class ButtonOnClickClosePause : MonoBehaviour
 {
     public void ClosePause()
     {
-        GameplayUIManager.Instance.Pause.Paused = false;
+        GameplayUIManager.GetInstance().Pause.Paused = false;
     }
 }

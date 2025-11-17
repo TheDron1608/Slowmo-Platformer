@@ -1154,13 +1154,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputBindingScreenOverlay:
+    OverlayOrder: 6
     _screenOverlayPrefab: {fileID: 6820682616355312488, guid: aec04700e130b7043818b11cb3cc80a0, type: 3}
   SceneStartScreenOverlay:
+    OverlayOrder: 10
     _screenOverlayPrefab: {fileID: 7513069091723199939, guid: 06c6bc277ad582342ad2d21bd8b35ba6, type: 3}
   SceneEndScreenOverlay:
+    OverlayOrder: 10
     _screenOverlayPrefab: {fileID: 5270427031307178534, guid: 215e5ddfd41863641b180cae8bd013aa, type: 3}
   DamagedScreenOverlay:
+    OverlayOrder: 1
     _screenOverlayPrefab: {fileID: 1452268340745435864, guid: b2cfeab2d2fabbd438f9491a01410b44, type: 3}
+  GameplayScreenOverlay:
+    OverlayOrder: 5
+    _screenOverlayPrefab: {fileID: 5059030473840657442, guid: 102fc6d92c56c6c44b7d268d0fe67852, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -15,8 +15,6 @@ public class GameplayUIManager : MonoBehaviour
     const float HOLD_OBJECT_HIDE_POS_MULTIPLIER_X = 1.5f;
     const float HOLD_OBJECT_HIDE_POS_MULTIPLIER_Y = -1.5f;
 
-    public static GameplayUIManager Instance = null;
-
     public MultiHealthbarsManager MultiHealthbarsManager;
     public HoldObjectInfo HoldObjectInfo;
     public PauseMenu Pause;
@@ -27,13 +25,16 @@ public class GameplayUIManager : MonoBehaviour
 
     public static bool GamePaused()
     {
-        return Instance.Pause.Paused;
+        return GetInstance().Pause.Paused;
+    }
+
+    public static GameplayUIManager GetInstance()
+    {
+        return UIManager.Instance.GameplayScreenOverlay.GetGameplayUI();
     }
 
     private void Awake()
     {
-        if (Instance != null) throw new UnityException("limit of 1 GameplayUIManager instance per scene");
-        Instance = this;
         _holdObjectInfoRectTransform = HoldObjectInfo.GetComponent<RectTransform>();
     }
     private void Start()
@@ -44,7 +45,6 @@ public class GameplayUIManager : MonoBehaviour
     private void OnDestroy()
     {
         PauseAction.action.started -= PauseActionReference_OnActionStarted;
-        Instance = null;
     }
 
     public void AddTrackedCharacter(CharacterComponentsManager character)

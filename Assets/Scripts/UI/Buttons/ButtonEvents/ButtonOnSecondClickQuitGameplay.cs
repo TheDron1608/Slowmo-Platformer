@@ -29,7 +29,7 @@ public class ButtonOnSecondClickQuitGameplay : MonoBehaviour
         else
         {
             StopCoroutine(resetWarnCoroutine);
-            GameplayUIManager.Instance.Pause.Paused = false;
+            GameplayUIManager.GetInstance().Pause.Paused = false;
             UIManager.Instance.LoadSceneWithEffect(MainMenuScenename);
         }
     }

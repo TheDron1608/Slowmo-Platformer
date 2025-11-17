@@ -1,4 +1,8 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,23 +11,37 @@ using static UnityEngine.Rendering.DebugUI;
 [DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
 {
+    public class ScreenOverlayInstance : MonoBehaviour
+    {
+        public int OverlayOrder;
+    }
+
     [Serializable]
     public class ScreenOverlay
     {
+        public int OverlayOrder = 0;
+
         [SerializeField]
         protected GameObject _screenOverlayPrefab;
 
-        protected GameObject _currentScreenOverlay;
+        protected ScreenOverlayInstance _currentScreenOverlay;
+        private Transform _screenOverlayContainer;
 
         public virtual void Show()
         {
             if (_currentScreenOverlay != null) return;
 
-            _currentScreenOverlay = Instantiate(_screenOverlayPrefab, Instance._screenOverlayContainer.transform);
+            GameObject currentScreenOverlayGO = Instantiate(_screenOverlayPrefab, Instance._screenOverlayContainer.transform);
+            currentScreenOverlayGO.transform.SetSiblingIndex(OverlayOrder);
+
+            _currentScreenOverlay = currentScreenOverlayGO.AddComponent<ScreenOverlayInstance>();
+            _currentScreenOverlay.OverlayOrder = OverlayOrder;
 
             if (_currentScreenOverlay.TryGetComponent(out AnimatedImage animatedImageComponent)) {
                 animatedImageComponent.AnimationFinished += AnimatedImage_OnAnimationFinished;
             }
+
+            UIManager.Instance.UpdateScreenOverlaysOrder();
         }
 
 
@@ -31,7 +49,12 @@ public class UIManager : MonoBehaviour
         {
             if (_currentScreenOverlay == null) return;
 
-            Destroy(_currentScreenOverlay);
+            Destroy(_currentScreenOverlay.gameObject);
+        }
+
+        public ScreenOverlayInstance GetCurrentScreenOverlay()
+        {
+            return _currentScreenOverlay;
         }
 
         private void AnimatedImage_OnAnimationFinished(object sender, EventArgs e)
@@ -67,15 +90,40 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [Serializable]
+    public class GameplayUIScreenOverlay : ScreenOverlay
+    {
+        private GameplayUIManager _currentGameplayUI = null;
+
+        public GameplayUIManager GetGameplayUI()
+        {
+            return _currentGameplayUI;
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            _currentGameplayUI = _currentScreenOverlay.GetComponent<GameplayUIManager>();
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            _currentGameplayUI = null;
+        }
+    }
+
     public ScreenOverlay InputBindingScreenOverlay;
     public ScreenOverlay SceneStartScreenOverlay;
     public ScreenOverlay SceneEndScreenOverlay;
     public FillableScreenOverlay DamagedScreenOverlay;
+    public GameplayUIScreenOverlay GameplayScreenOverlay;
 
     public static UIManager Instance;
 
     private GameObject _screenOverlayContainer;
     private AsyncOperation _sceneLoadingProcess; //used only at LoadSceneWithEffect and LoadSceneWithEffect_OnScreenOverlayAnimationFinished functions
+    private ScreenOverlay[] ScreenOverlays;
 
     private void Awake()
     {
@@ -85,6 +133,19 @@ public class UIManager : MonoBehaviour
         Instance = this;
 
         SceneManager.activeSceneChanged += SceneManager_OnActiveSceneChanged;
+    }
+
+    private void UpdateScreenOverlaysOrder()
+    {
+
+        ScreenOverlayInstance[] sortedOverlays = _screenOverlayContainer.GetComponentsInChildren<ScreenOverlayInstance>();
+
+        sortedOverlays = sortedOverlays.OrderBy((ScreenOverlayInstance overlayInstance) => overlayInstance.OverlayOrder).ToArray();
+
+        for (int i = 0; i < sortedOverlays.Length; i++)
+        {
+            sortedOverlays[i].transform.SetSiblingIndex(i);
+        }
     }
 
     private void SceneManager_OnActiveSceneChanged(Scene arg0, Scene arg1)
