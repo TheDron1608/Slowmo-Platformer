@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5129013206825978598}
   - component: {fileID: 5198372404950219954}
+  - component: {fileID: -1048012580640760163}
   - component: {fileID: 861306260983765504}
   - component: {fileID: 4052824767388784654}
   - component: {fileID: 8883288890940901592}
@@ -50,9 +51,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6260476bf615c4692fa8c41eee24bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TrackObject: {fileID: 0}
+  TrackTargets: []
   TrackSpeed: 5
   TrackMouseVelocity: 0.1625
+--- !u!114 &-1048012580640760163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212635690638980574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb25d73d286e8949ada2dfe27ade8d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ContantShakingForce: 0
+  DecayingShakingForce: 0
+  ShakingAmplitude: 10
+  ShakingDecayingMultiplier: 5
 --- !u!114 &861306260983765504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9bd5abca70ab1429d9e85870ad681e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TrackedObjects: []
 --- !u!20 &8883288890940901592
 Camera:
   m_ObjectHideFlags: 0

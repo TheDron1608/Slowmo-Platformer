@@ -23,6 +23,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public List<AbstractEffect> EffectsOnLethal = new();
     public List<AbstractParticle> ParticlesOnDamage = new();
 
+    public event EventHandler<AbstractProjectile> OnHitByProjectile;
+
     public bool PiercableThrought 
     {
         get => _piercableThrought;
@@ -117,5 +119,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public void Die(MonoBehaviour killer)
     {
         GetComponent<ObjectEffectsReceiver>()?.ApplyEffect(EffectsOnLethal, killer);
+    }
+
+    public void ApplyProjectileHit(AbstractProjectile hitter)
+    {
+        OnHitByProjectile?.Invoke(this, hitter);
     }
 }

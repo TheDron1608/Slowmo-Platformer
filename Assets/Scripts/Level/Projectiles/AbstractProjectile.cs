@@ -185,14 +185,15 @@ public abstract class AbstractProjectile : MonoBehaviour
             meleeProjectile.OnDeflect(this);
         }
 
-        ObjectEffectsReceiver hitObjectEffectsReceiver =
-            hitObject.transform.GetComponent<ObjectEffectsReceiver>() ??
-            hitObject.transform.GetComponentInParent<ObjectEffectsReceiver>();
-
-        if (hitObjectEffectsReceiver != null)
+        if (GameObjectUtility.TryGetComponentInSelfOrParent(hitObject.gameObject, out ObjectEffectsReceiver hitObjectEffectsReceiver))
         {
             hitObjectEffectsReceiver.ApplyEffect(HitEffects, this);
             OnHitSomeOne?.Invoke(this, hitObject);
+        }
+
+        if (GameObjectUtility.TryGetComponentInSelfOrParent(hitObject.gameObject, out IDamagable hitDamagableObject))
+        {
+            hitDamagableObject.ApplyProjectileHit(this);
         }
     }
 

@@ -13,17 +13,34 @@ public class Healthbar : MonoBehaviour
     const float MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT = 150f;
     const float HEALTH_CHANGE_SPEED_MULTIPLIER = 2f;
 
-    public CharacterHealth HealthTrackedCharacter;
     public bool ShowHealthNumber = false;
+    public float CameraShakeOnDamageForce = 0.1f;
 
     [Header("const references")]
     public Image HealthbarHealth;
     public Image HealthbarHealthChange;
     public TextMeshProUGUI HealthbarText;
 
+    private CharacterHealth _healthTrackedCharacter;
+    private string _deathText = "DEAD";
     private RectTransform _selfRectTransform;
 
-    private string _deathText = "DEAD";
+    public CharacterHealth HealthTrackedCharacter
+    {
+        get => _healthTrackedCharacter;
+        set
+        {
+            if (_healthTrackedCharacter != null) _healthTrackedCharacter.OnHitByProjectile -= HealthTrackedCharacter_OnHitByProjectile;
+            if (value != null) value.OnHitByProjectile += HealthTrackedCharacter_OnHitByProjectile;
+
+            _healthTrackedCharacter = value;
+        }
+    }
+
+    private void HealthTrackedCharacter_OnHitByProjectile(object sender, AbstractProjectile e)
+    {
+        Camera.main?.GetComponent<CameraShake>()?.Shake(CameraShakeOnDamageForce);
+    }
 
     private void Awake()
     {
@@ -33,6 +50,7 @@ public class Healthbar : MonoBehaviour
     private void Update()
     {
         if (HealthTrackedCharacter == null) return;
+        
 
         HealthbarHealth.fillAmount = NumberMath.LimitFloatBetweenZeroAndOne(HealthTrackedCharacter.CurrentHealth / HealthTrackedCharacter.MaxHealth);
         HealthbarHealthChange.fillAmount = math.lerp(HealthbarHealthChange.fillAmount, HealthbarHealth.fillAmount, Time.deltaTime * HEALTH_CHANGE_SPEED_MULTIPLIER);
@@ -74,5 +92,10 @@ public class Healthbar : MonoBehaviour
     {
         HealthbarHealth.material = material;
         HealthbarHealthChange.material = material;
+    }
+
+    private void OnDestroy()
+    {
+        HealthTrackedCharacter = null;
     }
 }

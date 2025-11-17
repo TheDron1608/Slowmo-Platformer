@@ -26,6 +26,8 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
 
+    public event EventHandler<AbstractProjectile> OnHitByProjectile;
+
     public bool PiercableThrought
     {
         get => _piercableThrought;
@@ -235,5 +237,11 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         }
 
         GameObject.Destroy(gameObject);
+    }
+
+    public void ApplyProjectileHit(AbstractProjectile hitter)
+    {
+        OnHitByProjectile?.Invoke(this, hitter);
+        CharComponents.CharacterHealth.ApplyProjectileHit(hitter);
     }
 }

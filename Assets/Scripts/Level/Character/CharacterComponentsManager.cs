@@ -19,7 +19,6 @@ public class CharacterComponentsManager : MonoBehaviour
     public CharacterCollision CharacterCollision;
     public CharacterVisual CharacterVisual;
     public CharacterInteractionWithTiles CharacterInteractionWithTiles;
-    public CharacterDamaging CharacterDamaging;
     public CharacterEffectsReceiver CharacterEffectsReceiver;
     public CharacterStuckedObjects CharacterStuckedObjects;
     public CharacterHealth CharacterHealth;

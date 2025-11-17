@@ -45,13 +45,21 @@ public class SpawnManager : MonoBehaviour
 
     public CharacterComponentsManager SpawnPlayerCharacterAtStartPosition()
     {
-        return 
-            WorldGenerationManager.Instance.GeneratedBuildings.First()?.Layer.TrySpawnObject(
-                PlayerCharacter.gameObject,
-                VectorMath.Vec3ToVec3Int(WorldGenerationManager.Instance.GeneratedBuildings.First().Enter.GetSpawnPosition()),
-                null,
-                null
-                ).First().GetComponent<AbstractCharacterComponent>().CharComponents;
+        if (PlayerCharacter != null)
+        {
+            return 
+                WorldGenerationManager.Instance.GeneratedBuildings.First()?.Layer.TrySpawnObject(
+                    PlayerCharacter.gameObject,
+                    VectorMath.Vec3ToVec3Int(WorldGenerationManager.Instance.GeneratedBuildings.First().Enter.GetSpawnPosition()),
+                    null,
+                    null
+                    ).First().GetComponent<AbstractCharacterComponent>().CharComponents;
+        }
+        else
+        {
+            return null;
+        }
+
     }
 
     private void Awake()
