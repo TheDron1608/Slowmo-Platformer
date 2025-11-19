@@ -292,7 +292,6 @@ GameObject:
   - component: {fileID: 7585185559083403592}
   - component: {fileID: 6912691885140639795}
   - component: {fileID: 1964864157782877518}
-  - component: {fileID: 974105059069264052}
   - component: {fileID: 2002335163756146061}
   - component: {fileID: 2307621767582408558}
   - component: {fileID: 7607223272691296094}
@@ -351,7 +350,6 @@ MonoBehaviour:
   CharacterCollision: {fileID: 2002335163756146061}
   CharacterVisual: {fileID: 1964864157782877518}
   CharacterInteractionWithTiles: {fileID: 3206245827804919803}
-  CharacterDamaging: {fileID: 974105059069264052}
   CharacterEffectsReceiver: {fileID: 6912691885140639795}
   CharacterStuckedObjects: {fileID: 2307621767582408558}
   CharacterHealth: {fileID: 5897571605525893540}
@@ -377,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2bedc42197ff7479504cc92c5b06fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterTeams: 01000000
+  Team: 0
 --- !u!114 &5897571605525893540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,18 +589,6 @@ MonoBehaviour:
   JumpStateVelocityRange: 5
   MoveSpeedVelocityRange: 5
   MultiSpritesSO: {fileID: 11400000, guid: f18c3b67c56c15e4db4b7bd1e6ed4f50, type: 2}
---- !u!114 &974105059069264052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7466261371012752510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9e9b9879160cac46b2dd85067b1ed5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2002335163756146061
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,10 +7,22 @@ using UnityEngine;
 
 public class ObjectEffectsReceiver : MonoBehaviour
 {
+    public class EffectAddedEventArgs
+    {
+        public AbstractEffect Effect;
+        public MonoBehaviour Sender;
+
+        public EffectAddedEventArgs(AbstractEffect effect, MonoBehaviour sender)
+        {
+            Effect = effect;
+            Sender = sender;
+        }
+    }
+
     [SerializeField] private List<AbstractEffect> _currentEffects = new();
     private MonoBehaviour _lastSender = null;
 
-    public event EventHandler<AbstractEffect> OnEffectAdded;
+    public event EventHandler<EffectAddedEventArgs> OnEffectAdded;
     public event EventHandler<AbstractEffect> OnEffectRemoved;
 
     public List<AbstractEffect> CurrentEffects
@@ -78,7 +90,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 EffectMaterial = effect.EffectMaterial;
             }
 
-            OnEffectAdded?.Invoke(this, newEffect);
+            OnEffectAdded?.Invoke(this, new(newEffect, sender));
         }
         else if (effect.AlternativeCharacterEffectIfResisted != null && !effect.AlternativeCharacterEffectIfResisted.Equals(effect))
         {

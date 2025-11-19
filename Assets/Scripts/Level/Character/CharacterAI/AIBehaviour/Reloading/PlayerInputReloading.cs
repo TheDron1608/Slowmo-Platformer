@@ -16,7 +16,7 @@ public class PlayerInputReloading : AbstractAIReloading
 
     private void ReloadActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
-        if (GameplayUIManager.GamePaused()) return;
+        if (UIManager.GamePaused()) return;
         HandleReload();
     }
 

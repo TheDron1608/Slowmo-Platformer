@@ -16,7 +16,7 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             if (
                 charDistance < minDistance &&
                 !character.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() &&
-                !NumberMath.GetListContainsAnyItemOfAnotherList(character.CharacterTeam.CharacterTeams, CharComponents.CharacterTeam.CharacterTeams) &&
+                !CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(character.CharacterTeam) &&
                 Physics2D.Linecast(
                     CharComponents.Center.transform.position,
                     character.Center.transform.position,

@@ -1,40 +1,72 @@
-﻿using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Unity.VisualScripting;
 using UnityEngine;
 
+[DefaultExecutionOrder(7)]
 public class CharacterTeam : AbstractCharacterComponent
 {
-    const float UPDATE_NEAREST_AVAIBLE_ENEMY_DELAY_SECONDS = 0.34f;
+    public TeamManager.Teams Team;
 
-    public enum Teams
+    protected override void OnAwake()
     {
-        PLAYER,
-        DEFAULT_ENEMY
-    }
-
-    public List<Teams> CharacterTeams = new();
-
-    public static List<CharacterTeam> GetActiveCharactersFromAllLayers(CharacterTeam.Teams team)
-    {
-        List<CharacterTeam> result = new List<CharacterTeam>();
-
-        foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
-        {
-            foreach (CharacterTeam characterTeam in layer.GetComponentsInChildren<CharacterTeam>(false))
-            {
-                if (characterTeam.CharacterTeams.Contains(team))
-                {
-                    result.Add(characterTeam);
-                }
-            }
-        }
-
-        return result;
+        base.OnAwake();
+        GetTeamData().AddTeamMember(this);
+        CharComponents.CharacterEffectsReceiver.OnEffectAdded += CharacterEffectsReceiver_OnEffectAdded;
+        CharComponents.CharacterEffectsReceiver.OnEffectRemoved += CharacterEffectsReceiver_OnEffectRemoved;
     }
 
     public bool GetIsAllyToAnotherTeam(CharacterTeam anotherTeam)
     {
-        return NumberMath.GetListContainsAnyItemOfAnotherList(CharacterTeams, anotherTeam.CharacterTeams);
+        return Team == anotherTeam.Team;
+    }
+
+    public TeamManager.TeamData GetTeamData()
+    {
+        return TeamManager.Instance?.GetTeamDataByTeam(Team);
+    }
+
+    private void CharacterEffectsReceiver_OnEffectAdded(object sender, CharacterEffectsReceiver.EffectAddedEventArgs e)
+    {
+        if (e.Effect is ILethalEffect)
+        {
+            GetTeamData().SetTeamMemberKilled(this, TryGetTeamFromSender(e.Sender));
+        }
+    }
+
+    private void CharacterEffectsReceiver_OnEffectRemoved(object sender, AbstractEffect e)
+    {
+        if (e is ILethalEffect)
+        {
+            GetTeamData().SetTeamMemberRessurected(this, null);
+        }
+    }
+
+    private CharacterTeam TryGetTeamFromSender(MonoBehaviour sender)
+    {
+        if (sender.TryGetComponent(out AbstractCharacterComponent senderCharacter))
+        {
+            return senderCharacter.CharComponents.CharacterTeam;
+        }
+        else if (sender.TryGetComponent(out Holdable senderHoldable))
+        {
+            return senderHoldable.CurrentHolder?.CharComponents.CharacterTeam;
+        }
+        else if (sender.TryGetComponent(out AbstractProjectile senderProjectile))
+        {
+            if (senderProjectile.Weapon?.TryGetComponent(out Holdable holdableWeapon) ?? false)
+            {
+                return holdableWeapon.CurrentHolder?.CharComponents.CharacterTeam;
+            }
+            else if (senderProjectile.Weapon?.TryGetComponent(out UnarmedWeapon unarmedWeapon) ?? false)
+            {
+                return unarmedWeapon.CharComponents.CharacterTeam;
+            }
+        }
+        return null;
+    }
+
+    public void OnDestroy()
+    {
+        GetTeamData()?.RemoveTeamMember(this);
+        CharComponents.CharacterEffectsReceiver.OnEffectAdded -= CharacterEffectsReceiver_OnEffectAdded;
     }
 }

@@ -51,4 +51,9 @@ public class Death : AbstractStun, ILethalEffect
 
         AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(true);
     }
+
+    public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
+    {
+        return base.ApplyCondition(affectWho, sender) && !affectWho.GetHasEffect<Death>();
+    }
 }

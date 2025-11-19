@@ -16,7 +16,7 @@ public class PlayerInputRolling : AbstractAIRolling
 
     private void Update()
     {
-        if (GameplayUIManager.GamePaused()) return;
+        if (UIManager.GamePaused()) return;
         UpdateRollInput();
     }
 

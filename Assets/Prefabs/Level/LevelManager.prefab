@@ -138,6 +138,8 @@ GameObject:
   - component: {fileID: 2288510536422220207}
   - component: {fileID: 7857507522207618143}
   - component: {fileID: 6870792342462933236}
+  - component: {fileID: 5806794469943578940}
+  - component: {fileID: 1340688470173396758}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -217,6 +219,30 @@ MonoBehaviour:
   UnusedRangedProjectilesContainer: {fileID: 3825893427998124886}
   _emptyMeleeProjectileInstance: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
   _emptyRangedProjectileInstance: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+--- !u!114 &5806794469943578940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360252234397813454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e6ce0baa5b6ec1499e85b8ac8f5de7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1340688470173396758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360252234397813454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef578626d4e2ac46a7912719b5e78e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4829675721774256220
 GameObject:
   m_ObjectHideFlags: 0

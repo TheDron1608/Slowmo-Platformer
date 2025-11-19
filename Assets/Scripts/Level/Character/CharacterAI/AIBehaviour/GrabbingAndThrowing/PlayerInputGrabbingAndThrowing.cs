@@ -41,7 +41,7 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 
     private void GrabActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
-        if (GameplayUIManager.GamePaused()) return;
+        if (UIManager.GamePaused()) return;
         HandleGrabThrow();
     }
 

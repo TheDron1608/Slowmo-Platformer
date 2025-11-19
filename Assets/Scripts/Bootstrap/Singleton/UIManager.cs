@@ -91,6 +91,29 @@ public class UIManager : MonoBehaviour
     }
 
     [Serializable]
+    public class GameOverUIScreenOverlay : ScreenOverlay
+    {
+        private GameOverUIManager _currentGameOverUI = null;
+
+        public GameOverUIManager GetGameOverUI()
+        {
+            return _currentGameOverUI;
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            _currentGameOverUI = _currentScreenOverlay.GetComponent<GameOverUIManager>();
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            _currentGameOverUI = null;
+        }
+    }
+
+    [Serializable]
     public class GameplayUIScreenOverlay : ScreenOverlay
     {
         private GameplayUIManager _currentGameplayUI = null;
@@ -118,12 +141,20 @@ public class UIManager : MonoBehaviour
     public ScreenOverlay SceneEndScreenOverlay;
     public FillableScreenOverlay DamagedScreenOverlay;
     public GameplayUIScreenOverlay GameplayScreenOverlay;
+    public GameOverUIScreenOverlay GameOverScreenOverlay;
 
     public static UIManager Instance;
 
     private GameObject _screenOverlayContainer;
     private AsyncOperation _sceneLoadingProcess; //used only at LoadSceneWithEffect and LoadSceneWithEffect_OnScreenOverlayAnimationFinished functions
     private ScreenOverlay[] ScreenOverlays;
+
+    public static bool GamePaused()
+    {
+        return 
+            (Instance.GameplayScreenOverlay.GetGameplayUI()?.Pause.gameObject.activeSelf ?? false) || 
+            Instance.GameOverScreenOverlay.GetCurrentScreenOverlay() != null;
+    }
 
     private void Awake()
     {

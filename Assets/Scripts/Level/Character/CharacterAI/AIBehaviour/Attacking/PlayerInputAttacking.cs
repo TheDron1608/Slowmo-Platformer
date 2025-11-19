@@ -38,7 +38,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
 
     private void AttackActionRereference_OnActionStarted(InputAction.CallbackContext context)
     {
-        if (GameplayUIManager.GamePaused()) return;
+        if (UIManager.GamePaused()) return;
         HandleStartAttacking();
     }
     private void AttackActionReference_OnActionCanceled(InputAction.CallbackContext context)

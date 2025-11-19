@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8058129393259162476}
   - component: {fileID: 8145630360655912481}
   - component: {fileID: 4789793739081649213}
+  - component: {fileID: 6844463855313677196}
   - component: {fileID: 1351074446885944845}
   m_Layer: 0
   m_Name: TempSessionManager
@@ -64,6 +65,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ColorSet: {fileID: 11400000, guid: a42765518ab7cca4a82577d60d53c9ce, type: 2}
+--- !u!114 &6844463855313677196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590695979345743307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0015c4665be7c2d44b6f3a59d3db1bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1351074446885944845
 MonoBehaviour:
   m_ObjectHideFlags: 0

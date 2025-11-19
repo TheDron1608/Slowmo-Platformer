@@ -2,7 +2,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.CoreUtils;
 
 public class SessionManager : MonoBehaviour
 {
@@ -10,10 +9,16 @@ public class SessionManager : MonoBehaviour
     {
         public int Id;
         public string SaveFilePath;
-        public int LevelProgress = 1;
-        public int FloorProgress = 1;
-        public int Deaths = 0;
-        public TimeSpan PlayTime = new TimeSpan(0, 0, 0); //0 seconds
+
+        public int CurrentKills = 0;
+        public int CurrentDeaths = 0;
+        public int CurrentObtainedCurses = 0;
+        public TimeSpan CurrentPlayTime = new TimeSpan(0, 0, 0, 0, 0); //0 seconds
+
+        public int TotalDeaths = 0;
+        public int TotalKills = 0;
+        public int TotalObtainedCurses = 0;
+        public TimeSpan TotalPlayTime = new TimeSpan(0, 0, 0, 0, 0); //0 seconds
     }
 
     public static SessionManager Instance;

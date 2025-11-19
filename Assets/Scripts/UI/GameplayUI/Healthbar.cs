@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
@@ -40,7 +38,7 @@ public class Healthbar : MonoBehaviour
 
     private void HealthTrackedCharacter_OnHitByProjectile(object sender, AbstractProjectile e)
     {
-        Camera.main?.GetComponent<CameraShake>()?.Shake(CameraShakeOnDamageForce);
+        Camera.main?.GetComponent<ShakableObject>().Shake(CameraShakeOnDamageForce);
         UIManager.Instance.DamagedScreenOverlay.FillAmount += DamagedScreenOverlayFillOnDamage;
     }
 

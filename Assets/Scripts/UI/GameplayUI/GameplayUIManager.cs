@@ -19,14 +19,10 @@ public class GameplayUIManager : MonoBehaviour
     public HoldObjectInfo HoldObjectInfo;
     public PauseMenu Pause;
     public InputActionReference PauseAction;
+    public string MainMenuSceneName = "MainMenu";
 
     private List<CharacterComponentsManager> _trackedCharacters = new();
     private RectTransform _holdObjectInfoRectTransform;
-
-    public static bool GamePaused()
-    {
-        return GetInstance().Pause.Paused;
-    }
 
     public static GameplayUIManager GetInstance()
     {
@@ -80,6 +76,9 @@ public class GameplayUIManager : MonoBehaviour
 
     private void PauseActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
-        Pause.Paused = !Pause.Paused;
+        if (GameOverUIManager.GetInstance() == null)
+        {
+            Pause.Paused = !Pause.Paused;
+        }
     }
 }

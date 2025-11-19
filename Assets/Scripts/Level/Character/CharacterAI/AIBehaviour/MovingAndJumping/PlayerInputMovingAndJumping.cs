@@ -24,7 +24,7 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
 
     private void JumpActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
-        if (GameplayUIManager.GamePaused()) return;
+        if (UIManager.GamePaused()) return;
         HandleStartJumpInput();
     }
     private void JumpActionReference_OnActionCanceled(InputAction.CallbackContext context)
@@ -82,6 +82,7 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
 
     private void Update()
     {
+        if (UIManager.GamePaused()) return;
         UpdateMoveInput();
     }
 
