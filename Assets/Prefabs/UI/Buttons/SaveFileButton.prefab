@@ -214,8 +214,16 @@ PrefabInstance:
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: 'managedReferences[3223126429313007697]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: 'managedReferences[3223126429313007698]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: managedReferences[2052077329840865360].m_Value
@@ -246,6 +254,14 @@ PrefabInstance:
       value: 99:99:99
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: managedReferences[3223126429313007697].m_Value
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
+      propertyPath: managedReferences[3223126429313007698].m_Value
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 649097244975104
       objectReference: {fileID: 0}
@@ -255,15 +271,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].name
-      value: ZoneProgress
+      value: Unlocked
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[2].name
-      value: LevelProgress
+      value: AllUnlocks
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[3].name
-      value: Deaths
+      value: Playtime
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[4].name
@@ -279,15 +295,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].variable
-      value: 2052077329840865372
+      value: 3223126429313007697
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[2].variable
-      value: 2052077329840865373
+      value: 3223126429313007698
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[3].variable
-      value: 2052077329840865374
+      value: 2052077329840865375
       objectReference: {fileID: 0}
     - target: {fileID: 1818829807119986620, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[4].variable
@@ -306,19 +322,19 @@ PrefabInstance:
       value: 'Save 9
 
 
-        Level
 
-        99-99
+        Unlocks
 
-
-        Deaths
-
-        999
+        999/999
 
 
         Playtime
 
-        99:99:99'
+        99:99:99
+
+
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 2343134867860783586, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_Enabled

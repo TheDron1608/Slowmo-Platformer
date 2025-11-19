@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 49de2f53b199f964fa6cbf526c6d1470, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 3223126429313007719
   m_TableData:
   - m_Id: 57840205824
     m_Localized: dead
@@ -59,9 +60,16 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3661487982477312
-    m_Localized: Press [EXIT_BUTTON] to exit
+    m_Localized: Press {ExitButton} to exit
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 3223126429313007719
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3223126429313007719
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 3661487982477312

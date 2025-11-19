@@ -9,6 +9,6 @@ public class GameOverKilledScore : MonoBehaviour
     public void UpdateLocalizedText(string value)
     {
         _localizedText = value;
-        _text.text = _localizedText + SessionManager.Instance.CurrentSession.CurrentKills;
+        _text.text = _localizedText + SessionManager.Instance.TempSession.CurrentKills;
     }
 }

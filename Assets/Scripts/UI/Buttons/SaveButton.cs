@@ -73,13 +73,11 @@ public class SaveButton : MonoBehaviour
     {
         SessionManager.SessionData sessionData = GetSessionData();
 
-        /*
+        
         (_localizedText.StringReference["SaveId"] as StringVariable).Value = sessionData.Id.ToString();
-        (_localizedText.StringReference["ZoneProgress"] as StringVariable).Value = sessionData.FloorProgress.ToString();
-        (_localizedText.StringReference["LevelProgress"] as StringVariable).Value = sessionData.LevelProgress.ToString();
-        (_localizedText.StringReference["Deaths"] as StringVariable).Value = sessionData.Deaths.ToString();
-        (_localizedText.StringReference["Playtime"] as StringVariable).Value = sessionData.PlayTime.ToString("hh':'mm':'ss");
-        */
+        (_localizedText.StringReference["Unlocked"] as StringVariable).Value = "0";
+        (_localizedText.StringReference["AllUnlocks"] as StringVariable).Value = "0";
+        (_localizedText.StringReference["Playtime"] as StringVariable).Value = new TimeSpan(0, 0, sessionData.TotalPlayTime).ToString("hh':'mm':'ss");
     }
 
     //called when clicked

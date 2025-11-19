@@ -12,11 +12,11 @@ public class ScoreTracker : MonoBehaviour
 
     private void PlayerTeam_OnTeamMemberDidKill(object sender, CharacterTeam e)
     {
-        SessionManager.Instance.CurrentSession.CurrentKills++;
+        SessionManager.Instance.TempSession.CurrentKills++;
     }
     private void ScoreTracker_OnTeamMemberKilled(object sender, CharacterTeam e)
     {
-        SessionManager.Instance.CurrentSession.CurrentDeaths++;
+        SessionManager.Instance.TempSession.CurrentDeaths++;
     }
 
     private void OnEnable()
@@ -32,14 +32,17 @@ public class ScoreTracker : MonoBehaviour
             yield return new WaitForSeconds(1);
             if (!UIManager.GamePaused())
             {
-                SessionManager.Instance.CurrentSession.CurrentPlayTime += new TimeSpan(0, 0, 1);
+                SessionManager.Instance.TempSession.CurrentPlayTime += new TimeSpan(0, 0, 1);
             }
         }
     }
 
     private void OnDestroy()
     {
-        TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberDidKill -= PlayerTeam_OnTeamMemberDidKill;
-        TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberKilled -= ScoreTracker_OnTeamMemberKilled;
+        if (TeamManager.Instance != null)
+        {
+            TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberDidKill -= PlayerTeam_OnTeamMemberDidKill;
+            TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberKilled -= ScoreTracker_OnTeamMemberKilled;
+        }
     }
 }

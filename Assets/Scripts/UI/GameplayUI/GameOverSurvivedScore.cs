@@ -9,6 +9,6 @@ public class GameOverSurvivedScore : MonoBehaviour
     public void UpdateLocalizedText(string value)
     {
         _localizedText = value;
-        _text.text = _localizedText + SessionManager.Instance.CurrentSession.CurrentPlayTime;
+        _text.text = _localizedText + SessionManager.Instance.TempSession.CurrentPlayTime;
     }
 }

@@ -9,6 +9,6 @@ public class GameOverObtainedCurses : MonoBehaviour
     public void UpdateLocalizedText(string value)
     {
         _localizedText = value;
-        _text.text = _localizedText + SessionManager.Instance.CurrentSession.CurrentObtainedCurses;
+        _text.text = _localizedText + SessionManager.Instance.TempSession.CurrentObtainedCurses;
     }
 }
