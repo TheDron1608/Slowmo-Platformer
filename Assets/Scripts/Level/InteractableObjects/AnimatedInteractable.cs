@@ -73,19 +73,4 @@ public abstract class AnimatedInteractable : Interactable
             charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnFinishInteract, this);
         }
     }
-    /// <summary>
-    /// Called when FinishAnimation is finished, not called if FinishAnimation is not sat
-    /// </summary>
-    protected virtual void OnFinishInteractAnimationFinished(GameObject interactor)
-    {
-
-    }
-
-    /// <summary>
-    /// called when interact condinting returns false
-    /// </summary>
-    protected virtual void OnStopInteract(GameObject interactor)
-    {
-
-    }
 }

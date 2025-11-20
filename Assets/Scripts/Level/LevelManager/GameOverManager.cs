@@ -8,10 +8,10 @@ public class GameOverManager : MonoBehaviour
     private void Start()
     {
         _playerTeam = TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER);
-        _playerTeam.OnTeamMembersChanged += PlayerTeam_OnTeamMemberChanged;
+        _playerTeam.OnTeamMemberKilled += _playerTeam_OnTeamMemberKilled;
     }
 
-    private void PlayerTeam_OnTeamMemberChanged(object sender, EventArgs e)
+    private void _playerTeam_OnTeamMemberKilled(object sender, CharacterTeam e)
     {
         if (_playerTeam.GetAliveTeamMembers().Count == 0)
         {

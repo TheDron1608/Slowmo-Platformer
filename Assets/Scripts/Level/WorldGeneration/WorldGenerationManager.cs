@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WorldGenerationManager : MonoBehaviour
 {
@@ -34,8 +35,15 @@ public class WorldGenerationManager : MonoBehaviour
         if (Instance != null) throw new UnityException("limit of 1 WorldGenerationManager instance per scene");
         Instance = this;
 
+        SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+
         _randomState = UnityEngine.Random.state;
         UnityEngine.Random.InitState(Seed);
+    }
+
+    private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
+    {
+        GeneratedBuildings = new();
     }
 
     public void GenerateLevel()
@@ -207,5 +215,6 @@ public class WorldGenerationManager : MonoBehaviour
     private void OnDestroy()
     {
         Instance = null;
+        SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
     }
 }

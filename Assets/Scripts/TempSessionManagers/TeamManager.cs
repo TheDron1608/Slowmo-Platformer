@@ -9,6 +9,8 @@ public class TeamManager : MonoBehaviour
     [Serializable]
     public class TeamData
     {
+        public string Name;
+
         private int _totalKills = 0;
         private int _totalDeaths = 0;
         private List<CharacterTeam> _teamMembers = new();
@@ -85,11 +87,7 @@ public class TeamManager : MonoBehaviour
 
     public static TeamManager Instance;
 
-    public TeamData[] TeamDatas = new TeamData[]
-    {
-        new(),
-        new()
-    };
+    public List<TeamData> TeamDatas = new();
 
     public TeamData GetTeamDataByTeam(Teams team)
     {
