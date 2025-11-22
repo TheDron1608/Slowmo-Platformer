@@ -168,4 +168,12 @@ public static class NumberMath
     {
         return math.min(max, math.max(min, value));
     }
+
+    public static List<T> MergeLists<T>(List<T> list1, List<T> list2)
+    {
+        List<T> result = new List<T>();
+        result.AddRange(list1);
+        result.AddRange(list2);
+        return result;
+    }
 }

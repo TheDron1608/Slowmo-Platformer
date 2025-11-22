@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviour, IEffectApplier
 {
     protected const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
 
@@ -20,6 +20,8 @@ public abstract class Weapon : MonoBehaviour
     private bool _isInCooldown = false;
     private Transform _projectileSpawnPosition;
     private List<AbstractProjectile> _projectiles = new();
+
+    public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied; 
 
     public float AttackCooldown
     {
@@ -54,7 +56,6 @@ public abstract class Weapon : MonoBehaviour
         get => _projectileSpawnPosition;
         protected set => _projectileSpawnPosition = value;
     }
-
 
     private void Awake()
     {
@@ -210,5 +211,11 @@ public abstract class Weapon : MonoBehaviour
     {
         yield return new WaitForSeconds(AttackCooldown * AttackCooldownMultiplier);
         IsInCooldown = false;
+    }
+
+    public virtual void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    {
+        OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
+        GetComponent<Holdable>()?.CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
     }
 }

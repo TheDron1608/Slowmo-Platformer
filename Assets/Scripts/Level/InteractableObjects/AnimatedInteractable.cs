@@ -1,8 +1,5 @@
-﻿using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using static CharacterVisual;
 
 public abstract class AnimatedInteractable : Interactable

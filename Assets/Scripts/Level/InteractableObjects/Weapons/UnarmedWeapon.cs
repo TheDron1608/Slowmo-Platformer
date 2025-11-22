@@ -35,4 +35,10 @@ public class UnarmedWeapon : Weapon
     {
         transform.rotation = VectorMath.Vec2ToQuarterninon2D(CharComponents.CharacterAiming.GetCurrentAimNormalized());
     }
+
+    public override void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    {
+        base.InvokeOnEffectApllied(Effect, Receiver);
+        CharComponents.CharacterAttacking.InvokeOnEffectApllied(Effect, Receiver);
+    }
 }

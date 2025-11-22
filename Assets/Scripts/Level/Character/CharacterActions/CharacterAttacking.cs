@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class CharacterAttacking : AbstractCharacterComponent
+public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
 {
     const float CLUMSY_RANGED_POST_ATTACK_DELAY_SECONDS = 0.25f;
 
@@ -19,6 +19,7 @@ public class CharacterAttacking : AbstractCharacterComponent
     /// bool parameter returns successfull attack attempt or not
     /// </summary>
     public event EventHandler<bool> OnAttack;
+    public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied;
 
     public bool IsAbleToAttack
     {
@@ -238,5 +239,10 @@ public class CharacterAttacking : AbstractCharacterComponent
         if (TryAttack(direction)) return true;
 
         return false;
+    }
+
+    public void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    {
+        OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
     }
 }

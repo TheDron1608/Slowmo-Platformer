@@ -133,6 +133,11 @@ public class Holdable : Interactable
         get => _effectsReceiver;
     }
 
+    public CharacterHoldingObjects CurrentOrLastHolder
+    {
+        get => _currentHolder ?? _lastHolder;
+    }
+
     public string GetLocalizedName()
     {
         return _localizedName;
@@ -472,6 +477,12 @@ public class Holdable : Interactable
         {
             spinableMeleeWeapon.Spin();
         }
+    }
+
+    public override void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    {
+        base.InvokeOnEffectApllied(Effect, Receiver);
+        CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
     }
 
     private void OnDestroy()

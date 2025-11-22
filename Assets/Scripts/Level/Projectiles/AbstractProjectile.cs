@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbstractProjectile : MonoBehaviour
+public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 {
     const string ANIMATOR_RESET_TRIGGER_NAME = "Reset";
 
@@ -24,6 +24,7 @@ public abstract class AbstractProjectile : MonoBehaviour
 
     public event EventHandler<GameObject> OnHitSomeOne;
     public event EventHandler OnDestroyed;
+    public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied;
 
     public float ProjectileSize
     {
@@ -269,5 +270,11 @@ public abstract class AbstractProjectile : MonoBehaviour
             Weapon.Projectiles.Remove(this);
         }
         gameObject.SetActive(false);
+    }
+
+    public void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    {
+        OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
+        Weapon?.InvokeOnEffectApllied(Effect, Receiver);
     }
 }

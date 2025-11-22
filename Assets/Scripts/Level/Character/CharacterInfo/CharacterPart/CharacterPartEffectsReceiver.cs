@@ -39,4 +39,24 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
             ) &&
             CharComponents.CharacterEffectsReceiver.ApplyCondition(effect, sender);
     }
+
+    public override T GetEffect<T>()
+    {
+        return base.GetEffect<T>() ?? CharComponents.CharacterEffectsReceiver.GetEffect<T>();
+    }
+
+    public override List<T> GetEffects<T>()
+    {
+        return NumberMath.MergeLists(base.GetEffects<T>(), CharComponents.CharacterEffectsReceiver.GetEffects<T>());
+    }
+
+    public override bool GetHasEffect<T>()
+    {
+        return base.GetHasEffect<T>() || CharComponents.CharacterEffectsReceiver.GetHasEffect<T>();
+    }
+
+    public override bool TryGetEffect<T>(out T effect)
+    {
+        return base.TryGetEffect(out effect) || CharComponents.CharacterEffectsReceiver.TryGetEffect<T>(out effect);
+    }
 }

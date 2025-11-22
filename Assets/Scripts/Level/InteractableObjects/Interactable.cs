@@ -1,17 +1,17 @@
-﻿using NUnit.Framework;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static CharacterVisual;
 
-public abstract class Interactable : SelectableObject
+public abstract class Interactable : SelectableObject, IEffectApplier
 {
    
     const string INTERACTABLE_TAG_NAME = "Interactable";
 
     [Header("Interactalbe")]
     public List<AbstractEffect> EffectsOnStartInteract = new();
+
+    public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied;
 
     public bool GetIsValidToInteract(GameObject interactor)
     {
@@ -27,6 +27,11 @@ public abstract class Interactable : SelectableObject
         OnStartInteact(interactor);
 
         return true;
+    }
+
+    public virtual void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    {
+        OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
     }
 
     /// <summary>

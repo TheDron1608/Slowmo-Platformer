@@ -83,6 +83,10 @@ public class ObjectEffectsReceiver : MonoBehaviour
             if (sender != null)
             {
                 AddLastEffectSender(sender);
+                if (sender.TryGetComponent(out IEffectApplier effectApplier))
+                {
+                    effectApplier.InvokeOnEffectApllied(effect, this);
+                }
             }
 
             if (effect.EffectMaterial != null)
@@ -172,7 +176,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
-    public bool GetHasEffect<T>()
+    public virtual bool GetHasEffect<T>()
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
@@ -184,7 +188,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return false;
     }
 
-    public T GetEffect<T>()
+    public virtual T GetEffect<T>()
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
@@ -196,7 +200,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return default(T);
     }
 
-    public bool TryGetEffect<T>(out T effect)
+    public virtual bool TryGetEffect<T>(out T effect)
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
@@ -210,7 +214,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return false;
     }
 
-    public List<T> GetEffects<T>()
+    public virtual List<T> GetEffects<T>()
     {
         List<T> result = new();
 
