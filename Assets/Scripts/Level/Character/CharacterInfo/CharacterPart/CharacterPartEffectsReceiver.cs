@@ -55,6 +55,11 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
         return base.GetHasEffect<T>() || CharComponents.CharacterEffectsReceiver.GetHasEffect<T>();
     }
 
+    public override bool GetHasEffect(AbstractEffect effect)
+    {
+        return base.GetHasEffect(effect) || CharComponents.CharacterEffectsReceiver.GetHasEffect(effect);
+    }
+
     public override bool TryGetEffect<T>(out T effect)
     {
         return base.TryGetEffect(out effect) || CharComponents.CharacterEffectsReceiver.TryGetEffect<T>(out effect);

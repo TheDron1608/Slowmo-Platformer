@@ -113,9 +113,13 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
 
         CurrentHealth -= damage;
-        if (CurrentHealth <= MinHealth && ((!GetComponent<ObjectEffectsReceiver>()?.GetHasEffect<Death>()) ?? false))
+        if (CurrentHealth <= MinHealth && ((!GetComponent<ObjectEffectsReceiver>()?.GetHasEffect(EffectsOnLethal)) ?? false))
         {
             Die(damager);
+        }
+        else if (damage < 0 && CurrentHealth > MinHealth && ((GetComponent<ObjectEffectsReceiver>()?.GetHasEffect(EffectsOnLethal)) ?? true))
+        {
+            Ressurect();
         }
         if (CurrentHealth >= MaxHealth)
         {
@@ -126,6 +130,12 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public void Die(MonoBehaviour killer)
     {
         GetComponent<ObjectEffectsReceiver>()?.ApplyEffect(EffectsOnLethal, killer);
+    }
+
+    public void Ressurect()
+    {
+        GetComponent<ObjectEffectsReceiver>()?.RemoveEffect(EffectsOnLethal);
+        GetComponent<ObjectEffectsReceiver>()?.RemoveEffect<ILethalEffect>();
     }
 
     public void ApplyProjectileHit(AbstractProjectile hitter)

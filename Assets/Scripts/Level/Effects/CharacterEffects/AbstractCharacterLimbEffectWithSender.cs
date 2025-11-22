@@ -24,6 +24,6 @@ public abstract class AbstractCharacterLimbEffectWithSender : AbstractEffectWith
 
     public override bool Equals(AbstractEffect other)
     {
-        return base.Equals(other) && AffectedPart == (other as AbstractCharacterLimbEffectWithSender).AffectedPart;
+        return base.Equals(other) && AffectedPart == (other as AbstractCharacterLimbEffectWithSender)?.AffectedPart;
     }
 }

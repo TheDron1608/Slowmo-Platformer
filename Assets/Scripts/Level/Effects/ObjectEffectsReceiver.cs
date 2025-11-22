@@ -71,6 +71,8 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     public virtual void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
     {
+        if (effect == null) return;
+
         if (ApplyCondition(effect, sender) && effect.ApplyCondition(this, sender))
         {
             AbstractEffect newEffect = Instantiate(effect, transform);
@@ -181,6 +183,30 @@ public class ObjectEffectsReceiver : MonoBehaviour
         for (int i = 0; i < _currentEffects.Count; i++)
         {
             if (_currentEffects[i] is T)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public virtual bool GetHasEffect(AbstractEffect effect)
+    {
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (_currentEffects[i].Equals(effect))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetHasEffect(List<AbstractEffect> effects)
+    {
+        foreach (AbstractEffect effect in effects)
+        {
+            if (GetHasEffect(effect))
             {
                 return true;
             }

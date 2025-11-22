@@ -35,9 +35,13 @@ public class CharacterHealth : DamagableObject
     public void ApplyDamage(float damage, MonoBehaviour damager, CharacterPart damagedPart)
     {
         CurrentHealth -= damage;
-        if (CurrentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
+        if (damage > 0 && CurrentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
         {
             Die(damager, damagedPart);
+        }
+        else if (damage < 0 && CurrentHealth > MinHealth && CharComponents.CharacterEffectsReceiver.GetHasEffect(EffectsOnLethal))
+        {
+            Ressurect();
         }
     }
 
