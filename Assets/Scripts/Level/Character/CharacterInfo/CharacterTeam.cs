@@ -42,6 +42,10 @@ public class CharacterTeam : AbstractCharacterComponent
 
     private CharacterTeam TryGetTeamFromSender(MonoBehaviour sender)
     {
+        if (sender == null)
+        {
+            return null;
+        }
         if (sender.TryGetComponent(out AbstractCharacterComponent senderCharacter))
         {
             return senderCharacter.CharComponents.CharacterTeam;

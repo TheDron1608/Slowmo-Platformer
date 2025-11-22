@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Damage : AbstractEffectWithSender
+public class Damage : AbstractDamagableObjectEffectWithSender
 {
     public float DamageAmount = 1f;
 
@@ -9,7 +9,7 @@ public class Damage : AbstractEffectWithSender
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        AffectedObject.GetComponent<IDamagable>()?.ApplyDamage(DamageAmount, sender);
+        AffectedDamagableObject.ApplyDamage(DamageAmount, sender);
 
         RemoveSelf();
     }

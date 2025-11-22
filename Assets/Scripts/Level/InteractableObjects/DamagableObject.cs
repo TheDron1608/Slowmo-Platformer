@@ -82,37 +82,44 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void ApplyDamage(float damage, MonoBehaviour damager)
     {
-        //spawning particles on hit
-        RaycastHit2D hit = Physics2D.Raycast(
-            damager.transform.position,
-            VectorMath.Quartenion2DToVec2(damager.transform.rotation),
-            Vector2.Distance(damager.transform.position, transform.position),
-            1 << gameObject.layer
-            );
-
-        //chance to not spawn particle if damage is less than 1
-        if (ParticlesOnDamage.Count > 0 && UnityEngine.Random.value < damage)
+        if (damager != null)
         {
-            ParticleSpawner.SpawnInstantlyMultipleParticles(
-                ParticlesOnDamage,
-                hit.collider != null ? hit.point : GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>()),
+            //spawning particles on hit
+            RaycastHit2D hit = Physics2D.Raycast(
+                damager.transform.position,
                 VectorMath.Quartenion2DToVec2(damager.transform.rotation),
-                0f,
-                PARTICLES_ON_DAMAGE_MIN_VELOCITY,
-                PARTICLES_ON_DAMAGE_MAX_VELOCITY,
-                PARTICLES_ON_DAMAGE_MIN_ANGULAR_VELOCITY,
-                PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
-                GetComponent<ObjectEffectsReceiver>()?.EffectMaterial ?? GetComponent<SpriteRenderer>()?.material,
-                LayerManager.Instance.GetZLayerOfGameObject(gameObject),
-                (int)damage,
-                PARTICLES_ON_DAMAGE_ACCURACY
+                Vector2.Distance(damager.transform.position, transform.position),
+                1 << gameObject.layer
                 );
+
+            //chance to not spawn particle if damage is less than 1
+            if (ParticlesOnDamage.Count > 0 && UnityEngine.Random.value < damage)
+            {
+                ParticleSpawner.SpawnInstantlyMultipleParticles(
+                    ParticlesOnDamage,
+                    hit.collider != null ? hit.point : GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>()),
+                    VectorMath.Quartenion2DToVec2(damager.transform.rotation),
+                    0f,
+                    PARTICLES_ON_DAMAGE_MIN_VELOCITY,
+                    PARTICLES_ON_DAMAGE_MAX_VELOCITY,
+                    PARTICLES_ON_DAMAGE_MIN_ANGULAR_VELOCITY,
+                    PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
+                    GetComponent<ObjectEffectsReceiver>()?.EffectMaterial ?? GetComponent<SpriteRenderer>()?.material,
+                    LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+                    (int)damage,
+                    PARTICLES_ON_DAMAGE_ACCURACY
+                    );
+            }
         }
 
         CurrentHealth -= damage;
         if (CurrentHealth <= MinHealth && ((!GetComponent<ObjectEffectsReceiver>()?.GetHasEffect<Death>()) ?? false))
         {
             Die(damager);
+        }
+        if (CurrentHealth >= MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
         }
     }
 
