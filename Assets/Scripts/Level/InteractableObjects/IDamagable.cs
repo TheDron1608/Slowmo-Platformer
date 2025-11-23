@@ -4,10 +4,11 @@ using UnityEngine;
 
 public interface IDamagable
 {
-    public void ApplyDamage(float damage, MonoBehaviour damager);
+    public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultiplier = 1f);
     public bool PiercableThrought { get; set; }
     public bool HitableByMeleeProjectiles { get; set; }
     public bool HitableByRangedProjectiles { get; set; }
+    public float DamageMultiplier {  get; set; }
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 

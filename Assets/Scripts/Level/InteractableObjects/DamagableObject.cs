@@ -15,6 +15,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     [SerializeField] private float _maxHealth = 10f;
     [SerializeField] private float _minHealth = 0f;
     [SerializeField] private float _currentHealth = 10f;
+    [SerializeField] private float _damageMultiplier = 1f;
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
@@ -25,6 +26,11 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 
+    public float DamageMultiplier
+    {
+        get => _damageMultiplier;
+        set => _damageMultiplier = value;
+    }
     public bool PiercableThrought 
     {
         get => _piercableThrought;
@@ -80,7 +86,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
     }
 
-    public void ApplyDamage(float damage, MonoBehaviour damager)
+    public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultiplier = 1f)
     {
         if (damager != null)
         {

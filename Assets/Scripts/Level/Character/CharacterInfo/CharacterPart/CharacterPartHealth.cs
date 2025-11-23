@@ -14,7 +14,6 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     public bool Cutable = false;
     public bool Gibable = false;
     public bool LosingLimbIsLethal = true;
-    public float DamageMultiplier = 1.0f;
     public List<AbstractParticle> ParticlesOnHit = new();
     public List<AbstractParticle> ParticlesOnGib = new();
     public List<AbstractParticle> ParticlesOnCutOff = new();
@@ -22,11 +21,18 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     public float ParticlesPerDamage = 1.5f;
     public int ParticlesAmountOnLethal = 15;
     public List<AbstractEffect> EffectsOnHit = new();
+    [SerializeField] private float _damageMultiplier = 1f;
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
+
+    public float DamageMultiplier
+    {
+        get => _damageMultiplier;
+        set => _damageMultiplier = value;
+    }
 
     public bool PiercableThrought
     {
@@ -46,10 +52,10 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         set => _hitableByRangedProjectiles = value;
     }
 
-    public void ApplyDamage(float damage, MonoBehaviour damager)
+    public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultplier = 1f)
     {
         GetComponent<CharacterPart>().CharPartEffectsReceiver.ApplyEffect(EffectsOnHit, damager);
-        CharComponents.CharacterHealth.ApplyDamage(damage, damager, GetComponent<CharacterPart>());
+        CharComponents.CharacterHealth.ApplyDamage(math.lerp(damage, damage * DamageMultiplier, damageMultiplierMultplier), damager, GetComponent<CharacterPart>());
 
         Vector3 hitPointPosition =
             damager.transform.position +

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2262340712177032849}
   - component: {fileID: 344805414714566387}
   m_Layer: 0
-  m_Name: ThrowDamage
+  m_Name: RangedIncreasedDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68743002804ac3f4486e089edc1f4b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectPriority: 40
+  EffectPriority: 100
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}
-  DamageAmount: 3
-  DamageMultiplierMultiplier: 0
+  DamageAmount: 1.5

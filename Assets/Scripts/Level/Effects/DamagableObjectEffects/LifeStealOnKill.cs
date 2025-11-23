@@ -31,7 +31,7 @@ public class LifeStealOnKill : AbstractDamagableObjectEffect
     {
         if (e.Effect is ILethalEffect && e.Receiver.TryGetComponent(out AbstractCharacterComponent killedCharacter))
         {
-            AffectedDamagableObject.ApplyDamage(-killedCharacter.CharComponents.CharacterHealth.MaxHealth * LifeStealMultiplier, killedCharacter);
+            AffectedDamagableObject.ApplyDamage(-killedCharacter.CharComponents.CharacterHealth.MaxHealth * LifeStealMultiplier, killedCharacter, 0f);
         }
     }
 }

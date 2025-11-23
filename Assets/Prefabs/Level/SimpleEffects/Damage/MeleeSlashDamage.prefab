@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2262340712177032849}
   - component: {fileID: 344805414714566387}
   m_Layer: 0
-  m_Name: IncreasedDamage
+  m_Name: MeleeSlashDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,3 +48,4 @@ MonoBehaviour:
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}
   DamageAmount: 1.5
+  DamageMultiplierMultiplier: 0

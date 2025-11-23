@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 7cd9d923b790ed148b4223a0bd2c3a8d, type: 2}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: HitEffects.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: SelfEffects.Array.size
@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[0]'
       value: 
-      objectReference: {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
+      objectReference: {fileID: 344805414714566387, guid: f62a771a678d34f44a0d5df0b37805a3, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[1]'
       value: 
@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[2]'
       value: 
-      objectReference: {fileID: 344805414714566387, guid: c3750bf0cca22184d9d3d277ab7bd499, type: 3}
+      objectReference: {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[3]'
       value: 
@@ -99,11 +99,11 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'EffectsOnDeflect.Array.data[0]'
       value: 
-      objectReference: {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
+      objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'EffectsOnDeflect.Array.data[1]'
       value: 
-      objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
+      objectReference: {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Size.x
       value: 1.13462

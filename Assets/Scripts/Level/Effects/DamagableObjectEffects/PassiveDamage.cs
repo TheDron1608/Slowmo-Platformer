@@ -6,6 +6,6 @@ public class PassiveDamage : AbstractDamagableObjectEffect
 
     private void FixedUpdate()
     {
-        AffectedDamagableObject.ApplyDamage(DamagePerSecond * Time.fixedDeltaTime, null);
+        AffectedDamagableObject.ApplyDamage(DamagePerSecond * Time.fixedDeltaTime, null, 0f);
     }
 }
