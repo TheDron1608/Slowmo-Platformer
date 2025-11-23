@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public abstract class CharacterPart : AbstractCharacterComponent

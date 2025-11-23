@@ -1,7 +1,5 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public abstract class AbstractAIPathfinding : AbstractAIInfo
@@ -44,11 +42,11 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
             return HashCode.Combine(Position, Layer);
         }
 
-        public static bool operator == (PathPosition a, PathPosition b)
+        public static bool operator ==(PathPosition a, PathPosition b)
         {
             return a.Position == b.Position && a.Layer == b.Layer;
         }
-        public static bool operator != (PathPosition a, PathPosition b)
+        public static bool operator !=(PathPosition a, PathPosition b)
         {
             return !(a == b);
         }
@@ -68,7 +66,7 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
         public PathChainElementType Type;
         public Interactable RequiredIteractableToContinue;
 
-        public PathChainElement (Vector2Int targetPosition, PathChainElementType type)
+        public PathChainElement(Vector2Int targetPosition, PathChainElementType type)
         {
             TargetPosition = targetPosition;
             Type = type;
@@ -122,7 +120,7 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
                 color,
                 duration
                 );
-            
+
             if (singleChain.HasValue && currentChain.Value.TargetPosition != singleChain.Value.TargetPosition)
             {
                 break;

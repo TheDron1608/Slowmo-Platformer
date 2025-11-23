@@ -1,7 +1,4 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(6)]
@@ -32,7 +29,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
 
     private bool LimbApplyCondition(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb)
     {
-        return 
+        return
             ApplyCondition(effect, sender) &&
             affectedLimb.CharPartEffectsReceiver.ApplyCondition(effect, sender) &&
             NumberMath.GetAllListItemsAreValidByCondition(
@@ -80,8 +77,8 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
 
     public T GetEffect<T>(CharacterPart affectedLimb) where T : AbstractEffect
     {
-        return 
-            GetEffect<T>() ?? 
+        return
+            GetEffect<T>() ??
             affectedLimb.CharPartEffectsReceiver.GetEffect<T>() ??
             NumberMath.GetListCallbackReturnValueOfListItemsTilNotNull(
                 _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb),
@@ -122,8 +119,8 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
 
     public bool GetHasImmuneToEffect(AbstractEffect effect, CharacterPart affectedLimb)
     {
-        return 
-            GetHasImmuneToEffect(effect) && 
+        return
+            GetHasImmuneToEffect(effect) &&
             affectedLimb.CharPartEffectsReceiver.GetHasImmuneToEffect(effect) &&
             NumberMath.GetAnyListItemsIsValidByCondition(
                 _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb),

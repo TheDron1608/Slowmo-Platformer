@@ -1,11 +1,6 @@
-using NUnit.Framework;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 public class FluidParticle : AbstractSpriteParticle
 {
@@ -30,7 +25,7 @@ public class FluidParticle : AbstractSpriteParticle
     public float LengthMultiplier = 1f;
     public Sprite FlyingSprite;
 
-    private Vector2  _velocity;
+    private Vector2 _velocity;
     private Sprite _dripSprite;
     private float _lifeTime;
     private float _currentLifeTime = 0f;
@@ -157,7 +152,7 @@ public class FluidParticle : AbstractSpriteParticle
 
     private bool GetIsOnBackground()
     {
-        return 
+        return
             _layer.MultiTileMapsContainer.GetBackground()
             .GetTile<BackgroundRuleTile>(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0))?.CanBeSpilledByFluidParticles ?? false;
     }
@@ -187,7 +182,7 @@ public class FluidParticle : AbstractSpriteParticle
             StopCoroutine(_spreadCoroutine);
         }
         _spreadCoroutine = StartCoroutine(SpreadCoroutine(
-            _velocity, 
+            _velocity,
             math.lerp(MaxAmount, MinAmount, NumberMath.LimitFloatBetweenZeroAndOne(_currentLifeTime / (MaxLifeTime + MinLifeTime))),
             LengthMultiplier,
             true
@@ -244,10 +239,10 @@ public class FluidParticle : AbstractSpriteParticle
 
                 Vector2Int targetPosition = startPosition + VectorMath.Vec2ToVec2Int(velocity.normalized * i);
                 DrawFluidPoint(
-                    _dripSprite.texture, 
-                    targetPosition, 
-                    (int)math.floor(amount * (currentLength - i) / spreadLength), 
-                    Color.white, 
+                    _dripSprite.texture,
+                    targetPosition,
+                    (int)math.floor(amount * (currentLength - i) / spreadLength),
+                    Color.white,
                     backgroundOrForeground
                     );
             }

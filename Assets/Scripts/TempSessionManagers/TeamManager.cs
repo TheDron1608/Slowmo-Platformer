@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
@@ -20,7 +19,7 @@ public class TeamManager : MonoBehaviour
         public int GetTotalKills() => _totalKills;
         public int GetTotalDeaths() => _totalDeaths;
         public List<CharacterTeam> GetTeamMembers() => _teamMembers;
-        public List<CharacterTeam> GetAliveTeamMembers() => _aliveTeamMembers; 
+        public List<CharacterTeam> GetAliveTeamMembers() => _aliveTeamMembers;
         public List<CharacterTeam> GetDeadTeamMembers() => _deadTeamMembers;
 
         public void AddTeamMember(CharacterTeam teamMember)

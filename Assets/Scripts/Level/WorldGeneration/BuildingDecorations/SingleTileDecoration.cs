@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -31,7 +30,7 @@ public class SingleTileDecoration : GenerateOnFinishLevelEnviroment
         else
         {
             targetTilemap.GetBackgroundDecorations().SetTile(
-                targetPosition, 
+                targetPosition,
                 NumberMath.RandomCoinflip() ? MirroredDrawTile : DrawTile
                 );
         }

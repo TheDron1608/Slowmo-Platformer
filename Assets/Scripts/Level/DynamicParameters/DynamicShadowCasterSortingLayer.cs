@@ -1,8 +1,6 @@
-using System;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(ShadowCaster2D))]
 [DefaultExecutionOrder(-20)]

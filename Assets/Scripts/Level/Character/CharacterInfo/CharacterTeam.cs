@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 [DefaultExecutionOrder(7)]
 public class CharacterTeam : AbstractCharacterComponent

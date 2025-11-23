@@ -1,9 +1,6 @@
-using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR;
 
 public class BindedKey : MonoBehaviour
 {
@@ -14,13 +11,13 @@ public class BindedKey : MonoBehaviour
 
     public string Text
     {
-        get 
-        { 
-            return _textContainer.text; 
+        get
+        {
+            return _textContainer.text;
         }
-        set 
-        { 
-            _textContainer.text = value; 
+        set
+        {
+            _textContainer.text = value;
         }
     }
 

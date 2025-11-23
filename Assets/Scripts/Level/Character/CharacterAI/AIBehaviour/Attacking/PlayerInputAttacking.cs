@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -90,7 +87,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
     private void UpdateAimWeaponDown()
     {
         if (
-            CharComponents.CharacterClumsyness.ClumsyRangedAttack && 
+            CharComponents.CharacterClumsyness.ClumsyRangedAttack &&
             CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0f &&
             CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<RangedWeapon>() != null
             )

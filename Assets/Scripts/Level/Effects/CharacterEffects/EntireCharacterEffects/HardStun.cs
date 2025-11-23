@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class HardStun : AbstractStun
 {
     protected override void OnApply()

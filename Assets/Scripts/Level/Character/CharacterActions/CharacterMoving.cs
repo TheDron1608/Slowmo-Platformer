@@ -21,7 +21,7 @@ public class CharacterMoving : AbstractCharacterComponent
     public bool IsAbleToMoveThisFrame
     {
         get => _isAbleToMoveThisFrame;
-        private set => _isAbleToMoveThisFrame = value;  
+        private set => _isAbleToMoveThisFrame = value;
     }
     public bool IsAbleToMove
     {

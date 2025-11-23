@@ -73,7 +73,7 @@ public class SaveButton : MonoBehaviour
     {
         SessionManager.SessionData sessionData = GetSessionData();
 
-        
+
         (_localizedText.StringReference["SaveId"] as StringVariable).Value = sessionData.Id.ToString();
         (_localizedText.StringReference["Unlocked"] as StringVariable).Value = "0";
         (_localizedText.StringReference["AllUnlocks"] as StringVariable).Value = "0";

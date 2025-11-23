@@ -1,7 +1,5 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 
 [DefaultExecutionOrder(100)]
@@ -22,7 +20,7 @@ public class CameraDisablerObjectsOnDistance : MonoBehaviour
         while (true)
         {
             UpdateEnabled();
-            yield return new WaitForSeconds(1 /  UPDATES_PER_SECOND);
+            yield return new WaitForSeconds(1 / UPDATES_PER_SECOND);
         }
     }
 

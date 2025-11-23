@@ -16,7 +16,7 @@ public class ReloadOnSavePlace : AbstractAIReloading
             )
         {
             if (
-                rangedWeapon.GetIsNeedReload() && 
+                rangedWeapon.GetIsNeedReload() &&
                 (_selfStateBehaviourAI.NearestEnemyInfo == null || _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance.Value >= SaveDistance)
                 )
             {

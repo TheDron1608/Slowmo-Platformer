@@ -12,7 +12,7 @@ public class ScenePreloader
     /// <summary>
     /// Preloads scence and awaits to activate it via TryLoadPreloadedScence(string scenceName) function
     /// </summary>
-    public static AsyncOperation PreloadScence (string sceneName, [DefaultValue("LoadSceneMode.Single")] LoadSceneMode mode)
+    public static AsyncOperation PreloadScence(string sceneName, [DefaultValue("LoadSceneMode.Single")] LoadSceneMode mode)
     {
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, mode);
         asyncOperation.allowSceneActivation = false;
@@ -89,7 +89,7 @@ public class ScenePreloader
     /// </summary>
     /// <param name="sceneName"></param>
     public static void UnloadPreloadedScene(string sceneName)
-    {   
+    {
         _loadingScences.Remove(sceneName);
     }
 

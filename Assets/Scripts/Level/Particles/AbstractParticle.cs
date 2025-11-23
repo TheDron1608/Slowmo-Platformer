@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AbstractParticle : MonoBehaviour
@@ -9,7 +5,7 @@ public abstract class AbstractParticle : MonoBehaviour
     private bool _isSpawned = false;
     public bool IsSpawned
     {
-        get => _isSpawned; 
+        get => _isSpawned;
         private set => _isSpawned = value;
     }
 

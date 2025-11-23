@@ -8,7 +8,7 @@ public interface IDamagable
     public bool PiercableThrought { get; set; }
     public bool HitableByMeleeProjectiles { get; set; }
     public bool HitableByRangedProjectiles { get; set; }
-    public float DamageMultiplier {  get; set; }
+    public float DamageMultiplier { get; set; }
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 

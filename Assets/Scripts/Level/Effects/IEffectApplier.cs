@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 public interface IEffectApplier
 {
@@ -7,7 +6,7 @@ public interface IEffectApplier
     {
         public IEffectApplier Sender;
         public AbstractEffect Effect;
-        public ObjectEffectsReceiver Receiver; 
+        public ObjectEffectsReceiver Receiver;
 
         public OnEffectAppliedEventArgs(IEffectApplier sender, AbstractEffect effect, ObjectEffectsReceiver receiver)
         {

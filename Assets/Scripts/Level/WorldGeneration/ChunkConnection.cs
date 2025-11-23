@@ -60,8 +60,8 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
         {
             result.AddRange(
                     layer.TrySpawnObject(
-                    targetGemeratonObj, 
-                    NumberMath.Vec3ToVec3Int(generationInfo.Offset), 
+                    targetGemeratonObj,
+                    NumberMath.Vec3ToVec3Int(generationInfo.Offset),
                     generationInfo.Building,
                     generationInfo.Chunk
                     ) ?? new List<GameObject>(0)

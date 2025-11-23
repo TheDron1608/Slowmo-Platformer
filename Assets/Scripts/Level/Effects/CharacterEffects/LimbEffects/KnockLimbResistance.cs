@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class KnockLimbResistance : AbstractCharacterLimbEffect
 {
     public float KnockMultiplier = 1f;

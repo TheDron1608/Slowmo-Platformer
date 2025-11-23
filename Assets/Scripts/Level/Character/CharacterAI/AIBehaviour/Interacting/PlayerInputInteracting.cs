@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -62,7 +59,7 @@ public class PlayerInputInteracting : AbstractAIInteracting
             (Interactable interactable) => interactable.enabled && interactable.gameObject.activeSelf
             ).OrderBy(
             (Interactable interactable) =>
-                (VectorMath.Vec3ToVec2(interactable.transform.position - CharComponents.Center.transform.position).normalized - CharComponents.CharacterAiming.GetTargetAimNormalized()).magnitude * 
+                (VectorMath.Vec3ToVec2(interactable.transform.position - CharComponents.Center.transform.position).normalized - CharComponents.CharacterAiming.GetTargetAimNormalized()).magnitude *
                 Vector2.Distance(CharComponents.Center.transform.position, interactable.transform.position)
             ).FirstOrDefault();
     }

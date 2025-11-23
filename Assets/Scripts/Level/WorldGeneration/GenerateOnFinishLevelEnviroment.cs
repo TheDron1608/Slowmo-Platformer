@@ -1,5 +1,3 @@
-﻿using UnityEngine;
-
-public abstract class GenerateOnFinishLevelEnviroment : LateGenerateionEnviroment
+﻿public abstract class GenerateOnFinishLevelEnviroment : LateGenerateionEnviroment
 {
 }

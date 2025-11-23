@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -48,7 +47,7 @@ public class CharacterAIManager : AbstractCharacterComponent
     {
         _stateBehaviourAIs = transform.GetComponentsInChildren<AbstractCharacterStateBehaviourAI>(false).ToList();
         _stateBehaviourAIs.OrderByDescending(state => state.UpdateOrder);
-        for (int i = 0; i <  _stateBehaviourAIs.Count; i++)
+        for (int i = 0; i < _stateBehaviourAIs.Count; i++)
         {
             _stateBehaviourAIs[i].SetEnabledBehaviours(false);
         }

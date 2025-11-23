@@ -1,9 +1,4 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-
+﻿
 public class SimpleAIPathfinding : AbstractAIPathfinding
 {
     protected override void OnUpdateInfo()

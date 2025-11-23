@@ -117,10 +117,10 @@ public class CharacterRolling : AbstractCharacterComponent
         {
             if (RollCondition(_currentRollDirection))
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = 
+                CharComponents.CharacterRigidBody.linearVelocityX =
                     math.lerp(
-                        CharComponents.CharacterRigidBody.linearVelocityX, 
-                        (RollSpeed + _currentExtraSpeed) * _currentRollDirection, 
+                        CharComponents.CharacterRigidBody.linearVelocityX,
+                        (RollSpeed + _currentExtraSpeed) * _currentRollDirection,
                         (RollSpeed + _currentExtraSpeed) * Time.fixedDeltaTime
                         );
 

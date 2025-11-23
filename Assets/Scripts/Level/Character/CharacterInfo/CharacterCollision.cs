@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class CharacterCollision : AbstractCharacterComponent
 {
@@ -150,9 +149,9 @@ public class CharacterCollision : AbstractCharacterComponent
 
     private GameObject RaycastHitFromCollider(Vector2 from, Vector2 align, out ForegroundRuleTile collidedTile)
     {
-        float rayCastHitRange = 
-            (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
-                CharComponents.CharacterRigidBodyCapsuleCollider.size.x * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x) : 
+        float rayCastHitRange =
+            (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ?
+                CharComponents.CharacterRigidBodyCapsuleCollider.size.x * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x) :
                 CharComponents.CharacterRigidBodyCapsuleCollider.size.y * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y)
             ) / 2 + COLLISION_HIT_DETECION_THICKNESS;
 
@@ -183,8 +182,8 @@ public class CharacterCollision : AbstractCharacterComponent
             math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
             math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x)
             ) / 2;
-        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
-            new Vector2(0f, extraOffset) : 
+        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ?
+            new Vector2(0f, extraOffset) :
             new Vector2(extraOffset, 0f);
 
         Vector2 rayCastHitOrigin =
@@ -201,12 +200,12 @@ public class CharacterCollision : AbstractCharacterComponent
             math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x)
             ) / 2;
 
-        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ? 
+        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ?
             new Vector2(0f, extraOffset) :
             new Vector2(extraOffset, 0f);
 
         Vector2 rayCastHitOrigin =
-            VectorMath.Vec3ToVec2(transform.position) + 
+            VectorMath.Vec3ToVec2(transform.position) +
             (CharComponents.CharacterRigidBodyCapsuleCollider.offset * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale - extraOffsetVec2);
 
         return RaycastHitFromCollider(rayCastHitOrigin, align, out collidedTile);
@@ -358,7 +357,7 @@ public class CharacterCollision : AbstractCharacterComponent
                         CharComponents.CharacterRolling.IsRolling &&
                         !CharComponents.CharacterRolling.CurrentRollHitCharacters.Contains(otherCharComponent)
                     )
-                    ) 
+                    )
                 {
                     //hit self
                     Vector2 affectingVelocity = CharComponents.CharacterRigidBody.linearVelocity / 2f;

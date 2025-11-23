@@ -1,9 +1,4 @@
-using Unity.Mathematics;
-using Unity.Mathematics.Geometry;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class ButtonOnClickMoveObject : MonoBehaviour
 {

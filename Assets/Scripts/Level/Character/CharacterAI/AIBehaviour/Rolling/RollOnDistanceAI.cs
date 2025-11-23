@@ -1,6 +1,3 @@
-using System.Collections;
-using UnityEngine;
-
 public class RollOnDistanceAI : AbstractAIRolling
 {
     public float DistanceToRoll = 3f;
@@ -34,7 +31,7 @@ public class RollOnDistanceAI : AbstractAIRolling
         else
         {
             if (
-                _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy == null || 
+                _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy == null ||
                 _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance >= DistanceToPrepareRollAgain
                 )
             {

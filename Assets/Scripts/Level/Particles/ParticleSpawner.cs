@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,13 +88,13 @@ public class ParticleSpawner : MonoBehaviour
     }
 
     public static AbstractParticle SpawnParticle(
-        AbstractParticle particle, 
-        Vector2 position, 
-        Vector2 direction, 
+        AbstractParticle particle,
+        Vector2 position,
+        Vector2 direction,
         float angle,
-        float spawnVelocity, 
-        float spawnAngularVelocity, 
-        Material material, 
+        float spawnVelocity,
+        float spawnAngularVelocity,
+        Material material,
         ZIndexLayer layer
         )
     {

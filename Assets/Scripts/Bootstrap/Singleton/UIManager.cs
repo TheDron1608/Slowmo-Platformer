@@ -1,12 +1,8 @@
-using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 [DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
@@ -37,7 +33,8 @@ public class UIManager : MonoBehaviour
             _currentScreenOverlay = currentScreenOverlayGO.AddComponent<ScreenOverlayInstance>();
             _currentScreenOverlay.OverlayOrder = OverlayOrder;
 
-            if (_currentScreenOverlay.TryGetComponent(out AnimatedImage animatedImageComponent)) {
+            if (_currentScreenOverlay.TryGetComponent(out AnimatedImage animatedImageComponent))
+            {
                 animatedImageComponent.AnimationFinished += AnimatedImage_OnAnimationFinished;
             }
 
@@ -151,8 +148,8 @@ public class UIManager : MonoBehaviour
 
     public static bool GamePaused()
     {
-        return 
-            (Instance.GameplayScreenOverlay.GetGameplayUI()?.Pause.gameObject.activeSelf ?? false) || 
+        return
+            (Instance.GameplayScreenOverlay.GetGameplayUI()?.Pause.gameObject.activeSelf ?? false) ||
             Instance.GameOverScreenOverlay.GetCurrentScreenOverlay() != null;
     }
 

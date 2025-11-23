@@ -1,10 +1,6 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.ResourceManagement.ResourceProviders;
 
 public class JSONFileManager : MonoBehaviour
 {
@@ -34,7 +30,7 @@ public class JSONFileManager : MonoBehaviour
 
 
 
-    public static JSONFileManager Instance {  get; private set; }
+    public static JSONFileManager Instance { get; private set; }
 
     public const string JSON_ROOT_FILES_PATH = "Json\\";
 
@@ -47,7 +43,7 @@ public class JSONFileManager : MonoBehaviour
     [Header("saves")]
     public string SavesFolder;
     public string SaveFileRootName;
-    
+
 
     private static string GetJSONRootPath()
     {

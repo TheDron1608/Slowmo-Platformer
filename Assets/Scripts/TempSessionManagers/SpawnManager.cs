@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
@@ -47,7 +46,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (PlayerCharacter != null)
         {
-            return 
+            return
                 WorldGenerationManager.Instance.GeneratedBuildings.First()?.Layer.TrySpawnObject(
                     PlayerCharacter.gameObject,
                     VectorMath.Vec3ToVec3Int(WorldGenerationManager.Instance.GeneratedBuildings.First().Enter.GetSpawnPosition()),

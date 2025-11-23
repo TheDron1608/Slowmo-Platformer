@@ -1,7 +1,5 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CharacterPartsManager : AbstractCharacterComponent
 {
@@ -20,7 +18,7 @@ public class CharacterPartsManager : AbstractCharacterComponent
 
     private void UpdateCharacterParts()
     {
-        for (int i = 0;  i < _characterParts.Count; i++)
+        for (int i = 0; i < _characterParts.Count; i++)
         {
             _characterParts[i].OnRemoved -= CharacterPart_OnRemoved;
         }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GravityMultiplier : AbstractCharacterEffect, IEntireCharacterEffect
 {
     public float GravityMultiplierAmount = 1f;

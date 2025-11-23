@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization.Components;
@@ -23,7 +22,7 @@ public class GameOverExit : MonoBehaviour
 
     public void UpdateText()
     {
-        (_localizedText.StringReference["ExitButton"] as StringVariable).Value = 
+        (_localizedText.StringReference["ExitButton"] as StringVariable).Value =
             _gameOverUI.LeaveAction.action.GetBindingDisplayString(CurrentDeviceTracker.GetCurrentDeviceKeyBindIndex()).ToUpper();
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,7 +56,7 @@ public class CharacterPartVisual : AbstractCharacterComponent
         catch (KeyNotFoundException)
         {
             throw new UnityException(
-                "not found sprite in CharacterPartVisualManager.Instance.SampleSprites with key " + sampleSprite + 
+                "not found sprite in CharacterPartVisualManager.Instance.SampleSprites with key " + sampleSprite +
                 " try press UpdateCharacterTextures button in inspector of CharacterPartVisualManager gameObject"
                 );
         }

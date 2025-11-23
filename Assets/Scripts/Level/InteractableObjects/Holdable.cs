@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-using UnityEngine;
-using Unity.Mathematics;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Holdable : Interactable
 {
@@ -224,7 +223,7 @@ public class Holdable : Interactable
                 1f,
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject).EntireLayerMask
                 );
-            for (int i =  0; i < hits.Length; i++)
+            for (int i = 0; i < hits.Length; i++)
             {
                 if (hits[i].collider.transform.parent.TryGetComponent(out CharacterPart charPart))
                 {
@@ -253,7 +252,7 @@ public class Holdable : Interactable
         get => _currentHolder;
         private set
         {
-            if (_currentHolder != null )
+            if (_currentHolder != null)
             {
                 _lastHolder = _currentHolder;
             }
@@ -383,7 +382,7 @@ public class Holdable : Interactable
 
 
         //logic for weapon component and weapon class children classes
-        if (TryGetComponent(out Weapon weapon)) 
+        if (TryGetComponent(out Weapon weapon))
         {
             for (int i = 0; i < weapon.Projectiles.Count; i++)
             {
@@ -430,7 +429,7 @@ public class Holdable : Interactable
         }
         if (newHolder.CurrentHoldObject != null)
         {
-            if (!newHolder.TryThrow( new Vector2((newHolder.CharComponents.CharacterVisual.FlippedH ? -1f : 1f), 0.5f), 0.1f)) return;
+            if (!newHolder.TryThrow(new Vector2((newHolder.CharComponents.CharacterVisual.FlippedH ? -1f : 1f), 0.5f), 0.1f)) return;
         }
 
         newHolder.CurrentHoldObject = this;

@@ -1,9 +1,6 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAndJumping
 {
@@ -126,7 +123,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
             }
         }
         //try finish moving
-        else 
+        else
         {
             if (characterTilePosition.y == _currentChain.Value.TargetPosition.y && CharComponents.CharacterCollision.IsCollidingFloor())
             {
@@ -138,7 +135,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
 
         //jumping to target
         if (
-            CharComponents.CharacterCollision.IsCollidingFloor() && 
+            CharComponents.CharacterCollision.IsCollidingFloor() &&
             !CharComponents.CharacterJumping.GetIsJumping() &&
             (
                 _currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_UP ||
@@ -156,7 +153,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
             }
         }
         else if (
-            _currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_MIDDLE  &&
+            _currentChain.Value.Type == AbstractAIPathfinding.PathChainElement.PathChainElementType.MOVE_OFF_PLATFORM_MIDDLE &&
             math.abs(characterTilePosition.x - _currentChain.Value.TargetPosition.x) <= CharComponents.CharacterJumping.GetJumpWidth() / 2
             )
         {
@@ -172,14 +169,14 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         }
         else
         {
-            Vector2Int selfTargetPosition = 
-                _selfStateBehaviourAI?.Pathfinding.PathTarget != null ? 
-                _selfStateBehaviourAI.Pathfinding.PathTarget.Value.Position : 
+            Vector2Int selfTargetPosition =
+                _selfStateBehaviourAI?.Pathfinding.PathTarget != null ?
+                _selfStateBehaviourAI.Pathfinding.PathTarget.Value.Position :
                 TileManager.PositionToTilePosition(CharComponents.Center.transform.position);
 
-            Vector2Int sameWithTargetPosition = 
-                checkWho.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.Pathfinding.PathTarget != null ? 
-                checkWho.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.Pathfinding.PathTarget.Value.Position : 
+            Vector2Int sameWithTargetPosition =
+                checkWho.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.Pathfinding.PathTarget != null ?
+                checkWho.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.Pathfinding.PathTarget.Value.Position :
                 TileManager.PositionToTilePosition(checkWho.CharComponents.Center.transform.position);
 
             return selfTargetPosition == sameWithTargetPosition;

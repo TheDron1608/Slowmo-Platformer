@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemySpawnInfo", menuName = "WorldGeneration/EnemySpawnInfo")]

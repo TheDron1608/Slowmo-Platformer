@@ -50,7 +50,7 @@ public class Healthbar : MonoBehaviour
     private void Update()
     {
         if (HealthTrackedCharacter == null) return;
-        
+
 
         HealthbarHealth.fillAmount = NumberMath.LimitFloatBetweenZeroAndOne(HealthTrackedCharacter.CurrentHealth / HealthTrackedCharacter.MaxHealth);
         HealthbarHealthChange.fillAmount = math.lerp(HealthbarHealthChange.fillAmount, HealthbarHealth.fillAmount, Time.deltaTime * HEALTH_CHANGE_SPEED_MULTIPLIER);

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 /// <summary>
 /// removes all effects of same type when applied
 /// </summary>

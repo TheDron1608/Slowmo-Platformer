@@ -1,6 +1,3 @@
-using System.Collections;
-using UnityEngine;
-
 public abstract class AbstractDelayedAttacking : AbstractAIAttacking
 {
     public float RangedAttackDelaySeconds = 0.75f;
@@ -21,7 +18,7 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
             if (
                 AlwaysHammerWeaponBeforeAttack &&
                 CharComponents.CharacterHolding.CurrentHoldObject != null &&
-                CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) && 
+                CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) &&
                 !hammerWeapon.Hammered
                 )
             {
@@ -31,7 +28,7 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
             //trying start chainsaw
             else if (
                 CharComponents.CharacterHolding.CurrentHoldObject != null &&
-                CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) && 
+                CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) &&
                 !chainsaw.Started
                 )
             {
@@ -40,19 +37,19 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
 
             //trying attack if no need to hammer weapon or start chainsaw
             else if (
-                CharComponents.CharacterAttacking.IsAbleToAttack && 
+                CharComponents.CharacterAttacking.IsAbleToAttack &&
                     (
                     CharComponents.CharacterAttacking.UnarmedAttackProjectile != null ||
                         (
-                            CharComponents.CharacterHolding.CurrentHoldObject != null && 
+                            CharComponents.CharacterHolding.CurrentHoldObject != null &&
                             (
                                 (
-                                    CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) && 
+                                    CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
                                     rangedWeapon.Projectile != null &&
                                     !rangedWeapon.GetIsOutOfAmmo()
                                 ) ||
                                 (
-                                    CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out MeleeWeapon meleeWeapon) && 
+                                    CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out MeleeWeapon meleeWeapon) &&
                                     meleeWeapon.Projectile != null &&
                                     _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance.Value <= meleeWeapon.Projectile.ProjectileSize
                                 )

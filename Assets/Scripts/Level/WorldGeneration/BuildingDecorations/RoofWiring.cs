@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,7 +15,7 @@ public class RoofWiring : GenerateOnFinishLevelEnviroment
 
         bool leftOrRightDirection = NumberMath.RandomCoinflip();
         Vector3Int position = NumberMath.Vec3ToVec3Int(generationInfo.Offset);
-        MultiTileMapsContainer targetTilemaps =generationInfo.GenerateWhere.MultiTileMapsContainer;
+        MultiTileMapsContainer targetTilemaps = generationInfo.GenerateWhere.MultiTileMapsContainer;
 
         for (int y = position.y; y < HEIGHT + position.y; y++)
         {

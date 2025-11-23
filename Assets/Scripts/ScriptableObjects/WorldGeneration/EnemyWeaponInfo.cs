@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +8,6 @@ public class EnemyWeaponInfo : ScriptableObject
 
     public Holdable PickRandomWeapon()
     {
-        return NumberMath.PickRandomItem(PossibleWeapon);           
+        return NumberMath.PickRandomItem(PossibleWeapon);
     }
 }

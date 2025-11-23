@@ -1,5 +1,3 @@
-using System;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class MoveBetweenTwoCoors : MonoBehaviour
@@ -23,7 +21,7 @@ public class MoveBetweenTwoCoors : MonoBehaviour
         }
     }
 
-    private void MoveTo (Vector3 targetPos)
+    private void MoveTo(Vector3 targetPos)
     {
         Vector3 newPos = new Vector3(
             Mathf.Lerp(transform.position.x, targetPos.x, Time.deltaTime * MoveSpeed),

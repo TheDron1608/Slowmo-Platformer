@@ -30,7 +30,7 @@ public class AnimatedImage : MonoBehaviour
     public int CurrentFrame
     {
         get => _currentFrame;
-        set 
+        set
         {
             _currentFrame = value;
             if (_currentFrame >= _frames.Count)
@@ -83,8 +83,8 @@ public class AnimatedImage : MonoBehaviour
                     CurrentFrame--;
                 }
                 else
-                {  
-                    CurrentFrame++; 
+                {
+                    CurrentFrame++;
                 }
                 _timeLeftSinceLastFrame = 1f / (float)FPS - _timeLeftSinceLastFrame;
             }

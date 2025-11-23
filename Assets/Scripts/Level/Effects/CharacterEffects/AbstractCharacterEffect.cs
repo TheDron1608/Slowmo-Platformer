@@ -1,7 +1,3 @@
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AbstractCharacterEffect : AbstractEffect, ICharacterEffect
@@ -16,8 +12,8 @@ public abstract class AbstractCharacterEffect : AbstractEffect, ICharacterEffect
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return 
-            base.ApplyCondition(affectWho, sender) && 
+        return
+            base.ApplyCondition(affectWho, sender) &&
             affectWho.GetComponent<AbstractCharacterComponent>() != null;
     }
 

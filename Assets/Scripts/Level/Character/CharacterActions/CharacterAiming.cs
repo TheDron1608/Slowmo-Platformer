@@ -1,6 +1,4 @@
 using System;
-using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class CharacterAiming : AbstractCharacterComponent
@@ -102,8 +100,8 @@ public class CharacterAiming : AbstractCharacterComponent
         }
 
         if (
-            AimWeaponDown && 
-            CharComponents.CharacterHolding.CurrentHoldObject != null && 
+            AimWeaponDown &&
+            CharComponents.CharacterHolding.CurrentHoldObject != null &&
             CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded
             )
         {

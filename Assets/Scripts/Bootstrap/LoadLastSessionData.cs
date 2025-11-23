@@ -1,6 +1,4 @@
 using UnityEngine;
-using static ButtonOptions;
-using UnityEngine.Localization.Settings;
 using UnityEngine.InputSystem;
 
 public class LoadLastSessionData : MonoBehaviour

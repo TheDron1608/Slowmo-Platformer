@@ -20,8 +20,8 @@ public class MeleeProjectile : AbstractProjectile
     private int _hitWallLayerMask;
     private AbstractParticle _currentSpawnedParticle = null;
 
-    public override Weapon Weapon 
-    { 
+    public override Weapon Weapon
+    {
         get => base.Weapon;
         protected set
         {
@@ -118,7 +118,7 @@ public class MeleeProjectile : AbstractProjectile
                 (deflected.GetComponent<MeleeProjectile>() != null && IsAbleToDeflectMeleeProjectiles) ||
                 (deflected.GetComponent<RangedProjectile>() != null && IsAbleToDeflectRangedProjectiles)
             ) &&
-            deflected != this && 
+            deflected != this &&
             (
                 deflected.OwnerOrLastHolder == null ||
                 (
@@ -159,7 +159,7 @@ public class MeleeProjectile : AbstractProjectile
 
         if (_didHitAnyWallOnce) return;
 
-        if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null) 
+        if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null)
         {
             if (Weapon.TryGetComponent(out Holdable holdableWeapon) && holdableWeapon.CurrentHolder != null && holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody))
             {
@@ -188,7 +188,7 @@ public class MeleeProjectile : AbstractProjectile
     private bool GetHasNoBlocksBetweenHitObject(Collider2D hitObject)
     {
         RaycastHit2D[] hitObjectsBetween = Physics2D.LinecastAll(
-            transform.position, 
+            transform.position,
             hitObject.transform.position,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject).EntireLayerMask
             );
@@ -201,7 +201,7 @@ public class MeleeProjectile : AbstractProjectile
             }
             if (
                 (
-                    hitObject.TryGetComponent(out MeleeProjectile meleeProjectile) && 
+                    hitObject.TryGetComponent(out MeleeProjectile meleeProjectile) &&
                     meleeProjectile != this &&
                     (meleeProjectile.Weapon == null || meleeProjectile.Weapon != Weapon) &&
                     meleeProjectile.IsAbleToDeflectMeleeProjectiles

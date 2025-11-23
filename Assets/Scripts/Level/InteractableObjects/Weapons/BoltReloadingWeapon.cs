@@ -27,7 +27,7 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     }
 
     public override float AttackCooldownMultiplier
-    { 
+    {
         get => base.AttackCooldownMultiplier;
         set
         {

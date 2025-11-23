@@ -145,8 +145,8 @@ public class WorldGenerationManager : MonoBehaviour
             foreach (
                 ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo avaibleConnection in
                 layer.GetGenerationTempInfoByType<ChunkConnection>(false).Where(
-                    (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) => 
-                        !connection.Generated && 
+                    (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo connection) =>
+                        !connection.Generated &&
                         connection.TargetGeneration.GetComponent<ChunkConnection>().GetConnectionIsPreffered(prefferedPosition - connection.GetSpawnPosition()) &&
                         connection.Chunk.DistanceFromMainGenerationBranch <= chunksAmount
                     ).OrderBy(
@@ -159,10 +159,10 @@ public class WorldGenerationManager : MonoBehaviour
                 for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
                 {
                     if (NumberMath.PickRandomItem(Chunks, avaibleConnection.Chunk.OriginalChunk).TryAddChunk(
-                        layer, 
-                        avaibleConnection as ChunkConnection.PreGeneratedChunkConnectionTempInfo, 
+                        layer,
+                        avaibleConnection as ChunkConnection.PreGeneratedChunkConnectionTempInfo,
                         newBuildingInfo,
-                        out ChunkInfo newChunkInfo, 
+                        out ChunkInfo newChunkInfo,
                         out ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunkConnection))
                     {
                         if (currentParallelRoomsAmount != 0)

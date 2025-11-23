@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CharacterJumping : AbstractCharacterComponent
 {
@@ -19,7 +17,7 @@ public class CharacterJumping : AbstractCharacterComponent
     private bool _isJumping = false;
     private bool _awaitingClumsyJump = false;
     private float _currentGravityMultiplier = 1f;
-    
+
     public event EventHandler OnStartedJumping;
     public event EventHandler OnStopedJumping;
 
@@ -74,9 +72,9 @@ public class CharacterJumping : AbstractCharacterComponent
     {
         if (
             (
-                (CharComponents.CharacterVisual.IsBusy() && !(CanForceStopRollingOnJump && CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.ROLL)) && 
+                (CharComponents.CharacterVisual.IsBusy() && !(CanForceStopRollingOnJump && CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.ROLL)) &&
                 CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE
-            ) || 
+            ) ||
             !IsAbleToJump
             )
         {
@@ -223,8 +221,8 @@ public class CharacterJumping : AbstractCharacterComponent
     {
 
         return (int)math.ceil(math.pow(JumpForce, 2) / (2 * (Physics2D.gravity.magnitude * GetBaseGravity() * CharComponents.CharacterJumping.KeepJumpGravityMultiplier)));
-    }            
-    
+    }
+
     public int GetJumpWidth()
     {
         return (int)math.round(CharComponents.CharacterMoving.Speed * (JumpForce / (Physics2D.gravity.magnitude * GetBaseGravity() * CharComponents.CharacterJumping.KeepJumpGravityMultiplier)));

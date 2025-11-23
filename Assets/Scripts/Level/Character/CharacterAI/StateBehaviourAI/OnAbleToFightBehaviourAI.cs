@@ -1,14 +1,8 @@
-using NUnit.Framework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class OnAbleToFightBehaviourAI : AbstractCharacterStateBehaviourAI
 {
     public override bool StateBehaviourCondition()
     {
-        return 
+        return
             CharComponents.CharacterAttacking.UnarmedAttackProjectile != null ||
             (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) && weapon.GetIsAbleToAttack());
     }

@@ -14,8 +14,8 @@ public class LevelInfo : ScriptableObject
     public string LevelName
     {
         get => (_levelName != null && _levelName != "") ? _levelName : Level.ToString();
-        set  => _levelName = value;
+        set => _levelName = value;
     }
 
-    public string SceneName = ""; 
+    public string SceneName = "";
 }

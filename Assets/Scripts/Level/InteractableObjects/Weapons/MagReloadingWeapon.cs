@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
@@ -110,7 +109,7 @@ public class MagReloadingWeapon : RangedWeapon
             TryUnload();
             return;
         }
-        else if (Mags <=  0)
+        else if (Mags <= 0)
         {
             return;
         }

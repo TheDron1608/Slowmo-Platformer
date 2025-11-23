@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ReloadOnOutOfAmmoAI : AbstractAIReloading
 {
     private void FixedUpdate()
@@ -14,8 +12,8 @@ public class ReloadOnOutOfAmmoAI : AbstractAIReloading
                 CharComponents.CharacterReloading.TryReload();
             }
             if (
-                CharComponents.CharacterReloading.GetIsReloading() && 
-                rangedWeapon.LoadedLivingAmmoLeft > 0 && 
+                CharComponents.CharacterReloading.GetIsReloading() &&
+                rangedWeapon.LoadedLivingAmmoLeft > 0 &&
                 _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null
                 )
             {

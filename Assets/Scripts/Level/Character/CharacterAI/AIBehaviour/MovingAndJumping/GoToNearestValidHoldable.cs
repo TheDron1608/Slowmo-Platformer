@@ -1,6 +1,3 @@
-using System.Linq;
-using UnityEngine;
-
 public class GoToNearestValidHoldable : AbstractAIPathfindingMovingAndJumping
 {
     protected override void UpdatePathTarget()

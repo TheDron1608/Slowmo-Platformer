@@ -1,6 +1,6 @@
-using UnityEngine;
 using System;
 using Unity.Mathematics;
+using UnityEngine;
 
 public static class VectorMath
 {
@@ -83,7 +83,7 @@ public static class VectorMath
     /// <returns></returns>
     public static Quaternion RandomizeQuarternion(Quaternion quaternion, float accuracy)
     {
-        Vector3 eulerAngles =  quaternion.eulerAngles;
+        Vector3 eulerAngles = quaternion.eulerAngles;
 
         quaternion.eulerAngles = new Vector3(
             eulerAngles.x,
@@ -156,7 +156,7 @@ public static class VectorMath
     {
         return new Vector3(
             position.x - (position.x % (1f / 16f)),
-            position.y - (position.y % (1f / 16f)), 
+            position.y - (position.y % (1f / 16f)),
             position.z
             );
     }

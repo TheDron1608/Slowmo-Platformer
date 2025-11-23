@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -39,7 +35,7 @@ public class LightParticle : AbstractParticle
     private void FixedUpdate()
     {
         _lifeTimeLeft -= Time.deltaTime;
-        if (_lifeTimeLeft <= 0 )
+        if (_lifeTimeLeft <= 0)
         {
             RemoveParticle();
         }

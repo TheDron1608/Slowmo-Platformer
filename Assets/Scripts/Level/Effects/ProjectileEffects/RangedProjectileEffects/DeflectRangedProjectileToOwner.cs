@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DeflectRangedProjectileToOwner : AbstractRangedProjectileDeflection
@@ -19,7 +17,7 @@ public class DeflectRangedProjectileToOwner : AbstractRangedProjectileDeflection
         {
             deflectorCenter = sender.transform.position;
         }
-        
+
         RangedProjectile.transform.position = RangedProjectile.ProjectileTip.position;
         RangedProjectile.MoveAlignVec2 = -VectorMath.Quartenion2DToVec2(Quaternion.FromToRotation(RangedProjectile.transform.position, RangedProjectile?.Owner.CharComponents.Center.transform.position ?? deflectorCenter));
 

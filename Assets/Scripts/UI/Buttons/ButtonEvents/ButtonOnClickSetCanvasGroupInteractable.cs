@@ -13,9 +13,9 @@ public class ButtonOnClickSetCanvasGroupInteractable : MonoBehaviour
 
     [SerializeField]
     public List<CanvasGroupInteractableSet> CanvasGroupInteractables = new List<CanvasGroupInteractableSet>();
-    
+
     //called when button is clicked
-    public void SetCancasGroupInstactable ()
+    public void SetCancasGroupInstactable()
     {
         if (ButtonOnClickToggleDeleteSaves.DeleteSaves) return;
 

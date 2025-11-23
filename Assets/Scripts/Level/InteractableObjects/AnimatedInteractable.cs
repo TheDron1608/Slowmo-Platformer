@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using static CharacterVisual;
 
 public abstract class AnimatedInteractable : Interactable
 {
     [Header("AnimatedInteractalbe")]
-    public CharacterPartBusyStates AnimationOnStartInteract = CharacterPartBusyStates.NONE;
-    public CharacterPartBusyStates AnimationOnFinishInteract = CharacterPartBusyStates.NONE;
+    public CharacterVisual.CharacterPartBusyStates AnimationOnStartInteract = CharacterVisual.CharacterPartBusyStates.NONE;
+    public CharacterVisual.CharacterPartBusyStates AnimationOnFinishInteract = CharacterVisual.CharacterPartBusyStates.NONE;
 
     public string SelfAnimatorOnStartIntreactTriggerName = "";
     public string SelfAnimatorOnFinishIntreactTriggerName = "";
@@ -36,7 +35,7 @@ public abstract class AnimatedInteractable : Interactable
         }
     }
 
-    private void CharacterVisual_OnFirstBusyStateChanged(object sender, OnBusyStateChangedEventArgs e)
+    private void CharacterVisual_OnFirstBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
         OnFinishInteract((sender as MonoBehaviour).gameObject);
 

@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MultiHealthbarsManager : MonoBehaviour
 {
@@ -80,7 +77,7 @@ public class MultiHealthbarsManager : MonoBehaviour
         {
             UIManager.Instance.DamagedScreenOverlay.Show();
             UIManager.Instance.DamagedScreenOverlay.FillAmount = math.lerp(
-                UIManager.Instance.DamagedScreenOverlay.FillAmount, 
+                UIManager.Instance.DamagedScreenOverlay.FillAmount,
                 1f - math.sin(PickAvgHealthbarsFillAmount() * math.PI / 2),
                 Time.deltaTime * DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER
                 );

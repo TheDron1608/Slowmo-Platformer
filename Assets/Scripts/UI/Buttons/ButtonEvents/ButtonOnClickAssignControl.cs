@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -28,8 +27,9 @@ public class ButtonOnClickAssignControl : MonoBehaviour
         UIManager.Instance.InputBindingScreenOverlay.Show();
 
         ActionReference.action.PerformInteractiveRebinding(ActionReferenceIndex).OnComplete(
-            callback => {
-                ActionReference.action.actionMap.Enable(); 
+            callback =>
+            {
+                ActionReference.action.actionMap.Enable();
 
                 for (int i = 0; i < InputSystem.actions.actionMaps.Count; i++)
                 {

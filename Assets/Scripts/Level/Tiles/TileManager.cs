@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
-using static UnityEngine.InputSystem.OnScreen.OnScreenStick;
 
 public class TileManager : MonoBehaviour
 {
@@ -199,7 +195,7 @@ public class TileManager : MonoBehaviour
                 math.min(platform.TailPositionX, targetPosition.x + maxJumpWidth)
                 );
 
-            if (limitedStartPosX.HasValue )
+            if (limitedStartPosX.HasValue)
             {
                 NavigationPlatformTransitionInfo result = new();
                 result.StartConntection = new Vector2Int(limitedStartPosX.Value, startPosition.y);

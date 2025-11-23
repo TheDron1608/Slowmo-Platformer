@@ -13,7 +13,7 @@ public class CharacterReloading : AbstractCharacterComponent
     public float ReloadSpeed
     {
         get => _reloadSpeed;
-        set 
+        set
         {
             if (
                 CharComponents.CharacterHolding.CurrentHoldObject != null &&
@@ -101,7 +101,7 @@ public class CharacterReloading : AbstractCharacterComponent
 
     public bool TryFinishReload()
     {
-        return 
+        return
             CharComponents.CharacterHolding.CurrentHoldObject != null &&
             CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
             rangedWeapon.TryFinishReload();

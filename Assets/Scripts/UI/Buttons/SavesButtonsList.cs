@@ -54,7 +54,8 @@ public class SavesButtonsList : MonoBehaviour
 
     public void SetMoveComponent(SaveButton saveButton)
     {
-        if (!saveButton.TryGetComponent<ButtonOnClickMoveObject>(out ButtonOnClickMoveObject moveComponent)) {
+        if (!saveButton.TryGetComponent<ButtonOnClickMoveObject>(out ButtonOnClickMoveObject moveComponent))
+        {
             throw new UnityException("ButtonOnClickMoveObject component not found in " + gameObject.name);
         }
         moveComponent.MovingObject = _cardOnClickmovedObject;

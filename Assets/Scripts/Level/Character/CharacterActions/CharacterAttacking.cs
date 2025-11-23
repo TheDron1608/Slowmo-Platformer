@@ -153,7 +153,7 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     private IEnumerator AwaitClumsyRangedAttackDelayThenAttack(Vector2 direction)
     {
         CharComponents.CharacterAiming.AimWeaponDown = false;
-        
+
         while (!(CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim() && CharComponents.CharacterAiming.AimPerformed))
         {
             if (CharComponents.CharacterAiming.AimWeaponDown) BreakClumsyRangedAttack();

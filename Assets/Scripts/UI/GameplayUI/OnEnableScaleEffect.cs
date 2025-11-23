@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -21,7 +19,7 @@ public class OnEnableScaleEffect : MonoBehaviour
         if (ScaleEffectProgress < 1f)
         {
             ScaleEffectProgress = math.lerp(ScaleEffectProgress, 1f, Time.unscaledDeltaTime * ScaleEffectSpeed);
-            if (ScaleEffectProgress > 1f ) ScaleEffectProgress = 1f;
+            if (ScaleEffectProgress > 1f) ScaleEffectProgress = 1f;
         }
     }
 

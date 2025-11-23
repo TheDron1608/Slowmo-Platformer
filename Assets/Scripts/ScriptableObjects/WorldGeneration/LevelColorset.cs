@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -50,7 +48,7 @@ public class LevelColorset : ScriptableObject
         THROWER_ENEMY = 309,
         THROWER_ENEMY_EYES = 310,
         DEFLECTOR_ENEMY = 311,
-        DEFLECTOR_ENEMY_EYES = 312, 
+        DEFLECTOR_ENEMY_EYES = 312,
 
         //equipment
         DEFAULT_EQUIPMENT = 400,

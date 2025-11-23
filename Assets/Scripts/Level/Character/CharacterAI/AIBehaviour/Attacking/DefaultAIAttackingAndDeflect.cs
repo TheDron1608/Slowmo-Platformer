@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 
 public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
@@ -22,7 +21,7 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
                 if (
                     ((!projectile.Owner?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(CharComponents.CharacterTeam)) ?? true) &&
                     GetProjectileIsValidToDeflect(currentProjectile, projectile)
-                    ) 
+                    )
                 {
                     float distanceToProjectile = Vector2.Distance(CharComponents.Center.transform.position, projectile.transform.position);
                     if (

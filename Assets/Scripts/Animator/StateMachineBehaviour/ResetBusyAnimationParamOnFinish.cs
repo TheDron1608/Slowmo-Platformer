@@ -1,6 +1,4 @@
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class ResetBusyAnimationParamOnFinish : StateMachineBehaviour
 {

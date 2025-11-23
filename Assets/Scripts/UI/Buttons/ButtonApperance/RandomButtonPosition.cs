@@ -8,7 +8,7 @@ public class RandomButtonPosition : MonoBehaviour
 
     private void Awake()
     {
-        transform.localPosition = new Vector3 (
+        transform.localPosition = new Vector3(
             Random.Range(-_randomPosRange.x, _randomPosRange.x),
             Random.Range(-_randomPosRange.y, _randomPosRange.y),
             transform.localPosition.z

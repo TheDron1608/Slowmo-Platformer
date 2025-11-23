@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIElementTrackTarget : MonoBehaviour
 {

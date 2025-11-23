@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -90,10 +88,10 @@ public class Chunk : MonoBehaviour
     }
 
     public bool TryAddChunk(
-        ZIndexLayer addWhere, 
-        ChunkConnection.PreGeneratedChunkConnectionTempInfo sourceChunkConnection, 
-        BuildingInfo building, 
-        out ChunkInfo newChunkInfo, 
+        ZIndexLayer addWhere,
+        ChunkConnection.PreGeneratedChunkConnectionTempInfo sourceChunkConnection,
+        BuildingInfo building,
+        out ChunkInfo newChunkInfo,
         out ChunkConnection.PreGeneratedChunkConnectionTempInfo connectedChunkConntection)
     {
         newChunkInfo = default;

@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ReselectFloorEventHandler : MonoBehaviour
@@ -24,7 +22,7 @@ public class ReselectFloorEventHandler : MonoBehaviour
 
     private void ReselectFloorEventEmitter_OnReselectFloorEventCalled(object sender, int e)
     {
-        if (e== _floor)
+        if (e == _floor)
         {
             _renderer.material = MaterialManager.Instance.SelectMaterial;
         }

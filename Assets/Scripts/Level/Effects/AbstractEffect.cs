@@ -1,7 +1,4 @@
-using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect>, IEquatable<AbstractEffect>

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -84,7 +83,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
                 );
         }
 
-        return new List<GameObject> { targetTilemap.gameObject }; 
+        return new List<GameObject> { targetTilemap.gameObject };
     }
 
     public override PreGeneratedEnviromentTempInfo PreGenerate(ZIndexLayer preGenerateWhere, Vector3 position, BuildingInfo building, ChunkInfo chunk)

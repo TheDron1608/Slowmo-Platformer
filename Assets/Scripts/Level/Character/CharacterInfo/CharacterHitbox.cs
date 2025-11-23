@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class CharacterHitbox : AbstractCharacterComponent
@@ -118,8 +117,8 @@ public class CharacterHitbox : AbstractCharacterComponent
                 targetHitbox.Position.z
                 ), timeSpent / smoothChangeDuration);
             transform.localScale = math.lerp(baseScale, new Vector3(
-                CharComponents.CharacterVisual.FlippedH ? -targetHitbox.Scale.x : targetHitbox.Scale.x, 
-                targetHitbox.Scale.y, 
+                CharComponents.CharacterVisual.FlippedH ? -targetHitbox.Scale.x : targetHitbox.Scale.x,
+                targetHitbox.Scale.y,
                 targetHitbox.Scale.z
                 ), timeSpent / smoothChangeDuration);
             transform.localRotation = math.slerp(baseRotation, targetHitbox.Rotation, timeSpent / smoothChangeDuration);

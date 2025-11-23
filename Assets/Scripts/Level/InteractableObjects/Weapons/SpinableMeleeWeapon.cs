@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class SpinableMeleeWeapon : MeleeWeapon
 {
     const string ANIMATOR_SPIN_TRIGGER_NAME = "Spin";

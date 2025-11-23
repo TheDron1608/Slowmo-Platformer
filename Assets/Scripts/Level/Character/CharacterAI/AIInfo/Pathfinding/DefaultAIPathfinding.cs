@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -128,9 +127,9 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
     }
 
     private bool TryGeneratePathChainOnSingleLayer(
-        Vector2Int from, 
-        Vector2Int to, 
-        ZIndexLayer layer, 
+        Vector2Int from,
+        Vector2Int to,
+        ZIndexLayer layer,
         bool CanJumpToTarget,
         Interactable interactWithObjectAtFinish,
         out LinkedList<PathChainElement> result

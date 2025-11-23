@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class EnemySpawn : GenerateOnFinishAllBuildingEnviroment
 {
@@ -31,7 +30,8 @@ public class EnemySpawn : GenerateOnFinishAllBuildingEnviroment
         newEnemy.CharacterHolding.GiveNewHoldable(spawnInfo.Weapon?.PickRandomWeapon());
 
         //give equipment
-        foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment?.PickRandomEquipment() ?? new List<CharacterEquipmentPart>()) {
+        foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment?.PickRandomEquipment() ?? new List<CharacterEquipmentPart>())
+        {
             newEnemy.CharacterPartsManager.GiveNewEquipment(randomEquipment);
         }
 

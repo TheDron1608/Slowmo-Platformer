@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RangedProjectile : AbstractProjectile
@@ -91,7 +90,7 @@ public class RangedProjectile : AbstractProjectile
             );
 
         _rangeMoved += deltaRange;
-        if (_rangeMoved > MaxRange )
+        if (_rangeMoved > MaxRange)
         {
             RemoveProjectile();
         }
@@ -164,8 +163,8 @@ public class RangedProjectile : AbstractProjectile
 
     protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)
     {
-        return 
-            base.HitCondition(totalHitObjects, currentHitObjet) && 
+        return
+            base.HitCondition(totalHitObjects, currentHitObjet) &&
             currentHitObjet.GetComponent<AbstractProjectile>() == null &&
             (!GameObjectUtility.TryGetComponentInSelfOrParentOrChild(currentHitObjet.gameObject, out IDamagable damagableHitObject) || damagableHitObject.HitableByRangedProjectiles);
     }

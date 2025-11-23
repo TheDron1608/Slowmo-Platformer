@@ -1,6 +1,3 @@
-using System.Linq;
-using UnityEngine;
-
 public class GrabNearestValidWeapon : AbstractAIGrabbingAndThrowing
 {
     private void FixedUpdate()

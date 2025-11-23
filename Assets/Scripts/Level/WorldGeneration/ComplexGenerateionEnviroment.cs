@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ComplexGenerateionEnviroment : MonoBehaviour
@@ -52,7 +51,7 @@ public abstract class ComplexGenerateionEnviroment : MonoBehaviour
     public BuildingInfo Building
     {
         get => _building;
-        private set => _building = value;   
+        private set => _building = value;
     }
 
 

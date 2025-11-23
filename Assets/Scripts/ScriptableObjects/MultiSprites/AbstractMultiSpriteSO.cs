@@ -16,7 +16,7 @@ public abstract class AbstractMultiSpriteSO : ScriptableObject
         public Sprite Key;
         public Sprite[] Value;
 
-        public SerializableSampleSpritesDictionaryItem (Sprite key, Sprite[] value)
+        public SerializableSampleSpritesDictionaryItem(Sprite key, Sprite[] value)
         {
             Key = key;
             Value = value;

@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class DamagableObject : MonoBehaviour, IDamagable
@@ -31,7 +29,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
         get => _damageMultiplier;
         set => _damageMultiplier = value;
     }
-    public bool PiercableThrought 
+    public bool PiercableThrought
     {
         get => _piercableThrought;
         set => _piercableThrought = value;

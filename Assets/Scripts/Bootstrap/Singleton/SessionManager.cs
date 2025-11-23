@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,7 +53,7 @@ public class SessionManager : MonoBehaviour
 
             _currentSession = value;
             CurrentSessionChanged?.Invoke(this, EventArgs.Empty);
-            
+
         }
     }
 
@@ -63,7 +62,7 @@ public class SessionManager : MonoBehaviour
         get => _tempSession;
     }
 
-    public List<SessionData> Sessions;  
+    public List<SessionData> Sessions;
 
     public event EventHandler CurrentSessionChanged;
 

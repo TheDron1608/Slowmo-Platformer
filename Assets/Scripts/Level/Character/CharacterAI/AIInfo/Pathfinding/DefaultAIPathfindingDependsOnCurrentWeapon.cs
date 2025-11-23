@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEngine;
-
-public class DefaultAIPathfindingDependsOnCurrentWeapon : DefaultAIPathfinding
+﻿public class DefaultAIPathfindingDependsOnCurrentWeapon : DefaultAIPathfinding
 {
     protected override void OnUpdateInfo()
     {

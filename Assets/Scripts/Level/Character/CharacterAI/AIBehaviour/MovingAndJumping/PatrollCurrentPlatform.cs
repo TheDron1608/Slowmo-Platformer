@@ -36,7 +36,7 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
     }
 
     private void OnEnable()
-    {  
+    {
         CharComponents.CharacterMoving.Speed *= PatroolSpeedMultiplier;
         _currentPatrollDirectionSetCoroutine = null;
 

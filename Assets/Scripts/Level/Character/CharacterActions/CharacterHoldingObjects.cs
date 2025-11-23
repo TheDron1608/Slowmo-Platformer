@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CharacterHoldingObjects : AbstractCharacterComponent
 {
@@ -92,7 +91,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     public bool CanDisarm
     {
         get => _canDisarm;
-        set => _canDisarm = value;  
+        set => _canDisarm = value;
     }
 
     public List<Holdable> GetAvaibleHoldables()
@@ -103,7 +102,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             if (
                 holdableTransform.TryGetComponent(out Holdable holdable) &&
                 holdable.GetIsValidToInteract(CharComponents.gameObject) &&
-                Vector2.Distance(CharComponents.Center.transform.position, holdableTransform.transform.position) <= 
+                Vector2.Distance(CharComponents.Center.transform.position, holdableTransform.transform.position) <=
                     CharComponents.CharacterInteract.InteractRange * CharComponents.CharacterHolding.MaxGrabRangeMultiplier * holdable.SelectMaxRangeMultiplier
                 )
             {

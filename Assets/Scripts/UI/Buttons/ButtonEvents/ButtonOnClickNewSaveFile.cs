@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,14 +41,15 @@ public class ButtonOnClickNewSaveFile : MonoBehaviour
         SessionManager.SessionData newSaveData = new SessionManager.SessionData();
 
         int newSaveDataIndex = 1;
-        while (JSONFileManager.GetFileExist(JSONFileManager.Instance.SavesFolder, JSONFileManager.Instance.SaveFileRootName, newSaveDataIndex)) {
+        while (JSONFileManager.GetFileExist(JSONFileManager.Instance.SavesFolder, JSONFileManager.Instance.SaveFileRootName, newSaveDataIndex))
+        {
             newSaveDataIndex++;
         }
 
         newSaveData.SaveFilePath = JSONFileManager.JSON_ROOT_FILES_PATH + JSONFileManager.Instance.SavesFolder + "/" + JSONFileManager.Instance.SaveFileRootName + newSaveDataIndex + ".json";
-        newSaveData.Id =  newSaveDataIndex;
+        newSaveData.Id = newSaveDataIndex;
 
-        string newSaveDataStr = JsonUtility.ToJson(newSaveData);    
+        string newSaveDataStr = JsonUtility.ToJson(newSaveData);
         JSONFileManager.SaveJSON(JSONFileManager.Instance.SavesFolder, JSONFileManager.Instance.SaveFileRootName, newSaveDataIndex, newSaveDataStr);
 
         OnNewSaveAdded?.Invoke(this, EventArgs.Empty);

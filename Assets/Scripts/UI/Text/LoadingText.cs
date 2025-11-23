@@ -3,8 +3,8 @@ using TMPro;
 using UnityEngine;
 
 public class LoadingText : MonoBehaviour
-{   
-    public float AddCharDurationSeconds =.75f;
+{
+    public float AddCharDurationSeconds = .75f;
     public bool isAddingChars = true;
     public char addedChar = '.';
 

@@ -14,7 +14,7 @@ public class CameraTrack : MonoBehaviour
 
     private Rigidbody _rigidBodyComponent;
     private MultiZLayerCamera _multiZLayerCameraComponent;
-    private Vector3 _lastTrackPosition ;
+    private Vector3 _lastTrackPosition;
 
     public void InstantMoveToTrackObject()
     {

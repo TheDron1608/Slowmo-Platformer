@@ -7,7 +7,7 @@ public class Death : AbstractStun, ILethalEffect
 
     public bool DiedThisFrame
     {
-        get => _diedThisFrame; 
+        get => _diedThisFrame;
         private set => _diedThisFrame = value;
     }
 

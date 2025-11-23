@@ -45,9 +45,9 @@ public class MinorStun : AbstractStun
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return 
-            base.ApplyCondition(affectWho, sender) && 
-            !affectWho.GetHasEffect<HardStun>() && 
+        return
+            base.ApplyCondition(affectWho, sender) &&
+            !affectWho.GetHasEffect<HardStun>() &&
             !affectWho.GetHasEffect<Death>();
     }
 }

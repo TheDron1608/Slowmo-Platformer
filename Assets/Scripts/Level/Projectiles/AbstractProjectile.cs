@@ -165,7 +165,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     private void ApplySelfEffectOnWeaponUser(List<AbstractProjectile> projectiles, Weapon weapon)
     {
         if (
-            weapon != null && 
+            weapon != null &&
             weapon.TryGetComponent(out Holdable holdableWeapon) &&
             holdableWeapon != null &&
             holdableWeapon.CurrentHolder != null &&

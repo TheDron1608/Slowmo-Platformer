@@ -7,7 +7,7 @@ public class ButtonScroller : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _buttonText;
 
-    [SerializeField] 
+    [SerializeField]
     private int _currentValue;
 
     public int CurrentValue

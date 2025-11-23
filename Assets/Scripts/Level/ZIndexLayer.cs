@@ -57,7 +57,7 @@ public class ZIndexLayer : MonoBehaviour
     public Transform CloudParticlesContainer { get => _cloudParticlesContainer; }
     public Transform LightParticlesContainer { get => _lightParticlesContainer; }
     public Transform ProjectilesContainer { get => _projectilesContainer; }
-    public Transform InteractableEnviromentContainer {  get => _interactableEnviromentContainer; }
+    public Transform InteractableEnviromentContainer { get => _interactableEnviromentContainer; }
     public MultiTileMapsContainer MultiTileMapsContainer { get => _multiTileMapsContainer; }
 
     [SerializeField] private Transform _charactersContainer;
@@ -110,7 +110,7 @@ public class ZIndexLayer : MonoBehaviour
 
     private void Awake()
     {
-        if (ZIndex < 1 || ZIndex > MAX_Z_LAYERS) throw new UnityException("ZIndexLayer ZIndex max value is "+ MAX_Z_LAYERS+" and min value is 1");
+        if (ZIndex < 1 || ZIndex > MAX_Z_LAYERS) throw new UnityException("ZIndexLayer ZIndex max value is " + MAX_Z_LAYERS + " and min value is 1");
 
         InitializeEnviromoentLayers();
         UpdateLayerForAllChildren();
@@ -254,7 +254,7 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.PROJECTILE_TAG_NAME:
-                gameObject.layer = ProjectilesLayer; 
+                gameObject.layer = ProjectilesLayer;
                 break;
 
             case LayerManager.ENVIROMENT_TAG_NAME:
@@ -289,7 +289,8 @@ public class ZIndexLayer : MonoBehaviour
 
     private void SetLightRendererLayer(GameObject gameObject, int sortingLayerId, int[] lightTargetSortingLayers, int[] shadowTargetSortingLayers)
     {
-        if (gameObject.TryGetComponent(out Renderer renderer)) {
+        if (gameObject.TryGetComponent(out Renderer renderer))
+        {
             renderer.sortingLayerID = sortingLayerId;
         }
         if (gameObject.TryGetComponent(out DynamicLightSortingLayer lightSortingLayer))
@@ -368,7 +369,7 @@ public class ZIndexLayer : MonoBehaviour
         }
         else
         {
-            return null; 
+            return null;
         }
     }
 

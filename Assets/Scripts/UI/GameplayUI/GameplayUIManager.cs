@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
 public class GameplayUIManager : MonoBehaviour
@@ -68,8 +64,8 @@ public class GameplayUIManager : MonoBehaviour
     {
         bool enableHoldObjectInfo = ShowHoldObjectInfoCondition();
         _holdObjectInfoRectTransform.anchoredPosition = math.lerp(
-            _holdObjectInfoRectTransform.anchoredPosition, 
-            enableHoldObjectInfo ? Vector2.zero : new Vector2(_holdObjectInfoRectTransform.rect.width * HOLD_OBJECT_HIDE_POS_MULTIPLIER_X, _holdObjectInfoRectTransform.rect.height * HOLD_OBJECT_HIDE_POS_MULTIPLIER_Y), 
+            _holdObjectInfoRectTransform.anchoredPosition,
+            enableHoldObjectInfo ? Vector2.zero : new Vector2(_holdObjectInfoRectTransform.rect.width * HOLD_OBJECT_HIDE_POS_MULTIPLIER_X, _holdObjectInfoRectTransform.rect.height * HOLD_OBJECT_HIDE_POS_MULTIPLIER_Y),
             Time.deltaTime * HOLD_OBJECT_INFO_VISIBILITY_CHANGE_SPEED_MULTIPLIER
             );
     }

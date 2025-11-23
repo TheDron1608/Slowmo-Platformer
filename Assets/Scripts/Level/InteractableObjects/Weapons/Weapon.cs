@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,12 +20,12 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     private Transform _projectileSpawnPosition;
     private List<AbstractProjectile> _projectiles = new();
 
-    public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied; 
+    public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied;
 
     public float AttackCooldown
     {
         get => _attackCooldown;
-        set 
+        set
         {
             if (_attackCooldown > 0f && value <= 0f) OnFinishAttack();
             _attackCooldown = value;
@@ -142,7 +141,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         IsInCooldown = true;
 
         List<AbstractProjectile> newProjectiles = Projectile.SpawnProjectile(
-            direction, 
+            direction,
             transform.position,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject),
             this,

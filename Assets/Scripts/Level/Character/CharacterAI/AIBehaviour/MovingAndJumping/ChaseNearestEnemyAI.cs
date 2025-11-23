@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ChaseNearestEnemyAI : AbstractAIPathfindingMovingAndJumping
 {
     public bool RememberLastEnemyPosition = true;

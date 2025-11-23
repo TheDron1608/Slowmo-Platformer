@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 [DefaultExecutionOrder(2)]
 public class CharacterVisual : AbstractCharacterComponent
@@ -108,7 +106,7 @@ public class CharacterVisual : AbstractCharacterComponent
     public bool FlippedH
     {
         get => _flippedH;
-        set 
+        set
         {
             if (_flippedH != value)
             {
