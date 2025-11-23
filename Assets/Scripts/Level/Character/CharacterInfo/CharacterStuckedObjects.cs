@@ -32,7 +32,10 @@ public class CharacterStuckedObjects : AbstractCharacterComponent, IStuckToObjec
         for (int i = 0; i < _stuckedObjects.Count; i++)
         {
             Holdable stuckObject = _stuckedObjects[i];
+
             RemoveStuckedObject(stuckObject);
+            stuckObject.StuckedToCollider = null;
+
             if (stuckObject.TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
             {
                 stuckObjectRigidBody.linearVelocity = VectorMath.GetAngleToAsNormalizedVec2(CharComponents.Center.transform.position, stuckObject.transform.position) * RemoveObjectVelocity * stuckObject.ThrowForceMultiplier;

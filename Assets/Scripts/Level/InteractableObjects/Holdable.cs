@@ -101,11 +101,17 @@ public class Holdable : Interactable
             {
                 if (value.TryGetComponent(out IStuckToObject stuckToObject))
                 {
+                    _stuckedToCollider = value;
                     stuckToObject.AddStuckedObject(this);
                 }
                 else if (value.TryGetComponent(out AbstractCharacterComponent charComponent))
                 {
+                    _stuckedToCollider = charComponent.CharComponents.CharacterRigidBodyCapsuleCollider;
                     charComponent.CharComponents.CharacterStuckedObjects.AddStuckedObject(this);
+                }
+                else
+                {
+                    _stuckedToCollider = value;
                 }
 
                 _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
@@ -122,9 +128,10 @@ public class Holdable : Interactable
                     charComponent.CharComponents.CharacterStuckedObjects.RemoveStuckedObject(this);
                 }
                 _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+
+                _stuckedToCollider = value;
             }
 
-            _stuckedToCollider = value;
         }
     }
 
