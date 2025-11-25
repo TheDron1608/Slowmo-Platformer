@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder(6)]
@@ -32,10 +33,9 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         return
             ApplyCondition(effect, sender) &&
             affectedLimb.CharPartEffectsReceiver.ApplyCondition(effect, sender) &&
-            NumberMath.GetAllListItemsAreValidByCondition(
-                _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb),
+            _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb).All(
                 (equpmentPart) => equpmentPart.CharPartEffectsReceiver.ApplyCondition(effect, sender)
-                );
+            );
     }
 
     public void ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, CharacterPart affectedLimb)
@@ -68,22 +68,14 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
     {
         return
             GetHasEffect<T>() ||
-            affectedLimb.CharPartEffectsReceiver.GetHasEffect<T>() ||
-            NumberMath.GetAnyListItemsIsValidByCondition(
-                _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb),
-                (equpmentPart) => equpmentPart.CharPartEffectsReceiver.GetHasEffect<T>()
-                );
+            affectedLimb.CharPartEffectsReceiver.GetHasEffect<T>();
     }
 
     public T GetEffect<T>(CharacterPart affectedLimb) where T : AbstractEffect
     {
         return
             GetEffect<T>() ??
-            affectedLimb.CharPartEffectsReceiver.GetEffect<T>() ??
-            NumberMath.GetListCallbackReturnValueOfListItemsTilNotNull(
-                _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb),
-                (equpmentPart) => equpmentPart.CharPartEffectsReceiver.GetEffect<T>()
-                );
+            affectedLimb.CharPartEffectsReceiver.GetEffect<T>();
     }
 
     public bool TryGetEffect<T>(out T effect, CharacterPart affectedLimb) where T : AbstractEffect
@@ -121,20 +113,19 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
     {
         return
             GetHasImmuneToEffect(effect) &&
-            affectedLimb.CharPartEffectsReceiver.GetHasImmuneToEffect(effect) &&
-            NumberMath.GetAnyListItemsIsValidByCondition(
-                _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb),
-                (equpmentPart) => equpmentPart.CharPartEffectsReceiver.GetHasImmuneToEffect(effect)
-                );
+            affectedLimb.CharPartEffectsReceiver.GetHasImmuneToEffect(effect);
     }
 
     public override T GetEffect<T>(bool includeIncomingEffects = false)
     {
-        return base.GetEffect<T>(includeIncomingEffects) ??
-            NumberMath.GetListCallbackReturnValueOfListItemsTilNotNull<T, CharacterPart>(
-                _charComponents.CharacterPartsManager.CharacterParts, 
-                (CharacterPart part) => part.CharPartEffectsReceiver.GetSelfEffect<T>(includeIncomingEffects)
-            );
+        T result = base.GetEffect<T>(includeIncomingEffects);
+        if (result != null) return result;
+        foreach (CharacterPart part in _charComponents.CharacterPartsManager.CharacterParts)
+        {
+            result = part.CharPartEffectsReceiver.GetSelfEffect<T>(includeIncomingEffects);
+            if (result != null) return result;
+        }
+        return default;
     }
     public T GetSelfEffect<T>(bool includeIncomingEffects = false)
     {
@@ -158,8 +149,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
     public override bool GetHasEffect(AbstractEffect effect, bool includeIncomingEffects = false)
     {
         return base.GetHasEffect(effect, includeIncomingEffects) ||
-            NumberMath.GetAnyListItemsIsValidByCondition(
-                _charComponents.CharacterPartsManager.CharacterParts,
+            _charComponents.CharacterPartsManager.CharacterParts.Any(
                 (CharacterPart part) => part.CharPartEffectsReceiver.GetHasSelfEffect(effect, includeIncomingEffects)
             );
     }
@@ -171,9 +161,8 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
     public override bool GetHasEffect<T>(bool includeIncomingEffects = false)
     {
         return base.GetHasEffect<T>(includeIncomingEffects) ||
-            NumberMath.GetAnyListItemsIsValidByCondition(
-                _charComponents.CharacterPartsManager.CharacterParts,
-                (CharacterPart part) => part.CharPartEffectsReceiver.GetHasSelfEffect<T>()
+            _charComponents.CharacterPartsManager.CharacterParts.Any(
+                (CharacterPart part) => part.CharPartEffectsReceiver.GetHasSelfEffect<T>(includeIncomingEffects)
             );
     }
     public bool GetHasSelfEffect<T>(bool includeIncomingEffects = false)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
@@ -29,10 +30,9 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
             base.ApplyCondition(effect, sender) &&
             (
                 !TryGetComponent(out CharacterLimbPart limbPart) ||
-                NumberMath.GetAllListItemsAreValidByCondition(
-                    limbPart.GetEquipedAtParts(),
+                limbPart.GetEquipedAtParts().All(
                     (equpmentPart) => equpmentPart.CharPartEffectsReceiver.ApplyCondition(effect, sender)
-                    )
+                )
             ) &&
             CharComponents.CharacterEffectsReceiver.ApplyCondition(effect, sender);
     }

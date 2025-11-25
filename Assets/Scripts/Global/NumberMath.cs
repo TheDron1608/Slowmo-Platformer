@@ -93,47 +93,6 @@ public static class NumberMath
         return false;
     }
 
-    public static bool GetAllListItemsAreValidByCondition<T>(List<T> list, System.Func<T, bool> condition)
-    {
-        if (list.Count == 0) return false;
-
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (!condition.Invoke(list[i]))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public static bool GetAnyListItemsIsValidByCondition<T>(List<T> list, System.Func<T, bool> condition)
-    {
-        if (list.Count == 0) return false;
-
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (condition.Invoke(list[i]))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static rT GetListCallbackReturnValueOfListItemsTilNotNull<rT, lT>(List<lT> list, System.Func<lT, rT> callback)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            rT result = callback(list[i]);
-            if (result != null) return result;
-        }
-
-        return default(rT);
-    }
-
     public static bool GetListContainsComponent<T, lT>(List<lT> list) where lT : MonoBehaviour where T : MonoBehaviour
     {
         for (int i = 0; i < list.Count; i++)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8320025383044054765}
   - component: {fileID: -3175890595162132154}
   m_Layer: 0
-  m_Name: PassiveDamageDefault
+  m_Name: PassiveDamageDefaultDisallowOnDying
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,3 +48,5 @@ MonoBehaviour:
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}
   DamagePerSecond: 0.25
+  AllowOnDead: 0
+  AllowOnDying: 0
