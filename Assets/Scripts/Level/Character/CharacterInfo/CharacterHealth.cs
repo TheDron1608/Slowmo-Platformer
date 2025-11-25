@@ -3,6 +3,7 @@ using UnityEngine;
 public class CharacterHealth : DamagableObject
 {
     private CharacterComponentsManager _charComponents;
+    private CharacterPart _lethallyAffectedCharacterPart = null;
 
     public CharacterComponentsManager CharComponents
     {
@@ -41,8 +42,36 @@ public class CharacterHealth : DamagableObject
         }
     }
 
+    public override void Die(MonoBehaviour killer)
+    {
+        if (_lethallyAffectedCharacterPart == null)
+        {
+            base.Die(killer);
+        }
+    }
+
     public void Die(MonoBehaviour killer, CharacterPart lethallyDamagedPart)
     {
-        CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
+        if (lethallyDamagedPart == null)
+        {
+            Die(killer);
+        }
+        else if (!lethallyDamagedPart.CharPartEffectsReceiver.GetHasEffect(EffectsOnLethal))
+        {
+            CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
+            _lethallyAffectedCharacterPart = lethallyDamagedPart;
+        }
+    }
+
+    public override void Ressurect()
+    {
+        base.Ressurect();
+
+        if (_lethallyAffectedCharacterPart != null)
+        {
+            _lethallyAffectedCharacterPart.CharPartEffectsReceiver.RemoveEffect(EffectsOnLethal);
+            _lethallyAffectedCharacterPart.CharPartEffectsReceiver.RemoveEffect<ILethalEffect>();
+            _lethallyAffectedCharacterPart = null;
+        }
     }
 }

@@ -8,8 +8,8 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
 
     protected override void OnAwake()
     {
-        base.OnAwake();
         if (!TryGetComponent(out _charComponents)) throw new UnityException("CharacterComponentsManager component not found at " + gameObject.name);
+        base.OnAwake();
     }
 
     public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb)
@@ -126,6 +126,89 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
                 _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb),
                 (equpmentPart) => equpmentPart.CharPartEffectsReceiver.GetHasImmuneToEffect(effect)
                 );
+    }
+
+    public override T GetEffect<T>(bool includeIncomingEffects = false)
+    {
+        return base.GetEffect<T>(includeIncomingEffects) ??
+            NumberMath.GetListCallbackReturnValueOfListItemsTilNotNull<T, CharacterPart>(
+                _charComponents.CharacterPartsManager.CharacterParts, 
+                (CharacterPart part) => part.CharPartEffectsReceiver.GetSelfEffect<T>(includeIncomingEffects)
+            );
+    }
+    public T GetSelfEffect<T>(bool includeIncomingEffects = false)
+    {
+        return base.GetEffect<T>(includeIncomingEffects);
+    }
+
+    public override List<T> GetEffects<T>(bool includeIncomingEffects = false)
+    {
+        List<T> result = base.GetEffects<T>(includeIncomingEffects);
+        foreach (CharacterPart part in _charComponents.CharacterPartsManager.CharacterParts)
+        {
+            result.AddRange(part.CharPartEffectsReceiver.GetSelfEffects<T>(includeIncomingEffects));
+        }
+        return result;
+    }
+    public List<T> GetSelfEffects<T>(bool includeIncomingEffects = false)
+    {
+        return base.GetEffects<T>(includeIncomingEffects);
+    }
+
+    public override bool GetHasEffect(AbstractEffect effect, bool includeIncomingEffects = false)
+    {
+        return base.GetHasEffect(effect, includeIncomingEffects) ||
+            NumberMath.GetAnyListItemsIsValidByCondition(
+                _charComponents.CharacterPartsManager.CharacterParts,
+                (CharacterPart part) => part.CharPartEffectsReceiver.GetHasSelfEffect(effect, includeIncomingEffects)
+            );
+    }
+    public bool GetHasSelfEffect(AbstractEffect effect, bool includeIncomingEffects = false)
+    {
+        return base.GetHasEffect(effect, includeIncomingEffects);
+    }
+
+    public override bool GetHasEffect<T>(bool includeIncomingEffects = false)
+    {
+        return base.GetHasEffect<T>(includeIncomingEffects) ||
+            NumberMath.GetAnyListItemsIsValidByCondition(
+                _charComponents.CharacterPartsManager.CharacterParts,
+                (CharacterPart part) => part.CharPartEffectsReceiver.GetHasSelfEffect<T>()
+            );
+    }
+    public bool GetHasSelfEffect<T>(bool includeIncomingEffects = false)
+    {
+        return base.GetHasEffect<T>(includeIncomingEffects);
+    }
+
+    public override bool TryGetEffect<T>(out T effect)
+    {
+        if (base.TryGetEffect(out effect)) return true;
+        foreach (CharacterPart part in _charComponents.CharacterPartsManager.CharacterParts)
+        {
+            if (part.CharPartEffectsReceiver.TryGetSelfEffect<T>(out effect)) return true;
+        }
+        effect = default;
+        return false;
+    }
+    public bool TryGetSelfEffect<T>(out T effect)
+    {
+        return base.TryGetEffect(out effect);
+    }
+
+    public override bool TryGetEffect<T>(out T effect, out AbstractEffect incomingEffectOwner, bool includeIncomingEffects = false)
+    {
+        if (base.TryGetEffect(out effect, out incomingEffectOwner, includeIncomingEffects)) return true;
+        foreach (CharacterPart part in _charComponents.CharacterPartsManager.CharacterParts)
+        {
+            if (part.CharPartEffectsReceiver.TryGetSelfEffect<T>(out effect, out incomingEffectOwner, includeIncomingEffects)) return true;
+        }
+        effect = default;
+        return false;
+    }
+    public bool TryGetSelfEffect<T>(out T effect, out AbstractEffect incomingEffectOwner, bool includeIncomingEffects = false)
+    {
+        return base.TryGetEffect(out effect, out incomingEffectOwner, includeIncomingEffects);
     }
 
     public override Material EffectMaterial

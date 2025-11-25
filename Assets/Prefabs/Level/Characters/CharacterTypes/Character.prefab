@@ -49,7 +49,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 2130432
+    m_Bits: 10652160
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -391,6 +391,7 @@ MonoBehaviour:
   _maxHealth: 1
   _minHealth: 0
   _currentHealth: 1
+  _damageMultiplier: 1
   _piercableThrought: 0
   _hitableByMeleeProjectiles: 1
   _hitableByRangedProjectiles: 1

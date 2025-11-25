@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class MultiHealthbarsManager : MonoBehaviour
 {
-    const int MAX_HEALTHBARS = 6;
+    const int MAX_HEALTHBARS = 2;
     const float DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER = 5f;
-    const float DYING_DAMAGED_OVERLAY_FILL_AMOUNT = 5f;
+    const float DYING_DAMAGED_OVERLAY_FILL_AMOUNT = 2f;
 
     [SerializeField] private Healthbar _spawnHealthbar;
     [SerializeField] private RectTransform _healthbarsSpawnPosition;
@@ -75,16 +75,30 @@ public class MultiHealthbarsManager : MonoBehaviour
     {
         if (_currentHealthbars.Count >= MAX_HEALTHBARS) TryRemoveDeadHealthbar();
 
+
         if (_currentHealthbars.Count > 0)
         {
+            ILethalEffect dyingEffect = null;
+            AbstractEffect dyingEffectOwner = null;
+            bool characterIsDying = _currentHealthbars.Count == 1 && _currentHealthbars.First().GetTrackedIsDying(out dyingEffect, out dyingEffectOwner);
+
             UIManager.Instance.DamagedScreenOverlay.Show();
             UIManager.Instance.DamagedScreenOverlay.FillAmount = math.lerp(
                 UIManager.Instance.DamagedScreenOverlay.FillAmount,
-                (_currentHealthbars.Count == 1 && _currentHealthbars.First().GetTrackedIsDying()) ? 
+                characterIsDying ? 
                     DYING_DAMAGED_OVERLAY_FILL_AMOUNT : 
                     1f - math.sin(PickAvgHealthbarsFillAmount() * math.PI / 2),
                 Time.deltaTime * DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER
                 );
+
+            if (characterIsDying && dyingEffectOwner is TimeDelayedEffect timeDelayedDyingEffect)
+            {
+                UIManager.Instance.LivingTimeLeftScreenOverlay.Show(timeDelayedDyingEffect.TimeLeft.ToString("0.00"));
+            }
+            else
+            {
+                UIManager.Instance.LivingTimeLeftScreenOverlay.Hide();
+            }
         }
         else
         {

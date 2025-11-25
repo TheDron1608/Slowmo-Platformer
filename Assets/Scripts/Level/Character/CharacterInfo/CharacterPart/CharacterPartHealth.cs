@@ -55,7 +55,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultplier = 1f)
     {
         GetComponent<CharacterPart>().CharPartEffectsReceiver.ApplyEffect(EffectsOnHit, damager);
-        CharComponents.CharacterHealth.ApplyDamage(math.lerp(damage, damage * DamageMultiplier, damageMultiplierMultplier), damager, GetComponent<CharacterPart>());
+        CharComponents.CharacterHealth.ApplyDamage(math.lerp(damage, damage * DamageMultiplier, damageMultiplierMultplier), damager, gameObject.GetComponent<CharacterPart>());
 
         Vector3 hitPointPosition =
             damager.transform.position +

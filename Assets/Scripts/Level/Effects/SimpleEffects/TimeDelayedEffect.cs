@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DelayedEffect : AbstractOverwritingEffect
+public class TimeDelayedEffect : AbstractOverwritingEffect, IDelayedEffect
 {
     public float Delay = 1f;
     public AbstractEffect EffectOnFinishDelay;
@@ -9,10 +9,15 @@ public class DelayedEffect : AbstractOverwritingEffect
 
     private float _timeSpent = 0f;
 
-    protected override void OnApply()
+    public float TimeLeft
     {
-        base.OnApply();
+        get => Delay - _timeSpent;
+        set => Delay = _timeSpent + value;
+    }
 
+    public float TimeSpent
+    {
+        get => _timeSpent;
     }
 
     private void FixedUpdate()
@@ -39,8 +44,8 @@ public class DelayedEffect : AbstractOverwritingEffect
     {
         return
             base.Equals(other) &&
-            EffectOnFinishDelay == (other as DelayedEffect).EffectOnFinishDelay &&
-            EffectOnBreakDelay == (other as DelayedEffect).EffectOnBreakDelay;
+            EffectOnFinishDelay == (other as TimeDelayedEffect).EffectOnFinishDelay &&
+            EffectOnBreakDelay == (other as TimeDelayedEffect).EffectOnBreakDelay;
     }
 
     public override List<AbstractEffect> GetSelfIncludeIncomingEffects()

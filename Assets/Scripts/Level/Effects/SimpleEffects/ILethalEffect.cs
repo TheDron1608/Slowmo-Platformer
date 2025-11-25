@@ -1,5 +1,5 @@
 
-interface ILethalEffect
+public interface ILethalEffect
 {
 
 }

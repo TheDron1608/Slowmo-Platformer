@@ -95,6 +95,8 @@ public static class NumberMath
 
     public static bool GetAllListItemsAreValidByCondition<T>(List<T> list, System.Func<T, bool> condition)
     {
+        if (list.Count == 0) return false;
+
         for (int i = 0; i < list.Count; i++)
         {
             if (!condition.Invoke(list[i]))
@@ -108,6 +110,8 @@ public static class NumberMath
 
     public static bool GetAnyListItemsIsValidByCondition<T>(List<T> list, System.Func<T, bool> condition)
     {
+        if (list.Count == 0) return false;
+
         for (int i = 0; i < list.Count; i++)
         {
             if (condition.Invoke(list[i]))

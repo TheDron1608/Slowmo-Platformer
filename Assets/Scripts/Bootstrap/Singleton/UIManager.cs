@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -88,6 +89,39 @@ public class UIManager : MonoBehaviour
     }
 
     [Serializable]
+    public class TextableScreenOverlay : ScreenOverlay
+    {
+        private TextMeshProUGUI _currentTextContainer;
+
+        public string TextContent
+        {
+            get => _currentTextContainer?.text;
+            set
+            {
+                if (_currentScreenOverlay != null) _currentTextContainer.text = value;
+            }
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            _currentTextContainer = _currentScreenOverlay.GetComponentInChildren<TextMeshProUGUI>();
+        }
+
+        public void Show(string text)
+        {
+            Show();
+            _currentTextContainer.text = text;
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            _currentTextContainer = null;
+        }
+    }
+
+    [Serializable]
     public class GameOverUIScreenOverlay : ScreenOverlay
     {
         private GameOverUIManager _currentGameOverUI = null;
@@ -139,6 +173,7 @@ public class UIManager : MonoBehaviour
     public FillableScreenOverlay DamagedScreenOverlay;
     public GameplayUIScreenOverlay GameplayScreenOverlay;
     public GameOverUIScreenOverlay GameOverScreenOverlay;
+    public TextableScreenOverlay LivingTimeLeftScreenOverlay;
 
     public static UIManager Instance;
 

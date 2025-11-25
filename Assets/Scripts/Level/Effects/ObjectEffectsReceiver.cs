@@ -217,19 +217,19 @@ public class ObjectEffectsReceiver : MonoBehaviour
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (_currentEffects[i] is T result)
+            if (GetEffectEqual<T>(_currentEffects[i], includeIncomingEffects, out T result))
             {
                 return result;
             }
         }
-        return default(T);
+        return default;
     }
 
-    public virtual bool TryGetEffect<T>(out T effect, bool includeIncomingEffects = false)
+    public virtual bool TryGetEffect<T>(out T effect)
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (GetEffectEqual<T>(_currentEffects[i], includeIncomingEffects) && _currentEffects[i] is T tEffect)
+            if (GetEffectEqual(_currentEffects[i], false, out T tEffect))
             {
                 effect = tEffect;
                 return true;
@@ -239,13 +239,29 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return false;
     }
 
+    public virtual bool TryGetEffect<T>(out T effect, out AbstractEffect incomingEffectOwner, bool includeIncomingEffects = false)
+    {
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (GetEffectEqual(_currentEffects[i], includeIncomingEffects, out T tEffect))
+            {
+                effect = tEffect;
+                incomingEffectOwner = _currentEffects[i];
+                return true;
+            }
+        }
+        effect = default;
+        incomingEffectOwner = default;
+        return false;
+    }
+
     public virtual List<T> GetEffects<T>(bool includeIncomingEffects = false)
     {
         List<T> result = new();
 
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (GetEffectEqual<T>(_currentEffects[i], includeIncomingEffects) && _currentEffects[i] is T tEffect)
+            if (GetEffectEqual<T>(_currentEffects[i], includeIncomingEffects, out T tEffect))
             {
                 result.Add(tEffect);
             }
@@ -299,6 +315,36 @@ public class ObjectEffectsReceiver : MonoBehaviour
         else
         {
             return effect is T;
+        }
+    }
+
+    private bool GetEffectEqual<T>(AbstractEffect effect, bool includeIncomingEffects, out T tEffect)
+    {
+        if (includeIncomingEffects)
+        {
+            foreach (AbstractEffect incomingEffect in effect.GetSelfIncludeIncomingEffects())
+            {
+                if (incomingEffect is T result)
+                {
+                    tEffect = result;
+                    return true;
+                }
+            }
+            tEffect = default;
+            return false;
+        }
+        else
+        {
+            if (effect is T result)
+            {
+                tEffect = result;
+                return true;
+            }
+            else
+            {
+                tEffect = default;
+                return false;
+            }
         }
     }
 

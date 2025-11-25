@@ -131,12 +131,15 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
     }
 
-    public void Die(MonoBehaviour killer)
+    public virtual void Die(MonoBehaviour killer)
     {
-        GetComponent<ObjectEffectsReceiver>()?.ApplyEffect(EffectsOnLethal, killer);
+        if (TryGetComponent(out ObjectEffectsReceiver effectsReceiver) && !effectsReceiver.GetHasEffect(EffectsOnLethal))
+        {
+            effectsReceiver.ApplyEffect(EffectsOnLethal, killer);
+        }
     }
 
-    public void Ressurect()
+    public virtual void Ressurect()
     {
         GetComponent<ObjectEffectsReceiver>()?.RemoveEffect(EffectsOnLethal);
         GetComponent<ObjectEffectsReceiver>()?.RemoveEffect<ILethalEffect>();

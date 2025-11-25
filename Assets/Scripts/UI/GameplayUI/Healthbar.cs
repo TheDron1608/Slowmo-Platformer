@@ -90,7 +90,17 @@ public class Healthbar : MonoBehaviour
 
     public bool GetTrackedIsDying()
     {
-        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>(true);
+        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>(true) && !GetTrackedIsDead();
+    }
+
+    public bool GetTrackedIsDead(out ILethalEffect deathEffect)
+    {
+        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.TryGetEffect(out deathEffect);
+    }
+
+    public bool GetTrackedIsDying(out ILethalEffect deathEffect, out AbstractEffect deathEffectOwner)
+    {
+        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.TryGetEffect(out deathEffect, out deathEffectOwner, true) && !GetTrackedIsDead();
     }
 
     public void SetHealthbarMaterial(Material material)
