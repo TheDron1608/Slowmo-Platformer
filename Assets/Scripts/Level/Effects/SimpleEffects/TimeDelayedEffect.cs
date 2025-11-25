@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeDelayedEffect : AbstractOverwritingEffect, IDelayedEffect
+[AllowEffectWithSenderReceiveNull]
+public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect
 {
     public float Delay = 1f;
     public AbstractEffect EffectOnFinishDelay;
@@ -26,7 +27,7 @@ public class TimeDelayedEffect : AbstractOverwritingEffect, IDelayedEffect
 
         if (_timeSpent >= Delay)
         {
-            AffectedObject.ApplyEffect(EffectOnFinishDelay, null);
+            AffectedObject.ApplyEffect(EffectOnFinishDelay, Sender);
             RemoveSelf();
         }
     }
@@ -35,7 +36,7 @@ public class TimeDelayedEffect : AbstractOverwritingEffect, IDelayedEffect
     {
         if (_timeSpent < Delay)
         {
-            AffectedObject.ApplyEffect(EffectOnBreakDelay, null);
+            AffectedObject.ApplyEffect(EffectOnBreakDelay, Sender);
         }
         base.OnRemove();
     }
@@ -50,6 +51,11 @@ public class TimeDelayedEffect : AbstractOverwritingEffect, IDelayedEffect
 
     public override List<AbstractEffect> GetSelfIncludeIncomingEffects()
     {
-        return new() { this, EffectOnFinishDelay };
+        return NumberMath.MergeLists(base.GetSelfIncludeIncomingEffects(), EffectOnFinishDelay.GetSelfIncludeIncomingEffects());
+    }
+
+    protected override void OnReceivedSender(MonoBehaviour sender)
+    {
+        _timeSpent = 0f;
     }
 }

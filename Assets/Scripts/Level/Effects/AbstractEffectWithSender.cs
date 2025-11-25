@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -14,17 +16,36 @@ public abstract class AbstractEffectWithSender : AbstractEffect
     }
     public void ApplySender(MonoBehaviour sender)
     {
-        if (sender == null) throw new UnityException("sender argument can not be null");
-        Sender = sender;
-        OnReceivedSender(sender);
+        if (sender != null || GetType().HasAttribute<AllowEffectWithSenderReceiveNull>())
+        {
+            Sender = sender;
+            OnReceivedSender(sender);
+        }
+        else
+        {
+            throw new UnityException("sender argument can not be null, use AllowEffectWithSenderReceiveNull to allow use null as receiver");
+        }
     }
-    private void LateUpdate()
+
+    private void Start()
     {
         if (Sender == null)
         {
-            throw new UnityException(gameObject.name + " not received sender at the end of the frame it was instanitiated");
+            if (GetType().HasAttribute<AllowEffectWithSenderReceiveNull>())
+            {
+                OnReceivedSender(null);
+            }
+            else
+            {
+                throw new UnityException(gameObject.name + " not received sender at the end of the frame it was instanitiated, use AllowEffectWithSenderReceiveNull to allow use null as receiver");
+            }
         }
     }
 
     protected abstract void OnReceivedSender(MonoBehaviour sender);
+}
+
+public class AllowEffectWithSenderReceiveNull : Attribute
+{
+
 }

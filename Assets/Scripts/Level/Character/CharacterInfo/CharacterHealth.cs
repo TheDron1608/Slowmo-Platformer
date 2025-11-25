@@ -1,7 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterHealth : DamagableObject
 {
+    const float GIB_PARTICLES_MIN_SPAWN_VELOCITY = 4f;
+    const float GIB_PARTICLES_MAX_SPAWN_VELOCITY = 8f;
+    const float GIB_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY = -180f;
+    const float GIB_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY = 180f;
+
+    public List<AbstractParticle> ParticlesOnGib = new();
+    public int ParticlesAmountOnGib = 24;
+
     private CharacterComponentsManager _charComponents;
     private CharacterPart _lethallyAffectedCharacterPart = null;
 
@@ -73,5 +82,30 @@ public class CharacterHealth : DamagableObject
             _lethallyAffectedCharacterPart.CharPartEffectsReceiver.RemoveEffect<ILethalEffect>();
             _lethallyAffectedCharacterPart = null;
         }
+    }
+
+    public void Gib(MonoBehaviour gibber)
+    {
+        if (ParticlesOnGib.Count > 0)
+        {
+            GameObjectUtility.TryGetComponentInSelfOrChild<Collider2D>(gameObject, out Collider2D collider);
+            ParticleSpawner.SpawnInstantlyMultipleParticles(
+                ParticlesOnGib,
+                GameObjectUtility.GetCenterOfCollider(collider),
+                Vector2.zero,
+                0f,
+                GIB_PARTICLES_MIN_SPAWN_VELOCITY,
+                GIB_PARTICLES_MAX_SPAWN_VELOCITY,
+                GIB_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
+                GIB_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
+                CharComponents.CharacterEffectsReceiver.EffectMaterial,
+                CharComponents.CharacterCollision.CurrentZLayer,
+                ParticlesAmountOnGib,
+                0f
+                );
+        }
+
+        Die(gibber);
+        Destroy(CharComponents.gameObject);
     }
 }

@@ -67,7 +67,7 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
 
     public virtual bool Equals(AbstractEffect other)
     {
-        return this.GetType() == other.GetType();
+        return this.GetType() == other?.GetType();
     }
 
     public virtual List<AbstractEffect> GetSelfIncludeIncomingEffects()
