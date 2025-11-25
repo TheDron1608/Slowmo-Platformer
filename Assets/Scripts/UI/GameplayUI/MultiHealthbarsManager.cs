@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class MultiHealthbarsManager : MonoBehaviour
 {
     const int MAX_HEALTHBARS = 6;
     const float DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER = 5f;
+    const float DYING_DAMAGED_OVERLAY_FILL_AMOUNT = 5f;
 
     [SerializeField] private Healthbar _spawnHealthbar;
     [SerializeField] private RectTransform _healthbarsSpawnPosition;
@@ -78,7 +80,9 @@ public class MultiHealthbarsManager : MonoBehaviour
             UIManager.Instance.DamagedScreenOverlay.Show();
             UIManager.Instance.DamagedScreenOverlay.FillAmount = math.lerp(
                 UIManager.Instance.DamagedScreenOverlay.FillAmount,
-                1f - math.sin(PickAvgHealthbarsFillAmount() * math.PI / 2),
+                (_currentHealthbars.Count == 1 && _currentHealthbars.First().GetTrackedIsDying()) ? 
+                    DYING_DAMAGED_OVERLAY_FILL_AMOUNT : 
+                    1f - math.sin(PickAvgHealthbarsFillAmount() * math.PI / 2),
                 Time.deltaTime * DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER
                 );
         }

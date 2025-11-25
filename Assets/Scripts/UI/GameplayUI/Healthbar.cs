@@ -88,6 +88,11 @@ public class Healthbar : MonoBehaviour
         return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
     }
 
+    public bool GetTrackedIsDying()
+    {
+        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>(true);
+    }
+
     public void SetHealthbarMaterial(Material material)
     {
         HealthbarHealth.material = material;

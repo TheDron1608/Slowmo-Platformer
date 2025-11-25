@@ -37,28 +37,28 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
             CharComponents.CharacterEffectsReceiver.ApplyCondition(effect, sender);
     }
 
-    public override T GetEffect<T>()
+    public override T GetEffect<T>(bool includeIncomingEffects = false)
     {
-        return base.GetEffect<T>() ?? CharComponents.CharacterEffectsReceiver.GetEffect<T>();
+        return base.GetEffect<T>(includeIncomingEffects) ?? CharComponents.CharacterEffectsReceiver.GetEffect<T>(includeIncomingEffects);
     }
 
-    public override List<T> GetEffects<T>()
+    public override List<T> GetEffects<T>(bool includeIncomingEffects = false)
     {
-        return NumberMath.MergeLists(base.GetEffects<T>(), CharComponents.CharacterEffectsReceiver.GetEffects<T>());
+        return NumberMath.MergeLists(base.GetEffects<T>(includeIncomingEffects), CharComponents.CharacterEffectsReceiver.GetEffects<T>(includeIncomingEffects));
     }
 
-    public override bool GetHasEffect<T>()
+    public override bool GetHasEffect<T>(bool includeIncomingEffects = false)
     {
         return base.GetHasEffect<T>() || CharComponents.CharacterEffectsReceiver.GetHasEffect<T>();
     }
 
-    public override bool GetHasEffect(AbstractEffect effect)
+    public override bool GetHasEffect(AbstractEffect effect, bool includeIncomingEffects = false)
     {
-        return base.GetHasEffect(effect) || CharComponents.CharacterEffectsReceiver.GetHasEffect(effect);
+        return base.GetHasEffect(effect, includeIncomingEffects) || CharComponents.CharacterEffectsReceiver.GetHasEffect(effect, includeIncomingEffects);
     }
 
-    public override bool TryGetEffect<T>(out T effect)
+    public override bool TryGetEffect<T>(out T effect, bool includeIncomingEffects = false)
     {
-        return base.TryGetEffect(out effect) || CharComponents.CharacterEffectsReceiver.TryGetEffect<T>(out effect);
+        return base.TryGetEffect(out effect, includeIncomingEffects) || CharComponents.CharacterEffectsReceiver.TryGetEffect<T>(out effect, includeIncomingEffects);
     }
 }

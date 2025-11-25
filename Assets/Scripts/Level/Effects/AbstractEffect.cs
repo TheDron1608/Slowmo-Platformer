@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect>, IEquatable<AbstractEffect>
@@ -66,5 +68,10 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
     public virtual bool Equals(AbstractEffect other)
     {
         return this.GetType() == other.GetType();
+    }
+
+    public virtual List<AbstractEffect> GetSelfIncludeIncomingEffects()
+    {
+        return new() { this };
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DelayedEffect : AbstractOverwritingEffect
@@ -37,11 +38,13 @@ public class DelayedEffect : AbstractOverwritingEffect
     public override bool Equals(AbstractEffect other)
     {
         return
-            EffectOnFinishDelay.Equals(other) ||
-            (
-                base.Equals(other) &&
-                EffectOnFinishDelay == (other as DelayedEffect).EffectOnFinishDelay &&
-                EffectOnBreakDelay == (other as DelayedEffect).EffectOnBreakDelay
-            );
+            base.Equals(other) &&
+            EffectOnFinishDelay == (other as DelayedEffect).EffectOnFinishDelay &&
+            EffectOnBreakDelay == (other as DelayedEffect).EffectOnBreakDelay;
+    }
+
+    public override List<AbstractEffect> GetSelfIncludeIncomingEffects()
+    {
+        return new() { this, EffectOnFinishDelay };
     }
 }
