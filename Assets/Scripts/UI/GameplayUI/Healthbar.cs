@@ -14,6 +14,9 @@ public class Healthbar : MonoBehaviour
     public bool ShowHealthNumber = false;
     public float CameraShakeOnDamageForce = 0.1f;
     public float DamagedScreenOverlayFillOnDamage = 0.5f;
+    public Color DefaultTextColor = Color.white;
+    public Color DyingTextColor = Color.red;
+    public Color DeadTextColor = Color.white;
 
     [Header("const references")]
     public Image HealthbarHealth;
@@ -62,10 +65,12 @@ public class Healthbar : MonoBehaviour
         else if (GetTrackedIsDead())
         {
             HealthbarText.text = _deathText;
+            HealthbarText.color = DeadTextColor;
         }
         else if (ShowHealthNumber)
         {
-            HealthbarText.text = HealthTrackedCharacter.CurrentHealth.ToString("0");
+            HealthbarText.text = HealthTrackedCharacter.CurrentHealth.ToString("0.00");
+            HealthbarText.color = (HealthTrackedCharacter.MinHealth > HealthTrackedCharacter.CurrentHealth ? DyingTextColor : DefaultTextColor);
         }
         else
         {

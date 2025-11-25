@@ -129,9 +129,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18970e43b7d122b46b844b296f0f1846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowHealthNumber: 0
+  ShowHealthNumber: 1
   CameraShakeOnDamageForce: 0.025
   DamagedScreenOverlayFillOnDamage: 0.33
+  DefaultTextColor: {r: 1, g: 1, b: 1, a: 1}
+  DyingTextColor: {r: 1, g: 0, b: 0, a: 1}
+  DeadTextColor: {r: 1, g: 1, b: 1, a: 1}
   HealthbarHealth: {fileID: 5684189742907523433}
   HealthbarHealthChange: {fileID: 1490554566780040600}
   HealthbarText: {fileID: 4441702667310906544}
@@ -431,15 +434,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_text
-      value: 
+      value: 0.00
       objectReference: {fileID: 0}
     - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_fontSize
-      value: 26
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_margin.w
-      value: -2.2861328
+      value: -3.7752075
       objectReference: {fileID: 0}
     - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_fontColor.b
@@ -454,8 +457,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_fontSizeBase
-      value: 26
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_TextWrappingMode
@@ -471,7 +482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_VerticalAlignment
-      value: 1024
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 7462369299820261310, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_Name
