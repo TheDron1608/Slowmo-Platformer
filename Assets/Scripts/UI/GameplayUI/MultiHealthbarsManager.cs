@@ -103,6 +103,13 @@ public class MultiHealthbarsManager : MonoBehaviour
         else
         {
             UIManager.Instance.DamagedScreenOverlay.Hide();
+            UIManager.Instance.LivingTimeLeftScreenOverlay.Hide();
         }
+    }
+
+    private void OnDestroy()
+    {
+        UIManager.Instance.DamagedScreenOverlay.Hide();
+        UIManager.Instance.LivingTimeLeftScreenOverlay.Hide();
     }
 }
