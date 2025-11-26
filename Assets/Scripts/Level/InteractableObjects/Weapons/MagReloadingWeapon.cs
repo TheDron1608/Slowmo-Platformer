@@ -12,10 +12,10 @@ public class MagReloadingWeapon : RangedWeapon
 
     [Header("Mag reloading weapon")]
     [SerializeField] private int _magSize = 16;
-    [SerializeField] private bool _bulletLoadedInChamber = true;
     public Sprite GameplayUIMagSprite;
 
     private ParticleSpawner _magsPraticleSpawner;
+    private bool _bulletLoadedInChamber = true;
 
     public int MagSize
     {
@@ -47,15 +47,7 @@ public class MagReloadingWeapon : RangedWeapon
     public bool BulletLoadedInChamber
     {
         get => _bulletLoadedInChamber;
-        set
-        {
-            if (_bulletLoadedInChamber)
-            {
-                LoadedLivingAmmoLeft--;
-                SpawnBulletParticles(1);
-            }
-            _bulletLoadedInChamber = value;
-        }
+        set => _bulletLoadedInChamber = value;
     }
 
     public override bool GetIsNeedReload()
@@ -99,7 +91,7 @@ public class MagReloadingWeapon : RangedWeapon
 
     protected override bool ReloadCondition()
     {
-        return LoadedLivingAmmoLeft - (BulletLoadedInChamber ? 1 : 0) < MagSize;
+        return LoadedLivingAmmoLeft <= MagSize;
     }
 
     protected override void OnReload()
