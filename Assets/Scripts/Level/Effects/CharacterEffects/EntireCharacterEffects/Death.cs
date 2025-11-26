@@ -19,7 +19,7 @@ public class Death : AbstractStun, ILethalEffect
 
         AffectedCharacter.CharacterEffectsReceiver.RemoveEffect<MinorStun>();
 
-        AffectedCharacter.CharacterHolding.TryDisarm();
+        AffectedCharacter.CharacterHolding.ForceDisarm();
 
         AffectedCharacter.CharacterMoving.IsAbleToMove = false;
         AffectedCharacter.CharacterJumping.IsAbleToJump = false;

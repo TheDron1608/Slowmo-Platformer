@@ -229,7 +229,15 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         {
             return false;
         }
-        else if (ForceThrow(CharComponents.CharacterAiming.GetCurrentAimNormalized(), DISARM_DROP_VELOCITY_MULTIPLIER))
+        else
+        {
+            return ForceDisarm();
+        }
+    }
+
+    public bool ForceDisarm(CharacterHoldingObjects giveDisarmedHoldableTo = null)
+    {
+        if (ForceThrow(CharComponents.CharacterAiming.GetCurrentAimNormalized(), DISARM_DROP_VELOCITY_MULTIPLIER))
         {
             return giveDisarmedHoldableTo?.TryGrab(LastHoldObject) ?? true;
         }

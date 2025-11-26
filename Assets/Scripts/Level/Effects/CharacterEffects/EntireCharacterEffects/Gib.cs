@@ -6,7 +6,7 @@ public class Gib : AbstractCharacterEffectWithSender, IEntireCharacterEffect, IL
 {
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        AffectedCharacter.CharacterHolding.TryDisarm();
+        AffectedCharacter.CharacterHolding.ForceDisarm();
         AffectedCharacter.CharacterHealth.Gib(sender);
         RemoveSelf();
     }
