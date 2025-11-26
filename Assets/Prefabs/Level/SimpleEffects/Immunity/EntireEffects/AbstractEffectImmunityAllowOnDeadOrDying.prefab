@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1225010912665734903, guid: c70e625453c178d4a8685208fee64806, type: 3}
       propertyPath: m_Name
-      value: AbstractEffectImmunityAllowOnDead
+      value: AbstractEffectImmunityAllowOnDeadOrDying
       objectReference: {fileID: 0}
     - target: {fileID: 3525215808325423379, guid: c70e625453c178d4a8685208fee64806, type: 3}
       propertyPath: AllowOnActiveEffects.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3525215808325423379, guid: c70e625453c178d4a8685208fee64806, type: 3}
       propertyPath: 'AllowOnActiveEffects.Array.data[0]'
@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: 'AllowOnActiveEffects.Array.data[1]'
       value: 
       objectReference: {fileID: 10706912552637279, guid: 4deff24a0ab02ca498af308e8f39099e, type: 3}
+    - target: {fileID: 3525215808325423379, guid: c70e625453c178d4a8685208fee64806, type: 3}
+      propertyPath: 'AllowOnActiveEffects.Array.data[2]'
+      value: 
+      objectReference: {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}
     - target: {fileID: 5716440969357085165, guid: c70e625453c178d4a8685208fee64806, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

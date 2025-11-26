@@ -88,7 +88,10 @@ public static class NumberMath
     {
         for (int i = 0; i < findWhat.Count; i++)
         {
-            if (findIn.Contains(findWhat[i])) return true;
+            for (int j = 0; j < findIn.Count; j++)
+            {
+                if (findIn[j].Equals(findWhat[i])) return true;
+            }
         }
         return false;
     }

@@ -261,9 +261,22 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (GetEffectEqual<T>(_currentEffects[i], includeIncomingEffects, out T tEffect))
+            if (includeIncomingEffects)
             {
-                result.Add(tEffect);
+                foreach(AbstractEffect incomingEffect in _currentEffects[i].GetSelfIncludeIncomingEffects())
+                {
+                    if (GetEffectEqual<T>(incomingEffect, true, out T tEffect))
+                    {
+                        result.Add(tEffect);
+                    }
+                }
+            }
+            else
+            {
+                if (GetEffectEqual<T>(_currentEffects[i], false, out T tEffect))
+                {
+                    result.Add(tEffect);
+                }
             }
         }
         return result;
