@@ -20,7 +20,8 @@ public class Healthbar : MonoBehaviour
 
     [Header("const references")]
     public Image HealthbarHealth;
-    public Image HealthbarHealthChange;
+    public Image HealthbarHealthLoseChange;
+    public Image HealthbarHealthAddChange;
     public TextMeshProUGUI HealthbarText;
 
     private CharacterHealth _healthTrackedCharacter;
@@ -54,9 +55,19 @@ public class Healthbar : MonoBehaviour
     {
         if (HealthTrackedCharacter == null) return;
 
+        float targetFillAmount = NumberMath.LimitFloatBetweenZeroAndOne(HealthTrackedCharacter.CurrentHealth / HealthTrackedCharacter.MaxHealth);
 
-        HealthbarHealth.fillAmount = NumberMath.LimitFloatBetweenZeroAndOne(HealthTrackedCharacter.CurrentHealth / HealthTrackedCharacter.MaxHealth);
-        HealthbarHealthChange.fillAmount = math.lerp(HealthbarHealthChange.fillAmount, HealthbarHealth.fillAmount, Time.deltaTime * HEALTH_CHANGE_SPEED_MULTIPLIER);
+        HealthbarHealth.fillAmount =
+            HealthbarHealth.fillAmount > targetFillAmount ?
+            targetFillAmount :
+            math.lerp(HealthbarHealth.fillAmount, targetFillAmount, Time.deltaTime * HEALTH_CHANGE_SPEED_MULTIPLIER
+            );
+        HealthbarHealthLoseChange.fillAmount = math.lerp(
+            HealthbarHealthLoseChange.fillAmount, 
+            math.max(HealthbarHealth.fillAmount, HealthbarHealthAddChange.fillAmount), 
+            Time.deltaTime * HEALTH_CHANGE_SPEED_MULTIPLIER
+            );
+        HealthbarHealthAddChange.fillAmount = targetFillAmount;
 
         if (_selfRectTransform.sizeDelta.x < MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT)
         {
@@ -106,12 +117,6 @@ public class Healthbar : MonoBehaviour
     public bool GetTrackedIsDying(out ILethalEffect deathEffect, out AbstractEffect deathEffectOwner)
     {
         return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.TryGetEffect(out deathEffect, out deathEffectOwner, true) && !GetTrackedIsDead();
-    }
-
-    public void SetHealthbarMaterial(Material material)
-    {
-        HealthbarHealth.material = material;
-        HealthbarHealthChange.material = material;
     }
 
     public float GetFillAmount()
