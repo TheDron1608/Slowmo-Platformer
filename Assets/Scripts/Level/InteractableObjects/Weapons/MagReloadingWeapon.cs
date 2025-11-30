@@ -13,6 +13,8 @@ public class MagReloadingWeapon : RangedWeapon
     [Header("Mag reloading weapon")]
     [SerializeField] private int _magSize = 16;
     public Sprite GameplayUIMagSprite;
+    public SoundPlayer SoundOnLoadMag;
+    public SoundPlayer SoundOnUnloadMag;
 
     private ParticleSpawner _magsPraticleSpawner;
     private bool _bulletLoadedInChamber = true;

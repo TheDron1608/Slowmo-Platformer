@@ -31,6 +31,7 @@ public class Holdable : Interactable
     public float SpeedToHitCharacter = 7.5f;
     public float SpeedToGetThrough = 15f;
     public List<AbstractEffect> EffectsOnThrowHit = new();
+    public SoundPlayer SoundOnThrown;
 
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;
@@ -380,6 +381,7 @@ public class Holdable : Interactable
             _enableGravityCoroutine = StartCoroutine(EnableGravityAfterDelay());
         }
 
+        SoundOnThrown.PlaySound();
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out Weapon weapon))
@@ -449,8 +451,6 @@ public class Holdable : Interactable
         StuckedToCollider = null;
 
         ExcludedCollideThrower = newHolder.CharComponents;
-
-        //GetComponent<BreakableHoldable>()?.RemoveAllStuckedObjects();
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out ThrowableWeapon throwableWeapon))

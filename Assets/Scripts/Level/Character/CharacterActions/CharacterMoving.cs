@@ -18,6 +18,10 @@ public class CharacterMoving : AbstractCharacterComponent
     private float _lastActiveMoveDirection = 0f;
     private float? _awaitingMoveDirection = null;
 
+    [Header("Sound")]
+    public Sound StepSound;
+    public Sound MoveAlignChangeSound;
+
     public bool IsAbleToMoveThisFrame
     {
         get => _isAbleToMoveThisFrame;

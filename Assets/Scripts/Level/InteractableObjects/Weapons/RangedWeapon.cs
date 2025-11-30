@@ -21,6 +21,9 @@ public class RangedWeapon : ThrowableWeapon
     public int MaxAmmo = 10;
     public int LoadedLivingAmmoLeft = 1;
     public int LoadedSpentAmmoLeft = 0;
+    public SoundPlayer SoundOnOutOfAmmo;
+    public SoundPlayer SoundOnLoad;
+    public SoundPlayer SoundOnUnload;
 
     private bool _isReloading = false;
     private bool _unloaded = false;
@@ -42,8 +45,12 @@ public class RangedWeapon : ThrowableWeapon
         get => _unloaded;
         set
         {
+            if (_unloaded == value) return;
+
             _animator.SetBool(ANIMATOR_UNLOADED_PROP_NAME, value);
             _unloaded = value;
+
+            (_unloaded ? SoundOnUnload : SoundOnLoad).PlaySound();
         }
     }
 
@@ -175,6 +182,7 @@ public class RangedWeapon : ThrowableWeapon
 
         if (GetIsOutOfAmmo())
         {
+            SoundOnOutOfAmmo.PlaySound();
             _cloudParticleSpawner.SpawnParticle();
         }
     }

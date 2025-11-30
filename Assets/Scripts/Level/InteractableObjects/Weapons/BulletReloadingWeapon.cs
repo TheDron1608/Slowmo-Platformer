@@ -10,6 +10,8 @@ public class BulletReloadingWeapon : RangedWeapon
     public int AmmoAmountPerReload = 1;
     public int AmmoAmountPerUnload = 1;
     public int MaxLoadedAmmo = 1;
+    public SoundPlayer SoundOnLoadBullet;
+    public SoundPlayer SoundOnUnloadBullet;
 
     protected override void OnTryAttackFail(Vector2 direction)
     {
@@ -60,6 +62,8 @@ public class BulletReloadingWeapon : RangedWeapon
         {
             TryFinishReload();
         }
+
+        SoundOnLoadBullet.PlaySound();
     }
 
     public override void OnUnloadFinish()
@@ -72,5 +76,7 @@ public class BulletReloadingWeapon : RangedWeapon
         {
             LoadedSpentAmmoLeft = 0;
         }
+
+        SoundOnUnloadBullet.PlaySound();
     }
 }

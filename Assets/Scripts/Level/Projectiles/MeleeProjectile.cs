@@ -14,6 +14,7 @@ public class MeleeProjectile : AbstractProjectile
     public List<AbstractEffect> EffectsOnDeflect = new();
     public List<AbstractEffect> SelfEffectsOnDeflect = new();
     public AbstractParticle ParticleOnDeflect = null;
+    public SoundPlayer SoundOnDeflect;
 
     private bool _didHitAnyWallOnce = false;
     private Rigidbody2D _rigidBody;
@@ -151,6 +152,7 @@ public class MeleeProjectile : AbstractProjectile
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject)
             );
         }
+        SoundOnDeflect.PlaySound();
     }
 
     public override void OnHit(GameObject hitObject)

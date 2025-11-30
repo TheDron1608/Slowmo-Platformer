@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
@@ -13,6 +14,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public bool FriendlyFire = false;
     public bool IsAbleToHit = true;
     public Sprite GameplayUISprite;
+    public SoundPlayer SoundOnAttack;
 
     private Weapon _weapon = null;
     private Weapon _deflector = null;
@@ -80,6 +82,13 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
             AbstractProjectile newProjectile = ProjectilesManager.Instance.GetUnusedProjectile(this);
             newProjectile.SetAttrs(this, VectorMath.RandomizeQuarternion(direction, Accuracy * accuracityMultiplier), position, layer, weapon);
             result.Insert(i, newProjectile);
+        }
+
+        if (weapon != null && result.Count > 0)
+        {
+            result.First().SoundOnAttack.transform.parent = weapon.transform;
+            result.First().SoundOnAttack.transform.position = weapon.ProjectileSpawnPosition.position;
+            result.First().SoundOnAttack.PlaySound();
         }
 
         ApplySelfEffectOnWeaponUser(result, weapon);
@@ -159,6 +168,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         if (_wasDeflectedThisFrame) return;
 
         Deflector = deflector.Weapon;
+
         _wasDeflectedThisFrame = true;
     }
 
@@ -260,6 +270,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
     private void OnDestroy()
     {
+        Destroy(SoundOnAttack.gameObject);
         OnDestroyed?.Invoke(this, EventArgs.Empty);
     }
 

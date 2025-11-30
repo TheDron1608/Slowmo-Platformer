@@ -7,6 +7,8 @@ public class HolsterableMeleeWeapon : MeleeWeapon
 
     [Header("holsterable melee weapon")]
     public float TimeToHolsterBackSeconds = 6.5f;
+    public SoundPlayer SoundOnHolster;
+    public SoundPlayer SoundOnUnholster;
 
     private bool _isHolstered = false;
     private float _timeToHolsterBack = 0f;
@@ -17,8 +19,12 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         get => _isHolstered;
         set
         {
+            if (_isHolstered == value) return;
+
             _animator.SetBool(ANIMATOR_IS_HOLSTERED_PROP_NAME, value);
             _isHolstered = value;
+
+            (_isHolstered ? SoundOnHolster : SoundOnUnholster).PlaySound();
         }
     }
 

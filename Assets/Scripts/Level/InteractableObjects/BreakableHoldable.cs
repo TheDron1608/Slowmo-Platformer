@@ -77,6 +77,8 @@ public class BreakableHoldable : BreakableObject
 
         SpawnBrokenParticles(breaker);
 
+        SoundOnBreak.PlaySound();
+
         RemoveAllStuckedObjects();
 
         Destroy(gameObject);
