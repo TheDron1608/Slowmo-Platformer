@@ -114,6 +114,8 @@ public class ZIndexLayer : MonoBehaviour
 
         InitializeEnviromoentLayers();
         UpdateLayerForAllChildren();
+
+        LayerManager.Instance.TrySetLevelBottom(MultiTileMapsContainer.GetForeground().cellBounds.yMin);
     }
 
     private void InitializeEnviromoentLayers()

@@ -263,6 +263,7 @@ AnimatorState:
   - {fileID: 8714069449168441864}
   m_StateMachineBehaviours:
   - {fileID: -7843045036675306694}
+  - {fileID: 8045335796486581650}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -277,18 +278,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &-4512024503163626091
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1939e93d3b4b088448774f9cd7bc0304, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1102 &-3380571760146330037
 AnimatorState:
   serializedVersion: 6
@@ -304,7 +293,6 @@ AnimatorState:
   - {fileID: 2975275563936501716}
   m_StateMachineBehaviours:
   - {fileID: 7707708287648840795}
-  - {fileID: -4512024503163626091}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -753,6 +741,18 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 1080, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 990, y: 0, z: 0}
   m_DefaultState: {fileID: 2423643748146216767}
+--- !u!114 &5329576828503120680
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1939e93d3b4b088448774f9cd7bc0304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5444753220493024087
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -887,6 +887,18 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &8045335796486581650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1939e93d3b4b088448774f9cd7bc0304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8213409411157272200
 MonoBehaviour:
   m_ObjectHideFlags: 1

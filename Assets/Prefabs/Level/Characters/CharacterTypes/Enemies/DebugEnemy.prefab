@@ -48,12 +48,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4914137321241699338, guid: aff5da73dbd227449ba01949f1796d33, type: 3}
+      propertyPath: CharacterAIManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8250013439591236225, guid: aff5da73dbd227449ba01949f1796d33, type: 3}
       propertyPath: m_Name
       value: DebugEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 9212386056603621085, guid: aff5da73dbd227449ba01949f1796d33, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aff5da73dbd227449ba01949f1796d33, type: 3}

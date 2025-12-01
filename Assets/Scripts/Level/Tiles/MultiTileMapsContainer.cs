@@ -178,4 +178,9 @@ public class MultiTileMapsContainer : MonoBehaviour
 
         return targetTileMap.gameObject;
     }
+
+    private void OnDestroy()
+    {
+        Tilemap.tilemapTileChanged -= Tilemap_tilemapTileChanged;
+    }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[DefaultExecutionOrder(2)]
+[DefaultExecutionOrder(8)]
 public class CharacterEquipmentPart : CharacterPart
 {
     public PartTypes EquipAtType;
