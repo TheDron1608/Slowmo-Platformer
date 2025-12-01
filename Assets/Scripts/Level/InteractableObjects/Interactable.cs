@@ -9,7 +9,6 @@ public abstract class Interactable : SelectableObject, IEffectApplier
 
     [Header("Interactalbe")]
     public List<AbstractEffect> EffectsOnStartInteract = new();
-    [SerializeField] private SoundPlayer _soundOnInteract;
 
     public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied;
 

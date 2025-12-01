@@ -31,6 +31,7 @@ public class Holdable : Interactable
     public float SpeedToHitCharacter = 7.5f;
     public float SpeedToGetThrough = 15f;
     public List<AbstractEffect> EffectsOnThrowHit = new();
+    public SoundPlayer SoundOnPickedUp;
     public SoundPlayer SoundOnThrown;
 
     private CharacterHoldingObjects _currentHolder = null;
@@ -451,6 +452,8 @@ public class Holdable : Interactable
         StuckedToCollider = null;
 
         ExcludedCollideThrower = newHolder.CharComponents;
+
+        SoundOnPickedUp.PlaySound();
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out ThrowableWeapon throwableWeapon))

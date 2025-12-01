@@ -86,9 +86,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
         if (weapon != null && result.Count > 0)
         {
-            result.First().SoundOnAttack.transform.parent = weapon.transform;
-            result.First().SoundOnAttack.transform.position = weapon.ProjectileSpawnPosition.position;
-            result.First().SoundOnAttack.PlaySound();
+            result.First().SoundOnAttack.PlaySound(false, weapon.ProjectileSpawnPosition.transform.position);
         }
 
         ApplySelfEffectOnWeaponUser(result, weapon);
@@ -270,7 +268,6 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
     private void OnDestroy()
     {
-        Destroy(SoundOnAttack.gameObject);
         OnDestroyed?.Invoke(this, EventArgs.Empty);
     }
 

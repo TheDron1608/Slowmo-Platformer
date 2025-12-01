@@ -262,9 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4114698947144470810 stripped
+--- !u!114 &4594326883938095880 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 959747906578638274, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+  m_CorrespondingSourceObject: {fileID: 831405282513610704, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
   m_PrefabInstance: {fileID: 3768366400741258456}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -319,12 +319,11 @@ MonoBehaviour:
   LoadedSpentAmmoLeft: 0
   SoundOnOutOfAmmo: {fileID: 423563441612213404}
   SoundOnLoad: {fileID: 5205899710259029356}
-  SoundOnUnload: {fileID: 4114698947144470810}
+  SoundOnUnload: {fileID: 4594326883938095880}
   AmmoAmountPerReload: 1
   AmmoAmountPerUnload: 1
   MaxLoadedAmmo: 5
   SoundOnLoadBullet: {fileID: 6608095337629400989}
-  SoundOnUnloadBullet: {fileID: 2625386000447398526}
 --- !u!1001 &8693666301291062750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -382,17 +381,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
---- !u!114 &2625386000447398526 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
-  m_PrefabInstance: {fileID: 8693666301291062750}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8404502522607443148 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}

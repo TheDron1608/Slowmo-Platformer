@@ -103,7 +103,6 @@ MonoBehaviour:
   IsAbleToHit: 1
   GameplayUISprite: {fileID: 21300000, guid: d323050198ccf844f9d11d772a87f3de, type: 3}
   SoundOnAttack: {fileID: 2322660315203089891}
-  SoundOnDeflected: {fileID: 5903147727856378341}
   WallKnockback: 5
   BlockKnockback: 15
   RepeatWallKnockback: 0
@@ -118,17 +117,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1176369955813481343, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
   m_PrefabInstance: {fileID: 3541202579567175187}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5903147727856378341 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6974054297239865334, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
-  m_PrefabInstance: {fileID: 3541202579567175187}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8029959257211526668
 PrefabInstance:
   m_ObjectHideFlags: 0

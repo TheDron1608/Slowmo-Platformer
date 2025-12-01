@@ -208,17 +208,6 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 6829512911132462386}
   m_SourcePrefab: {fileID: 100100000, guid: 0fc57fb65423c53459fd280764125582, type: 3}
---- !u!114 &661839797685950476 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6986535929586181037, guid: 0fc57fb65423c53459fd280764125582, type: 3}
-  m_PrefabInstance: {fileID: 7627543761319721889}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2046832397503562939 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8484136954617888538, guid: 0fc57fb65423c53459fd280764125582, type: 3}
@@ -260,11 +249,10 @@ MonoBehaviour:
   LoadedSpentAmmoLeft: 0
   SoundOnOutOfAmmo: {fileID: 5888475996446338379}
   SoundOnLoad: {fileID: 2046832397503562939}
-  SoundOnUnload: {fileID: 7873002332617846989}
+  SoundOnUnload: {fileID: 7753666909955044063}
   _magSize: 60
   GameplayUIMagSprite: {fileID: 21300000, guid: b6afee699276cce4fab88f8e692bb155, type: 3}
-  SoundOnLoadMag: {fileID: 661839797685950476}
-  SoundOnUnloadMag: {fileID: 8089276019325337582}
+  ReloadBulletSound: {fileID: 9098427846171706587}
 --- !u!114 &5888475996446338379 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4062927577930290922, guid: 0fc57fb65423c53459fd280764125582, type: 3}
@@ -276,9 +264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7873002332617846989 stripped
+--- !u!114 &7753666909955044063 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 331295274053356396, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+  m_CorrespondingSourceObject: {fileID: 162398254517406078, guid: 0fc57fb65423c53459fd280764125582, type: 3}
   m_PrefabInstance: {fileID: 7627543761319721889}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -287,9 +275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8089276019325337582 stripped
+--- !u!114 &9098427846171706587 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1844394528481313871, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1701904674743074682, guid: 0fc57fb65423c53459fd280764125582, type: 3}
   m_PrefabInstance: {fileID: 7627543761319721889}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

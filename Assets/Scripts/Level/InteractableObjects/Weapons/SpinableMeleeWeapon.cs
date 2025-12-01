@@ -7,6 +7,5 @@ public class SpinableMeleeWeapon : MeleeWeapon
     public void Spin()
     {
         _animator.SetTrigger(ANIMATOR_SPIN_TRIGGER_NAME);
-        SoundOnSpin.PlaySound();
     }
 }

@@ -179,9 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3456179268044683832 stripped
+--- !u!114 &2445501869744832781 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1844394528481313871, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1701904674743074682, guid: 0fc57fb65423c53459fd280764125582, type: 3}
   m_PrefabInstance: {fileID: 3922155573630664311}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -190,9 +190,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3672321546458084635 stripped
+--- !u!114 &3760153761796175625 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 331295274053356396, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+  m_CorrespondingSourceObject: {fileID: 162398254517406078, guid: 0fc57fb65423c53459fd280764125582, type: 3}
   m_PrefabInstance: {fileID: 3922155573630664311}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -204,17 +204,6 @@ MonoBehaviour:
 --- !u!114 &4887529491025461613 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8484136954617888538, guid: 0fc57fb65423c53459fd280764125582, type: 3}
-  m_PrefabInstance: {fileID: 3922155573630664311}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 810b00b471918234f948e0f6084d5885, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6240690422284164570 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6986535929586181037, guid: 0fc57fb65423c53459fd280764125582, type: 3}
   m_PrefabInstance: {fileID: 3922155573630664311}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -253,8 +242,7 @@ MonoBehaviour:
   LoadedSpentAmmoLeft: 0
   SoundOnOutOfAmmo: {fileID: 1012219946584680605}
   SoundOnLoad: {fileID: 4887529491025461613}
-  SoundOnUnload: {fileID: 3672321546458084635}
+  SoundOnUnload: {fileID: 3760153761796175625}
   _magSize: 18
   GameplayUIMagSprite: {fileID: 21300000, guid: 2630ea4b4e0c51f44be5c45eb71e8060, type: 3}
-  SoundOnLoadMag: {fileID: 6240690422284164570}
-  SoundOnUnloadMag: {fileID: 3456179268044683832}
+  ReloadBulletSound: {fileID: 2445501869744832781}

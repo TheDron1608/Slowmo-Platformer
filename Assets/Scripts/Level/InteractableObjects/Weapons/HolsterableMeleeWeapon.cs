@@ -23,8 +23,6 @@ public class HolsterableMeleeWeapon : MeleeWeapon
 
             _animator.SetBool(ANIMATOR_IS_HOLSTERED_PROP_NAME, value);
             _isHolstered = value;
-
-            (_isHolstered ? SoundOnHolster : SoundOnUnholster).PlaySound();
         }
     }
 

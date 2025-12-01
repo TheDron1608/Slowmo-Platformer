@@ -20,7 +20,7 @@ public class Chainsaw : MeleeWeapon
     public float MaxJampChancePerSecond = 0.667f;
     public float MinJamChancePerSecond = 0f;
     public SoundPlayer SoundOnTryStart;
-    public AudioSource PassiveSoundOnStarted;
+    public SoundPlayer PassiveSoundOnStarted;
 
     private float _fuelLeft;
 
@@ -60,11 +60,9 @@ public class Chainsaw : MeleeWeapon
             if (value)
             {
                 _passiveCloudsSpawnerCoroutine = StartCoroutine(PassiveCloudsSpawn());
-                PassiveSoundOnStarted.Play();
             }
             else
             {
-                PassiveSoundOnStarted.Stop();
                 if (_passiveCloudsSpawnerCoroutine != null)
                 {
                     StopCoroutine(_passiveCloudsSpawnerCoroutine);
@@ -84,7 +82,6 @@ public class Chainsaw : MeleeWeapon
         if (Started || IsStarting) return false;
 
         _animator.SetTrigger(ANIMATOR_START_TRIGGER_NAME);
-        SoundOnTryStart.PlaySound();
 
         IsStarting = true;
 

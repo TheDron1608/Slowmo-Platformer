@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SoundPlayer : MonoBehaviour
 {
+    const float MIN_VOLUME_DISTANCE = 15f;
+
     public Sound DefaultSound;
     public float Pitch = 1f;
     public float Volume = 1f;
@@ -16,16 +18,17 @@ public class SoundPlayer : MonoBehaviour
         _audioSources = new AudioSource[_maxSourcesPlayingTogether];
         for (int i = 0; i < _maxSourcesPlayingTogether; i++)
         {
-            _audioSources[i] = gameObject.AddComponent<AudioSource>();
+            AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
+            _audioSources[i] = newAudioSource;
         }
     }
 
-    public void PlaySound()
+    public void PlaySound(bool loop = false, Vector2? audioPoint = null)
     {
-        PlaySound(DefaultSound);
+        PlaySound(DefaultSound, loop, audioPoint);
     }
 
-    public void PlaySound(Sound sound)
+    public void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null)
     {
         if (sound == null) return;
 
@@ -34,23 +37,53 @@ public class SoundPlayer : MonoBehaviour
         {
             if (!audioSource.isPlaying)
             {
-                PlayAudioSource(audioSource, sound);
+                PlayAudioSource(audioSource, sound, loop, audioPoint);
                 return;
             }
-            else if (mostLateTimeAudioSource.time < audioSource.time)
+            else if (audioSource.clip != null && mostLateTimeAudioSource.time < audioSource.time)
             {
                 mostLateTimeAudioSource = audioSource;
             }
         }
-        PlayAudioSource(mostLateTimeAudioSource, sound);
+        PlayAudioSource(mostLateTimeAudioSource, sound, loop, audioPoint);
     }
 
-    private void PlayAudioSource(AudioSource audioSource, Sound sound)
+    private void FixedUpdate()
+    {
+        foreach (AudioSource audioSource in _audioSources)
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.volume = Volume * NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, transform.position) / MIN_VOLUME_DISTANCE);
+            }
+        }
+    }
+
+    private void PlayAudioSource(AudioSource audioSource, Sound sound, bool loop, Vector2? audioPoint)
     {
         AudioClip randomClip = NumberMath.PickRandomItem(sound.AudioClips);
-        audioSource.pitch = Pitch + NumberMath.PickRandomInRangeNoSeed(-sound.RandomPitchSpread, sound.RandomPitchSpread);
-        audioSource.volume = Volume;
-        audioSource.PlayOneShot(randomClip);
+        if (audioPoint.HasValue)
+        {
+            AudioSource.PlayClipAtPoint(
+                randomClip, 
+                audioPoint.Value,
+                Volume * NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, audioPoint.Value) / MIN_VOLUME_DISTANCE)
+                );
+        }
+        else
+        {
+            audioSource.loop = loop;
+            audioSource.pitch = Pitch + NumberMath.PickRandomInRangeNoSeed(-sound.RandomPitchSpread, sound.RandomPitchSpread);
+            if (loop)
+            {
+                audioSource.clip = randomClip;
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.PlayOneShot(randomClip);
+            }
+        }
     }
 
     public void BreakAllSounds()
@@ -59,5 +92,10 @@ public class SoundPlayer : MonoBehaviour
         {
             audioSource.Stop();
         }
+    }
+
+    public bool GetIsPlaying()
+    {
+        return _audioSources.Any(audioSource => audioSource.isPlaying);
     }
 }

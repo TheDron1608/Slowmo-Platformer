@@ -195,6 +195,8 @@ public class UIManager : MonoBehaviour
         if (Instance != null) throw new UnityException("Limit of 1 Instance of UIManager objects");
         Instance = this;
 
+        _screenOverlayContainer = GameObject.FindGameObjectWithTag("ScreenOverlayContainer");
+
         SceneManager.activeSceneChanged += SceneManager_OnActiveSceneChanged;
     }
 

@@ -29,15 +29,6 @@ public class HammerBulletReloadingWeapon : BulletReloadingWeapon
 
             _animator.SetBool(ANIMATOR_IS_HAMMERRED_PROP_NAME, value);
             _hammered = value;
-
-            if (_hammered)
-            {
-                SoundOnHammer.PlaySound();
-            }
-            else
-            {
-                SoundOnHammer.BreakAllSounds();
-            }
         }
     }
 

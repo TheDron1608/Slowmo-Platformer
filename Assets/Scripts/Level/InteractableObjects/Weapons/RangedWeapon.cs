@@ -49,8 +49,6 @@ public class RangedWeapon : ThrowableWeapon
 
             _animator.SetBool(ANIMATOR_UNLOADED_PROP_NAME, value);
             _unloaded = value;
-
-            (_unloaded ? SoundOnUnload : SoundOnLoad).PlaySound();
         }
     }
 
