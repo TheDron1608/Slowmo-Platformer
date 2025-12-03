@@ -45,7 +45,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
 
         ReleaseObjectsInside();
 
-        SpawnBrokenParticles(breaker);
+        SpawnBrokenParticlesAndPlaySound(breaker);
 
         SoundOnBreak.PlaySound();
 
@@ -90,8 +90,10 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         StuckedObjects.Clear();
     }
 
-    protected void SpawnBrokenParticles(MonoBehaviour breaker)
+    protected void SpawnBrokenParticlesAndPlaySound(MonoBehaviour breaker)
     {
+        SoundOnBreak.PlaySound(false, transform.position);
+
         if (_partcilesOnBreak.Count == 0) return;
 
         ParticleSpawner.SpawnInstantlyMultipleParticles(

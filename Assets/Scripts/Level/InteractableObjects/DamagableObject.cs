@@ -21,6 +21,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public bool CanHaveHealthOverMax = false;
     public List<AbstractEffect> EffectsOnLethal = new();
     public List<AbstractParticle> ParticlesOnDamage = new();
+    public SoundPlayer SoundOnDamage;
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 
@@ -114,6 +115,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
                     PARTICLES_ON_DAMAGE_ACCURACY
                     );
             }
+
+            SoundOnDamage.PlaySound();
         }
 
         CurrentHealth -= damage;

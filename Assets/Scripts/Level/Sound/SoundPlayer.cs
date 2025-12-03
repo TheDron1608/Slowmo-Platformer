@@ -12,6 +12,13 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private int _maxSourcesPlayingTogether = 1;
 
     private AudioSource[] _audioSources;
+    private float _dynamicVolumeMultiplier = 1f;
+
+    public float DynamicVolumeMultiplier
+    {
+        get => _dynamicVolumeMultiplier; 
+        set => _dynamicVolumeMultiplier = value;
+    }
 
     private void Awake()
     {
@@ -54,7 +61,7 @@ public class SoundPlayer : MonoBehaviour
         {
             if (audioSource.isPlaying)
             {
-                audioSource.volume = Volume * NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, transform.position) / MIN_VOLUME_DISTANCE);
+                audioSource.volume = CalculateVolume();
             }
         }
     }
@@ -67,13 +74,14 @@ public class SoundPlayer : MonoBehaviour
             AudioSource.PlayClipAtPoint(
                 randomClip, 
                 audioPoint.Value,
-                Volume * NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, audioPoint.Value) / MIN_VOLUME_DISTANCE)
+                CalculateVolume()
                 );
         }
         else
         {
             audioSource.loop = loop;
             audioSource.pitch = Pitch + NumberMath.PickRandomInRangeNoSeed(-sound.RandomPitchSpread, sound.RandomPitchSpread);
+            audioSource.volume = CalculateVolume();
             if (loop)
             {
                 audioSource.clip = randomClip;
@@ -97,5 +105,10 @@ public class SoundPlayer : MonoBehaviour
     public bool GetIsPlaying()
     {
         return _audioSources.Any(audioSource => audioSource.isPlaying);
+    }
+
+    private float CalculateVolume()
+    {
+        return Volume * DynamicVolumeMultiplier * NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, transform.position) / MIN_VOLUME_DISTANCE);
     }
 }

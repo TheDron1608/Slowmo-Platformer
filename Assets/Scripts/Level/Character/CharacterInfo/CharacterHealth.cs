@@ -10,6 +10,7 @@ public class CharacterHealth : DamagableObject
 
     public List<AbstractParticle> ParticlesOnGib = new();
     public int ParticlesAmountOnGib = 24;
+    public SoundPlayer SoundOnGib;
 
     private CharacterComponentsManager _charComponents;
     private CharacterPart _lethallyAffectedCharacterPart = null;
@@ -104,6 +105,8 @@ public class CharacterHealth : DamagableObject
                 0f
                 );
         }
+
+        SoundOnGib.PlaySound();
 
         Die(gibber);
         Destroy(CharComponents.gameObject);

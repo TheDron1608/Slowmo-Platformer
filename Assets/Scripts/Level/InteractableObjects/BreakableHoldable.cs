@@ -75,7 +75,7 @@ public class BreakableHoldable : BreakableObject
             }
         }
 
-        SpawnBrokenParticles(breaker);
+        SpawnBrokenParticlesAndPlaySound(breaker);
 
         SoundOnBreak.PlaySound();
 

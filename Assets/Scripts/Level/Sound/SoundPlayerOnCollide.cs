@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(SoundPlayer))]
 public class SoundPlayerOnCollide : MonoBehaviour
 {
     const float MASS_VOLUME_AFFECTION_MULTIPLIER = 0.1f;
@@ -23,7 +22,7 @@ public class SoundPlayerOnCollide : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _soundPlayer.Volume = 
+        _soundPlayer.DynamicVolumeMultiplier = 
             NumberMath.LimitFloatBetweenZeroAndOne(
                 (_velocityPrevFrame - (collision.rigidbody.bodyType == RigidbodyType2D.Dynamic ? collision.rigidbody.linearVelocity : Vector2.zero))
                 .magnitude / VeclocityForMaxVolume * (1f - _rigidBodyComponent.mass * MASS_VOLUME_AFFECTION_MULTIPLIER)

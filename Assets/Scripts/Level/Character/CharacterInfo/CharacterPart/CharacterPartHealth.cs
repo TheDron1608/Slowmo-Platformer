@@ -25,6 +25,9 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
+    public SoundPlayer SoundOnDamage;
+    public SoundPlayer SoundOnGib;
+    public SoundPlayer SoundOnCutOff;
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 
@@ -78,6 +81,8 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 math.max(1, (int)math.floor(damage * ParticlesPerDamage)),
                 BLEED_PARTICLES_ACCURACY
                 );
+
+            SoundOnDamage.PlaySound();
         }
 
         if (CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() && ParticlesOnLethalHit.Count > 0)
@@ -142,6 +147,8 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 BLEED_PARTICLES_ACCURACY
                 );
         }
+
+        SoundOnCutOff.PlaySound(false, transform.position);
 
         if (TryGetComponent(out CharacterLimbPart limbPart))
         {
@@ -236,6 +243,8 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 0f
                 );
         }
+
+        SoundOnGib.PlaySound(false, transform.position);
 
         if (TryGetComponent(out CharacterLimbPart limbPart))
         {

@@ -30,7 +30,7 @@ public class BreakableDoor : BreakableObject
             SpawnObjectsOnBreak.Clear();
         }
 
-        SpawnBrokenParticles(breaker);
+        SpawnBrokenParticlesAndPlaySound(breaker);
 
         GetComponent<SpriteRenderer>().flipX = transform.position.x < breaker.transform.position.x;
         GetComponent<OnInteractToggleOpenDoor>().IsOpen = true;

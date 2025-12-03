@@ -4,6 +4,9 @@ public class OnInteractOpenCloset : Interactable
 {
     const string ANIMATOR_CLOSED_PROP_NAME = "Closed";
 
+    public SoundPlayer SoundOnOpen;
+    public SoundPlayer SoundOnClose;
+
     private bool _closed = true;
 
     private Animator _animator;
@@ -19,8 +22,12 @@ public class OnInteractOpenCloset : Interactable
         get => _closed;
         set
         {
+            if (_closed == value) return;
+
             _closed = value;
             _animator.SetBool(ANIMATOR_CLOSED_PROP_NAME, _closed);
+
+            (_closed ? SoundOnClose : SoundOnOpen).PlaySound();
 
             GetComponent<BreakableObject>()?.ReleaseObjectsInside();
         }
