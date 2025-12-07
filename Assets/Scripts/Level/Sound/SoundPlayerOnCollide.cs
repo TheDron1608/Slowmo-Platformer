@@ -2,8 +2,6 @@
 
 public class SoundPlayerOnCollide : MonoBehaviour
 {
-    const float MASS_VOLUME_AFFECTION_MULTIPLIER = 0.1f;
-
     [SerializeField] private SoundPlayer _soundPlayer;
     public float VeclocityForMaxVolume = 15f;
 
@@ -25,7 +23,7 @@ public class SoundPlayerOnCollide : MonoBehaviour
         _soundPlayer.DynamicVolumeMultiplier = 
             NumberMath.LimitFloatBetweenZeroAndOne(
                 (_velocityPrevFrame - (collision.rigidbody.bodyType == RigidbodyType2D.Dynamic ? collision.rigidbody.linearVelocity : Vector2.zero))
-                .magnitude / VeclocityForMaxVolume * (1f - _rigidBodyComponent.mass * MASS_VOLUME_AFFECTION_MULTIPLIER)
+                .magnitude / VeclocityForMaxVolume
                 );
         _soundPlayer.PlaySound();
     }

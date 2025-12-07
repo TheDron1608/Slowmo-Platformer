@@ -371,6 +371,8 @@ public class CharacterCollision : AbstractCharacterComponent
                     {
                         CharComponents.CharacterRolling.CurrentRollHitCharacters.Add(otherCharComponent);
                     }
+
+                    CharComponents.CharacterRolling.SoundOnRollHit.PlaySound();
                     OnHitOtherCharacters?.Invoke(this, otherCharComponent);
                 }
             }

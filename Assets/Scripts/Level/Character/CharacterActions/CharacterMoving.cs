@@ -19,8 +19,8 @@ public class CharacterMoving : AbstractCharacterComponent
     private float? _awaitingMoveDirection = null;
 
     [Header("Sound")]
-    public Sound StepSound;
-    public Sound MoveAlignChangeSound;
+    public SoundPlayer StepSound;
+    public SoundPlayer MoveAlignChangeSound;
 
     public bool IsAbleToMoveThisFrame
     {
@@ -215,5 +215,10 @@ public class CharacterMoving : AbstractCharacterComponent
     public bool GetIsMaxSpeed()
     {
         return CharComponents.CharacterRigidBody.linearVelocityX > Speed - .05f || CharComponents.CharacterRigidBody.linearVelocityX < -Speed + .05f;
+    }
+
+    public void Animator_PlayStepSound()
+    {
+        StepSound.PlaySound();
     }
 }
