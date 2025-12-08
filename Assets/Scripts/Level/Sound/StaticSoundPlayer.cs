@@ -2,6 +2,11 @@
 
 public class StaticSoundPlayer : AbstractSoundPlayer
 {
+    private void Start()
+    {
+        AudioListenerInstance.Instance.OnDestroyed += Instance_OnDestroyed;
+    }
+
     public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null)
     {
         if (sound == null) return;
@@ -16,7 +21,7 @@ public class StaticSoundPlayer : AbstractSoundPlayer
 
         if (_audioSource.volume < MIN_VOLUME) return;
 
-        _audioSource.transform.SetParent(Camera.main.transform);
+        _audioSource.transform.SetParent(AudioListenerInstance.Instance.transform);
         _audioSource.transform.localPosition = Vector3.zero;
 
         if (loop)
@@ -30,8 +35,22 @@ public class StaticSoundPlayer : AbstractSoundPlayer
         }
     }
 
+    private void Instance_OnDestroyed(object sender, System.EventArgs e)
+    {
+        _audioSource.transform.SetParent(transform);
+        _audioSource.transform.localPosition = Vector3.zero;
+        if (AudioListenerInstance.Instance != null)
+        {
+            AudioListenerInstance.Instance.OnDestroyed -= Instance_OnDestroyed;
+        }
+    }
+
     private void OnDestroy()
     {
+        if (AudioListenerInstance.Instance != null)
+        {
+            AudioListenerInstance.Instance.OnDestroyed -= Instance_OnDestroyed;
+        }
         Destroy(_audioSource.gameObject);
     }
 }

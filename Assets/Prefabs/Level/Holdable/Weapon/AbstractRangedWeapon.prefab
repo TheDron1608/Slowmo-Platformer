@@ -181,6 +181,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnLoad
       objectReference: {fileID: 0}
+    - target: {fileID: 8022301484877698249, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: Priority
+      value: 132
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -242,6 +246,10 @@ PrefabInstance:
     - target: {fileID: 3962236072097417123, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
       propertyPath: m_Name
       value: SoundPlayerOnUnload
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022301484877698249, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: Priority
+      value: 132
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -442,6 +450,10 @@ PrefabInstance:
     - target: {fileID: 3962236072097417123, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
       propertyPath: m_Name
       value: SoundPlayerOnOutOfAmmo
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022301484877698249, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: Priority
+      value: 188
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

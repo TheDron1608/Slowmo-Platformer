@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class ButtonOnClickPlayClickSound : MonoBehaviour
 {
+    public AbstractSoundPlayer SoundOnClick;
     [SerializeField]
     private Button _button;
 
@@ -13,6 +14,6 @@ public class ButtonOnClickPlayClickSound : MonoBehaviour
 
     public void PlayClickSound()
     {
-        SoundManager.Instance?.PlaySound(SoundManager.Instance.ButtonClickSound);
+        SoundOnClick.PlaySound();
     }
 }

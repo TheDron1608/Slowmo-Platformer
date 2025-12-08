@@ -14,18 +14,13 @@ public class SoundManager : MonoBehaviour
     [Serializable]
     public class SoundData
     {
-        public int MusicVolume = 5;
-        public int SFXVolume = 5;
+        public float MusicVolume = 1f;
+        public float SFXVolume = 1f;
     }
 
     public static SoundManager Instance;
 
     public SoundData SoundVolume = new SoundData();
-    public SoundData MaxSoundVolume = new SoundData();
-
-    [Header("Sound references")]
-    public Sound ButtonClickSound;
-    public Sound ButtonSelectSound;
 
     void Start()
     {
@@ -40,34 +35,11 @@ public class SoundManager : MonoBehaviour
         switch (soundType)
         {
             case SoundTypes.SFX:
-                return SoundVolume.SFXVolume / MaxSoundVolume.SFXVolume;
+                return SoundVolume.SFXVolume;
             case SoundTypes.MUSIC:
-                return SoundVolume.MusicVolume / MaxSoundVolume.MusicVolume;
+                return SoundVolume.MusicVolume;
         }
         throw new UnityException("not found soundData value for SoundType: " + soundType.ToString());
-    }
-
-    public void PlaySound(Sound sound)
-    {
-        AudioSource newSource = FindFirstObjectByType<AudioListener>().gameObject.AddComponent<AudioSource>();
-
-
-        newSource.resource = sound.AudioClips[UnityEngine.Random.Range(0, sound.AudioClips.Count - 1)];
-        newSource.pitch = UnityEngine.Random.Range(1f - sound.RandomPitchSpread, 1f + sound.RandomPitchSpread);
-        newSource.volume = (float)SoundVolume.SFXVolume / (float)MaxSoundVolume.SFXVolume;
-        newSource.Play();
-
-        StartCoroutine(AwaitSoundPlayerFinishAndDestroy(newSource));
-    }
-
-    private IEnumerator AwaitSoundPlayerFinishAndDestroy(AudioSource soundPlayer)
-    {
-
-        while (!soundPlayer.IsDestroyed() && soundPlayer.isPlaying)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        Destroy(soundPlayer);
     }
 
     public void SaveSoundToJSON()
@@ -81,8 +53,6 @@ public class SoundManager : MonoBehaviour
 
         SoundVolume = JsonUtility.FromJson<SoundData>(volumeDataStr);
     }
-
-
 
     private void OnDestroy()
     {

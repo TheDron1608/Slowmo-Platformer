@@ -2249,9 +2249,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6140659265642230846, guid: 4367cfaa437a70b4f8750935a5a02548, type: 3}
       insertIndex: -1
       addedObject: {fileID: 110016661}
-    - targetCorrespondingSourceObject: {fileID: 2121428852103197501, guid: 4367cfaa437a70b4f8750935a5a02548, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1862136223}
   m_SourcePrefab: {fileID: 100100000, guid: 4367cfaa437a70b4f8750935a5a02548, type: 3}
 --- !u!114 &963484365 stripped
 MonoBehaviour:
@@ -2264,11 +2261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b3918c0b3f9f143b9b5f1349276ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!20 &963484366 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5653227472355909966, guid: 4367cfaa437a70b4f8750935a5a02548, type: 3}
-  m_PrefabInstance: {fileID: 963484364}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &973517355
 GameObject:
   m_ObjectHideFlags: 0
@@ -3155,7 +3147,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 963484366}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3439,19 +3431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1862136221 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2121428852103197501, guid: 4367cfaa437a70b4f8750935a5a02548, type: 3}
-  m_PrefabInstance: {fileID: 963484364}
-  m_PrefabAsset: {fileID: 0}
---- !u!81 &1862136223
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1862136221}
-  m_Enabled: 1
 --- !u!224 &1970729582 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1797797047197243655, guid: f11655cf21995b541a99596d1b984e73, type: 3}

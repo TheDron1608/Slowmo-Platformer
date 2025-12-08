@@ -962,6 +962,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Music Volume
       objectReference: {fileID: 0}
+    - target: {fileID: 4906424781766922533, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: _volumeType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5226911721130610628, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 1822884738387968
@@ -2134,7 +2138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4906424781766922533, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: _volumeType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5226911721130610628, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId

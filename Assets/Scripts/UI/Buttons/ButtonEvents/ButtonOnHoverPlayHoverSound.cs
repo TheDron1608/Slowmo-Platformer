@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class ButtonOnHoverPlayHoverSound : MonoBehaviour, IPointerEnterHandler
 {
+    public AbstractSoundPlayer SoundOnHover;
     [SerializeField]
     private Button _button;
 
@@ -11,7 +12,7 @@ public class ButtonOnHoverPlayHoverSound : MonoBehaviour, IPointerEnterHandler
     {
         if (_button.IsInteractable())
         {
-            SoundManager.Instance?.PlaySound(SoundManager.Instance.ButtonSelectSound);
+            SoundOnHover.PlaySound();
         }
     }
 }
