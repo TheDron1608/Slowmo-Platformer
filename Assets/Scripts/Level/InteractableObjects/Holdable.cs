@@ -31,8 +31,8 @@ public class Holdable : Interactable
     public float SpeedToHitCharacter = 7.5f;
     public float SpeedToGetThrough = 15f;
     public List<AbstractEffect> EffectsOnThrowHit = new();
-    public SoundPlayer SoundOnPickedUp;
-    public SoundPlayer SoundOnThrown;
+    public AbstractSoundPlayer SoundOnPickedUp;
+    public AbstractSoundPlayer SoundOnThrown;
 
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;

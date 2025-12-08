@@ -25,9 +25,9 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
-    public SoundPlayer SoundOnDamage;
-    public SoundPlayer SoundOnGib;
-    public SoundPlayer SoundOnCutOff;
+    public AbstractSoundPlayer SoundOnDamage;
+    public AbstractSoundPlayer SoundOnGib;
+    public AbstractSoundPlayer SoundOnCutOff;
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 

@@ -19,8 +19,8 @@ public class CharacterMoving : AbstractCharacterComponent
     private float? _awaitingMoveDirection = null;
 
     [Header("Sound")]
-    public SoundPlayer StepSound;
-    public SoundPlayer MoveAlignChangeSound;
+    public AbstractSoundPlayer StepSound;
+    public AbstractSoundPlayer MoveAlignChangeSound;
 
     public bool IsAbleToMoveThisFrame
     {

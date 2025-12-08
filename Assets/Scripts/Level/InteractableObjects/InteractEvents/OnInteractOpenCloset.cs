@@ -4,8 +4,8 @@ public class OnInteractOpenCloset : Interactable
 {
     const string ANIMATOR_CLOSED_PROP_NAME = "Closed";
 
-    public SoundPlayer SoundOnOpen;
-    public SoundPlayer SoundOnClose;
+    public AbstractSoundPlayer SoundOnOpen;
+    public AbstractSoundPlayer SoundOnClose;
 
     private bool _closed = true;
 

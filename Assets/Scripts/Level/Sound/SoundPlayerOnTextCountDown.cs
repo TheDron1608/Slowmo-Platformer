@@ -7,7 +7,7 @@ public class SoundPlayerOnTextCountDown : MonoBehaviour
     public float PitchOnEncountStart = 1f;
     public float PitchOnEncountFinish = 1f;
 
-    [SerializeField] private SoundPlayer _soundPlayer;
+    [SerializeField] private AbstractSoundPlayer _soundPlayer;
     [SerializeField] private TextMeshProUGUI _textMesh;
 
     private float? _encountValuePrevFrame = null;

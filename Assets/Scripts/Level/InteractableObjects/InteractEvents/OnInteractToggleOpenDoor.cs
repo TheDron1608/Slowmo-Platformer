@@ -6,8 +6,8 @@ public class OnInteractToggleOpenDoor : Interactable
     const string ANIMATOR_FORCE_OPEN_TRIGGER_NAME = "ForceOpen";
     const string ANIMATOR_CLOSE_TRIGGER_NAME = "Close";
 
-    public SoundPlayer SoundOnOpen;
-    public SoundPlayer SoundOnClose;
+    public AbstractSoundPlayer SoundOnOpen;
+    public AbstractSoundPlayer SoundOnClose;
 
     private Animator _animator;
     private Collider2D _collider;

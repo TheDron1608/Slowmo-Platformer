@@ -14,7 +14,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public bool FriendlyFire = false;
     public bool IsAbleToHit = true;
     public Sprite GameplayUISprite;
-    public SoundPlayer SoundOnAttack;
+    public AbstractSoundPlayer SoundOnAttack;
 
     private Weapon _weapon = null;
     private Weapon _deflector = null;

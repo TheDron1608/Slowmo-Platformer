@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public SoundPlayer SoundOnPause;
-    public SoundPlayer SoundOnUnpause;
+    public AbstractSoundPlayer SoundOnPause;
+    public AbstractSoundPlayer SoundOnUnpause;
 
     [SerializeField] private Button _defaultSelectedButton;
 

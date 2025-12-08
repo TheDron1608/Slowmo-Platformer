@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public enum SoundTypes
+    {
+        SFX,
+        MUSIC
+    }
+
     [Serializable]
     public class SoundData
     {
@@ -27,6 +33,18 @@ public class SoundManager : MonoBehaviour
         Instance = this;
 
         DontDestroyOnLoad(this);
+    }
+
+    public float GetCurrentSoundTypeVolume(SoundTypes soundType)
+    {
+        switch (soundType)
+        {
+            case SoundTypes.SFX:
+                return SoundVolume.SFXVolume / MaxSoundVolume.SFXVolume;
+            case SoundTypes.MUSIC:
+                return SoundVolume.MusicVolume / MaxSoundVolume.MusicVolume;
+        }
+        throw new UnityException("not found soundData value for SoundType: " + soundType.ToString());
     }
 
     public void PlaySound(Sound sound)

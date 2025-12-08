@@ -17,8 +17,8 @@ public class CharacterRolling : AbstractCharacterComponent
     public float ExtraSpeedOnStart = 5f;
     public float ExtraSpeedDuration = 0.35f; //in seconds
     public float AccelerationMultiplier = 0.2f;
-    public SoundPlayer SoundOnRoll;
-    public SoundPlayer SoundOnRollHit;
+    public AbstractSoundPlayer SoundOnRoll;
+    public AbstractSoundPlayer SoundOnRollHit;
 
     private bool _isRolling = false;
     private float _currentRollDirection = 0f;

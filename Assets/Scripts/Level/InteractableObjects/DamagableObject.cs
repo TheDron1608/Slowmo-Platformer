@@ -21,7 +21,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public bool CanHaveHealthOverMax = false;
     public List<AbstractEffect> EffectsOnLethal = new();
     public List<AbstractParticle> ParticlesOnDamage = new();
-    public SoundPlayer SoundOnDamage;
+    public AbstractSoundPlayer SoundOnDamage;
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 

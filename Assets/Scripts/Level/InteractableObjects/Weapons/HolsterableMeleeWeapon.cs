@@ -7,8 +7,8 @@ public class HolsterableMeleeWeapon : MeleeWeapon
 
     [Header("holsterable melee weapon")]
     public float TimeToHolsterBackSeconds = 6.5f;
-    public SoundPlayer SoundOnHolster;
-    public SoundPlayer SoundOnUnholster;
+    public AbstractSoundPlayer SoundOnHolster;
+    public AbstractSoundPlayer SoundOnUnholster;
 
     private bool _isHolstered = false;
     private float _timeToHolsterBack = 0f;

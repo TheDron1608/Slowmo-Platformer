@@ -21,9 +21,9 @@ public class RangedWeapon : ThrowableWeapon
     public int MaxAmmo = 10;
     public int LoadedLivingAmmoLeft = 1;
     public int LoadedSpentAmmoLeft = 0;
-    public SoundPlayer SoundOnOutOfAmmo;
-    public SoundPlayer SoundOnLoad;
-    public SoundPlayer SoundOnUnload;
+    public AbstractSoundPlayer SoundOnOutOfAmmo;
+    public AbstractSoundPlayer SoundOnLoad;
+    public AbstractSoundPlayer SoundOnUnload;
 
     private bool _isReloading = false;
     private bool _unloaded = false;

@@ -14,7 +14,7 @@ public class MeleeProjectile : AbstractProjectile
     public List<AbstractEffect> EffectsOnDeflect = new();
     public List<AbstractEffect> SelfEffectsOnDeflect = new();
     public AbstractParticle ParticleOnDeflect = null;
-    public SoundPlayer SoundOnDeflect;
+    public AbstractSoundPlayer SoundOnDeflect;
 
     private bool _didHitAnyWallOnce = false;
     private Rigidbody2D _rigidBody;

@@ -17,7 +17,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     public float RemoveObjectOnBreakMaxRandomAngularVelocity = 360f;
 
     [SerializeField] private List<AbstractParticle> _partcilesOnBreak;
-    public SoundPlayer SoundOnBreak;
+    public AbstractSoundPlayer SoundOnBreak;
 
     private List<Holdable> _stuckedObjects = new();
 

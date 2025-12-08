@@ -2,7 +2,7 @@
 
 public class SoundPlayerOnCollide : MonoBehaviour
 {
-    [SerializeField] private SoundPlayer _soundPlayer;
+    [SerializeField] private AbstractSoundPlayer _soundPlayer;
     public float VeclocityForMaxVolume = 15f;
 
     private Rigidbody2D _rigidBodyComponent;

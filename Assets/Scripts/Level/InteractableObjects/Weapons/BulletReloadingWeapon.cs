@@ -10,7 +10,7 @@ public class BulletReloadingWeapon : RangedWeapon
     public int AmmoAmountPerReload = 1;
     public int AmmoAmountPerUnload = 1;
     public int MaxLoadedAmmo = 1;
-    public SoundPlayer SoundOnLoadBullet;
+    public AbstractSoundPlayer SoundOnLoadBullet;
 
     protected override void OnTryAttackFail(Vector2 direction)
     {

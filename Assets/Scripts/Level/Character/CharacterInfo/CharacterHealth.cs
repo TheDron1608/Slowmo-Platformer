@@ -10,7 +10,7 @@ public class CharacterHealth : DamagableObject
 
     public List<AbstractParticle> ParticlesOnGib = new();
     public int ParticlesAmountOnGib = 24;
-    public SoundPlayer SoundOnGib;
+    public AbstractSoundPlayer SoundOnGib;
 
     private CharacterComponentsManager _charComponents;
     private CharacterPart _lethallyAffectedCharacterPart = null;

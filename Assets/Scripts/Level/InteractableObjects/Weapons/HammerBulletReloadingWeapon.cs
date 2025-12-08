@@ -6,7 +6,7 @@ public class HammerBulletReloadingWeapon : BulletReloadingWeapon
 
     [Header("Hammer Bullet Reloading weapon")]
     public float UnhammeredAttackAttcuracyMultplier = .8f;
-    public SoundPlayer SoundOnHammer;
+    public AbstractSoundPlayer SoundOnHammer;
 
     private bool _hammered = false;
     private bool _isHammerring = false;

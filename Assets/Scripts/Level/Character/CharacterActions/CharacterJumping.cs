@@ -12,7 +12,7 @@ public class CharacterJumping : AbstractCharacterComponent
     public int AirJumps = 0;
     public float JumpLimitForceMultiplier = 10f;
     public bool CanForceStopRollingOnJump = false;
-    public SoundPlayer SoundOnJump;
+    public AbstractSoundPlayer SoundOnJump;
 
     private int _airJumpsLeft = 0;
     private bool _isJumping = false;

@@ -2,7 +2,7 @@ public class SpinableMeleeWeapon : MeleeWeapon
 {
     const string ANIMATOR_SPIN_TRIGGER_NAME = "Spin";
 
-    public SoundPlayer SoundOnSpin;
+    public AbstractSoundPlayer SoundOnSpin;
 
     public void Spin()
     {

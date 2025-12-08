@@ -19,8 +19,8 @@ public class Chainsaw : MeleeWeapon
     public float MinStartSuccessChance = 0.25f;
     public float MaxJampChancePerSecond = 0.667f;
     public float MinJamChancePerSecond = 0f;
-    public SoundPlayer SoundOnTryStart;
-    public SoundPlayer PassiveSoundOnStarted;
+    public AbstractSoundPlayer SoundOnTryStart;
+    public AbstractSoundPlayer PassiveSoundOnStarted;
 
     private float _fuelLeft;
 
