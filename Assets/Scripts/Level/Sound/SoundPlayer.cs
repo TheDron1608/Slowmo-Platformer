@@ -1,17 +1,19 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 
+[RequireComponent(typeof(AudioSource))]
 public class SoundPlayer : MonoBehaviour
 {
     const float MIN_VOLUME_DISTANCE = 15f;
+    const float MIN_VOLUME = 0.01f;
 
     public Sound DefaultSound;
     public float Pitch = 1f;
     public float Volume = 1f;
+    public bool IsPropaginatable = true;
 
-    [SerializeField] private int _maxSourcesPlayingTogether = 1;
-
-    private AudioSource[] _audioSources;
+    private AudioSource _audioSource;
     private float _dynamicVolumeMultiplier = 1f;
 
     public float DynamicVolumeMultiplier
@@ -22,12 +24,7 @@ public class SoundPlayer : MonoBehaviour
 
     private void Awake()
     {
-        _audioSources = new AudioSource[_maxSourcesPlayingTogether];
-        for (int i = 0; i < _maxSourcesPlayingTogether; i++)
-        {
-            AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
-            _audioSources[i] = newAudioSource;
-        }
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void PlaySound(bool loop = false, Vector2? audioPoint = null)
@@ -39,76 +36,66 @@ public class SoundPlayer : MonoBehaviour
     {
         if (sound == null) return;
 
-        AudioSource mostLateTimeAudioSource = _audioSources.First();
-        foreach (AudioSource audioSource in _audioSources)
-        {
-            if (!audioSource.isPlaying)
-            {
-                PlayAudioSource(audioSource, sound, loop, audioPoint);
-                return;
-            }
-            else if (audioSource.clip != null && mostLateTimeAudioSource.time < audioSource.time)
-            {
-                mostLateTimeAudioSource = audioSource;
-            }
-        }
-        PlayAudioSource(mostLateTimeAudioSource, sound, loop, audioPoint);
-    }
-
-    private void FixedUpdate()
-    {
-        foreach (AudioSource audioSource in _audioSources)
-        {
-            if (audioSource.isPlaying)
-            {
-                audioSource.volume = CalculateVolume();
-            }
-        }
-    }
-
-    private void PlayAudioSource(AudioSource audioSource, Sound sound, bool loop, Vector2? audioPoint)
-    {
         AudioClip randomClip = NumberMath.PickRandomItem(sound.AudioClips);
+        float targetVolume = CalculateVolume();
+        if (targetVolume < MIN_VOLUME) return;
+
         if (audioPoint.HasValue)
         {
             AudioSource.PlayClipAtPoint(
-                randomClip, 
+                randomClip,
                 audioPoint.Value,
-                CalculateVolume()
+                targetVolume
                 );
         }
         else
         {
-            audioSource.loop = loop;
-            audioSource.pitch = Pitch + NumberMath.PickRandomInRangeNoSeed(-sound.RandomPitchSpread, sound.RandomPitchSpread);
-            audioSource.volume = CalculateVolume();
+            _audioSource.loop = loop;
+            _audioSource.pitch = Pitch + NumberMath.PickRandomInRangeNoSeed(-sound.RandomPitchSpread, sound.RandomPitchSpread);
+            _audioSource.volume = targetVolume;
+
+            if (_audioSource.volume < MIN_VOLUME) return;
+
             if (loop)
             {
-                audioSource.clip = randomClip;
-                audioSource.Play();
+                _audioSource.clip = randomClip;
+                _audioSource.Play();
             }
             else
             {
-                audioSource.PlayOneShot(randomClip);
+                _audioSource.PlayOneShot(randomClip);
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (IsPropaginatable && _audioSource.isPlaying)
+        {
+            _audioSource.volume = CalculateVolume();
         }
     }
 
     public void BreakAllSounds()
     {
-        foreach (AudioSource audioSource in _audioSources)
-        {
-            audioSource.Stop();
-        }
+        _audioSource.Stop();
     }
 
     public bool GetIsPlaying()
     {
-        return _audioSources.Any(audioSource => audioSource.isPlaying);
+        return _audioSource.isPlaying;
     }
 
     private float CalculateVolume()
     {
-        return Volume * DynamicVolumeMultiplier * NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, transform.position) / MIN_VOLUME_DISTANCE);
+        if (IsPropaginatable)
+        {
+            return Volume * DynamicVolumeMultiplier *
+                NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, transform.position) / MIN_VOLUME_DISTANCE);
+        }
+        else
+        {
+            return Volume * DynamicVolumeMultiplier;
+        }
     }
 }
