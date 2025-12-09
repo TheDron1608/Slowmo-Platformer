@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, IEffectApplier
@@ -215,6 +216,9 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     public virtual void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
     {
         OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
-        GetComponent<Holdable>()?.CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+        if (!gameObject.IsDestroyed())
+        {
+            GetComponent<Holdable>()?.CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+        }
     }
 }

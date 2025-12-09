@@ -48,6 +48,7 @@ public class MeleeProjectile : AbstractProjectile
         _hitWallLayerMask = 1 << layer.EnviromentLayer;
 
         MeleeProjectile meleeOriginal = original.GetComponent<MeleeProjectile>();
+
         WallKnockback = meleeOriginal.WallKnockback;
         BlockKnockback = meleeOriginal.BlockKnockback;
         RepeatWallKnockback = meleeOriginal.RepeatWallKnockback;
@@ -56,6 +57,11 @@ public class MeleeProjectile : AbstractProjectile
         EffectsOnDeflect = meleeOriginal.EffectsOnDeflect;
         SelfEffectsOnDeflect = meleeOriginal.SelfEffectsOnDeflect;
         ParticleOnDeflect = meleeOriginal.ParticleOnDeflect;
+
+        SoundOnDeflect.DefaultSound = meleeOriginal.SoundOnDeflect.DefaultSound;
+        SoundOnDeflect.SoundType = meleeOriginal.SoundOnDeflect.SoundType;
+        SoundOnDeflect.Volume = meleeOriginal.SoundOnDeflect.Volume;
+        SoundOnDeflect.Pitch = meleeOriginal.SoundOnDeflect.Pitch;
 
         _didHitAnyWallOnce = false;
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 public class SoundPlayer : AbstractSoundPlayer
@@ -7,7 +8,13 @@ public class SoundPlayer : AbstractSoundPlayer
 
     public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null)
     {
-        if (sound == null) return;
+        if (
+            sound == null || 
+            (!_audioSource.enabled && !audioPoint.HasValue)
+            )
+        {
+            return;
+        }
 
         AudioClip randomClip = NumberMath.PickRandomItem(sound.AudioClips);
         float targetVolume = CalculateVolume();

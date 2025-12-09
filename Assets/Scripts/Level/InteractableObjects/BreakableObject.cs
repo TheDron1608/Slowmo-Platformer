@@ -47,8 +47,6 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
 
         SpawnBrokenParticlesAndPlaySound(breaker);
 
-        SoundOnBreak.PlaySound();
-
         RemoveAllStuckedObjects();
 
         Destroy(gameObject);
