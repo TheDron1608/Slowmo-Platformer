@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 102884054326835395, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c4845f87ac0867419969d97fede0f45, type: 2}
     - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0925
@@ -32,6 +36,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.92387956
       objectReference: {fileID: 0}
+    - target: {fileID: 831405282513610704, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 3482447a94300d94a93036318f276ae3, type: 2}
     - target: {fileID: 2311740839178814593, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -60,6 +68,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 4357464774501940774, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 25fd022a410d14c46b31ce056091eba2, type: 2}
     - target: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Name
       value: BarrelShotgun
@@ -76,6 +88,10 @@ PrefabInstance:
       propertyPath: SpawnAngle
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 5313638614866067705, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 3577a08eb8459ce4ca67503bbdd9bd8c, type: 2}
     - target: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -84,6 +100,10 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7122764055928448748, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 36ac62934abcc8241b51c5248795a3c0, type: 2}
     - target: {fileID: 7187611321441271773, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: _defaultColor
       value: 201
@@ -160,6 +180,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8968073626548916660, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 6340dde4a312d304caa0f970b94f1b75, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -296,6 +320,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnLoadBullet
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f8ef992033bf7445942441ebf725a9c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

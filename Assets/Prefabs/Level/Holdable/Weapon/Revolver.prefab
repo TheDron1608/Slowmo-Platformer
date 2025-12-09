@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 102884054326835395, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: fe8c6472a8cab4741821955ef5114af8, type: 2}
     - target: {fileID: 584353380274694019, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0
@@ -28,6 +32,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 831405282513610704, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: a05fad42a7bc1c14ca41b14770ec2aa3, type: 2}
     - target: {fileID: 2311740839178814593, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.25
@@ -56,6 +64,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.125
       objectReference: {fileID: 0}
+    - target: {fileID: 4357464774501940774, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 768f01523c0640446ba0ba98cd7ef900, type: 2}
     - target: {fileID: 4677437619596079728, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Name
       value: Revolver
@@ -76,10 +88,18 @@ PrefabInstance:
       propertyPath: SpawnVelocity
       value: 4.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5313638614866067705, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: fc9b06ed19e6954498f1caeb61172fcc, type: 2}
     - target: {fileID: 5867887502712377072, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 10f89eac3cc748d47864e0ea9c171249, type: 3}
+    - target: {fileID: 7122764055928448748, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: bb4c40a7bdcec40459c1280d770f6cb8, type: 2}
     - target: {fileID: 7187611321441271773, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: _defaultColor
       value: 201
@@ -148,6 +168,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8968073626548916660, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 08e2b206dcf8ef546b633b6f723ef4cd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -284,6 +308,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnLoadBullet
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 68d577b1cf9103e46afdad91b526b3e1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

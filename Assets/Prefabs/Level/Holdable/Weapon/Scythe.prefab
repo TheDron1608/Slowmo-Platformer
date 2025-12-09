@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.125
       objectReference: {fileID: 0}
+    - target: {fileID: 2012372175929787586, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: c54631c43d6bb67499b281fcb9ebb0ed, type: 2}
+    - target: {fileID: 2808054240791495207, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: f22a9453067a279409aaa74a50f8c202, type: 2}
     - target: {fileID: 3049281706012927928, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Controller
       value: 
@@ -100,6 +108,10 @@ PrefabInstance:
       propertyPath: _defaultColor
       value: 203
       objectReference: {fileID: 0}
+    - target: {fileID: 4993531973110782984, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: f7b45cc04975ac3449bd640319379ab3, type: 2}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 0.999392
@@ -188,6 +200,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scythe
       objectReference: {fileID: 0}
+    - target: {fileID: 7937705248099924509, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 9348431b0258fb449b1047c8223c6225, type: 2}
     - target: {fileID: 8573550137848886292, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -245,3 +261,4 @@ MonoBehaviour:
   RemoveObjectOnBreakVelocity: 3.5
   RemoveObjectOnBreakMaxRandomAngularVelocity: 360
   _partcilesOnBreak: []
+  SoundOnBreak: {fileID: 0}

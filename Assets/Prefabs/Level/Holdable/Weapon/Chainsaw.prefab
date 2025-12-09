@@ -101,6 +101,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnTryStart
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: c8f696ec82889084987023843a6c9762, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -158,6 +162,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 2012372175929787586, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: bab1cf8af2dfea840861df58711b0c73, type: 2}
+    - target: {fileID: 2808054240791495207, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 49c8b9215aed66b4eb82b69d2c0c9f5a, type: 2}
     - target: {fileID: 3049281706012927928, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Controller
       value: 
@@ -174,6 +186,10 @@ PrefabInstance:
       propertyPath: _defaultColor
       value: 203
       objectReference: {fileID: 0}
+    - target: {fileID: 4993531973110782984, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cb1599627de18b439f6186225104a20, type: 2}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 1.0448792
@@ -258,6 +274,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chainsaw
       objectReference: {fileID: 0}
+    - target: {fileID: 7937705248099924509, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e6c9c8f007a25a4c88f1f25ed9d7b84, type: 2}
     - target: {fileID: 8573550137848886292, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -266,10 +286,10 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      insertIndex: 3
+      insertIndex: 4
       addedObject: {fileID: 2144377546738142277}
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      insertIndex: 4
+      insertIndex: 5
       addedObject: {fileID: 8815023449179686309}
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       insertIndex: -1
@@ -368,6 +388,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnStarted
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 77eb3de768fd894429e645707c6b8996, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.03
       objectReference: {fileID: 0}
+    - target: {fileID: 2012372175929787586, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 7cb1af293cbe71648a27a6424c567ce9, type: 2}
+    - target: {fileID: 2808054240791495207, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: ad74d1a1b7ba5be4eb6071382f54758b, type: 2}
     - target: {fileID: 3049281706012927928, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Controller
       value: 
@@ -80,6 +88,10 @@ PrefabInstance:
       propertyPath: _defaultColor
       value: 201
       objectReference: {fileID: 0}
+    - target: {fileID: 4993531973110782984, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: f4a6b46a2f396c645a378431a4f3db56, type: 2}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 0.25005266
@@ -152,6 +164,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dagger
       objectReference: {fileID: 0}
+    - target: {fileID: 7937705248099924509, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: cf6ebe9ea09609f4f9328e5928979593, type: 2}
     - target: {fileID: 8573550137848886292, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -160,7 +176,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      insertIndex: 3
+      insertIndex: 4
       addedObject: {fileID: 5537806103884109172}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7456881602955135124, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
@@ -250,6 +266,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnSpin
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: b4b5b84b1ee61c542b860e35415b6c77, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -56,6 +56,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.215
       objectReference: {fileID: 0}
+    - target: {fileID: 2012372175929787586, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 6813cb5d86c4b014da47b65765d05458, type: 2}
+    - target: {fileID: 2808054240791495207, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: f8caf6e5671fee04a9f8621acb2c61e7, type: 2}
     - target: {fileID: 3049281706012927928, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Controller
       value: 
@@ -96,6 +104,10 @@ PrefabInstance:
       propertyPath: _defaultColor
       value: 203
       objectReference: {fileID: 0}
+    - target: {fileID: 4993531973110782984, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 631fb02c7da4dd546b0981468eb4d438, type: 2}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
       value: 0.64162576
@@ -184,6 +196,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 7937705248099924509, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: a9d6f5238a2375c4bb4439b838306866, type: 2}
     - target: {fileID: 8573550137848886292, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -287,6 +303,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnHolster
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: cc591fdf6ffd5394eab1efedcdf909c8, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -360,6 +380,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnUnholster
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: f2aa585ff3ea5e9419fb9353447e3d6d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
