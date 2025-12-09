@@ -96,6 +96,14 @@ PrefabInstance:
       propertyPath: LootSpawnType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2793544172877190791, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: f7bcf3a6a5d8ac84692c73355ef48d10, type: 2}
+    - target: {fileID: 4847203792808532901, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: c455b57352eb08e44ab89dd1555cc7b5, type: 2}
     - target: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_Name
       value: Closet
@@ -311,6 +319,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnClose
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: f7bcf3a6a5d8ac84692c73355ef48d10, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -384,6 +396,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnOpen
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: a2f3c82226d64d84493a92ffd4633f06, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

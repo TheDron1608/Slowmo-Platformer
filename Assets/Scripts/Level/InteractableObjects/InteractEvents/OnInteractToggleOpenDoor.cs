@@ -7,6 +7,7 @@ public class OnInteractToggleOpenDoor : Interactable
     const string ANIMATOR_CLOSE_TRIGGER_NAME = "Close";
 
     public AbstractSoundPlayer SoundOnOpen;
+    public AbstractSoundPlayer SoundOnForceOpen;
     public AbstractSoundPlayer SoundOnClose;
 
     private Animator _animator;
@@ -37,8 +38,6 @@ public class OnInteractToggleOpenDoor : Interactable
             LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForAllChildren(transform);
             _collider.isTrigger = value;
 
-            (_isOpen ?  SoundOnOpen : SoundOnClose).PlaySound();
-
             GetComponent<IStuckToObject>()?.RemoveAllStuckedObjects();
         }
     }
@@ -54,6 +53,19 @@ public class OnInteractToggleOpenDoor : Interactable
     {
         _spriteRenderer.flipX = opener.transform.position.x > transform.position.x;
         Open();
+    }
+
+    public void ForceOpen()
+    {
+        if (IsOpen) return;
+        IsOpen = true;
+        _animator.SetTrigger(ANIMATOR_FORCE_OPEN_TRIGGER_NAME);
+        SoundOnForceOpen.PlaySound();
+    }
+    public void ForceOpen(GameObject opener)
+    {
+        _spriteRenderer.flipX = opener.transform.position.x > transform.position.x;
+        ForceOpen();
     }
 
     public void Close()
@@ -84,7 +96,7 @@ public class OnInteractToggleOpenDoor : Interactable
             character.CharComponents.CharacterRolling.IsRolling
             )
         {
-            Open(character.gameObject);
+            ForceOpen(character.gameObject);
         }
     }
 }
