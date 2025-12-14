@@ -12,12 +12,12 @@ public class ButtonOnHoverScaleUp : MonoBehaviour, IPointerEnterHandler, IPointe
 
     private void Start()
     {
-        _buttonComponent = GetComponent<Button>();
+        _buttonComponent = GetComponent<Button>() ?? throw new UnityException("Button component not found");
     }
 
     private void Update()
     {
-        if (_buttonComponent != null && _buttonComponent.interactable)
+        if (_buttonComponent.interactable)
         {
             if (_scalingUp)
             {
