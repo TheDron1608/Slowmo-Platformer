@@ -227,6 +227,8 @@ public class UIManager : MonoBehaviour
 
     public void LoadSceneWithEffect(string sceneName)
     {
+        if (_sceneLoadingProcess != null) return;
+
         UIManager.Instance.SceneEndScreenOverlay.Show();
 
         UIManager.Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished += LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
@@ -238,5 +240,7 @@ public class UIManager : MonoBehaviour
     private void LoadSceneWithEffect_OnScreenOverlayAnimationFinished(object sender, EventArgs e)
     {
         _sceneLoadingProcess.allowSceneActivation = true;
+        UIManager.Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished -= LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
+        _sceneLoadingProcess = null;
     }
 }

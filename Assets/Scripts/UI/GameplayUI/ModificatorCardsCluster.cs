@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
 {
@@ -36,7 +37,7 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
             Cards[i].transform.SetParent(_cardsContainer.transform);
             float targetRotation = ((i / (Cards.Count - 1f)) - 0.5f) * CLUSTER_HAND_MAX_ROTATION;
             Cards[i].transform.Rotate(new Vector3(0, 0f, 1f), targetRotation);
-            Cards[i].transform.position = _cardsContainer.position + Vector3.left * (targetRotation / 60f) * Cards[i].GetComponent<RectTransform>().rect.width;
+            Cards[i].transform.position = _cardsContainer.transform.position + Vector3.left * (targetRotation / 60f) * math.abs(Cards[i].GetComponent<RectTransform>().rect.width);
         }
     }
 
@@ -62,6 +63,16 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
                     break;
                 }
             }
+
+            container.SpendPicksLeft();
+        }
+    }
+
+    public void SetInteractable(bool value)
+    {
+        foreach (ModificatorCard card in Cards)
+        {
+            card.GetComponent<Button>().interactable = value;
         }
     }
 }

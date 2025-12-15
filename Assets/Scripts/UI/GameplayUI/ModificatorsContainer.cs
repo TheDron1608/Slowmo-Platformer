@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ModificatorsContainer : MonoBehaviour
 {
+    const float CHANGE_SCENE_DELAY_AFTER_SPEND_ALL_PICKS = 0.5f;
+    const float SHOW_CARDS_DELAY = 0.5f;
+
+    public string SceneNameAfterSpendAllPicks = "Gameplay";
     public Transform CardSpawnPosition;
     public Transform CardsContainer;
     public Transform CardTrackTargetsContainer;
@@ -11,7 +16,25 @@ public class ModificatorsContainer : MonoBehaviour
     [SerializeField] private ModificatorCardsCluster _clusterInstance;
     [SerializeField] private ModificatorCardInfo _cardInfoInstance;
 
+    private int _picksLeft = 1;
+
     private List<ModificatorCardsCluster> _modificatorCardsClusters = new();
+    private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
+
+    private void Awake()
+    {
+        _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
+        StartCoroutine(ShowCardsAfterDelay());
+    }
+
+    private IEnumerator ShowCardsAfterDelay()
+    {
+        if (ModificatorsManager.Instance != null)
+        {
+            yield return new WaitForSeconds(SHOW_CARDS_DELAY);
+            AddModificatorCardsCluster(ModificatorsManager.Instance.PickRandomModifcators());
+        }
+    }
 
     public void AddModificatorCardsCluster(ModificatorCardsCluster cluster)
     {
@@ -62,6 +85,39 @@ public class ModificatorsContainer : MonoBehaviour
                 newInfo.Title.text = card.Title;
                 newInfo.Description.text = card.Description;
             }
+        }
+    }
+
+    public void SpendPicksLeft(int amount = 1)
+    {
+        _picksLeft -= amount;
+        if (_picksLeft <= 0)
+        {
+            SetAllCardsInteractable(false);
+            _changeSceneDelayAfterSpendAllPicksCoroutine = StartCoroutine(ChangeSceneDelayAfterSpendAllPicks());
+        }
+        else
+        {
+            if (_changeSceneDelayAfterSpendAllPicksCoroutine != null)
+            {
+                StopCoroutine(_changeSceneDelayAfterSpendAllPicksCoroutine);
+                _changeSceneDelayAfterSpendAllPicksCoroutine = null;
+            }
+            SetAllCardsInteractable(true);
+        }
+    }
+
+    private IEnumerator ChangeSceneDelayAfterSpendAllPicks()
+    {
+        yield return new WaitForSeconds(CHANGE_SCENE_DELAY_AFTER_SPEND_ALL_PICKS);
+        UIManager.Instance.LoadSceneWithEffect(SceneNameAfterSpendAllPicks);
+    }
+
+    public void SetAllCardsInteractable(bool value)
+    {
+        foreach (ModificatorCardsCluster cluster in _modificatorCardsClusters)
+        {
+            cluster.SetInteractable(value);
         }
     }
 }
