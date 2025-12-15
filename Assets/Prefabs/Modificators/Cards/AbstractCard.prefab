@@ -61,6 +61,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5524573015439383080}
   - component: {fileID: 3320940988949946023}
+  - component: {fileID: 338084582139568846}
   - component: {fileID: 2861801707010247498}
   - component: {fileID: 4073990547337948634}
   - component: {fileID: 9116020577311039851}
@@ -105,6 +106,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: 
   Description: 
+--- !u!114 &338084582139568846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885206230977233660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87f1554d0811d74aa64a54f94531768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2861801707010247498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,7 +161,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9116020577311039851}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 338084582139568846}
+        m_TargetAssemblyTypeName: ButtonOnClickPickCards, Assembly-CSharp
+        m_MethodName: PickCards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &4073990547337948634
 CanvasRenderer:
   m_ObjectHideFlags: 0

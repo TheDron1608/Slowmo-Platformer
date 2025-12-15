@@ -47,4 +47,21 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
             container.SetClusterDisplayedDescription(this);
         }
     }
+
+    public void Pick()
+    {
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out ModificatorsContainer container))
+        {
+            foreach (UIElementTrackTarget trackTarget in container.GetComponentsInChildren<UIElementTrackTarget>())
+            {
+                if (trackTarget.TrackingUIElement.gameObject == gameObject)
+                {
+                    trackTarget.transform.SetParent(container.CardSpawnPosition);
+                    trackTarget.transform.localPosition = Vector3.zero;
+                    container.SetClusterDisplayedDescription(null);
+                    break;
+                }
+            }
+        }
+    }
 }

@@ -54,11 +54,14 @@ public class ModificatorsContainer : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach (ModificatorCard card in cluster.Cards)
+        if (cluster != null)
         {
-            ModificatorCardInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
-            newInfo.Title.text = card.Title;
-            newInfo.Description.text = card.Description;
+            foreach (ModificatorCard card in cluster.Cards)
+            {
+                ModificatorCardInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
+                newInfo.Title.text = card.Title;
+                newInfo.Description.text = card.Description;
+            }
         }
     }
 }
