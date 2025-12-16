@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -35,7 +36,7 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
         for (int i = 0; i < Cards.Count; i++)
         {
             Cards[i].transform.SetParent(_cardsContainer.transform);
-            float targetRotation = ((i / (Cards.Count - 1f)) - 0.5f) * CLUSTER_HAND_MAX_ROTATION;
+            float targetRotation = Cards.Count == 1 ? 0f : ((i / (Cards.Count - 1f)) - 0.5f) * CLUSTER_HAND_MAX_ROTATION;
             Cards[i].transform.Rotate(new Vector3(0, 0f, 1f), targetRotation);
             Cards[i].transform.position = _cardsContainer.transform.position + Vector3.left * (targetRotation / 60f) * math.abs(Cards[i].GetComponent<RectTransform>().rect.width);
         }
