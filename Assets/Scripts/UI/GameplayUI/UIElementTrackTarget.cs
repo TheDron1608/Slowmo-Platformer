@@ -1,5 +1,6 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIElementTrackTarget : MonoBehaviour
 {
@@ -23,11 +24,19 @@ public class UIElementTrackTarget : MonoBehaviour
     public static UIElementTrackTarget CreateTrackTarget(Transform parent, Transform trackingUIElement)
     {
         GameObject newGO = new("TrackTarget_" + trackingUIElement.gameObject.name);
-        newGO.transform.parent = parent;
-        newGO.transform.localPosition = Vector3.zero;
 
         RectTransform newGORectTransform = newGO.AddComponent<RectTransform>();
         newGORectTransform.sizeDelta = trackingUIElement.GetComponent<RectTransform>().sizeDelta;
+
+        if (trackingUIElement.TryGetComponent(out RectTransform rectTramsform))
+        {
+            LayoutElement layoutElement = newGO.AddComponent<LayoutElement>();
+            layoutElement.preferredHeight = rectTramsform.rect.height;
+            layoutElement.preferredWidth = rectTramsform.rect.width;
+        }
+
+        newGO.transform.SetParent(parent);
+        newGO.transform.localPosition = Vector3.zero;
 
         UIElementTrackTarget newGOTrackTarget = newGO.AddComponent<UIElementTrackTarget>();
         newGOTrackTarget.TrackingUIElement = trackingUIElement;

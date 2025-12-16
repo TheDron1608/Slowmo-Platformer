@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ModificatorCard : MonoBehaviour
+public class ModificatorIcon : MonoBehaviour
 {
     public AbstractModificator Modificator;
 }

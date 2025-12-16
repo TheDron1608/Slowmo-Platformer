@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
@@ -288,6 +289,13 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
     {
         OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
-        Weapon?.InvokeOnEffectApllied(Effect, Receiver);
+        if (!Weapon.IsDestroyed())
+        {
+            Weapon?.InvokeOnEffectApllied(Effect, Receiver);
+        }
+        else if (Owner != null)
+        {
+            Owner?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+        }
     }
 }

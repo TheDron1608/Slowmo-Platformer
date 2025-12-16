@@ -2,6 +2,8 @@
 
 public abstract class AbstractModificator : MonoBehaviour
 {
-    public Sprite IconSprite;
+    public string Title;
+    public string Description;
+    public ModificatorIcon Icon;
     public ModificatorCard Card;
 }

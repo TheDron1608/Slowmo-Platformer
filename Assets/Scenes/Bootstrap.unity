@@ -382,11 +382,6 @@ MonoBehaviour:
   SoundVolume:
     MusicVolume: 5
     SFXVolume: 5
-  MaxSoundVolume:
-    MusicVolume: 10
-    SFXVolume: 10
-  ButtonClickSound: {fileID: 11400000, guid: 580b5bcc7fe2ba54e94cf818888d5e38, type: 2}
-  ButtonSelectSound: {fileID: 11400000, guid: d28f9c915534d104c86632777632e4f8, type: 2}
 --- !u!4 &162866865
 Transform:
   m_ObjectHideFlags: 0
@@ -1154,7 +1149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputBindingScreenOverlay:
-    OverlayOrder: 6
+    OverlayOrder: 7
     _screenOverlayPrefab: {fileID: 6820682616355312488, guid: aec04700e130b7043818b11cb3cc80a0, type: 3}
   SceneStartScreenOverlay:
     OverlayOrder: 10
@@ -1171,6 +1166,9 @@ MonoBehaviour:
   GameOverScreenOverlay:
     OverlayOrder: 4
     _screenOverlayPrefab: {fileID: 7584829924554382280, guid: f6d4b50816ae2c748ab1fe5da0c41f38, type: 3}
+  ModificatorsScreenOverlay:
+    OverlayOrder: 6
+    _screenOverlayPrefab: {fileID: 6674409641364866147, guid: 85e1b07cb7e0097429b47fda18c1b4a7, type: 3}
   LivingTimeLeftScreenOverlay:
     OverlayOrder: 3
     _screenOverlayPrefab: {fileID: 7073779902444177004, guid: afd16e91cfd83a444b782e193f7d28bc, type: 3}

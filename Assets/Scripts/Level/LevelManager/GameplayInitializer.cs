@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class PLevelInitializer : MonoBehaviour
+public class GameplayInitializer : MonoBehaviour
 {
     private void Start()
     {
         UIManager.Instance.GameplayScreenOverlay.Show();
+        UIManager.Instance.ModificatorsScreenOverlay.Show();
 
         WorldGenerationManager.Instance?.GenerateLevel();
 

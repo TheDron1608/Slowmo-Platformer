@@ -54,6 +54,11 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
     {
         if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out ModificatorsContainer container))
         {
+            foreach (ModificatorCard card in Cards)
+            {
+                ModificatorsManager.Instance.AddModificator(card.Modificator);
+            }
+
             foreach (UIElementTrackTarget trackTarget in container.GetComponentsInChildren<UIElementTrackTarget>())
             {
                 if (trackTarget.TrackingUIElement.gameObject == gameObject)

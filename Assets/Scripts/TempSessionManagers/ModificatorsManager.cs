@@ -14,11 +14,27 @@ public class ModificatorsManager : MonoBehaviour
 
     [SerializeField] private ModificatorCardsCluster _clusterInstance;
 
+    private List<AbstractModificator> _currentModificators = new();
+
+    public List<AbstractModificator> CurrentModificators
+    {
+        get => _currentModificators;
+    }
+
     private void Awake()
     {
         if (Instance != null) throw new UnityException("maximum of 1 ModificatorsManager instance");
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void AddModificator(AbstractModificator modificator)
+    {
+        _currentModificators.Add(modificator);
+        if (UIManager.Instance?.ModificatorsScreenOverlay != null)
+        {
+            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator.Icon);
+        }
     }
 
     public List<ModificatorCardsCluster> PickRandomModifcators()

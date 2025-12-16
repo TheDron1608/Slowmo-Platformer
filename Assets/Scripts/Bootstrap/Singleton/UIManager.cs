@@ -167,12 +167,40 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [Serializable]
+    public class ModificatorsUIScreenOverlay : ScreenOverlay
+    {
+        private ModificatorsUI _currentModificartorsUI = null;
+
+        public ModificatorsUI GetModificatorsUI()
+        {
+            return _currentModificartorsUI;
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            _currentModificartorsUI = _currentScreenOverlay.GetComponent<ModificatorsUI>();
+            foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+            {
+                _currentModificartorsUI.AddModificatorIcon(modificator.Icon, true);
+            }
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            _currentModificartorsUI = null;
+        }
+    }
+
     public ScreenOverlay InputBindingScreenOverlay;
     public ScreenOverlay SceneStartScreenOverlay;
     public ScreenOverlay SceneEndScreenOverlay;
     public FillableScreenOverlay DamagedScreenOverlay;
     public GameplayUIScreenOverlay GameplayScreenOverlay;
     public GameOverUIScreenOverlay GameOverScreenOverlay;
+    public ModificatorsUIScreenOverlay ModificatorsScreenOverlay;
     public TextableScreenOverlay LivingTimeLeftScreenOverlay;
 
     public static UIManager Instance;
