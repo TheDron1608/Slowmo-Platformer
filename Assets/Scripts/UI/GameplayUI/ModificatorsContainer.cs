@@ -82,8 +82,8 @@ public class ModificatorsContainer : MonoBehaviour
             foreach (ModificatorCard card in cluster.Cards)
             {
                 ModificatorCardInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
-                newInfo.Title.text = card.Modificator.Title;
-                newInfo.Description.text = card.Modificator.Description;
+                newInfo.Title.text = card.LocalizedTitle;
+                newInfo.Description.text = card.LocalizedDescription;
             }
         }
     }
