@@ -183,7 +183,7 @@ public class UIManager : MonoBehaviour
             _currentModificartorsUI = _currentScreenOverlay.GetComponent<ModificatorsUI>();
             foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
             {
-                _currentModificartorsUI.AddModificatorIcon(modificator.Icon, true);
+                _currentModificartorsUI.AddModificatorIcon(modificator.IconInstance, true);
             }
         }
 

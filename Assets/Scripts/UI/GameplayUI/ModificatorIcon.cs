@@ -3,5 +3,5 @@ using UnityEngine.EventSystems;
 
 public class ModificatorIcon : MonoBehaviour
 {
-    public AbstractModificator Modificator;
+    public AbstractModificator ModificatorInstance;
 }

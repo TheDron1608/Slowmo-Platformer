@@ -30,10 +30,30 @@ public class ModificatorsManager : MonoBehaviour
 
     public void AddModificator(AbstractModificator modificator)
     {
-        _currentModificators.Add(modificator);
+        AbstractModificator newModificator = Instantiate(modificator, transform);
+
+        _currentModificators.Add(newModificator);
         if (UIManager.Instance?.ModificatorsScreenOverlay != null)
         {
-            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator.Icon);
+            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator.IconInstance);
+        }
+    }
+
+    public void RemoveModificator(AbstractModificator modificator)
+    {
+        for (int i = 0; i < _currentModificators.Count; i++)
+        {
+            if (modificator.GetEqualType(_currentModificators[i]))
+            {
+                if (UIManager.Instance?.ModificatorsScreenOverlay != null)
+                {
+                    UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().RemoveModificatorIcon(_currentModificators[i].IconInstance);
+                }
+                Destroy(_currentModificators[i].gameObject);
+                _currentModificators.RemoveAt(i);
+
+                break;
+            }
         }
     }
 
@@ -45,7 +65,7 @@ public class ModificatorsManager : MonoBehaviour
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
             for (int j = 0; j < MaxExtraModificators; j++)
             {
-                newCluster.AddCard(NumberMath.PickRandomItem(AvaibleModificators).Card);
+                newCluster.AddCard(NumberMath.PickRandomItem(AvaibleModificators).CardInstance);
                 if (Random.value > ExtraModificatorChance) break;
             }
             result.Insert(i, newCluster);

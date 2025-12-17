@@ -56,7 +56,7 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
         {
             foreach (ModificatorCard card in Cards)
             {
-                ModificatorsManager.Instance.AddModificator(card.Modificator);
+                ModificatorsManager.Instance.AddModificator(card.ModificatorInstance);
             }
 
             foreach (UIElementTrackTarget trackTarget in container.GetComponentsInChildren<UIElementTrackTarget>())

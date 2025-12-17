@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ModificatorCard : MonoBehaviour
 {
-    public AbstractModificator Modificator;
+    public AbstractModificator ModificatorInstance;
 
     private string _localizedTitle;
     private string _localizedDescription;

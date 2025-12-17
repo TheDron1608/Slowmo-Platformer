@@ -29,11 +29,15 @@ public class ModificatorsUI : MonoBehaviour
 
     public void RemoveModificatorIcon(ModificatorIcon icon)
     {
-        int iconIndex = _modificatorsIcons.IndexOf(icon);
-        if (iconIndex != -1)
+        for (int i = 0; i < _modificatorsIcons.Count; i++)
         {
-            Destroy(_modificatorsIcons[iconIndex].gameObject);
-            _modificatorsIcons.RemoveAt(iconIndex);
+            if (icon.ModificatorInstance == _modificatorsIcons[i].ModificatorInstance)
+            {
+                Destroy(_modificatorsIcons[i].gameObject);
+                _modificatorsIcons.RemoveAt(i);
+
+                break;
+            }
         }
     }
 }

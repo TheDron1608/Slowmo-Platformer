@@ -2,6 +2,11 @@
 
 public abstract class AbstractModificator : MonoBehaviour
 {
-    public ModificatorIcon Icon;
-    public ModificatorCard Card;
+    public ModificatorIcon IconInstance;
+    public ModificatorCard CardInstance;
+
+    public bool GetEqualType(AbstractModificator other)
+    {
+        return GetType() == other.GetType();
+    }
 }
