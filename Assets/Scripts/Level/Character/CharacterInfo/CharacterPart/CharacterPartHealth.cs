@@ -55,10 +55,25 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         set => _hitableByRangedProjectiles = value;
     }
 
+    public float CurrentHealth
+    {
+        get => CharComponents.CharacterHealth.CurrentHealth;
+    }
+
+    public float MaxHealth
+    {
+        get => CharComponents.CharacterHealth.MaxHealth;
+    }
+
+    public float MinHealth
+    {
+        get => CharComponents.CharacterHealth.MinHealth;
+    }
+
     public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultplier = 1f)
     {
         GetComponent<CharacterPart>().CharPartEffectsReceiver.ApplyEffect(EffectsOnHit, damager);
-        CharComponents.CharacterHealth.ApplyDamage(math.lerp(damage, damage * DamageMultiplier, damageMultiplierMultplier), damager, gameObject.GetComponent<CharacterPart>());
+        CharComponents.CharacterHealth.ApplyDamage(math.lerp(damage, damage * DamageMultiplier, damageMultiplierMultplier), damager, gameObject.GetComponent<CharacterLimbPart>());
 
         Vector3 hitPointPosition =
             damager.transform.position +
@@ -104,6 +119,22 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         }
     }
 
+    public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier)
+    {
+        CharComponents.CharacterHealth.ApplyMaxHealth(newMaxHealth, applier);
+    }
+
+    public void ApplyMinHealth(float newMinHealth, MonoBehaviour applier)
+    {
+        CharComponents.CharacterHealth.ApplyMaxHealth(newMinHealth, applier);
+    }
+
+    public void ApplyProjectileHit(AbstractProjectile hitter)
+    {
+        OnHitByProjectile?.Invoke(this, hitter);
+        CharComponents.CharacterHealth.ApplyProjectileHit(hitter);
+    }
+
     public bool TryCutOff(MonoBehaviour cutter)
     {
         if (Cutable)
@@ -121,7 +152,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     {
         if (LosingLimbIsLethal)
         {
-            CharComponents.CharacterHealth.Die(cutter, GetComponent<CharacterPart>());
+            CharComponents.CharacterHealth.Die(cutter, GetComponent<CharacterLimbPart>());
         }
 
         SpawnCutLimbParticle();
@@ -222,7 +253,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     {
         if (LosingLimbIsLethal)
         {
-            CharComponents.CharacterHealth.Die(gibber, GetComponent<CharacterPart>());
+            CharComponents.CharacterHealth.Die(gibber, GetComponent<CharacterLimbPart>());
         }
 
         if (ParticlesOnGib.Count > 0)
@@ -252,11 +283,5 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         }
 
         GameObject.Destroy(gameObject);
-    }
-
-    public void ApplyProjectileHit(AbstractProjectile hitter)
-    {
-        OnHitByProjectile?.Invoke(this, hitter);
-        CharComponents.CharacterHealth.ApplyProjectileHit(hitter);
     }
 }

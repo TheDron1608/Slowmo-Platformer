@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 1ce5cf9b0c5f73d48a27e80327fac816, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 8344437339716845657
   m_TableData:
   - m_Id: 7381860352
     m_Localized: Debug
@@ -26,6 +27,34 @@ MonoBehaviour:
     m_Localized: '* Does nothing'
     m_Metadata:
       m_Items: []
+  - m_Id: 3073428593278976
+    m_Localized: Regeneration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3073568217464832
+    m_Localized: '* Restores {RegenerationSpeed} health per second'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 3074307899752448
+    m_Localized: '* Restores {VampirismStealPercent}% of killed character''s health
+
+      *
+      Loses {VampirismDrain} health per second'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 3075468056821760
+    m_Localized: Vampirism
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8344437339716845657
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 3074307899752448
+        - id: 3073568217464832

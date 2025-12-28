@@ -5,8 +5,22 @@ public class ModificatorCard : MonoBehaviour
 {
     public AbstractModificator ModificatorInstance;
 
+    private float _multiplier = 1f;
     private string _localizedTitle;
     private string _localizedDescription;
+
+    public float Multiplier
+    {
+        get => _multiplier;
+        set
+        {
+            _multiplier = value;
+            if (TryGetComponent(out ModificatorCardLocalizationMultiplierableVariables localizedVars))
+            {
+                localizedVars.UpdateLocalizedValues();
+            }
+        }
+    }
 
     public string LocalizedTitle
     {

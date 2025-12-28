@@ -68,7 +68,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
             );
     }
 
-    public virtual void ApplyEffect(AbstractEffect effect, MonoBehaviour sender)
+    public virtual void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
     {
         if (effect == null) return;
 
@@ -76,6 +76,10 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             AbstractEffect newEffect = Instantiate(effect, transform);
             _currentEffects.Add(newEffect);
+            if (newEffect is IMultiplierableEffect multiplierableEffect)
+            {
+                multiplierableEffect.EffectMultiplier = effectMultiplier;
+            }
             if (newEffect is AbstractEffectWithSender effectWithsender)
             {
                 effectWithsender.ApplySender(sender);
@@ -123,13 +127,13 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return !GetHasImmuneToEffect(effect);
     }
 
-    public void ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender)
+    public void ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, float effectMultiplier = 1f)
     {
         effects.Sort();
 
         for (int i = 0; i < effects.Count; i++)
         {
-            ApplyEffect(effects[i], sender);
+            ApplyEffect(effects[i], sender, effectMultiplier);
         }
     }
 

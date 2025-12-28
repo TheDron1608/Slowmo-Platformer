@@ -13,7 +13,7 @@ public class CharacterHealth : DamagableObject
     public AbstractSoundPlayer SoundOnGib;
 
     private CharacterComponentsManager _charComponents;
-    private CharacterPart _lethallyAffectedCharacterPart = null;
+    private CharacterLimbPart _lethallyAffectedCharacterPart = null;
 
     public CharacterComponentsManager CharComponents
     {
@@ -39,7 +39,7 @@ public class CharacterHealth : DamagableObject
     }
 
 
-    public void ApplyDamage(float damage, MonoBehaviour damager, CharacterPart damagedPart)
+    public void ApplyDamage(float damage, MonoBehaviour damager, CharacterLimbPart damagedPart)
     {
         CurrentHealth -= damage;
         if (damage > 0 && CurrentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
@@ -60,7 +60,7 @@ public class CharacterHealth : DamagableObject
         }
     }
 
-    public void Die(MonoBehaviour killer, CharacterPart lethallyDamagedPart)
+    public void Die(MonoBehaviour killer, CharacterLimbPart lethallyDamagedPart)
     {
         if (lethallyDamagedPart == null)
         {

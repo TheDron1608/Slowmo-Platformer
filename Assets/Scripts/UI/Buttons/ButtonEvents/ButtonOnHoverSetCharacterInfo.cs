@@ -6,8 +6,8 @@ public class ButtonOnHoverSetCharacterInfo : MonoBehaviour, IPointerEnterHandler
 {
     public int FloorLevel = 0;
     [SerializeField] private CharacterSelectContainer _characterSelectContainer;
-    [SerializeField] private Image ButtonBackground;
-    [SerializeField] private TextMeshProUGUI ButtonText;
+    [SerializeField] private Material BackgroundMaterial;
+    [SerializeField] private Color TextColor;
 
     private string _localizedCharacterName = "CharacterName";
     private string _localizedCharacterDesc = "CharacterDesc";
@@ -23,7 +23,7 @@ public class ButtonOnHoverSetCharacterInfo : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _characterSelectContainer.SetCharacterInfo(_localizedCharacterName, _localizedCharacterDesc, FloorLevel, ButtonBackground.material, ButtonText.color);
+        _characterSelectContainer.SetCharacterInfo(_localizedCharacterName, _localizedCharacterDesc, FloorLevel, BackgroundMaterial, TextColor);
         _characterSelectContainer.SetCharacterInfoVisibility(true);
     }
 

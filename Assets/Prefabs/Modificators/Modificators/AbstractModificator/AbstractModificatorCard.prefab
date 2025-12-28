@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f6c2e58b590ad41a87eb2b3288975e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Modificator: {fileID: 0}
+  ModificatorInstance: {fileID: 0}
 --- !u!114 &9012762001572038427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +214,6 @@ GameObject:
   - component: {fileID: 5524573015439383080}
   - component: {fileID: 4073990547337948634}
   - component: {fileID: 9116020577311039851}
-  - component: {fileID: 7421031627961639818}
   m_Layer: 0
   m_Name: CardButton
   m_TagString: Untagged
@@ -269,7 +268,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f63dc68cbd9006b439f4c24afb415914, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a56936217e9939841890af3c1c8488b5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -279,23 +278,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7421031627961639818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6885206230977233660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bbda04ea56263a44883cf83946cf877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sprites:
-  - {fileID: 21300000, guid: f63dc68cbd9006b439f4c24afb415914, type: 3}
-  - {fileID: 21300000, guid: 40ba5d732bffc5549860ca3480287783, type: 3}
-  - {fileID: 21300000, guid: 281b29660fa992a47a1cbe3712a3b7b7, type: 3}
-  _imageContainer: {fileID: 9116020577311039851}
 --- !u!1 &8328991815411201872
 GameObject:
   m_ObjectHideFlags: 0

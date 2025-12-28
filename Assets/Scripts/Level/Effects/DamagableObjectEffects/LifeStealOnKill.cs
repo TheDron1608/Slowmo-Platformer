@@ -1,8 +1,16 @@
 using UnityEngine;
 
-public class LifeStealOnKill : AbstractDamagableObjectEffect
+public class LifeStealOnKill : AbstractDamagableObjectEffect, IMultiplierableEffect
 {
     public float LifeStealMultiplier = 1f;
+
+    private float _effectMultiplier = 1f;
+
+    public float EffectMultiplier
+    {
+        get => _effectMultiplier;
+        set => _effectMultiplier = value;
+    }
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
@@ -31,7 +39,7 @@ public class LifeStealOnKill : AbstractDamagableObjectEffect
     {
         if (e.Effect is ILethalEffect && e.Receiver.TryGetComponent(out AbstractCharacterComponent killedCharacter))
         {
-            AffectedDamagableObject.ApplyDamage(-killedCharacter.CharComponents.CharacterHealth.MaxHealth * LifeStealMultiplier, killedCharacter, 0f);
+            AffectedDamagableObject.ApplyDamage(-killedCharacter.CharComponents.CharacterHealth.MaxHealth * LifeStealMultiplier * EffectMultiplier, killedCharacter, 0f);
         }
     }
 }

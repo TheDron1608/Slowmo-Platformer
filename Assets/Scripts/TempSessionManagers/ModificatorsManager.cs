@@ -33,9 +33,14 @@ public class ModificatorsManager : MonoBehaviour
         AbstractModificator newModificator = Instantiate(modificator, transform);
 
         _currentModificators.Add(newModificator);
-        if (UIManager.Instance?.ModificatorsScreenOverlay != null)
+        if (UIManager.Instance?.ModificatorsScreenOverlay?.GetModificatorsUI() != null)
         {
             UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator.IconInstance);
+        }
+
+        foreach (AbstractModificator subModificator in CurrentModificators)
+        {
+            subModificator.OnModificatorAdded();
         }
     }
 
@@ -45,6 +50,11 @@ public class ModificatorsManager : MonoBehaviour
         {
             if (modificator.GetEqualType(_currentModificators[i]))
             {
+                foreach (AbstractModificator subModificator in CurrentModificators)
+                {
+                    subModificator.OnModificatorRemoved();
+                }
+
                 if (UIManager.Instance?.ModificatorsScreenOverlay != null)
                 {
                     UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().RemoveModificatorIcon(_currentModificators[i].IconInstance);

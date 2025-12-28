@@ -10,6 +10,11 @@ public class OnInteractEnterNextLevelDoor : AnimatedInteractable
     {
         base.OnFinishInteract(interactor);
 
+        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+        {
+            modificator.OnLevelFinished();
+        }
+
         if (ModificatorsManager.Instance == null || ModificatorsManager.Instance.ModifiactorsPickAmount == 0)
         {
             UIManager.Instance.LoadSceneWithEffect(GameplaySceneName);

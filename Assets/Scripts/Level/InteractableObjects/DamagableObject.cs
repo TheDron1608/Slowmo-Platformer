@@ -23,6 +23,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public List<AbstractParticle> ParticlesOnDamage = new();
     public AbstractSoundPlayer SoundOnDamage;
 
+    private List<AbstractEffect> _defaultLethalEffects = null;
+
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 
     public float DamageMultiplier
@@ -48,15 +50,6 @@ public class DamagableObject : MonoBehaviour, IDamagable
         set => _hitableByRangedProjectiles = value;
     }
 
-    private void Awake()
-    {
-        OnAwake();
-    }
-    protected virtual void OnAwake()
-    {
-
-    }
-
     public float CurrentHealth
     {
         get => _currentHealth;
@@ -66,23 +59,28 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public float MaxHealth
     {
         get => _maxHealth;
-        set
-        {
-            _maxHealth = value;
-            if (_currentHealth > _maxHealth && !CanHaveHealthOverMax)
-            {
-                _currentHealth = _maxHealth;
-            }
-        }
+        protected set => _maxHealth = value;
     }
 
     public float MinHealth
     {
         get => _minHealth;
-        set
-        {
-            _minHealth = value;
-        }
+        protected set => _minHealth = value;
+    }
+
+    public List<AbstractEffect> DefaultEffectsOnLethal
+    {
+        get => _defaultLethalEffects;
+        set => _defaultLethalEffects = value;  
+    }
+
+    private void Awake()
+    {
+        OnAwake();
+    }
+    protected virtual void OnAwake()
+    {
+        _defaultLethalEffects = EffectsOnLethal;
     }
 
     public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultiplier = 1f)
@@ -120,6 +118,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
 
         CurrentHealth -= damage;
+        if (CurrentHealth >= MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+        }
         if (CurrentHealth <= MinHealth && ((!GetComponent<ObjectEffectsReceiver>()?.GetHasEffect(EffectsOnLethal)) ?? false))
         {
             Die(damager);
@@ -128,9 +130,27 @@ public class DamagableObject : MonoBehaviour, IDamagable
         {
             Ressurect();
         }
-        if (CurrentHealth >= MaxHealth)
+    }
+
+    public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier)
+    {
+        MaxHealth = newMaxHealth;
+        if (CurrentHealth > MaxHealth && !CanHaveHealthOverMax)
         {
             CurrentHealth = MaxHealth;
+        }
+        if (CurrentHealth < MinHealth)
+        {
+            Die(applier);
+        }
+    }
+
+    public void ApplyMinHealth(float newMinHealth, MonoBehaviour applier)
+    {
+        MinHealth = newMinHealth;
+        if (CurrentHealth < MinHealth)
+        {
+            Die(applier);
         }
     }
 

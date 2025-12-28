@@ -82,8 +82,7 @@ public class ModificatorsContainer : MonoBehaviour
             foreach (ModificatorCard card in cluster.Cards)
             {
                 ModificatorCardInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
-                newInfo.Title.text = card.LocalizedTitle;
-                newInfo.Description.text = card.LocalizedDescription;
+                newInfo.Card = card;
             }
         }
     }
@@ -93,6 +92,10 @@ public class ModificatorsContainer : MonoBehaviour
         _picksLeft -= amount;
         if (_picksLeft <= 0)
         {
+            foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+            {
+                modificator.OnModificatorChoiseFinished();
+            }
             SetAllCardsInteractable(false);
             _changeSceneDelayAfterSpendAllPicksCoroutine = StartCoroutine(ChangeSceneDelayAfterSpendAllPicks());
         }

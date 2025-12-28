@@ -10,6 +10,7 @@ public class SpawnManager : MonoBehaviour
     public List<LootDropChanceInfo> LootDrops = new();
     public List<EnemySpawnInfo> EnemyPool = new();
     public CharacterComponentsManager PlayerCharacter;
+    public List<AbstractEffect> PlayerCharacterEffectsOnSpawn = new();
 
     public List<GameObject> GetLootDropsByType(LootDropChanceInfo.LootSpawnerTypes type)
     {
@@ -46,13 +47,12 @@ public class SpawnManager : MonoBehaviour
     {
         if (PlayerCharacter != null)
         {
-            return
-                WorldGenerationManager.Instance.GeneratedBuildings.First()?.Layer.TrySpawnObject(
-                    PlayerCharacter.gameObject,
-                    VectorMath.Vec3ToVec3Int(WorldGenerationManager.Instance.GeneratedBuildings.First().Enter.GetSpawnPosition()),
-                    null,
-                    null
-                    ).First().GetComponent<AbstractCharacterComponent>().CharComponents;
+            return WorldGenerationManager.Instance.GeneratedBuildings.First()?.Layer.TrySpawnObject(
+                PlayerCharacter.gameObject,
+                VectorMath.Vec3ToVec3Int(WorldGenerationManager.Instance.GeneratedBuildings.First().Enter.GetSpawnPosition()),
+                null,
+                null
+                ).First().GetComponent<AbstractCharacterComponent>().CharComponents;
         }
         else
         {
