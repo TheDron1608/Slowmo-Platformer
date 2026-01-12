@@ -9,9 +9,10 @@ public class ModificatorsUI : MonoBehaviour
 
     private List<ModificatorIcon> _modificatorsIcons = new();
 
-    public ModificatorIcon AddModificatorIcon(ModificatorIcon icon, bool instantly = false)
+    public ModificatorIcon AddModificatorIcon(AbstractModificator modifiactor, bool instantly = false)
     {
-        ModificatorIcon newIcon = Instantiate(icon, _modificatorsContainer);
+        ModificatorIcon newIcon = Instantiate(modifiactor.IconInstance, _modificatorsContainer);
+        modifiactor.CurrentIcon = newIcon;
 
         if (instantly)
         {
@@ -27,12 +28,13 @@ public class ModificatorsUI : MonoBehaviour
         return newIcon;
     }
 
-    public void RemoveModificatorIcon(ModificatorIcon icon)
+    public void RemoveModificatorIcon(AbstractModificator modificator)
     {
         for (int i = 0; i < _modificatorsIcons.Count; i++)
         {
-            if (icon.ModificatorInstance == _modificatorsIcons[i].ModificatorInstance)
+            if (modificator.IconInstance.ModificatorInstance == _modificatorsIcons[i].ModificatorInstance)
             {
+                modificator.CurrentIcon = null;
                 Destroy(_modificatorsIcons[i].gameObject);
                 _modificatorsIcons.RemoveAt(i);
 

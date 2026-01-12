@@ -12,7 +12,13 @@ public class CharacterMultiplierableEffectsOnStartModificator : AbstractMultipli
 
         foreach (CharacterTeam character in TeamManager.Instance.GetTeamDataByTeam(Team).GetTeamMembers())
         {
-            character.CharComponents.CharacterEffectsReceiver.ApplyEffect(PlayerCharacterEffectsOnStart, null, ModificatorMultiplier);
+            foreach(AbstractEffect effect in character.CharComponents.CharacterEffectsReceiver.ApplyEffect(PlayerCharacterEffectsOnStart, null, ModificatorMultiplier))
+            {
+                if (effect is ITriggerableEffect triggerableEffect)
+                {
+                    triggerableEffect.OnTriggered += TriggerableEffect_OnTriggered;
+                }
+            }
         }
     }
 
@@ -24,5 +30,10 @@ public class CharacterMultiplierableEffectsOnStartModificator : AbstractMultipli
         {
             character.CharComponents.CharacterEffectsReceiver.RemoveEffect(PlayerCharacterEffectsOnStart);
         }
+    }
+
+    private void TriggerableEffect_OnTriggered(object sender, System.EventArgs e)
+    {
+        TryTriggerIconAnimation();
     }
 }

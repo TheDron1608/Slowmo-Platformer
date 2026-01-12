@@ -68,9 +68,10 @@ public class ObjectEffectsReceiver : MonoBehaviour
             );
     }
 
-    public virtual void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
+    /// <returns>returns actual applied effect including AlternativeCharacterEffectIfResisted</returns>
+    public virtual AbstractEffect ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
     {
-        if (effect == null) return;
+        if (effect == null) return null;
 
         if (ApplyCondition(effect, sender) && effect.ApplyCondition(this, sender))
         {
@@ -100,10 +101,16 @@ public class ObjectEffectsReceiver : MonoBehaviour
             }
 
             OnEffectAdded?.Invoke(this, new(newEffect, sender));
+
+            return newEffect;
         }
         else if (effect.AlternativeCharacterEffectIfResisted != null && !effect.AlternativeCharacterEffectIfResisted.Equals(effect))
         {
-            ApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender);
+            return ApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender);
+        }
+        else
+        {
+            return null;
         }
     }
 
@@ -127,14 +134,18 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return !GetHasImmuneToEffect(effect);
     }
 
-    public void ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, float effectMultiplier = 1f)
+    /// <returns>returns actual applied effect including AlternativeCharacterEffectIfResisted</returns>
+    public List<AbstractEffect> ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, float effectMultiplier = 1f)
     {
+        List<AbstractEffect> result = new();
         effects.Sort();
 
         for (int i = 0; i < effects.Count; i++)
         {
-            ApplyEffect(effects[i], sender, effectMultiplier);
+            result.Add(ApplyEffect(effects[i], sender, effectMultiplier));
         }
+
+        return result;
     }
 
     public void RemoveEffect<T>()

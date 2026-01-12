@@ -367,6 +367,8 @@ public class ZIndexLayer : MonoBehaviour
 
             chunk?.AddObjectInside(newObject);
 
+            LayerManager.Instance.InvokeOnObjectSpawned(newObject);
+
             return new List<GameObject> { newObject };
         }
         else

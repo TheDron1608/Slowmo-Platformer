@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,7 @@ public class LayerManager : MonoBehaviour
     public static LayerManager Instance;
 
     public List<ZIndexLayer> ZLayers;
+    public event EventHandler<GameObject> OnObjectSpawned;
 
     private float _levelBottom = float.MaxValue;
 
@@ -117,6 +119,11 @@ public class LayerManager : MonoBehaviour
         }
 
         targetLayer.UpdateLayerForAllChildren(moveGameObject.transform);
+    }
+
+    public void InvokeOnObjectSpawned(GameObject spawnedObject)
+    {
+        OnObjectSpawned?.Invoke(this, spawnedObject);
     }
 
     private void OnDestroy()

@@ -5,9 +5,22 @@ public abstract class AbstractModificator : MonoBehaviour
     public ModificatorIcon IconInstance;
     public ModificatorCard CardInstance;
 
+    private ModificatorIcon _currentIcon;
+
+    public ModificatorIcon CurrentIcon
+    {
+        get => _currentIcon;
+        set => _currentIcon = value;
+    }
+
     public virtual bool GetEqualType(AbstractModificator other)
     {
         return GetType() == other.GetType();
+    }
+
+    public void TryTriggerIconAnimation()
+    {
+        CurrentIcon?.TriggerAnimation();
     }
 
     public virtual void OnModificatorAdded()

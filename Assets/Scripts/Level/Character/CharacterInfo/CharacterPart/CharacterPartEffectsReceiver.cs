@@ -12,15 +12,15 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
         CharComponents = GetComponentInParent<CharacterComponentsManager>();
     }
 
-    public override void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
+    public override AbstractEffect ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
     {
         if (effect is IEntireCharacterEffect)
         {
-            GetComponent<CharacterPart>().CharComponents.CharacterEffectsReceiver.ApplyEffect(effect, sender, effectMultiplier);
+            return GetComponent<CharacterPart>().CharComponents.CharacterEffectsReceiver.ApplyEffect(effect, sender, effectMultiplier);
         }
         else
         {
-            base.ApplyEffect(effect, sender, effectMultiplier);
+            return base.ApplyEffect(effect, sender, effectMultiplier);
         }
     }
 

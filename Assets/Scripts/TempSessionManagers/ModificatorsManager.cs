@@ -35,7 +35,7 @@ public class ModificatorsManager : MonoBehaviour
         _currentModificators.Add(newModificator);
         if (UIManager.Instance?.ModificatorsScreenOverlay?.GetModificatorsUI() != null)
         {
-            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator.IconInstance);
+            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator);
         }
 
         foreach (AbstractModificator subModificator in CurrentModificators)
@@ -57,7 +57,7 @@ public class ModificatorsManager : MonoBehaviour
 
                 if (UIManager.Instance?.ModificatorsScreenOverlay != null)
                 {
-                    UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().RemoveModificatorIcon(_currentModificators[i].IconInstance);
+                    UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().RemoveModificatorIcon(_currentModificators[i]);
                 }
                 Destroy(_currentModificators[i].gameObject);
                 _currentModificators.RemoveAt(i);
