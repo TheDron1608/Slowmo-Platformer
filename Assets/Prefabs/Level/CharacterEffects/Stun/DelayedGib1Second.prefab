@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3137429269606645764}
   - component: {fileID: 7915071378290817554}
   m_Layer: 0
-  m_Name: DelayedGib5Seconds
+  m_Name: DelayedGib1Second
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,6 +47,6 @@ MonoBehaviour:
   EffectPriority: 200
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 2100000, guid: ae1f22195f236594ab6536abba1626f0, type: 2}
-  Delay: 5
+  Delay: 1
   EffectOnFinishDelay: {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}
   EffectOnBreakDelay: {fileID: 0}

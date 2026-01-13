@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemySpawn : GenerateOnFinishAllBuildingEnviroment
@@ -18,12 +19,15 @@ public class EnemySpawn : GenerateOnFinishAllBuildingEnviroment
 
         //Debug.Log(generationInfo.GetSpawnPosition() + " : " + gameObject.GetInstanceID());
         //spawn character
-        CharacterComponentsManager newEnemy = Instantiate(
-            spawnInfo.Enemy,
-            generationInfo.GetSpawnPosition(),
-            spawnInfo.Enemy.transform.rotation,
-            generationInfo.GenerateWhere.CharactersContainer
-            );
+        CharacterComponentsManager newEnemy = generationInfo.GenerateWhere.TrySpawnObject(
+            spawnInfo.Enemy.gameObject,
+            generationInfo.GetTileSpawnPosition(),
+            generationInfo.Building,
+            generationInfo.Chunk
+            ).First()?.GetComponent<AbstractCharacterComponent>().CharComponents;
+
+        if (newEnemy == null) return new List<GameObject>(0);
+
         LayerManager.Instance.ChangeZIndexForGameObject(generationInfo.GenerateWhere, newEnemy.gameObject);
 
         //give weapon

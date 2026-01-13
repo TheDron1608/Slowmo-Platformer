@@ -38,6 +38,11 @@ public abstract class ComplexGenerateionEnviroment : MonoBehaviour
         {
             return Offset + TargetGeneration.transform.position;
         }
+
+        public Vector3Int GetTileSpawnPosition()
+        {
+            return VectorMath.Vec3ToVec3Int(Offset + TargetGeneration.transform.position);
+        }
     }
 
     private ChunkInfo _chunk;

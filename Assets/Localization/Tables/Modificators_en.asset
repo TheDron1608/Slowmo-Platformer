@@ -48,6 +48,26 @@ MonoBehaviour:
     m_Localized: Vampirism
     m_Metadata:
       m_Items: []
+  - m_Id: 10133043029098496
+    m_Localized: Delayed Death
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10133461012463616
+    m_Localized: '* Player won''t die after taking lethal damage for {ToughLifetime}
+      seconds'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 10133612170985472
+    m_Localized: Tough enemies
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10133746195775488
+    m_Localized: '* Enemies won''t die after taking lethal damage for {ToughLifetime}
+      seconds'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -58,3 +78,5 @@ MonoBehaviour:
         m_SharedEntries:
         - id: 3074307899752448
         - id: 3073568217464832
+        - id: 10133746195775488
+        - id: 10133461012463616

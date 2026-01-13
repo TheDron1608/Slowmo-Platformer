@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8558335946539354174
+--- !u!1001 &5707090350513957228
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -101,10 +101,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f0ec8d19ae955e4eb1e0abb26fd9bc3, type: 3}
---- !u!224 &7158909183680470863 stripped
+--- !u!224 &6534569839075311133 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1557362331596429169, guid: 0f0ec8d19ae955e4eb1e0abb26fd9bc3, type: 3}
-  m_PrefabInstance: {fileID: 8558335946539354174}
+  m_PrefabInstance: {fileID: 5707090350513957228}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8960047396875246790
 PrefabInstance:
@@ -152,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[8344437298956075092].m_Value
@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[8344437339716845653].m_Value
-      value: 100
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[8344437339716845654].m_Value
@@ -176,11 +176,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 3074307899752448
+      value: 10133461012463616
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: VampirismStealPercent
+      value: ToughLifetime
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].name
@@ -200,11 +200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662937962430450466, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_Name
-      value: ToughModifcatorCard
+      value: ToughPlayerModifcatorCard
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 3075468056821760
+      value: 10133043029098496
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -299,7 +299,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 9011084680423959955, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7158909183680470863}
+      addedObject: {fileID: 6534569839075311133}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5662937962430450466, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       insertIndex: -1
