@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CharacterMultiplierableEffectsOnStartModificator : AbstractMultiplierableModificator
 {
@@ -6,13 +7,13 @@ public class CharacterMultiplierableEffectsOnStartModificator : AbstractMultipli
     public List<AbstractEffect> PlayerCharacterEffectsOnStart;
     
 
-    public override void OnLevelGenerated()
+    protected override void OnObjectSpawned(object sender, GameObject e)
     {
-        base.OnLevelGenerated();
+        base.OnObjectSpawned(sender, e);
 
-        foreach (CharacterTeam character in TeamManager.Instance.GetTeamDataByTeam(Team).GetTeamMembers())
+        if (e.TryGetComponent(out AbstractCharacterComponent character) && character.CharComponents.CharacterTeam.Team == Team)
         {
-            foreach(AbstractEffect effect in character.CharComponents.CharacterEffectsReceiver.ApplyEffect(PlayerCharacterEffectsOnStart, null, ModificatorMultiplier))
+            foreach (AbstractEffect effect in character.CharComponents.CharacterEffectsReceiver.ApplyEffect(PlayerCharacterEffectsOnStart, null, ModificatorMultiplier))
             {
                 if (effect is ITriggerableEffect triggerableEffect)
                 {
@@ -28,6 +29,14 @@ public class CharacterMultiplierableEffectsOnStartModificator : AbstractMultipli
 
         foreach (CharacterTeam character in TeamManager.Instance.GetTeamDataByTeam(Team).GetTeamMembers())
         {
+            foreach(AbstractEffect effect in character.CharComponents.CharacterEffectsReceiver.CurrentEffects)
+            {
+                if (PlayerCharacterEffectsOnStart.Contains(effect) && effect is ITriggerableEffect triggerableEffect)
+                {
+                    triggerableEffect.OnTriggered -= TriggerableEffect_OnTriggered;
+                }
+            }
+
             character.CharComponents.CharacterEffectsReceiver.RemoveEffect(PlayerCharacterEffectsOnStart);
         }
     }

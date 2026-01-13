@@ -35,7 +35,7 @@ public abstract class AbstractModificator : MonoBehaviour
 
     public virtual void OnLevelPreGenerated()
     {
-
+        LayerManager.Instance.OnObjectSpawned += OnObjectSpawned;
     }
 
     public virtual void OnLevelGenerated()
@@ -45,7 +45,7 @@ public abstract class AbstractModificator : MonoBehaviour
 
     public virtual void OnLevelFinished()
     {
-
+        LayerManager.Instance.OnObjectSpawned -= OnObjectSpawned;
     }
 
     public virtual void OnModificatorChoiseStarted()
@@ -54,6 +54,11 @@ public abstract class AbstractModificator : MonoBehaviour
     }
 
     public virtual void OnModificatorChoiseFinished()
+    {
+
+    }
+
+    protected virtual void OnObjectSpawned(object sender, GameObject e)
     {
 
     }

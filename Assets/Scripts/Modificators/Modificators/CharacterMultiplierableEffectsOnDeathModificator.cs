@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CharacterMultiplierableEffectsOnDeathModificator : AbstractMultiplierableModificator
 {
     public TeamManager.Teams Team = TeamManager.Teams.PLAYER;
     public List<AbstractEffect> CharacterEffectsOnDeath;
 
-    public override void OnLevelGenerated()
+    protected override void OnObjectSpawned(object sender, GameObject e)
     {
-        base.OnLevelGenerated();
+        base.OnObjectSpawned(sender, e);
 
-        foreach (CharacterTeam character in TeamManager.Instance.GetTeamDataByTeam(Team).GetTeamMembers())
+        if (e.TryGetComponent(out AbstractCharacterComponent character) && character.CharComponents.CharacterTeam.Team == Team)
         {
             character.CharComponents.CharacterHealth.EffectsOnLethal.AddRange(CharacterEffectsOnDeath);
         }
