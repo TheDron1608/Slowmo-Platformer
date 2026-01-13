@@ -32,9 +32,9 @@ public class ModificatorIcon : MonoBehaviour
         while (_currentTriggerAnimationProgress < TRIGGER_ANIMATION_DURATION)
         {
             _iconContainer.localPosition = new Vector3(
-                transform.localPosition.x,
+                _iconContainer.localPosition.x,
                 math.sin(_currentTriggerAnimationProgress / TRIGGER_ANIMATION_DURATION * math.PI) * TRIGGER_ANIMATION_OFFSET,
-                transform.localPosition.z
+                _iconContainer.localPosition.z
                 );
 
             _currentTriggerAnimationProgress += Time.deltaTime;
