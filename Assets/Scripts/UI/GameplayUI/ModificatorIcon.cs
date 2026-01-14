@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public class ModificatorIcon : MonoBehaviour
+public class ModificatorIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     const float TRIGGER_ANIMATION_DURATION = 0.75f;
     const float TRIGGER_ANIMATION_OFFSET = -50f;
+    const string ALLOWED_TO_SHOW_NONPAUSE_MODIFICATOR_INFO = "ModificatorChoise";
 
     public AbstractModificator ModificatorInstance;
     [SerializeField] private RectTransform _iconContainer;
@@ -71,5 +74,19 @@ public class ModificatorIcon : MonoBehaviour
 
         _currentTriggerAnimationProgress = 0f;
         _triggerAnimationCoroutine = null;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (UIManager.GamePaused() || SceneManager.GetActiveScene().name == ALLOWED_TO_SHOW_NONPAUSE_MODIFICATOR_INFO)
+        {
+            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(LocalizedTitle, LocalizedDescription);
+            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfoEnabled(true);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfoEnabled(false);
     }
 }

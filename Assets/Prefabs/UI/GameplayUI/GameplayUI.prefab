@@ -203,6 +203,7 @@ MonoBehaviour:
   HoldObjectInfo: {fileID: 569047429997307524}
   Pause: {fileID: 7680905103825783552}
   PauseAction: {fileID: 943827633184004740, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  MainMenuSceneName: MainMenu
 --- !u!1001 &3874369748956194477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -281,7 +282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375665573299027450, guid: b76ddd09ba4e7ad418c702b2faebd62b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 8375665573299027450, guid: b76ddd09ba4e7ad418c702b2faebd62b, type: 3}
       propertyPath: m_AnchoredPosition.y

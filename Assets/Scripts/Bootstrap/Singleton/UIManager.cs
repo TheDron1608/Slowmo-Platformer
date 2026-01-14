@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -192,6 +193,11 @@ public class UIManager : MonoBehaviour
             base.Hide();
             _currentModificartorsUI = null;
         }
+
+        public bool GetIsShown()
+        {
+            return _currentModificartorsUI != null;
+        }
     }
 
     public ScreenOverlay InputBindingScreenOverlay;
@@ -212,8 +218,11 @@ public class UIManager : MonoBehaviour
     public static bool GamePaused()
     {
         return
-            (Instance.GameplayScreenOverlay.GetGameplayUI()?.Pause.gameObject.activeSelf ?? false) ||
-            Instance.GameOverScreenOverlay.GetCurrentScreenOverlay() != null;
+            ((!Instance.GameplayScreenOverlay.GetGameplayUI()?.Pause?.IsDestroyed()) ?? false) &&
+            (
+                Instance.GameplayScreenOverlay.GetGameplayUI().Pause.gameObject.activeSelf ||
+                Instance.GameOverScreenOverlay.GetCurrentScreenOverlay() != null
+            );
     }
 
     private void Awake()

@@ -21,6 +21,7 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = value ? 0f : 1f;
             if (!_paused) SoundOnUnpause.PlaySound(false, Vector2.zero);
             gameObject.SetActive(value);
+            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().SetPauseModificatorsAligment(value);
             if (_paused) SoundOnPause.PlaySound();
             if (CurrentDeviceTracker.GetGamepadIsConnected()) _defaultSelectedButton.Select();
         }

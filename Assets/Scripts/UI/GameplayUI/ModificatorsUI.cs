@@ -1,13 +1,25 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ModificatorsUI : MonoBehaviour
 {
     [SerializeField] private Transform _modificatorsContainer;
     [SerializeField] private Transform _modificatorTrackTargetsContainer;
+    [SerializeField] private Transform _modificatorOnPauseTrackTargetsContainer;
+    [SerializeField] private Transform _onPauseContainer;
     [SerializeField] private Transform _modificatorsSpawnPosition;
+    [SerializeField] private Transform _selectedModificatorContainer;
+    [SerializeField] private TextMeshProUGUI _selectedModificatorTitle;
+    [SerializeField] private TextMeshProUGUI _selectedModificatorDesc;
 
     private List<ModificatorIcon> _modificatorsIcons = new();
+
+    private void OnEnable()
+    {
+        SetSelectedModificatorInfoEnabled(false);
+    }
 
     public ModificatorIcon AddModificatorIcon(AbstractModificator modifiactor, bool instantly = false)
     {
@@ -41,5 +53,37 @@ public class ModificatorsUI : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void SetPauseModificatorsAligment(bool value)
+    {
+        foreach (
+            Transform child in 
+            (value ? _modificatorTrackTargetsContainer : _modificatorOnPauseTrackTargetsContainer).GetComponentsInChildren<Transform>()
+            )
+        {
+            if (child.GetComponent<LayoutGroup>() == null)
+            {
+                child.SetParent(value ? _modificatorOnPauseTrackTargetsContainer.transform : _modificatorTrackTargetsContainer.transform);
+            }
+        }
+
+        _onPauseContainer.gameObject.SetActive(value);
+        _modificatorTrackTargetsContainer.gameObject.SetActive(!value);
+    }
+
+    public void SetSelectedModificatorInfoEnabled(bool value)
+    {
+        _selectedModificatorContainer.gameObject.SetActive(value);
+    }
+
+    public void SetSelectedModificatorInfo(string title, string desc)
+    {
+        if (_selectedModificatorTitle.text == title && _selectedModificatorDesc.text == desc) return;
+
+        SetSelectedModificatorInfoEnabled(false);
+        _selectedModificatorTitle.text = title;
+        _selectedModificatorDesc.text = desc;
+        SetSelectedModificatorInfoEnabled(true);
     }
 }
