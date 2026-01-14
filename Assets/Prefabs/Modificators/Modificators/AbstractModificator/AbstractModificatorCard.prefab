@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3883673588893747659}
   - component: {fileID: 7751621488871108340}
   - component: {fileID: 4387375057035447252}
+  - component: {fileID: 5832559061921853702}
   m_Layer: 0
   m_Name: AbstractModificatorCard
   m_TagString: Untagged
@@ -201,3 +202,17 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &5832559061921853702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662937962430450466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e808efa1bc153434d8832135768f13ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Variables: []
+  _localizeComponent: {fileID: 0}

@@ -10,8 +10,36 @@ public class ModificatorIcon : MonoBehaviour
     public AbstractModificator ModificatorInstance;
     [SerializeField] private RectTransform _iconContainer;
 
+    private float _multiplier = 1f;
+    private string _localizedTitle;
+    private string _localizedDescription;
     private float _currentTriggerAnimationProgress = 0f;
     private Coroutine _triggerAnimationCoroutine;
+
+    public float Multiplier
+    {
+        get => _multiplier;
+        set
+        {
+            _multiplier = value;
+            if (TryGetComponent(out ModificatorLocalizationMultiplierableVariables localizedVars))
+            {
+                localizedVars.UpdateLocalizedValues();
+            }
+        }
+    }
+
+    public string LocalizedTitle
+    {
+        get => _localizedTitle;
+        set => _localizedTitle = value;
+    }
+
+    public string LocalizedDescription
+    {
+        get => _localizedDescription;
+        set => _localizedDescription = value;
+    }
 
     public void TriggerAnimation()
     {

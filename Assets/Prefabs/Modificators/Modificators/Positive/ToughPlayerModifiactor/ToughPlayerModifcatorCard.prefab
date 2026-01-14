@@ -131,6 +131,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2670556852303785856, guid: 9d6b9bf76086ad64880cf3476323aaeb, type: 3}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: 'managedReferences[2867920252327428235]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: 'managedReferences[8344437298956075092]'
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable
       objectReference: {fileID: 0}
@@ -153,6 +157,10 @@ PrefabInstance:
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: managedReferences[2867920252327428235].m_Value
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[8344437298956075092].m_Value
@@ -192,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
-      value: 8344437339716845653
+      value: 2867920252327428235
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].variable
@@ -328,11 +336,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Variables:
-  - VariableName: VampirismStealPercent
-    BaseValue: 100
-    ExtraMultiplier: 1
-  - VariableName: VampirismDrain
-    BaseValue: 0.25
+  - VariableName: ToughLifetime
+    BaseValue: 5
     ExtraMultiplier: 1
   _localizeComponent: {fileID: 4664442772171282194}
 --- !u!114 &4664442772171282194 stripped

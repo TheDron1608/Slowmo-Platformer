@@ -15,7 +15,7 @@ public class ModificatorCard : MonoBehaviour
         set
         {
             _multiplier = value;
-            if (TryGetComponent(out ModificatorCardLocalizationMultiplierableVariables localizedVars))
+            if (TryGetComponent(out ModificatorLocalizationMultiplierableVariables localizedVars))
             {
                 localizedVars.UpdateLocalizedValues();
             }
