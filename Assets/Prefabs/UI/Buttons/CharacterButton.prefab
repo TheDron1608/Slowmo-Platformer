@@ -298,7 +298,7 @@ PrefabInstance:
     - target: {fileID: 4713069586689689025, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: 1c4503872f38da246a48c6a90355b9fb, type: 3}
     - target: {fileID: 9106385594721408497, guid: 8417c21e7e594e94ca248da5fc9376cc, type: 3}
       propertyPath: _sprites.Array.size
       value: 5
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496f9c9d8c2b3af4c8da0eca43227d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Modificator: {fileID: 0}
+  Modificators: []
 --- !u!114 &3526101079611044172
 MonoBehaviour:
   m_ObjectHideFlags: 0
