@@ -37,10 +37,7 @@ MonoBehaviour:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 3074307899752448
-    m_Localized: '* Restores {VampirismStealPercent}% of killed character''s health
-
-      *
-      Loses {VampirismDrain} health per second'
+    m_Localized: '* Restores {VampirismStealPercent}% of killed character''s health'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -68,6 +65,24 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 10464557839302656
+    m_Localized: Adrenaline
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10464614605012992
+    m_Localized: '* The less health, the higher the speed up to {SpeedUpPrecent}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 10476504211144704
+    m_Localized: Health drain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10476507059077120
+    m_Localized: '* You lose {HealthDrainSpeed} health per second'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -80,3 +95,5 @@ MonoBehaviour:
         - id: 3073568217464832
         - id: 10133746195775488
         - id: 10133461012463616
+        - id: 10464614605012992
+        - id: 10476507059077120

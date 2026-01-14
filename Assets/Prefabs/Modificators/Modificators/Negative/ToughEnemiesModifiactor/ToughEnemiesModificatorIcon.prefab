@@ -96,6 +96,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 701413884486552789, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 10133612170985472
+      objectReference: {fileID: 0}
+    - target: {fileID: 701413884486552789, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:1ce5cf9b0c5f73d48a27e80327fac816
+      objectReference: {fileID: 0}
     - target: {fileID: 2475356066306043127, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -104,6 +112,50 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: 973792fb09eb97841bfa21277ca39a49, type: 2}
+    - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: 'managedReferences[2867920275827851361]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: managedReferences[2867920275827851361].m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 10133746195775488
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
+      value: ToughLifetime
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:1ce5cf9b0c5f73d48a27e80327fac816
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
+      value: 2867920275827851361
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: Variables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: Variables.Array.data[0].BaseValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: Variables.Array.data[0].VariableName
+      value: ToughLifetime
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
+      propertyPath: Variables.Array.data[0].ExtraMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7416449499025929707, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: ModificatorInstance
       value: 

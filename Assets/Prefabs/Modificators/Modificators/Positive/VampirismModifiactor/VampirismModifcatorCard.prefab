@@ -152,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[8344437298956075092].m_Value
@@ -201,6 +201,34 @@ PrefabInstance:
     - target: {fileID: 5662937962430450466, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_Name
       value: VampirismModifcatorCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[0].BaseValue
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[1].BaseValue
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[0].VariableName
+      value: VampirismStealPercent
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[1].VariableName
+      value: VampirismDrain
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[0].ExtraMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[1].ExtraMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
@@ -300,49 +328,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9011084680423959955, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6573617234534471079}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5662937962430450466, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5709606150290751525}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
 --- !u!224 &96183510838800725 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9011084680423959955, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
   m_PrefabInstance: {fileID: 8960047396875246790}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3661065515097675748 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5662937962430450466, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
-  m_PrefabInstance: {fileID: 8960047396875246790}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5709606150290751525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3661065515097675748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e808efa1bc153434d8832135768f13ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Variables:
-  - VariableName: VampirismStealPercent
-    BaseValue: 100
-    ExtraMultiplier: 1
-  - VariableName: VampirismDrain
-    BaseValue: 0.25
-    ExtraMultiplier: 1
-  _localizeComponent: {fileID: 4664442772171282194}
---- !u!114 &4664442772171282194 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
-  m_PrefabInstance: {fileID: 8960047396875246790}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3661065515097675748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -131,6 +131,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1998567090488563821, guid: 456163ab2920ef841b3646bcdcd8462d, type: 3}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: 'managedReferences[2867920275827851363]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: 'managedReferences[2867920275827851400]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: 'managedReferences[8344437298956075092]'
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable
       objectReference: {fileID: 0}
@@ -152,7 +160,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: managedReferences[2867920275827851363].m_Value
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: managedReferences[2867920275827851400].m_Value
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[8344437298956075092].m_Value
@@ -176,11 +192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 3074307899752448
+      value: 10476507059077120
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: VampirismStealPercent
+      value: HealthDrainSpeed
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].name
@@ -192,7 +208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
-      value: 8344437339716845653
+      value: 2867920275827851400
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].variable
@@ -204,7 +220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 3075468056821760
+      value: 10476504211144704
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -328,10 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Variables:
-  - VariableName: VampirismStealPercent
-    BaseValue: 100
-    ExtraMultiplier: 1
-  - VariableName: VampirismDrain
+  - VariableName: HealthDrainSpeed
     BaseValue: 0.25
     ExtraMultiplier: 1
   _localizeComponent: {fileID: 4664442772171282194}

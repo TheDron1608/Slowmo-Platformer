@@ -131,6 +131,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1998567090488563821, guid: 172ebfd33c6f19c4e9f5b0edaa82233f, type: 3}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: 'managedReferences[2867920275827851359]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: 'managedReferences[8344437298956075095]'
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable
       objectReference: {fileID: 0}
@@ -145,6 +149,10 @@ PrefabInstance:
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: managedReferences[2867920275827851359].m_Value
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[8344437298956075095].m_Value
@@ -172,11 +180,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
-      value: 8344437339716845674
+      value: 2867920275827851359
       objectReference: {fileID: 0}
     - target: {fileID: 5662937962430450466, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_Name
       value: RenerationModifcatorCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[0].BaseValue
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[0].VariableName
+      value: RegenerationSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
+      propertyPath: Variables.Array.data[0].ExtraMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: 'managedReferences[8344437298956075093]'
@@ -284,46 +308,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9011084680423959955, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8768405423108816901}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5662937962430450466, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4696486556106871031}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
 --- !u!224 &96183510838800725 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9011084680423959955, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
   m_PrefabInstance: {fileID: 8960047396875246790}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3661065515097675748 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5662937962430450466, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
-  m_PrefabInstance: {fileID: 8960047396875246790}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4696486556106871031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3661065515097675748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e808efa1bc153434d8832135768f13ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Variables:
-  - VariableName: RegenerationSpeed
-    BaseValue: 0.33
-    ExtraMultiplier: 1
-  _localizeComponent: {fileID: 4664442772171282194}
---- !u!114 &4664442772171282194 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
-  m_PrefabInstance: {fileID: 8960047396875246790}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3661065515097675748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
