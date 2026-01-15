@@ -43,7 +43,6 @@ public class CharacterCollision : AbstractCharacterComponent
     private ZIndexLayer _currentZLayer = null;
     private float _timeInAir;
     private float _timeOnGround;
-    private bool _wasGroundedPrevFrame = true;
     private Vector2 _positionPrevFrame;
     private List<AbstractCharacterComponent> _currentCollidingCharacters = new();
 
@@ -133,7 +132,6 @@ public class CharacterCollision : AbstractCharacterComponent
     private void OnEnable()
     {
         _currentCollidingCharacters = new();
-        _wasGroundedPrevFrame = true;
         UpdateCurrentZLayer();
     }
 
@@ -411,7 +409,6 @@ public class CharacterCollision : AbstractCharacterComponent
 
     private void LateUpdate()
     {
-        _wasGroundedPrevFrame = IsCollidingFloor();
         PositionPrevFrame = transform.position;
     }
 }

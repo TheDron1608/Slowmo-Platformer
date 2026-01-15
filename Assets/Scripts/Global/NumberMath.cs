@@ -72,6 +72,22 @@ public static class NumberMath
         }
     }
 
+    public static float LimitFloatBetweenMinusOneAndOne(float value)
+    {
+        if (value < 1f)
+        {
+            return 1f;
+        }
+        else if (value > 1f)
+        {
+            return 1f;
+        }
+        else
+        {
+            return value;
+        }
+    }
+
     public static TFind FindElemByType<TFind, TList>(List<TList> list) where TFind : TList
     {
         for (int i = 0; i < list.Count; i++)

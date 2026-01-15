@@ -106,15 +106,15 @@ public class CharacterMoving : AbstractCharacterComponent
             _isAbleToMoveThisFrame = true;
             if (!IsAbleToMove)
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnUnableToMoveMultiplier * Time.fixedDeltaTime);
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenMinusOneAndOne(Speed * SpeedAccelerationOnUnableToMoveMultiplier * Time.fixedDeltaTime));
             }
             else if (CharComponents.CharacterCollision.IsCollidingFloor())
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime);
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenMinusOneAndOne(Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime));
             }
             else
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime);
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenMinusOneAndOne(Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime));
             }
         }
 
