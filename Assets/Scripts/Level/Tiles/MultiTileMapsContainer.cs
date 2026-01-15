@@ -9,6 +9,7 @@ public class MultiTileMapsContainer : MonoBehaviour
     [SerializeField] private Tilemap _foreground;
     [SerializeField] private Tilemap _background;
     [SerializeField] private Tilemap _backgroundDecorations;
+    [SerializeField] private Tilemap _hallucinationTilemap;
     [SerializeField] private Tilemap _overground;
     [SerializeField] private Tilemap _overgroundDecorations;
 
@@ -31,6 +32,10 @@ public class MultiTileMapsContainer : MonoBehaviour
     public Tilemap GetBackgroundDecorations()
     {
         return _backgroundDecorations;
+    }
+    public Tilemap GetHallucinationTilemap()
+    {
+        return _hallucinationTilemap;
     }
     public Tilemap GetOverground()
     {
@@ -177,6 +182,30 @@ public class MultiTileMapsContainer : MonoBehaviour
         }
 
         return targetTileMap.gameObject;
+    }
+
+    public BoundsInt GetTotalTilemapCellBounds()
+    {
+        BoundsInt result = new(GetTileMaps()[0].cellBounds.position, GetTileMaps()[0].cellBounds.size);
+        foreach (Tilemap tilemap in GetTileMaps())
+        {
+            if (tilemap.cellBounds.xMin < result.xMin) result.xMin = tilemap.cellBounds.xMin;
+            if (tilemap.cellBounds.xMax > result.xMax) result.xMax = tilemap.cellBounds.xMax;
+            if (tilemap.cellBounds.yMin < result.yMin) result.yMin = tilemap.cellBounds.yMin;
+            if (tilemap.cellBounds.yMax > result.yMax) result.yMax = tilemap.cellBounds.yMax;
+        }
+        return result;
+    }
+
+    public void ToggleHallucinationTilemapVisibility(bool value)
+    {
+        _foreground.GetComponent<TilemapRenderer>().enabled = !value;
+        _background.GetComponent<TilemapRenderer>().enabled = !value;
+        _backgroundDecorations.GetComponent<TilemapRenderer>().enabled = !value;
+        _overground.GetComponent<TilemapRenderer>().enabled = !value;
+        _overgroundDecorations.GetComponent<TilemapRenderer>().enabled = !value;
+
+        _hallucinationTilemap.GetComponent<TilemapRenderer>().enabled = value;
     }
 
     private void OnDestroy()

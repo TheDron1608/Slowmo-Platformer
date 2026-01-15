@@ -158,4 +158,12 @@ public static class NumberMath
         result.AddRange(list2);
         return result;
     }
+
+    public static void FillArray<T>(T[] array, T value)
+    {
+        for (int i = 0; i < array.Length; i++)
+        {
+            array[i] = value;
+        }
+    }
 }

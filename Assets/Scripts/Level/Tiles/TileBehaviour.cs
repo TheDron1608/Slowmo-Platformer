@@ -10,7 +10,9 @@ public class TileBehaviour : MonoBehaviour
         BACKGROUND_DECORATIONS,
         OVERGROUND,
         OVERGROUND_DECORATIONS,
-        CHUNK_MASK
+        CHUNK_MASK,
+        HALLUCINATION_TILES,
+        OVERGROUND_HALLUCINATION_TILES
     }
 
     public TileBehaviourType BehaviourType;

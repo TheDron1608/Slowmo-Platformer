@@ -50,11 +50,6 @@ public class ModificatorsManager : MonoBehaviour
         {
             if (modificator.GetEqualType(_currentModificators[i]))
             {
-                foreach (AbstractModificator subModificator in CurrentModificators)
-                {
-                    subModificator.OnModificatorRemoved();
-                }
-
                 if (UIManager.Instance?.ModificatorsScreenOverlay != null)
                 {
                     UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().RemoveModificatorIcon(_currentModificators[i]);

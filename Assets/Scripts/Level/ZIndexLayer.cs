@@ -222,6 +222,7 @@ public class ZIndexLayer : MonoBehaviour
                 {
                     case TileBehaviour.TileBehaviourType.BACKGROUND:
                     case TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS:
+                    case TileBehaviour.TileBehaviourType.HALLUCINATION_TILES:
                         SetLightRendererLayer(
                             gameObject,
                             BackgroundSortingLayer,
@@ -231,6 +232,7 @@ public class ZIndexLayer : MonoBehaviour
                         break;
                     case TileBehaviour.TileBehaviourType.OVERGROUND:
                     case TileBehaviour.TileBehaviourType.OVERGROUND_DECORATIONS:
+                    case TileBehaviour.TileBehaviourType.OVERGROUND_HALLUCINATION_TILES:
                         SetLightRendererLayer(
                             gameObject,
                             OvergroundSortingLayer,

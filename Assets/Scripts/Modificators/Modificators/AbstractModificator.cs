@@ -62,4 +62,9 @@ public abstract class AbstractModificator : MonoBehaviour
     {
 
     }
+
+    private void OnDestroy()
+    {
+        OnModificatorRemoved(); 
+    }
 }

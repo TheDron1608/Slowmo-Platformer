@@ -137,6 +137,27 @@ MonoBehaviour:
     m_Localized: Oops! All 999
     m_Metadata:
       m_Items: []
+  - m_Id: 11025033094995968
+    m_Localized: Hallucinations
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11025036056174592
+    m_Localized: '* Randomizes apperance of {RandomizePrecent}% tiles'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 11025056717316096
+    m_Localized: Brain damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11025058315345920
+    m_Localized: '* Randomizes apperance of {RandomizePrecent}% tiles
+
+      * Worse
+      than it sounds'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -157,3 +178,5 @@ MonoBehaviour:
         - id: 10899537082425344
         - id: 10899504895336448
         - id: 10899466626506752
+        - id: 11025058315345920
+        - id: 11025036056174592

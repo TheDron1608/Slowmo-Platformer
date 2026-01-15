@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 701413884486552789, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 10476504211144704
+      value: 11025033094995968
       objectReference: {fileID: 0}
     - target: {fileID: 701413884486552789, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -126,7 +126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: managedReferences[2867920275827851362].m_Value
-      value: 0.25
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: managedReferences[2867920275827851364].m_Value
@@ -134,11 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 10476507059077120
+      value: 11025036056174592
       objectReference: {fileID: 0}
     - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: HealthDrainSpeed
+      value: RandomizePrecent
       objectReference: {fileID: 0}
     - target: {fileID: 2639110328462947116, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].name
@@ -162,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: Variables.Array.data[0].BaseValue
-      value: 0.25
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: Variables.Array.data[1].BaseValue
@@ -170,7 +170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: Variables.Array.data[0].VariableName
-      value: HealthDrainSpeed
+      value: RandomizePrecent
       objectReference: {fileID: 0}
     - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: Variables.Array.data[1].VariableName
@@ -178,7 +178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: Variables.Array.data[0].ExtraMultiplier
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3817539071870032968, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: Variables.Array.data[1].ExtraMultiplier
@@ -187,10 +187,10 @@ PrefabInstance:
     - target: {fileID: 7416449499025929707, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: ModificatorInstance
       value: 
-      objectReference: {fileID: 1998567090488563821, guid: 456163ab2920ef841b3646bcdcd8462d, type: 3}
+      objectReference: {fileID: 6953754227209997223, guid: 5bb42b3bd48d1b843b31f3ec6e56fdc3, type: 3}
     - target: {fileID: 8944514873076770692, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
       propertyPath: m_Name
-      value: HealthDrainModificatorIcon
+      value: RandomizeTileSpriesMediumModificatorIcon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
