@@ -18,6 +18,21 @@ public class CharacterAIManager : AbstractCharacterComponent
         }
     }
 
+    public AbstractCharacterStateBehaviourAI AddStateBehaviourAI(AbstractCharacterStateBehaviourAI stateBehaviour)
+    {
+        AbstractCharacterStateBehaviourAI addedAI = Instantiate(stateBehaviour, transform);
+        _stateBehaviourAIs.Add(addedAI);
+        UpdateCurrentActionStateBehaviour();
+        return addedAI;
+    }
+
+    public void RemoveStateBehaviourAI(AbstractCharacterStateBehaviourAI stateBehaviour)
+    {
+        _stateBehaviourAIs.Remove(stateBehaviour);
+        Destroy(stateBehaviour.gameObject);
+        UpdateCurrentActionStateBehaviour();
+    }
+
     public AbstractCharacterStateBehaviourAI CurrentActiveStateBehaviour
     {
         get => _currentActiveStateBehaviour;

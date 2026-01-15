@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4789793739081649213}
   - component: {fileID: 6844463855313677196}
   - component: {fileID: 1351074446885944845}
+  - component: {fileID: 8541215460873994013}
   m_Layer: 0
   m_Name: TempSessionManager
   m_TagString: Untagged
@@ -132,3 +133,18 @@ MonoBehaviour:
   GenerateDirection: {x: 1, y: 0.5}
   ParallelRooms: 2
   Seed: 0
+--- !u!114 &8541215460873994013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590695979345743307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e60c278b19d4dc34c9cb6aa9a1598f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RandomChanceProcMultiplier: 1
+  GoodRandomChanceProcMultiplier: 1
+  BadRandomChanceProcMultiplier: 1
