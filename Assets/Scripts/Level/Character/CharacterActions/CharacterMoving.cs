@@ -104,17 +104,18 @@ public class CharacterMoving : AbstractCharacterComponent
         else
         {
             _isAbleToMoveThisFrame = true;
+
             if (!IsAbleToMove)
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenMinusOneAndOne(Speed * SpeedAccelerationOnUnableToMoveMultiplier * Time.fixedDeltaTime));
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenZeroAndOne(Speed * SpeedAccelerationOnUnableToMoveMultiplier * Time.fixedDeltaTime));
             }
-            else if (CharComponents.CharacterCollision.IsCollidingFloor())
+            else if (CharComponents.CharacterCollision.IsCollidingFloor() && !CharComponents.CharacterJumping.GetIsJumping())
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenMinusOneAndOne(Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime));
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenZeroAndOne(Speed * SpeedAccelerationOnGroundMultiplier * Time.fixedDeltaTime));
             }
-            else
+            else if (GetCurrentSpeedIsOverMaxMoveSpeed())
             {
-                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenMinusOneAndOne(Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime));
+                CharComponents.CharacterRigidBody.linearVelocityX = math.lerp(CharComponents.CharacterRigidBody.linearVelocityX, _currentMoveDirection * Speed, NumberMath.LimitFloatBetweenZeroAndOne(Speed * SpeedAccelerationOnAirMulitplier * Time.fixedDeltaTime));
             }
         }
 
@@ -122,6 +123,14 @@ public class CharacterMoving : AbstractCharacterComponent
         {
             OnReachedMaxSpeed?.Invoke(this, _currentMoveDirection);
         }
+    }
+
+    private bool GetCurrentSpeedIsOverMaxMoveSpeed()
+    {
+        return
+            (_currentMoveDirection == 0f) ||
+            (_currentMoveDirection > 0f && CharComponents.CharacterRigidBody.linearVelocityX < Speed) ||
+            (_currentMoveDirection < 0f && CharComponents.CharacterRigidBody.linearVelocityX > -Speed);
     }
 
     /// <summary>
