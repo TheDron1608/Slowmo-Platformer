@@ -108,6 +108,7 @@ public class CharacterHealth : DamagableObject
 
         SoundOnGib.PlaySound();
 
+        CharComponents.CharacterStuckedObjects.RemoveAllStuckedObjects();
         Die(gibber);
         Destroy(CharComponents.gameObject);
     }

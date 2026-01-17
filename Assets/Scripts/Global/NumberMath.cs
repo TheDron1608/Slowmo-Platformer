@@ -22,7 +22,7 @@ public static class NumberMath
     public static T PickRandomItem<T>(List<T> vector)
     {
         if (vector.Count == 0) return default;
-        return vector[(int)(UnityEngine.Random.value * (vector.Count))];
+        return vector[(int)math.round(UnityEngine.Random.value * (vector.Count - 1))];
     }
     public static T PickRandomItem<T>(List<T> vector, int limit)
     {
@@ -165,5 +165,15 @@ public static class NumberMath
         {
             array[i] = value;
         }
+    }
+
+    public static List<T> CreateCopyOfListOfInstantiatableObjs<T>(List<T> copy) where T : Object
+    {
+        List<T> result = new List<T>(copy.Count);
+        for (int i = 0; i < copy.Count; i++)
+        {
+            result.Insert(i, GameObject.Instantiate(copy[i]));
+        }
+        return result;
     }
 }

@@ -7,10 +7,23 @@ public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager Instance;
 
-    public List<LootDropChanceInfo> LootDrops = new();
-    public List<EnemySpawnInfo> EnemyPool = new();
+    public List<LootDropChanceInfo> LootDropsInstance = new();
+    public List<EnemySpawnInfo> EnemyPoolInstance = new();
     public CharacterComponentsManager PlayerCharacter;
-    public List<AbstractEffect> PlayerCharacterEffectsOnSpawn = new();
+
+    private List<LootDropChanceInfo> _lootDrops;
+    private List<EnemySpawnInfo> _enemyPool;
+
+    public List<LootDropChanceInfo> LootDrops
+    {
+        get => _lootDrops;
+        set => _lootDrops = value;
+    }
+    public List<EnemySpawnInfo> EnemyPool
+    {
+        get => _enemyPool;
+        set => _enemyPool = value;
+    }
 
     public List<GameObject> GetLootDropsByType(LootDropChanceInfo.LootSpawnerTypes type)
     {
@@ -66,6 +79,9 @@ public class SpawnManager : MonoBehaviour
         if (Instance != null) throw new UnityException("maximum of 1 SpawnManager instance");
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        LootDrops = NumberMath.CreateCopyOfListOfInstantiatableObjs(LootDropsInstance);
+        EnemyPool = NumberMath.CreateCopyOfListOfInstantiatableObjs(EnemyPoolInstance);
     }
 
     private void OnDestroy()

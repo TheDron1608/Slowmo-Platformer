@@ -1,31 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMultiplierableEffectsOnDeathModificator : AbstractMultiplierableModificator
+public class CharacterMultiplierableEffectsOnDeathModificator : AbstractCharactersModificator
 {
-    public TeamManager.Teams Team = TeamManager.Teams.PLAYER;
     public List<AbstractEffect> CharacterEffectsOnDeath;
 
-    protected override void OnObjectSpawned(object sender, GameObject e)
+    protected override void OnCharacterAffected(CharacterComponentsManager character)
     {
-        base.OnObjectSpawned(sender, e);
-
-        if (e.TryGetComponent(out AbstractCharacterComponent character) && character.CharComponents.CharacterTeam.Team == Team)
-        {
-            character.CharComponents.CharacterHealth.EffectsOnLethal.AddRange(CharacterEffectsOnDeath);
-        }
+        character.CharacterHealth.EffectsOnLethal.AddRange(CharacterEffectsOnDeath);
     }
 
-    public override void OnModificatorRemoved()
+    protected override void OnCharacterRemovedAffect(CharacterComponentsManager character)
     {
-        base.OnModificatorRemoved();
-
-        foreach (CharacterTeam character in TeamManager.Instance.GetTeamDataByTeam(Team).GetTeamMembers())
+        foreach (AbstractEffect effect in CharacterEffectsOnDeath)
         {
-            foreach (AbstractEffect effect in CharacterEffectsOnDeath)
-            {
-                character.CharComponents.CharacterHealth.EffectsOnLethal.Remove(effect);
-            }
+            character.CharacterHealth.EffectsOnLethal.Remove(effect);
         }
     }
 }

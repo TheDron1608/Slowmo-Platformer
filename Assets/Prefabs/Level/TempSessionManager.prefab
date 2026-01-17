@@ -71,12 +71,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886c45e37b9f82c4a9f0dcc2126613e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LootDrops:
+  LootDropsInstance:
   - {fileID: 11400000, guid: d64d4da4755787a4d8ef6c98df83b8c0, type: 2}
-  EnemyPool:
+  EnemyPoolInstance:
   - {fileID: 11400000, guid: e242a38beae302149b8fc51e8e231cb0, type: 2}
   PlayerCharacter: {fileID: 0}
-  PlayerCharacterEffectsOnSpawn: []
 --- !u!114 &4789793739081649213
 MonoBehaviour:
   m_ObjectHideFlags: 0

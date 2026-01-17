@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: HealthDrainModifcator
+      value: ArmorificationHeavyModifcator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58,14 +58,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1998567090488563821}
+      addedObject: {fileID: 342585775720865671}
   m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
 --- !u!1 &4804066781530051355 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
   m_PrefabInstance: {fileID: 8179689514373086561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1998567090488563821
+--- !u!114 &342585775720865671
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,14 +74,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4804066781530051355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d54a1e59598d6418598dc3e27b58f7, type: 3}
+  m_Script: {fileID: 11500000, guid: f07299ffbdef0f14b85e1f6bd951c662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IconInstance: {fileID: 6148295679725917498, guid: e7e86305ddb83e749985e14f3ff98706, type: 3}
-  CardInstance: {fileID: 7450765391694568918, guid: 6b0c1145c44a1d147bc483ebe175c07e, type: 3}
+  IconInstance: {fileID: 6148295679725917498, guid: 253b3286439f1f3459b65353ca21866f, type: 3}
+  CardInstance: {fileID: 7450765391694568918, guid: e397c95820c9cd84a9b5c94c7dbf95f1, type: 3}
   ModificatorMultiplier: 1
-  Team: 0
-  AffectChance: 1
+  Team: 1
+  AffectChance: 0.25
   ChanceType: 1
-  PlayerCharacterEffectsOnStart:
-  - {fileID: -3175890595162132154, guid: 58710b0a5bfa36d43b463772ee370b81, type: 3}
+  Equipment: {fileID: 11400000, guid: b2b72cf9fcfdf40428fc92800aef3a1a, type: 2}

@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class RandomManager : MonoBehaviour
 {
+    public enum ProcChanceTypes
+    {
+        GOOD,
+        BAD
+    }
+
     public static RandomManager Instance;
 
     public float RandomChanceProcMultiplier = 1f;
@@ -12,6 +18,18 @@ public class RandomManager : MonoBehaviour
     public event EventHandler OnBadRandomChanceProcd;
     public event EventHandler OnGoodRandomChanceProcd;
 
+
+    public bool ProcRandomChance(float baseChance, ProcChanceTypes type)
+    {
+        switch (type)
+        {
+            case ProcChanceTypes.GOOD:
+                return ProcRandomGoodChance(baseChance);
+            case ProcChanceTypes.BAD:
+                return ProcRandomBadChance(baseChance);
+        }
+        throw new UnityException(type + " is not valid for ProcRandomChance arg");
+    }
     public bool ProcRandomBadChance(float baseChance)
     {
         bool result = UnityEngine.Random.value * RandomChanceProcMultiplier * BadRandomChanceProcMultiplier < baseChance;
@@ -25,6 +43,17 @@ public class RandomManager : MonoBehaviour
         return result;
     }
 
+    public bool ProcRandomChanceNoTrigger(float baseChance, ProcChanceTypes type)
+    {
+        switch (type)
+        {
+            case ProcChanceTypes.GOOD:
+                return ProcRandomGoodChanceNoTrigger(baseChance);
+            case ProcChanceTypes.BAD:
+                return ProcRandomBadChanceNoTrigger(baseChance);
+        }
+        throw new UnityException(type + " is not valid for ProcRandomChance arg");
+    }
     public bool ProcRandomBadChanceNoTrigger(float baseChance)
     {
         return UnityEngine.Random.value * RandomChanceProcMultiplier * BadRandomChanceProcMultiplier < baseChance;

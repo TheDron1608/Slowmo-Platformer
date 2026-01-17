@@ -33,8 +33,7 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
                 limbPart.GetEquipedAtParts().All(
                     (equpmentPart) => equpmentPart.CharPartEffectsReceiver.ApplyCondition(effect, sender)
                 )
-            ) &&
-            CharComponents.CharacterEffectsReceiver.ApplyCondition(effect, sender);
+            );
     }
 
     public override T GetEffect<T>(bool includeIncomingEffects = false)

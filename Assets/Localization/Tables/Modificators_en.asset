@@ -158,6 +158,39 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 11711268503396352
+    m_Localized: Unfull armor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11711535139495936
+    m_Localized: '* {AffectPrecent}% of enemies wear a helmet or body armor'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 11711556018741248
+    m_Localized: Armor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11711823313346560
+    m_Localized: '* {AffectPrecent}% of enemies wear a full set of light armor'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 11711990871597056
+    m_Localized: Heavy armor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11712265636257792
+    m_Localized: '* {AffectPrecent}% of enemies wear a full set of heavy armor
+
+      *
+      Heavy armor can only be penetrated by a high caliber projectile
+
+      * The
+      wearer of heavy armor is slowed and cannot be knocked down'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -180,3 +213,6 @@ MonoBehaviour:
         - id: 10899466626506752
         - id: 11025058315345920
         - id: 11025036056174592
+        - id: 11712265636257792
+        - id: 11711823313346560
+        - id: 11711535139495936

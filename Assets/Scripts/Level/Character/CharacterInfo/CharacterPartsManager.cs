@@ -92,21 +92,35 @@ public class CharacterPartsManager : AbstractCharacterComponent
         return result;
     }
 
-    public void GiveNewEquipment(CharacterEquipmentPart equipment)
+    public CharacterEquipmentPart GiveNewEquipment(CharacterEquipmentPart equipment)
     {
-        if (equipment == null) return;
+        if (equipment == null) return null;
 
         foreach (CharacterEquipmentPart limbEquipment in GetCharacterPartEquipment(GetCharacterPart(equipment.EquipAtType)))
         {
             limbEquipment.DestroyPart();
         }
 
-        CharacterPart newEquipment = Instantiate(
+        CharacterEquipmentPart newEquipment = Instantiate(
             equipment,
             transform
             );
         LayerManager.Instance.GetZLayerOfGameObject(newEquipment.gameObject).UpdateLayerForAllChildren(newEquipment.transform);
         AddCharacterPart(newEquipment);
+        return newEquipment;
+    }
+
+    public void RemoveEquipment(CharacterEquipmentPart equipment)
+    {
+        for (int i = 0; i < _characterParts.Count; i++)
+        {
+            if (_characterParts[i] is CharacterEquipmentPart equipmentPart && equipmentPart == equipment)
+            {
+                _characterParts.Remove(equipmentPart);
+                equipmentPart.DestroyPart();
+                i--;
+            } 
+        }
     }
 
     private void OnDestroy()
