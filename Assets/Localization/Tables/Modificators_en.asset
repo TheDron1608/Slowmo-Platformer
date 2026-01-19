@@ -207,6 +207,25 @@ MonoBehaviour:
   - m_Id: 12326296491016192
     m_Localized: '* Camera rotated by 180 degrees'
     m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 12331990384525312
+    m_Localized: Drunk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12331991982555136
+    m_Localized: '* The camera rotates {CameraAngleDeg} degrees when moving'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 12332402487476224
+    m_Localized: '* The camera rotates {CameraAngleDeg} degrees when moving'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 12332400709091328
+    m_Localized: Boozed
+    m_Metadata:
       m_Items: []
   references:
     version: 2
@@ -234,3 +253,6 @@ MonoBehaviour:
         - id: 11711823313346560
         - id: 11711535139495936
         - id: 12297139316998144
+        - id: 12332402487476224
+        - id: 12331991982555136
+        - id: 12326296491016192
