@@ -60,8 +60,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10133746195775488
-    m_Localized: '* Enemies won''t die after taking lethal damage for {ToughLifetime}
-      seconds'
+    m_Localized: '* {AffectPrecent}% of enemies  Enemies won''t die after taking
+      lethal damage for {ToughLifetime} seconds'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -191,6 +191,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 12297136171270144
+    m_Localized: Big levels
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12297139316998144
+    m_Localized: '* Level size increased by {LevelSizeMultPrecent}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -216,3 +225,4 @@ MonoBehaviour:
         - id: 11712265636257792
         - id: 11711823313346560
         - id: 11711535139495936
+        - id: 12297139316998144

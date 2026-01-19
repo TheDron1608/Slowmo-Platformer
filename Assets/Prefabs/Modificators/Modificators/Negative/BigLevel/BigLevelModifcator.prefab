@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: ToughEnemiesModifcator
+      value: BigCityModifcator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58,14 +58,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2670556852303785856}
+      addedObject: {fileID: 6139286396225507522}
   m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
 --- !u!1 &4804066781530051355 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
   m_PrefabInstance: {fileID: 8179689514373086561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2670556852303785856
+--- !u!114 &6139286396225507522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,14 +74,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4804066781530051355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4928c52b62a2eaa4b9bb2efcf8be3e43, type: 3}
+  m_Script: {fileID: 11500000, guid: 711d5c27facb3cb4eb7991276d9cabc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IconInstance: {fileID: 6148295679725917498, guid: 2a7e215273258554c8341c2b0f11492b, type: 3}
-  CardInstance: {fileID: 7450765391694568918, guid: 59745674f8134194d8e87886eed72521, type: 3}
+  IconInstance: {fileID: 6148295679725917498, guid: a0f498d58af42c2408a1a1b85f10d6eb, type: 3}
+  CardInstance: {fileID: 7450765391694568918, guid: 3531e586e930566469cea9679c377e98, type: 3}
   ModificatorMultiplier: 1
-  Team: 1
-  AffectChance: 0.25
-  ChanceType: 1
-  CharacterEffectsOnDeath:
-  - {fileID: 7915071378290817554, guid: e16a435ac7541ef429bb3057c47aeba2, type: 3}
+  LevelSizeMultiplier: 2

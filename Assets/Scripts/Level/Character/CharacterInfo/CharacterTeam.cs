@@ -55,13 +55,13 @@ public class CharacterTeam : AbstractCharacterComponent
         }
         else if (sender.TryGetComponent(out AbstractProjectile senderProjectile))
         {
-            if (senderProjectile.Weapon?.TryGetComponent(out Holdable holdableWeapon) ?? false)
+            if (senderProjectile?.Weapon?.TryGetComponent(out Holdable holdableWeapon) ?? false)
             {
-                return holdableWeapon.CurrentHolder?.CharComponents.CharacterTeam;
+                return holdableWeapon?.CurrentHolder?.CharComponents.CharacterTeam;
             }
-            else if (senderProjectile.Weapon?.TryGetComponent(out UnarmedWeapon unarmedWeapon) ?? false)
+            else if (senderProjectile?.Weapon?.TryGetComponent(out UnarmedWeapon unarmedWeapon) ?? false)
             {
-                return unarmedWeapon.CharComponents.CharacterTeam;
+                return unarmedWeapon?.CharComponents.CharacterTeam;
             }
         }
         return null;

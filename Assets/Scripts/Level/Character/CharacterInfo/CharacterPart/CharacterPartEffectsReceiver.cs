@@ -14,7 +14,7 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
 
     public override AbstractEffect ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
     {
-        if (effect is IEntireCharacterEffect)
+        if (effect.GetSelfIncludeIncomingEffects().All(effect => effect is IEntireCharacterEffect || effect is IDelayedEffect))
         {
             return GetComponent<CharacterPart>().CharComponents.CharacterEffectsReceiver.ApplyEffect(effect, sender, effectMultiplier);
         }

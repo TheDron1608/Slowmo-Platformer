@@ -43,7 +43,7 @@ public class BlockMeleeProjectile : AbstractMeleeProjectileDeflection
                     blockedMeleeProjectile.Owner.CharComponents.CharacterRigidBody.linearVelocity = targetKnockback;
                 }
 
-                blockedMeleeProjectile.Owner.CharComponents.CharacterEffectsReceiver.ApplyEffect(MeleeProjectile.EffectsOnDeflect, MeleeProjectile);
+                blockedMeleeProjectile?.Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(MeleeProjectile.EffectsOnDeflect, MeleeProjectile);
             }
         }
 
