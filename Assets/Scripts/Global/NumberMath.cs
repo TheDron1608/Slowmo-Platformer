@@ -74,9 +74,9 @@ public static class NumberMath
 
     public static float LimitFloatBetweenMinusOneAndOne(float value)
     {
-        if (value < 1f)
+        if (value < -1f)
         {
-            return 1f;
+            return -1f;
         }
         else if (value > 1f)
         {

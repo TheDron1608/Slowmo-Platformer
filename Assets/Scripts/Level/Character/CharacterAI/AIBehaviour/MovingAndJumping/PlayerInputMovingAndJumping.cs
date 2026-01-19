@@ -104,6 +104,8 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
             currentInputAxis = math.round(currentInputAxis);
         }
 
+        if (Camera.main.GetComponent<CameraTrack>().GetCameraFlipped()) currentInputAxis *= -1;
+
         BreakAimIfMoving(currentInputAxis);
         CharComponents.CharacterMoving.TryMove(currentInputAxis);
     }

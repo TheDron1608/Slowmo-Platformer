@@ -33,6 +33,8 @@ public class PlayerInputRolling : AbstractAIRolling
                 if (!_awaitingResetInputToReroll)
                 {
                     float rollDirection = MoveActionReference.action.ReadValue<Vector2>().x > 0f ? 1f : -1f;
+                    if (Camera.main.GetComponent<CameraTrack>().GetCameraFlipped()) rollDirection *= -1;
+
                     if (CharComponents.CharacterRolling.TryRoll(rollDirection))
                     {
                         _awaitingResetInputToReroll = true;
