@@ -254,6 +254,50 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 12671276782862336
+    m_Localized: '* Ammo amount for weapons increased by {AmmoMultiplierPrecent}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 12671274299834368
+    m_Localized: Double ammo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12671773786914816
+    m_Localized: Half ammo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12671776035061760
+    m_Localized: '* Ammo amount for weapons decreases by {AmmoMultiplierPrecent}%
+      when picked up by player
+
+      * Does not affect on loaded ammo'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 12672292941086720
+    m_Localized: Infinite ammo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12672297739370496
+    m_Localized: '* Unlimited ammo
+
+      * Does not affect on the size of magazine'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 12683894071377920
+    m_Localized: Slippery mag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12683896051089408
+    m_Localized: '* Player always grabs unloaded weapon
+
+      * Remain unloaded
+      bullets'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -286,3 +330,7 @@ MonoBehaviour:
         - id: 12651398617251840
         - id: 12650891043553280
         - id: 12650847825444864
+        - id: 12672297739370496
+        - id: 12671776035061760
+        - id: 12671276782862336
+        - id: 12683896051089408

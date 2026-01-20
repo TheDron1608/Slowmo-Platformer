@@ -2,8 +2,9 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractHoldablesModificator : AbstractMultiplierableModificator
+public abstract class AbstractTeamHoldablesModificator : AbstractMultiplierableModificator
 {
+    public TeamManager.Teams Team = TeamManager.Teams.PLAYER;
     public float AffectChance = 1f;
     public RandomManager.ProcChanceTypes ChanceType;
 
@@ -27,11 +28,17 @@ public abstract class AbstractHoldablesModificator : AbstractMultiplierableModif
 
     private void AffectedHoldable_OnGiven(object sender, CharacterHoldingObjects e)
     {
-        OnAffectedHoldablePickedUp((Holdable)sender, e);
+        if (e.CharComponents.CharacterTeam.Team == Team)
+        {
+            OnAffectedHoldablePickedUp((Holdable)sender, e);
+        }
     }
     private void AffectedHoldable_OnThrown(object sender, Holdable.OnThrownEventArgs e)
     {
-        OnAffectedHoldableThrown((Holdable)sender, e.Thrower);
+        if (e.Thrower.CharComponents.CharacterTeam.Team == Team)
+        {
+            OnAffectedHoldableThrown((Holdable)sender, e.Thrower);
+        }
     }
 
     public override void OnModificatorRemoved()

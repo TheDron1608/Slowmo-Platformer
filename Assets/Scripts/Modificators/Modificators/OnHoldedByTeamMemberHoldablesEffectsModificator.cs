@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.TextCore.Text;
 
-public class HoldedHoldablesEffectsModificator : AbstractHoldablesModificator
+public class OnHoldedByTeamMemberHoldablesEffectsModificator : AbstractTeamHoldablesModificator
 {
     public List<AbstractEffect> EffectsOnHoldedHoldables = new();
 

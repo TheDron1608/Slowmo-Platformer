@@ -163,7 +163,7 @@ MonoBehaviour:
   _spawnPosition: {fileID: 1577393699999485296}
   _trackTargetsContainer: {fileID: 3059426051208414876}
   _overflowGameobject: {fileID: 812087903588886520}
-  _overflowText: {fileID: 2733814080135788027}
+  _overflowText: {fileID: 1714516727238301162}
 --- !u!1 &2733240442160862313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,6 +1253,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
+--- !u!114 &1714516727238301162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2398721277498276752, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
+  m_PrefabInstance: {fileID: 3927938958032744058}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2653483550281643627 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
