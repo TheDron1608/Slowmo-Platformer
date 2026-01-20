@@ -32,13 +32,13 @@ public class RandomManager : MonoBehaviour
     }
     public bool ProcRandomBadChance(float baseChance)
     {
-        bool result = UnityEngine.Random.value * RandomChanceProcMultiplier * BadRandomChanceProcMultiplier < baseChance;
+        bool result = (UnityEngine.Random.value * RandomChanceProcMultiplier * BadRandomChanceProcMultiplier) < baseChance;
         if (result) OnBadRandomChanceProcd?.Invoke(this, EventArgs.Empty);
         return result;
     }
     public bool ProcRandomGoodChance(float baseChance)
     {
-        bool result = UnityEngine.Random.value * RandomChanceProcMultiplier * GoodRandomChanceProcMultiplier < baseChance;
+        bool result = (UnityEngine.Random.value * RandomChanceProcMultiplier * GoodRandomChanceProcMultiplier) < baseChance;
         if (result) OnGoodRandomChanceProcd?.Invoke(this, EventArgs.Empty);
         return result;
     }
@@ -56,11 +56,11 @@ public class RandomManager : MonoBehaviour
     }
     public bool ProcRandomBadChanceNoTrigger(float baseChance)
     {
-        return UnityEngine.Random.value * RandomChanceProcMultiplier * BadRandomChanceProcMultiplier < baseChance;
+        return (UnityEngine.Random.value * RandomChanceProcMultiplier * BadRandomChanceProcMultiplier) < baseChance;
     }
     public bool ProcRandomGoodChanceNoTrigger(float baseChance)
     {
-        return UnityEngine.Random.value * RandomChanceProcMultiplier * GoodRandomChanceProcMultiplier < baseChance;
+        return (UnityEngine.Random.value * RandomChanceProcMultiplier * GoodRandomChanceProcMultiplier) < baseChance;
     }
 
     private void Awake()

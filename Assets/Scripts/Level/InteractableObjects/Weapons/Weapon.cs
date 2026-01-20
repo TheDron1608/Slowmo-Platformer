@@ -22,6 +22,8 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     private List<AbstractProjectile> _projectiles = new();
 
     public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied;
+    public event EventHandler OnAttackSucceed;
+    public event EventHandler OnAttackFailed;
 
     public float AttackCooldown
     {
@@ -139,6 +141,8 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
 
     protected virtual bool OnTryAttackSuccess(Vector2 direction)
     {
+        OnAttackSucceed?.Invoke(this, EventArgs.Empty);
+
         IsInCooldown = true;
 
         List<AbstractProjectile> newProjectiles = Projectile.SpawnProjectile(
@@ -175,7 +179,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
 
     protected virtual void OnTryAttackFail(Vector2 direction)
     {
-
+        OnAttackFailed?.Invoke(this, EventArgs.Empty);
     }
 
     private IEnumerator AttackMultipleTimes()

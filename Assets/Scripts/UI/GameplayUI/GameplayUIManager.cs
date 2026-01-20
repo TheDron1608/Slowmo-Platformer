@@ -22,7 +22,7 @@ public class GameplayUIManager : MonoBehaviour
 
     public static GameplayUIManager GetInstance()
     {
-        return UIManager.Instance.GameplayScreenOverlay.GetGameplayUI();
+        return UIManager.Instance?.GameplayScreenOverlay?.GetGameplayUI();
     }
 
     private void Awake()

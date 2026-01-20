@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterPartsManager : AbstractCharacterComponent
@@ -34,6 +35,7 @@ public class CharacterPartsManager : AbstractCharacterComponent
 
     private void AddCharacterPart(CharacterPart characterPart)
     {
+        characterPart.transform.SetParent(transform);
         _characterParts.Add(characterPart);
         characterPart.OnRemoved += CharacterPart_OnRemoved;
     }
@@ -101,12 +103,17 @@ public class CharacterPartsManager : AbstractCharacterComponent
             limbEquipment.DestroyPart();
         }
 
-        CharacterEquipmentPart newEquipment = Instantiate(
-            equipment,
-            transform
-            );
-        LayerManager.Instance.GetZLayerOfGameObject(newEquipment.gameObject).UpdateLayerForAllChildren(newEquipment.transform);
-        AddCharacterPart(newEquipment);
+        CharacterEquipmentPart newEquipment = CharComponents.CharacterCollision.CurrentZLayer.TrySpawnObject(
+            equipment.gameObject,
+            NumberMath.Vec3ToVec3Int(transform.position),
+            null,
+            null
+            ).FirstOrDefault()?.GetComponent<CharacterEquipmentPart>();
+
+        if (newEquipment != null)
+        {
+            AddCharacterPart(newEquipment);
+        }
         return newEquipment;
     }
 

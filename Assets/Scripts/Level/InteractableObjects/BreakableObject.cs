@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BreakableObject : MonoBehaviour, IStuckToObject
@@ -59,15 +60,23 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
 
         foreach (GameObject objectInside in SpawnObjectsOnBreak)
         {
-            GameObject newObject = Instantiate(objectInside, spawnPosition, objectInside.transform.rotation, transform);
-            LayerManager.Instance.ChangeZIndexForGameObject(layer, newObject);
+            layer.TrySpawnObject(
+                objectInside.gameObject,
+                NumberMath.Vec3ToVec3Int(spawnPosition),
+                null,
+                null
+                );
         }
         SpawnObjectsOnBreak.Clear();
 
         foreach (GameObject objectInsideGlobal in SpawnManager.Instance.GetLootDropsByType(LootSpawnType))
         {
-            GameObject newObject = Instantiate(objectInsideGlobal, spawnPosition, objectInsideGlobal.transform.rotation, transform);
-            LayerManager.Instance.ChangeZIndexForGameObject(layer, newObject);
+            layer.TrySpawnObject(
+                objectInsideGlobal.gameObject,
+                NumberMath.Vec3ToVec3Int(spawnPosition),
+                null,
+                null
+                );
         }
     }
 

@@ -20,7 +20,7 @@ public class PlayerCharacterMultiplierableEffectsOnStartModificator : AbstractCh
     {
         foreach (AbstractEffect effect in character.CharacterEffectsReceiver.CurrentEffects)
         {
-            if (PlayerCharacterEffectsOnStart.Contains(effect) && effect is ITriggerableEffect triggerableEffect)
+            if (effect is ITriggerableEffect triggerableEffect && PlayerCharacterEffectsOnStart.Contains(effect))
             {
                 triggerableEffect.OnTriggered -= TriggerableEffect_OnTriggered;
             }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RangedWeapon : ThrowableWeapon
@@ -19,6 +20,7 @@ public class RangedWeapon : ThrowableWeapon
     [Header("Ranged weapon")]
     public int AmmoLeft = 10;
     public int MaxAmmo = 10;
+    public float JamChance = 0f;
     public int LoadedLivingAmmoLeft = 1;
     public int LoadedSpentAmmoLeft = 0;
     public AbstractSoundPlayer SoundOnOutOfAmmo;
@@ -143,7 +145,7 @@ public class RangedWeapon : ThrowableWeapon
     //OVERRIDES
     protected override bool AttackCondition()
     {
-        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded;
+        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded && !RandomManager.Instance.ProcRandomBadChance(JamChance);
     }
 
     protected virtual bool ReloadCondition()
@@ -178,7 +180,7 @@ public class RangedWeapon : ThrowableWeapon
     {
         base.OnTryAttackFail(direction);
 
-        if (GetIsOutOfAmmo())
+        if (!IsReloading && !IsInCooldown)
         {
             SoundOnOutOfAmmo.PlaySound();
             _cloudParticleSpawner.SpawnParticle();

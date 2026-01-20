@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -288,14 +289,17 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         if (holdable == null) return;
 
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject);
-        Holdable newHoldable = Instantiate(
-            holdable,
-            CharComponents.transform.position,
-            holdable.transform.rotation,
-            layer.HoldablesContainer
-            );
-        LayerManager.Instance.ChangeZIndexForGameObject(layer, newHoldable.gameObject);
-        ForceGrab(newHoldable);
+        Holdable newHoldable = layer.TrySpawnObject(
+            holdable.gameObject,
+            NumberMath.Vec3ToVec3Int(CharComponents.transform.position),
+            null,
+            null
+            ).FirstOrDefault()?.GetComponent<Holdable>();
+
+        if (newHoldable != null)
+        {
+            ForceGrab(newHoldable);
+        }
     }
 
     private void OnDestroy()

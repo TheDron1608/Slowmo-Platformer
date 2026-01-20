@@ -227,6 +227,33 @@ MonoBehaviour:
     m_Localized: Boozed
     m_Metadata:
       m_Items: []
+  - m_Id: 12650826824564736
+    m_Localized: Weapon defect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12650847825444864
+    m_Localized: '* Weapon have a {JamChancePrecent}% chance of misfire'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 12650866347491328
+    m_Localized: Rusted weapon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12650959863693312
+    m_Localized: Rotten weapon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12650891043553280
+    m_Localized: '* Weapon have a {JamChancePrecent}% chance of misfire'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 12651398617251840
+    m_Localized: '* Weapon have a {JamChancePrecent}% chance of misfire'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -256,3 +283,6 @@ MonoBehaviour:
         - id: 12332402487476224
         - id: 12331991982555136
         - id: 12326296491016192
+        - id: 12651398617251840
+        - id: 12650891043553280
+        - id: 12650847825444864

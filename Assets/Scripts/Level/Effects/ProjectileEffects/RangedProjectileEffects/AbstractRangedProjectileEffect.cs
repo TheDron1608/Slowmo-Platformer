@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class AbstractRangedProjectileEffect : AbstractProjectileEffect, IRangedProjectileEffect
+public abstract class AbstractRangedProjectileEffect : AbstractWeaponEffect, IRangedProjectileEffect
 {
     private RangedProjectile _rangedProjectile;
 
