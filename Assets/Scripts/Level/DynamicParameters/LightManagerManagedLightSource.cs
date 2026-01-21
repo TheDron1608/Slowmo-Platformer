@@ -44,7 +44,7 @@ public class LightManagerManagedLightSource : MonoBehaviour
     {
         _lightComponent = GetComponent<Light2D>();
         _defaultIntensity = _lightComponent.intensity;
-        LightManager.Instance.AddLightSource(this, LightType);
+        LightManager.Instance?.AddLightSource(this, LightType);
     }
 
     private void OnDestroy()

@@ -402,4 +402,24 @@ public class ZIndexLayer : MonoBehaviour
             throw new UnityException("could not find container for type " + prefab.name);
         }
     }
+
+    public void Debug_ArtificalInvokeOnObjectSpawnedForAll()
+    {
+        foreach (Transform character in CharactersContainer)
+        {
+            LayerManager.Instance.InvokeOnObjectSpawned(character.gameObject);
+        }
+        foreach (Transform furnture in FurnitureContainer)
+        {
+            LayerManager.Instance.InvokeOnObjectSpawned(furnture.gameObject);
+        }
+        foreach (Transform interactableEnv in InteractableEnviromentContainer)
+        {
+            LayerManager.Instance.InvokeOnObjectSpawned(interactableEnv.gameObject);
+        }
+        foreach (Transform holdable in HoldablesContainer)
+        {
+            LayerManager.Instance.InvokeOnObjectSpawned(holdable.gameObject);
+        }
+    }
 }

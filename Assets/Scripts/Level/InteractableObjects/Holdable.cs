@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Holdable : Interactable
@@ -292,9 +293,12 @@ public class Holdable : Interactable
 
     public void TransformToAnotherObject(Holdable anotherObject)
     {
-        Holdable replaceObject = Instantiate(anotherObject, transform.parent);
-
-        replaceObject.TranformSelfToAnotherObject(this);
+        LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
+            anotherObject.gameObject,
+            VectorMath.Vec3ToVec3Int(transform.position),
+            null,
+            null
+            )?.FirstOrDefault()?.GetComponent<Holdable>()?.TranformSelfToAnotherObject(this);
     }
 
     public void TranformSelfToAnotherObject(Holdable anotherObject)

@@ -7,7 +7,7 @@ public class OnHoldedByTeamMemberHoldablesEffectsModificator : AbstractTeamHolda
 
     protected override void OnAffectedHoldablePickedUp(Holdable holdable, CharacterHoldingObjects holder)
     {
-        foreach (AbstractEffect effect in holdable.EffectsReceiver.ApplyEffect(EffectsOnHoldedHoldables, null, ModificatorMultiplier))
+        foreach (AbstractEffect effect in holdable.EffectsReceiver.ApplyEffect(EffectsOnHoldedHoldables, holder, ModificatorMultiplier))
         {
             if (effect is ITriggerableEffect triggerableEffect)
             {

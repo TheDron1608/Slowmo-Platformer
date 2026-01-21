@@ -20,9 +20,12 @@ public class LightMultiplierModificator : AbstractModificator
     {
         base.OnModificatorRemoved();
 
-        LightManager.Instance.FurnitureLightIntensityMultiplier = 1f;
-        LightManager.Instance.CharacterLightIntensityMultiplier = 0f;
-        LightManager.Instance.GlobalLightIntensityMultiplier = 1f;
-        LightManager.Instance.WeaponLightIntensityMultiplier = 0f;
+        if (LightManager.Instance != null)
+        {
+            LightManager.Instance.FurnitureLightIntensityMultiplier = 1f;
+            LightManager.Instance.CharacterLightIntensityMultiplier = 0f;
+            LightManager.Instance.GlobalLightIntensityMultiplier = 1f;
+            LightManager.Instance.WeaponLightIntensityMultiplier = 0f;
+        }
     }
 }

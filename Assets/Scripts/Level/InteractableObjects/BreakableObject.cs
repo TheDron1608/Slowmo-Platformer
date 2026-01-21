@@ -106,7 +106,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         ParticleSpawner.SpawnInstantlyMultipleParticles(
             _partcilesOnBreak,
             GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>()),
-            VectorMath.Quartenion2DToVec2(breaker.transform.rotation),
+            VectorMath.Quartenion2DToVec2(breaker?.transform.rotation ?? transform.rotation),
             NumberMath.PickRandomInRangeNoSeed(0f, 360f),
             BREAK_PARTICLES_MIN_SPAWN_VELOCITY,
             BREAK_PARTICLES_MAX_SPAWN_VELOCITY,
