@@ -293,12 +293,14 @@ public class Holdable : Interactable
 
     public void TransformToAnotherObject(Holdable anotherObject)
     {
-        LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
+        Holdable newHoldable = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
             anotherObject.gameObject,
             VectorMath.Vec3ToVec3Int(transform.position),
             null,
             null
-            )?.FirstOrDefault()?.GetComponent<Holdable>()?.TranformSelfToAnotherObject(this);
+            )?.FirstOrDefault()?.GetComponent<Holdable>();
+
+        newHoldable?.TranformSelfToAnotherObject(this);
     }
 
     public void TranformSelfToAnotherObject(Holdable anotherObject)

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class BreakableHoldable : BreakableObject
@@ -68,9 +69,17 @@ public class BreakableHoldable : BreakableObject
                 }
                 else
                 {
-                    GameObject newObjectOnBreak = Instantiate(objectOnBreak, transform);
-                    layer.UpdateLayerForAllChildren(newObjectOnBreak.transform);
-                    newObjectOnBreak.transform.position = spawnPosition;
+                    GameObject newObjectOnBreak = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
+                        objectOnBreak,
+                        VectorMath.Vec3ToVec3Int(transform.position),
+                        null,
+                        null
+                        )?.FirstOrDefault();
+
+                    if (newObjectOnBreak != null)
+                    {
+                        newObjectOnBreak.transform.position = spawnPosition;
+                    }
                 }
             }
         }

@@ -9,10 +9,6 @@ public class BreakMeleeByOwner : AbstractMeleeWeaponEffectWithSender
         {
             breakableWeapon.BreakObject(sender?.GetComponent<AbstractCharacterComponent>()?.CharComponents.CharacterHolding);
         }
-        else if (MeleeWeapon.TryGetComponent(out Chainsaw chainsawWeapon))
-        {
-            chainsawWeapon.FuelLeft = 0f;
-        }
         else
         {
             Destroy(MeleeWeapon.gameObject);

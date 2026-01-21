@@ -182,6 +182,22 @@ PrefabInstance:
       propertyPath: UnlimitedUses
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: _partcilesOnBreak.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 93cf1d438a50bf544b569e7d427f1b3e, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: e823525c0ce125d48a3f347641447774, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: e823525c0ce125d48a3f347641447774, type: 3}
     - target: {fileID: 4911796199315391801, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: _defaultColor
       value: 203
