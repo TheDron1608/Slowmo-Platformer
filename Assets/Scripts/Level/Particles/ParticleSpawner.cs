@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class ParticleSpawner : MonoBehaviour
 {
+    const float PARTICLE_VELOCITY_ON_AMOUNT_MULTIPLIER_DEPENDENCE = 0.667f;
+
     public AbstractParticle DefaultParticle;
     public float SpawnVelocity = 1f;
     public float SpawnAngle = 0f;
@@ -22,7 +27,7 @@ public class ParticleSpawner : MonoBehaviour
                 transform.position,
                 VectorMath.Quartenion2DToVec2(transform.rotation),
                 SpawnAngle,
-                SpawnVelocity,
+                SpawnVelocity * CalculateParticleAmountGlobalMultiplierByParticle(particle) * PARTICLE_VELOCITY_ON_AMOUNT_MULTIPLIER_DEPENDENCE,
                 SpawnAngularVeclocity,
                 OverrideEffectMaterial != null ? OverrideEffectMaterial : (GameObjectUtility.TryGetComponentInSelfOrParent(gameObject, out SpriteRenderer selfSprite) ? selfSprite.sharedMaterial : null),
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject)
@@ -36,11 +41,13 @@ public class ParticleSpawner : MonoBehaviour
 
     public void SpawnMultipleParticles(AbstractParticle particle, int amount, float duration = 0.05f)
     {
-        if (amount > 1)
+        int multipliedAmount = (int)math.round(amount * CalculateParticleAmountGlobalMultiplierByParticle(particle));
+
+        if (multipliedAmount > 1)
         {
-            StartCoroutine(SpawnMultiplieParticles(particle, amount, duration));
+            StartCoroutine(SpawnMultiplieParticles(particle, multipliedAmount, duration));
         }
-        else if (amount == 1)
+        else if (multipliedAmount == 1)
         {
             SpawnParticle(particle);
         }
@@ -69,15 +76,17 @@ public class ParticleSpawner : MonoBehaviour
         float accuracy = 1f
         )
     {
-        List<AbstractParticle> result = new(amount);
-        for (int i = 0; i < amount; i++)
+        float particleMultiplier = CalculateParticleAmountGlobalMultiplierByParticle(particles.FirstOrDefault());
+        int multipliedAmount = (int)math.round(amount * particleMultiplier);
+        List<AbstractParticle> result = new(multipliedAmount);
+        for (int i = 0; i < multipliedAmount; i++)
         {
             result.Insert(i, SpawnParticle(
                 NumberMath.PickRandomItem(particles),
                 position,
                 VectorMath.RandomizeVec2(direction, accuracy),
                 angle,
-                NumberMath.PickRandomInRangeNoSeed(minSpawnVelocity, maxSpawnVelocity),
+                NumberMath.PickRandomInRangeNoSeed(minSpawnVelocity, maxSpawnVelocity) * particleMultiplier * PARTICLE_VELOCITY_ON_AMOUNT_MULTIPLIER_DEPENDENCE,
                 NumberMath.PickRandomInRangeNoSeed(minSpawnAngularVelocity, maxSpawnAngularVelocity),
                 material,
                 layer
@@ -98,7 +107,7 @@ public class ParticleSpawner : MonoBehaviour
         ZIndexLayer layer
         )
     {
-        AbstractParticle spawnParticle = ParticlesManager.Instance.GetUnusedPhysicsParticle(particle);
+        AbstractParticle spawnParticle = ParticlesManager.Instance.GetUnusedParticle(particle);
 
         spawnParticle.SetParticleAttrs(
             particle,
@@ -112,5 +121,25 @@ public class ParticleSpawner : MonoBehaviour
             );
 
         return spawnParticle;
+    }
+
+    private static float CalculateParticleAmountGlobalMultiplierByParticle( AbstractParticle particle)
+    {
+        if (particle is PhysicsParticle)
+        {
+            return  ParticlesManager.Instance.PhysicsParticlesGlobalSpawnAmountMultiplier;
+        }
+        else if (particle is FluidParticle)
+        {
+            return ParticlesManager.Instance.FluidParticlesGlobalSpawnAmountMultiplier;
+        }
+        else if (particle is CloudParticle)
+        {
+            return ParticlesManager.Instance.CloudParticlesGlobalSpawnAmountMultiplier;
+        }
+        else
+        {
+            return 1f;
+        }
     }
 }

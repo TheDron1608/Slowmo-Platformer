@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ParticlesManager : MonoBehaviour
 {
+    public float PhysicsParticlesGlobalSpawnAmountMultiplier = 1f;
+    public float FluidParticlesGlobalSpawnAmountMultiplier = 1f;
+    public float CloudParticlesGlobalSpawnAmountMultiplier = 1f;
     [Header("Limits")]
     public int PhysicsParticlesMaxAmount = 256;
     public int FluidParticlesMaxAmount = 512;
@@ -63,7 +66,7 @@ public class ParticlesManager : MonoBehaviour
         }
     }
 
-    public AbstractParticle GetUnusedPhysicsParticle(AbstractParticle prefab)
+    public AbstractParticle GetUnusedParticle(AbstractParticle prefab)
     {
         Transform unusedParticlesContainer = GetUnusedParticlesContainerByType(prefab);
         if (unusedParticlesContainer.childCount > 0)

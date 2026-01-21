@@ -189,8 +189,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e640cae4b38b740bcabaca9c894dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PhysicsParticlesGlobalSpawnAmountMultiplier: 1
+  FluidParticlesGlobalSpawnAmountMultiplier: 1
+  CloudParticlesGlobalSpawnAmountMultiplier: 1
   PhysicsParticlesMaxAmount: 256
-  FluidParticlesMaxAmount: 512
+  FluidParticlesMaxAmount: 1024
   CloudParticlesMaxAmount: 64
   LightParticlesMaxAmount: 32
   UnusedPhysicsParticleContainer: {fileID: 4976560999766120094}
