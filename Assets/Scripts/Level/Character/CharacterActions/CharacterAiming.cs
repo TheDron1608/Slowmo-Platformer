@@ -4,6 +4,8 @@ using UnityEngine;
 public class CharacterAiming : AbstractCharacterComponent
 {
     const float AIM_EQUAL_DELTA = 0.5f;
+    const float AIM_DOWN_Y_AXIS = -1f;
+    const float AIM_DOWN_FLASHLIGHT_Y_AXIS = -0.1f;
 
     public bool IsAbleToAim = true;
     public float AimSpeed = 35f;
@@ -105,7 +107,10 @@ public class CharacterAiming : AbstractCharacterComponent
             CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded
             )
         {
-            Vector2 targetAim = new Vector2(CharComponents.CharacterVisual.FlippedH ? -1f : 1f, -1f) + VectorMath.Vec3ToVec2(CharComponents.Center.transform.position);
+            Vector2 targetAim = new Vector2(
+                CharComponents.CharacterVisual.FlippedH ? -1f : 1f, 
+                CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<FlashLightHoldable>() == null ? AIM_DOWN_Y_AXIS : AIM_DOWN_FLASHLIGHT_Y_AXIS
+                ) + VectorMath.Vec3ToVec2(CharComponents.Center.transform.position);
             _currentAimPoint = Vector2.Lerp(_currentAimPoint, targetAim, AimSpeed * Time.deltaTime);
         }
         else

@@ -13,6 +13,7 @@ public class RangedWeapon : ThrowableWeapon
 
     protected const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
     protected const string CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudParticleSpawner";
+    protected const string SHOOT_LIGHT_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "ShootLightParticleSpawner";
     protected const string ANIMATOR_IS_RELOADING_PROP_NAME = "IsReloading";
     protected const string ANIMATOR_UNLOADED_PROP_NAME = "Unloaded";
     protected const string ANIMATOR_RELOAD_SPEED_PROP_NAME = "ReloadSpeed";
@@ -31,6 +32,7 @@ public class RangedWeapon : ThrowableWeapon
     private bool _unloaded = false;
     private ParticleSpawner _bulletParticleSpawner;
     private ParticleSpawner _cloudParticleSpawner;
+    private ParticleSpawner _shootLightParticleSpawner;
 
     //INITIALIZER
     protected override void OnAwake()
@@ -39,6 +41,7 @@ public class RangedWeapon : ThrowableWeapon
 
         _bulletParticleSpawner = transform.Find(BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
         _cloudParticleSpawner = transform.Find(CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
+        _shootLightParticleSpawner = transform.Find(PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME).Find(SHOOT_LIGHT_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();  
     }
 
     //PUBLIC PROPERTIES
@@ -173,6 +176,7 @@ public class RangedWeapon : ThrowableWeapon
     protected override bool OnTryAttackSuccess(Vector2 direction)
     {
         SpendAmmo();
+        _shootLightParticleSpawner.SpawnParticle();
         return base.OnTryAttackSuccess(direction);
     }
 
