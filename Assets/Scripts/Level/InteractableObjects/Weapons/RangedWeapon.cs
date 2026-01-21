@@ -29,6 +29,7 @@ public class RangedWeapon : ThrowableWeapon
     public AbstractSoundPlayer SoundOnUnload;
 
     private bool _isReloading = false;
+    private bool _isUnloading = false;
     private bool _unloaded = false;
     private ParticleSpawner _bulletParticleSpawner;
     private ParticleSpawner _cloudParticleSpawner;
@@ -61,6 +62,12 @@ public class RangedWeapon : ThrowableWeapon
     {
         get => _isReloading;
         private set => _isReloading = value;
+    }
+
+    public bool IsUnloading
+    {
+        get => _isUnloading;
+        private set => _isUnloading = value;
     }
 
 
@@ -113,7 +120,7 @@ public class RangedWeapon : ThrowableWeapon
 
     public bool TryCloseMag()
     {
-        if (!_unloaded) return false;
+        if (!_unloaded || IsUnloading) return false;
 
         Unloaded = false;
         return true;
@@ -130,6 +137,12 @@ public class RangedWeapon : ThrowableWeapon
     protected virtual void OnUnload()
     {
         Unloaded = true;
+        IsUnloading = true; 
+    }
+
+    public virtual void TryUnloadAllBullets()
+    {
+        AmmoLeft = 0;
     }
 
     public void SpawnBulletParticles(int amount)
@@ -205,5 +218,6 @@ public class RangedWeapon : ThrowableWeapon
     public virtual void OnUnloadFinish()
     {
         Unloaded = true;
+        IsUnloading = false;
     }
 }

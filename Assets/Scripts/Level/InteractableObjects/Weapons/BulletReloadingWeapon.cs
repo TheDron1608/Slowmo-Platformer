@@ -12,6 +12,18 @@ public class BulletReloadingWeapon : RangedWeapon
     public int MaxLoadedAmmo = 1;
     public AbstractSoundPlayer SoundOnLoadBullet;
 
+    private bool _isUnloadingAllBullets = false;
+
+    public override bool IsThrown 
+    { 
+        get => base.IsThrown;
+        set
+        {
+            base.IsThrown = value;
+            if (value) _isUnloadingAllBullets = false;
+        }
+    }
+
     protected override void OnTryAttackFail(Vector2 direction)
     {
         if (IsReloading)
@@ -22,6 +34,11 @@ public class BulletReloadingWeapon : RangedWeapon
         base.OnTryAttackFail(direction);
     }
 
+    protected override bool AttackCondition()
+    {
+        return !_isUnloadingAllBullets && base.AttackCondition();
+    }
+
     protected override bool ReloadCondition()
     {
         return base.ReloadCondition() && LoadedLivingAmmoLeft < MaxLoadedAmmo;
@@ -29,7 +46,16 @@ public class BulletReloadingWeapon : RangedWeapon
 
     protected override bool UnloadCondition()
     {
-        return LoadedLivingAmmoLeft <= 0 && LoadedSpentAmmoLeft > 0;
+        return (LoadedLivingAmmoLeft <= 0 && LoadedSpentAmmoLeft > 0) || (_isUnloadingAllBullets && !Unloaded);
+    }
+
+    public override void TryUnloadAllBullets()
+    {
+        base.TryUnloadAllBullets();
+
+        _isUnloadingAllBullets = true;
+
+        TryUnload();
     }
 
     public override bool GetIsNeedReload()
@@ -67,11 +93,30 @@ public class BulletReloadingWeapon : RangedWeapon
     {
         base.OnUnloadFinish();
 
-        SpawnBulletParticles(math.min(AmmoAmountPerUnload, LoadedSpentAmmoLeft));
-        LoadedSpentAmmoLeft -= AmmoAmountPerUnload;
-        if (LoadedSpentAmmoLeft < 0)
+        if (_isUnloadingAllBullets)
         {
-            LoadedSpentAmmoLeft = 0;
+            SpawnBulletParticles(math.min(AmmoAmountPerUnload, LoadedSpentAmmoLeft + LoadedLivingAmmoLeft));
+
+            LoadedSpentAmmoLeft -= math.max(AmmoAmountPerUnload - LoadedLivingAmmoLeft, 0);
+            LoadedLivingAmmoLeft -= AmmoAmountPerUnload;
+            if (LoadedSpentAmmoLeft < 0) LoadedSpentAmmoLeft = 0;
+            if (LoadedLivingAmmoLeft < 0) LoadedLivingAmmoLeft = 0;
+
+            if (LoadedLivingAmmoLeft + LoadedSpentAmmoLeft == 0)
+            {
+                _isUnloadingAllBullets = false;
+            }
+            else
+            {
+                TryCloseMag();
+            }
+        }
+        else
+        {
+            SpawnBulletParticles(math.min(AmmoAmountPerUnload, LoadedSpentAmmoLeft));
+
+            LoadedSpentAmmoLeft -= AmmoAmountPerUnload;
+            if (LoadedSpentAmmoLeft < 0) LoadedSpentAmmoLeft = 0;
         }
     }
 }

@@ -9,7 +9,7 @@ public abstract class ThrowableWeapon : Weapon
 
     private bool _isThrown = true;
 
-    public bool IsThrown
+    public virtual bool IsThrown
     {
         get => _isThrown;
         set

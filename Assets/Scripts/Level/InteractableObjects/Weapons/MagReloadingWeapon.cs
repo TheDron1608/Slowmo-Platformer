@@ -48,7 +48,14 @@ public class MagReloadingWeapon : RangedWeapon
     public bool BulletLoadedInChamber
     {
         get => _bulletLoadedInChamber;
-        set => _bulletLoadedInChamber = value;
+        set
+        {
+            if (_bulletLoadedInChamber && value)
+            {
+                SpendAmmo();
+            }
+            _bulletLoadedInChamber = value;
+        }
     }
 
     public override bool GetIsNeedReload()
@@ -123,6 +130,13 @@ public class MagReloadingWeapon : RangedWeapon
         LoadedSpentAmmoLeft = 0;
 
         ReloadBullet();
+    }
+
+    public override void TryUnloadAllBullets()
+    {
+        base.TryUnloadAllBullets();
+
+        TryUnload();
     }
 
     protected override bool OnTryAttackSuccess(Vector2 direction)
