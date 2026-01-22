@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class AbstractMeleeProjectileEffectWithSender : AbstractWeaponEffectWithSender, IMeleeProjectileEffect
+public abstract class AbstractMeleeProjectileEffectWithSender : AbstractProjectileEffectWithSender, IMeleeProjectileEffect
 {
     private MeleeProjectile _meleeProjectile;
 
