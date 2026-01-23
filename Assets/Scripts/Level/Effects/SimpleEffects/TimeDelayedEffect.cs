@@ -27,7 +27,7 @@ public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect
 
         if (_timeSpent >= Delay)
         {
-            AffectedObject.ApplyEffect(EffectOnFinishDelay, Sender);
+            AffectedObject.OnApplyEffect(EffectOnFinishDelay, Sender);
             RemoveSelf();
         }
     }
@@ -36,7 +36,7 @@ public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect
     {
         if (_timeSpent < Delay)
         {
-            AffectedObject.ApplyEffect(EffectOnBreakDelay, Sender);
+            AffectedObject.OnApplyEffect(EffectOnBreakDelay, Sender);
         }
         base.OnRemove();
     }

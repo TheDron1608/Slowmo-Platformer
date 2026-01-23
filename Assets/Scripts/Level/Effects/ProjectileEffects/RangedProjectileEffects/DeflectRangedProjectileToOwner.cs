@@ -4,6 +4,8 @@ public class DeflectRangedProjectileToOwner : AbstractRangedProjectileDeflection
 {
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
+        base.OnReceivedSender(sender);
+
         Vector2 deflectorCenter;
         if (sender.TryGetComponent(out AbstractCharacterComponent charComponent))
         {

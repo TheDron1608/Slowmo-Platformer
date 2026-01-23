@@ -18,6 +18,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
+    public List<AbstractEffect> CounterEffectsOnApplier = new();
     [SerializeField] private List<AbstractEffect> _currentEffects = new();
     private MonoBehaviour _lastSender = null;
 
@@ -45,7 +46,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         _currentEffects.Clear();
         foreach (AbstractEffect effect in reapplyEffects)
         {
-            ApplyEffect(effect, null);
+            OnApplyEffect(effect, null);
         }
     }
 
@@ -69,7 +70,39 @@ public class ObjectEffectsReceiver : MonoBehaviour
     }
 
     /// <returns>returns actual applied effect including AlternativeCharacterEffectIfResisted</returns>
-    public virtual AbstractEffect ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
+    public virtual List<AbstractEffect> ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, float effectMultiplier = 1f, bool ignoreDeflection = false)
+    {
+        if (
+            !ignoreDeflection &&
+            sender != null &&
+            sender.TryGetComponent(out ObjectEffectsReceiver senderEffectsReceiver) &&
+            CounterEffectsOnApplier.Count > 0
+            )
+        {
+            senderEffectsReceiver.ApplyEffect(CounterEffectsOnApplier, this);
+            if (
+                sender == null ||
+                sender.IsDestroyed() || 
+                (sender.TryGetComponent(out AbstractProjectile projectileSender) && projectileSender.WasDeflectedThisFrame)
+                )
+            {
+                return new List<AbstractEffect>(0);
+            }
+        } 
+
+        List<AbstractEffect> result = new();
+        effects.Sort();
+
+        for (int i = 0; i < effects.Count; i++)
+        {
+            result.Add(OnApplyEffect(effects[i], sender, effectMultiplier));
+        }
+
+        return result;
+    }
+
+    /// <returns>returns actual applied effect including AlternativeCharacterEffectIfResisted</returns>
+    public virtual AbstractEffect OnApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
     {
         if (effect == null) return null;
 
@@ -106,7 +139,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
         else if (effect.AlternativeCharacterEffectIfResisted != null && !effect.AlternativeCharacterEffectIfResisted.Equals(effect))
         {
-            return ApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender);
+            return OnApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender);
         }
         else
         {
@@ -132,20 +165,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
     public virtual bool ApplyCondition(AbstractEffect effect, MonoBehaviour sender)
     {
         return !GetHasImmuneToEffect(effect);
-    }
-
-    /// <returns>returns actual applied effect including AlternativeCharacterEffectIfResisted</returns>
-    public List<AbstractEffect> ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, float effectMultiplier = 1f)
-    {
-        List<AbstractEffect> result = new();
-        effects.Sort();
-
-        for (int i = 0; i < effects.Count; i++)
-        {
-            result.Add(ApplyEffect(effects[i], sender, effectMultiplier));
-        }
-
-        return result;
     }
 
     public void RemoveEffect<T>()

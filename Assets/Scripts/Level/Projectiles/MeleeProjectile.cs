@@ -143,9 +143,8 @@ public class MeleeProjectile : AbstractProjectile
     {
         Vector3 deflectionPointPosition = (transform.position + defleclectedProjectile.transform.position) / 2;
 
-        defleclectedProjectile.OnDeflected(this);
         defleclectedProjectile.EffectsReceiver.ApplyEffect(EffectsOnDeflect, this);
-        Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnDeflect, this);
+        Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnDeflect, this, 1f, true);
 
         if (ParticleOnDeflect != null && (!_currentSpawnedParticle?.IsSpawned ?? true))
         {

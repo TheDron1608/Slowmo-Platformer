@@ -360,7 +360,7 @@ public class CharacterCollision : AbstractCharacterComponent
                     //hit self
                     Vector2 affectingVelocity = CharComponents.CharacterRigidBody.linearVelocity / 2f;
                     CharComponents.CharacterRigidBody.linearVelocity -= affectingVelocity;
-                    CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnHitOtherCharacters, otherCharComponent);
+                    CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnHitOtherCharacters, otherCharComponent, 1f, true);
                     //hit other character
                     otherCharComponent.CharComponents.CharacterRigidBody.linearVelocity += affectingVelocity;
                     otherCharComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnHitOtherCharacters, this);

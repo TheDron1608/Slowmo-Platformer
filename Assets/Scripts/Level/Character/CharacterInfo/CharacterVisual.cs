@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 [DefaultExecutionOrder(2)]
@@ -11,6 +13,9 @@ public class CharacterVisual : AbstractCharacterComponent
     const string ANIMATOR_JUMP_STATE_PARAM_NAME = "JumpState";
     const string ANIMATOR_BUSY_STATE_PARAM_NAME = "BusyState";
     const string ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME = "BreakBusyAnimation";
+
+    const float COOL_FLIP_SPEED_MUTLIPLIER = 5f;
+    const float COOL_FLIP_DEGREES = 360f * 2f;
 
     public enum CharacterPartMainStates
     {
@@ -83,6 +88,8 @@ public class CharacterVisual : AbstractCharacterComponent
     private Transform _characterPartsContainer;
     private Sprite _spritePrevFrame;
     private int _randomizedExtraSpriteSortingOrder;
+    private Coroutine _coolFlipCoroutine = null;
+    private bool _currentCoolFlipRotationAxisReversed = false;
 
     public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
@@ -211,6 +218,30 @@ public class CharacterVisual : AbstractCharacterComponent
     public bool GetIsVisible()
     {
         return CharComponents.CharacterPartsManager.CharacterParts.First()?.CharPartVisual.IsVisible() ?? false;
+    }
+
+    public void DoACoolFlip()
+    {
+        if (_coolFlipCoroutine != null) StopCoroutine(_coolFlipCoroutine);
+        _coolFlipCoroutine = StartCoroutine(CoolFlipCoroutine());
+        _currentCoolFlipRotationAxisReversed = !_currentCoolFlipRotationAxisReversed;
+    }
+    private IEnumerator CoolFlipCoroutine()
+    {
+        float totalRotation = 0;
+        while (math.abs(totalRotation) < COOL_FLIP_DEGREES - 0.5f)
+        {
+            totalRotation = math.lerp(totalRotation, _currentCoolFlipRotationAxisReversed ? -COOL_FLIP_DEGREES : COOL_FLIP_DEGREES, Time.deltaTime * COOL_FLIP_SPEED_MUTLIPLIER);
+
+            Quaternion newRotation = new();
+            newRotation.eulerAngles = new Vector3(0f, 0f, totalRotation);
+            CharComponents.CharacterPartsContainer.transform.localRotation = newRotation;
+
+            yield return new WaitForEndOfFrame();
+        }
+        CharComponents.CharacterPartsContainer.transform.rotation = CharComponents.transform.rotation;
+
+        _coolFlipCoroutine = null;
     }
 
     private void Update()

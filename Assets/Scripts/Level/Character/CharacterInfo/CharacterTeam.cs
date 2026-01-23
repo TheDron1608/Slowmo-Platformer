@@ -15,7 +15,7 @@ public class CharacterTeam : AbstractCharacterComponent
 
     public bool GetIsAllyToAnotherTeam(CharacterTeam anotherTeam)
     {
-        return Team == anotherTeam.Team;
+        return Team == anotherTeam?.Team;
     }
 
     public TeamManager.TeamData GetTeamData()

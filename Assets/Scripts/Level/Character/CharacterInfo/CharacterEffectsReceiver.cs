@@ -13,18 +13,18 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         base.OnAwake();
     }
 
-    public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb)
+    public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb, bool ignoreDeflection = false)
     {
         if (affectedLimb != null && !(effect is IEntireCharacterEffect))
         {
             if (LimbApplyCondition(effect, sender, affectedLimb))
             {
-                affectedLimb.CharPartEffectsReceiver.ApplyEffect(effect, sender);
+                affectedLimb.CharPartEffectsReceiver.OnApplyEffect(effect, sender);
             }
         }
         else
         {
-            ApplyEffect(effect, sender);
+            OnApplyEffect(effect, sender);
         }
     }
 

@@ -18,7 +18,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public AbstractSoundPlayer SoundOnAttack;
 
     private Weapon _weapon = null;
-    private Weapon _deflector = null;
+    private CharacterHoldingObjects _deflector = null;
     private CharacterHoldingObjects _owner = null;
     protected List<Collider2D> _currentHittingColliders = new();
     protected bool _wasDeflectedThisFrame = false;
@@ -32,6 +32,11 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public float ProjectileSize
     {
         get => GetComponent<BoxCollider2D>().size.x;
+    }
+
+    public bool WasDeflectedThisFrame
+    {
+        get => _wasDeflectedThisFrame;
     }
 
     private void Awake()
@@ -50,7 +55,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         get => _weapon;
         protected set => _weapon = value;
     }
-    public Weapon Deflector
+    public CharacterHoldingObjects Deflector
     {
         get => _deflector;
         protected set => _deflector = value;
@@ -167,11 +172,14 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         }
     }
 
-    public virtual void OnDeflected(MeleeProjectile deflector)
+    public virtual void OnDeflected(MonoBehaviour deflector)
     {
-        if (_wasDeflectedThisFrame) return;
-
-        Deflector = deflector.Weapon;
+        if (deflector != null)
+        {
+            if (deflector.TryGetComponent(out AbstractProjectile projectile)) Deflector = projectile.OwnerOrLastHolder;
+            else if (deflector.TryGetComponent(out Holdable holdable)) Deflector = holdable.CurrentOrLastHolder;
+            else if (deflector.TryGetComponent(out AbstractCharacterComponent charComponent)) Deflector = charComponent.CharComponents.CharacterHolding;
+        }
 
         _wasDeflectedThisFrame = true;
     }
@@ -188,7 +196,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         {
             for (int i = 0; i < projectiles.Count; i++)
             {
-                holderCharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffects, projectiles[i]);
+                holderCharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffects, projectiles[i], 1f, true);
             }
         }
     }
@@ -203,6 +211,9 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         if (GameObjectUtility.TryGetComponentInSelfOrParent(hitObject.gameObject, out ObjectEffectsReceiver hitObjectEffectsReceiver))
         {
             hitObjectEffectsReceiver.ApplyEffect(HitEffects, this);
+            if (WasDeflectedThisFrame) return;
+
+
             OnHitSomeOne?.Invoke(this, hitObject);
         }
 
@@ -239,9 +250,8 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
                 (
-                    Owner == null ||
-                    charComponent.CharComponents.CharacterHolding != Owner &&
-                    (FriendlyFire || !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(Owner.CharComponents.CharacterTeam))
+                    charComponent.CharComponents.CharacterHolding != (Deflector ?? Owner) &&
+                    (FriendlyFire || !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam((Deflector ?? Owner)?.CharComponents.CharacterTeam))
                 )
             ) &&
             (

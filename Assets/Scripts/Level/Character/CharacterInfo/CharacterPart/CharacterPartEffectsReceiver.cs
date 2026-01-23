@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
@@ -12,15 +13,36 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
         CharComponents = GetComponentInParent<CharacterComponentsManager>();
     }
 
-    public override AbstractEffect ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
+    public override List<AbstractEffect> ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, float effectMultiplier = 1, bool ignoreDeflection = false)
+    {
+        if (
+            !ignoreDeflection &&
+            sender != null && 
+            sender.TryGetComponent(out ObjectEffectsReceiver senderEffectsReceiver) && 
+            CharComponents.CharacterEffectsReceiver.CounterEffectsOnApplier.Count > 0)
+        {
+            senderEffectsReceiver.ApplyEffect(CharComponents.CharacterEffectsReceiver.CounterEffectsOnApplier, this, 1f, true);
+            if (
+                sender == null ||
+                sender.IsDestroyed() ||
+                (sender.TryGetComponent(out AbstractProjectile projectileSender) && projectileSender.WasDeflectedThisFrame)
+                )
+            {
+                return new List<AbstractEffect>(0);
+            }
+        }
+        return base.ApplyEffect(effects, sender, effectMultiplier);
+    }
+
+    public override AbstractEffect OnApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
     {
         if (effect.GetSelfIncludeIncomingEffects().All(effect => effect is IEntireCharacterEffect || effect is IDelayedEffect))
         {
-            return GetComponent<CharacterPart>().CharComponents.CharacterEffectsReceiver.ApplyEffect(effect, sender, effectMultiplier);
+            return GetComponent<CharacterPart>().CharComponents.CharacterEffectsReceiver.OnApplyEffect(effect, sender, effectMultiplier);
         }
         else
         {
-            return base.ApplyEffect(effect, sender, effectMultiplier);
+            return base.OnApplyEffect(effect, sender, effectMultiplier);
         }
     }
 
