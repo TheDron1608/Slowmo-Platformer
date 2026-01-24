@@ -51,6 +51,18 @@ public class CharacterHealth : DamagableObject
             Ressurect();
         }
     }
+    public void SetHealth(float health, MonoBehaviour setter, CharacterLimbPart damagedPart)
+    {
+        CurrentHealth = health;
+        if (CurrentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
+        {
+            Die(setter, damagedPart);
+        }
+        else if (CurrentHealth > MinHealth && CharComponents.CharacterEffectsReceiver.GetHasEffect(EffectsOnLethal))
+        {
+            Ressurect();
+        }
+    }
 
     public override void Die(MonoBehaviour killer)
     {

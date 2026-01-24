@@ -2,18 +2,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AllowEffectWithSenderReceiveNull]
-public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect
+public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect, IMultiplierableEffect
 {
     public float Delay = 1f;
     public AbstractEffect EffectOnFinishDelay;
     public AbstractEffect EffectOnBreakDelay;
 
     private float _timeSpent = 0f;
+    private float _effectMultiplier = 1f;
 
     public float TimeLeft
     {
         get => Delay - _timeSpent;
         set => Delay = _timeSpent + value;
+    }
+
+    public float EffectMultiplier
+    {
+        get => _effectMultiplier;
+        set => _effectMultiplier = value;
     }
 
     public float TimeSpent
@@ -27,7 +34,7 @@ public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect
 
         if (_timeSpent >= Delay)
         {
-            AffectedObject.OnApplyEffect(EffectOnFinishDelay, Sender);
+            AffectedObject.ApplyEffect(EffectOnFinishDelay, Sender, EffectMultiplier);
             RemoveSelf();
         }
     }
@@ -36,7 +43,7 @@ public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect
     {
         if (_timeSpent < Delay)
         {
-            AffectedObject.OnApplyEffect(EffectOnBreakDelay, Sender);
+            AffectedObject.ApplyEffect(EffectOnBreakDelay, Sender, EffectMultiplier);
         }
         base.OnRemove();
     }

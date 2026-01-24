@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class NumberMath
@@ -151,11 +152,13 @@ public static class NumberMath
         return math.min(max, math.max(min, value));
     }
 
-    public static List<T> MergeLists<T>(List<T> list1, List<T> list2)
+    public static List<T> MergeLists<T>(params List<T>[] lists)
     {
         List<T> result = new List<T>();
-        result.AddRange(list1);
-        result.AddRange(list2);
+        foreach (var list in lists)
+        {
+            if (list != null) result.AddRange(list);
+        }
         return result;
     }
 

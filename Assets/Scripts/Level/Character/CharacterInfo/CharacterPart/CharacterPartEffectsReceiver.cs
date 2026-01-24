@@ -34,15 +34,17 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
         return base.ApplyEffect(effects, sender, effectMultiplier);
     }
 
-    public override AbstractEffect OnApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
+    public override AbstractEffect ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f, bool ignoreDeflection = false)
     {
-        if (effect.GetSelfIncludeIncomingEffects().All(effect => effect is IEntireCharacterEffect || effect is IDelayedEffect))
+        if (effect == null) return null;
+
+        if (effect.GetSelfIncludeIncomingEffects().All(subEffect => subEffect is IEntireCharacterEffect || subEffect is IDelayedEffect))
         {
-            return GetComponent<CharacterPart>().CharComponents.CharacterEffectsReceiver.OnApplyEffect(effect, sender, effectMultiplier);
+            return GetComponent<CharacterPart>().CharComponents.CharacterEffectsReceiver.ApplyEffect(effect, sender, effectMultiplier, ignoreDeflection);
         }
         else
         {
-            return base.OnApplyEffect(effect, sender, effectMultiplier);
+            return base.ApplyEffect(effect, sender, effectMultiplier, ignoreDeflection);
         }
     }
 

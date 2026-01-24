@@ -46,7 +46,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         _currentEffects.Clear();
         foreach (AbstractEffect effect in reapplyEffects)
         {
-            OnApplyEffect(effect, null);
+            ApplyEffect(effect, null);
         }
     }
 
@@ -95,16 +95,34 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
         for (int i = 0; i < effects.Count; i++)
         {
-            result.Add(OnApplyEffect(effects[i], sender, effectMultiplier));
+            result.Add(ApplyEffect(effects[i], sender, effectMultiplier, true));
         }
 
         return result;
     }
 
     /// <returns>returns actual applied effect including AlternativeCharacterEffectIfResisted</returns>
-    public virtual AbstractEffect OnApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f)
+    public virtual AbstractEffect ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f, bool ignoreDeflection = false)
     {
         if (effect == null) return null;
+
+        if (
+            !ignoreDeflection &&
+            sender != null &&
+            sender.TryGetComponent(out ObjectEffectsReceiver senderEffectsReceiver) &&
+            CounterEffectsOnApplier.Count > 0
+            )
+        {
+            senderEffectsReceiver.ApplyEffect(CounterEffectsOnApplier, this);
+            if (
+                sender == null ||
+                sender.IsDestroyed() ||
+                (sender.TryGetComponent(out AbstractProjectile projectileSender) && projectileSender.WasDeflectedThisFrame)
+                )
+            {
+                return null;
+            }
+        }
 
         if (ApplyCondition(effect, sender) && effect.ApplyCondition(this, sender))
         {
@@ -139,7 +157,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
         else if (effect.AlternativeCharacterEffectIfResisted != null && !effect.AlternativeCharacterEffectIfResisted.Equals(effect))
         {
-            return OnApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender);
+            return ApplyEffect(effect.AlternativeCharacterEffectIfResisted, sender);
         }
         else
         {

@@ -381,6 +381,36 @@ MonoBehaviour:
       on headshot'
     m_Metadata:
       m_Items: []
+  - m_Id: 14244098722734080
+    m_Localized: Second breathe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14244100413038592
+    m_Localized: '* A dead enemy has a chance to resurrect with a {ResurrectionChance}%
+      chance'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 14290238881112064
+    m_Localized: Die hard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14290240634331136
+    m_Localized: '* A dead enemy has a chance to resurrect with a {ResurrectionChance}%
+      chance'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 14290301229441024
+    m_Localized: Revenant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14290302751973376
+    m_Localized: '* A dead enemy has a chance to resurrect with a {ResurrectionChance}%
+      chance'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -417,3 +447,6 @@ MonoBehaviour:
         - id: 12671776035061760
         - id: 12671276782862336
         - id: 12683896051089408
+        - id: 14244100413038592
+        - id: 14290302751973376
+        - id: 14290240634331136
