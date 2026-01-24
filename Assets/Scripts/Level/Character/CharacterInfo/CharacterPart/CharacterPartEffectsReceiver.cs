@@ -58,6 +58,18 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
             );
     }
 
+    public override void RemoveEffect<T>()
+    {
+        if (typeof(T).IsSubclassOf(typeof(IEntireCharacterEffect)))
+        {
+            CharComponents.CharacterEffectsReceiver.RemoveEffect<T>();
+        }
+        else
+        {
+            base.RemoveEffect<T>();
+        }
+    }
+
     public override T GetEffect<T>(bool includeIncomingEffects = false)
     {
         return base.GetEffect<T>(includeIncomingEffects) ?? CharComponents.CharacterEffectsReceiver.GetSelfEffect<T>(includeIncomingEffects);

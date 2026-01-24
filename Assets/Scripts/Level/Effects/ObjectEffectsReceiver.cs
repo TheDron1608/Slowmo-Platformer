@@ -167,7 +167,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return !GetHasImmuneToEffect(effect);
     }
 
-    public void RemoveEffect<T>()
+    public virtual void RemoveEffect<T>()
     {
         for (int i = 0; i < _currentEffects.Count; i++)
         {
@@ -186,7 +186,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     public void RemoveEffect(AbstractEffect effect)
     {
-        if (effect.IsDestroyed()) return;
+        if (effect == null || effect.IsDestroyed()) return;
 
         for (int i = 0; i < _currentEffects.Count; i++)
         {

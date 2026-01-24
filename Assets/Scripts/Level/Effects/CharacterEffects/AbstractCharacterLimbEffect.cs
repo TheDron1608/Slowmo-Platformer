@@ -24,6 +24,12 @@ public abstract class AbstractCharacterLimbEffect : AbstractEffect, ICharacterPa
 
     public override bool Equals(AbstractEffect other)
     {
-        return base.Equals(other) && AffectedPart == (other as AbstractCharacterLimbEffectWithSender).AffectedPart;
+        return 
+            base.Equals(other) && 
+            (
+                AffectedPart == (other as AbstractCharacterLimbEffect).AffectedPart ||
+                AffectedPart == null ||
+                (other as AbstractCharacterLimbEffect).AffectedPart == null
+            );
     }
 }

@@ -13,41 +13,17 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         base.OnAwake();
     }
 
-    public void ApplyEffect(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb, bool ignoreDeflection = false)
+    public void ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, CharacterPart affectedLimb, float effectMultplier = 1f, bool ignoreDeflection = false)
     {
-        if (affectedLimb != null && !(effect is IEntireCharacterEffect))
+        if (affectedLimb != null && !(effects is IEntireCharacterEffect))
         {
-            if (LimbApplyCondition(effect, sender, affectedLimb))
-            {
-                affectedLimb.CharPartEffectsReceiver.OnApplyEffect(effect, sender);
-            }
+            affectedLimb.CharPartEffectsReceiver.ApplyEffect(effects, sender, effectMultplier, ignoreDeflection);
         }
         else
         {
-            OnApplyEffect(effect, sender);
+            ApplyEffect(effects, sender, effectMultplier, ignoreDeflection);
         }
     }
-
-    private bool LimbApplyCondition(AbstractEffect effect, MonoBehaviour sender, CharacterPart affectedLimb)
-    {
-        return
-            ApplyCondition(effect, sender) &&
-            affectedLimb.CharPartEffectsReceiver.ApplyCondition(effect, sender) &&
-            _charComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedLimb).All(
-                (equpmentPart) => equpmentPart.CharPartEffectsReceiver.ApplyCondition(effect, sender)
-            );
-    }
-
-    public void ApplyEffect(List<AbstractEffect> effects, MonoBehaviour sender, CharacterPart affectedLimb)
-    {
-        effects.Sort();
-
-        for (int i = 0; i < effects.Count; i++)
-        {
-            ApplyEffect(effects[i], sender, affectedLimb);
-        }
-    }
-
 
     public void RemoveEffect<T>(CharacterPart affectedLimb) where T : AbstractEffect
     {

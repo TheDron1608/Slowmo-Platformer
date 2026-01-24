@@ -7,7 +7,7 @@ public class PlayerCharacterMultiplierableEffectsOnStartModificator : AbstractCh
 
     protected override void OnCharacterAffected(CharacterComponentsManager character)
     {
-        foreach (AbstractEffect effect in character.CharacterEffectsReceiver.ApplyEffect(PlayerCharacterEffectsOnStart, null, ModificatorMultiplier))
+        foreach (AbstractEffect effect in character.CharacterEffectsReceiver.ApplyEffect(PlayerCharacterEffectsOnStart, null, ModificatorMultiplier, true))
         {
             if (effect is ITriggerableEffect triggerableEffect)
             {
