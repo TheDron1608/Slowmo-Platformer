@@ -14,6 +14,7 @@ public class GameplayUIManager : MonoBehaviour
     public MultiHealthbarsManager MultiHealthbarsManager;
     public HoldObjectInfo HoldObjectInfo;
     public PauseMenu Pause;
+    public ComboEncounter Combo;
     public InputActionReference PauseAction;
     public string MainMenuSceneName = "MainMenu";
 

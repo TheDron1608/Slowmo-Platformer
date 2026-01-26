@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1351074446885944845}
   - component: {fileID: 8541215460873994013}
   - component: {fileID: -1101646604081721869}
+  - component: {fileID: -4635136553597321242}
   m_Layer: 0
   m_Name: TempSessionManager
   m_TagString: Untagged
@@ -160,5 +161,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ce1e4f39a28ff4297f5f8598d2d56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalLightSources: []
-  GlobalLightSources: []
+  _furnitureLightIntensityMultiplier: 1
+  _characterLightIntensityMultiplier: 0
+  _globalLightIntensityMultiplier: 1
+  _weaponLightIntensityMultiplier: 0
+--- !u!114 &-4635136553597321242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590695979345743307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f2345fa8c0e12945809d0d2f76a2992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentScore: 0
+  CurrentCombo: 0
