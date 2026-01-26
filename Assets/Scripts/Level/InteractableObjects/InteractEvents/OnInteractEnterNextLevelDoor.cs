@@ -14,6 +14,7 @@ public class OnInteractEnterNextLevelDoor : AnimatedInteractable
         {
             modificator.OnLevelFinished();
         }
+        TeamManager.Instance.OnLevelFinished();
 
         if (ModificatorsManager.Instance == null || ModificatorsManager.Instance.ModifiactorsPickAmount == 0)
         {

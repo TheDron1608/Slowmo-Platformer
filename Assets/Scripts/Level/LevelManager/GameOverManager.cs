@@ -12,11 +12,12 @@ public class GameOverManager : MonoBehaviour
 
     private void _playerTeam_OnTeamMemberKilled(object sender, CharacterTeam e)
     {
-        if (_playerTeam.GetAliveTeamMembers().Count == 0)
+        foreach (CharacterTeam character in _playerTeam.GetTeamMembers())
         {
-            UIManager.Instance.GameplayScreenOverlay.Hide();
-            UIManager.Instance.DamagedScreenOverlay.Hide();
-            UIManager.Instance.GameOverScreenOverlay.Show();
+            if (!character.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()) return;
         }
+        UIManager.Instance.GameplayScreenOverlay.Hide();
+        UIManager.Instance.DamagedScreenOverlay.Hide();
+        UIManager.Instance.GameOverScreenOverlay.Show();
     }
 }

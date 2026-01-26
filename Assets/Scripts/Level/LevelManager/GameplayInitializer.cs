@@ -8,6 +8,7 @@ public class GameplayInitializer : MonoBehaviour
         {
             modificator.OnLevelPreGenerated();
         }
+        TeamManager.Instance.OnLevelPreGenerated();
 
         UIManager.Instance.GameplayScreenOverlay.Show();
         UIManager.Instance.ModificatorsScreenOverlay.Show();

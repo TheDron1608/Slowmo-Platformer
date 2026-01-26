@@ -299,7 +299,11 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
     {
         OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
-        if (!Weapon.IsDestroyed())
+        if (Deflector != null)
+        {
+            Deflector?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+        }
+        else if (Weapon != null && !Weapon.IsDestroyed())
         {
             Weapon?.InvokeOnEffectApllied(Effect, Receiver);
         }

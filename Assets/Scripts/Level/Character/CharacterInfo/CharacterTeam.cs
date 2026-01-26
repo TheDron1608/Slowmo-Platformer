@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 [DefaultExecutionOrder(7)]
 public class CharacterTeam : AbstractCharacterComponent
@@ -8,9 +9,6 @@ public class CharacterTeam : AbstractCharacterComponent
     protected override void OnAwake()
     {
         base.OnAwake();
-        GetTeamData().AddTeamMember(this);
-        CharComponents.CharacterEffectsReceiver.OnEffectAdded += CharacterEffectsReceiver_OnEffectAdded;
-        CharComponents.CharacterEffectsReceiver.OnEffectRemoved += CharacterEffectsReceiver_OnEffectRemoved;
     }
 
     public bool GetIsAllyToAnotherTeam(CharacterTeam anotherTeam)
@@ -23,25 +21,9 @@ public class CharacterTeam : AbstractCharacterComponent
         return TeamManager.Instance?.GetTeamDataByTeam(Team);
     }
 
-    private void CharacterEffectsReceiver_OnEffectAdded(object sender, CharacterEffectsReceiver.EffectAddedEventArgs e)
-    {
-        if (e.Effect is ILethalEffect)
-        {
-            GetTeamData().SetTeamMemberKilled(this, TryGetTeamFromSender(e.Sender));
-        }
-    }
-
-    private void CharacterEffectsReceiver_OnEffectRemoved(object sender, AbstractEffect e)
-    {
-        if (e is ILethalEffect)
-        {
-            GetTeamData().SetTeamMemberRessurected(this, null);
-        }
-    }
-
     private CharacterTeam TryGetTeamFromSender(MonoBehaviour sender)
     {
-        if (sender == null)
+        if (sender == null || sender.IsDestroyed())
         {
             return null;
         }
@@ -65,11 +47,5 @@ public class CharacterTeam : AbstractCharacterComponent
             }
         }
         return null;
-    }
-
-    public void OnDestroy()
-    {
-        GetTeamData()?.RemoveTeamMember(this);
-        CharComponents.CharacterEffectsReceiver.OnEffectAdded -= CharacterEffectsReceiver_OnEffectAdded;
     }
 }

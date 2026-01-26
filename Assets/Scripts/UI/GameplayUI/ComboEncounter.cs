@@ -32,6 +32,7 @@ public class ComboEncounter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _comboText;
     [SerializeField] private TextMeshProUGUI _multiplierText;
     [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private ShakableObject _comboInfoShaking;
 
     [Serializable]
     public class ComboState
@@ -40,6 +41,7 @@ public class ComboEncounter : MonoBehaviour
         public int MaxCombo;
         public Sprite BgSprite;
         public float Multiplier = 1f;
+        public float Shaking = 0f;
     }
 
     public int CurrentCombo
@@ -59,6 +61,7 @@ public class ComboEncounter : MonoBehaviour
                     {
                         if (_setBgCoroutine != null) StopCoroutine(_setBgCoroutine);
                         _setBgCoroutine = StartCoroutine(ShowNewBg(state.BgSprite));
+                        _comboInfoShaking.ContantShakingForce = state.Shaking;
                     }
 
                     return;
@@ -107,6 +110,11 @@ public class ComboEncounter : MonoBehaviour
     public void AddCombo()
     {
         CurrentCombo++;
+        RestoreComboLastTime();
+    }
+
+    public void RestoreComboLastTime()
+    {
         _comboLastTime = ResetComboDelay;
     }
 

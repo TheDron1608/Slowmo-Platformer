@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-1)]
 public class TeamManager : MonoBehaviour
@@ -13,69 +14,24 @@ public class TeamManager : MonoBehaviour
         private int _totalKills = 0;
         private int _totalDeaths = 0;
         private List<CharacterTeam> _teamMembers = new();
-        private List<CharacterTeam> _aliveTeamMembers = new();
-        private List<CharacterTeam> _deadTeamMembers = new();
 
         public int GetTotalKills() => _totalKills;
         public int GetTotalDeaths() => _totalDeaths;
         public List<CharacterTeam> GetTeamMembers() => _teamMembers;
-        public List<CharacterTeam> GetAliveTeamMembers() => _aliveTeamMembers;
-        public List<CharacterTeam> GetDeadTeamMembers() => _deadTeamMembers;
 
-        public void AddTeamMember(CharacterTeam teamMember)
+        public void OnCharacterTeamDidKill(CharacterTeam killer)
         {
-            _teamMembers.Add(teamMember);
-            (teamMember.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() ? _deadTeamMembers : _aliveTeamMembers).Add(teamMember);
-
-            OnTeamMembersChanged?.Invoke(this, EventArgs.Empty);
-            OnTeamMemberAdded?.Invoke(this, teamMember);
+            OnTeamMemberDidKill?.Invoke(this, killer);
+            _totalKills++;
         }
-        public void RemoveTeamMember(CharacterTeam teamMember)
+        public void OnCharacterTeamKilled(CharacterTeam killer)
         {
-            _teamMembers.Remove(teamMember);
-            _aliveTeamMembers.Remove(teamMember);
-            _deadTeamMembers.Remove(teamMember);
-
-            OnTeamMembersChanged?.Invoke(this, EventArgs.Empty);
-            OnTeamMemberRemoved?.Invoke(this, teamMember);
-        }
-        public void SetTeamMemberKilled(CharacterTeam teamMember, CharacterTeam killer)
-        {
-            if (!_teamMembers.Contains(teamMember)) return;
-
+            OnTeamMemberKilled?.Invoke(this, killer);
             _totalDeaths++;
-            if (killer != null)
-            {
-                killer.GetTeamData()._totalKills++;
-                killer.GetTeamData().OnTeamMemberDidKill?.Invoke(this, killer);
-            }
-
-            _aliveTeamMembers.Remove(teamMember);
-            _deadTeamMembers.Add(teamMember);
-
-            _aliveTeamMembers.Remove(teamMember);
-            _deadTeamMembers.Add(teamMember);
-
-            OnTeamMembersChanged?.Invoke(this, EventArgs.Empty);
-            OnTeamMemberKilled?.Invoke(this, teamMember);
-        }
-        public void SetTeamMemberRessurected(CharacterTeam teamMember, CharacterTeam ressurector)
-        {
-            if (!_teamMembers.Contains(teamMember)) return;
-
-            _aliveTeamMembers.Add(teamMember);
-            _deadTeamMembers.Remove(teamMember);
-
-            OnTeamMembersChanged?.Invoke(this, EventArgs.Empty);
-            OnTeamMemberRessurected?.Invoke(this, teamMember);
         }
 
-        public event EventHandler OnTeamMembersChanged;
-        public event EventHandler<CharacterTeam> OnTeamMemberAdded;
-        public event EventHandler<CharacterTeam> OnTeamMemberRemoved;
         public event EventHandler<CharacterTeam> OnTeamMemberKilled;
         public event EventHandler<CharacterTeam> OnTeamMemberDidKill;
-        public event EventHandler<CharacterTeam> OnTeamMemberRessurected;
     }
 
     public enum Teams : int
@@ -93,6 +49,15 @@ public class TeamManager : MonoBehaviour
         return TeamDatas[(int)team];
     }
 
+    public void OnLevelPreGenerated()
+    {
+        LayerManager.Instance.OnObjectSpawned += Instance_OnObjectSpawned;
+    }
+    public void OnLevelFinished()
+    {
+        LayerManager.Instance.OnObjectSpawned -= Instance_OnObjectSpawned;
+    }
+
     private void Awake()
     {
         if (Instance != null) throw new UnityException("maximum of 1 TeamManager instance");
@@ -100,8 +65,34 @@ public class TeamManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void OnDestroy()
+    private void Instance_OnObjectSpawned(object sender, GameObject e)
     {
-        Instance = null;
+        if (e.TryGetComponent(out AbstractCharacterComponent character))
+        {
+            GetTeamDataByTeam(character.CharComponents.CharacterTeam.Team).GetTeamMembers().Add(character.CharComponents.CharacterTeam);
+            character.CharComponents.CharacterAttacking.OnEffectApplied += CharacterAttacking_OnEffectApplied;
+        }
+    }
+
+    private void CharacterAttacking_OnEffectApplied(object sender, IEffectApplier.OnEffectAppliedEventArgs e)
+    {
+        if (
+            e.Effect is ILethalEffect && 
+            e.Receiver.TryGetComponent(out AbstractCharacterComponent killedCharacter) &&
+            (e.Sender as MonoBehaviour).TryGetComponent(out AbstractCharacterComponent killerCharacter)
+            )
+        {
+            foreach (TeamData teamData in TeamDatas)
+            {
+                if (GetTeamDataByTeam(killerCharacter.CharComponents.CharacterTeam.Team) == teamData)
+                {
+                    teamData.OnCharacterTeamDidKill(killerCharacter.CharComponents.CharacterTeam);
+                }
+                if (GetTeamDataByTeam(killedCharacter.CharComponents.CharacterTeam.Team) == teamData)
+                {
+                    teamData.OnCharacterTeamKilled(killedCharacter.CharComponents.CharacterTeam);
+                }
+            }
+        }
     }
 }

@@ -22,6 +22,7 @@ public class WeaponDebugInitializer : MonoBehaviour
         {
             modificator.OnLevelPreGenerated();
         }
+        TeamManager.Instance.OnLevelPreGenerated();
 
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
         {
@@ -31,11 +32,6 @@ public class WeaponDebugInitializer : MonoBehaviour
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
             modificator.OnLevelGenerated();
-        }
-
-        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
-        {
-            modificator.OnLevelFinished();
         }
     }
 }
