@@ -6588,6 +6588,22 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[3].Y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5584024181899072883, guid: b55120fa20a50c94589fc2edc1aea2ed, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.x
+      value: 0.49998474
+      objectReference: {fileID: 0}
+    - target: {fileID: 5584024181899072883, guid: b55120fa20a50c94589fc2edc1aea2ed, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5584024181899072883, guid: b55120fa20a50c94589fc2edc1aea2ed, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.x
+      value: 0.49998474
+      objectReference: {fileID: 0}
+    - target: {fileID: 5584024181899072883, guid: b55120fa20a50c94589fc2edc1aea2ed, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6077788984292257314, guid: b55120fa20a50c94589fc2edc1aea2ed, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[0].x
       value: 0.99997073
@@ -8283,6 +8299,22 @@ PrefabInstance:
     - target: {fileID: 6077788984292257314, guid: 9df8f7816331b0f4ea94ba62c347557e, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[3].Y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018858689856099151, guid: 9df8f7816331b0f4ea94ba62c347557e, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.x
+      value: 0.49998474
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018858689856099151, guid: 9df8f7816331b0f4ea94ba62c347557e, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018858689856099151, guid: 9df8f7816331b0f4ea94ba62c347557e, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.x
+      value: 0.49998474
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018858689856099151, guid: 9df8f7816331b0f4ea94ba62c347557e, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19151,6 +19183,22 @@ PrefabInstance:
     - target: {fileID: 18481369919161199, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320821143002151559, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320821143002151559, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320821143002151559, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320821143002151559, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.y
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5450986678264348612, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
       propertyPath: m_ColliderPaths.Array.size

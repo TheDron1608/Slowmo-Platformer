@@ -225,6 +225,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
       insertIndex: -1
       addedObject: {fileID: 987710182626711385}
+    - targetCorrespondingSourceObject: {fileID: 7383309424430708760, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7386050646898918726}
   m_SourcePrefab: {fileID: 100100000, guid: edf8410edb0a9e24a9023915276d4297, type: 3}
 --- !u!224 &53351414323084833 stripped
 RectTransform:
@@ -294,6 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789ba66565658d24c87724859db55a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CounterEffectsOnApplier: []
   _currentEffects: []
 --- !u!50 &-8615137478290299869
 Rigidbody2D:
@@ -390,6 +394,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-7386050646898918726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6620306514570167723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc1ae41680c2e14d89b84753343d666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisibilityType: 1
 --- !u!1001 &8794839884674797863
 PrefabInstance:
   m_ObjectHideFlags: 0

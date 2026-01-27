@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789ba66565658d24c87724859db55a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CounterEffectsOnApplier: []
   _currentEffects: []
 --- !u!114 &3320119231493017273
 MonoBehaviour:
@@ -300,7 +301,7 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 269500672
+    m_Bits: 268435456
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0

@@ -95,7 +95,10 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
         for (int i = 0; i < effects.Count; i++)
         {
-            result.Add(ApplyEffect(effects[i], sender, effectMultiplier, true));
+            if (effects[i] != null)
+            {
+                result.Add(ApplyEffect(effects[i], sender, effectMultiplier, true));
+            }
         }
 
         return result;

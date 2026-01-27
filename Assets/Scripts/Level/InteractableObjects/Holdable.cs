@@ -201,22 +201,26 @@ public class Holdable : Interactable
                 _thrownColliderComponent.enabled = true;
             }
 
-            if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) <= SpeedToHitCharacter)
+            if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) >= SpeedToHitCharacter)
             {
-                _rigidBodyComponent.includeLayers = _colliderComponent.includeLayers;
+                _rigidBodyComponent.includeLayers = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).CharactersLayer;
             }
             else
             {
-                _rigidBodyComponent.includeLayers = _thrownColliderComponent.includeLayers;
-
+                _rigidBodyComponent.includeLayers = 0;
             }
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_isStuck) return;
-        if (collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder) return;
+        if (
+            _isStuck ||
+            collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder
+            )
+        {
+            return;
+        }
 
         if (charComponent != null && GetIsDangerouslyFast())
         {

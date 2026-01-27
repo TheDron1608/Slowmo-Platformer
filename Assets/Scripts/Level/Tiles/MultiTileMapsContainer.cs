@@ -199,13 +199,13 @@ public class MultiTileMapsContainer : MonoBehaviour
 
     public void ToggleHallucinationTilemapVisibility(bool value)
     {
-        _foreground.GetComponent<TilemapRenderer>().enabled = !value;
-        _background.GetComponent<TilemapRenderer>().enabled = !value;
-        _backgroundDecorations.GetComponent<TilemapRenderer>().enabled = !value;
-        _overground.GetComponent<TilemapRenderer>().enabled = !value;
-        _overgroundDecorations.GetComponent<TilemapRenderer>().enabled = !value;
+        _foreground.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
+        _background.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
+        _backgroundDecorations.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
+        _overground.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
+        _overgroundDecorations.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
 
-        _hallucinationTilemap.GetComponent<TilemapRenderer>().enabled = value;
+        _hallucinationTilemap.GetComponent<OverrideRendererEnabled>().OverrideValue = value;
     }
 
     private void OnDestroy()

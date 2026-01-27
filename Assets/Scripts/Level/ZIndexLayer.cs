@@ -25,11 +25,13 @@ public class ZIndexLayer : MonoBehaviour
     {
         public float Alpha;
         public float OvergoundAlpha;
+        public float HideOnOvergrounded;
 
-        public LayerAlphaMode(float alpha, float overgoundAlpha)
+        public LayerAlphaMode(float alpha, float overgoundAlpha, float hideOnOvergrounded)
         {
             Alpha = alpha;
             OvergoundAlpha = overgoundAlpha;
+            HideOnOvergrounded = hideOnOvergrounded;
         }
     }
 
@@ -135,37 +137,76 @@ public class ZIndexLayer : MonoBehaviour
         EntireLayerMask = (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
     }
 
-    private void SetAlphaForAllChildren(LayerAlphaMode layerAlpha, Transform t, bool foundOvergound = false)
+    private void SetAlphaForAllChildren(
+        LayerAlphaMode layerAlpha, 
+        Transform t, 
+        LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes inheritType = LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes.DEFAULT
+        )
     {
-        foundOvergound |= t.GetComponent<OvergoundSprite>() != null;
+        if (t.TryGetComponent(out LayerSpriteCustomVisibility customVisibility))
+        {
+            inheritType = customVisibility.VisibilityType;
+        }
 
-        SetAlphaForGameObject(layerAlpha, t, foundOvergound);
+        SetAlphaForGameObject(layerAlpha, t, inheritType);
 
         for (int i = 0; i < t.childCount; i++)
         {
-            SetAlphaForAllChildren(layerAlpha, t.GetChild(i), foundOvergound);
+            SetAlphaForAllChildren(layerAlpha, t.GetChild(i), inheritType);
         }
     }
 
-    private void SetAlphaForGameObject(LayerAlphaMode layerAlpha, Transform t, bool foundOvergound = false)
+    private void SetAlphaForGameObject(
+        LayerAlphaMode layerAlpha, 
+        Transform t, 
+        LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes type = LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes.DEFAULT
+        )
     {
-        if (t.TryGetComponent(out SpriteRenderer spriteRenderer))
+        if (t.TryGetComponent(out Renderer renderer))
         {
-            spriteRenderer.color = new Color(
-                spriteRenderer.color.r,
-                spriteRenderer.color.g,
-                spriteRenderer.color.b,
-                foundOvergound ? layerAlpha.OvergoundAlpha : layerAlpha.Alpha
-                );
-        }
-        else if (t.TryGetComponent(out Tilemap tilemap))
-        {
-            tilemap.color = new Color(
-                tilemap.color.r,
-                tilemap.color.g,
-                tilemap.color.b,
-                foundOvergound ? layerAlpha.OvergoundAlpha : layerAlpha.Alpha
-                );
+            float targetAlpha;
+            switch (type)
+            {
+                case LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes.DEFAULT:
+                    targetAlpha = layerAlpha.Alpha;
+                    break;
+                case LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes.OVERGROUND:
+                    targetAlpha = layerAlpha.OvergoundAlpha;
+                    break;
+                case LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes.HIDE_ON_OVERGROUNDED:
+                    targetAlpha = layerAlpha.HideOnOvergrounded;
+                    break;
+                default:
+                    throw new UnityException("not found pattern for visibility of type: " + type.ToString());
+            }
+
+            if (t.TryGetComponent(out OverrideRendererEnabled overrider))
+            {
+                overrider.TryUpdateEnabled(targetAlpha > 0.05f);
+            }
+            else if (renderer.enabled != targetAlpha > 0.05f)
+            {
+                renderer.enabled = targetAlpha > 0.05f;
+            }
+
+            if (t.TryGetComponent(out SpriteRenderer spriteRenderer))
+            {
+                spriteRenderer.color = new Color(
+                    spriteRenderer.color.r,
+                    spriteRenderer.color.g,
+                    spriteRenderer.color.b,
+                    targetAlpha
+                    );
+            }
+            else if (t.TryGetComponent(out Tilemap tilemap))
+            {
+                tilemap.color = new Color(
+                    tilemap.color.r,
+                    tilemap.color.g,
+                    tilemap.color.b,
+                    targetAlpha
+                    );
+            }
         }
     }
 

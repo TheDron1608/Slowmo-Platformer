@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8734845165792374824}
   - component: {fileID: 2897689074190581752}
   - component: {fileID: 29433760803958274}
+  - component: {fileID: 5497370592577672766}
   m_Layer: 0
   m_Name: AbstractPhysicsParticle
   m_TagString: PhysicsParticle
@@ -191,6 +192,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundPlayer: {fileID: 3863665540568781472}
   VeclocityForMaxVolume: 10
+--- !u!114 &5497370592577672766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854523041205717934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc1ae41680c2e14d89b84753343d666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisibilityType: 1
 --- !u!1001 &7590635264402953472
 PrefabInstance:
   m_ObjectHideFlags: 0

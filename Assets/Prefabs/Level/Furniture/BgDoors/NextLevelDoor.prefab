@@ -120,7 +120,8 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 607890000445840662, guid: 0ac6a0f944891984da52962c63e377e2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -157,7 +158,8 @@ MonoBehaviour:
   SelfAnimatorOnFinishIntreactTriggerName: 
   EffectsWhileInteracting: []
   EffectsOnFinishInteract: []
-  SceneName: Gameplay
+  GameplaySceneName: Gameplay
+  ModificatorChoiseSceneName: ModificatorChoise
 --- !u!95 &-6381463362978636752
 Animator:
   serializedVersion: 7

@@ -3,14 +3,6 @@ using UnityEngine;
 
 public class Death : AbstractStun, ILethalEffect
 {
-    private bool _diedThisFrame = true;
-
-    public bool DiedThisFrame
-    {
-        get => _diedThisFrame;
-        private set => _diedThisFrame = value;
-    }
-
     protected override void OnApply()
     {
         base.OnApply();
@@ -18,8 +10,6 @@ public class Death : AbstractStun, ILethalEffect
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
 
         AffectedCharacter.CharacterEffectsReceiver.RemoveEffect<MinorStun>();
-
-        AffectedCharacter.CharacterHolding.ForceDisarm();
 
         AffectedCharacter.CharacterMoving.IsAbleToMove = false;
         AffectedCharacter.CharacterJumping.IsAbleToJump = false;
@@ -36,13 +26,10 @@ public class Death : AbstractStun, ILethalEffect
 
         AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(false);
 
-        StartCoroutine(AwaitFrameThenSetDiedThisFrame());
-    }
-
-    private IEnumerator AwaitFrameThenSetDiedThisFrame()
-    {
-        yield return new WaitForEndOfFrame();
-        _diedThisFrame = false;
+        if (AffectedCharacter.CharacterHolding.ThrowObjectsOnDeath)
+        {
+            AffectedCharacter.CharacterHolding.ForceStunThrow();
+        }
     }
 
     protected override void OnRemove()

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2489607063802310916}
   - component: {fileID: 7620147759580533570}
   - component: {fileID: 2614671903488235529}
+  - component: {fileID: 3267299893314434742}
   m_Layer: 0
   m_Name: AbstractCloudParticle
   m_TagString: CloudParticle
@@ -123,3 +124,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3267299893314434742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7660065356227303890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc1ae41680c2e14d89b84753343d666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisibilityType: 1

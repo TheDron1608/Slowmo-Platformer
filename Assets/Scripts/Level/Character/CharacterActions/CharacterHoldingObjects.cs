@@ -25,6 +25,8 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     [SerializeField] private bool _isAbleToGrabObjects = true;
     [SerializeField] private bool _isAbleToThrowObjects = true;
     [SerializeField] private bool _canDisarm = false;
+    [SerializeField] private bool _throwObjectsOnStun = true;
+    [SerializeField] private bool _throwObjectsOnDeath = true;
     [SerializeField] private Holdable _currentHoldObject = null;
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
@@ -74,6 +76,42 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
                 }
             }
             _isAbleToGrabObjects = value;
+        }
+    }
+
+    public bool ThrowObjectsOnStun
+    {
+        get => _throwObjectsOnStun;
+        set
+        {
+            _throwObjectsOnStun = value;
+            if (CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>())
+            {
+                if (value)
+                {
+                    ForceStunThrow();
+                }
+            }
+        }
+    }
+
+    public bool ThrowObjectsOnDeath
+    {
+        get => _throwObjectsOnDeath;
+        set
+        {
+            _throwObjectsOnDeath = value;
+            if (CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
+            {
+                if (value)
+                {
+                    ForceStunThrow();
+                }
+                else
+                {
+                    CharComponents.CharacterAiming.AimWeaponDown = true;
+                }
+            }
         }
     }
 
@@ -221,7 +259,11 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         {
             return false;
         }
+    }
 
+    public bool ForceStunThrow()
+    {
+        return ForceThrow(CharComponents.CharacterRigidBody.linearVelocity.normalized, 0.25f);
     }
 
     public bool TryDisarm(CharacterHoldingObjects giveDisarmedHoldableTo = null)

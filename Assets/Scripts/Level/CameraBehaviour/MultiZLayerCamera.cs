@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MultiZLayerCamera : MonoBehaviour
@@ -40,7 +41,8 @@ public class MultiZLayerCamera : MonoBehaviour
 
             LayerManager.Instance.ZLayers[i].LayerAlpha = new(
                 NumberMath.LimitFloatBetweenZeroAndOne(distanceToLayer / LayerAppearDistance),
-                NumberMath.LimitFloatBetweenZeroAndOne((distanceToLayer - OvergoundAppearOffset) / LayerAppearDistance)
+                NumberMath.LimitFloatBetweenZeroAndOne((distanceToLayer - OvergoundAppearOffset) / LayerAppearDistance),
+                NumberMath.LimitFloatBetweenZeroAndOne(math.min(1f - (distanceToLayer - OvergoundAppearOffset) / LayerAppearDistance, distanceToLayer / LayerAppearDistance))
                 );
             //Debug.Log(LayerManager.Instance.ZLayers[i].ZIndex + " : " + LayerManager.Instance.ZLayers[i].LayerAlpha.Alpha + ", " + LayerManager.Instance.ZLayers[i].LayerAlpha.OvergoundAlpha);
         }
