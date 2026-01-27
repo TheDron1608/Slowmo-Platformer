@@ -78,7 +78,10 @@ public class CharacterHealth : DamagableObject
         {
             Die(killer);
         }
-        else if (!lethallyDamagedPart.CharPartEffectsReceiver.GetHasEffect(EffectsOnLethal))
+        else if (
+            ((!_lethallyAffectedCharacterPart?.CharPartEffectsReceiver.GetHasEffect(EffectsOnLethal)) ?? true) && 
+            !CharComponents.CharacterEffectsReceiver.GetHasEffect(EffectsOnLethal)
+            )
         {
             CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
             _lethallyAffectedCharacterPart = lethallyDamagedPart;

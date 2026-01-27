@@ -260,7 +260,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
     {
         foreach (AbstractEffect effect in effects)
         {
-            if (GetHasEffect(effect))
+            if (GetHasEffect(effect, includeIncomingEffects))
             {
                 return true;
             }
