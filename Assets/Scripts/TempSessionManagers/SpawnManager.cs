@@ -10,6 +10,7 @@ public class SpawnManager : MonoBehaviour
     public List<LootDropChanceInfo> LootDropsInstance = new();
     public List<EnemySpawnInfo> EnemyPoolInstance = new();
     public CharacterComponentsManager PlayerCharacter;
+    public float EnemyAmountPerSpawner = 1f;
 
     private List<LootDropChanceInfo> _lootDrops;
     private List<EnemySpawnInfo> _enemyPool;

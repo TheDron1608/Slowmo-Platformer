@@ -62,7 +62,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         {
             layer.TrySpawnObject(
                 objectInside.gameObject,
-                NumberMath.Vec3ToVec3Int(spawnPosition),
+                spawnPosition,
                 null,
                 null
                 );

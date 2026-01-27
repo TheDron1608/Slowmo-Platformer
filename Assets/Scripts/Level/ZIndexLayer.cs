@@ -375,7 +375,7 @@ public class ZIndexLayer : MonoBehaviour
     /// * tilmaps wich were drawn over
     /// * null if spawned only complex generation object or failed generating
     /// </returns>
-    public List<GameObject> TrySpawnObject(GameObject spawnObject, Vector3Int position, BuildingInfo building, ChunkInfo chunk)
+    public List<GameObject> TrySpawnObject(GameObject spawnObject, Vector3 position, BuildingInfo building, ChunkInfo chunk)
     {
         if (spawnObject == null) return null;
 
@@ -394,7 +394,7 @@ public class ZIndexLayer : MonoBehaviour
         }
         else if (spawnObject.TryGetComponent(out Tilemap tilemap))
         {
-            return new List<GameObject> { MultiTileMapsContainer.GenerateTilemap(tilemap, position + NumberMath.Vec3ToVec3Int(tilemap.transform.position)) };
+            return new List<GameObject> { MultiTileMapsContainer.GenerateTilemap(tilemap, VectorMath.Vec3ToVec3Int(position) + NumberMath.Vec3ToVec3Int(tilemap.transform.position)) };
         }
         else if (spawnObject.TryGetComponent(out ComplexGenerateionEnviroment complexGeneratable))
         {

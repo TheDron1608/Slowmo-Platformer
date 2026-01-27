@@ -333,7 +333,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject);
         Holdable newHoldable = layer.TrySpawnObject(
             holdable.gameObject,
-            NumberMath.Vec3ToVec3Int(CharComponents.transform.position),
+            CharComponents.Center.transform.position,
             null,
             null
             ).FirstOrDefault()?.GetComponent<Holdable>();

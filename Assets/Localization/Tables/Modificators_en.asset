@@ -411,6 +411,33 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 15215903196987392
+    m_Localized: Emergency
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15215904996343808
+    m_Localized: '* Enemy amount inceased by {EnemyAmountPrecent}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 15215911573012480
+    m_Localized: '* Enemy amount inceased by {EnemyAmountPrecent}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 15215914156703744
+    m_Localized: '* Enemy amount inceased by {EnemyAmountPrecent}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 15215909161287680
+    m_Localized: Reinforcement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15215913087156224
+    m_Localized: Swarm
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -450,3 +477,6 @@ MonoBehaviour:
         - id: 14244100413038592
         - id: 14290302751973376
         - id: 14290240634331136
+        - id: 15215914156703744
+        - id: 15215911573012480
+        - id: 15215904996343808

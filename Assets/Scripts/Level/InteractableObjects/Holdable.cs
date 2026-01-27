@@ -299,7 +299,7 @@ public class Holdable : Interactable
     {
         Holdable newHoldable = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
             anotherObject.gameObject,
-            VectorMath.Vec3ToVec3Int(transform.position),
+            transform.position,
             null,
             null
             )?.FirstOrDefault()?.GetComponent<Holdable>();
