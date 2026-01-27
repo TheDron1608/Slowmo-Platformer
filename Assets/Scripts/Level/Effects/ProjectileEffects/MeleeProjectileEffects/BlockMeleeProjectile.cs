@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BlockMeleeProjectile : AbstractMeleeProjectileDeflection
@@ -43,7 +44,10 @@ public class BlockMeleeProjectile : AbstractMeleeProjectileDeflection
                     blockedMeleeProjectile.Owner.CharComponents.CharacterRigidBody.linearVelocity = targetKnockback;
                 }
 
-                blockedMeleeProjectile?.Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(MeleeProjectile.EffectsOnDeflect, MeleeProjectile);
+                if (MeleeProjectile != null && !MeleeProjectile.IsDestroyed())
+                {
+                    blockedMeleeProjectile?.Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(MeleeProjectile.EffectsOnDeflect, MeleeProjectile);
+                }
             }
         }
 
