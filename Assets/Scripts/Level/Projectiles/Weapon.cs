@@ -12,6 +12,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public float Accuracy = 1f;
     public List<AbstractEffect> HitEffects = new();
     public List<AbstractEffect> SelfEffects = new();
+    public List<AbstractEffect> SelfEffectsOnWeapon = new();
     public bool FriendlyFire = false;
     public bool IsAbleToHit = true;
     public Sprite GameplayUISprite;
@@ -67,7 +68,16 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     }
     public CharacterHoldingObjects OwnerOrLastHolder
     {
-        get => Owner ?? Weapon?.GetComponent<Holdable>()?.LastHolder;
+        //get => Owner ?? Weapon?.GetComponent<Holdable>()?.LastHolder;
+        get
+        {
+            if (Owner != null && !Owner.IsDestroyed()) return Owner;
+            else if (
+                Weapon != null && !Weapon.IsDestroyed() &&
+                Weapon.TryGetComponent(out Holdable holdableWeapon) && !holdableWeapon.IsDestroyed()
+                ) return holdableWeapon.LastHolder;
+            else return null;
+        }
     }
     public ObjectEffectsReceiver EffectsReceiver
     {
@@ -95,7 +105,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
             result.First().SoundOnAttack.PlaySound(false, weapon.ProjectileSpawnPosition.transform.position);
         }
 
-        ApplySelfEffectOnWeaponUser(result, weapon);
+        ApplySelfEffectOnWeaponUserOrWeapon(result, weapon);
 
         return result;
     }
@@ -184,19 +194,28 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         _wasDeflectedThisFrame = true;
     }
 
-    private void ApplySelfEffectOnWeaponUser(List<AbstractProjectile> projectiles, Weapon weapon)
+    private void ApplySelfEffectOnWeaponUserOrWeapon(List<AbstractProjectile> projectiles, Weapon weapon)
     {
-        if (
-            weapon != null &&
-            weapon.TryGetComponent(out Holdable holdableWeapon) &&
-            holdableWeapon != null &&
-            holdableWeapon.CurrentHolder != null &&
-            holdableWeapon.CurrentHolder.TryGetComponent(out CharacterComponentsManager holderCharComponents)
-            )
+        if (weapon != null)
         {
-            for (int i = 0; i < projectiles.Count; i++)
+            if (
+                weapon.TryGetComponent(out Holdable holdableWeapon) &&
+                holdableWeapon?.CurrentHolder != null &&
+                holdableWeapon.CurrentHolder.TryGetComponent(out CharacterComponentsManager holderCharComponents)
+                )
             {
-                holderCharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffects, projectiles[i], 1f, true);
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    holderCharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffects, projectiles[i], 1f, true);
+                }
+            }
+
+            if (weapon.TryGetComponent(out ObjectEffectsReceiver weaponEffectsReceiver))
+            {
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    weaponEffectsReceiver.ApplyEffect(SelfEffectsOnWeapon, projectiles[i], 1f, true);
+                }
             }
         }
     }

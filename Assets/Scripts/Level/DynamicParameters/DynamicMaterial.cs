@@ -29,7 +29,7 @@ public class DynamicMaterial : MonoBehaviour
 
     public Material GetCurrentMaterial()
     {
-        return OverrideMaterial ?? ColorManager.Instance.ColorSet.GetMaterialByType(DefaultColor);
+        return OverrideMaterial ?? ColorManager.Instance?.ColorSet.GetMaterialByType(DefaultColor);
     }
 
     private void UpdateColor()

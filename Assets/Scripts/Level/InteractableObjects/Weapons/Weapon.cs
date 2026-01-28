@@ -168,7 +168,14 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         (sender as AbstractProjectile).OnHitSomeOne -= NewProjectile_OnHitSomething;
         (sender as AbstractProjectile).OnDestroyed -= NewProjectile_OnDestroyed;
 
-        GetComponent<BreakableHoldable>()?.SpendOneUse();
+        if (
+            !gameObject.IsDestroyed() && 
+            this != null && !this.IsDestroyed() && this.TryGetComponent(out BreakableHoldable breakableHoldable) && 
+            breakableHoldable != null && !breakableHoldable.IsDestroyed()
+            )
+        {
+            breakableHoldable.SpendOneUse();
+        }
     }
     private void NewProjectile_OnDestroyed(object sender, EventArgs e)
     {
