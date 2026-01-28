@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [AllowEffectWithSenderReceiveNull]
-public class MitosisGib : AbstractCharacterEffectWithSender, IEntireCharacterEffect, ILethalEffect
+public class MitosisGib : Gib, IEntireCharacterEffect, ILethalEffect
 {
     const float MITOSIS_SPAWNED_CHARACTERS_VELOCITY = 12.5f;
 
@@ -15,13 +15,11 @@ public class MitosisGib : AbstractCharacterEffectWithSender, IEntireCharacterEff
         Vector2 mitosisSpawnPosition = AffectedCharacter.Center.transform.position;
         ZIndexLayer mitosisLayer = LayerManager.Instance.GetZLayerOfGameObject(AffectedObject.gameObject);
 
-        AffectedCharacter.CharacterHolding.ForceDisarm();
-        AffectedCharacter.CharacterHealth.Gib(sender);
-
         for (int i = 0; i < MitosisAmount; i++)
         {
+            EnemySpawnInfo spawnInfo = SpawnManager.Instance.PickRandomEnemy();
             AbstractCharacterComponent mitosisCharacter = mitosisLayer.TrySpawnObject(
-                SpawnManager.Instance.PickRandomEnemy().Enemy.gameObject,
+                spawnInfo.Enemy.gameObject,
                 mitosisSpawnPosition,
                 null,
                 null
@@ -29,18 +27,26 @@ public class MitosisGib : AbstractCharacterEffectWithSender, IEntireCharacterEff
 
             if (mitosisCharacter != null)
             {
-                mitosisCharacter.CharComponents.CharacterHealth.HitableByMeleeProjectiles = false;
-                mitosisCharacter.CharComponents.CharacterHealth.HitableByRangedProjectiles = false;
+                //give weapon
+                mitosisCharacter.CharComponents.CharacterHolding.GiveNewHoldable(spawnInfo.Weapon?.PickRandomWeapon());
 
+                //give equipment
+                foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment?.PickRandomEquipment() ?? new List<CharacterEquipmentPart>())
+                {
+                    mitosisCharacter.CharComponents.CharacterPartsManager.GiveNewEquipment(randomEquipment);
+                }
+
+                //give random knockback to top direction
                 Vector2 randomVelocity = VectorMath.PickRandomDirection();
                 randomVelocity.x = Mathf.Abs(randomVelocity.x);
                 randomVelocity *= MITOSIS_SPAWNED_CHARACTERS_VELOCITY;
-
                 mitosisCharacter.CharComponents.CharacterRigidBody.linearVelocity = randomVelocity;
+
+                //give extra effects
                 mitosisCharacter.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnMitosisCharacters, null);
             }
         }
 
-        RemoveSelf();
+        base.OnReceivedSender(sender);
     }
 }

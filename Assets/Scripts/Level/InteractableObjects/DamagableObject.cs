@@ -24,6 +24,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public AbstractSoundPlayer SoundOnDamage;
 
     private List<AbstractEffect> _defaultLethalEffects = null;
+    protected bool _died = false;
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 
@@ -122,13 +123,9 @@ public class DamagableObject : MonoBehaviour, IDamagable
         {
             CurrentHealth = MaxHealth;
         }
-        if (CurrentHealth <= MinHealth && ((!GetComponent<ObjectEffectsReceiver>()?.GetHasEffect(EffectsOnLethal)) ?? false))
+        if (CurrentHealth <= MinHealth)
         {
             Die(damager);
-        }
-        else if (damage < 0 && CurrentHealth > MinHealth && ((GetComponent<ObjectEffectsReceiver>()?.GetHasEffect(EffectsOnLethal)) ?? true))
-        {
-            Ressurect();
         }
     }
 
@@ -156,16 +153,21 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public virtual void Die(MonoBehaviour killer)
     {
-        if (TryGetComponent(out ObjectEffectsReceiver effectsReceiver) && !effectsReceiver.GetHasEffect(EffectsOnLethal))
+        if (!_died && TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
         {
+            _died = true;
             effectsReceiver.ApplyEffect(EffectsOnLethal, killer);
         }
     }
 
     public virtual void Ressurect()
     {
-        GetComponent<ObjectEffectsReceiver>()?.RemoveEffect(EffectsOnLethal);
-        GetComponent<ObjectEffectsReceiver>()?.RemoveEffect<ILethalEffect>();
+        if (_died && TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
+        {
+            _died = false;
+            effectsReceiver.RemoveEffect(EffectsOnLethal);
+            effectsReceiver.RemoveEffect<ILethalEffect>();
+        }
     }
 
     public void ApplyProjectileHit(AbstractProjectile hitter)

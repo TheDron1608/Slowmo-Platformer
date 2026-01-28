@@ -10,4 +10,9 @@ public class Gib : AbstractCharacterEffectWithSender, IEntireCharacterEffect, IL
         AffectedCharacter.CharacterHealth.Gib(sender);
         RemoveSelf();
     }
+
+    public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
+    {
+        return base.ApplyCondition(affectWho, sender) && !affectWho.GetHasEffect<Gib>();
+    }
 }

@@ -42,33 +42,21 @@ public class CharacterHealth : DamagableObject
     public void ApplyDamage(float damage, MonoBehaviour damager, CharacterLimbPart damagedPart)
     {
         CurrentHealth -= damage;
-        if (damage > 0 && CurrentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
+        if (CurrentHealth >= MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+        }
+        if (damage > 0 && CurrentHealth <= MinHealth)
         {
             Die(damager, damagedPart);
-        }
-        else if (damage < 0 && CurrentHealth > MinHealth && CharComponents.CharacterEffectsReceiver.GetHasEffect(EffectsOnLethal))
-        {
-            Ressurect();
         }
     }
     public void SetHealth(float health, MonoBehaviour setter, CharacterLimbPart damagedPart)
     {
         CurrentHealth = health;
-        if (CurrentHealth <= MinHealth && !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
+        if (CurrentHealth <= MinHealth)
         {
             Die(setter, damagedPart);
-        }
-        else if (CurrentHealth > MinHealth && CharComponents.CharacterEffectsReceiver.GetHasEffect(EffectsOnLethal))
-        {
-            Ressurect();
-        }
-    }
-
-    public override void Die(MonoBehaviour killer)
-    {
-        if (_lethallyAffectedCharacterPart == null)
-        {
-            base.Die(killer);
         }
     }
 
@@ -78,13 +66,11 @@ public class CharacterHealth : DamagableObject
         {
             Die(killer);
         }
-        else if (
-            ((!_lethallyAffectedCharacterPart?.CharPartEffectsReceiver.GetHasEffect(EffectsOnLethal)) ?? true) && 
-            !CharComponents.CharacterEffectsReceiver.GetHasEffect(EffectsOnLethal)
-            )
+        else if (!_died)
         {
             CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
             _lethallyAffectedCharacterPart = lethallyDamagedPart;
+            _died = true;
         }
     }
 
