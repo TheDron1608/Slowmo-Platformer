@@ -9,6 +9,8 @@ public class CharacterTeam : AbstractCharacterComponent
     protected override void OnAwake()
     {
         base.OnAwake();
+
+        TeamManager.Instance.GetTeamDataByTeam(Team).AddTeamMember(this);
     }
 
     public bool GetIsAllyToAnotherTeam(CharacterTeam anotherTeam)
@@ -47,5 +49,10 @@ public class CharacterTeam : AbstractCharacterComponent
             }
         }
         return null;
+    }
+
+    private void OnDestroy()
+    {
+        TeamManager.Instance?.GetTeamDataByTeam(Team).RemoveTeamMember(this);
     }
 }

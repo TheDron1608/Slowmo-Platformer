@@ -30,6 +30,15 @@ public class TeamManager : MonoBehaviour
             _totalDeaths++;
         }
 
+        public void AddTeamMember(CharacterTeam member)
+        {
+            _teamMembers.Add(member);
+        }
+        public void RemoveTeamMember(CharacterTeam member)
+        {
+            _teamMembers.Remove(member);
+        }
+
         public event EventHandler<CharacterTeam> OnTeamMemberKilled;
         public event EventHandler<CharacterTeam> OnTeamMemberDidKill;
     }
