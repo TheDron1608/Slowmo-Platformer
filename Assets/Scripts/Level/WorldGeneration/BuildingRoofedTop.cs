@@ -14,7 +14,7 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
     public int BuildingWallDecorationsPerHeight = 25;
     public List<GenerateOnFinishLevelEnviroment> AvaibleBuildingWallDecorations = new();
     public TileBase RoofFillTile;
-    public TileBase OvergoundRoofFillTile;
+    public TileBase RoofOvergroundFillTile;
     public int RoofHeight = 3;
     public int RoofSeparationMinHeightDifference = 25;
 
@@ -46,19 +46,16 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
             }
         }
 
-        if (RoofFillTile != null)
+        for (int x = x1; x <= x2; x++)
         {
-            for (int x = x1; x <= x2; x++)
+            for (int y = y2; y <= y2 + RoofHeight; y++)
             {
-                for (int y = y2; y <= y2 + RoofHeight; y++)
-                {
-                    Vector3Int tilePos = new Vector3Int(x, y);
+                Vector3Int tilePos = new Vector3Int(x, y);
 
-                    if (!generateWhere.GetHasAnyTileAt(tilePos))
-                    {
-                        targetTilemap.SetTile(tilePos, RoofFillTile);
-                        targetOvergoundTilemap.SetTile(tilePos, OvergoundRoofFillTile);
-                    }
+                if (!generateWhere.GetHasAnyTileAt(tilePos))
+                {
+                    targetTilemap.SetTile(tilePos, RoofFillTile);
+                    targetOvergoundTilemap.SetTile(tilePos, RoofOvergroundFillTile);
                 }
             }
         }
