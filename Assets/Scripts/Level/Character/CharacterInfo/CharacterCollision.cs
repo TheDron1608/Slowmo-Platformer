@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class CharacterCollision : AbstractCharacterComponent
 {
     const string ENVIROMENT_TAG_NAME = "Enviroment";
+    const float COLLISION_DETECTION_THICKNESS = 0.05f;
+    const float CHECK_COLLIDING_INTERACTABLE_FURNITURE_DISTANCE = 3f;
 
     public class OnCollisionChangedEventArgs
     {
@@ -45,6 +48,7 @@ public class CharacterCollision : AbstractCharacterComponent
     private float _timeOnGround;
     private Vector2 _positionPrevFrame;
     private List<AbstractCharacterComponent> _currentCollidingCharacters = new();
+    private List<Collider2D> _currentNearbyCollidableFurniture = new();
 
     private GameObject _colliderFromFloor = null;
     private GameObject _colliderFromRoof = null;
@@ -168,107 +172,69 @@ public class CharacterCollision : AbstractCharacterComponent
         }
     }
 
-    private GameObject RaycastHitFromCenter(Vector2 align, out ForegroundRuleTile collidedTile)
+    private GameObject UpdateTileCollidingAtPoint(Vector2 point, out ForegroundRuleTile collidedTile)
     {
-        Vector2 rayCastHitOrigin = VectorMath.Vec3ToVec2(transform.position) + CharComponents.CharacterRigidBodyCapsuleCollider.offset * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale;
-        return RaycastHitFromCollider(rayCastHitOrigin, align, out collidedTile);
-    }
+        Tilemap foregroundTilemap = _currentZLayer.MultiTileMapsContainer.GetForeground();
+        collidedTile = foregroundTilemap.GetTile<ForegroundRuleTile>(new Vector3Int(
+            (int)math.floor(point.x), (int)math.floor(point.y), 0
+            ));
 
-    private GameObject RaycastHitFromHead(Vector2 align, out ForegroundRuleTile collidedTile)
-    {
-        float extraOffset = math.abs(
-            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
-            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x)
-            ) / 2;
-        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ?
-            new Vector2(0f, extraOffset) :
-            new Vector2(extraOffset, 0f);
+        foreach (Collider2D collider in _currentNearbyCollidableFurniture)
+        {
+            if (collider.OverlapPoint(point))
+            {
+                return collider.gameObject;
+            }
+        }
 
-        Vector2 rayCastHitOrigin =
-            VectorMath.Vec3ToVec2(transform.position) +
-            (CharComponents.CharacterRigidBodyCapsuleCollider.offset * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale + extraOffsetVec2);
-
-        return RaycastHitFromCollider(rayCastHitOrigin, align, out collidedTile);
-    }
-
-    private GameObject RaycastHitFromLegs(Vector2 align, out ForegroundRuleTile collidedTile)
-    {
-        float extraOffset = math.abs(
-            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.y * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y) -
-            math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.size.x * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x)
-            ) / 2;
-
-        Vector2 extraOffsetVec2 = CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ?
-            new Vector2(0f, extraOffset) :
-            new Vector2(extraOffset, 0f);
-
-        Vector2 rayCastHitOrigin =
-            VectorMath.Vec3ToVec2(transform.position) +
-            (CharComponents.CharacterRigidBodyCapsuleCollider.offset * CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale - extraOffsetVec2);
-
-        return RaycastHitFromCollider(rayCastHitOrigin, align, out collidedTile);
+        return collidedTile != null ? foregroundTilemap.gameObject : null;
     }
 
     private GameObject UpdateTileCollidingFromFloor(out ForegroundRuleTile collidedTile)
     {
-        if (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical)
-        {
-            return RaycastHitFromLegs(Vector2.down, out collidedTile);
-        }
-        else
-        {
-            return
-                RaycastHitFromCenter(Vector2.down, out collidedTile) ??
-                RaycastHitFromHead(Vector2.down, out collidedTile) ??
-                RaycastHitFromLegs(Vector2.down, out collidedTile);
-        }
+        return UpdateTileCollidingAtPoint(
+            new Vector2(
+                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.center.x,
+                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.min.y - COLLISION_DETECTION_THICKNESS
+                ),
+            out collidedTile
+            );
     }
     private GameObject UpdateTileCollidingFromRoof(out ForegroundRuleTile collidedTile)
     {
-        if (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical)
-        {
-            return RaycastHitFromHead(Vector2.up, out collidedTile);
-        }
-        else
-        {
-            return
-                RaycastHitFromCenter(Vector2.up, out collidedTile) ??
-                RaycastHitFromHead(Vector2.up, out collidedTile) ??
-                RaycastHitFromLegs(Vector2.up, out collidedTile);
-        }
+        return UpdateTileCollidingAtPoint(
+            new Vector2(
+                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.center.x,
+                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.max.y + COLLISION_DETECTION_THICKNESS
+                ),
+            out collidedTile
+            );
     }
     private GameObject UpdateTileCollidingFromLeftWall(out ForegroundRuleTile collidedTile)
     {
-        if (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical)
-        {
-            return
-                RaycastHitFromCenter(Vector2.left, out collidedTile) ??
-                RaycastHitFromHead(Vector2.left, out collidedTile) ??
-                RaycastHitFromLegs(Vector2.left, out collidedTile);
-        }
-        else
-        {
-            return RaycastHitFromLegs(Vector2.left, out collidedTile);
-        }
+        return UpdateTileCollidingAtPoint(
+            new Vector2(
+                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.min.x - COLLISION_DETECTION_THICKNESS,
+                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.center.y
+                ),
+            out collidedTile
+            );
     }
     private GameObject UpdateTileCollidingFromRightWall(out ForegroundRuleTile collidedTile)
     {
-        if (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical)
-        {
-            return
-                RaycastHitFromCenter(Vector2.right, out collidedTile) ??
-                RaycastHitFromHead(Vector2.right, out collidedTile) ??
-                RaycastHitFromLegs(Vector2.right, out collidedTile);
-        }
-        else
-        {
-            return RaycastHitFromHead(Vector2.right, out collidedTile);
-        }
+        return UpdateTileCollidingAtPoint(
+            new Vector2(
+                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.max.x + COLLISION_DETECTION_THICKNESS,
+                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.center.y
+                ),
+            out collidedTile
+            );
     }
 
     private void FixedUpdate()
     {
         UpdateCurrentZLayer();
+        UpdateNearbyCollidableFuniture();
         UpdateIsOutFromMapBottom();
         UpdateTileCollidingInfo();
         UpdateTimeOnAirOrGround();
@@ -279,6 +245,22 @@ public class CharacterCollision : AbstractCharacterComponent
     private void UpdateCurrentZLayer()
     {
         CurrentZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+    }
+
+    private void UpdateNearbyCollidableFuniture()
+    {
+        _currentNearbyCollidableFurniture = new();
+        foreach (Transform furniture in _currentZLayer.InteractableEnviromentContainer)
+        {
+            if (
+                Vector2.Distance(CharComponents.Center.transform.position, furniture.transform.position) < CHECK_COLLIDING_INTERACTABLE_FURNITURE_DISTANCE &&
+                furniture.gameObject.layer == _currentZLayer.EnviromentLayer &&   
+                furniture.TryGetComponent(out Collider2D collider)
+                )
+            {
+                _currentNearbyCollidableFurniture.Add(collider);
+            }
+        }
     }
 
     private void UpdateIsOutFromMapBottom()
