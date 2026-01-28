@@ -25,11 +25,11 @@ public class ShakableObject : MonoBehaviour
 
     private void Update()
     {
-        Vector2 currentMove = _currentShakeDirection * math.sin((Time.time * math.PI * ShakingAmplitude) + math.PIHALF) * (ContantShakingForce + DecayingShakingForce);
+        Vector2 currentMove = _currentShakeDirection * math.sin((Time.unscaledTime * math.PI * ShakingAmplitude) + math.PIHALF) * (ContantShakingForce + DecayingShakingForce);
         _currentOffset += currentMove;
         transform.position = transform.position + VectorMath.Vec2ToVec3(currentMove);
 
-        if (math.sin(Time.time * math.PI) > 0f ^ math.sin((Time.time - Time.deltaTime) * math.PI) > 0f)
+        if (math.sin(Time.unscaledTime * math.PI) > 0f ^ math.sin((Time.unscaledTime - Time.deltaTime) * math.PI) > 0f)
         {
             _currentShakeDirection = VectorMath.RandomizeVec2(_currentShakeDirection, RANDOMIZE_DIRECTION_ACCURACY);
             transform.position -= VectorMath.Vec2ToVec3(_currentOffset);
