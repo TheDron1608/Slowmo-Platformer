@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class SuperHotModificator : AbstractMultiplierableModificator
 {
-    const float MIN_VELOCITY_FOR_NORMAL_TIME_SCALE = 1f;
+    const float TIME_SCALE_TOGGLE_SPEED = 15f;
+    const float SLOWMO_OVERLAY_APPEAR_SPEED = 10f;
+    const float MIN_VELOCITY_FOR_NORMAL_TIME_SCALE = 3.5f;
     const string GAMEPLAY_SCENE_NAME = "Gameplay";
 
     public float TimeSpeedOnIdle = 0.25f;
@@ -19,6 +21,8 @@ public class SuperHotModificator : AbstractMultiplierableModificator
     private float _currentTimeScaleMultiplier = 1f;
     private float _currentFixedTimeScaleMultiplier = 1f;
     private float _defaultFixedUpdateDelay = 0.02f;
+    private float _slowmoTimeLeft = 0f;
+    private bool _isRecoveringTimeLeft = false;
 
     public override void OnModificatorAdded()
     {
@@ -33,6 +37,8 @@ public class SuperHotModificator : AbstractMultiplierableModificator
         base.OnLevelPreGenerated();
 
         _isGameplay = true;
+        _slowmoTimeLeft = MaxSlowmoTime;
+        UIManager.Instance?.SlowmoOverlay.Show();
     }
 
     public override void OnLevelFinished()
@@ -42,52 +48,73 @@ public class SuperHotModificator : AbstractMultiplierableModificator
         _isGameplay = false;
     }
 
+    public override void OnModificatorRemoved()
+    {
+        base.OnModificatorRemoved();
+
+        UIManager.Instance?.SlowmoOverlay.Hide();
+    }
+
     private void LateUpdate()
     {
-        if (_isGameplay)
-        {
-            float maxCharactersVelocity = 0f;
-            foreach (CharacterTeam teamMember in TeamManager.Instance.GetTeamDataByTeam(TrackedTeam).GetTeamMembers())
-            {
-                if (
-                    teamMember != null && !teamMember.IsDestroyed() && 
-                    teamMember.CharComponents.CharacterMoving.IsAbleToMove &&
-                    teamMember.CharComponents.CharacterAttacking.On
-                    )
-                {
-                    float teamMemberVelocity = teamMember?.CharComponents?.CharacterRigidBody.linearVelocity.magnitude ?? 0f;
-                    if (maxCharactersVelocity < teamMemberVelocity)
-                    {
-                        maxCharactersVelocity = teamMemberVelocity;
-                    }
-                }
-            }
-
-            float targetScale = math.lerp(
-                TimeSpeedOnIdle,
-                TimeSpeedOnMoving,
-                NumberMath.LimitFloatBetweenZeroAndOne(maxCharactersVelocity / MIN_VELOCITY_FOR_NORMAL_TIME_SCALE)
+        bool isIdle =
+            !_isRecoveringTimeLeft && _isGameplay &&
+            TeamManager.Instance.GetTeamDataByTeam(TrackedTeam).GetTeamMembers().Any(
+                character => (
+                    (!character?.IsDestroyed()) ?? false) &&
+                    !character.CharComponents.CharacterMoving.IsMoving() &&
+                    !character.CharComponents.CharacterRolling.IsRolling &&
+                    !character.CharComponents.CharacterJumping.GetIsJumping()
                 );
 
-            UpdateCurrentTimeScale(targetScale, targetScale);
+        UpdateCurrentTimeScale(NumberMath.LimitFloatInRange(
+            math.lerp(_currentTimeScaleMultiplier, isIdle ? TimeSpeedOnIdle : TimeSpeedOnMoving, Time.unscaledDeltaTime * TIME_SCALE_TOGGLE_SPEED),
+            math.min(TimeSpeedOnIdle, TimeSpeedOnMoving),
+            math.max(TimeSpeedOnIdle, TimeSpeedOnMoving)
+            ));
+
+        if (isIdle)
+        {
+            _slowmoTimeLeft -= Time.unscaledDeltaTime;
+            UIManager.Instance.SlowmoOverlay.FillAmount = math.lerp(
+                UIManager.Instance.SlowmoOverlay.FillAmount,
+                _slowmoTimeLeft / MaxSlowmoTime,
+                Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
+                );
         }
         else
         {
-            UpdateCurrentTimeScale(1f, 1f);
+            _slowmoTimeLeft += Time.unscaledDeltaTime;
+            UIManager.Instance.SlowmoOverlay.FillAmount = math.lerp(
+                UIManager.Instance.SlowmoOverlay.FillAmount,
+                0f,
+                Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
+                );
+        }
+
+        if (_slowmoTimeLeft < 0f)
+        {
+            _slowmoTimeLeft = 0f;
+            _isRecoveringTimeLeft = true;
+        }
+        else if (_slowmoTimeLeft > MaxSlowmoTime)
+        {
+            _slowmoTimeLeft = MaxSlowmoTime;
+            _isRecoveringTimeLeft = false;
         }
     }
 
-    private void UpdateCurrentTimeScale(float timeScale, float fixedTimeScale)
+    private void UpdateCurrentTimeScale(float value)
     {
-        if (_currentTimeScaleMultiplier != timeScale)
+        if (_currentTimeScaleMultiplier != value)
         {
-            Time.timeScale = Time.timeScale / _currentTimeScaleMultiplier * timeScale;
-            _currentTimeScaleMultiplier = timeScale;
+            Time.timeScale = Time.timeScale / _currentTimeScaleMultiplier * value;
+            _currentTimeScaleMultiplier = value;
         }
-        if (_currentFixedTimeScaleMultiplier != fixedTimeScale)
+        if (_currentFixedTimeScaleMultiplier != value)
         {
-            Time.fixedDeltaTime = Time.fixedDeltaTime / _currentFixedTimeScaleMultiplier * fixedTimeScale;
-            _currentFixedTimeScaleMultiplier = fixedTimeScale;
+            Time.fixedDeltaTime = Time.fixedDeltaTime / _currentFixedTimeScaleMultiplier * value;
+            _currentFixedTimeScaleMultiplier = value;
         }
     }
 }

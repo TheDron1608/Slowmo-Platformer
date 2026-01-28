@@ -80,5 +80,8 @@ MonoBehaviour:
   IconInstance: {fileID: 6148295679725917498, guid: 300d5178bf0d8fc409b51b964d86ef48, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: cace27cc9d5cfee4d9190aab2deffef8, type: 3}
   ModificatorMultiplier: 1
-  TimeSpeed: 0.25
+  TimeSpeedOnIdle: 0.25
+  TimeSpeedOnMoving: 1
+  MaxSlowmoTime: 5
+  SlowmoTimeRegenerationPerSecond: 0.33
   TrackedTeam: 0

@@ -67,7 +67,7 @@ public class UIManager : MonoBehaviour
     [Serializable]
     public class FillableScreenOverlay : ScreenOverlay
     {
-        const string DAMAGED_SHADER_FILL_AMOUNT_PROP_NAME = "_FillAmount";
+        const string SHADER_FILL_AMOUNT_PROP_NAME = "_FillAmount";
 
         private float _fillAmount = 0f;
 
@@ -77,7 +77,7 @@ public class UIManager : MonoBehaviour
             set
             {
                 if (_fillAmount == value) return;
-                _currentScreenOverlay.GetComponentInChildren<Image>().material.SetFloat(DAMAGED_SHADER_FILL_AMOUNT_PROP_NAME, value);
+                _currentScreenOverlay.GetComponentInChildren<Image>().material.SetFloat(SHADER_FILL_AMOUNT_PROP_NAME, value);
                 _fillAmount = value;
             }
         }
@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
         public override void Show()
         {
             base.Show();
-            _currentScreenOverlay?.GetComponentInChildren<Image>().material.SetFloat(DAMAGED_SHADER_FILL_AMOUNT_PROP_NAME, _fillAmount);
+            _currentScreenOverlay?.GetComponentInChildren<Image>().material.SetFloat(SHADER_FILL_AMOUNT_PROP_NAME, _fillAmount);
         }
     }
 
@@ -208,6 +208,7 @@ public class UIManager : MonoBehaviour
     public GameOverUIScreenOverlay GameOverScreenOverlay;
     public ModificatorsUIScreenOverlay ModificatorsScreenOverlay;
     public TextableScreenOverlay LivingTimeLeftScreenOverlay;
+    public FillableScreenOverlay SlowmoOverlay;
 
     public static UIManager Instance;
 

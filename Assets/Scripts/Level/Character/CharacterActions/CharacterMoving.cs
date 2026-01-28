@@ -77,7 +77,7 @@ public class CharacterMoving : AbstractCharacterComponent
 
     public bool IsMoving()
     {
-        return Math.Abs(CharComponents.CharacterMoving.GetCurrentMoveDirection()) < 0.05f;
+        return Math.Abs(CharComponents.CharacterMoving.GetCurrentMoveDirection()) > 0.05f;
     }
 
     private void FixedUpdate()
