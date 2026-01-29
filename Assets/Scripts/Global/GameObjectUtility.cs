@@ -87,4 +87,21 @@ public static class GameObjectUtility
         }
         return true;
     }
+
+    public static Transform FindGameObjectInChildrenByName(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+            {
+                return child;
+            }
+            else
+            {
+                Transform recursiveAttempt = FindGameObjectInChildrenByName(child, name);
+                if (recursiveAttempt != null) return recursiveAttempt;
+            }
+        }
+        return null;
+    }
 }

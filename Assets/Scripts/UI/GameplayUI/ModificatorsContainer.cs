@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,10 +22,17 @@ public class ModificatorsContainer : MonoBehaviour
     private List<ModificatorCardsCluster> _modificatorCardsClusters = new();
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
 
+    public event EventHandler<ModificatorCardsCluster> OnAddedItem;
+    public event EventHandler<ModificatorCardsCluster> OnRemovedItem;
+
+    public static ModificatorsContainer Instance;
+
     private void Awake()
     {
         _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
         StartCoroutine(ShowCardsAfterDelay());
+        if (Instance != null) throw new UnityException("Limit of 1 ModificatorsContainer instance per scene");
+        Instance = this;
     }
 
     private IEnumerator ShowCardsAfterDelay()
@@ -44,6 +52,8 @@ public class ModificatorsContainer : MonoBehaviour
         UIElementTrackTarget.CreateTrackTarget(CardTrackTargetsContainer, cluster.transform);
 
         _modificatorCardsClusters.Add(cluster);
+
+        OnAddedItem?.Invoke(this, cluster);
     }
 
     public void AddModificatorCardsCluster(List<ModificatorCardsCluster> clusters, float delay = 0.1f)
@@ -65,6 +75,8 @@ public class ModificatorsContainer : MonoBehaviour
 
         if (removedCardIndex != -1)
         {
+            OnRemovedItem?.Invoke(this, _modificatorCardsClusters[removedCardIndex]);
+
             Destroy(_modificatorCardsClusters[removedCardIndex].gameObject);
             _modificatorCardsClusters.RemoveAt(removedCardIndex);
         }
@@ -122,5 +134,10 @@ public class ModificatorsContainer : MonoBehaviour
         {
             cluster.SetInteractable(value);
         }
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }

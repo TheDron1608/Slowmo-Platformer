@@ -1,13 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ModificatorCard : MonoBehaviour
 {
+    const string MODIFICATOR_TITLE_GO_NAME = "ModificatorTitle";
+
     public AbstractModificator ModificatorInstance;
+    [SerializeField] private Image _cardImage;
 
     private float _multiplier = 1f;
     private string _localizedTitle;
     private string _localizedDescription;
+    private Sprite _defaultSprite;
+    private Sprite _overrideSprite;
 
     public float Multiplier
     {
@@ -32,5 +38,21 @@ public class ModificatorCard : MonoBehaviour
     {
         get => _localizedDescription;
         set => _localizedDescription = value;
+    }
+
+    public Sprite OverrideSprite
+    {
+        get => _overrideSprite;
+        set
+        {
+            _overrideSprite = value;
+            _cardImage.sprite = _overrideSprite ?? _defaultSprite;
+        }
+    }
+
+    private void Awake()
+    {
+        _cardImage = GameObjectUtility.FindGameObjectInChildrenByName(transform, MODIFICATOR_TITLE_GO_NAME).GetComponent<Image>();
+        _defaultSprite = _cardImage.sprite;
     }
 }
