@@ -95,7 +95,7 @@ PrefabInstance:
     - target: {fileID: 5550370776867762662, guid: 0f0ec8d19ae955e4eb1e0abb26fd9bc3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: dcc17d9051686a94d9aa974651cdf28d, type: 3}
+      objectReference: {fileID: 21300000, guid: 75a6923e50e4771499f73e0f4e99c098, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -152,7 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[2867920275827851353].m_Value
-      value: 150
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: managedReferences[8344437298956075095].m_Value
@@ -168,11 +168,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 10899504895336448
+      value: 15907613690445824
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: RandomMultiplyPrecents
+      value: SlowmoMaxTime
       objectReference: {fileID: 0}
     - target: {fileID: 4387375057035447252, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -192,15 +192,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: Variables.Array.data[0].BaseValue
-      value: 1.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: Variables.Array.data[0].VariableName
-      value: RandomMultiplyPrecents
+      value: SlowmoMaxTime
       objectReference: {fileID: 0}
     - target: {fileID: 5832559061921853702, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: Variables.Array.data[0].ExtraMultiplier
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: 'managedReferences[8344437298956075093]'
@@ -212,7 +212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 10899483584077824
+      value: 15907612188884992
       objectReference: {fileID: 0}
     - target: {fileID: 7751621488871108340, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName

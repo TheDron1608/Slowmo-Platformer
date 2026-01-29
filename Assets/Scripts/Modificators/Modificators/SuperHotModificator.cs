@@ -57,14 +57,17 @@ public class SuperHotModificator : AbstractMultiplierableModificator
 
     private void LateUpdate()
     {
+        if (UIManager.GamePaused() || !_isGameplay) return;
+
         bool isIdle =
-            !_isRecoveringTimeLeft && _isGameplay &&
+            !_isRecoveringTimeLeft &&
             TeamManager.Instance.GetTeamDataByTeam(TrackedTeam).GetTeamMembers().Any(
                 character => (
                     (!character?.IsDestroyed()) ?? false) &&
                     !character.CharComponents.CharacterMoving.IsMoving() &&
                     !character.CharComponents.CharacterRolling.IsRolling &&
-                    !character.CharComponents.CharacterJumping.GetIsJumping()
+                    !character.CharComponents.CharacterJumping.GetIsJumping() &&
+                    !character.CharComponents.CharacterVisual.IsBusy()
                 );
 
         UpdateCurrentTimeScale(NumberMath.LimitFloatInRange(

@@ -46,14 +46,16 @@ public class CameraTrack : MonoBehaviour
     {
         if (TrackTargets == null)
         {
-            _rigidBodyComponent.linearVelocity = VectorMath.Vec3ToVec2(_lastTrackPosition - transform.position) * TrackSpeed;
+            _rigidBodyComponent.linearVelocity = 
+                VectorMath.Vec3ToVec2(_lastTrackPosition - transform.position) * TrackSpeed / (Time.timeScale == 0f ? 0.01f : Time.timeScale);
         }
         else
         {
             Vector3 trackTargetPosition = PickAvgTrackTargetsPosition();
             Vector2 trackTargetVelocity = PickAvgTrackTargetLinearVelocity();
 
-            _rigidBodyComponent.linearVelocity = (trackTargetPosition - transform.position) * TrackSpeed;
+            _rigidBodyComponent.linearVelocity = 
+                (trackTargetPosition - transform.position) * TrackSpeed / (Time.timeScale == 0f ? 0.01f : Time.timeScale);
             _lastTrackPosition = trackTargetPosition;
 
             Quaternion newAngle = new();
