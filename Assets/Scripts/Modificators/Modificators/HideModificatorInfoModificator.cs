@@ -51,6 +51,7 @@ public class HideModificatorInfoModificator : AbstractModificator
                 localization.enabled = true;
                 localization.RefreshString();
             }
+            card.OverrideSprite = null;
         }
     }
 }
