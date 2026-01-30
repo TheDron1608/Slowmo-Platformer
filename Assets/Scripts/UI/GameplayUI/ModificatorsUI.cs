@@ -77,13 +77,17 @@ public class ModificatorsUI : MonoBehaviour
         _selectedModificatorContainer.gameObject.SetActive(value);
     }
 
-    public void SetSelectedModificatorInfo(string title, string desc)
+    public void SetSelectedModificatorInfo(string title, string desc, bool strikedDesc)
     {
         if (_selectedModificatorTitle.text == title && _selectedModificatorDesc.text == desc) return;
 
         SetSelectedModificatorInfoEnabled(false);
+
         _selectedModificatorTitle.text = title;
         _selectedModificatorDesc.text = desc;
+
+        _selectedModificatorDesc.fontStyle = strikedDesc ? FontStyles.Strikethrough : FontStyles.Normal;
+
         SetSelectedModificatorInfoEnabled(true);
     }
 }

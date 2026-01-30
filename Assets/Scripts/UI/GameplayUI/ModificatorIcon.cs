@@ -3,11 +3,14 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ModificatorIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     const float TRIGGER_ANIMATION_DURATION = 0.75f;
     const float TRIGGER_ANIMATION_OFFSET = -50f;
+    const string ICON_TITLE_GO_NAME = "IconTitle";
+    const string DISABLE_ICON_GO_NAME = "DisableTitle";
     const string ALLOWED_TO_SHOW_NONPAUSE_MODIFICATOR_INFO = "ModificatorChoise";
 
     public AbstractModificator ModificatorInstance;
@@ -18,6 +21,9 @@ public class ModificatorIcon : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private string _localizedDescription;
     private float _currentTriggerAnimationProgress = 0f;
     private Coroutine _triggerAnimationCoroutine;
+    private Image _iconTitleImage;
+    private Image _disableIconImage;
+    private bool _canceled = false;
 
     public float Multiplier
     {
@@ -42,6 +48,24 @@ public class ModificatorIcon : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         get => _localizedDescription;
         set => _localizedDescription = value;
+    }
+
+    public bool Canceled
+    {
+        get => _canceled;
+        set
+        {
+            if (_canceled == value) return;
+            _canceled = value;
+
+            _disableIconImage.enabled = _canceled;
+        }
+    }
+
+    private void Awake()
+    {
+        _iconTitleImage = GameObjectUtility.FindGameObjectInChildrenByName(transform, ICON_TITLE_GO_NAME).GetComponent<Image>();
+        _disableIconImage = GameObjectUtility.FindGameObjectInChildrenByName(transform, DISABLE_ICON_GO_NAME).GetComponent<Image>();
     }
 
     public void TriggerAnimation()
@@ -80,7 +104,7 @@ public class ModificatorIcon : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if (UIManager.GamePaused() || SceneManager.GetActiveScene().name == ALLOWED_TO_SHOW_NONPAUSE_MODIFICATOR_INFO)
         {
-            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(LocalizedTitle, LocalizedDescription);
+            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(LocalizedTitle, LocalizedDescription, Canceled);
             UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfoEnabled(true);
         }
     }

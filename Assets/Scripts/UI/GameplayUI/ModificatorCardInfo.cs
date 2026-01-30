@@ -6,6 +6,7 @@ public class ModificatorCardInfo : MonoBehaviour
     public ModificatorCard Card = null;
     public TextMeshProUGUI Title;
     public TextMeshProUGUI Description;
+    public bool StrikedDesc = false;
 
     private void Update()
     {
@@ -13,6 +14,8 @@ public class ModificatorCardInfo : MonoBehaviour
         {
             Title.text = Card.LocalizedTitle;
             Description.text = Card.LocalizedDescription;
+
+            Description.fontStyle = StrikedDesc ? FontStyles.Strikethrough : FontStyles.Normal;
         }
     }
 }
