@@ -38,10 +38,7 @@ public class ModificatorsManager : MonoBehaviour
             UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator);
         }
 
-        foreach (AbstractModificator subModificator in CurrentModificators)
-        {
-            subModificator.OnModificatorAdded();
-        }
+        newModificator.OnModificatorAdded();
     }
 
     public void RemoveModificator(AbstractModificator modificator)

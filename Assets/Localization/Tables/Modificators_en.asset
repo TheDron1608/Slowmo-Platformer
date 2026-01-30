@@ -529,6 +529,24 @@ MonoBehaviour:
     m_Localized: '* ???'
     m_Metadata:
       m_Items: []
+  - m_Id: 16285574641893376
+    m_Localized: Wide choise
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16285576483192832
+    m_Localized: '* +{ExtraModificators} available modifiers when selecting'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 16285625975980032
+    m_Localized: Shortage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16285645974421504
+    m_Localized: '* -{ExtraModificators} available modifiers when selecting'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -577,3 +595,5 @@ MonoBehaviour:
         - id: 15914365710385152
         - id: 15914474024091648
         - id: 15914411642208256
+        - id: 16285645974421504
+        - id: 16285576483192832
