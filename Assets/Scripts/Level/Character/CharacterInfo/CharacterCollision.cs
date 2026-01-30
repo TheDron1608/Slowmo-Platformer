@@ -172,16 +172,33 @@ public class CharacterCollision : AbstractCharacterComponent
         }
     }
 
-    private GameObject UpdateTileCollidingAtPoint(Vector2 point, out ForegroundRuleTile collidedTile)
+    private GameObject UpdateTileCollidingAtPoint(Vector2 pointCenter, out ForegroundRuleTile collidedTile)
     {
         Tilemap foregroundTilemap = _currentZLayer.MultiTileMapsContainer.GetForeground();
-        collidedTile = foregroundTilemap.GetTile<ForegroundRuleTile>(new Vector3Int(
-            (int)math.floor(point.x), (int)math.floor(point.y), 0
-            ));
+        collidedTile = foregroundTilemap.GetTile<ForegroundRuleTile>(
+            new Vector3Int((int)math.floor(pointCenter.x), (int)math.floor(pointCenter.y))
+            );
+        foreach (Collider2D collider in _currentNearbyCollidableFurniture)
+        {
+            if (collider.OverlapPoint(pointCenter))
+            {
+                return collider.gameObject;
+            }
+        }
+
+        return collidedTile != null ? foregroundTilemap.gameObject : null;
+    }
+    private GameObject UpdateTileCollidingAtMultiPoint(Vector2 pointCenter, Vector2 pointLeft, Vector2 pointRight, out ForegroundRuleTile collidedTile)
+    {
+        Tilemap foregroundTilemap = _currentZLayer.MultiTileMapsContainer.GetForeground();
+        collidedTile =
+            foregroundTilemap.GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(pointCenter.x), (int)math.floor(pointCenter.y), 0)) ??
+            foregroundTilemap.GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(pointLeft.x), (int)math.floor(pointLeft.y), 0)) ??
+            foregroundTilemap.GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(pointRight.x), (int)math.floor(pointRight.y), 0));
 
         foreach (Collider2D collider in _currentNearbyCollidableFurniture)
         {
-            if (collider.OverlapPoint(point))
+            if (collider.OverlapPoint(pointCenter))
             {
                 return collider.gameObject;
             }
@@ -192,40 +209,52 @@ public class CharacterCollision : AbstractCharacterComponent
 
     private GameObject UpdateTileCollidingFromFloor(out ForegroundRuleTile collidedTile)
     {
-        return UpdateTileCollidingAtPoint(
+        Bounds bounds = CharComponents.CharacterRigidBodyCapsuleCollider.bounds;
+        return UpdateTileCollidingAtMultiPoint(
             new Vector2(
-                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.center.x,
-                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.min.y - COLLISION_DETECTION_THICKNESS
+                bounds.center.x,
+                bounds.min.y - COLLISION_DETECTION_THICKNESS
+                ),
+            new Vector2(
+                bounds.min.x,
+                bounds.min.y - COLLISION_DETECTION_THICKNESS
+                ),
+            new Vector2(
+                bounds.max.x,
+                bounds.min.y - COLLISION_DETECTION_THICKNESS
                 ),
             out collidedTile
             );
     }
     private GameObject UpdateTileCollidingFromRoof(out ForegroundRuleTile collidedTile)
     {
+        Bounds bounds = CharComponents.CharacterRigidBodyCapsuleCollider.bounds;
         return UpdateTileCollidingAtPoint(
             new Vector2(
-                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.center.x,
-                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.max.y + COLLISION_DETECTION_THICKNESS
+                bounds.center.x,
+                bounds.max.y + COLLISION_DETECTION_THICKNESS
                 ),
             out collidedTile
             );
     }
     private GameObject UpdateTileCollidingFromLeftWall(out ForegroundRuleTile collidedTile)
     {
+        Bounds bounds = CharComponents.CharacterRigidBodyCapsuleCollider.bounds;
         return UpdateTileCollidingAtPoint(
             new Vector2(
-                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.min.x - COLLISION_DETECTION_THICKNESS,
-                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.center.y
+                bounds.min.x - COLLISION_DETECTION_THICKNESS,
+                bounds.center.y
                 ),
             out collidedTile
             );
     }
     private GameObject UpdateTileCollidingFromRightWall(out ForegroundRuleTile collidedTile)
     {
+        Bounds bounds = CharComponents.CharacterRigidBodyCapsuleCollider.bounds;
         return UpdateTileCollidingAtPoint(
             new Vector2(
-                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.max.x + COLLISION_DETECTION_THICKNESS,
-                CharComponents.CharacterRigidBodyCapsuleCollider.bounds.center.y
+                bounds.max.x + COLLISION_DETECTION_THICKNESS,
+                bounds.center.y
                 ),
             out collidedTile
             );
