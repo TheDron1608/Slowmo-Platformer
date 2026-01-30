@@ -18,9 +18,12 @@ public class MultiplyLevelSize : AbstractMultiplierableModificator
     {
         base.OnModificatorRemoved();
 
-        WorldGenerationManager.Instance.MinBuildingRooms = 
-            (int)math.round(WorldGenerationManager.Instance.MinBuildingRooms / (LevelSizeMultiplier * ModificatorMultiplier));
-        WorldGenerationManager.Instance.MaxBuildingRooms = 
-            (int)math.round(WorldGenerationManager.Instance.MaxBuildingRooms / (LevelSizeMultiplier * ModificatorMultiplier));
+        if (WorldGenerationManager.Instance != null)
+        {
+            WorldGenerationManager.Instance.MinBuildingRooms = 
+                (int)math.round(WorldGenerationManager.Instance.MinBuildingRooms / (LevelSizeMultiplier * ModificatorMultiplier));
+            WorldGenerationManager.Instance.MaxBuildingRooms = 
+                (int)math.round(WorldGenerationManager.Instance.MaxBuildingRooms / (LevelSizeMultiplier * ModificatorMultiplier));
+        }
     }
 }

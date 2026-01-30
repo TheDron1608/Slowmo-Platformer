@@ -50,10 +50,7 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
         }
         else if (CharComponents.CharacterHolding.CurrentHoldObject == null)
         {
-            if (CurrentSelectedGrabObject != null)
-            {
-                CharComponents.CharacterHolding.TryGrab(CurrentSelectedGrabObject);
-            }
+            CharComponents.CharacterHolding.TryGrab(CurrentSelectedGrabObject);
         }
         else
         {

@@ -37,6 +37,7 @@ public class Holdable : Interactable
 
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;
+    private CharacterHoldingObjects _telekinesisAffector = null;
 
     private Rigidbody2D _rigidBodyComponent;
     private BoxCollider2D _colliderComponent;
@@ -216,7 +217,8 @@ public class Holdable : Interactable
     {
         if (
             _isStuck ||
-            collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && charComponent.CharComponents.CharacterHolding == LastHolder
+            collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && 
+            charComponent.CharComponents.CharacterHolding == (TelekinesisAffector ?? LastHolder)
             )
         {
             return;
@@ -262,6 +264,7 @@ public class Holdable : Interactable
             if (_currentHolder != null)
             {
                 _lastHolder = _currentHolder;
+                _telekinesisAffector = null;
             }
             _currentHolder = value;
         }
@@ -271,6 +274,12 @@ public class Holdable : Interactable
     {
         get => _lastHolder;
         private set => _lastHolder = value;
+    }
+
+    public CharacterHoldingObjects TelekinesisAffector
+    {
+        get => _telekinesisAffector;
+        set => _telekinesisAffector = value;
     }
 
     public bool GetIsDangerousAsThrowable(CharacterHoldingObjects thrower)

@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterHoldingObjects : AbstractCharacterComponent
@@ -30,9 +32,14 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     [SerializeField] private Holdable _currentHoldObject = null;
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
+    public bool Telekinesis = false;
+    public float TelekinesisDistance = 8f;
+    public float TelekinesisForce = 5f;
+    public float TelekinesisDurationSeconds = 1f;
 
     private Holdable _lastHoldObject = null;
     private float? _overrideHoldObjectDistance = null;
+    private Coroutine _telekinesisCoroutine = null;
 
     public event EventHandler<OnThewEventArgs> OnThrewHoldable;
     public event EventHandler<Holdable> OnPickedUpHoldable;
@@ -305,16 +312,77 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     {
         if (
             _isAbleToGrabObjects &&
-            (throwOldItem || _currentHoldObject == null) &&
-            Vector3.Distance(holdable.transform.position, transform.position) <= CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier
+            (throwOldItem || _currentHoldObject == null)
             )
         {
-            return ForceGrab(holdable);
+            if (holdable != null && Vector3.Distance(holdable.transform.position, transform.position) <= CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier)
+            {
+                return ForceGrab(holdable);
+            }
+            else if (Telekinesis && _telekinesisCoroutine == null)
+            {
+                List<Holdable> affectedHoldables = new();
+                foreach (Transform holdableTransform in LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesContainer)
+                {
+                    if (
+                        holdableTransform.TryGetComponent(out Holdable avaibleHoldable) &&
+                        avaibleHoldable.CurrentHolder == null &&
+                        Vector2.Distance(CharComponents.Center.transform.position, holdableTransform.transform.position) < TelekinesisDistance
+                        )
+                    {
+                        affectedHoldables.Add(avaibleHoldable);
+                    }
+                }
+                if (affectedHoldables.Count > 0) _telekinesisCoroutine = StartCoroutine(TelekinesisHoldables(affectedHoldables));
+            }
+            return false;
         }
         else
         {
             return false;
         }
+    }
+
+    private IEnumerator TelekinesisHoldables(List<Holdable> holdables)
+    {
+        foreach (Holdable holdable in holdables)
+        {
+            holdable.TelekinesisAffector = this;
+            holdable.StuckedToCollider = null;
+            if (holdable.TryGetComponent(out Rigidbody2D holdableRB))
+            {
+                holdableRB.linearVelocity =
+                    VectorMath.Vec3ToVec2(CharComponents.Center.transform.position - holdableRB.transform.position).normalized *
+                    Vector2.Distance(CharComponents.Center.transform.position, holdableRB.transform.position) * TelekinesisForce;
+            }
+        }
+
+        bool grabbed = false;
+        for (float t = 0; t < TelekinesisDurationSeconds; t += Time.fixedDeltaTime)
+        {
+            if (!grabbed)
+            {
+                if (CurrentHoldObject != null) grabbed = true;
+
+                foreach (Holdable holdable in holdables)
+                {
+                    if (
+                        holdable != null && !holdable.IsDestroyed() &&
+                        Vector3.Distance(holdable.transform.position, transform.position) <= CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier
+                        )
+                    {
+                        if (ForceGrab(holdable))
+                        {
+                            grabbed = true;
+                        }
+                    }
+                }
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        _telekinesisCoroutine = null;
     }
 
     public bool ForceGrab(Holdable holdable)

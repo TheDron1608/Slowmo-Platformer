@@ -554,9 +554,15 @@ MonoBehaviour:
   _isAbleToGrabObjects: 1
   _isAbleToThrowObjects: 1
   _canDisarm: 0
+  _throwObjectsOnStun: 1
+  _throwObjectsOnDeath: 1
   _currentHoldObject: {fileID: 0}
   ThrowForce: 15
   MaxGrabRangeMultiplier: 1
+  Telekinesis: 0
+  TelekinesisDistance: 10
+  TelekinesisForce: 2.85
+  TelekinesisDurationSeconds: 1
 --- !u!114 &2103635049368087364
 MonoBehaviour:
   m_ObjectHideFlags: 0
