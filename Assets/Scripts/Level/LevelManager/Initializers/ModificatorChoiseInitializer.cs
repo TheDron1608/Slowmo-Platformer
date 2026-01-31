@@ -7,7 +7,10 @@ public class ModificatorChoiseInitializer : MonoBehaviour
     {
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
-            modificator.OnModificatorChoiseStarted();
+            if (!modificator.DisabledModificator)
+            {
+                modificator.OnModificatorChoiseStarted();
+            }
         }
     }
 

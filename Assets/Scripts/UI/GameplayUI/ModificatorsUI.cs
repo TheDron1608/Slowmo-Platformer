@@ -25,6 +25,8 @@ public class ModificatorsUI : MonoBehaviour
     {
         ModificatorIcon newIcon = Instantiate(modifiactor.IconInstance, _modificatorsContainer);
         modifiactor.CurrentIcon = newIcon;
+        newIcon.CurrentModificator = modifiactor;
+        newIcon.DisabledIcon = modifiactor.DisabledModificator;
 
         if (instantly)
         {
@@ -79,8 +81,6 @@ public class ModificatorsUI : MonoBehaviour
 
     public void SetSelectedModificatorInfo(string title, string desc, bool strikedDesc)
     {
-        if (_selectedModificatorTitle.text == title && _selectedModificatorDesc.text == desc) return;
-
         SetSelectedModificatorInfoEnabled(false);
 
         _selectedModificatorTitle.text = title;

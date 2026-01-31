@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: DisableLightServeMinorModificator
+      value: DisableLightServeModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fc2736dac1fc345896b6d68ef89ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorType: 1
   IconInstance: {fileID: 6148295679725917498, guid: bdf4df0b109715447847b9610d6c17a2, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: f734b10e5daed9948a0f08a3004f9c9f, type: 3}
   FurnitureLightMultiplier: 0

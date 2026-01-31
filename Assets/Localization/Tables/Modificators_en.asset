@@ -564,6 +564,42 @@ MonoBehaviour:
       them up'
     m_Metadata:
       m_Items: []
+  - m_Id: 16695929751183360
+    m_Localized: "\rShutdown"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16695931198218240
+    m_Localized: '* Disables {DisableAmount} random positive modifier
+
+      * Disabled
+      modifiers change randomly before the start of a new level'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 16709611482750976
+    m_Localized: '* Disables {DisableAmount} random positive modifiers
+
+      *
+      Disabled modifiers change randomly before the start of a new level'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 16709610773913600
+    m_Localized: Interference
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16711393193730048
+    m_Localized: '* Disables {DisableAmount} random positive modifiers
+
+      *
+      Disabled modifiers change randomly before the start of a new level'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 16711392518447104
+    m_Localized: Blackout
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -614,3 +650,6 @@ MonoBehaviour:
         - id: 15914411642208256
         - id: 16285645974421504
         - id: 16285576483192832
+        - id: 16695931198218240
+        - id: 16711393193730048
+        - id: 16709611482750976

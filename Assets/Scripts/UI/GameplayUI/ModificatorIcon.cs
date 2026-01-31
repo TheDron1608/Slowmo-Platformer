@@ -23,7 +23,8 @@ public class ModificatorIcon : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private Coroutine _triggerAnimationCoroutine;
     private Image _iconTitleImage;
     private Image _disableIconImage;
-    private bool _canceled = false;
+    private bool _disabledIcon = false;
+    private AbstractModificator _currentModificator;
 
     public float Multiplier
     {
@@ -50,16 +51,22 @@ public class ModificatorIcon : MonoBehaviour, IPointerEnterHandler, IPointerExit
         set => _localizedDescription = value;
     }
 
-    public bool Canceled
+    public bool DisabledIcon
     {
-        get => _canceled;
+        get => _disabledIcon;
         set
         {
-            if (_canceled == value) return;
-            _canceled = value;
+            if (_disabledIcon == value) return;
+            _disabledIcon = value;
 
-            _disableIconImage.enabled = _canceled;
+            _disableIconImage.enabled = _disabledIcon;
         }
+    }
+
+    public AbstractModificator CurrentModificator
+    {
+        get => _currentModificator;
+        set => _currentModificator = value;
     }
 
     private void Awake()
@@ -104,7 +111,7 @@ public class ModificatorIcon : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if (UIManager.GamePaused() || SceneManager.GetActiveScene().name == ALLOWED_TO_SHOW_NONPAUSE_MODIFICATOR_INFO)
         {
-            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(LocalizedTitle, LocalizedDescription, Canceled);
+            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(LocalizedTitle, LocalizedDescription, DisabledIcon);
             UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfoEnabled(true);
         }
     }

@@ -38,7 +38,10 @@ public class ModificatorsManager : MonoBehaviour
             UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator);
         }
 
-        newModificator.OnModificatorAdded();
+        if (!newModificator.DisabledModificator)
+        {
+            newModificator.OnModificatorAdded();
+        }
     }
 
     public void RemoveModificator(AbstractModificator modificator)

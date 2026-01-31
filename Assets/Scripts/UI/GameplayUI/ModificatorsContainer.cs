@@ -106,7 +106,10 @@ public class ModificatorsContainer : MonoBehaviour
         {
             foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
             {
-                modificator.OnModificatorChoiseFinished();
+                if (!modificator.DisabledModificator)
+                {
+                    modificator.OnModificatorChoiseFinished();
+                }
             }
             SetAllCardsInteractable(false);
             _changeSceneDelayAfterSpendAllPicksCoroutine = StartCoroutine(ChangeSceneDelayAfterSpendAllPicks());

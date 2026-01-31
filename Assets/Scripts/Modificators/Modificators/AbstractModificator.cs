@@ -2,10 +2,40 @@
 
 public abstract class AbstractModificator : MonoBehaviour
 {
+    public enum ModificatorTypes
+    {
+        POSITIVE,
+        NEGATIVE,
+        NEUTRAL
+    }
+
+    public ModificatorTypes ModificatorType;
     public ModificatorIcon IconInstance;
     public ModificatorCard CardInstance;
 
     private ModificatorIcon _currentIcon;
+    private bool _disabledModificator = false;
+
+    public bool DisabledModificator
+    {
+        get => _disabledModificator;
+        set
+        {
+            if (value == _disabledModificator) return;
+            _disabledModificator = value;
+
+            if (_disabledModificator)
+            {
+                OnModificatorAdded();
+            }
+            else
+            {
+                OnModificatorRemoved();
+            }
+
+            if (_currentIcon != null) _currentIcon.DisabledIcon = value;
+        }
+    }
 
     public ModificatorIcon CurrentIcon
     {
@@ -25,12 +55,18 @@ public abstract class AbstractModificator : MonoBehaviour
 
     public virtual void OnModificatorAdded()
     {
-
+        if (LayerManager.Instance != null)
+        {
+            LayerManager.Instance.OnObjectSpawned += OnObjectSpawned;
+        }
     }
 
     public virtual void OnModificatorRemoved()
     {
-
+        if (LayerManager.Instance != null)
+        {
+            LayerManager.Instance.OnObjectSpawned -= OnObjectSpawned;
+        }
     }
 
     public virtual void OnLevelPreGenerated()
@@ -65,6 +101,9 @@ public abstract class AbstractModificator : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnModificatorRemoved(); 
+        if (!DisabledModificator)
+        {
+            OnModificatorRemoved(); 
+        }
     }
 }

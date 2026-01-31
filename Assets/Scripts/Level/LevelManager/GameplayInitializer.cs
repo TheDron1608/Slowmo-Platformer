@@ -6,7 +6,10 @@ public class GameplayInitializer : MonoBehaviour
     {
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
-            modificator.OnLevelPreGenerated();
+            if (!modificator.DisabledModificator)
+            {
+                modificator.OnLevelPreGenerated();
+            }
         }
         TeamManager.Instance.OnLevelPreGenerated();
 
@@ -19,7 +22,10 @@ public class GameplayInitializer : MonoBehaviour
 
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
-            modificator.OnLevelGenerated();
+            if (!modificator.DisabledModificator)
+            {
+                modificator.OnLevelGenerated();
+            }
         }
     }
 }
