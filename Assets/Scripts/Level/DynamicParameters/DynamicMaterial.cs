@@ -1,19 +1,20 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
 public class DynamicMaterial : MonoBehaviour
 {
-    [SerializeField] private LevelColorset.ColorType _defaultColor;
+    private Material _defaultMaterial;
     private Material _overrideMaterial = null;
 
     public event EventHandler OnMaterialChanged;
 
-    public LevelColorset.ColorType DefaultColor
+    public Material DefaultMaterial
     {
-        get => _defaultColor;
+        get => _defaultMaterial;
         set
         {
-            _defaultColor = value;
+            _defaultMaterial = value;
             UpdateColor();
         }
     }
@@ -29,7 +30,7 @@ public class DynamicMaterial : MonoBehaviour
 
     public Material GetCurrentMaterial()
     {
-        return OverrideMaterial ?? ColorManager.Instance?.ColorSet.GetMaterialByType(DefaultColor);
+        return OverrideMaterial ?? DefaultMaterial;
     }
 
     private void UpdateColor()
@@ -46,6 +47,6 @@ public class DynamicMaterial : MonoBehaviour
 
     private void Awake()
     {
-        UpdateColor();
+        _defaultMaterial = GetComponent<Renderer>().material;
     }
 }

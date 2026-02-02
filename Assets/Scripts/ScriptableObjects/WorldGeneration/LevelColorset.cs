@@ -1,4 +1,8 @@
-using System;
+
+
+//UNUSED CLASS
+
+/*using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -18,7 +22,7 @@ public class LevelColorset : ScriptableObject
     public enum ColorType
     {
         //enviroment
-        FOREGROUND = 1,
+        FOREGROUND = 1,dasd
         BACKGROUND = 2,
         BACKGROUND_DECORATIONS = 3,
         OVERGROUND = 4,
@@ -123,3 +127,4 @@ public class LevelColorset : ScriptableObject
     [ColorTypeAttr(ColorType.DEFAULT_RANGED_PROJECTILE)] public Material DefaultRangedProjectile;
     [ColorTypeAttr(ColorType.DEFAULT_ENEMY_RANGED_PROJECTILE)] public Material DefaultEnemyRangedProjectile;
 }
+*/

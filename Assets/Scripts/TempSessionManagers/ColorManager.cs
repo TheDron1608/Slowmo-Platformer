@@ -1,4 +1,7 @@
-using UnityEngine;
+
+//UNUSED
+
+/*using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
 public class ColorManager : MonoBehaviour
@@ -19,3 +22,4 @@ public class ColorManager : MonoBehaviour
         Instance = null;
     }
 }
+*/

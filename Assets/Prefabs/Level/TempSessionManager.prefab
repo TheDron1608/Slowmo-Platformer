@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8058129393259162476}
   - component: {fileID: 1121696484587488236}
   - component: {fileID: 8145630360655912481}
-  - component: {fileID: 4789793739081649213}
   - component: {fileID: 6844463855313677196}
   - component: {fileID: 1351074446885944845}
   - component: {fileID: 8541215460873994013}
@@ -78,21 +77,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d64d4da4755787a4d8ef6c98df83b8c0, type: 2}
   EnemyPoolInstance:
   - {fileID: 11400000, guid: e242a38beae302149b8fc51e8e231cb0, type: 2}
+  - {fileID: 11400000, guid: ffd2c8c47c5a3fc4aac618a319d2ed8c, type: 2}
   PlayerCharacter: {fileID: 0}
   EnemyAmountPerSpawner: 1
---- !u!114 &4789793739081649213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1590695979345743307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32493c0a2c27f804c81668635cf37018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ColorSet: {fileID: 11400000, guid: a42765518ab7cca4a82577d60d53c9ce, type: 2}
 --- !u!114 &6844463855313677196
 MonoBehaviour:
   m_ObjectHideFlags: 0
