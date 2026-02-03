@@ -1,20 +1,28 @@
 ﻿using UnityEngine;
 
-public class AddEnemyPoolItemModificator : AbstractModificator
+public class AddEnemyPoolItemModificator : AbstractMultiplierableModificator
 {
-    EnemySpawnInfo AddedEnemyItem;
+    public EnemySpawnInfo AddedEnemyItem;
+
+    private EnemySpawnInfo _addedEnemyItem;
 
     public override void OnModificatorAdded()
     {
         base.OnModificatorAdded();
 
-        SpawnManager.Instance.EnemyPool.Add(AddedEnemyItem);
+        _addedEnemyItem = Instantiate(AddedEnemyItem);
+        _addedEnemyItem.Rarity *= ModificatorMultiplier;
+
+        SpawnManager.Instance.EnemyPool.Add(_addedEnemyItem);
     }
 
     public override void OnModificatorRemoved()
     {
         base.OnModificatorRemoved();
 
-        SpawnManager.Instance.EnemyPool.Remove(AddedEnemyItem);
+        if (SpawnManager.Instance != null)
+        {
+            SpawnManager.Instance.EnemyPool.Remove(_addedEnemyItem);
+        }
     }
 }

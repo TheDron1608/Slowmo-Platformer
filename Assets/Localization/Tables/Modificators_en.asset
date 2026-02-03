@@ -579,8 +579,8 @@ MonoBehaviour:
   - m_Id: 16709611482750976
     m_Localized: '* Disables {DisableAmount} random positive modifiers
 
-      *
-      Disabled modifiers change randomly before the start of a new level'
+      * Disabled
+      modifiers change randomly before the start of a new level'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -591,8 +591,8 @@ MonoBehaviour:
   - m_Id: 16711393193730048
     m_Localized: '* Disables {DisableAmount} random positive modifiers
 
-      *
-      Disabled modifiers change randomly before the start of a new level'
+      * Disabled
+      modifiers change randomly before the start of a new level'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -600,6 +600,44 @@ MonoBehaviour:
     m_Localized: Blackout
     m_Metadata:
       m_Items: []
+  - m_Id: 17907522451251200
+    m_Localized: Snipers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17907562393608192
+    m_Localized: '* Spawns elite snipers at a rate of {SnipersRarity}
+
+      * Elite
+      Snipers aim significantly faster and can roll, but are slightly slower and
+      have less health
+
+      * Elite Snipers have light armor'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 17907561521192960
+    m_Localized: Elite snipers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17907563475738624
+    m_Localized: Super snipers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17907524384825344
+    m_Localized: '* Spawns snipers at a rate of {SnipersRarity}
+
+      * Snipers
+      aim faster, but are slower and have less health'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 17907564318793728
+    m_Localized: "\r* Spawns super snipers at a rate of {SnipersRarity}\r\n* Super
+      Snipers aim almost instantly, move very quickly, and frequently roll\r\n* Super
+      Snipers have light armor and standard health"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -653,3 +691,6 @@ MonoBehaviour:
         - id: 16695931198218240
         - id: 16711393193730048
         - id: 16709611482750976
+        - id: 17907564318793728
+        - id: 17907562393608192
+        - id: 17907524384825344

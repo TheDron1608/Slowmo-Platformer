@@ -137,6 +137,10 @@ PrefabInstance:
       propertyPath: _maxHealth
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4915943473345623899, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: _currentHealth
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5738232838178639446, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: _stateBehaviourAIs.Array.size
       value: 4
@@ -163,7 +167,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 2dde9d2b5cdcb744887e53347fc1f40c, type: 2}
     - target: {fileID: 6879493146425080106, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: AimSpeed
-      value: 20
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 7131731516214610488, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -179,7 +183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8346016204660032013, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: Speed
-      value: 5.75
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8407937972567318959, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
