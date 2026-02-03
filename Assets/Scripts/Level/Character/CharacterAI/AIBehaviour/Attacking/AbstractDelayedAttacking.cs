@@ -1,9 +1,12 @@
+using UnityEngine;
+
 public abstract class AbstractDelayedAttacking : AbstractAIAttacking
 {
     public float RangedAttackDelaySeconds = 0.75f;
     public float MeleeAttackDelaySeconds = 0.25f;
     public float StopAttackAimingDelaySeconds = 3.5f;
     public bool AlwaysHammerWeaponBeforeAttack = true;
+    public bool DoNotAimIfNeedToMove = false;
 
     private void FixedUpdate()
     {
@@ -12,6 +15,17 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
 
     protected virtual void OnFixedUpdate()
     {
+        if (
+            DoNotAimIfNeedToMove && 
+            CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon() &&
+            _selfStateBehaviourAI.Pathfinding.PathTarget != null &&
+            _selfStateBehaviourAI.Pathfinding.PathTarget.Value.Position != TileManager.PositionToTilePosition(transform.position)
+            )
+        {
+            OnLostEnemy();
+            return;
+        }
+
         if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null)
         {
             //trying hammer weapon if AlwayHammerWeaponBeforeAttack else attack immediantely

@@ -27,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: MovingAndJumping
       value: 
-      objectReference: {fileID: 4541401119530005832}
+      objectReference: {fileID: 2354508236019701800}
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: NearestEnemyInfo
       value: 
@@ -35,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: PrefferedHoldable
       value: 
-      objectReference: {fileID: 3606616043188955943}
+      objectReference: {fileID: 774614967908990714}
     - target: {fileID: 4808391566758070795, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -92,19 +92,19 @@ PrefabInstance:
       addedObject: {fileID: 6777744621790621435}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4541401119530005832}
+      addedObject: {fileID: 6781793081339872332}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6781793081339872332}
+      addedObject: {fileID: 2354508236019701800}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4692138698522949242}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7635522116767993189}
+      addedObject: {fileID: 774614967908990714}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3606616043188955943}
+      addedObject: {fileID: 7635522116767993189}
   m_SourcePrefab: {fileID: 100100000, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
 --- !u!1 &5393485392465938888 stripped
 GameObject:
@@ -127,6 +127,7 @@ MonoBehaviour:
   MeleeAttackDelaySeconds: 0.25
   StopAttackAimingDelaySeconds: 3.5
   AlwaysHammerWeaponBeforeAttack: 1
+  DoNotAimIfNeedToMove: 1
 --- !u!114 &6777744621790621435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,18 +138,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 875a7ee466e9094419e2d1471cb9cd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4541401119530005832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5393485392465938888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a483e919203eb6489c4daa88e2683e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6781793081339872332
@@ -164,6 +153,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OpenDoorDelaySeconds: 0.33
+--- !u!114 &2354508236019701800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5393485392465938888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e8fc852f5bf4624a9df820df7261348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanConflictPosition: 1
+  MinDistance: 3
+  MaxDistance: 6
 --- !u!114 &4692138698522949242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +181,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 15
+--- !u!114 &774614967908990714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5393485392465938888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 954a5d984c2e239449cbc4a16420ef29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxWeaponDetectRange: 5
+  MinWeaponPriority: 1
+  CanCatchDangerousHoldable: 0
 --- !u!114 &7635522116767993189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,18 +210,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanJumpToTarget: 1
   Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
---- !u!114 &3606616043188955943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5393485392465938888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2901b2a720a2f2d4ba9e7fdc80616853, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxWeaponDetectRange: 5
-  MinWeaponPriority: 1
-  CanCatchDangerousHoldable: 0
