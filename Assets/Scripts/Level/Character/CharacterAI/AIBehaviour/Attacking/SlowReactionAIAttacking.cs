@@ -26,8 +26,16 @@ public class SlowReactionAIAttacking : AbstractDelayedAttacking
     }
     private IEnumerator AwaitStartAttackDelay(Vector2 targetAim)
     {
+        while (CharComponents.CharacterReloading.GetIsReloading())
+        {
+            yield return new WaitForFixedUpdate();
+        }
         yield return new WaitForSeconds(CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<MeleeWeapon>() != null ? MeleeAttackDelaySeconds : RangedAttackDelaySeconds);
-        CharComponents.CharacterAttacking.TryAttack(targetAim);
+        
+        if (!CharComponents.CharacterReloading.GetIsReloading())
+        {
+            CharComponents.CharacterAttacking.TryAttack(targetAim);
+        }
         _attackDelayingCoroutine = null;
     }
 }

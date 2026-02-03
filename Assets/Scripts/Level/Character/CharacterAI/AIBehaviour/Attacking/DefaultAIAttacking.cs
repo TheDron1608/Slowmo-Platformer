@@ -27,8 +27,16 @@ public class DefaultAIAttacking : AbstractDelayedAttacking
 
     private IEnumerator AwaitStartAttackDelay()
     {
+        while (CharComponents.CharacterReloading.GetIsReloading())
+        {
+            yield return new WaitForFixedUpdate();
+        }
         yield return new WaitForSeconds(CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<MeleeWeapon>() != null ? MeleeAttackDelaySeconds : RangedAttackDelaySeconds);
-        CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+        
+        if (!CharComponents.CharacterReloading.GetIsReloading())
+        {
+            CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+        }
         _attackDelayingCoroutine = null;
     }
 }

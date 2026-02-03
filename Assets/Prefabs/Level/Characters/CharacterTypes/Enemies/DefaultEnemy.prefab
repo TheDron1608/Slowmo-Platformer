@@ -32,6 +32,10 @@ PrefabInstance:
       propertyPath: Team
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2103635049368087364, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: _reloadSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4213330836085406466, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -87,6 +91,10 @@ PrefabInstance:
     - target: {fileID: 7466261371012752510, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: m_Name
       value: DefaultEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537718361905042118, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: AttackCooldownMultiplier
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8582051835333405895, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

@@ -388,9 +388,6 @@ public class Holdable : Interactable
             _rigidBodyComponent.angularVelocity = ThrowRotationForce;
         }
 
-        CurrentHolder.CurrentHoldObject = null;
-        CurrentHolder = null;
-
         _rigidBodyComponent.simulated = true;
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         UpdateStuckStatus();
@@ -421,6 +418,7 @@ public class Holdable : Interactable
         if (TryGetComponent(out RangedWeapon rangedWeapon))
         {
             rangedWeapon.SetReloadSpeed(1f);
+            rangedWeapon.AttackCooldownMultiplier *= CurrentHolder.CharComponents.CharacterAttacking.AttackCooldownMultiplier;
         }
         if (TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon))
         {
@@ -433,6 +431,9 @@ public class Holdable : Interactable
         {
             chainsaw.Started = false;
         }
+
+        CurrentHolder.CurrentHoldObject = null;
+        CurrentHolder = null;
     }
     private IEnumerator EnableGravityAfterDelay()
     {
@@ -483,6 +484,7 @@ public class Holdable : Interactable
         if (TryGetComponent(out RangedWeapon rangedWeapon) && CurrentHolder.TryGetComponent(out CharacterReloading holderReloading))
         {
             rangedWeapon.SetReloadSpeed(holderReloading.ReloadSpeed);
+            rangedWeapon.AttackCooldownMultiplier /= newHolder.CharComponents.CharacterAttacking.AttackCooldownMultiplier;
         }
 
         if (TryGetComponent(out MagReloadingWeapon magReloadingWeapon))
