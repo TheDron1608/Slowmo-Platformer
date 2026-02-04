@@ -158,6 +158,11 @@ public class Holdable : Interactable
         _localizedName = value;
     }
 
+    public bool GetIsThrown()
+    {
+        return CurrentHolder == null;
+    }
+
     private void Awake()
     {
         OnAwake();
