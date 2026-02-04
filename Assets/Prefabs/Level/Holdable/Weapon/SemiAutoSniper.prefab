@@ -152,6 +152,10 @@ PrefabInstance:
       value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 1638512053977861497, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: SpawnAngle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638512053977861497, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultParticle
       value: 
       objectReference: {fileID: 1562997232960744757, guid: 263533d9b7be0ce4e8d749e38ff7a998, type: 3}
@@ -161,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2360972246015209950, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1875
+      value: -0.438
       objectReference: {fileID: 0}
     - target: {fileID: 3016777206437800495, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x

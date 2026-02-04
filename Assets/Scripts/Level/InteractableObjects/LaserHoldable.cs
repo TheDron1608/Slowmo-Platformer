@@ -41,7 +41,12 @@ public class LaserHoldable : MonoBehaviour
 
     private void FixedUpdate()
     {
-        LaserEnabled = (!_holdableComponent.CurrentHolder?.CharComponents.CharacterAiming.AimWeaponDown) ?? false;
+        LaserEnabled =
+            ((!_holdableComponent.CurrentHolder?.CharComponents.CharacterAiming.AimWeaponDown) ?? false) &&
+            (
+                !TryGetComponent(out RangedWeapon rangedWeapon) ||
+                (!rangedWeapon.IsReloading && !rangedWeapon.IsUnloading)
+            );
     }
 
     private void UpdateLaserEnabled()

@@ -241,7 +241,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.0666
+  m_TransitionDuration: 0.03
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 1
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f06f201b73923345abeeed5c25b8e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeDistanceRange: -0.333
+  ChangeDistanceRange: 0.2
 --- !u!114 &-5171724155744305544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f06f201b73923345abeeed5c25b8e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeDistanceRange: -0.333
+  ChangeDistanceRange: 0.2
 --- !u!114 &-4531181527146700474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -523,7 +523,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.0666
+  m_TransitionDuration: 0.03
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 1
