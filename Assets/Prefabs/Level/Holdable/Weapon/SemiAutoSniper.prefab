@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6032193573893779421}
   m_Layer: 0
   m_Name: Laser
-  m_TagString: Untagged
+  m_TagString: Holdable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 74217686818362150}
   m_Layer: 0
   m_Name: LaserSprite
-  m_TagString: Untagged
+  m_TagString: Holdable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 973792fb09eb97841bfa21277ca39a49, type: 2}
+  - {fileID: 2100000, guid: f44ae5df765fe7f4f9be66fb3eb281ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +107,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 499
   m_Sprite: {fileID: 21300000, guid: 4c912d74f8c4e4b4188bb155120c3080, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
