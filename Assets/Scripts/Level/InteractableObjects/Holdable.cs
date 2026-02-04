@@ -34,6 +34,7 @@ public class Holdable : Interactable
     public List<AbstractEffect> EffectsOnThrowHit = new();
     public AbstractSoundPlayer SoundOnPickedUp;
     public AbstractSoundPlayer SoundOnThrown;
+    [SerializeField] private bool _hitableWhenIsHolded = false;
 
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;
@@ -136,6 +137,25 @@ public class Holdable : Interactable
             }
 
         }
+    }
+
+    public bool HitableWhenIsHolded
+    {
+        get => _hitableWhenIsHolded;
+        set
+        {
+            if (_hitableWhenIsHolded == value) return;
+
+            _hitableWhenIsHolded = value;
+            gameObject.layer = GetIsHitableNow() ?
+                LayerManager.Instance.GetZLayerOfGameObject(gameObject).HitableHoldablesLayer :
+                LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+        }
+    }
+
+    public bool GetIsHitableNow()
+    {
+        return _hitableWhenIsHolded && CurrentHolder != null;
     }
 
     public ObjectEffectsReceiver EffectsReceiver
@@ -393,6 +413,11 @@ public class Holdable : Interactable
             _rigidBodyComponent.angularVelocity = ThrowRotationForce;
         }
 
+        if (HitableWhenIsHolded)
+        {
+            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+        }
+
         _rigidBodyComponent.simulated = true;
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         UpdateStuckStatus();
@@ -463,8 +488,19 @@ public class Holdable : Interactable
         newHolder.CurrentHoldObject = this;
         _isStuck = false;
 
-        _rigidBodyComponent.simulated = false;
-        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+        if (HitableWhenIsHolded)
+        {
+            _rigidBodyComponent.simulated = true;
+            _rigidBodyComponent.bodyType = RigidbodyType2D.Kinematic;
+            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HitableHoldablesLayer;
+        }
+        else
+        {
+            _rigidBodyComponent.simulated = false;
+            _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+        }
+
         CurrentHolder = newHolder;
         //transform.parent = newHolder.transform;
         if (ResetRotationWhenIsHolded)

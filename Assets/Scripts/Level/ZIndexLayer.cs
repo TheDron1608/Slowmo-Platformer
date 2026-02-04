@@ -12,6 +12,7 @@ public class ZIndexLayer : MonoBehaviour
     const string ENVIROMENT_LAYER_NAME = "Enviroment";
     const string CHARACTERS_LAYER_NAME = "Characters";
     const string HOLDABLES_LAYER_NAME = "Holdables";
+    const string HITABLE_HOLDABLES_LAYER_NAME = "HitableHoldables";
     const string FURNITURE_LAYER_NAME = "Furniture";
     const string PROJECTILES_LAYER_NAME = "Projectiles";
     const string PARTICLES_LAYER_NAME = "Particles";
@@ -41,6 +42,7 @@ public class ZIndexLayer : MonoBehaviour
     public int EnviromentLayer { get; private set; }
     public int CharactersLayer { get; private set; }
     public int HoldablesLayer { get; private set; }
+    public int HitableHoldablesLayer { get; private set; }
     public int FurnituresLayer { get; private set; }
     public int ProjectilesLayer { get; private set; }
     public int ParticlesLayer { get; private set; }
@@ -125,6 +127,7 @@ public class ZIndexLayer : MonoBehaviour
         EnviromentLayer = LayerMask.NameToLayer($"Z{ZIndex}{ENVIROMENT_LAYER_NAME}");
         CharactersLayer = LayerMask.NameToLayer($"Z{ZIndex}{CHARACTERS_LAYER_NAME}");
         HoldablesLayer = LayerMask.NameToLayer($"Z{ZIndex}{HOLDABLES_LAYER_NAME}");
+        HitableHoldablesLayer = LayerMask.NameToLayer($"Z{ZIndex}{HITABLE_HOLDABLES_LAYER_NAME}");
         FurnituresLayer = LayerMask.NameToLayer($"Z{ZIndex}{FURNITURE_LAYER_NAME}");
         ProjectilesLayer = LayerMask.NameToLayer($"Z{ZIndex}{PROJECTILES_LAYER_NAME}");
         ParticlesLayer = LayerMask.NameToLayer($"Z{ZIndex}{PARTICLES_LAYER_NAME}");
@@ -134,7 +137,8 @@ public class ZIndexLayer : MonoBehaviour
         EnviromentSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{ENVIROMENT_SORTING_LAYER_NAME}");
         OvergroundSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OVERGROUND_SORTING_LAYER_NAME}");
 
-        EntireLayerMask = (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
+        EntireLayerMask = 
+            (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << HitableHoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
     }
 
     private void SetAlphaForAllChildren(
@@ -315,7 +319,7 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.HOLDABLE_TAG_NAME:
-                gameObject.layer = HoldablesLayer;
+                gameObject.layer = (gameObject.GetComponent<Holdable>()?.GetIsHitableNow() ?? false) ? HitableHoldablesLayer : HoldablesLayer;
                 break;
 
             case LayerManager.PHYSICS_PARTICLE_TAG_NAME:

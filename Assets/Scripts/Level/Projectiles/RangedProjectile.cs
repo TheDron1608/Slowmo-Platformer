@@ -64,7 +64,7 @@ public class RangedProjectile : AbstractProjectile
 
         _positionPreviousFrame = transform.position;
         _layer = layer;
-        _hitLayerMask = (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer) | (1 << layer.ProjectilesLayer);
+        _hitLayerMask = (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer) | (1 << layer.ProjectilesLayer) | (1 << layer.HitableHoldablesLayer);
         MoveAlign = direction;
 
         RangedProjectile rangedOriginal = original.GetComponent<RangedProjectile>();
