@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4590741514344514613, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: LootSpawnType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7194316829583383013, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_Mass
       value: 22.5
@@ -106,6 +110,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       insertIndex: 1
       addedObject: {fileID: 3857783547009029211}
+    - targetCorrespondingSourceObject: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      insertIndex: 8
+      addedObject: {fileID: 7231448592585982424}
   m_SourcePrefab: {fileID: 100100000, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
 --- !u!4 &1960943167950615984 stripped
 Transform:
@@ -138,9 +145,32 @@ MonoBehaviour:
   _hitableByRangedProjectiles: 1
   LivingWithDeadlyHealthSeconds: 0
   CanHaveHealthOverMax: 0
-  EffectsOnLethal: []
+  EffectsOnLethal:
+  - {fileID: 10706912552637279, guid: 4deff24a0ab02ca498af308e8f39099e, type: 3}
   ParticlesOnDamage: []
   SoundOnDamage: {fileID: 3357410187703803902}
+--- !u!95 &7231448592585982424
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2346459413244731885}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &8241252104305596510
 PrefabInstance:
   m_ObjectHideFlags: 0

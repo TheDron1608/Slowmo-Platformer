@@ -45,7 +45,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
 
     private void HandleStartAttacking()
     {
-        CharComponents.CharacterAttacking.TryLoadElseAttack(CharComponents.CharacterAiming.GetTargetAimNormalized());
+        CharComponents.CharacterAttacking.TryUseAttack(CharComponents.CharacterAiming.GetTargetAimNormalized());
 
         if (
             (
@@ -65,12 +65,13 @@ public class PlayerInputAttacking : AbstractAIAttacking
 
     private void HandleStopAttacking()
     {
-        if (
-            CharComponents.CharacterHolding.CurrentHoldObject != null &&
-            CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon)
-            )
+        if (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) ?? false)
         {
             CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+        }
+        else
+        {
+            CharComponents.CharacterAttacking.TryStopAttack();
         }
 
         AutoAttack = false;
@@ -121,7 +122,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
             CharComponents.CharacterAttacking != null
             )
         {
-            CharComponents.CharacterAttacking.TryLoadElseAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+            CharComponents.CharacterAttacking.TryUseAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
 
             if (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo())
             {

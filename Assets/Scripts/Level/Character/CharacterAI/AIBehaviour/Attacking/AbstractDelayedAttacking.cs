@@ -81,7 +81,7 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
         }
         else if (_selfStateBehaviourAI.NearestEnemyInfo.TimeSinceLastEnemyDetection > StopAttackAimingDelaySeconds)
         {
-            CharComponents.CharacterAttacking.TryStopHammerringWeapon();
+            CharComponents.CharacterAttacking.TryStopAttack();
             CharComponents.CharacterAiming.AimWeaponDown = true;
         }
     }

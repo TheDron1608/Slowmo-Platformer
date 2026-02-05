@@ -9,6 +9,7 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     [SerializeField] private bool _isAbleToAttack = true;
     [SerializeField] private bool _isAbleToHammer = true;
     [SerializeField] private bool _isAbleToStartChainsaw = true;
+    [SerializeField] private bool _isAbleToShield = true;
     public float AttackCooldownMultiplier = 1f;
     public AbstractProjectile UnarmedAttackProjectile;
 
@@ -43,12 +44,42 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
         get => _isAbleToStartChainsaw;
         set => _isAbleToStartChainsaw = value;
     }
+    public bool IsAbleToShield
+    {
+        get => _isAbleToShield;
+        set
+        {
+            if (!value)
+            {
+                TryStopShield();
+            }
+            _isAbleToShield = value;
+        }
+    }
 
     private void OnEnable()
     {
         _awaitingMeleeAttackDirection = null;
         _clumsyRangedAttackCoroutine = null;
         CharComponents.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
+    }
+
+    public bool TryShield()
+    {
+        if (IsAbleToShield && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Shield shield))
+        {
+            return shield.TryRaiseUp();
+        }
+        return false;
+    }
+
+    public bool TryStopShield()
+    {
+        if (IsAbleToShield && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Shield shield))
+        {
+            return shield.TryRaiseDown();
+        }
+        return false;
     }
 
     public bool TryHammerWeapon()
@@ -230,13 +261,24 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
         }
     }
 
-    public bool TryLoadElseAttack(Vector2 direction)
+    public bool TryUseAttack(Vector2 direction)
     {
+        if (TryShield()) return true;
+
         if (TryHammerWeapon()) return true;
 
         if (TryStartChainsaw()) return true;
 
         if (TryAttack(direction)) return true;
+
+        return false;
+    }
+
+    public bool TryStopAttack()
+    {
+        if (TryStopShield()) return true;
+
+        if (TryStopHammerringWeapon()) return true;
 
         return false;
     }
