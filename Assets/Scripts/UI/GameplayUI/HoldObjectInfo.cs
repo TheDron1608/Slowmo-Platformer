@@ -18,8 +18,8 @@ public class HoldObjectInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _holdObjectName;
     [SerializeField] private HoldObjectAmmoList _loadedBulletsList;
     [SerializeField] private HoldObjectAmmoList _magsList;
-    [SerializeField] private GameObject _meleeDurabilityContainer;
-    [SerializeField] private Image _meleeDurabilityProgress;
+    [SerializeField] private GameObject _durabilityContainer;
+    [SerializeField] private Image _durabilityProgress;
 
     private void FixedUpdate()
     {
@@ -72,30 +72,34 @@ public class HoldObjectInfo : MonoBehaviour
 
 
             //update melee durability info
-            if (_currentHoldObject.GetComponent<MeleeWeapon>() != null)
+            if (_currentHoldObject.TryGetComponent(out Chainsaw chainsaw))
             {
-                if (_currentHoldObject.TryGetComponent(out Chainsaw chainsaw))
-                {
-                    _meleeDurabilityContainer.SetActive(true);
-                    _meleeDurabilityProgress.fillAmount = chainsaw.FuelLeft / chainsaw.MaxFuel;
-                }
-                else if (_currentHoldObject.TryGetComponent(out BreakableHoldable breakableHoldable))
-                {
-                    _meleeDurabilityContainer.SetActive(true);
-                    _meleeDurabilityProgress.fillAmount = math.lerp(
-                        _meleeDurabilityProgress.fillAmount,
-                        breakableHoldable.UnlimitedUses ? 1f : (float)breakableHoldable.UsesLeft / breakableHoldable.MaxUses,
-                        Time.fixedDeltaTime * MELEE_DURABILITY_BAR_SPEED_MULTIPLIER
-                        );
-                }
-                else
-                {
-                    _meleeDurabilityContainer.SetActive(false);
-                }
+                _durabilityContainer.SetActive(true);
+                _durabilityProgress.fillAmount = chainsaw.FuelLeft / chainsaw.MaxFuel;
+            }
+            else if (_currentHoldObject.GetComponent<MeleeWeapon>() != null && _currentHoldObject.TryGetComponent(out BreakableHoldable breakableHoldable))
+            {
+                _durabilityContainer.SetActive(true);
+                _durabilityProgress.fillAmount = math.lerp(
+                    _durabilityProgress.fillAmount,
+                    breakableHoldable.UnlimitedUses ? 1f : (float)breakableHoldable.UsesLeft / breakableHoldable.MaxUses,
+                    Time.fixedDeltaTime * MELEE_DURABILITY_BAR_SPEED_MULTIPLIER
+
+                    );
+            }
+            else if (_currentHoldObject.TryGetComponent(out Shield shield))
+            {
+                _durabilityContainer.SetActive(true);
+                _durabilityProgress.fillAmount = math.lerp(
+                    _durabilityProgress.fillAmount,
+                    shield.CurrentHealth / shield.MaxHealth,
+                    Time.fixedDeltaTime * MELEE_DURABILITY_BAR_SPEED_MULTIPLIER
+
+                    );
             }
             else
             {
-                _meleeDurabilityContainer.SetActive(false);
+                _durabilityContainer.SetActive(false);
             }
         }
         else

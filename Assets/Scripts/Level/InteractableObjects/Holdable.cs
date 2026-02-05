@@ -150,6 +150,28 @@ public class Holdable : Interactable
             gameObject.layer = GetIsHitableNow() ?
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject).HitableHoldablesLayer :
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+
+            if (CurrentHolder != null)
+            {
+                if (HitableWhenIsHolded)
+                {
+                    _rigidBodyComponent.simulated = true;
+                    _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+                    gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HitableHoldablesLayer;
+                }
+                else
+                {
+                    _rigidBodyComponent.simulated = false;
+                    _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+                    gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+                }
+            }
+            else
+            {
+                _rigidBodyComponent.simulated = true;
+                _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+                gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+            }
         }
     }
 
@@ -343,7 +365,7 @@ public class Holdable : Interactable
 
     public void TranformSelfToAnotherObject(Holdable anotherObject)
     {
-        if (gameObject.TryGetComponent(out ThrowableWeapon selfWeapon) && anotherObject.TryGetComponent(out ThrowableWeapon anotherWeapon))
+        if (gameObject.TryGetComponent(out IThrowableIteractableObj selfWeapon) && anotherObject.TryGetComponent(out IThrowableIteractableObj anotherWeapon))
         {
             selfWeapon.IsThrown = anotherWeapon.IsThrown;
         }
@@ -403,6 +425,8 @@ public class Holdable : Interactable
         newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
         transform.rotation = newRotation;
 
+        _rigidBodyComponent.simulated = true;
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
         if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))
         {
@@ -418,8 +442,6 @@ public class Holdable : Interactable
             gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
         }
 
-        _rigidBodyComponent.simulated = true;
-        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
         UpdateStuckStatus();
 
         if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) >= MIN_VELOCITY_TO_DISABLE_GRAVITY)
@@ -441,7 +463,7 @@ public class Holdable : Interactable
                 }
             }
         }
-        if (TryGetComponent(out ThrowableWeapon throwableWeapon))
+        if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
         {
             throwableWeapon.IsThrown = true;
         }
@@ -491,7 +513,7 @@ public class Holdable : Interactable
         if (HitableWhenIsHolded)
         {
             _rigidBodyComponent.simulated = true;
-            _rigidBodyComponent.bodyType = RigidbodyType2D.Kinematic;
+            _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
             gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HitableHoldablesLayer;
         }
         else
@@ -517,7 +539,7 @@ public class Holdable : Interactable
         SoundOnPickedUp.PlaySound();
 
         //logic for weapon component and weapon class children classes
-        if (TryGetComponent(out ThrowableWeapon throwableWeapon))
+        if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
         {
             throwableWeapon.IsThrown = false;
         }

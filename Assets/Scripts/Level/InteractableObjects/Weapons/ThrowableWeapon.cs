@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class ThrowableWeapon : Weapon
+public abstract class ThrowableWeapon : Weapon, IThrowableIteractableObj
 {
     const string ANIMATOR_ATTACK_TRIGGER_NAME = "Attack";
     const string ANIMATOR_ISTHROWN_PROP_NAME = "IsThrown";

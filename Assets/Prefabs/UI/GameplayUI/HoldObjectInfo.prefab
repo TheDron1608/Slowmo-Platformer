@@ -501,7 +501,7 @@ GameObject:
   - component: {fileID: 7405447302136347613}
   - component: {fileID: 3091649751445443804}
   m_Layer: 0
-  m_Name: MeleeDurability
+  m_Name: Durability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -808,8 +808,8 @@ MonoBehaviour:
   _holdObjectName: {fileID: 8716325313525975419}
   _loadedBulletsList: {fileID: 7264156681324026625}
   _magsList: {fileID: 5335016922321097951}
-  _meleeDurabilityContainer: {fileID: 6585722705901657789}
-  _meleeDurabilityProgress: {fileID: 361232691620726654}
+  _durabilityContainer: {fileID: 6585722705901657789}
+  _durabilityProgress: {fileID: 361232691620726654}
 --- !u!1 &7725530483954703823
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,7 +822,7 @@ GameObject:
   - component: {fileID: 886534506457355848}
   - component: {fileID: 361232691620726654}
   m_Layer: 0
-  m_Name: MeleeDurabilityProgressBar
+  m_Name: DurabilityProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

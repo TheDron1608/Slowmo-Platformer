@@ -210,37 +210,30 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     {
         if (_currentHoldObject == null) return;
 
-        Vector2 currentAim = CharComponents.CharacterAiming.GetCurrentAimNormalized();
+        Vector2 currentAim =
+            _currentHoldObject.RotatableWhenIsHolded ?
+            CharComponents.CharacterAiming.GetCurrentAimNormalized() :
+            new Vector2(CharComponents.CharacterVisual.FlippedH ? -1f : 1f, 0f);
+
         Vector3 targetRotation = VectorMath.Vec2ToQuarterninon2D(currentAim).eulerAngles;
 
         if (CharComponents.CharacterAiming != null && CharComponents.CharacterAiming.IsAbleToAim)
         {
             //setting current holded object's rotation
-            if (_currentHoldObject.RotatableWhenIsHolded)
-            {
+            Quaternion targetAngle = VectorMath.Vec2ToQuarterninon2D(currentAim);
+            Vector3 targetEulerAngle = targetAngle.eulerAngles;
 
-                Quaternion targetAngle = VectorMath.Vec2ToQuarterninon2D(currentAim);
-                Vector3 targetEulerAngle = targetAngle.eulerAngles;
-                targetAngle.eulerAngles = new Vector3(
-                    targetEulerAngle.x,
-                    math.lerp(
-                        _currentHoldObject.transform.rotation.eulerAngles.y,
-                        currentAim.x < 0f ? 180f : 0f,
-                        CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
-                        ),
-                    targetEulerAngle.z
-                    );
+            targetAngle.eulerAngles = new Vector3(
+                targetEulerAngle.x,
+                math.lerp(
+                    _currentHoldObject.transform.rotation.eulerAngles.y,
+                    currentAim.x < 0f ? 180f : 0f,
+                    CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
+                    ),
+                targetEulerAngle.z
+                );
 
-                _currentHoldObject.transform.rotation = targetAngle;
-            }
-            else
-            {
-                _currentHoldObject.transform.localScale = new Vector3(
-                    math.abs(_currentHoldObject.transform.localScale.x) * (CharComponents.CharacterVisual.FlippedH ? -1f : 1f),
-                    _currentHoldObject.transform.localScale.y,
-                    _currentHoldObject.transform.localScale.z
-                    );
-            }
+            _currentHoldObject.transform.rotation = targetAngle;
         }
 
         Vector2 holdObjectPositionXY = Vector2.Lerp(

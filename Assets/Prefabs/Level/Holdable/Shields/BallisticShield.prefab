@@ -56,6 +56,14 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1603589289876146895, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 31524197046132736
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603589289876146895, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:4430865c28558c94f8514772ecb48895
+      objectReference: {fileID: 0}
     - target: {fileID: 1960943167950615984, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -103,7 +111,7 @@ PrefabInstance:
     - target: {fileID: 3537357900326395245, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 77120188505caad4f81601d6a570e110, type: 3}
+      objectReference: {fileID: 21300000, guid: 0a988ac2ab29bbe4482b43836ca1c389, type: 3}
     - target: {fileID: 3857783547009029211, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: _maxHealth
       value: 9
@@ -117,6 +125,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3857783547009029211, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: HolderEffectsOnRaise.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3857783547009029211, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: 'ParticlesOnDamage.Array.data[0]'
       value: 
       objectReference: {fileID: 7786668160132991169, guid: 6a7518b860e7d5c4c84ce6337579f2b5, type: 3}
@@ -128,6 +140,10 @@ PrefabInstance:
       propertyPath: 'ParticlesOnDamage.Array.data[2]'
       value: 
       objectReference: {fileID: 7786668160132991169, guid: 5a05a6980b3a9a745bf57d8036eb4d1d, type: 3}
+    - target: {fileID: 3857783547009029211, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: 'HolderEffectsOnRaise.Array.data[0]'
+      value: 
+      objectReference: {fileID: 3835787520392331423, guid: f1f61d5a444b10540b771acc10193eb8, type: 3}
     - target: {fileID: 6554528859881883902, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: _currentEffects.Array.size
       value: 1
