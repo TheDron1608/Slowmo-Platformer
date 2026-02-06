@@ -32,6 +32,14 @@ PrefabInstance:
       propertyPath: '_partcilesOnBreak.Array.data[4]'
       value: 
       objectReference: {fileID: 7786668160132991169, guid: 6af8f8b44cf7f2f4584bf805280b9bf8, type: 3}
+    - target: {fileID: 889003057971635897, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: _currentEffects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 889003057971635897, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: '_currentEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 289277786474762160, guid: 3ab166c911dc2704b801a45f01f5806d, type: 3}
     - target: {fileID: 1096353517461143409, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: m_Size.x
       value: 0.18339628
@@ -144,6 +152,10 @@ PrefabInstance:
       propertyPath: 'HolderEffectsOnRaise.Array.data[0]'
       value: 
       objectReference: {fileID: 3835787520392331423, guid: f1f61d5a444b10540b771acc10193eb8, type: 3}
+    - target: {fileID: 5611416804410558462, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: AIPickUpPriority
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6554528859881883902, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: _currentEffects.Array.size
       value: 1
@@ -152,6 +164,18 @@ PrefabInstance:
       propertyPath: '_currentEffects.Array.data[0]'
       value: 
       objectReference: {fileID: 289277786474762160, guid: 3ab166c911dc2704b801a45f01f5806d, type: 3}
+    - target: {fileID: 6554528859881883902, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: CounterEffectsOnApplier.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6554528859881883902, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: 'CounterEffectsOnApplier.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
+    - target: {fileID: 6554528859881883902, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: 'CounterEffectsOnApplier.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
     - target: {fileID: 7231448592585982424, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: m_Controller
       value: 

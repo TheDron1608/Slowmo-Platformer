@@ -4,6 +4,7 @@ public class OnAbleToFightBehaviourAI : AbstractCharacterStateBehaviourAI
     {
         return
             CharComponents.CharacterAttacking.UnarmedAttackProjectile != null ||
-            (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) && weapon.GetIsAbleToAttack());
+            (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) && weapon.GetIsAbleToAttack()) &&
+            CharComponents.CharacterAttacking.IsAbleToAttack;
     }
 }

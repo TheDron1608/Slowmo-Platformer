@@ -47,12 +47,14 @@ public abstract class AbstractAIPrefferedHoldable : AbstractAIInfo
             holdable.AIPickUpPriority >= MinWeaponPriority &&
             Vector2.Distance(CharComponents.Center.transform.position, holdable.transform.position) <= MaxWeaponDetectRange &&
             (CanCatchDangerousHoldable || !holdable.GetIsDangerouslyFast()) &&
-            (!holdable.TryGetComponent(out RangedWeapon rangedWeapon) || !rangedWeapon.GetIsOutOfAmmo()) &&
-            Physics2D.Linecast(
+            (!holdable.TryGetComponent(out RangedWeapon rangedWeapon) || !rangedWeapon.GetIsOutOfAmmo());
+
+            /*Physics2D.Linecast(
                 CharComponents.Center.transform.position,
                 holdable.TryGetComponent(out Collider2D col) ? GameObjectUtility.GetCenterOfCollider(col) : holdable.transform.position,
                 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
-                ).collider == null;
+                ).collider == null;*/ 
+            //too low perfomance for cpu
     }
 
     protected abstract bool OrderByPattern(Holdable oldHoldable, Holdable newHoldable);

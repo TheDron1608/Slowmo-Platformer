@@ -110,7 +110,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
                     PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
                     GetComponent<ObjectEffectsReceiver>()?.EffectMaterial ?? GetComponent<SpriteRenderer>()?.material,
                     LayerManager.Instance.GetZLayerOfGameObject(gameObject),
-                    (int)damage,
+                    Math.Max((int)damage, 1),
                     PARTICLES_ON_DAMAGE_ACCURACY
                     );
             }

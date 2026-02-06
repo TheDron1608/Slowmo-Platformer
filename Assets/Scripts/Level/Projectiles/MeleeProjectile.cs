@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -72,6 +73,7 @@ public class MeleeProjectile : AbstractProjectile
 
         List<Collider2D> hitObjects = new();
         _rigidBody.Overlap(hitObjects);
+        hitObjects = hitObjects.OrderBy(obj => Vector2.Distance(transform.position, obj.transform.position)).ToList();
 
         // invokes OnHit trigger if:
         // 1. is not hitbox of projectile's weapon's owner
@@ -166,19 +168,20 @@ public class MeleeProjectile : AbstractProjectile
     {
         base.OnHit(hitObject);
 
-        if (_didHitAnyWallOnce) return;
-
-        if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null)
+        if (!_didHitAnyWallOnce)
         {
-            if (Weapon.TryGetComponent(out Holdable holdableWeapon) && holdableWeapon.CurrentHolder != null && holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody))
+            if (hitObject.tag == LayerManager.ENVIROMENT_TAG_NAME && Weapon != null)
             {
-                holderRigidBody.linearVelocity -= VectorMath.Quartenion2DToVec2(transform.rotation) * WallKnockback;
+                if (Weapon.TryGetComponent(out Holdable holdableWeapon) && holdableWeapon.CurrentHolder != null && holdableWeapon.CurrentHolder.TryGetComponent(out Rigidbody2D holderRigidBody))
+                {
+                    holderRigidBody.linearVelocity -= VectorMath.Quartenion2DToVec2(transform.rotation) * WallKnockback;
+                }
+                else if (Weapon.TryGetComponent(out Rigidbody2D weaponRigidBody) && weaponRigidBody.simulated)
+                {
+                    weaponRigidBody.linearVelocity -= VectorMath.Quartenion2DToVec2(transform.rotation) * WallKnockback;
+                }
+                _didHitAnyWallOnce = true;
             }
-            else if (Weapon.TryGetComponent(out Rigidbody2D weaponRigidBody) && weaponRigidBody.simulated)
-            {
-                weaponRigidBody.linearVelocity -= VectorMath.Quartenion2DToVec2(transform.rotation) * WallKnockback;
-            }
-            _didHitAnyWallOnce = true;
         }
     }
 
