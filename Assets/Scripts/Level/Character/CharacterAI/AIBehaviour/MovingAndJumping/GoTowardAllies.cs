@@ -17,7 +17,8 @@ public class GoTowardAllies : AbstractAIPathfindingMovingAndJumping
             if (
                 ally.CharComponents.CharacterCollision.CurrentZLayer == CharComponents.CharacterCollision.CurrentZLayer &&
                 ally != CharComponents.CharacterTeam &&
-                Vector2.Distance(ally.CharComponents.Center.transform.position, CharComponents.Center.transform.position) < AllyDetectDistance
+                Vector2.Distance(ally.CharComponents.Center.transform.position, CharComponents.Center.transform.position) < AllyDetectDistance &&
+                !ally.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
                 )
             {
                 float allyDistanceToEnemy = Vector2.Distance(
@@ -35,14 +36,12 @@ public class GoTowardAllies : AbstractAIPathfindingMovingAndJumping
 
         if (closestToEnemyAlly != null)
         {
-            Vector2 extraOffset = 
-                (
-                    _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position - 
-                    CharComponents.Center.transform.position
-                ).normalized * TowardExtraDistance;
-            
             _selfStateBehaviourAI.Pathfinding.PathTarget = new(
-                closestToEnemyAlly.transform.position + VectorMath.Vec2ToVec3(extraOffset), 
+                closestToEnemyAlly.transform.position + new Vector3(
+                    _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.transform.position.x > CharComponents.transform.position.x ? 
+                        TowardExtraDistance : -TowardExtraDistance, 
+                    0f, 0f
+                    ), 
                 closestToEnemyAlly.CharComponents.CharacterCollision.CurrentZLayer
                 );
         }

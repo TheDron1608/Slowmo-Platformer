@@ -638,6 +638,28 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 18997754630217728
+    m_Localized: Tank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18997756358270976
+    m_Localized: "\r* Spawns tanking enemies at a rate of {TankRarity} per level\r\n*
+      Tanks have more health and are more resistant to stuns\r\n* Tanks have a standard
+      shield"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 18999282434809856
+    m_Localized: Elite tank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18999284037033984
+    m_Localized: "\r* Spawns elite tanking enemies at a rate of {TankRarity} per
+      level\r\n* Elite tanks have significantly more health and are more resistant
+      to stuns\r\n* Elite tanks have a reflecting shield and full light armor "
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -694,3 +716,5 @@ MonoBehaviour:
         - id: 17907564318793728
         - id: 17907562393608192
         - id: 17907524384825344
+        - id: 18999284037033984
+        - id: 18997756358270976
