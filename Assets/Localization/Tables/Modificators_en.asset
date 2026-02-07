@@ -605,11 +605,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17907562393608192
-    m_Localized: '* Spawns elite snipers at a rate of {SnipersRarity}
+    m_Localized: '* Spawns elite snipers at a frequency {SnipersRarity}
 
-      * Elite
-      Snipers aim significantly faster and can roll, but are slightly slower and
-      have less health
+      *
+      Elite Snipers aim significantly faster and can roll, but are slightly slower
+      and have less health
 
       * Elite Snipers have light armor'
     m_Metadata:
@@ -624,7 +624,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17907524384825344
-    m_Localized: '* Spawns snipers at a rate of {SnipersRarity}
+    m_Localized: '* Spawns snipers at a frequency {SnipersRarity}
 
       * Snipers
       aim faster, but are slower and have less health'
@@ -632,7 +632,7 @@ MonoBehaviour:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 17907564318793728
-    m_Localized: "\r* Spawns super snipers at a rate of {SnipersRarity}\r\n* Super
+    m_Localized: "\r* Spawns super snipers at a frequency {SnipersRarity}\r\n* Super
       Snipers aim almost instantly, move very quickly, and frequently roll\r\n* Super
       Snipers have light armor and standard health"
     m_Metadata:
@@ -643,8 +643,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18997756358270976
-    m_Localized: "\r* Spawns tanking enemies at a rate of {TankRarity} per level\r\n*
-      Tanks have more health and are more resistant to stuns\r\n* Tanks have a standard
+    m_Localized: "\r* Spawns tanking enemies at a frequency {TankRarity}\r\n* Tanks
+      have more health and are more resistant to stuns\r\n* Tanks have a standard
       shield"
     m_Metadata:
       m_Items:
@@ -654,9 +654,35 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18999284037033984
-    m_Localized: "\r* Spawns elite tanking enemies at a rate of {TankRarity} per
-      level\r\n* Elite tanks have significantly more health and are more resistant
-      to stuns\r\n* Elite tanks have a reflecting shield and full light armor "
+    m_Localized: "\r* Spawns elite tanking enemies at a frequency {TankRarity}\r\n*
+      Elite tanks have significantly more health and are more resistant to stuns\r\n*
+      Elite tanks have a reflecting shield and full light armor "
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 19290659039191040
+    m_Localized: Armored support
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19290660477837312
+    m_Localized: "\r* Spawns armored enemies at a frequency {ArmoredRarity}\r\n*
+      Supports have a combination of light and heavy armor\r\n* Support is armed
+      with a semi-automatic weapon"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 19293160438210560
+    m_Localized: Heavy armored support
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19293161377734656
+    m_Localized: '* Spawns heavy armored enemies at a frequency {ArmoredRarity}
+
+      *
+      Heavy Supports have full heavy armor
+
+      * Supports are armed with rapid-fire
+      weapons'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -718,3 +744,5 @@ MonoBehaviour:
         - id: 17907524384825344
         - id: 18999284037033984
         - id: 18997756358270976
+        - id: 19293161377734656
+        - id: 19290660477837312
