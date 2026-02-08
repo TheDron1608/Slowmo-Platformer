@@ -4,14 +4,26 @@ using UnityEngine;
 public class DefaultAIAttacking : AbstractDelayedAttacking
 {
     private Coroutine _attackDelayingCoroutine = null;
+    private bool _isAutoWeaponAttacking = false;
 
     protected override void OnTrackedEnemy()
     {
+        Debug.Log(_isAutoWeaponAttacking);
         CharComponents.CharacterAiming.AimWeaponDown = false;
         CharComponents.CharacterAiming.TargetAimPoint = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
         if (_attackDelayingCoroutine == null)
         {
-            _attackDelayingCoroutine = StartCoroutine(AwaitStartAttackDelay());
+            if (_isAutoWeaponAttacking)
+            {
+                if (!CharComponents.CharacterReloading.GetIsReloading())
+                {
+                    CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+                }
+            }
+            else
+            {
+                _attackDelayingCoroutine = StartCoroutine(AwaitStartAttackDelay());
+            }
         }
     }
 
@@ -23,6 +35,7 @@ public class DefaultAIAttacking : AbstractDelayedAttacking
             StopCoroutine(_attackDelayingCoroutine);
             _attackDelayingCoroutine = null;
         }
+        _isAutoWeaponAttacking = false;
     }
 
     private IEnumerator AwaitStartAttackDelay()
@@ -31,7 +44,12 @@ public class DefaultAIAttacking : AbstractDelayedAttacking
         {
             yield return new WaitForFixedUpdate();
         }
-        yield return new WaitForSeconds(CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<MeleeWeapon>() != null ? MeleeAttackDelaySeconds : RangedAttackDelaySeconds);
+
+        if (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out Weapon weapon) ?? false)
+        {
+            if (weapon.AutoAttack) _isAutoWeaponAttacking = true;
+            yield return new WaitForSeconds(weapon.GetComponent<MeleeWeapon>() != null ? MeleeAttackDelaySeconds : RangedAttackDelaySeconds);
+        }
         
         if (!CharComponents.CharacterReloading.GetIsReloading())
         {

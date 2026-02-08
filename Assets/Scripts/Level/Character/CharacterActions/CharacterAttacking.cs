@@ -125,8 +125,8 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     public bool TryAttack(Vector2 direction)
     {
         if (
-            CharComponents.CharacterVisual.IsBusy() &&
-            !CharComponents.CharacterVisual.IsClumsyAnimation()
+            (CharComponents.CharacterVisual.IsBusy() && !CharComponents.CharacterVisual.IsClumsyAnimation()) ||
+            (CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon() && CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0f)
             )
         {
             return false;
@@ -143,7 +143,11 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
             {
                 if (CharComponents.CharacterAiming.GetHoldingValidForAimWeapon())
                 {
-                    if (_clumsyRangedAttackCoroutine == null)
+                    if (CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim() && CharComponents.CharacterAiming.AimPerformed)
+                    {
+                        ForceAttack(direction);
+                    }
+                    else if (_clumsyRangedAttackCoroutine == null)
                     {
                         _clumsyRangedAttackCoroutine = StartCoroutine(AwaitClumsyRangedAttackDelayThenAttack(direction));
                     }

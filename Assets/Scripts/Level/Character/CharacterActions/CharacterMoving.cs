@@ -189,9 +189,7 @@ public class CharacterMoving : AbstractCharacterComponent
             CharComponents.CharacterClumsyness.ClumsyMovement &&
             (CharComponents.CharacterVisual.FlippedH ^ direction < 0f) &&
             direction != 0f &&
-            (
-                !CharComponents.CharacterVisual.IsBusy()
-            ) &&
+            !CharComponents.CharacterVisual.IsBusy() &&
             IsAbleToMove;
     }
 

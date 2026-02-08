@@ -51,11 +51,11 @@ public class PlayerInputAttacking : AbstractAIAttacking
             (
                 CharComponents.CharacterHolding.CurrentHoldObject != null &&
                 CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) &&
-                weapon.PlayerInputAutoAttackOnPress
+                weapon.AutoAttack
             ) ||
             (
                 CharComponents.CharacterHolding.CurrentHoldObject == null &&
-                CharComponents.UnarmedAttacking.PlayerInputAutoAttackOnPress
+                CharComponents.UnarmedAttacking.AutoAttack
             )
             )
         {

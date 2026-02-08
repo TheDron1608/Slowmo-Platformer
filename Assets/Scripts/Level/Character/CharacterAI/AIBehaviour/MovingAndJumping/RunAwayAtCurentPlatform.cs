@@ -28,6 +28,7 @@ public class RunAwayAtCurentPlatform : AbstractAIPathfindingMovingAndJumping
                 else
                 {
                     //looks at enemy if is doomed
+                    _selfStateBehaviourAI.Pathfinding.PathTarget = null;
                     CharComponents.CharacterMoving.TrySetClumsyAlign(_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.transform.position.x - transform.position.x, true);
                 }
             }

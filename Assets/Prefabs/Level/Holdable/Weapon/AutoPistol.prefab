@@ -305,11 +305,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7388042501476123202, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7388042501476123202, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7671543880401621363, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: _defaultColor
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackCooldown: 0.05
   _attackCooldownMultiplier: 1
-  PlayerInputAutoAttackOnPress: 1
+  AutoAttack: 1
   Projectile: {fileID: 6416557294317157870, guid: 7908c3f67bb807448806e40f9942d5c3, type: 3}
   AccuracyMultiplier: 0.95
   RepeatAttacksTimes: 1

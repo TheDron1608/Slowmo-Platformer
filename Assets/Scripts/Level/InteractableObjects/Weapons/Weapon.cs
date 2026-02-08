@@ -11,7 +11,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     [Header("Weapon")]
     [SerializeField] private float _attackCooldown = .25f;
     [SerializeField] private float _attackCooldownMultiplier = 1f;
-    public bool PlayerInputAutoAttackOnPress = false;
+    public bool AutoAttack = false;
     public AbstractProjectile Projectile;
     public float AccuracyMultiplier = 1f;
     public int RepeatAttacksTimes = 1;

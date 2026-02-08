@@ -65,7 +65,7 @@ public class MagReloadingWeapon : RangedWeapon
 
     public override bool GetIsOutOfAmmo()
     {
-        return AmmoLeft <= MagSize && LoadedLivingAmmoLeft <= 0;
+        return AmmoLeft < MagSize && LoadedLivingAmmoLeft <= 0;
     }
 
     public override void SpendAmmo(int spendAmount = 1)

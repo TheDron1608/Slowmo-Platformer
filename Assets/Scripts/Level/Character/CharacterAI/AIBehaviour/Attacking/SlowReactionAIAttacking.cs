@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SlowReactionAIAttacking : AbstractDelayedAttacking
 {
+    public float AutoWeaponAttackDurationSeconds = 1f;
+
     private Coroutine _attackDelayingCoroutine = null;
 
     protected override void OnTrackedEnemy()
@@ -34,8 +36,25 @@ public class SlowReactionAIAttacking : AbstractDelayedAttacking
         
         if (!CharComponents.CharacterReloading.GetIsReloading())
         {
-            CharComponents.CharacterAttacking.TryAttack(targetAim);
+            if ((CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<Weapon>() ?? CharComponents.UnarmedAttacking)?.AutoAttack ?? false)
+            {
+                yield return AttackAutoWeaponSomeTime(targetAim);
+            }
+            else
+            {
+                CharComponents.CharacterAttacking.TryAttack(targetAim);
+            }
         }
         _attackDelayingCoroutine = null;
+    }
+
+    private IEnumerator AttackAutoWeaponSomeTime(Vector2 targetAim)
+    {
+        for (float t = 0f; t < AutoWeaponAttackDurationSeconds; t += Time.deltaTime)
+        {
+            CharComponents.CharacterAttacking.TryAttack(targetAim);
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
