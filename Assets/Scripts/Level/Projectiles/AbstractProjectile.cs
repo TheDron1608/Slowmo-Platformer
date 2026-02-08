@@ -25,6 +25,8 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     protected bool _wasDeflectedThisFrame = false;
     private ObjectEffectsReceiver _effectsReceiver;
     private BoxCollider2D _colliderComponent;
+    private List<AbstractEffect> _extraEffectsFromWeapon = new();
+    private List<AbstractEffect> _extraEffectsFromOwner = new();
 
     public event EventHandler<GameObject> OnHitSomeOne;
     public event EventHandler OnDestroyed;
@@ -54,17 +56,47 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public virtual Weapon Weapon
     {
         get => _weapon;
-        protected set => _weapon = value;
+        protected set
+        {
+            if (_weapon == value) return;
+            _weapon = value;
+
+            _effectsReceiver.RemoveEffect(_extraEffectsFromWeapon);
+            if (_weapon != null)
+            {
+                _extraEffectsFromWeapon = _effectsReceiver.ApplyEffect(_weapon.ExtraProjectileEffects, _weapon);
+            }
+        }
     }
     public CharacterHoldingObjects Deflector
     {
         get => _deflector;
-        protected set => _deflector = value;
+        protected set
+        {
+            if (_deflector == value) return;
+            _deflector = value;
+
+            _effectsReceiver.RemoveEffect(_extraEffectsFromOwner);
+            if (_deflector != null)
+            {
+                _extraEffectsFromOwner = _effectsReceiver.ApplyEffect(_deflector.CharComponents.CharacterAttacking.ExtraProjectileEffects, _deflector);
+            }
+        }
     }
     public CharacterHoldingObjects Owner
     {
         get => _owner;
-        set => _owner = value;
+        set
+        {
+            if (_owner == value) return;
+            _owner = value;
+
+            _effectsReceiver.RemoveEffect(_extraEffectsFromOwner);
+            if (_owner != null)
+            {
+                _extraEffectsFromOwner = _effectsReceiver.ApplyEffect(_owner.CharComponents.CharacterAttacking.ExtraProjectileEffects, _owner);
+            }
+        }
     }
     public CharacterHoldingObjects OwnerOrLastHolder
     {
@@ -112,15 +144,19 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
     protected virtual void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
     {
-        Weapon = weapon;
-        if (weapon?.TryGetComponent(out Holdable holdableWeapon) ?? false)
-        {
-            Owner = holdableWeapon.CurrentHolder ?? holdableWeapon.LastHolder;
-        }
+        gameObject.SetActive(true);
+
+        _effectsReceiver.RemoveAllEffects();
+        _currentHittingColliders = new();
+        _wasDeflectedThisFrame = false;
+        _extraEffectsFromOwner = new();
+        _extraEffectsFromWeapon = new();
+        _weapon = null;
+        _owner = null;
+        _deflector = null;
+
         transform.rotation = direction;
         transform.position = weapon.ProjectileSpawnPosition.transform.position;
-        _deflector = null;
-        gameObject.SetActive(true);
 
         gameObject.name = original.gameObject.name;
         AmountOnSpawn = original.AmountOnSpawn;
@@ -145,10 +181,17 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         SoundOnAttack.Volume = original.SoundOnAttack.Volume;
         SoundOnAttack.Pitch = original.SoundOnAttack.Pitch;
 
-        _currentHittingColliders = new();
-        _wasDeflectedThisFrame = false;
-
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
+    }
+
+    protected void InitEffects(AbstractProjectile original, Weapon weapon)
+    {
+        _effectsReceiver.ApplyEffect(original.GetComponent<ObjectEffectsReceiver>().CurrentEffects, null);
+        Weapon = weapon;
+        if (weapon?.TryGetComponent(out Holdable holdableWeapon) ?? false)
+        {
+            Owner = holdableWeapon.CurrentHolder ?? holdableWeapon.LastHolder;
+        }
     }
 
 

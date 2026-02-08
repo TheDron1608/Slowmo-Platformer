@@ -188,6 +188,19 @@ public class ObjectEffectsReceiver : MonoBehaviour
         return !GetHasImmuneToEffect(effect);
     }
 
+    public void RemoveAllEffects()
+    {
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (_currentEffects[i].IsDestroyed()) continue;
+
+            OnEffectRemoved?.Invoke(this, _currentEffects[i]);
+            _currentEffects[i].OnRemovedEffect();
+        }
+        _currentEffects.Clear();
+        UpdateEffectMaterial();
+    }
+
     public virtual void RemoveEffect<T>()
     {
         for (int i = 0; i < _currentEffects.Count; i++)
@@ -197,7 +210,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 if (_currentEffects[i].IsDestroyed()) continue;
 
                 OnEffectRemoved?.Invoke(this, _currentEffects[i]);
-                GameObject.Destroy(_currentEffects[i].gameObject);
+                _currentEffects[i].OnRemovedEffect();
                 _currentEffects.RemoveAt(i);
                 break;
             }
@@ -214,7 +227,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
             if (_currentEffects[i].Equals(effect))
             {
                 OnEffectRemoved?.Invoke(this, _currentEffects[i]);
-                GameObject.Destroy(_currentEffects[i].gameObject);
+                _currentEffects[i].OnRemovedEffect();
                 _currentEffects.RemoveAt(i);
                 break;
             }

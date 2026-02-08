@@ -40,9 +40,10 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
         }
     }
 
-    private void OnDestroy()
+    public void OnRemovedEffect()
     {
         OnRemove();
+        Destroy(gameObject);
     }
 
     public virtual bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)

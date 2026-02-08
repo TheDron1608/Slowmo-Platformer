@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
@@ -12,6 +13,7 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     [SerializeField] private bool _isAbleToShield = true;
     public float AttackCooldownMultiplier = 1f;
     public AbstractProjectile UnarmedAttackProjectile;
+    public List<AbstractEffect> ExtraProjectileEffects = new();
 
     private Vector2? _awaitingMeleeAttackDirection = null;
     private Coroutine _clumsyRangedAttackCoroutine = null;

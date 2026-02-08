@@ -76,6 +76,8 @@ public class RangedProjectile : AbstractProjectile
 
         _rangeMoved = 0f;
         _piercesLeft = MaxPierces;
+
+        InitEffects(original, weapon);
     }
 
     protected override void OnUpdate()

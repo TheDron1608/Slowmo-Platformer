@@ -65,6 +65,8 @@ public class MeleeProjectile : AbstractProjectile
         SoundOnDeflect.Pitch = meleeOriginal.SoundOnDeflect.Pitch;
 
         _didHitAnyWallOnce = false;
+
+        InitEffects(original, weapon);
     }
 
     private void FixedUpdate()

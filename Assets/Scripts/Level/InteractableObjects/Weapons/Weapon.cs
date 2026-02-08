@@ -16,6 +16,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     public float AccuracyMultiplier = 1f;
     public int RepeatAttacksTimes = 1;
     public float DurationBetweenRepeatAttacks = 0.0667f; //in seconds
+    public List<AbstractEffect> ExtraProjectileEffects = new();
 
     private bool _isInCooldown = false;
     private Transform _projectileSpawnPosition;
