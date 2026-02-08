@@ -190,14 +190,15 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     public void RemoveAllEffects()
     {
-        for (int i = 0; i < _currentEffects.Count; i++)
+        while (_currentEffects.Count > 0)
         {
-            if (_currentEffects[i].IsDestroyed()) continue;
+            AbstractEffect removedEffect = _currentEffects.Last();
+            if (removedEffect.IsDestroyed()) continue;
 
-            OnEffectRemoved?.Invoke(this, _currentEffects[i]);
-            _currentEffects[i].OnRemovedEffect();
+            OnEffectRemoved?.Invoke(this, removedEffect);
+            _currentEffects.RemoveAt(_currentEffects.Count - 1);
+            removedEffect.OnRemovedEffect();
         }
-        _currentEffects.Clear();
         UpdateEffectMaterial();
     }
 
@@ -207,11 +208,12 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             if (_currentEffects[i] is T)
             {
-                if (_currentEffects[i].IsDestroyed()) continue;
+                AbstractEffect removedEffect = _currentEffects[i];
+                if (removedEffect.IsDestroyed()) continue;
 
-                OnEffectRemoved?.Invoke(this, _currentEffects[i]);
-                _currentEffects[i].OnRemovedEffect();
+                OnEffectRemoved?.Invoke(this, removedEffect);
                 _currentEffects.RemoveAt(i);
+                removedEffect.OnRemovedEffect();
                 break;
             }
         }
@@ -226,9 +228,12 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             if (_currentEffects[i].Equals(effect))
             {
-                OnEffectRemoved?.Invoke(this, _currentEffects[i]);
-                _currentEffects[i].OnRemovedEffect();
+                AbstractEffect removedEffect = _currentEffects[i];
+                if (removedEffect.IsDestroyed()) continue;
+
+                OnEffectRemoved?.Invoke(this, removedEffect);
                 _currentEffects.RemoveAt(i);
+                removedEffect.OnRemovedEffect();
                 break;
             }
         }
