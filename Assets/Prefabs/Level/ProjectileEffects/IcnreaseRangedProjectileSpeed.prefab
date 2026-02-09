@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8170745046366698309}
   - component: {fileID: -5320657524776492580}
   m_Layer: 0
-  m_Name: DoubleRangedProjectileSpeed
+  m_Name: IcnreaseRangedProjectileSpeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,4 +47,4 @@ MonoBehaviour:
   EffectPriority: 10
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}
-  ProjectileSpeedMult: 2
+  ProjectileSpeedMult: 1.5
