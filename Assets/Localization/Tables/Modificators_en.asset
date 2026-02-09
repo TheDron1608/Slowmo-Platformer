@@ -605,11 +605,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17907562393608192
-    m_Localized: '* Spawns elite snipers at a frequency {SnipersRarity}
+    m_Localized: '* Spawns elite snipers at a rate of {SnipersRarity}
 
-      *
-      Elite Snipers aim significantly faster and can roll, but are slightly slower
-      and have less health
+      * Elite
+      Snipers aim significantly faster and can roll, but are slightly slower and
+      have less health
 
       * Elite Snipers have light armor'
     m_Metadata:
@@ -624,7 +624,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17907524384825344
-    m_Localized: '* Spawns snipers at a frequency {SnipersRarity}
+    m_Localized: '* Spawns snipers at a rate of {SnipersRarity}
 
       * Snipers
       aim faster, but are slower and have less health'
@@ -632,7 +632,7 @@ MonoBehaviour:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 17907564318793728
-    m_Localized: "\r* Spawns super snipers at a frequency {SnipersRarity}\r\n* Super
+    m_Localized: "\r* Spawns super snipers at a rate of {SnipersRarity}\r\n* Super
       Snipers aim almost instantly, move very quickly, and frequently roll\r\n* Super
       Snipers have light armor and standard health"
     m_Metadata:
@@ -643,7 +643,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18997756358270976
-    m_Localized: "\r* Spawns tanking enemies at a frequency {TankRarity}\r\n* Tanks
+    m_Localized: "\r* Spawns tanking enemies at a rate of {TankRarity}\r\n* Tanks
       have more health and are more resistant to stuns\r\n* Tanks have a standard
       shield"
     m_Metadata:
@@ -654,7 +654,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 18999284037033984
-    m_Localized: "\r* Spawns elite tanking enemies at a frequency {TankRarity}\r\n*
+    m_Localized: "\r* Spawns elite tanking enemies at a rate of {TankRarity}\r\n*
       Elite tanks have significantly more health and are more resistant to stuns\r\n*
       Elite tanks have a reflecting shield and full light armor "
     m_Metadata:
@@ -665,9 +665,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 19290660477837312
-    m_Localized: "\r* Spawns armored enemies at a frequency {ArmoredRarity}\r\n*
-      Supports have a combination of light and heavy armor\r\n* Support is armed
-      with a semi-automatic weapon"
+    m_Localized: "\r* Spawns armored enemies at a rate of {ArmoredRarity}\r\n* Supports
+      have a combination of light and heavy armor\r\n* Support is armed with a semi-automatic
+      weapon"
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -676,13 +676,33 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 19293161377734656
-    m_Localized: '* Spawns heavy armored enemies at a frequency {ArmoredRarity}
+    m_Localized: '* Spawns heavy armored enemies at a rate of {ArmoredRarity}
 
       *
       Heavy Supports have full heavy armor
 
       * Supports are armed with rapid-fire
       weapons'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 19999622395305984
+    m_Localized: Armored brawlers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19999628212805632
+    m_Localized: Heavy armored brawlers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19999623603265536
+    m_Localized: "\r* Spawns armored enemies at a rate of {ArmoredRarity}\r\n* The
+      melee has a mix of light and heavy armor\r\n* The melee is armed with an axe"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 19999628858728448
+    m_Localized: "\r* Spawns heavy armored enemies at a rate of {ArmoredRarity}\r\n*
+      The melee has a full heavy armor\r\n* The melee is armed with a scythe"
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -746,3 +766,5 @@ MonoBehaviour:
         - id: 18997756358270976
         - id: 19293161377734656
         - id: 19290660477837312
+        - id: 19999628858728448
+        - id: 19999623603265536

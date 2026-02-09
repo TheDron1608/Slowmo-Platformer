@@ -49,7 +49,7 @@ public class DefaultAIAttacking : AbstractDelayedAttacking
             if (weapon.AutoAttack) _isAutoWeaponAttacking = true;
             yield return new WaitForSeconds(
                 CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<MeleeWeapon>() != null ?
-                CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon() && MeleeAttackDelaySeconds > CLUMSY_MELEE_ATTACK_MIN_DELAY ? 0f : MeleeAttackDelaySeconds :
+                CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon() && MeleeAttackDelaySeconds < CLUMSY_MELEE_ATTACK_MIN_DELAY ? 0f : MeleeAttackDelaySeconds :
                 RangedAttackDelaySeconds
                 );
         }
