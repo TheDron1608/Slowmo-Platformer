@@ -9,7 +9,6 @@ public class OnAbleToDefendBehaviourAI : AbstractCharacterStateBehaviourAI
     {
         return
             CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<Shield>() != null &&
-            CharComponents.CharacterAttacking.IsAbleToShield &&
             TeamManager.Instance.GetTeamDataByTeam(CharComponents.CharacterTeam.Team).GetTeamMembers().Any(GetAllyIsValidForDefend);
             
     }
