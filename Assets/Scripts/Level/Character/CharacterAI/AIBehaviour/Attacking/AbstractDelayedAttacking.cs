@@ -2,6 +2,8 @@ using UnityEngine;
 
 public abstract class AbstractDelayedAttacking : AbstractAIAttacking
 {
+    protected const float CLUMSY_MELEE_ATTACK_MIN_DELAY = 0.5f;
+
     public float RangedAttackDelaySeconds = 0.75f;
     public float MeleeAttackDelaySeconds = 0.25f;
     public float StopAttackAimingDelaySeconds = 3.5f;

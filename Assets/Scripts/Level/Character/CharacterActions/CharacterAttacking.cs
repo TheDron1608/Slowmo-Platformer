@@ -128,7 +128,11 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     {
         if (
             (CharComponents.CharacterVisual.IsBusy() && !CharComponents.CharacterVisual.IsClumsyAnimation()) ||
-            (CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon() && CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0f)
+            (
+                CharComponents.CharacterClumsyness.ClumsyRangedAttack && 
+                CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<RangedWeapon>() != null && 
+                CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0f
+            )
             )
         {
             return false;

@@ -6,6 +6,6 @@ public class OnHasValidPickUpWeaponStateBehaviourAI : AbstractCharacterStateBeha
     {
         return 
             PrefferedHoldable.NearestPrefferedHoldable != null &&
-            (!DropOldWeapon || CharComponents.CharacterHolding.CurrentHoldObject == null);
+            (DropOldWeapon || CharComponents.CharacterHolding.CurrentHoldObject == null);
     }
 }
