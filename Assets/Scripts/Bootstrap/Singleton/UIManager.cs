@@ -9,6 +9,26 @@ using UnityEngine.UI;
 [DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
 {
+    private bool _showFPS = false;
+
+    public bool ShowFPS
+    {
+        get => _showFPS;
+        set
+        {
+            if (value == _showFPS) return;
+            _showFPS = value;
+            if (_showFPS)
+            {
+                FPSCountScreenOverlay.Show();
+            }
+            else
+            {
+                FPSCountScreenOverlay.Hide();
+            }
+        }
+    }
+
     public class ScreenOverlayInstance : MonoBehaviour
     {
         public int OverlayOrder;
@@ -209,6 +229,7 @@ public class UIManager : MonoBehaviour
     public ModificatorsUIScreenOverlay ModificatorsScreenOverlay;
     public TextableScreenOverlay LivingTimeLeftScreenOverlay;
     public FillableScreenOverlay SlowmoOverlay;
+    public ScreenOverlay FPSCountScreenOverlay;
 
     public static UIManager Instance;
 
@@ -256,6 +277,11 @@ public class UIManager : MonoBehaviour
         _screenOverlayContainer = GameObject.FindGameObjectWithTag("ScreenOverlayContainer");
         SceneEndScreenOverlay.Hide();
         SceneStartScreenOverlay.Show();
+
+        if (ShowFPS)
+        {
+            FPSCountScreenOverlay.Show();
+        }
     }
 
     private void OnDestroy()

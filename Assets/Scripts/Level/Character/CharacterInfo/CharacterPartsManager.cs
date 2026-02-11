@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class CharacterPartsManager : AbstractCharacterComponent
@@ -121,7 +119,7 @@ public class CharacterPartsManager : AbstractCharacterComponent
                 _characterParts.Remove(equipmentPart);
                 equipmentPart.DestroyPart();
                 i--;
-            } 
+            }
         }
     }
 

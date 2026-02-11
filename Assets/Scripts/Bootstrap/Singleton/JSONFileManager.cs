@@ -8,6 +8,7 @@ public class JSONFileManager : MonoBehaviour
     {
         public string WindowMode;
         public int resolutionX, resolutionY;
+        public bool ShowFPS;
 
         public void ApplyOptions()
         {
@@ -25,6 +26,8 @@ public class JSONFileManager : MonoBehaviour
                     Screen.SetResolution(resolutionX, resolutionY, FullScreenMode.FullScreenWindow);
                     break;
             }
+
+            UIManager.Instance.ShowFPS = ShowFPS;
         }
     }
 

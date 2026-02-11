@@ -26,7 +26,8 @@ public class ButtonMultiOptionsOnApplyChangeWindow : MonoBehaviour
     public void ApplyChangeWindow()
     {
 
-        JSONFileManager.WindowOptionsSaveData newSaveData = new JSONFileManager.WindowOptionsSaveData();
+        JSONFileManager.WindowOptionsSaveData newSaveData =
+            JsonUtility.FromJson<JSONFileManager.WindowOptionsSaveData>(JSONFileManager.ReadJSON(JSONFileManager.Instance.WindowFileName));
 
         switch (_windowModeButtonOptions.CurrentOptionIndex)
         {

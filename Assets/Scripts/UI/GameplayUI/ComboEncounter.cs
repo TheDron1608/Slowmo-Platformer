@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -179,7 +180,7 @@ public class ComboEncounter : MonoBehaviour
         if (_comboLastTime < 0f)
         {
             _comboLastTime = 0f;
-            if (CurrentCombo > 0) ResetCombo();
+            if (CurrentCombo > 0 && !gameObject.IsDestroyed()) ResetCombo();
         }
         _comboLastTimeFillImage.fillAmount = _comboLastTime / ResetComboDelay;
     }
