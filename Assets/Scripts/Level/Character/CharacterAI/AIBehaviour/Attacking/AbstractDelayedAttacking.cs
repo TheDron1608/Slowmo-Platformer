@@ -30,6 +30,8 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
 
         if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null)
         {
+            CharComponents.CharacterAiming.TargetAimPoint = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
+
             //trying hammer weapon if AlwayHammerWeaponBeforeAttack else attack immediantely
             if (
                 AlwaysHammerWeaponBeforeAttack &&

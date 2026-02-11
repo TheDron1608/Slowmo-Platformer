@@ -9,6 +9,14 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
     public bool IsAbleToStickOnWalls = true;
     public float StickOnWallStringhtMultiplier = 1f;
 
+    private bool _isCurrentAbleToStickOnWalls = true;
+
+    public bool IsCurrentAbleToStickOnWalls
+    {
+        get => _isCurrentAbleToStickOnWalls;
+        set => _isCurrentAbleToStickOnWalls = value;
+    }
+
     private void Start()
     {
         CharComponents.CharacterCollision.OnCollisionChanged += CharacterCollision_OnCollisionChanged;
@@ -21,9 +29,8 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
 
     private void UpdateStickyTileInteraction()
     {
-        if (!IsAbleToStickOnWalls) return;
-
         if (
+            IsCurrentAbleToStickOnWalls && IsAbleToStickOnWalls &&
             CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY ||
             CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY
             )

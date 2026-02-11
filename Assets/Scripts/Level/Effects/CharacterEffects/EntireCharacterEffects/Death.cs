@@ -22,7 +22,7 @@ public class Death : AbstractStun, ILethalEffect
         AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = false;
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
-        AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
+        AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = false;
 
         AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(false);
 

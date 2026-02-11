@@ -50,4 +50,9 @@ public class BlockMeleeProjectile : AbstractMeleeProjectileDeflection
 
         RemoveSelf();
     }
+
+    public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
+    {
+        return base.ApplyCondition(affectWho, sender) && !affectWho.GetComponent<MeleeProjectile>().WasDeflectedThisFrame;
+    }
 }

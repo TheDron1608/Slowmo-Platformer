@@ -124,10 +124,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RangedAttackDelaySeconds: 2
-  MeleeAttackDelaySeconds: 0
+  MeleeAttackDelaySeconds: 0.25
   StopAttackAimingDelaySeconds: 3.5
   AlwaysHammerWeaponBeforeAttack: 1
   DoNotAimIfNeedToMove: 0
+  InstantDeflect: 0
 --- !u!114 &6777744621790621435
 MonoBehaviour:
   m_ObjectHideFlags: 0

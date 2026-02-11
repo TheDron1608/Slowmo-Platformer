@@ -21,7 +21,7 @@ public class MinorStun : AbstractStun
         AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = false;
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
-        AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
+        AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = false;
     }
 
     protected override void OnRemove()

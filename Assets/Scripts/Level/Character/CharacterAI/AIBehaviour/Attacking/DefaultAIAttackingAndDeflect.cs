@@ -3,7 +3,7 @@ using UnityEngine;
 public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
 {
     const float RANGED_PROJECTILE_DEFLECTION_SPEED_DELAY = 1f;
-    const float MELEE_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE = 0.3f;
+    const float MELEE_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE = 1.5f;
     const float PROJECTILE_DEFLECTION_MAX_DISTANCE = 15f;
     const float DEFLECT_MAX_AXIS = 1f;
 
@@ -41,14 +41,11 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
 
             if (closestProjectile != null)
             {
-                if (
-                    closestProjectile.TryGetComponent(out RangedProjectile rangedProjectile) &&
-                    GetProjectileMovingToCharacter(closestProjectile)
-                    )
-                {
-                    CharComponents.CharacterAiming.AimWeaponDown = false;
-                    CharComponents.CharacterAiming.TargetAimPoint = closestProjectile.transform.position;
+                CharComponents.CharacterAiming.AimWeaponDown = false;
+                CharComponents.CharacterAiming.TargetAimPoint = closestProjectile.transform.position;
 
+                if (closestProjectile.TryGetComponent(out RangedProjectile rangedProjectile))
+                {
                     if (
                         closestProjectileDistance <= currentProjectile.ProjectileSize + closestProjectile.ProjectileSize + rangedProjectile.BulletSpeed * RANGED_PROJECTILE_DEFLECTION_SPEED_DELAY
                         )
@@ -69,7 +66,14 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
                     closestProjectileDistance <= currentProjectile.ProjectileSize + closestProjectile.ProjectileSize + MELEE_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE
                     )
                 {
-                    //CharComponents.CharacterAttacking.TryAttack(closestProjectile.transform.position);
+                    if (InstantDeflect)
+                    {
+                        CharComponents.CharacterAiming.InstantMoveToTargetAim();
+                    }
+                    if (CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim(DEFLECT_MAX_AXIS))
+                    {
+                        CharComponents.CharacterAttacking.TryAttack((closestProjectile.transform.position - CharComponents.Center.transform.position).normalized);
+                    }
                     return;
                 }
             }

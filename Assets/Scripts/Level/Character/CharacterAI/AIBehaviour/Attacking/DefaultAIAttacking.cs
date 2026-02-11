@@ -9,7 +9,6 @@ public class DefaultAIAttacking : AbstractDelayedAttacking
     protected override void OnTrackedEnemy()
     {
         CharComponents.CharacterAiming.AimWeaponDown = false;
-        CharComponents.CharacterAiming.TargetAimPoint = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
         if (_attackDelayingCoroutine == null)
         {
             if (_isAutoWeaponAttacking)

@@ -21,7 +21,7 @@ public class HardStun : AbstractStun
         AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = false;
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
-        AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
+        AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = false;
 
         if (AffectedCharacter.CharacterHolding.ThrowObjectsOnStun)
         {

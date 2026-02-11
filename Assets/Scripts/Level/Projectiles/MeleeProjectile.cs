@@ -8,7 +8,6 @@ public class MeleeProjectile : AbstractProjectile
     const float DEFLECT_PARTICLE_VELOCITY = 2.5f;
 
     public float WallKnockback = 5f;
-    public float BlockKnockback = 15f;
     public bool RepeatWallKnockback = false;
     public bool IsAbleToDeflectRangedProjectiles = true;
     public bool IsAbleToDeflectMeleeProjectiles = true;
@@ -51,7 +50,6 @@ public class MeleeProjectile : AbstractProjectile
         MeleeProjectile meleeOriginal = original.GetComponent<MeleeProjectile>();
 
         WallKnockback = meleeOriginal.WallKnockback;
-        BlockKnockback = meleeOriginal.BlockKnockback;
         RepeatWallKnockback = meleeOriginal.RepeatWallKnockback;
         IsAbleToDeflectRangedProjectiles = meleeOriginal.IsAbleToDeflectRangedProjectiles;
         IsAbleToDeflectMeleeProjectiles = meleeOriginal.IsAbleToDeflectMeleeProjectiles;

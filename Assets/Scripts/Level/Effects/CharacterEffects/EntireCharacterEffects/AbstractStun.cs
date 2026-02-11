@@ -16,7 +16,7 @@
             AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = true;
             AffectedCharacter.CharacterReloading.IsAbleToReload = true;
             AffectedCharacter.CharacterRolling.IsAbleToRoll = true;
-            AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = true;
+            AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = true;
         }
     }
 }

@@ -142,7 +142,7 @@ public class CharacterCollision : AbstractCharacterComponent
     public bool GetIsStickingOnWall()
     {
         return
-            CharComponents.CharacterInteractionWithTiles.IsAbleToStickOnWalls &&
+            CharComponents.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls &&
             (
                 GetTileBehaviourTypeFromLeftWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY ||
                 GetTileBehaviourTypeFromRightWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY

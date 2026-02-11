@@ -17,7 +17,7 @@ public class Busy : AbstractStun
         AffectedCharacter.CharacterAttacking.IsAbleToStartChainsaw = false;
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
-        AffectedCharacter.CharacterInteractionWithTiles.IsAbleToStickOnWalls = false;
+        AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = false;
     }
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)

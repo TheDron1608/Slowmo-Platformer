@@ -348,7 +348,7 @@ public class Holdable : Interactable
 
     public bool GetIsDangerouslyFast()
     {
-        return !_isStuck && VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToHitCharacter && _rigidBodyComponent.simulated;
+        return !_isStuck && _rigidBodyComponent.linearVelocity.magnitude >= SpeedToHitCharacter && _rigidBodyComponent.simulated;
     }
 
     public void TransformToAnotherObject(Holdable anotherObject)

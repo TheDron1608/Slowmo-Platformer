@@ -706,6 +706,55 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 20588908743901184
+    m_Localized: Swordsmen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20588912594272256
+    m_Localized: Elite swordsmen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20588915647725568
+    m_Localized: Super swordsmen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20588910715224064
+    m_Localized: '* Spawns swordsmen at a rate of {MeleeRarity} per level
+
+      *
+      Swordsmen are slightly faster, more agile, and have slightly more health
+
+      *
+      Swordsmen are armed with a dagger or an axe'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 20588914070667264
+    m_Localized: '* Spawns elite swordsmen at a rate of {MeleeRarity} per level
+
+      *
+      Swordsmen are faster, more agile, and have slightly more health
+
+      * Swordsmen
+      wield a scythe
+
+      * Swordsmen sometimes reflect projectiles'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 20588916587249664
+    m_Localized: '* Spawns super swordsmen at a rate of {MeleeRarity} per level
+
+      *
+      The Swordsman is significantly faster, more agile, and has slightly more health
+
+      *
+      The Swordsman is armed with a sword
+
+      * The Swordsman almost always reflects
+      projectiles and catches thrown weapons'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -768,3 +817,5 @@ MonoBehaviour:
         - id: 19290660477837312
         - id: 19999628858728448
         - id: 19999623603265536
+        - id: 20588914070667264
+        - id: 20588910715224064
