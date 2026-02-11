@@ -151,7 +151,7 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
                 {
                     if (CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim() && CharComponents.CharacterAiming.AimPerformed)
                     {
-                        ForceAttack(direction);
+                        return ForceAttack(direction);
                     }
                     else if (_clumsyRangedAttackCoroutine == null)
                     {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(1)]
 public class RangedProjectile : AbstractProjectile
 {
     const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;

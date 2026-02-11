@@ -98,7 +98,7 @@ public class CharacterAiming : AbstractCharacterComponent
 
         if (Debug_CurrentAimIcon != null)
         {
-            Debug_CurrentAimIcon.transform.position = _targetAimPoint;
+            Debug_CurrentAimIcon.transform.position = VectorMath.Vec2ToVec3(_targetAimPoint, LayerManager.Instance.GetZLayerOfGameObject(gameObject).transform.position.z);
         }
 
         if (
@@ -128,9 +128,9 @@ public class CharacterAiming : AbstractCharacterComponent
         return (TargetAimPoint - VectorMath.Vec3ToVec2(CharComponents.Center.transform.position)).normalized;
     }
 
-    public bool GetCurrentAimReachedTargetAim()
+    public bool GetCurrentAimReachedTargetAim(float precission = AIM_EQUAL_DELTA)
     {
-        return VectorMath.GetNormalizedVectorsEqual(CurrentAimPoint, TargetAimPoint, AIM_EQUAL_DELTA);
+        return VectorMath.GetNormalizedVectorsEqual(CurrentAimPoint, TargetAimPoint, precission);
     }
 
     public bool GetCurrentAimReachedAimDown()
@@ -145,6 +145,11 @@ public class CharacterAiming : AbstractCharacterComponent
     public bool GetHoldingValidForAimWeapon()
     {
         return CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<RangedWeapon>() != null && CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded;
+    }
+
+    public void InstantMoveToTargetAim()
+    {
+        CurrentAimPoint = TargetAimPoint;
     }
 
     private void OnDisable()

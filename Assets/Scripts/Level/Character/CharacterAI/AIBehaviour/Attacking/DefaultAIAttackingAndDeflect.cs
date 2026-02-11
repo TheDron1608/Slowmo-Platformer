@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
 {
-    const float RANGED_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE = 1.5f;
-    const float MELEE_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE = 0.5f;
-    const float PROJECTILE_DEFLECTION_PREPARE_DETECTION_EXTRA_DISTANCE = 10f;
+    const float RANGED_PROJECTILE_DEFLECTION_SPEED_DELAY = 1f;
+    const float MELEE_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE = 0.3f;
+    const float PROJECTILE_DEFLECTION_MAX_DISTANCE = 15f;
+    const float DEFLECT_MAX_AXIS = 1f;
+
+    public bool InstantDeflect = true;
 
     protected override void OnFixedUpdate()
     {
@@ -16,6 +19,8 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
 
         if (currentProjectile != null && CharComponents.CharacterAttacking.IsAbleToAttack)
         {
+            AbstractProjectile closestProjectile = null;
+            float closestProjectileDistance = PROJECTILE_DEFLECTION_MAX_DISTANCE;
             foreach (AbstractProjectile projectile in projectiles)
             {
                 if (
@@ -23,32 +28,49 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
                     GetProjectileIsValidToDeflect(currentProjectile, projectile)
                     )
                 {
-                    float distanceToProjectile = Vector2.Distance(CharComponents.Center.transform.position, projectile.transform.position);
+                    float projectileDistance = Vector2.Distance(
+                        projectile.transform.position, 
+                        CharComponents.Center.transform.position + VectorMath.Vec2ToVec3(CharComponents.CharacterRigidBody.linearVelocity * RANGED_PROJECTILE_DEFLECTION_SPEED_DELAY));
+                    if (projectileDistance < closestProjectileDistance)
+                    {
+                        closestProjectile = projectile;
+                        closestProjectileDistance = projectileDistance;
+                    }
+                }
+            }
+
+            if (closestProjectile != null)
+            {
+                if (
+                    closestProjectile.TryGetComponent(out RangedProjectile rangedProjectile) &&
+                    GetProjectileMovingToCharacter(closestProjectile)
+                    )
+                {
+                    CharComponents.CharacterAiming.AimWeaponDown = false;
+                    CharComponents.CharacterAiming.TargetAimPoint = closestProjectile.transform.position;
+
                     if (
-                        projectile.GetComponent<RangedProjectile>() != null &&
-                        distanceToProjectile <= currentProjectile.ProjectileSize + PROJECTILE_DEFLECTION_PREPARE_DETECTION_EXTRA_DISTANCE &&
-                        GetProjectileMovingToCharacter(projectile)
+                        closestProjectileDistance <= currentProjectile.ProjectileSize + closestProjectile.ProjectileSize + rangedProjectile.BulletSpeed * RANGED_PROJECTILE_DEFLECTION_SPEED_DELAY
                         )
                     {
-                        if (distanceToProjectile <= currentProjectile.ProjectileSize + RANGED_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE)
+                        if (InstantDeflect)
                         {
-                            CharComponents.CharacterAttacking.TryAttack(projectile.transform.position);
-                            return;
+                            CharComponents.CharacterAiming.InstantMoveToTargetAim();
                         }
-                        else
+                        if (CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim(DEFLECT_MAX_AXIS))
                         {
-                            CharComponents.CharacterAiming.TargetAimPoint = projectile.transform.position;
-                            return;
+                            CharComponents.CharacterAttacking.TryAttack((closestProjectile.transform.position - CharComponents.Center.transform.position).normalized);
                         }
                     }
-                    else if (
-                        projectile.GetComponent<MeleeProjectile>() != null &&
-                        distanceToProjectile <= currentProjectile.ProjectileSize + projectile.ProjectileSize + MELEE_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE
-                        )
-                    {
-                        CharComponents.CharacterAttacking.TryAttack(projectile.transform.position);
-                        return;
-                    }
+                    return;
+                }
+                else if (
+                    closestProjectile.GetComponent<MeleeProjectile>() != null &&
+                    closestProjectileDistance <= currentProjectile.ProjectileSize + closestProjectile.ProjectileSize + MELEE_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE
+                    )
+                {
+                    //CharComponents.CharacterAttacking.TryAttack(closestProjectile.transform.position);
+                    return;
                 }
             }
         }
@@ -77,7 +99,7 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
             Physics2D.Raycast(
                 projectile.transform.position,
                 VectorMath.Quartenion2DToVec2(projectile.transform.rotation),
-                projectile.ProjectileSize + PROJECTILE_DEFLECTION_PREPARE_DETECTION_EXTRA_DISTANCE,
+                projectile.ProjectileSize + PROJECTILE_DEFLECTION_MAX_DISTANCE,
                 (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer)
                 ).collider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents;
     }
