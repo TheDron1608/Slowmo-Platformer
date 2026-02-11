@@ -264,7 +264,7 @@ public class Holdable : Interactable
     {
         if (
             _isStuck ||
-            collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) && 
+            collision.collider.TryGetComponent(out AbstractCharacterComponent charComponent) &&
             charComponent.CharComponents.CharacterHolding == (TelekinesisAffector ?? LastHolder)
             )
         {
@@ -273,24 +273,24 @@ public class Holdable : Interactable
 
         if (charComponent != null && GetIsDangerouslyFast())
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(
-                collision.contacts[0].point,
-                _velocitySpeedPreviousFrame.normalized,
-                1f,
-                LayerManager.Instance.GetZLayerOfGameObject(gameObject).EntireLayerMask
-                );
-            for (int i = 0; i < hits.Length; i++)
+            CharacterLimbPart closestPart = null;
+            float closestPartDistance = float.MaxValue;
+            foreach (CharacterPart part in charComponent.CharComponents.CharacterPartsManager.CharacterParts)
             {
-                if (hits[i].collider.transform.parent.TryGetComponent(out CharacterPart charPart))
+                if (part.TryGetComponent(out CharacterLimbPart limbpart) && limbpart.CharPartHitbox.TryGetComponent(out Collider2D limbCollider))
                 {
-                    if (AbstractCharacterComponent.GetCharacterComponentsEqual(charPart, charComponent))
+                    float distance = Vector2.Distance(limbCollider.bounds.center, limbCollider.bounds.ClosestPoint(_thrownColliderComponent.bounds.center));
+                    if (distance < closestPartDistance )
                     {
-                        charPart.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnThrowHit, this, charPart);
+                        closestPartDistance = distance;
+                        closestPart = limbpart;
                     }
                 }
             }
-        }
 
+            charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnThrowHit, this, closestPart);
+        }
+        
         if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToGetThrough)
         {
             StuckedToCollider = collision.collider;
@@ -348,7 +348,7 @@ public class Holdable : Interactable
 
     public bool GetIsDangerouslyFast()
     {
-        return !_isStuck && _rigidBodyComponent.linearVelocity.magnitude >= SpeedToHitCharacter && _rigidBodyComponent.simulated;
+        return !_isStuck && _velocitySpeedPreviousFrame.magnitude >= SpeedToHitCharacter && _rigidBodyComponent.simulated;
     }
 
     public void TransformToAnotherObject(Holdable anotherObject)
@@ -519,7 +519,7 @@ public class Holdable : Interactable
         else
         {
             _rigidBodyComponent.simulated = false;
-            _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+            _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
             gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
         }
 

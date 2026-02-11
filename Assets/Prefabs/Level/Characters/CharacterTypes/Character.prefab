@@ -143,11 +143,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackCooldown: 0.8125
   _attackCooldownMultiplier: 1
-  PlayerInputAutoAttackOnPress: 0
+  AutoAttack: 0
   Projectile: {fileID: 0}
   AccuracyMultiplier: 1
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  ExtraProjectileEffects: []
 --- !u!1 &3563836969740914839
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +301,7 @@ GameObject:
   - component: {fileID: 8534364300553101477}
   - component: {fileID: 485369397892276728}
   - component: {fileID: 3430690566790848810}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Character
   m_TagString: Character
   m_Icon: {fileID: 0}
@@ -437,6 +438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClumsyMeleeAttack: 1
   ClumsyRangedAttack: 1
+  ClumsyShielding: 0
   ClumsyMovement: 1
   ClumsyJumping: 1
   ClumsyReloading: 1
@@ -497,8 +499,10 @@ MonoBehaviour:
   _isAbleToAttack: 1
   _isAbleToHammer: 1
   _isAbleToStartChainsaw: 1
+  _isAbleToShield: 1
   AttackCooldownMultiplier: 1
   UnarmedAttackProjectile: {fileID: 0}
+  ExtraProjectileEffects: []
 --- !u!114 &-1858980390697622286
 MonoBehaviour:
   m_ObjectHideFlags: 0
