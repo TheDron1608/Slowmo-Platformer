@@ -15,7 +15,7 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
         AbstractProjectile[] projectiles = layer.ProjectilesContainer.GetComponentsInChildren<AbstractProjectile>();
         MeleeProjectile currentProjectile =
             CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<MeleeWeapon>()?.Projectile?.GetComponent<MeleeProjectile>() ??
-            CharComponents.CharacterAttacking.UnarmedAttackProjectile?.GetComponent<MeleeProjectile>();
+            CharComponents.UnarmedAttacking.Projectile?.GetComponent<MeleeProjectile>();
 
         if (currentProjectile != null && CharComponents.CharacterAttacking.IsAbleToAttack)
         {
@@ -94,17 +94,5 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
                 deflected.GetComponent<MeleeProjectile>() != null &&
                 NumberMath.GetListContainsComponent<AbstractMeleeProjectileDeflection, AbstractEffect>(deflector.EffectsOnDeflect)
             );
-    }
-
-    private bool GetProjectileMovingToCharacter(AbstractProjectile projectile)
-    {
-        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        return
-            Physics2D.Raycast(
-                projectile.transform.position,
-                VectorMath.Quartenion2DToVec2(projectile.transform.rotation),
-                projectile.ProjectileSize + PROJECTILE_DEFLECTION_MAX_DISTANCE,
-                (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer)
-                ).collider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents;
     }
 }

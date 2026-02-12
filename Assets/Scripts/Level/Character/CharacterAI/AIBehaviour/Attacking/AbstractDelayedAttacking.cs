@@ -9,6 +9,8 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
     public float StopAttackAimingDelaySeconds = 3.5f;
     public bool AlwaysHammerWeaponBeforeAttack = true;
     public bool DoNotAimIfNeedToMove = false;
+    public bool AllowArms = true;
+    public bool AllowUnarmed = true;
 
     private void FixedUpdate()
     {
@@ -28,15 +30,18 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
             return;
         }
 
-        if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null)
+        Weapon currentWeapon =
+            (AllowArms ? CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<Weapon>() : null) ??
+            (AllowUnarmed ? CharComponents.UnarmedAttacking : null);
+
+        if (currentWeapon != null && _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null)
         {
             CharComponents.CharacterAiming.TargetAimPoint = _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position;
 
             //trying hammer weapon if AlwayHammerWeaponBeforeAttack else attack immediantely
             if (
                 AlwaysHammerWeaponBeforeAttack &&
-                CharComponents.CharacterHolding.CurrentHoldObject != null &&
-                CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) &&
+                currentWeapon.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) &&
                 !hammerWeapon.Hammered
                 )
             {
@@ -45,8 +50,7 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
 
             //trying start chainsaw
             else if (
-                CharComponents.CharacterHolding.CurrentHoldObject != null &&
-                CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Chainsaw chainsaw) &&
+                currentWeapon.TryGetComponent(out Chainsaw chainsaw) &&
                 !chainsaw.Started
                 )
             {
@@ -56,24 +60,15 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
             //trying attack if no need to hammer weapon or start chainsaw
             else if (
                 CharComponents.CharacterAttacking.IsAbleToAttack &&
-                    (
-                    CharComponents.CharacterAttacking.UnarmedAttackProjectile != null ||
-                        (
-                            CharComponents.CharacterHolding.CurrentHoldObject != null &&
-                            (
-                                (
-                                    CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon) &&
-                                    rangedWeapon.Projectile != null &&
-                                    !rangedWeapon.GetIsOutOfAmmo()
-                                ) ||
-                                (
-                                    CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out MeleeWeapon meleeWeapon) &&
-                                    meleeWeapon.Projectile != null &&
-                                    _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance.Value <= meleeWeapon.Projectile.ProjectileSize
-                                )
-                            )
-                        )
-                    )
+                currentWeapon.Projectile != null &&
+                currentWeapon.GetIsAbleToAttack() &&
+                (
+                    currentWeapon.Projectile is RangedProjectile
+                ) ||
+                (
+                     currentWeapon.Projectile is MeleeProjectile meleeProjectile &&
+                    _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance.Value <= meleeProjectile.ProjectileSize
+                )
                 )
             {
                 OnTrackedEnemy();

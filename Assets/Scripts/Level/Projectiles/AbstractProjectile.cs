@@ -192,6 +192,10 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         {
             Owner = holdableWeapon.CurrentHolder ?? holdableWeapon.LastHolder;
         }
+        else if (weapon?.TryGetComponent(out UnarmedWeapon unarmedWeapon) ?? false)
+        {
+            Owner = unarmedWeapon.CharComponents.CharacterHolding;
+        }
     }
 
 

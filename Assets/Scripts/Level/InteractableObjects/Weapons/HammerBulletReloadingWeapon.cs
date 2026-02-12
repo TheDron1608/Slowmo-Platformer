@@ -67,11 +67,6 @@ public class HammerBulletReloadingWeapon : BulletReloadingWeapon
         ForceSetHammered(true);
     }
 
-    protected override bool ReloadCondition()
-    {
-        return base.ReloadCondition() && !IsHammerring;
-    }
-
     protected override void OnReload()
     {
         TrySetHammered(false);

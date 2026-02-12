@@ -1,7 +1,12 @@
 using UnityEngine;
 
-public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
+public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
 {
+    protected virtual bool CharacterCondition(CharacterComponentsManager character)
+    {
+        return true;
+    }
+
     protected override void OnUpdateInfo()
     {
         float minDistance = MaxEnemyDetectRange;
@@ -9,8 +14,14 @@ public partial class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
         CharacterTeam result = null;
         foreach (Transform characterTransform in currentLayer.CharactersContainer.transform)
         {
-            if (!characterTransform.gameObject.activeSelf) continue;
-            if (!characterTransform.TryGetComponent(out CharacterComponentsManager character)) continue;
+            if (
+                !characterTransform.gameObject.activeSelf ||
+                !characterTransform.TryGetComponent(out CharacterComponentsManager character) ||
+                !CharacterCondition(character)
+                )
+            {
+                continue;
+            }
 
             float charDistance = Vector2.Distance(transform.position, character.transform.position);
             if (

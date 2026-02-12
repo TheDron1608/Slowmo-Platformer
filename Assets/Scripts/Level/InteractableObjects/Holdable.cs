@@ -52,6 +52,7 @@ public class Holdable : Interactable
     private Coroutine _enableGravityCoroutine;
     private CharacterComponentsManager _excludedCollideThrower;
     private string _localizedName = "";
+    private List<AbstractEffect> _appliedHolderEffects = new();
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
     public event EventHandler<OnThrownEventArgs> OnThrown;
@@ -450,6 +451,9 @@ public class Holdable : Interactable
             _enableGravityCoroutine = StartCoroutine(EnableGravityAfterDelay());
         }
 
+        _effectsReceiver.RemoveEffect(_appliedHolderEffects);
+        _appliedHolderEffects = new();
+
         SoundOnThrown.PlaySound();
 
         //logic for weapon component and weapon class children classes
@@ -535,6 +539,8 @@ public class Holdable : Interactable
         StuckedToCollider = null;
 
         ExcludedCollideThrower = newHolder.CharComponents;
+
+        _appliedHolderEffects = _effectsReceiver.ApplyEffect(newHolder.EffectsOnHoldedObject, newHolder);
 
         SoundOnPickedUp.PlaySound();
 

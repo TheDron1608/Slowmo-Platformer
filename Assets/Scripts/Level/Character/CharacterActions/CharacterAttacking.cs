@@ -12,7 +12,6 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     [SerializeField] private bool _isAbleToStartChainsaw = true;
     [SerializeField] private bool _isAbleToShield = true;
     public float AttackCooldownMultiplier = 1f;
-    public AbstractProjectile UnarmedAttackProjectile;
     public List<AbstractEffect> ExtraProjectileEffects = new();
 
     private Vector2? _awaitingMeleeAttackDirection = null;

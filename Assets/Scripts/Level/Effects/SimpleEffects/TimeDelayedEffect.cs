@@ -52,8 +52,9 @@ public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect, IMult
     {
         return
             base.Equals(other) &&
-            EffectOnFinishDelay == (other as TimeDelayedEffect).EffectOnFinishDelay &&
-            EffectOnBreakDelay == (other as TimeDelayedEffect).EffectOnBreakDelay;
+            Delay == (other as TimeDelayedEffect).Delay &&
+            (EffectOnFinishDelay?.Equals((other as TimeDelayedEffect).EffectOnFinishDelay) ?? (other as TimeDelayedEffect).EffectOnFinishDelay == EffectOnFinishDelay) &&
+            (EffectOnBreakDelay?.Equals((other as TimeDelayedEffect).EffectOnBreakDelay) ?? (other as TimeDelayedEffect).EffectOnBreakDelay == EffectOnBreakDelay);
     }
 
     public override List<AbstractEffect> GetSelfIncludeIncomingEffects()

@@ -226,11 +226,10 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (_currentEffects[i].Equals(effect))
+            if (ReferenceEquals(_currentEffects[i], effect) || _currentEffects[i].Equals(effect))
             {
                 AbstractEffect removedEffect = _currentEffects[i];
                 if (removedEffect.IsDestroyed()) continue;
-
                 OnEffectRemoved?.Invoke(this, removedEffect);
                 _currentEffects.RemoveAt(i);
                 removedEffect.OnRemovedEffect();
@@ -242,11 +241,10 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     public void RemoveEffect(List<AbstractEffect> effects)
     {
-        if (effects.Count == 0) return;
-        for (int i = 0; i < _currentEffects.Count; i++)
+        if (effects == null) return;
+        foreach (AbstractEffect effect in effects)
         {
-            RemoveEffect(effects[i]);
-            break;
+            RemoveEffect(effect);
         }
     }
 

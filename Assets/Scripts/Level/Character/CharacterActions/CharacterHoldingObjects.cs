@@ -32,6 +32,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     [SerializeField] private Holdable _currentHoldObject = null;
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
+    public List<AbstractEffect> EffectsOnHoldedObject = new();
     public bool Telekinesis = false;
     public float TelekinesisDistance = 8f;
     public float TelekinesisForce = 5f;
@@ -282,7 +283,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     {
         if (ForceThrow(CharComponents.CharacterAiming.GetCurrentAimNormalized(), DISARM_DROP_VELOCITY_MULTIPLIER))
         {
-            return giveDisarmedHoldableTo?.TryGrab(LastHoldObject) ?? true;
+            return giveDisarmedHoldableTo?.ForceGrab(LastHoldObject) ?? true;
         }
         else
         {

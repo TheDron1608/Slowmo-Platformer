@@ -1,0 +1,71 @@
+using UnityEngine;
+
+public class RollOnCloseProjectiles : AbstractAIRolling
+{
+    public float RollCooldown = 1f;
+    public float ProjectileDistanceToRoll = 3.5f;
+
+    private float _cooldown = 0f;
+
+    private void FixedUpdate()
+    {
+        if (CharComponents.CharacterRolling.IsRolling) return;
+        if (_cooldown > 0f)
+        {
+            _cooldown -= Time.fixedDeltaTime;
+            return;
+        }
+
+        AbstractProjectile closestProjectile = null;
+        float closestProjectileDistance = ProjectileDistanceToRoll;
+        foreach (AbstractProjectile projectile in LayerManager.Instance.GetZLayerOfGameObject(gameObject).ProjectilesContainer.GetComponentsInChildren<AbstractProjectile>())
+        {
+            if ((!projectile.Owner?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(CharComponents.CharacterTeam)) ?? true)
+            {
+                float projectileDistance = Vector2.Distance(
+                   projectile.TryGetComponent(out RangedProjectile rangedProjectile) ? rangedProjectile.ProjectileTip.transform.position : projectile.transform.position,
+                   CharComponents.Center.transform.position);
+                if (projectileDistance < closestProjectileDistance)
+                {
+                    closestProjectile = projectile;
+                    closestProjectileDistance = projectileDistance;
+                }
+            }
+        }
+
+        if (closestProjectile != null)
+        {
+            if (closestProjectile is RangedProjectile closestRangedProjectile)
+            {
+                if (GetProjectileMovingToCharacter(closestRangedProjectile))
+                {
+                    CharComponents.CharacterRolling.TryRoll(
+                        closestRangedProjectile.MoveAlignVec2.x > 0f ? 
+                        (float)CharacterRolling.RollDirection.Left :
+                        (float)CharacterRolling.RollDirection.Right
+                        );
+                }
+            }
+            else if (closestProjectile is MeleeProjectile closestMeleeProjectile)
+            {
+                CharComponents.CharacterRolling.TryRoll(
+                    CharComponents.transform.position.x > closestMeleeProjectile.transform.position.x ?
+                    (float)CharacterRolling.RollDirection.Right :
+                    (float)CharacterRolling.RollDirection.Left
+                    );
+            }
+        }
+    }
+
+    private bool GetProjectileMovingToCharacter(AbstractProjectile projectile)
+    {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        return
+            Physics2D.Raycast(
+                projectile.transform.position,
+                VectorMath.Quartenion2DToVec2(projectile.transform.rotation),
+                projectile.ProjectileSize + ProjectileDistanceToRoll,
+                (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer)
+                ).collider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents;
+    }
+}

@@ -4,6 +4,7 @@ public class DisarmAndStealMeleeProjectileOwner : AbstractMeleeProjectileDeflect
 {
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
+        Debug.Log("steal " + Projectile);
         if (
             MeleeProjectile.Owner == null ||
             MeleeProjectile.Weapon == null ||
@@ -16,10 +17,7 @@ public class DisarmAndStealMeleeProjectileOwner : AbstractMeleeProjectileDeflect
 
         if (sender.TryGetComponent(out AbstractProjectile projectile) && projectile.Owner != null)
         {
-            if (MeleeProjectile.Owner.TryThrow(Vector2.zero))
-            {
-                MeleeProjectile.Weapon.GetComponent<Holdable>().Give(projectile.Owner);
-            }
+            projectile.Owner.CharComponents.CharacterHolding.ForceDisarm(projectile?.Owner);
         }
 
         MeleeProjectile.RemoveProjectile();

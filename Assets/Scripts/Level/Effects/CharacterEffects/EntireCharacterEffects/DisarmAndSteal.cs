@@ -9,7 +9,7 @@ public class DisarmAndSteal : AbstractCharacterEffectWithSender, IEntireCharacte
             sender.GetComponent<AbstractProjectile>()?.Owner != null
             )
         {
-            AffectedCharacter.CharacterHolding.TryDisarm(sender.GetComponent<AbstractProjectile>()?.Owner);
+            AffectedCharacter.CharacterHolding.ForceDisarm(sender.GetComponent<AbstractProjectile>()?.Owner);
         }
         RemoveSelf();
     }
