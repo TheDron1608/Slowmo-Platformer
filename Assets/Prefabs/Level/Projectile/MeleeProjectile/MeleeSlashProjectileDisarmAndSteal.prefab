@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: HitEffects.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: SelfEffects.Array.size
@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: 'HitEffects.Array.data[1]'
       value: 
       objectReference: {fileID: -7230639950384262476, guid: 632f89f98857e344a9a0577c42603646, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[2]'
+      value: 
+      objectReference: {fileID: 344805414714566387, guid: f3aa8846d64ca504a9c3b1b5ee4c2fc9, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'SelfEffects.Array.data[0]'
       value: 

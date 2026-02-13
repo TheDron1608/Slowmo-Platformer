@@ -141,6 +141,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4915943473345623899, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: _maxHealth
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915943473345623899, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: _currentHealth
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5738232838178639446, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: _stateBehaviourAIs.Array.size
       value: 3
@@ -153,6 +161,14 @@ PrefabInstance:
       propertyPath: '_stateBehaviourAIs.Array.data[2]'
       value: 
       objectReference: {fileID: 800096832044592452}
+    - target: {fileID: 6255572982520604979, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e7f26330572da046a7da56221732188, type: 2}
+    - target: {fileID: 7131731516214610488, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e7f26330572da046a7da56221732188, type: 2}
     - target: {fileID: 8141324552991322303, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: EffectsOnHoldedObject.Array.size
       value: 3
@@ -173,17 +189,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnarmedEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8346016204660032013, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: Speed
+      value: 6.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8981141619653849015, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: RollSpeed
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8981141619653849015, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: ExtraSpeedOnStart
-      value: 17.5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8981141619653849015, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: ExtraSpeedDuration
-      value: 0.333
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

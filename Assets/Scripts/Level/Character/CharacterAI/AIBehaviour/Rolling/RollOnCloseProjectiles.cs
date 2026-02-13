@@ -3,7 +3,8 @@ using UnityEngine;
 public class RollOnCloseProjectiles : AbstractAIRolling
 {
     public float RollCooldown = 1f;
-    public float ProjectileDistanceToRoll = 3.5f;
+    public float MeleeProjectileDistanceToRoll = 2.5f;
+    public float RangedProjectileDistanceToRoll = 10f;
 
     private float _cooldown = 0f;
 
@@ -17,7 +18,7 @@ public class RollOnCloseProjectiles : AbstractAIRolling
         }
 
         AbstractProjectile closestProjectile = null;
-        float closestProjectileDistance = ProjectileDistanceToRoll;
+        float closestProjectileDistance = RangedProjectileDistanceToRoll;
         foreach (AbstractProjectile projectile in LayerManager.Instance.GetZLayerOfGameObject(gameObject).ProjectilesContainer.GetComponentsInChildren<AbstractProjectile>())
         {
             if ((!projectile.Owner?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(CharComponents.CharacterTeam)) ?? true)
@@ -35,7 +36,7 @@ public class RollOnCloseProjectiles : AbstractAIRolling
 
         if (closestProjectile != null)
         {
-            if (closestProjectile is RangedProjectile closestRangedProjectile)
+            if (closestProjectile is RangedProjectile closestRangedProjectile && closestProjectileDistance <= RangedProjectileDistanceToRoll)
             {
                 if (GetProjectileMovingToCharacter(closestRangedProjectile))
                 {
@@ -46,7 +47,7 @@ public class RollOnCloseProjectiles : AbstractAIRolling
                         );
                 }
             }
-            else if (closestProjectile is MeleeProjectile closestMeleeProjectile)
+            else if (closestProjectile is MeleeProjectile closestMeleeProjectile && closestProjectileDistance <= MeleeProjectileDistanceToRoll)
             {
                 CharComponents.CharacterRolling.TryRoll(
                     CharComponents.transform.position.x > closestMeleeProjectile.transform.position.x ?
@@ -64,7 +65,7 @@ public class RollOnCloseProjectiles : AbstractAIRolling
             Physics2D.Raycast(
                 projectile.transform.position,
                 VectorMath.Quartenion2DToVec2(projectile.transform.rotation),
-                projectile.ProjectileSize + ProjectileDistanceToRoll,
+                projectile.ProjectileSize + RangedProjectileDistanceToRoll,
                 (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer)
                 ).collider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents;
     }

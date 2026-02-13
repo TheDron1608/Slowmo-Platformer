@@ -755,6 +755,32 @@ MonoBehaviour:
       projectiles and catches thrown weapons'
     m_Metadata:
       m_Items: []
+  - m_Id: 21193372761038848
+    m_Localized: Unarmed enemy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21193378507235328
+    m_Localized: Elite unarmed enemy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21193374149353472
+    m_Localized: '* Spawn unarmed enemies at a rate of {UnarmedRarity}
+
+      * Unarmeds
+      are significantly faster and have slightly more health
+
+      * Unarmeds can
+      disarm enemies
+
+      * Unarmeds can roll'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 21193379237044224
+    m_Localized: 
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -819,3 +845,5 @@ MonoBehaviour:
         - id: 19999623603265536
         - id: 20588914070667264
         - id: 20588910715224064
+        - id: 21193379237044224
+        - id: 21193374149353472
