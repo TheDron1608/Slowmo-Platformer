@@ -42,6 +42,12 @@ public class Chainsaw : MeleeWeapon
         FuelLeft = MaxFuel;
     }
 
+    protected override void VirtualOnEnable()
+    {
+        base.VirtualOnEnable();
+        IsStarting = false;
+    }
+
     public bool IsStarting
     {
         get => _isStarting;

@@ -19,8 +19,9 @@ public abstract class ThrowableWeapon : Weapon, IThrowableIteractableObj
         }
     }
 
-    private void OnEnable()
+    protected override void VirtualOnEnable()
     {
+        base.VirtualOnEnable();
         _animator.SetBool(ANIMATOR_ISTHROWN_PROP_NAME, _isThrown);
     }
 

@@ -159,6 +159,14 @@ public class RangedWeapon : ThrowableWeapon
     }
 
     //OVERRIDES
+    protected override void VirtualOnEnable()
+    {
+        base.VirtualOnEnable();
+
+        IsReloading = false;
+        IsUnloading = false;
+    }
+
     protected override bool AttackCondition()
     {
         return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded && !RandomManager.Instance.ProcRandomBadChance(JamChance);

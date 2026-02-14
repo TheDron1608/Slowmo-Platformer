@@ -45,7 +45,10 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     public bool IsInCooldown
     {
         get => _isInCooldown;
-        set => _isInCooldown = value;
+        set
+        {
+            _isInCooldown = value;
+        }
     }
 
     public List<AbstractProjectile> Projectiles
@@ -65,9 +68,19 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         OnAwake();
     }
 
+    private void OnEnable()
+    {
+        VirtualOnEnable();
+    }
+
     protected virtual void OnAwake()
     {
         _projectileSpawnPosition = transform.Find(PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME);
+    }
+
+    protected virtual void VirtualOnEnable()
+    {
+        IsInCooldown = false;
     }
 
     public Vector2 GetCurrentAvaibleAim()

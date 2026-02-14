@@ -34,6 +34,12 @@ public class BulletReloadingWeapon : RangedWeapon
         base.OnTryAttackFail(direction);
     }
 
+    protected override void VirtualOnEnable()
+    {
+        base.VirtualOnEnable();
+        _isUnloadingAllBullets = false;
+    }
+
     protected override bool AttackCondition()
     {
         return !_isUnloadingAllBullets && base.AttackCondition();
