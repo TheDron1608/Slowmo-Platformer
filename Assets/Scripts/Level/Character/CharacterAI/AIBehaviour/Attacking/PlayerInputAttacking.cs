@@ -14,19 +14,6 @@ public class PlayerInputAttacking : AbstractAIAttacking
         set => _autoAttack = value;
     }
 
-    public Vector3? GetMouseWorldPositionOnCharacterLayer()
-    {
-        RaycastHit[] mouseHits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
-        for (int i = 0; i < mouseHits.Length; i++)
-        {
-            if (mouseHits[i].collider.gameObject == LayerManager.Instance.GetZLayerOfGameObject(gameObject).gameObject)
-            {
-                return mouseHits[i].point;
-            }
-        }
-        return null;
-    }
-
     private void Start()
     {
         AttackActionReference.action.started += AttackActionRereference_OnActionStarted;
@@ -105,7 +92,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
         }
         else
         {
-            Vector3? mousePos = GetMouseWorldPositionOnCharacterLayer();
+            Vector3? mousePos = CurrentDeviceTracker.GetMouseWorldPositionOnLayer(LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject));
             if (mousePos.HasValue)
             {
                 CharComponents.CharacterAiming.TargetAimPoint = mousePos.Value;

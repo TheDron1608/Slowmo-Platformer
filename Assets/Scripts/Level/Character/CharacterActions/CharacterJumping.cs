@@ -63,10 +63,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     private void OnEnable()
     {
-        _airJumpsLeft = 0;
-        _isJumping = false;
-        _awaitingClumsyJump = false;
-        _currentGravityMultiplier = 1f;
+        StopJump();
     }
 
     public void TryStartJump()

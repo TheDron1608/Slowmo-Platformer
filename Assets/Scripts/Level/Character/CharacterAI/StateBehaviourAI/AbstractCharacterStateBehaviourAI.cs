@@ -15,6 +15,7 @@ public abstract class AbstractCharacterStateBehaviourAI : AbstractCharacterCompo
     public AbstractAIMovingAndJumping MovingAndJumping;
     public AbstractAIGrabbingAndThrowing GrabbingAndThrowing;
     public AbstractAIInteracting Interacting;
+    public AbstractAISpecial Special;
     [Header("AIInfo")]
     public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
     public AbstractAIPathfinding Pathfinding = null;

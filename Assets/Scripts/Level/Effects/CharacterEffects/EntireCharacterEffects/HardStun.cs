@@ -22,6 +22,10 @@ public class HardStun : AbstractStun
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
         AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = false;
+        if (AffectedCharacter.CharacterSpecial != null)
+        {
+            AffectedCharacter.CharacterSpecial.IsAbleToDoSpecial = false;
+        }
 
         if (AffectedCharacter.CharacterHolding.ThrowObjectsOnStun)
         {

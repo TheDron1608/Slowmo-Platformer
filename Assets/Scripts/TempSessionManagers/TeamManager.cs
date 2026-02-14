@@ -46,7 +46,8 @@ public class TeamManager : MonoBehaviour
     public enum Teams : int
     {
         PLAYER = 0,
-        DEFAULT_ENEMY = 1
+        DEFAULT_ENEMY = 1,
+        CHASER = 2
     }
 
     public static TeamManager Instance;

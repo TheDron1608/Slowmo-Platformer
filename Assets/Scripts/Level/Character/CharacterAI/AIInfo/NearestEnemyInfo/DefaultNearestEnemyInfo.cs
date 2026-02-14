@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
 {
+    public bool XRay = false;
+
     protected virtual bool CharacterCondition(CharacterComponentsManager character)
     {
         return true;
@@ -28,12 +30,12 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
                 charDistance < minDistance &&
                 !character.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() &&
                 !CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(character.CharacterTeam) &&
-                Physics2D.Linecast(
+                (XRay || Physics2D.Linecast(
                     CharComponents.Center.transform.position,
                     character.Center.transform.position,
                     1 << currentLayer.EnviromentLayer
                     ).collider == null
-                )
+                ))
             {
                 minDistance = charDistance;
                 result = character.CharacterTeam;

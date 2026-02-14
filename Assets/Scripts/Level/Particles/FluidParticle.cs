@@ -36,6 +36,21 @@ public class FluidParticle : AbstractSpriteParticle
     private SpriteRenderer _spriteRenderer;
     private ZIndexLayer _layer;
 
+    public float LifeTime
+    {
+        get => _lifeTime;
+        set
+        {
+            _lifeTime = value;
+            _currentLifeTime = math.min(_currentLifeTime, _lifeTime);
+        }
+    }
+    public Vector2 Velocity
+    {
+        get => _velocity;
+        set => _velocity = value;
+    }
+
     private void SetAddedExtraFlyingSortingOrder(int value)
     {
         if (_addedExtraFlyingSortingOrder == value) return;

@@ -52,7 +52,7 @@ public class CharacterRolling : AbstractCharacterComponent
 
     private void OnEnable()
     {
-        IsRolling = false;
+        ForceStopRolling();
     }
 
     public bool TryRoll(float direction)

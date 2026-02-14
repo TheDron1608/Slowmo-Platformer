@@ -17,6 +17,10 @@
             AffectedCharacter.CharacterReloading.IsAbleToReload = true;
             AffectedCharacter.CharacterRolling.IsAbleToRoll = true;
             AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = true;
+            if (AffectedCharacter.CharacterSpecial != null)
+            {
+                AffectedCharacter.CharacterSpecial.IsAbleToDoSpecial = true;
+            }
         }
     }
 }

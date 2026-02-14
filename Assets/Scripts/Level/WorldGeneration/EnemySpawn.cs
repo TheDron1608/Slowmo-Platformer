@@ -33,25 +33,10 @@ public class EnemySpawn : GenerateOnFinishAllBuildingEnviroment
 
             //Debug.Log(generationInfo.GetSpawnPosition() + " : " + gameObject.GetInstanceID());
             //spawn character
-            CharacterComponentsManager newEnemy = generationInfo.GenerateWhere.TrySpawnObject(
-                spawnInfo.Enemy.gameObject,
+            CharacterComponentsManager newEnemy = spawnInfo.SpawnAt(
                 generationInfo.GetTileSpawnPosition() + Vector3.right * NumberMath.PickRandomInRangeNoSeed(-0.5f, 0.5f),
-                generationInfo.Building,
-                generationInfo.Chunk
-                ).First()?.GetComponent<AbstractCharacterComponent>().CharComponents;
-
-            if (newEnemy == null) return new List<GameObject>(0);
-
-            LayerManager.Instance.ChangeZIndexForGameObject(generationInfo.GenerateWhere, newEnemy.gameObject);
-
-            //give weapon
-            newEnemy.CharacterHolding.GiveNewHoldable(spawnInfo.Weapon?.PickRandomWeapon());
-
-            //give equipment
-            foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment?.PickRandomEquipment() ?? new List<CharacterEquipmentPart>())
-            {
-                newEnemy.CharacterPartsManager.GiveNewEquipment(randomEquipment);
-            }
+                generationInfo.GenerateWhere
+                );
 
             result.Add(newEnemy.gameObject);
             iter++;

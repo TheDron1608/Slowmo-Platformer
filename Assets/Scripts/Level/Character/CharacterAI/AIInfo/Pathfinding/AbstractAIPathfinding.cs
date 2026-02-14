@@ -130,4 +130,9 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
         }
         while (currentChain != null);
     }
+
+    public virtual bool GetIsAbleToReachPathTarget()
+    {
+        return true;
+    }
 }

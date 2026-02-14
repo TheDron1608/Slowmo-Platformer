@@ -5,5 +5,8 @@ public class Resurrect : AbstractCharacterEffect, IEntireCharacterEffect
         base.OnApply();
 
         AffectedCharacter.CharacterHealth.SetHealth(AffectedCharacter.CharacterHealth.MaxHealth, null, null);
+        AffectedCharacter.CharacterHealth.Ressurect();
+
+        RemoveSelf();
     }
 }

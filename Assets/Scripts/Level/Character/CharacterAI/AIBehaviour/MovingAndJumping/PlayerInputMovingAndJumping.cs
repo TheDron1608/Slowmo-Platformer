@@ -47,7 +47,7 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
         else
         {
             _coyoteJumpTooEarlyTimeLeft = CoyoteEarlyTimer;
-            _coyoteJumpTooEarlyHandler = StartCoroutine(HandleCoyoteJumpTooEarly());
+            if (CharComponents.gameObject.activeSelf) _coyoteJumpTooEarlyHandler = StartCoroutine(HandleCoyoteJumpTooEarly());
         }
     }
 

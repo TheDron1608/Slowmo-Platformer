@@ -62,6 +62,7 @@ public class ZIndexLayer : MonoBehaviour
     public Transform LightParticlesContainer { get => _lightParticlesContainer; }
     public Transform ProjectilesContainer { get => _projectilesContainer; }
     public Transform InteractableEnviromentContainer { get => _interactableEnviromentContainer; }
+    public Transform OtherContainer { get => _otherContainer; }
     public MultiTileMapsContainer MultiTileMapsContainer { get => _multiTileMapsContainer; }
 
     [SerializeField] private Transform _charactersContainer;
@@ -73,6 +74,7 @@ public class ZIndexLayer : MonoBehaviour
     [SerializeField] private Transform _lightParticlesContainer;
     [SerializeField] private Transform _projectilesContainer;
     [SerializeField] private Transform _interactableEnviromentContainer;
+    [SerializeField] private Transform _otherContainer;
     [SerializeField] private MultiTileMapsContainer _multiTileMapsContainer;
 
     private LayerAlphaMode _alphaMode;

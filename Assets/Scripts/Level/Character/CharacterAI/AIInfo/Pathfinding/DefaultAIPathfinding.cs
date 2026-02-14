@@ -59,6 +59,16 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         }
     }
 
+    public override bool GetIsAbleToReachPathTarget()
+    {
+        return
+            base.GetIsAbleToReachPathTarget() &&
+            (
+                !PathTarget.HasValue ||
+                PathTarget.Value.Position == PathChain?.Last().TargetPosition
+            );
+    }
+
     protected override void OnUpdateInfo()
     {
         PathChain = new();

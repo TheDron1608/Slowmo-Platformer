@@ -18,4 +18,17 @@ public static class CurrentDeviceTracker
     {
         return GetGamepadIsConnected() ? GAMEPAD_BIND_INDEX : KEYBOARD_BIND_INDEX;
     }
+
+    public static Vector3? GetMouseWorldPositionOnLayer(ZIndexLayer layer)
+    {
+        RaycastHit[] mouseHits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+        for (int i = 0; i < mouseHits.Length; i++)
+        {
+            if (mouseHits[i].collider.gameObject == layer.gameObject)
+            {
+                return mouseHits[i].point;
+            }
+        }
+        return null;
+    }
 }

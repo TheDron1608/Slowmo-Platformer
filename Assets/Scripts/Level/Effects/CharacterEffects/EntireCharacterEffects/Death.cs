@@ -23,6 +23,10 @@ public class Death : AbstractStun, ILethalEffect
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
         AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = false;
+        if (AffectedCharacter.CharacterSpecial != null)
+        {
+            AffectedCharacter.CharacterSpecial.IsAbleToDoSpecial = false;
+        }
 
         AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(false);
 

@@ -97,7 +97,7 @@ public class LayerManager : MonoBehaviour
                 moveGameObject.transform.SetParent(targetLayer.InteractableEnviromentContainer);
                 break;
             default:
-                moveGameObject.transform.SetParent(targetLayer.transform);
+                moveGameObject.transform.SetParent(targetLayer.OtherContainer);
                 break;
         }
 

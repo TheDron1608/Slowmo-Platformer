@@ -17,33 +17,18 @@ public class MitosisGib : Gib, IEntireCharacterEffect, ILethalEffect
 
         for (int i = 0; i < MitosisAmount; i++)
         {
-            EnemySpawnInfo spawnInfo = SpawnManager.Instance.PickRandomEnemy();
-            AbstractCharacterComponent mitosisCharacter = mitosisLayer.TrySpawnObject(
-                spawnInfo.Enemy.gameObject,
-                mitosisSpawnPosition,
-                null,
-                null
-                ).FirstOrDefault()?.GetComponent<AbstractCharacterComponent>();
+           CharacterComponentsManager mitosisCharacter = SpawnManager.Instance.PickRandomEnemy().SpawnAt(mitosisSpawnPosition, mitosisLayer);
 
             if (mitosisCharacter != null)
             {
-                //give weapon
-                mitosisCharacter.CharComponents.CharacterHolding.GiveNewHoldable(spawnInfo.Weapon?.PickRandomWeapon());
-
-                //give equipment
-                foreach (CharacterEquipmentPart randomEquipment in spawnInfo.Equipment?.PickRandomEquipment() ?? new List<CharacterEquipmentPart>())
-                {
-                    mitosisCharacter.CharComponents.CharacterPartsManager.GiveNewEquipment(randomEquipment);
-                }
-
                 //give random knockback to top direction
                 Vector2 randomVelocity = VectorMath.PickRandomDirection();
                 randomVelocity.x = Mathf.Abs(randomVelocity.x);
                 randomVelocity *= MITOSIS_SPAWNED_CHARACTERS_VELOCITY;
-                mitosisCharacter.CharComponents.CharacterRigidBody.linearVelocity = randomVelocity;
+                mitosisCharacter.CharacterRigidBody.linearVelocity = randomVelocity;
 
                 //give extra effects
-                mitosisCharacter.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnMitosisCharacters, null);
+                mitosisCharacter.CharacterEffectsReceiver.ApplyEffect(EffectsOnMitosisCharacters, null);
             }
         }
 

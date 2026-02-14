@@ -12,6 +12,7 @@ public class CharacterComponentsManager : MonoBehaviour
     public CharacterReloading CharacterReloading;
     public CharacterRolling CharacterRolling;
     public UnarmedWeapon UnarmedAttacking;
+    public AbstractCharacterSpecial CharacterSpecial;
     [Header("CharacterInfo")]
     public CharacterTeam CharacterTeam;
     public CharacterAIManager CharacterAIManager;

@@ -43,7 +43,7 @@ public abstract class AbstractAIPrefferedHoldable : AbstractAIInfo
     protected virtual bool PickUpCondition(Holdable holdable)
     {
         return
-            holdable.CurrentHolder == null &&
+            (CharComponents.CharacterHolding.CanDisarm || holdable.CurrentHolder == null) &&
             holdable.AIPickUpPriority >= MinWeaponPriority &&
             Vector2.Distance(CharComponents.Center.transform.position, holdable.transform.position) <= MaxWeaponDetectRange &&
             (CanCatchDangerousHoldable || !holdable.GetIsDangerouslyFast()) &&
