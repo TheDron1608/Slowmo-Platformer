@@ -166,8 +166,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2345fa8c0e12945809d0d2f76a2992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentScore: 0
-  CurrentCombo: 0
+  ResetComboDelay: 5
+  ResetComboDelayOnStartLevel: 10
+  ComboStates:
+  - MinCombo: 0
+    MaxCombo: 1
+    BgSprite: {fileID: 21300000, guid: 242450881671b2f4cb6a150c63db07d3, type: 3}
+    Multiplier: 0
+    Shaking: 0
+  - MinCombo: 1
+    MaxCombo: 5
+    BgSprite: {fileID: 21300000, guid: 07cdbb9ebe5f18747af8617ed35b059b, type: 3}
+    Multiplier: 1
+    Shaking: 0
+  - MinCombo: 5
+    MaxCombo: 10
+    BgSprite: {fileID: 21300000, guid: a7e9553d3f345f942a3fd0725ad54e64, type: 3}
+    Multiplier: 1.5
+    Shaking: 0.1
+  - MinCombo: 10
+    MaxCombo: 20
+    BgSprite: {fileID: 21300000, guid: 06905193a3ec3814e9a609e1ddaa9810, type: 3}
+    Multiplier: 2
+    Shaking: 0.25
+  - MinCombo: 20
+    MaxCombo: 30
+    BgSprite: {fileID: 21300000, guid: d8f467bc594af78418cd72e9c2249aa4, type: 3}
+    Multiplier: 3
+    Shaking: 0.5
+  - MinCombo: 30
+    MaxCombo: 999999
+    BgSprite: {fileID: 21300000, guid: bc8c65285a6482c4e8254a1d78bc948d, type: 3}
+    Multiplier: 5
+    Shaking: 1
 --- !u!114 &-7512956509481476535
 MonoBehaviour:
   m_ObjectHideFlags: 0

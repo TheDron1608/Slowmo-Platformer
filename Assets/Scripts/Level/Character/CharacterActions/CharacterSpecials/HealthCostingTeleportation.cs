@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CharacterTeleportation : AbstractCharacterSpecial
+public class HealthCostingTeleportation : AbstractCharacterSpecial
 {
     const float FAILED_TELEPORTATION_DETECTING_DITANCE = 5f;
     const float FAILED_TELEPORTATION_DETECTING_STEP = 0.5f;
@@ -27,8 +27,6 @@ public class CharacterTeleportation : AbstractCharacterSpecial
     {
         if (!IsAbleToDoSpecial) return false;
 
-        if (!GetHasEnoughForCost()) return false;
-
         Vector2 oldPosition = CharComponents.Center.transform.position;
 
         if (layer.MultiTileMapsContainer.GetHasTileBehaviourAt(position, TileBehaviour.TileBehaviourType.FOREBGROUND))
@@ -45,7 +43,6 @@ public class CharacterTeleportation : AbstractCharacterSpecial
         }
         _teleporationVisualEffectCoroutine = StartCoroutine(TeleporationVisualEffect(oldPosition, position, layer));
 
-        SpendCost();
         return true;
     }
 

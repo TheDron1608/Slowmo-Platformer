@@ -35,6 +35,8 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
             return false;
         }
 
+        if (!GetHasEnoughForCost()) return false;
+
         _isTeleporting = true;
 
         if (DropWeaponOnTeleport)
@@ -60,6 +62,7 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
 
         CharComponents.gameObject.SetActive(false);
 
+        SpendCost();
         return true;
     }
 
@@ -105,6 +108,14 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
         if (CharComponents.TryGetComponent(out DisableObjectOnDistanceFromCamera disableOnDistance))
         {
             disableOnDistance.enabled = value;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_visualEffect != null && !_visualEffect.IsDestroyed())
+        {
+            Destroy(_visualEffect.gameObject);
         }
     }
 }

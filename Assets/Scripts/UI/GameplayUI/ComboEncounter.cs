@@ -6,6 +6,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class ComboEncounter : MonoBehaviour
@@ -14,18 +15,11 @@ public class ComboEncounter : MonoBehaviour
     const float SCORE_ENCOUNT_DELAY_SECONDS = 1f;
     const float SCORE_ENCOUNT_SPEED_PER_SECOND = 100f;
 
-    public TeamManager.Teams TrackedTeam = TeamManager.Teams.PLAYER;
-    public float ResetComboDelay = 5f;
-    public float ResetComboDelayOnStartLevel = 10f;
-
     private int _currentDisplayedScore = 0;
     private int _currentAddingScore = 0;
-    private float _comboLastTime;
-    private float _currentMultiplier = 1f;
     private Coroutine _setBgCoroutine = null;
     private Coroutine _scoreEncountCoroutine = null;
 
-    [SerializeField] private List<ComboState> _comboStates = new();
     [SerializeField] private RectTransform _visualContainer;
     [SerializeField] private Image _comboBg;
     [SerializeField] private Image _oldComboBg;
@@ -35,51 +29,39 @@ public class ComboEncounter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private ShakableObject _comboInfoShaking;
 
-    [Serializable]
-    public class ComboState
+    public void UpdateCurrentCombo()
     {
-        public int MinCombo;
-        public int MaxCombo;
-        public Sprite BgSprite;
-        public float Multiplier = 1f;
-        public float Shaking = 0f;
-    }
+        if (_comboText.IsDestroyed()) return;
+        _comboText.text = ScoreManager.Instance.CurrentCombo.ToString();
 
-    public int CurrentCombo
-    {
-        get => ScoreManager.Instance.CurrentCombo;
-        set
+        if (_oldComboBg.IsDestroyed() || _comboBg.IsDestroyed()) return;
+        foreach (ScoreManager.ComboState state in ScoreManager.Instance.ComboStates)
         {
-            ScoreManager.Instance.CurrentCombo = value;
-            _comboText.text = value.ToString();
-            foreach (ComboState state in _comboStates)
+            if (state.MinCombo <= ScoreManager.Instance.CurrentCombo && state.MaxCombo > ScoreManager.Instance.CurrentCombo)
             {
-                if (state.MinCombo <= CurrentCombo && state.MaxCombo > CurrentCombo)
+                if (_comboBg.sprite != state.BgSprite)
                 {
-                    CurrentMultiplier = state.Multiplier;
-
-                    if (_comboBg.sprite != state.BgSprite)
-                    {
-                        if (_setBgCoroutine != null) StopCoroutine(_setBgCoroutine);
-                        _setBgCoroutine = StartCoroutine(ShowNewBg(state.BgSprite));
-                        _comboInfoShaking.ContantShakingForce = state.Shaking;
-                    }
-
-                    return;
+                    if (_setBgCoroutine != null) StopCoroutine(_setBgCoroutine);
+                    _setBgCoroutine = StartCoroutine(ShowNewBg(state.BgSprite));
+                    _comboInfoShaking.ContantShakingForce = state.Shaking;
                 }
+
+                return;
             }
-
-
         }
     }
 
     private IEnumerator ShowNewBg(Sprite sprite)
     {
-        _oldComboBg.sprite = _comboBg.sprite;
-        _oldComboBg.transform.localScale = Vector3.one;
-        _comboBg.sprite = sprite;
-        _comboBg.transform.localScale = Vector3.zero;
-        _comboBg.enabled = sprite != null;
+        if (!_oldComboBg.IsDestroyed() && !_comboBg.IsDestroyed())
+        {
+            _oldComboBg.sprite = _comboBg.sprite;
+            _oldComboBg.transform.localScale = Vector3.one;
+            _comboBg.sprite = sprite;
+            _comboBg.transform.localScale = Vector3.zero;
+            _comboBg.enabled = sprite != null;
+        }
+
 
         float progress = 0f;
 
@@ -98,48 +80,35 @@ public class ComboEncounter : MonoBehaviour
         _setBgCoroutine = null;
     }
 
-    public float CurrentMultiplier
+    public void UpdateCurrentMultiplier()
     {
-        get => _currentMultiplier;
-        private set
-        {
-            _currentMultiplier = value;
-            _multiplierText.text = "x" + _currentMultiplier.ToString();
-        }
-    }
-
-    public void AddCombo()
-    {
-        CurrentCombo++;
-        RestoreComboLastTime();
-    }
-
-    public void RestoreComboLastTime()
-    {
-        _comboLastTime = ResetComboDelay;
-    }
-
-    public void ResetCombo()
-    {
-        if (CurrentCombo > 0)
-        {
-            AddScore((int)math.round(CurrentCombo * CurrentMultiplier));
-        }
-        CurrentCombo = 0;
+        if (_multiplierText.IsDestroyed()) return;
+        _multiplierText.text = "x" + ScoreManager.Instance.CurrentMultiplier.ToString();
     }
 
     public void AddScore(int score)
     {
-        ScoreManager.Instance.CurrentScore += score;
         _currentAddingScore += score;
 
         if (_scoreEncountCoroutine != null) StopCoroutine(_scoreEncountCoroutine);
         _scoreEncountCoroutine = StartCoroutine(ScoreEncount());
     }
 
+    public void ForceSetScore(int score)
+    {
+        _currentDisplayedScore = ScoreManager.Instance.CurrentScore;
+        _currentAddingScore = 0;
+
+        if (_scoreText.IsDestroyed()) return;
+        _scoreText.text = score.ToString("00000");
+    }
+
     private IEnumerator ScoreEncount()
     {
-        _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
+        if (!_scoreText.IsDestroyed())
+        {
+            _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
+        }
 
         yield return new WaitForSeconds(SCORE_ENCOUNT_DELAY_SECONDS);
 
@@ -151,45 +120,33 @@ public class ComboEncounter : MonoBehaviour
             _currentAddingScore -= scoreChange;
             _currentDisplayedScore += scoreChange;
 
-            _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
+            if (!_scoreText.IsDestroyed())
+            {
+                _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
+            }
 
             yield return new WaitForEndOfFrame();
         }
 
-        _scoreText.text = _currentDisplayedScore.ToString("00000");
+        if (!_scoreText.IsDestroyed())
+        {
+            _scoreText.text = _currentDisplayedScore.ToString("00000");
+        }
     }
 
-    private void Awake()
+    public void UpdateComboLastTime()
     {
-        _comboLastTime = CurrentCombo > 0 ? ResetComboDelayOnStartLevel : 0f;
+        if (_comboLastTimeFillImage.IsDestroyed()) return;
+        _comboLastTimeFillImage.fillAmount = ScoreManager.Instance.ComboLastTime / ScoreManager.Instance.ResetComboDelay;
+    }
+
+    private void Start()
+    {
+        UpdateCurrentCombo();
+        UpdateCurrentMultiplier();
+        UpdateComboLastTime();
+
         _currentDisplayedScore = ScoreManager.Instance.CurrentScore;
         _scoreText.text = _currentDisplayedScore.ToString("00000");
-        CurrentCombo = CurrentCombo; //invokes text update
-
-        TeamManager.Instance.GetTeamDataByTeam(TrackedTeam).OnTeamMemberDidKill += ComboEncounter_OnTeamMemberDidKill;
-    }
-
-    private void ComboEncounter_OnTeamMemberDidKill(object sender, CharacterTeam e)
-    {
-        AddCombo();
-    }
-
-    private void Update()
-    {
-        _comboLastTime -= Time.deltaTime;
-        if (_comboLastTime < 0f)
-        {
-            _comboLastTime = 0f;
-            if (CurrentCombo > 0 && !gameObject.IsDestroyed()) ResetCombo();
-        }
-        _comboLastTimeFillImage.fillAmount = _comboLastTime / ResetComboDelay;
-    }
-
-    private void OnDestroy()
-    {
-        if (TeamManager.Instance != null)
-        {
-            TeamManager.Instance.GetTeamDataByTeam(TrackedTeam).OnTeamMemberDidKill -= ComboEncounter_OnTeamMemberDidKill;
-        }
     }
 }

@@ -795,6 +795,27 @@ MonoBehaviour:
       is armed with an infinite sword and can pull the sword toward themselves'
     m_Metadata:
       m_Items: []
+  - m_Id: 22093576976703488
+    m_Localized: Teleportation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22093587466657792
+    m_Localized: Deadly teleportation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22093579119992832
+    m_Localized: '* You can teleport
+
+      * Teleport costs {HealthCost} health'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 22093589144379392
+    m_Localized: "* You can teleport to enemies, instantly killing them\n\r* Teleport
+      costs {ComboCost} combo and {HealthCost} health"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -860,3 +881,5 @@ MonoBehaviour:
         - id: 20588914070667264
         - id: 20588910715224064
         - id: 21193374149353472
+        - id: 22093589144379392
+        - id: 22093579119992832

@@ -203,7 +203,7 @@ MonoBehaviour:
   MultiHealthbarsManager: {fileID: 7452017959385550577}
   HoldObjectInfo: {fileID: 569047429997307524}
   Pause: {fileID: 7680905103825783552}
-  Combo: {fileID: 0}
+  Combo: {fileID: 6062735199283609201}
   PauseAction: {fileID: 943827633184004740, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   MainMenuSceneName: MainMenu
 --- !u!1001 &3874369748956194477
@@ -420,6 +420,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7587e95eb958764f8d8e3ea8ef3ab8c, type: 3}
+--- !u!114 &6062735199283609201 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1608681151028849611, guid: c7587e95eb958764f8d8e3ea8ef3ab8c, type: 3}
+  m_PrefabInstance: {fileID: 4787334586134599098}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1528a87f0a87c964fa2f746ad4c3be1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7822772328636983795 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3377724517460163657, guid: c7587e95eb958764f8d8e3ea8ef3ab8c, type: 3}
