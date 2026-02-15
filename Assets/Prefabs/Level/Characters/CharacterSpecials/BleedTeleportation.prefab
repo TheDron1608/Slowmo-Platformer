@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7998315325693237301}
   m_Layer: 0
   m_Name: BleedTeleportationVisualEffect
-  m_TagString: Untagged
+  m_TagString: Other
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 8624820008897076866}
   m_Layer: 0
   m_Name: BleedTeleportation
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fb7c9f9103ea34bbd49bc6aad26c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAbleToDoSpecial: 1
   EffectsOnTeleportIntoCharacter:
   - {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}
+  DropWeaponOnTeleport: 0
   _visualEffect: {fileID: 7998315325693237301}

@@ -246,6 +246,7 @@ public class ZIndexLayer : MonoBehaviour
             case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
             case LayerManager.CLOUD_PARTICLE_TAG_NAME:
             case LayerManager.LIGHT_PARTICLE_TAG_NAME:
+            case LayerManager.OTHER_TAG_NAME:
                 SetLightRendererLayer(
                     gameObject,
                     ObjectsSortingLayer,
@@ -302,6 +303,7 @@ public class ZIndexLayer : MonoBehaviour
         switch (gameObject.tag)
         {
             case LayerManager.ZLAYER_TAG_NAME:
+            case LayerManager.OTHER_TAG_NAME:
                 break;
 
             case LayerManager.PROJECTILE_TAG_NAME:

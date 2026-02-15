@@ -63,6 +63,15 @@ public class PlayerInputSpecial : AbstractAISpecial
 
             bleedTeleporation.TryTeleport(closesetCharacter);
         }
+
+        else if (CharComponents.CharacterSpecial.TryGetComponent(out CharacterTeleportation characterTeleportation))
+        {
+            ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject);
+            Vector3? mousePos = CurrentDeviceTracker.GetMouseWorldPositionOnLayer(layer);
+            if (!mousePos.HasValue) return;
+
+            characterTeleportation.TryTeleport(mousePos.Value, layer);
+        }
     }
 
     private void HandleStopSpecial()

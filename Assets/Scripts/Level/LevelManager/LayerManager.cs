@@ -16,6 +16,7 @@ public class LayerManager : MonoBehaviour
     public const string FLUID_PARTICLE_TAG_NAME = "FluidParticle";
     public const string CLOUD_PARTICLE_TAG_NAME = "CloudParticle";
     public const string LIGHT_PARTICLE_TAG_NAME = "LightParticle";
+    public const string OTHER_TAG_NAME = "Other";
     public const string WORLD_GENERATION_DATA_TAG_NAME = "WorldGenerationData";
 
     public static LayerManager Instance;
