@@ -104,4 +104,11 @@ public static class GameObjectUtility
         }
         return null;
     }
+
+    public static bool GetTransformIsChildOf(Transform child, Transform parent)
+    {
+        if (child.parent == null) return false;
+        else if (child.parent == parent) return true;
+        else return GetTransformIsChildOf(child.parent, parent);
+    }
 }

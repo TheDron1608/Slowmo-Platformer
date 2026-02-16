@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputBindingScreenOverlay:
-    OverlayOrder: 7
+    OverlayOrder: 9
     _screenOverlayPrefab: {fileID: 6820682616355312488, guid: aec04700e130b7043818b11cb3cc80a0, type: 3}
   SceneStartScreenOverlay:
     OverlayOrder: 10
@@ -72,5 +72,8 @@ MonoBehaviour:
     OverlayOrder: 2
     _screenOverlayPrefab: {fileID: 1452268340745435864, guid: f9cc77394677f6b40bc8911fdde2c0da, type: 3}
   FPSCountScreenOverlay:
-    OverlayOrder: 9
+    OverlayOrder: 11
     _screenOverlayPrefab: {fileID: 1452268340745435864, guid: 22f138cf6814dbc469507158aa9cc842, type: 3}
+  SettingOverlay:
+    OverlayOrder: 8
+    _screenOverlayPrefab: {fileID: 1700551853884465430, guid: 9447e747c7f5c9246be302615686f48b, type: 3}

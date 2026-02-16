@@ -76,6 +76,11 @@ public class UIManager : MonoBehaviour
             return _currentScreenOverlay;
         }
 
+        public bool IsShown()
+        {
+            return _currentScreenOverlay != null;
+        }
+
         private void AnimatedImage_OnAnimationFinished(object sender, EventArgs e)
         {
             ScreenOverlayAnimationFinished?.Invoke(this, EventArgs.Empty);
@@ -230,6 +235,7 @@ public class UIManager : MonoBehaviour
     public TextableScreenOverlay LivingTimeLeftScreenOverlay;
     public FillableScreenOverlay SlowmoOverlay;
     public ScreenOverlay FPSCountScreenOverlay;
+    public ScreenOverlay SettingOverlay;
 
     public static UIManager Instance;
 

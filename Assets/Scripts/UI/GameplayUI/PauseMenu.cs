@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
         get => _paused;
         set
         {
-            if (_paused == value) return;
+            if (_paused == value || UIManager.Instance.SettingOverlay.IsShown()) return;
 
             _paused = value;
 

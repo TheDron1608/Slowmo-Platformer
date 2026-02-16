@@ -47,7 +47,7 @@ public class ButtonOnClickAssignControl : MonoBehaviour
 
     private IEnumerator SelectGameObjectAfterDuration(GameObject selectObject)
     {
-        yield return new WaitForSeconds(DELAY_SECONDS_AFTER_REBIND_SECONDS);
+        yield return new WaitForSecondsRealtime(DELAY_SECONDS_AFTER_REBIND_SECONDS);
 
         EventSystem.current.SetSelectedGameObject(selectObject);
     }
