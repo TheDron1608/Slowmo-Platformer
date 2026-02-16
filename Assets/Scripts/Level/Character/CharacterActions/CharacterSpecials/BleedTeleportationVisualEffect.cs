@@ -35,7 +35,7 @@ public class BleedTeleportationVisualEffect : MonoBehaviour
     {
         if (TeleportationUser == null || TeleportationUser.IsDestroyed())
         {
-            Destroy(gameObject);
+
         }
         else if (_targetTeleportTo == null || _targetTeleportTo.IsDestroyed())
         {

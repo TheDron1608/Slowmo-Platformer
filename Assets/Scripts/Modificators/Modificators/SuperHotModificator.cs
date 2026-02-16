@@ -18,18 +18,15 @@ public class SuperHotModificator : AbstractMultiplierableModificator
     public TeamManager.Teams TrackedTeam = TeamManager.Teams.PLAYER;
 
     private bool _isGameplay = false;
-    private float _currentTimeScaleMultiplier = 1f;
-    private float _currentFixedTimeScaleMultiplier = 1f;
-    private float _defaultFixedUpdateDelay = 0.02f;
     private float _slowmoTimeLeft = 0f;
     private bool _isRecoveringTimeLeft = false;
+    private float _currentTimeScaleMult = 1f;
 
     public override void OnModificatorAdded()
     {
         base.OnModificatorAdded();
 
         _isGameplay = SceneManager.GetActiveScene().name == GAMEPLAY_SCENE_NAME;
-        _defaultFixedUpdateDelay = Time.fixedDeltaTime;
     }
 
     public override void OnLevelPreGenerated()
@@ -70,11 +67,14 @@ public class SuperHotModificator : AbstractMultiplierableModificator
                     !character.CharComponents.CharacterVisual.IsBusy()
                 );
 
-        UpdateCurrentTimeScale(NumberMath.LimitFloatInRange(
-            math.lerp(_currentTimeScaleMultiplier, isIdle ? TimeSpeedOnIdle : TimeSpeedOnMoving, Time.unscaledDeltaTime * TIME_SCALE_TOGGLE_SPEED),
+        float oldScaleMult = _currentTimeScaleMult;
+        _currentTimeScaleMult = NumberMath.LimitFloatInRange(
+            math.lerp(_currentTimeScaleMult, isIdle ? TimeSpeedOnIdle : TimeSpeedOnMoving, Time.unscaledDeltaTime * TIME_SCALE_TOGGLE_SPEED),
             math.min(TimeSpeedOnIdle, TimeSpeedOnMoving),
             math.max(TimeSpeedOnIdle, TimeSpeedOnMoving)
-            ));
+            );
+
+        TimeManager.CurrentTimeScale = TimeManager.CurrentTimeScale / oldScaleMult * _currentTimeScaleMult;
 
         if (isIdle)
         {
@@ -104,20 +104,6 @@ public class SuperHotModificator : AbstractMultiplierableModificator
         {
             _slowmoTimeLeft = MaxSlowmoTime;
             _isRecoveringTimeLeft = false;
-        }
-    }
-
-    private void UpdateCurrentTimeScale(float value)
-    {
-        if (_currentTimeScaleMultiplier != value)
-        {
-            Time.timeScale = Time.timeScale / _currentTimeScaleMultiplier * value;
-            _currentTimeScaleMultiplier = value;
-        }
-        if (_currentFixedTimeScaleMultiplier != value)
-        {
-            Time.fixedDeltaTime = Time.fixedDeltaTime / _currentFixedTimeScaleMultiplier * value;
-            _currentFixedTimeScaleMultiplier = value;
         }
     }
 }

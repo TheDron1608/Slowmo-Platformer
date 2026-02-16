@@ -21,6 +21,7 @@ public class ZIndexLayer : MonoBehaviour
     const string OBJECTS_SORTING_LAYER_NAME = "Objects";
     const string ENVIROMENT_SORTING_LAYER_NAME = "Enviroment";
     const string OVERGROUND_SORTING_LAYER_NAME = "Overground";
+    const string OTHER_SORTING_LAYER_NAME = "Other";
 
     public struct LayerAlphaMode
     {
@@ -52,6 +53,7 @@ public class ZIndexLayer : MonoBehaviour
     public int ObjectsSortingLayer { get; private set; }
     public int EnviromentSortingLayer { get; private set; }
     public int OvergroundSortingLayer { get; private set; }
+    public int OtherSortingLayer { get; private set; }  
 
     public Transform CharactersContainer { get => _charactersContainer; }
     public Transform FurnitureContainer { get => _furnitureContainer; }
@@ -138,6 +140,7 @@ public class ZIndexLayer : MonoBehaviour
         ObjectsSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OBJECTS_SORTING_LAYER_NAME}");
         EnviromentSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{ENVIROMENT_SORTING_LAYER_NAME}");
         OvergroundSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OVERGROUND_SORTING_LAYER_NAME}");
+        OtherSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OTHER_SORTING_LAYER_NAME}");
 
         EntireLayerMask = 
             (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << HitableHoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
@@ -246,7 +249,6 @@ public class ZIndexLayer : MonoBehaviour
             case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
             case LayerManager.CLOUD_PARTICLE_TAG_NAME:
             case LayerManager.LIGHT_PARTICLE_TAG_NAME:
-            case LayerManager.OTHER_TAG_NAME:
                 SetLightRendererLayer(
                     gameObject,
                     ObjectsSortingLayer,
@@ -297,6 +299,14 @@ public class ZIndexLayer : MonoBehaviour
                         );
                         break;
                 }
+                break;
+            case LayerManager.OTHER_TAG_NAME:
+                SetLightRendererLayer(
+                    gameObject,
+                    OtherSortingLayer,
+                    new int[] { },
+                    new int[] { }
+                );
                 break;
         }
 

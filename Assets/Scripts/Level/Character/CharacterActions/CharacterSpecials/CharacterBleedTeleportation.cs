@@ -2,6 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
+[DefaultExecutionOrder(10)]
 public class CharacterBleedTeleportation : AbstractCharacterSpecial
 {
     public List<AbstractEffect> EffectsOnTeleportIntoCharacter;
@@ -10,6 +11,7 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
     [SerializeField] private BleedTeleportationVisualEffect _visualEffect;
     private bool _isTeleporting;
     private Holdable _teleportingHoldable = null;
+    private bool _disableSelfAtLateUpdateThisFrame = false;
 
     public bool IsTeleporting
     {
@@ -60,10 +62,20 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
         _visualEffect.TargetTeleportTo = teleportInto;
         _visualEffect.gameObject.SetActive(true);
 
-        CharComponents.gameObject.SetActive(false);
+        _disableSelfAtLateUpdateThisFrame = true;
 
         SpendCost();
         return true;
+    }
+
+    private void LateUpdate()
+    {
+        if (_disableSelfAtLateUpdateThisFrame)
+        {
+            CharComponents.gameObject.SetActive(false);
+
+            _disableSelfAtLateUpdateThisFrame = false;
+        }
     }
 
     public bool TryFinishTeleport(CharacterComponentsManager teleportInto)
