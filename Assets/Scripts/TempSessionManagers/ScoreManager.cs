@@ -8,6 +8,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ScoreManager : MonoBehaviour
 {
+    const string ENCOUNT_SCENE_NAME = "Gameplay";
     const TeamManager.Teams TRACKED_TEAM = TeamManager.Teams.PLAYER;
 
     [Serializable]
@@ -43,7 +44,7 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int value)
     {
         _currentScore += value;
-        GameplayUIManager.GetInstance()?.Combo.AddScore(value);
+        GameplayUIManager.GetInstance()?.Combo?.AddScore(value);
     }
 
     public int CurrentCombo
@@ -118,7 +119,12 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        float newComboLastTime = ComboLastTime - Time.deltaTime;
+        if (SceneManager.GetActiveScene().name != ENCOUNT_SCENE_NAME)
+        {
+            return;
+        }
+
+            float newComboLastTime = ComboLastTime - Time.deltaTime;
         if (newComboLastTime < 0f)
         {
             newComboLastTime = 0f;

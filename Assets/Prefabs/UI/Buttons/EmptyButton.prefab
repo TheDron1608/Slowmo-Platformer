@@ -186,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4666847460923246868}
-  - component: {fileID: 187569582252178546}
+  - component: {fileID: 2006969325235148169}
   - component: {fileID: 6422599238453862053}
   - component: {fileID: 4713069586689689025}
   - component: {fileID: 2349861711792540102}
@@ -220,7 +220,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &187569582252178546
+--- !u!114 &2006969325235148169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,9 +229,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4222478142320599171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6d5536756ed70d47a1ec01797f47c05, type: 3}
+  m_Script: {fileID: 11500000, guid: 934a1318402a03746baec37cb7df3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SoundOnClick: {fileID: 4185059183060573276}
+  SoundOnHoverSelect: {fileID: 2400964083181630602}
 --- !u!222 &6422599238453862053
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -340,8 +342,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2411774491265838264}
-  - component: {fileID: 8123157978835321456}
-  - component: {fileID: 4890130630611866464}
   m_Layer: 5
   m_Name: EmptyButton
   m_TagString: Untagged
@@ -367,36 +367,8 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 80}
+  m_SizeDelta: {x: 220, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8123157978835321456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9137645660856052781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 934a1318402a03746baec37cb7df3d45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundOnClick: {fileID: 4185059183060573276}
-  _button: {fileID: 2349861711792540102}
---- !u!114 &4890130630611866464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9137645660856052781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bf2e9ca26b4edd488f07f394cfd035a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundOnHover: {fileID: 2400964083181630602}
-  _button: {fileID: 2349861711792540102}
 --- !u!1001 &990603676979179484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -536,11 +508,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3281863876422139403, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
       propertyPath: m_Name
-      value: StaticSoundPlayerOnHover
+      value: StaticSoundPlayerOnHoverSelect
       objectReference: {fileID: 0}
     - target: {fileID: 3995734430427506293, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
       propertyPath: m_Name
-      value: StaticSoundPlayerSourceOnHover
+      value: StaticSoundPlayerSourceOnHoverSelect
       objectReference: {fileID: 0}
     - target: {fileID: 4011306408128934784, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
       propertyPath: DefaultSound

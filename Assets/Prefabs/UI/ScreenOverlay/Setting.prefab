@@ -1096,6 +1096,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 221569731163884557}
     m_Modifications:
+    - target: {fileID: 2269758600378047722, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269758600378047722, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2407146306934748650, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: m_text
       value: Music Volume
@@ -1111,6 +1119,14 @@ PrefabInstance:
     - target: {fileID: 5226911721130610628, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
       value: GUID:db26f42ef7305d24ba8bd4415d280a7f
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336792287947040070, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336792287947040070, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101306488517225660, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: m_Pivot.x
@@ -2270,6 +2286,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 221569731163884557}
     m_Modifications:
+    - target: {fileID: 2269758600378047722, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269758600378047722, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2407146306934748650, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: m_text
       value: SFX Volume
@@ -2285,6 +2309,14 @@ PrefabInstance:
     - target: {fileID: 5226911721130610628, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
       value: GUID:db26f42ef7305d24ba8bd4415d280a7f
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336792287947040070, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336792287947040070, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101306488517225660, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: m_Pivot.x
@@ -3404,7 +3436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7655214136549103029, guid: d0882f7a47d7c7d4c95a76a41c77a92c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 260
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 7655214136549103029, guid: d0882f7a47d7c7d4c95a76a41c77a92c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3502,7 +3534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1797797047197243655, guid: a657b3e12c2287f48ad647ab176952e4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 240
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 1797797047197243655, guid: a657b3e12c2287f48ad647ab176952e4, type: 3}
       propertyPath: m_SizeDelta.y

@@ -17,7 +17,6 @@ public class UIElementTrackTarget : MonoBehaviour
         else
         {
             TrackingUIElement.transform.position = math.lerp(TrackingUIElement.transform.position, transform.position, Time.unscaledDeltaTime * TRACK_SPEED_MULTIPLIER);
-            TrackingUIElement.transform.localScale = Vector3.one;
         }
     }
 

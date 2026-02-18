@@ -3,31 +3,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonOnHoverMoveUp : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonOnHoverMoveUp : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 {
     const float IMAGE_MOVE_UP_DISTANCE = 75f;
     const float IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER = 5.0f;
 
-    private bool _movingUp = false;
-    private Button _buttonComponent;
+    [SerializeField] private Transform _targetTransform;
 
-    private void Start()
-    {
-        _buttonComponent = GetComponent<Button>();
-    }
+    private bool _movingUp = false;
 
     private void Update()
     {
-        if (_buttonComponent == null || _buttonComponent.interactable)
+        if (_movingUp)
         {
-            if (_movingUp)
-            {
-                transform.position = math.lerp(transform.position, transform.parent.position + (Vector3.up * IMAGE_MOVE_UP_DISTANCE), IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
-            }
-            else
-            {
-                transform.position = math.lerp(transform.position, transform.parent.position, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
-            }
+            _targetTransform.position = math.lerp(_targetTransform.position, transform.position + (Vector3.up * IMAGE_MOVE_UP_DISTANCE), IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
+        }
+        else
+        {
+            _targetTransform.position = math.lerp(_targetTransform.position, transform.position, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
         }
     }
 
@@ -37,6 +30,16 @@ public class ButtonOnHoverMoveUp : MonoBehaviour, IPointerEnterHandler, IPointer
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        _movingUp = false;
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        _movingUp = true;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
     {
         _movingUp = false;
     }

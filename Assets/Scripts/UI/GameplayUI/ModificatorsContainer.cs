@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class ModificatorsContainer : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class ModificatorsContainer : MonoBehaviour
     public Transform CardTrackTargetsContainer;
     public Transform CardsInfoContainer;
     [SerializeField] private ModificatorCardsCluster _clusterInstance;
-    [SerializeField] private ModificatorCardInfo _cardInfoInstance;
+    [SerializeField] private ModificatorVisualInfo _cardInfoInstance;
 
     private int _picksLeft = 1;
 
@@ -26,6 +27,11 @@ public class ModificatorsContainer : MonoBehaviour
     public event EventHandler<ModificatorCardsCluster> OnRemovedItem;
 
     public static ModificatorsContainer Instance;
+
+    public List<ModificatorCardsCluster> ModificatorCardsClusters
+    {
+        get => _modificatorCardsClusters;
+    }
 
     private void Awake()
     {
@@ -93,9 +99,23 @@ public class ModificatorsContainer : MonoBehaviour
         {
             foreach (ModificatorCard card in cluster.Cards)
             {
-                ModificatorCardInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
+                ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
                 newInfo.Card = card;
             }
+        }
+    }
+
+    public void SetIconDisplayedDescription(ModificatorIcon icon)
+    {
+        foreach (Transform child in CardsInfoContainer)
+        {
+            Destroy(child.gameObject);
+        }
+
+        if (icon != null)
+        {
+            ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
+            newInfo.Icon = icon;
         }
     }
 

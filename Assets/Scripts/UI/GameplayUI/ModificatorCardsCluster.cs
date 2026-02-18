@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
+public class ModificatorCardsCluster : Button
 {
     const float CLUSTER_HAND_MAX_ROTATION = 15f;
 
@@ -13,9 +14,19 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
 
     public List<ModificatorCard> Cards = new();
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         UpdateClustersPosition();
+
+        if (EventSystem.current == null) return;
+        if (
+            EventSystem.current.currentSelectedGameObject == null ||
+            EventSystem.current.currentSelectedGameObject.IsDestroyed()
+            )
+        {
+            EventSystem.current.SetSelectedGameObject(gameObject);
+        }
     }
 
     public void AddCard(ModificatorCard card)
@@ -42,8 +53,18 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public override void OnPointerEnter(PointerEventData eventData)
     {
+        base.OnPointerEnter(eventData);
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out ModificatorsContainer container))
+        {
+            container.SetClusterDisplayedDescription(this);
+        }
+    }
+
+    public override void OnSelect(BaseEventData eventData)
+    {
+        base.OnSelect(eventData);
         if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out ModificatorsContainer container))
         {
             container.SetClusterDisplayedDescription(this);
@@ -76,9 +97,18 @@ public class ModificatorCardsCluster : MonoBehaviour, IPointerEnterHandler
 
     public void SetInteractable(bool value)
     {
-        foreach (ModificatorCard card in Cards)
+        interactable = value;
+    }
+
+    protected override void OnDestroy()
+    {
+        if (EventSystem.current == null) return;
+        if (
+            EventSystem.current.currentSelectedGameObject == gameObject &&
+            ModificatorsContainer.Instance?.ModificatorCardsClusters.Count > 0
+            )
         {
-            card.GetComponent<Button>().interactable = value;
+            EventSystem.current.SetSelectedGameObject(ModificatorsContainer.Instance.ModificatorCardsClusters.First().gameObject);
         }
     }
 }

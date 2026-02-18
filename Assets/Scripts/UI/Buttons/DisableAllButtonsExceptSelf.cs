@@ -4,26 +4,26 @@ using UnityEngine.UI;
 
 public class DisableAllButtonsExceptSelf : MonoBehaviour
 {
-    private List<Button> _disabledButtons = new();
+    private List<Selectable> _disabledSelectables = new();
 
     private void OnEnable()
     {
-        foreach (Button button in FindObjectsByType<Button>(FindObjectsSortMode.None))
+        foreach (Selectable selectable in FindObjectsByType<Selectable>(FindObjectsSortMode.None))
         {
-            if (!GameObjectUtility.GetTransformIsChildOf(button.transform, transform))
+            if (!GameObjectUtility.GetTransformIsChildOf(selectable.transform, transform))
             {
-                button.enabled = false;
-                _disabledButtons.Add(button);
+                selectable.enabled = false;
+                _disabledSelectables.Add(selectable);
             }
         }
     }
 
     private void OnDisable()
     {
-        foreach (Button button in _disabledButtons)
+        foreach (Selectable selectable in _disabledSelectables)
         {
-            button.enabled = true;
+            selectable.enabled = true;
         }
-        _disabledButtons = new();
+        _disabledSelectables = new();
     }
 }

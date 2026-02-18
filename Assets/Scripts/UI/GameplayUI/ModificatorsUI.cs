@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ModificatorsUI : MonoBehaviour
 {
+    const string SMALL_INFO_SHOWN_ON_SCENE_NAME = "Gameplay";
+
     [SerializeField] private Transform _modificatorsContainer;
     [SerializeField] private Transform _modificatorTrackTargetsContainer;
     [SerializeField] private Transform _modificatorOnPauseTrackTargetsContainer;
@@ -82,6 +85,11 @@ public class ModificatorsUI : MonoBehaviour
     public void SetSelectedModificatorInfo(string title, string desc, bool strikedDesc)
     {
         SetSelectedModificatorInfoEnabled(false);
+
+        if (ModificatorsContainer.Instance != null)
+        {
+            ModificatorsContainer.Instance.SetClusterDisplayedDescription(null);
+        }
 
         _selectedModificatorTitle.text = title;
         _selectedModificatorDesc.text = desc;

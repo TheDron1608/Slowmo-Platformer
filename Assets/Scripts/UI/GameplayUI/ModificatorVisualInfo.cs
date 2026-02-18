@@ -1,9 +1,10 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class ModificatorCardInfo : MonoBehaviour
+public class ModificatorVisualInfo : MonoBehaviour
 {
     public ModificatorCard Card = null;
+    public ModificatorIcon Icon = null;
     public TextMeshProUGUI Title;
     public TextMeshProUGUI Description;
     public bool StrikedDesc = false;
@@ -14,8 +15,13 @@ public class ModificatorCardInfo : MonoBehaviour
         {
             Title.text = Card.LocalizedTitle;
             Description.text = Card.LocalizedDescription;
-
-            Description.fontStyle = StrikedDesc ? FontStyles.Strikethrough : FontStyles.Normal;
         }
+        else if (Icon != null)
+        {
+            Title.text = Icon.LocalizedTitle;
+            Description.text = Icon.LocalizedDescription;
+        }
+
+        Description.fontStyle = StrikedDesc ? FontStyles.Strikethrough : FontStyles.Normal;
     }
 }
