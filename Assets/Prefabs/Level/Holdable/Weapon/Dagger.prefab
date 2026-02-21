@@ -200,13 +200,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e478962cde77feb46ba44afcfa879618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Tags: 00000000150000001e000000
   _attackCooldown: 0.25
   _attackCooldownMultiplier: 1
-  PlayerInputAutoAttackOnPress: 0
+  AutoAttack: 0
   Projectile: {fileID: 8872436519916515924, guid: bb6b74bb89e7f5044a578a23d2838add, type: 3}
   AccuracyMultiplier: 1
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  ExtraProjectileEffects: []
   AttackRangeMultiplier: 1
   SoundOnSpin: {fileID: 2024307989499341766}
 --- !u!4 &7235024961734572361 stripped

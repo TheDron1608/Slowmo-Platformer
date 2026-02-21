@@ -6,9 +6,32 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, IEffectApplier
 {
+    public enum WEAPON_TAGS
+    {
+        MELEE = 0,
+        RANGED = 1,
+
+        PISTOL = 10,
+        REVOLVER = 11,
+        SHOTGUN = 12,
+        RIFLE = 13,
+        MACHINE_GUN = 14,
+
+        BROKEN = 20,
+        POCKET = 21,
+        MEDIUM = 22,
+        HEAVY = 23,
+
+        SINGLE_ATTACKING = 30,
+        SEMI_AUTO = 31,
+        FULL_AUTO = 32,
+        BURST = 33
+    }
+
     protected const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
 
     [Header("Weapon")]
+    public WEAPON_TAGS[] Tags = new WEAPON_TAGS[0];
     [SerializeField] private float _attackCooldown = .25f;
     [SerializeField] private float _attackCooldownMultiplier = 1f;
     public bool AutoAttack = false;
@@ -183,7 +206,6 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         (sender as AbstractProjectile).OnDestroyed -= NewProjectile_OnDestroyed;
 
         if (
-            !gameObject.IsDestroyed() && 
             this != null && !this.IsDestroyed() && this.TryGetComponent(out BreakableHoldable breakableHoldable) && 
             breakableHoldable != null && !breakableHoldable.IsDestroyed()
             )

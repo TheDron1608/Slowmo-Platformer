@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 [DefaultExecutionOrder(1)]
 public class RangedProjectile : AbstractProjectile
 {
+    const float HOMING_MAX_ANGLE = 15f;
+    const float HOMING_MAX_DISTANCE = 10f;
     const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
     const float PARTICLES_ON_WALL_HIT_VELOCITY = 1f;
     const float PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY = 360f;
@@ -11,6 +14,7 @@ public class RangedProjectile : AbstractProjectile
 
     public float BulletSpeed = 35f;
     public float MaxRange = 350f;
+    public float Homing = 0f;
     public PhysicsParticle BulletCasingParticle;
     public int MaxPierces = 0; //times projectiles will not doestroy iteself if gibs or cuts off damaged character
     public List<AbstractParticle> ParticlesOnWallHit = new();
@@ -70,6 +74,7 @@ public class RangedProjectile : AbstractProjectile
 
         RangedProjectile rangedOriginal = original.GetComponent<RangedProjectile>();
         BulletSpeed = rangedOriginal.BulletSpeed;
+        Homing = rangedOriginal.Homing;
         MaxRange = rangedOriginal.MaxRange;
         BulletCasingParticle = rangedOriginal.BulletCasingParticle;
         MaxPierces = rangedOriginal.MaxPierces;
@@ -101,6 +106,39 @@ public class RangedProjectile : AbstractProjectile
 
     private void FixedUpdate()
     {
+        //update homing
+        if (Homing != 0f)
+        {
+            CharacterComponentsManager bestHomingTarget = null;
+            float bestHomingTargetDistance = HOMING_MAX_DISTANCE;
+            foreach (Transform characterTrasnform in _layer.CharactersContainer.transform)
+            {
+                if (characterTrasnform.TryGetComponent(out AbstractCharacterComponent character))
+                {
+                    float distanceToCharacter = Vector2.Distance(ProjectileTip.position, character.CharComponents.Center.transform.position);
+                    if (
+                        distanceToCharacter < bestHomingTargetDistance &&
+                        Vector2.Angle(transform.position, character.CharComponents.Center.transform.position) < HOMING_MAX_ANGLE &&
+                        (FriendlyFire || ((!(Deflector ?? Owner)?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(character.CharComponents.CharacterTeam)) ?? true))
+                    )
+                    {
+                        bestHomingTarget = character.CharComponents;
+                        bestHomingTargetDistance = distanceToCharacter;
+                    }
+                }
+            }
+
+            if (bestHomingTarget != null)
+            {
+                Vector2 targetAlign = (bestHomingTarget.Center.transform.position - transform.position).normalized;
+                MoveAlignVec2 = new Vector2(
+                    math.lerp(MoveAlignVec2.x, targetAlign.x, Homing * Time.fixedDeltaTime),
+                    math.lerp(MoveAlignVec2.y, targetAlign.y, Homing * Time.fixedDeltaTime)
+                    );
+            }
+        }
+
+        //hit enemies
         RaycastHit2D[] hits = Physics2D.LinecastAll(_positionPreviousFrame, _projectileTip.position, _hitLayerMask);
         List<Collider2D> hitColliders = new List<Collider2D>(hits.Length);
         for (int i = 0; i < hits.Length; i++)

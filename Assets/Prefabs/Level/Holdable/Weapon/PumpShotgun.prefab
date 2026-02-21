@@ -331,13 +331,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01233931bd2c4164796c77c1808333dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Tags: 010000000c000000160000001e000000
   _attackCooldown: 0.667
   _attackCooldownMultiplier: 1
-  PlayerInputAutoAttackOnPress: 0
+  AutoAttack: 0
   Projectile: {fileID: 6705094962899105133, guid: 7dd751ad5561421499df69afc1d301fe, type: 3}
   AccuracyMultiplier: 0.975
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  ExtraProjectileEffects: []
   AmmoLeft: 5
   MaxAmmo: 16
   JamChance: 0

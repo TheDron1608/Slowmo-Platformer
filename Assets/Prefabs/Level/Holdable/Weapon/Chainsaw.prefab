@@ -332,6 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa1099665557e045b84a7e9284422cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Tags: 000000001700000020000000
   _attackCooldown: 0.15
   _attackCooldownMultiplier: 1
   AutoAttack: 1
@@ -339,6 +340,7 @@ MonoBehaviour:
   AccuracyMultiplier: 0.85
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  ExtraProjectileEffects: []
   AttackRangeMultiplier: 1
   MaxFuel: 10
   MaxStartSuccessChance: 0.75
