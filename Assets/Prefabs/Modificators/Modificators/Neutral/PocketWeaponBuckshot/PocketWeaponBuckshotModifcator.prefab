@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: MinorWeaponBuckshotModifcator
+      value: PocketWeaponBuckshotModifcator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c24d3b4fbef08514eb2716c21dc63f49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModificatorType: 0
+  ModificatorType: 2
   IconInstance: {fileID: 6148295679725917498, guid: 9e003bf259d00c64a925400ce6f1c536, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: dae37974ad9312c4ab1045afe3aeea1b, type: 3}
   Tag: 0100000015000000

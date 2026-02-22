@@ -15,7 +15,7 @@ public class RecaliberWeaponByTags : AbstractModificator
         if (
             e.TryGetComponent(out Weapon weapon) &&
             e.TryGetComponent(out Holdable holdableWeapon) &&
-            Tag.All(tag => weapon.Tags.Contains(tag))
+            (Tag.Length == 0 || Tag.All(tag => weapon.Tags.Contains(tag)))
             ) 
         {
             weapon.Projectile = NumberMath.PickRandomItem(ReplaceProjectiles);
