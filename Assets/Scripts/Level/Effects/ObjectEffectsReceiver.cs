@@ -226,14 +226,17 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
         for (int i = 0; i < _currentEffects.Count; i++)
         {
-            if (ReferenceEquals(_currentEffects[i], effect) || _currentEffects[i].Equals(effect))
+            foreach (AbstractEffect incomingEffect in effect.GetSelfIncludeIncomingEffects())
             {
-                AbstractEffect removedEffect = _currentEffects[i];
-                if (removedEffect.IsDestroyed()) continue;
-                OnEffectRemoved?.Invoke(this, removedEffect);
-                _currentEffects.RemoveAt(i);
-                removedEffect.OnRemovedEffect();
-                break;
+                if (ReferenceEquals(_currentEffects[i], incomingEffect) || _currentEffects[i].Equals(incomingEffect))
+                {
+                    AbstractEffect removedEffect = _currentEffects[i];
+                    if (removedEffect.IsDestroyed()) continue;
+                    OnEffectRemoved?.Invoke(this, removedEffect);
+                    _currentEffects.RemoveAt(i);
+                    removedEffect.OnRemovedEffect();
+                    i--;
+                }
             }
         }
         UpdateEffectMaterial();

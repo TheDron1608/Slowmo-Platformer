@@ -80,9 +80,7 @@ MonoBehaviour:
   ModificatorType: 2
   IconInstance: {fileID: 6148295679725917498, guid: d473789fdb986d244802dcf7554ef291, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: e843c779538b99b4ca66e7910355149f, type: 3}
+  ModificatorMultiplier: 1
   Tag: 00000000
-  ReplaceProjectiles:
-  - {fileID: 8294742629055453692, guid: f62ab6dd4c736094db948d27b15e3f73, type: 3}
-  - {fileID: 8294742629055453692, guid: 85a6a7d422c358747a2085418c647427, type: 3}
-  - {fileID: 8294742629055453692, guid: 5462f4c78f99af243895ec55a60466c6, type: 3}
-  - {fileID: 8872436519916515924, guid: bb6b74bb89e7f5044a578a23d2838add, type: 3}
+  Effects:
+  - {fileID: -3803513506618892556, guid: 418d70b37f644d346899cbfaf52cbb82, type: 3}
