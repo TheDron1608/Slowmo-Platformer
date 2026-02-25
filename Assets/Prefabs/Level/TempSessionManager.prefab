@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -1101646604081721869}
   - component: {fileID: -4635136553597321242}
   - component: {fileID: -7512956509481476535}
+  - component: {fileID: -6381328398672318965}
   m_Layer: 0
   m_Name: TempSessionManager
   m_TagString: Untagged
@@ -199,6 +200,7 @@ MonoBehaviour:
     BgSprite: {fileID: 21300000, guid: bc8c65285a6482c4e8254a1d78bc948d, type: 3}
     Multiplier: 5
     Shaking: 1
+  SlowmoOnKill: 0.6
 --- !u!114 &-7512956509481476535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,3 +214,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalDamageMultiplier: 1
+--- !u!114 &-6381328398672318965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590695979345743307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba67e65e10ae5143ab3ca66bd00b4b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TempSlowTimeDecaySpeed: 1

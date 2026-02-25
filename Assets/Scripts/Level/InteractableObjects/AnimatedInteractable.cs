@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AnimatedInteractable : Interactable
@@ -12,6 +13,8 @@ public abstract class AnimatedInteractable : Interactable
 
     public List<AbstractEffect> EffectsWhileInteracting = new();
     public List<AbstractEffect> EffectsOnFinishInteract = new();
+
+    public event EventHandler OnFinishedInteract;
 
     /// <summary>
     /// called when StartAnimation started
@@ -63,6 +66,8 @@ public abstract class AnimatedInteractable : Interactable
     /// </summary>
     protected virtual void OnFinishInteract(GameObject interactor)
     {
+        OnFinishedInteract?.Invoke(this, EventArgs.Empty);
+
         if (interactor.TryGetComponent(out AbstractCharacterComponent charComponent))
         {
             charComponent.CharComponents.CharacterEffectsReceiver.RemoveEffect(EffectsWhileInteracting);

@@ -12,6 +12,7 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
 
     private bool _isAbleToInteractWithObjects = true;
     private Interactable _lastInteractObject = null;
+    private AnimatedInteractable _currentAwaitingAnimatedInteractableFinish = null;
 
     public bool IsAbleToInteractWithObjects
     {
@@ -62,12 +63,40 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
         if (interactable.TryInteract(CharComponents.gameObject))
         {
             _lastInteractObject = interactable;
-            OnInteracted?.Invoke(this, interactable);
+
+            if (interactable.TryGetComponent(out AnimatedInteractable animatedInteractable))
+            {
+                if (_currentAwaitingAnimatedInteractableFinish != null)
+                {
+                    _currentAwaitingAnimatedInteractableFinish.OnFinishedInteract -= _currentAwaitingAnimatedInteractableFinish_OnFinishedInteract;
+                }
+                _currentAwaitingAnimatedInteractableFinish = animatedInteractable;
+                _currentAwaitingAnimatedInteractableFinish.OnFinishedInteract += _currentAwaitingAnimatedInteractableFinish_OnFinishedInteract;
+            }
+            else
+            {
+                OnInteracted?.Invoke(this, interactable);
+            }
             return true;
         }
         else
         {
             return false;
+        }
+    }
+
+    private void _currentAwaitingAnimatedInteractableFinish_OnFinishedInteract(object sender, EventArgs e)
+    {
+        OnInteracted?.Invoke(this, _currentAwaitingAnimatedInteractableFinish);
+        _currentAwaitingAnimatedInteractableFinish.OnFinishedInteract -= _currentAwaitingAnimatedInteractableFinish_OnFinishedInteract;
+        _currentAwaitingAnimatedInteractableFinish = null;
+    }
+
+    private void OnDestroy()
+    {
+        if (_currentAwaitingAnimatedInteractableFinish != null)
+        {
+            _currentAwaitingAnimatedInteractableFinish.OnFinishedInteract -= _currentAwaitingAnimatedInteractableFinish_OnFinishedInteract;
         }
     }
 }

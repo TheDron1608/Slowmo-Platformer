@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class SuperHotModificator : AbstractMultiplierableModificator
 {
     const float TIME_SCALE_TOGGLE_SPEED = 15f;
-    const float SLOWMO_OVERLAY_APPEAR_SPEED = 10f;
     const float MIN_VELOCITY_FOR_NORMAL_TIME_SCALE = 3.5f;
     const string GAMEPLAY_SCENE_NAME = "Gameplay";
 
@@ -74,25 +73,15 @@ public class SuperHotModificator : AbstractMultiplierableModificator
             math.max(TimeSpeedOnIdle, TimeSpeedOnMoving)
             );
 
-        TimeManager.CurrentTimeScale = TimeManager.CurrentTimeScale / oldScaleMult * _currentTimeScaleMult;
+        TimeManager.Instance.CurrentTimeScale = TimeManager.Instance.CurrentTimeScale / oldScaleMult * _currentTimeScaleMult;
 
         if (isIdle)
         {
             _slowmoTimeLeft -= Time.unscaledDeltaTime;
-            UIManager.Instance.SlowmoOverlay.FillAmount = math.lerp(
-                UIManager.Instance.SlowmoOverlay.FillAmount,
-                _slowmoTimeLeft / MaxSlowmoTime,
-                Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
-                );
         }
         else
         {
             _slowmoTimeLeft += Time.unscaledDeltaTime;
-            UIManager.Instance.SlowmoOverlay.FillAmount = math.lerp(
-                UIManager.Instance.SlowmoOverlay.FillAmount,
-                0f,
-                Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
-                );
         }
 
         if (_slowmoTimeLeft < 0f)

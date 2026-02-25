@@ -1,14 +1,64 @@
 ﻿
+using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
-public static class TimeManager
+public class TimeManager : MonoBehaviour
 {
-    private static float _baseFixedDeltaTime = Time.fixedDeltaTime;
+    public static TimeManager Instance = null;
 
-    private static float _currentTimeScaleMultiplier = 1f;
-    private static bool _paused = false;
+    const float SLOWMO_OVERLAY_APPEAR_SPEED = 10f;
+    const float MIN_TIME_SCALE = 0.05f;
 
-    public static float CurrentTimeScale
+    public float TempSlowTimeDecaySpeed = 2f;
+
+    private float _baseFixedDeltaTime;
+    private float _currentTimeScaleMultiplier = 1f;
+    private bool _paused = false;
+    private float _tempSlowTimeLeft = 0f;
+
+    private void Awake()
+    {
+        if (Instance != null) throw new UnityException("Limit of 1 TimeManager instance per scene");
+
+        Instance = this;
+        _baseFixedDeltaTime = Time.fixedDeltaTime;
+    }
+
+    private void Update()
+    {
+        UIManager.Instance.SlowmoOverlay.Show();
+
+        TrySetSlowmoOverlayFill(math.lerp(
+            UIManager.Instance.SlowmoOverlay.FillAmount,
+            Paused ? 0f : (1f - GetTotalTimeScale()),
+            Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
+            ));
+    }
+
+    private void FixedUpdate()
+    {
+        if (_tempSlowTimeLeft > 0f && !Paused)
+        {
+            _tempSlowTimeLeft -= Time.fixedUnscaledDeltaTime * TempSlowTimeDecaySpeed;
+            if (_tempSlowTimeLeft < 0f) _tempSlowTimeLeft = 0f;
+
+            float totalScale = GetTotalTimeScale();
+
+            Time.timeScale = totalScale;
+            Time.fixedDeltaTime = _baseFixedDeltaTime * totalScale;
+        }
+    }
+
+    public void TryTemporalSlowTime(float value)
+    {
+        if (_tempSlowTimeLeft < value)
+        {
+            _tempSlowTimeLeft = value;
+        }
+    }
+
+    public float CurrentTimeScale
     {
         get => _currentTimeScaleMultiplier;
         set
@@ -17,15 +67,22 @@ public static class TimeManager
             {
                 if (!Paused)
                 {
-                    Time.timeScale = value;
-                    Time.fixedDeltaTime = _baseFixedDeltaTime * value;
+                    float totalScale = GetTotalTimeScale();
+
+                    Time.timeScale = totalScale;
+                    Time.fixedDeltaTime = _baseFixedDeltaTime * totalScale;
                 }
                 _currentTimeScaleMultiplier = value;
             }
         }
     }
 
-    public static bool Paused
+    public float GetTotalTimeScale()
+    {
+        return math.max(math.min(CurrentTimeScale, 1f - NumberMath.LimitFloatBetweenMinusOneAndOne(_tempSlowTimeLeft)), MIN_TIME_SCALE);
+    }
+
+    public bool Paused
     {
         get => _paused;
         set
@@ -43,5 +100,20 @@ public static class TimeManager
                 Time.fixedDeltaTime = _baseFixedDeltaTime * _currentTimeScaleMultiplier;
             }
         }
+    }
+
+    private void TrySetSlowmoOverlayFill(float value)
+    {
+        if (UIManager.Instance != null && UIManager.Instance.SlowmoOverlay.IsShown())
+        {
+            UIManager.Instance.SlowmoOverlay.FillAmount = value;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        TrySetSlowmoOverlayFill(0f);
+        CurrentTimeScale = 1f;
+        Instance = null;
     }
 }

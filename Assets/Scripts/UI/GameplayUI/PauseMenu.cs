@@ -23,11 +23,11 @@ public class PauseMenu : MonoBehaviour
             if (_paused)
             {
                 _timeScaleBeforePause = Time.timeScale;
-                TimeManager.Paused = true;
+                TimeManager.Instance.Paused = true;
             }
             else
             {
-                TimeManager.Paused = false;
+                TimeManager.Instance.Paused = false;
             }
 
             if (!_paused) SoundOnUnpause.PlaySound(false, Vector2.zero);

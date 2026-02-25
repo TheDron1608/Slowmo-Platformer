@@ -19,11 +19,11 @@ public class PlayerInputSpecial : AbstractAISpecial
             _isGamepadAiming = value;
             if (_isGamepadAiming)
             {
-                TimeManager.CurrentTimeScale *= GAMEPAD_AIM_TIME_SCALE;
+                TimeManager.Instance.CurrentTimeScale *= GAMEPAD_AIM_TIME_SCALE;
             }
             else
             {
-                TimeManager.CurrentTimeScale /= GAMEPAD_AIM_TIME_SCALE;
+                TimeManager.Instance.CurrentTimeScale /= GAMEPAD_AIM_TIME_SCALE;
             }
         }
     }

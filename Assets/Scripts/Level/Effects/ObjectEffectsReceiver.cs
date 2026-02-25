@@ -235,7 +235,13 @@ public class ObjectEffectsReceiver : MonoBehaviour
                     OnEffectRemoved?.Invoke(this, removedEffect);
                     _currentEffects.RemoveAt(i);
                     removedEffect.OnRemovedEffect();
-                    i--;
+
+                    if (i > 0) i--;
+                    if (_currentEffects.Count == 0)
+                    {
+                        UpdateEffectMaterial();
+                        return;
+                    }
                 }
             }
         }

@@ -54,8 +54,8 @@ public class CameraTrack : MonoBehaviour
             Vector3 trackTargetPosition = PickAvgTrackTargetsPosition();
             Vector2 trackTargetVelocity = PickAvgTrackTargetLinearVelocity();
 
-            _rigidBodyComponent.linearVelocity = 
-                (trackTargetPosition - transform.position) * TrackSpeed;
+            _rigidBodyComponent.linearVelocity =
+                (trackTargetPosition - transform.position) * TrackSpeed / TimeManager.Instance.GetTotalTimeScale();
             _lastTrackPosition = trackTargetPosition;
 
             Quaternion newAngle = new();
