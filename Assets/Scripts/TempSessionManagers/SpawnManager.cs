@@ -31,11 +31,13 @@ public class SpawnManager : MonoBehaviour
         List<GameObject> result = new();
         foreach (LootDropChanceInfo lootDrop in LootDrops)
         {
-            if (lootDrop.AnyDropChance < 1f && UnityEngine.Random.value > lootDrop.AnyDropChance) continue;
-
             if (lootDrop.Spawners.Contains(type))
             {
-                result.AddRange(lootDrop.GetRandomLoot());
+                GameObject newLoot = lootDrop.GetRandomLoot();
+                if (newLoot != null)
+                {
+                    result.Add(newLoot);
+                }
             }
         }
         return result;
