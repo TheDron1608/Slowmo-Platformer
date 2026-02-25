@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LootDropChanceInfo", menuName = "WorldGeneration/LootDropChanceInfo")]
@@ -16,19 +17,12 @@ public class LootDropChanceInfo : ScriptableObject
     }
 
     public float AnyDropChance = 1f;
-    public int MinLootAmount = 1;
-    public int MaxLootAmount = 1;
     public List<LootSpawnerTypes> Spawners = new();
     public List<GameObject> PossibleLoot = new();
 
-    public List<GameObject> GetRandomLoot()
+    public GameObject GetRandomLoot()
     {
-        int randomAmount = NumberMath.PickRandomInRangeNoSeed(MinLootAmount, MaxLootAmount);
-        List<GameObject> result = new(randomAmount);
-        for (int i = 0; i < randomAmount; i++)
-        {
-            result.Insert(i, NumberMath.PickRandomItem(PossibleLoot));
-        }
-        return result;
+        if (AnyDropChance < 1f && UnityEngine.Random.value > AnyDropChance) return null;
+        return NumberMath.PickRandomItem(PossibleLoot);
     }
 }
