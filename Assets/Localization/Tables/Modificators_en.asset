@@ -962,6 +962,60 @@ MonoBehaviour:
       significantly more powerful weapons"
     m_Metadata:
       m_Items: []
+  - m_Id: 25753315610345472
+    m_Localized: Cardio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25753360900440064
+    m_Localized: Leg day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25753417544515584
+    m_Localized: Marathon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25753316306599936
+    m_Localized: '* Enemies are faster in {SpeedMult}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 25753418446290944
+    m_Localized: '* Enemies are faster in {SpeedMult}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 25753361705746432
+    m_Localized: '* Enemies are faster in {SpeedMult}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 26029558314450944
+    m_Localized: Health up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26029624785780736
+    m_Localized: Juggernaut
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26029608113422336
+    m_Localized: Meat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26029559153311744
+    m_Localized: '* Enemies'' health increased in {HealthMult}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 26029609552068608
+    m_Localized: '* Enemies'' health increased in {HealthMult}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 26029626765492224
+    m_Localized: '* Enemies'' health increased in {HealthMult}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1029,3 +1083,9 @@ MonoBehaviour:
         - id: 21193374149353472
         - id: 22093589144379392
         - id: 22093579119992832
+        - id: 25753418446290944
+        - id: 25753361705746432
+        - id: 25753316306599936
+        - id: 26029609552068608
+        - id: 26029559153311744
+        - id: 26029626765492224
