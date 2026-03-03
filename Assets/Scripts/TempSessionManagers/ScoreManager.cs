@@ -32,6 +32,9 @@ public class ScoreManager : MonoBehaviour
     private float _comboLastTime;
     private float _currentMultiplier = 1f;
 
+    public event EventHandler OnAddedCombo;
+    public event EventHandler OnResetCombo;
+
     public int CurrentScore
     {
         get => _currentScore;
@@ -81,6 +84,7 @@ public class ScoreManager : MonoBehaviour
     {
         CurrentCombo++;
         RestoreComboLastTime();
+        OnAddedCombo?.Invoke(this, EventArgs.Empty);
     }
 
     public void RestoreComboLastTime()
@@ -92,6 +96,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (CurrentCombo > 0)
         {
+            OnResetCombo?.Invoke(this, EventArgs.Empty);
             AddScore((int)math.round(CurrentCombo * CurrentMultiplier));
         }
         CurrentCombo = 0;

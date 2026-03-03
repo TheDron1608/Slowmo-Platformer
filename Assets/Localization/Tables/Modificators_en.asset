@@ -970,6 +970,18 @@ MonoBehaviour:
     m_Localized: '* The higher the combo, the higher speed'
     m_Metadata:
       m_Items: []
+  - m_Id: 27909262747607040
+    m_Localized: Addiction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 27909263364169728
+    m_Localized: '* Combo increases restore {ComboRegen} health
+
+      * Combo reset
+      deals {ComboDamage} health per kill'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1037,3 +1049,4 @@ MonoBehaviour:
         - id: 21193374149353472
         - id: 22093589144379392
         - id: 22093579119992832
+        - id: 27909263364169728
