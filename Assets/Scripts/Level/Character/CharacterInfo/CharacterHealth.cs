@@ -88,7 +88,7 @@ public class CharacterHealth : DamagableObject
 
     public void Gib(MonoBehaviour gibber)
     {
-        if (ParticlesOnGib.Count > 0)
+        if (ParticlesOnGib.Count > 0 && gameObject.activeSelf)
         {
             GameObjectUtility.TryGetComponentInSelfOrChild<Collider2D>(gameObject, out Collider2D collider);
             ParticleSpawner.SpawnInstantlyMultipleParticles(

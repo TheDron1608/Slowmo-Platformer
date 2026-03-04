@@ -157,7 +157,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
         SpawnCutLimbParticle();
 
-        if (ParticlesOnCutOff.Count > 0)
+        if (ParticlesOnCutOff.Count > 0 && gameObject.activeSelf)
         {
             Vector3 cutPointPosition =
                 cutter.gameObject.transform.position +
@@ -256,7 +256,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
             CharComponents.CharacterHealth.Die(gibber, GetComponent<CharacterLimbPart>());
         }
 
-        if (ParticlesOnGib.Count > 0)
+        if (ParticlesOnGib.Count > 0 && gameObject.activeSelf)
         {
             GameObjectUtility.TryGetComponentInSelfOrChild<Collider2D>(gameObject, out Collider2D collider);
             ParticleSpawner.SpawnInstantlyMultipleParticles(
