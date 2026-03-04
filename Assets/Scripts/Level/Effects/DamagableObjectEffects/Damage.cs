@@ -10,7 +10,16 @@ public class Damage : AbstractDamagableObjectEffectWithSender
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        AffectedDamagableObject.ApplyDamage(DamageAmount * DamageManager.Instance.GlobalDamageMultiplier, sender, DamageMultiplierMultiplier);
+        float damageMult = 1f;
+        if (sender != null && sender.TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
+        {
+            foreach (IDamageMultiplierEffect damageMultiplierEffect in effectsReceiver.GetEffects<IDamageMultiplierEffect>())
+            {
+                damageMult *= damageMultiplierEffect.DamageMultiplier;
+            }
+        }
+
+        AffectedDamagableObject.ApplyDamage(DamageAmount * damageMult * DamageManager.Instance.GlobalDamageMultiplier, sender, DamageMultiplierMultiplier);
 
         RemoveSelf();
     }
