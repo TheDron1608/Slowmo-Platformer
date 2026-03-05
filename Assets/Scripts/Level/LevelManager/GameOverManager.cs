@@ -1,18 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class GameOverManager : MonoBehaviour
 {
-    private TeamManager.TeamData _playerTeam;
+    const float GAME_OVER_UPDATES_PER_SECOND = 10f;
 
-    private void Start()
+    private void Awake()
     {
-        _playerTeam = TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER);
-        _playerTeam.OnTeamMemberKilled += _playerTeam_OnTeamMemberKilled;
+        StartCoroutine(UpdateGameOverLoop());
     }
 
-    private void _playerTeam_OnTeamMemberKilled(object sender, CharacterTeam e)
+    private IEnumerator UpdateGameOverLoop()
     {
-        foreach (CharacterTeam character in _playerTeam.GetTeamMembers())
+        while (true)
+        {
+            yield return new WaitForSeconds(1f / GAME_OVER_UPDATES_PER_SECOND);
+
+            CheckIsGameOver();
+        }
+    }
+
+    private void CheckIsGameOver()
+    {
+        foreach (CharacterTeam character in TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).GetTeamMembers())
         {
             if (!character.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()) return;
         }

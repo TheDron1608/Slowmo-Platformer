@@ -61,11 +61,11 @@ public class TeamManager : MonoBehaviour
 
     public void OnLevelPreGenerated()
     {
-        LayerManager.Instance.OnObjectSpawned += Instance_OnObjectSpawned;
+        LayerManager.Instance.OnObjectSpawned += LayerManager_OnObjectSpawned;
     }
     public void OnLevelFinished()
     {
-        LayerManager.Instance.OnObjectSpawned -= Instance_OnObjectSpawned;
+        LayerManager.Instance.OnObjectSpawned -= LayerManager_OnObjectSpawned;
     }
 
     private void Awake()
@@ -75,7 +75,7 @@ public class TeamManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Instance_OnObjectSpawned(object sender, GameObject e)
+    private void LayerManager_OnObjectSpawned(object sender, GameObject e)
     {
         if (e.TryGetComponent(out AbstractCharacterComponent character))
         {
