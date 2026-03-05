@@ -56,10 +56,7 @@ public class ModificatorCardsCluster : Button
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
-        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out ModificatorsContainer container))
-        {
-            container.SetClusterDisplayedDescription(this);
-        }
+        Select();
     }
 
     public override void OnSelect(BaseEventData eventData)

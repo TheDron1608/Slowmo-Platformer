@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class ModificatorsContainer : MonoBehaviour
 {
@@ -81,10 +81,49 @@ public class ModificatorsContainer : MonoBehaviour
 
         if (removedCardIndex != -1)
         {
+            bool foundTrackTarget = false;
+            foreach (Transform trackTargetTransform in CardTrackTargetsContainer)
+            {
+                if (
+                    trackTargetTransform.TryGetComponent(out UIElementTrackTarget trackTarget) &&
+                    trackTarget.TrackingUIElement == _modificatorCardsClusters[removedCardIndex].transform
+                    )
+                {
+                    _modificatorCardsClusters[removedCardIndex].SetInteractable(false);
+
+                    foundTrackTarget = true;
+                    trackTarget.transform.SetParent(CardSpawnPosition);
+                    trackTarget.transform.localPosition = Vector3.zero;
+
+                    StartCoroutine(AwaitReachTrackTargetThenDestroy(trackTarget, _modificatorCardsClusters[removedCardIndex].transform));
+                }
+            }
+
             OnRemovedItem?.Invoke(this, _modificatorCardsClusters[removedCardIndex]);
 
-            Destroy(_modificatorCardsClusters[removedCardIndex].gameObject);
+            if (!foundTrackTarget && _modificatorCardsClusters.Count > removedCardIndex)
+            {
+                Destroy(_modificatorCardsClusters[removedCardIndex].gameObject);
+            }
+
             _modificatorCardsClusters.RemoveAt(removedCardIndex);
+
+        }
+    }
+    private IEnumerator AwaitReachTrackTargetThenDestroy(UIElementTrackTarget trackTarget, Transform trackedUIElement)
+    {
+        while (
+            !trackTarget.IsDestroyed() && 
+            !trackedUIElement.IsDestroyed() &&
+            Vector2.Distance(trackTarget.transform.position, trackedUIElement.position) > 0.05f
+            )
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        if (!trackedUIElement.IsDestroyed())
+        {
+            Destroy(trackedUIElement.gameObject);
         }
     }
 
@@ -124,6 +163,11 @@ public class ModificatorsContainer : MonoBehaviour
         _picksLeft -= amount;
         if (_picksLeft <= 0)
         {
+            while (ModificatorCardsClusters.Count > 0)
+            {
+                RemoveModificatorCardsCluster(ModificatorCardsClusters.First());
+            }
+
             foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
             {
                 if (!modificator.DisabledModificator)
@@ -131,7 +175,6 @@ public class ModificatorsContainer : MonoBehaviour
                     modificator.OnModificatorChoiseFinished();
                 }
             }
-            SetAllCardsInteractable(false);
             _changeSceneDelayAfterSpendAllPicksCoroutine = StartCoroutine(ChangeSceneDelayAfterSpendAllPicks());
         }
         else

@@ -18,9 +18,14 @@ public class ButtonSoundVisualEffects : MonoBehaviour, ISelectHandler, IDeselect
         GetComponent<Button>()?.onClick.AddListener(() => SoundOnClick.PlaySound());
     }
 
+    protected virtual bool SelectCondition()
+    {
+        return !_isFirstFrame;
+    }
+
     public void OnSelect(BaseEventData eventData)
     {
-        if (_isFirstFrame) return;
+        if (!SelectCondition()) return;
         SoundOnHoverSelect.PlaySound();
         _scalingUp = true;
     }
@@ -32,7 +37,7 @@ public class ButtonSoundVisualEffects : MonoBehaviour, ISelectHandler, IDeselect
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (_isFirstFrame) return;
+        if (!SelectCondition()) return;
         SoundOnHoverSelect.PlaySound();
         _scalingUp = true;
     }
