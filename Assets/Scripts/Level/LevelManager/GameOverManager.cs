@@ -22,12 +22,26 @@ public class GameOverManager : MonoBehaviour
 
     private void CheckIsGameOver()
     {
+        bool allDead = true;
         foreach (CharacterTeam character in TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).GetTeamMembers())
         {
-            if (!character.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()) return;
+            if (
+                !character.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() ||
+                character.CharComponents.CharacterEffectsReceiver.GetHasEffect<Resurrect>(true)
+                ) allDead = false;
         }
-        UIManager.Instance.GameplayScreenOverlay.Hide();
-        UIManager.Instance.DamagedScreenOverlay.Hide();
-        UIManager.Instance.GameOverScreenOverlay.Show();
+
+        if (allDead)
+        {
+            UIManager.Instance.GameplayScreenOverlay.Hide();
+            UIManager.Instance.DamagedScreenOverlay.Hide();
+            UIManager.Instance.GameOverScreenOverlay.Show();
+        }
+        else
+        {
+            UIManager.Instance.GameplayScreenOverlay.Show();
+            UIManager.Instance.DamagedScreenOverlay.Show();
+            UIManager.Instance.GameOverScreenOverlay.Hide();
+        }
     }
 }
