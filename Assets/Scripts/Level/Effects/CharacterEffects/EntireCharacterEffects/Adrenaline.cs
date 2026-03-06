@@ -4,7 +4,7 @@ using UnityEngine;
 public class Adrenaline : AbstractCharacterEffect, IEntireCharacterEffect, IMultiplierableEffect
 {
     const float SPEED_MULTIPLIER = 1f;
-    const float JUMP_FORCE_MULTIPLIER = 0.33f;
+    const float JUMP_FORCE_MULTIPLIER = 0.1f;
     const float ROLL_MULTIPLIER = 1.25f;
 
     public float MaxSpeedMultiplier = 1.5f;

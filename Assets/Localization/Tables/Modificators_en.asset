@@ -998,6 +998,16 @@ MonoBehaviour:
     m_Localized: '* You will die in 5 minutes'
     m_Metadata:
       m_Items: []
+  - m_Id: 29070670252187648
+    m_Localized: Adrenaline overdose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29070670940053504
+    m_Localized: "* The less health, the higher the speed up to {SpeedUpPrecent}%\n\r*
+      Time slows down as the speed increases"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1066,3 +1076,4 @@ MonoBehaviour:
         - id: 22093589144379392
         - id: 22093579119992832
         - id: 27909263364169728
+        - id: 29070670940053504

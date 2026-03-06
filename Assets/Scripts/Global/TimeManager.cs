@@ -113,7 +113,8 @@ public class TimeManager : MonoBehaviour
     private void OnDestroy()
     {
         TrySetSlowmoOverlayFill(0f);
-        CurrentTimeScale = 1f;
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = _baseFixedDeltaTime;
         Instance = null;
     }
 }
