@@ -67,6 +67,7 @@ public class CharacterReloading : AbstractCharacterComponent
     public bool ForceReload()
     {
         if (!IsAbleToReload) return false;
+        if (CharComponents.CharacterClumsyness.ClumsyReloading && !CharComponents.CharacterCollision.IsCollidingFloor()) return false;
 
         if (
             CharComponents.CharacterHolding.CurrentHoldObject != null &&
