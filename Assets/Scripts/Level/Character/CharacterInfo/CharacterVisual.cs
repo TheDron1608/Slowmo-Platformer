@@ -39,7 +39,9 @@ public class CharacterVisual : AbstractCharacterComponent
         CLUMSY_MOVE_ALIGN_CHANGE = 9,
         CLUMSY_JUMP_CHANGE = 10,
         CLUMSY_MELEE_ATTACK = 11,
-        AIM = 12
+        AIM = 12,
+        CLUMSY_RELOAD = 13,
+        CLUMSY_SHIELD = 14
     }
 
     public class OnBusyStateChangedEventArgs

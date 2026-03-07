@@ -69,7 +69,19 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     {
         if (IsAbleToShield && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Shield shield))
         {
-            return shield.TryRaiseUp();
+            if (shield.TryRaiseUp())
+            {
+                CharComponents.CharacterAiming.AimWeaponDown = false;
+                if (CharComponents.CharacterClumsyness.ClumsyShielding)
+                {
+                    CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.CLUMSY_SHIELD;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         return false;
     }
@@ -78,7 +90,22 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     {
         if (IsAbleToShield && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Shield shield))
         {
-            return shield.TryRaiseDown();
+            if (shield.TryRaiseDown())
+            {
+                if (CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.CLUMSY_SHIELD)
+                {
+                    CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
+                }
+                if (CharComponents.CharacterClumsyness.ClumsyShielding)
+                {
+                    CharComponents.CharacterAiming.AimWeaponDown = true;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         return false;
     }
