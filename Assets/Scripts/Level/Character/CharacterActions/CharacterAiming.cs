@@ -38,7 +38,7 @@ public class CharacterAiming : AbstractCharacterComponent
         get => _aimWeaponDown;
         set
         {
-            if (CharComponents.CharacterClumsyness.ClumsyRangedAttack && !value && GetHoldingValidForAimWeapon())
+            if (CharComponents.CharacterClumsyness.ClumsyRangedAttack && !value && GetHoldingValidForAimRangedWeapon())
             {
                 CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.AIM;
             }
@@ -76,7 +76,7 @@ public class CharacterAiming : AbstractCharacterComponent
     {
         if (CharComponents.CharacterClumsyness.ClumsyRangedAttack)
         {
-            AimWeaponDown = GetHoldingValidForAimWeapon();
+            AimWeaponDown = GetHoldingValidForAimRangedWeapon();
         }
         else
         {
@@ -142,7 +142,7 @@ public class CharacterAiming : AbstractCharacterComponent
             );
     }
 
-    public bool GetHoldingValidForAimWeapon()
+    public bool GetHoldingValidForAimRangedWeapon()
     {
         return CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<RangedWeapon>() != null && CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded;
     }

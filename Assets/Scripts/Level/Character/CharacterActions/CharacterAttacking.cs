@@ -146,7 +146,7 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
                 CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon)
                 )
             {
-                if (CharComponents.CharacterAiming.GetHoldingValidForAimWeapon())
+                if (CharComponents.CharacterAiming.GetHoldingValidForAimRangedWeapon())
                 {
                     if (CharComponents.CharacterAiming.GetCurrentAimReachedTargetAim() && CharComponents.CharacterAiming.AimPerformed)
                     {
@@ -161,8 +161,10 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
                 {
                     if (CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK)
                     {
-                        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK;
+                        CharComponents.CharacterAiming.AimWeaponDown = false;
                         _awaitingMeleeAttackDirection = direction;
+
+                        CharComponents.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK;
                         CharComponents.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
                     }
                 }
