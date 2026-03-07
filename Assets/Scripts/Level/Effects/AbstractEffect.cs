@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect>, IEquatable<AbstractEffect>
@@ -34,9 +35,9 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
         {
             OnApply();
         }
-        else
+        else if (!_affectedObject.IsDestroyed())
         {
-            throw new UnityException("ObjectEffects components not found at parent in: " + gameObject.name);
+            throw new UnityException("ObjectEffectsReceiver components not found at parent in: " + gameObject.name);
         }
     }
 

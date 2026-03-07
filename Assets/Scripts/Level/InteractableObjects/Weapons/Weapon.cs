@@ -44,6 +44,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     private bool _isInCooldown = false;
     private Transform _projectileSpawnPosition;
     private List<AbstractProjectile> _projectiles = new();
+    private Coroutine _awaitAttackCooldownCoroutine = null;
 
     public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied;
     public event EventHandler OnAttackSucceed;
@@ -84,6 +85,16 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     {
         get => _projectileSpawnPosition;
         protected set => _projectileSpawnPosition = value;
+    }
+
+    public virtual void ResetAttackCooldown()
+    {
+        IsInCooldown = false;
+        if (_awaitAttackCooldownCoroutine != null)
+        {
+            StopCoroutine(_awaitAttackCooldownCoroutine);
+            _awaitAttackCooldownCoroutine = null;
+        }
     }
 
     private void Awake()
@@ -238,7 +249,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
 
             yield return new WaitForSeconds(DurationBetweenRepeatAttacks);
         }
-        StartCoroutine(AwaitAttackCooldownFinish());
+        _awaitAttackCooldownCoroutine = StartCoroutine(AwaitAttackCooldownFinish());
     }
 
     protected virtual bool AttackCondition()
@@ -258,6 +269,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     {
         yield return new WaitForSeconds(AttackCooldown * AttackCooldownMultiplier);
         IsInCooldown = false;
+        _awaitAttackCooldownCoroutine = null;
     }
 
     public virtual void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)

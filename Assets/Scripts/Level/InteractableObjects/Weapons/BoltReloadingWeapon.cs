@@ -59,6 +59,14 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
         _animator.SetFloat(ANIMATOR_ATTACK_COOLDOWN_MULTIPLIER_PROP_NAME, 1 / ((AttackCooldownMultiplier * AttackCooldown) / _loadBulletAnimationClipsDuration) - WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK);
     }
 
+    public override void ResetAttackCooldown()
+    {
+        base.ResetAttackCooldown();
+
+        SpawnBulletParticles(LoadedSpentAmmoLeft);
+        LoadedSpentAmmoLeft = 0;
+    }
+
     public void UnloadBullet()
     {
         _animator.SetTrigger(ANIMATOR_UNLOAD_BULLET_TRIGGER_NAME);
