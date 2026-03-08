@@ -10,11 +10,11 @@ public class ScoreTracker : MonoBehaviour
         TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberKilled += ScoreTracker_OnTeamMemberKilled;
     }
 
-    private void PlayerTeam_OnTeamMemberDidKill(object sender, CharacterTeam e)
+    private void PlayerTeam_OnTeamMemberDidKill(object sender, TeamManager.TeamData.MemberKillEventArgs e)
     {
         SessionManager.Instance.TempSession.CurrentKills++;
     }
-    private void ScoreTracker_OnTeamMemberKilled(object sender, CharacterTeam e)
+    private void ScoreTracker_OnTeamMemberKilled(object sender, TeamManager.TeamData.MemberKillEventArgs e)
     {
         SessionManager.Instance.TempSession.CurrentDeaths++;
     }

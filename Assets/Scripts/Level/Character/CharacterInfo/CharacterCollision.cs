@@ -49,6 +49,7 @@ public class CharacterCollision : AbstractCharacterComponent
     private Vector2 _positionPrevFrame;
     private List<AbstractCharacterComponent> _currentCollidingCharacters = new();
     private List<Collider2D> _currentNearbyCollidableFurniture = new();
+    private AbstractCharacterComponent _encountKillOnOutOfMapCharacter = null;
 
     private GameObject _colliderFromFloor = null;
     private GameObject _colliderFromRoof = null;
@@ -131,6 +132,23 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         base.OnAwake();
         PositionPrevFrame = transform.position;
+        CharComponents.CharacterEffectsReceiver.OnEffectAdded += CharacterEffectsReceiver_OnEffectAdded;
+    }
+
+    private void CharacterEffectsReceiver_OnEffectAdded(object sender, ObjectEffectsReceiver.EffectAddedEventArgs e)
+    {
+        if (e.Effect is Knockback || e.Effect is AbstractStun)
+        {
+            AbstractCharacterComponent senderCharacter = ObjectEffectsReceiver.TryGetCharacterFromSender(e.Sender);
+            if (
+                senderCharacter != null && 
+                senderCharacter.CharComponents != CharComponents && 
+                !senderCharacter.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(CharComponents.CharacterTeam)
+                )
+            {
+                _encountKillOnOutOfMapCharacter = senderCharacter;
+            }
+        }
     }
 
     private void OnEnable()
@@ -264,8 +282,9 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         UpdateCurrentZLayer();
         UpdateNearbyCollidableFuniture();
-        UpdateIsOutFromMapBottom();
         UpdateTileCollidingInfo();
+        UpdateEncountKillOnOutOfMapCharacter();
+        UpdateIsOutFromMapBottom();
         UpdateTimeOnAirOrGround();
         UpdateHitVelocity();
         UpdatePhysicsMaterial();
@@ -289,15 +308,6 @@ public class CharacterCollision : AbstractCharacterComponent
             {
                 _currentNearbyCollidableFurniture.Add(collider);
             }
-        }
-    }
-
-    private void UpdateIsOutFromMapBottom()
-    {
-        if (CharComponents.Center.transform.position.y < LayerManager.Instance.GetLevelBottom() && !CharComponents.CharacterVisual.GetIsVisible())
-        {
-            CharComponents.CharacterHealth.Die(null, null);
-            Destroy(CharComponents.gameObject);
         }
     }
 
@@ -331,6 +341,27 @@ public class CharacterCollision : AbstractCharacterComponent
         if (prevColliderFromRoof != _colliderFromRoof) OnCollisionChanged?.Invoke(this, new OnCollisionChangedEventArgs(_colliderFromRoof != null, Vector2.down, _colliderFromRoof));
         if (prevColliderFromLeftWall != _colliderFromLeftWall) OnCollisionChanged?.Invoke(this, new OnCollisionChangedEventArgs(_colliderFromLeftWall != null, Vector2.down, _colliderFromLeftWall));
         if (prevColliderFromRightWall != _colliderFromRightWall) OnCollisionChanged?.Invoke(this, new OnCollisionChangedEventArgs(_colliderFromRightWall != null, Vector2.down, _colliderFromRightWall));
+    }
+
+    private void UpdateEncountKillOnOutOfMapCharacter()
+    {
+        if (
+            _encountKillOnOutOfMapCharacter != null && 
+            IsCollidingFloor() && 
+            !CharComponents.CharacterEffectsReceiver.GetHasEffect<AbstractStun>()
+            )
+        {
+            _encountKillOnOutOfMapCharacter = null;
+        }
+    }
+
+    private void UpdateIsOutFromMapBottom()
+    {
+        if (CharComponents.Center.transform.position.y < LayerManager.Instance.GetLevelBottom() && !CharComponents.CharacterVisual.GetIsVisible())
+        {
+            CharComponents.CharacterHealth.Die(_encountKillOnOutOfMapCharacter, null);
+            Destroy(CharComponents.gameObject);
+        }
     }
 
     public void UpdateHitVelocity()
@@ -421,5 +452,13 @@ public class CharacterCollision : AbstractCharacterComponent
     private void LateUpdate()
     {
         PositionPrevFrame = transform.position;
+    }
+
+    private void OnDestroy()
+    {
+        if (CharComponents.CharacterEffectsReceiver != null)
+        {
+            CharComponents.CharacterEffectsReceiver.OnEffectAdded -= CharacterEffectsReceiver_OnEffectAdded;
+        }
     }
 }

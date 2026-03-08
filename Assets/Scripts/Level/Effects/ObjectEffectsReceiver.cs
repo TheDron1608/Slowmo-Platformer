@@ -18,9 +18,40 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
+    public static AbstractCharacterComponent TryGetCharacterFromSender(MonoBehaviour sender)
+    {
+        if (sender == null || sender.IsDestroyed())
+        {
+            return null;
+        }
+        if (sender.TryGetComponent(out AbstractCharacterComponent senderCharacter))
+        {
+            return senderCharacter;
+        }
+        else if (sender.TryGetComponent(out Holdable senderHoldable))
+        {
+            return senderHoldable.CurrentHolder;
+        }
+        else if (sender.TryGetComponent(out AbstractProjectile senderProjectile))
+        {
+            if (senderProjectile?.Weapon?.TryGetComponent(out Holdable holdableWeapon) ?? false)
+            {
+                return holdableWeapon?.CurrentHolder;
+            }
+            else if (senderProjectile?.Weapon?.TryGetComponent(out UnarmedWeapon unarmedWeapon) ?? false)
+            {
+                return unarmedWeapon?.CharComponents.CharacterAttacking;
+            }
+        }
+        return null;
+    }
+
     public List<AbstractEffect> CounterEffectsOnApplier = new();
     [SerializeField] private List<AbstractEffect> _currentEffects = new();
+
     private MonoBehaviour _lastSender = null;
+    private bool _wasKilledBefore = false;
+
 
     public event EventHandler<EffectAddedEventArgs> OnEffectAdded;
     public event EventHandler<AbstractEffect> OnEffectRemoved;
@@ -33,6 +64,11 @@ public class ObjectEffectsReceiver : MonoBehaviour
     public MonoBehaviour LastSender
     {
         get => _lastSender;
+    }
+
+    public bool WasKilledBefore
+    {
+        get => _wasKilledBefore;
     }
 
     private void Awake()
@@ -155,6 +191,11 @@ public class ObjectEffectsReceiver : MonoBehaviour
             }
 
             OnEffectAdded?.Invoke(this, new(newEffect, sender));
+
+            if (effect is ILethalEffect)
+            {
+                _wasKilledBefore = true;
+            }
 
             return newEffect;
         }

@@ -9,6 +9,18 @@ public class TeamManager : MonoBehaviour
     [Serializable]
     public class TeamData
     {
+        public class MemberKillEventArgs
+        {
+            public MemberKillEventArgs(CharacterTeam killed, CharacterTeam killer)
+            {
+                Killed = killed;
+                Killer = killer;
+            }
+
+            public CharacterTeam Killed;
+            public CharacterTeam Killer;
+        }
+
         public string Name;
 
         private int _totalKills = 0;
@@ -19,14 +31,14 @@ public class TeamManager : MonoBehaviour
         public int GetTotalDeaths() => _totalDeaths;
         public List<CharacterTeam> GetTeamMembers() => _teamMembers;
 
-        public void OnCharacterTeamDidKill(CharacterTeam killer)
+        public void OnCharacterTeamDidKill(CharacterTeam killed, CharacterTeam killer)
         {
-            OnTeamMemberDidKill?.Invoke(this, killer);
+            OnTeamMemberDidKill?.Invoke(this, new(killed, killer));
             _totalKills++;
         }
-        public void OnCharacterTeamKilled(CharacterTeam killer)
+        public void OnCharacterTeamKilled(CharacterTeam killed, CharacterTeam killer)
         {
-            OnTeamMemberKilled?.Invoke(this, killer);
+            OnTeamMemberKilled?.Invoke(this, new(killed, killer));
             _totalDeaths++;
         }
 
@@ -39,8 +51,8 @@ public class TeamManager : MonoBehaviour
             _teamMembers.Remove(member);
         }
 
-        public event EventHandler<CharacterTeam> OnTeamMemberKilled;
-        public event EventHandler<CharacterTeam> OnTeamMemberDidKill;
+        public event EventHandler<MemberKillEventArgs> OnTeamMemberKilled;
+        public event EventHandler<MemberKillEventArgs> OnTeamMemberDidKill;
     }
 
     public enum Teams : int
@@ -96,11 +108,11 @@ public class TeamManager : MonoBehaviour
             {
                 if (GetTeamDataByTeam(killerCharacter.CharComponents.CharacterTeam.Team) == teamData)
                 {
-                    teamData.OnCharacterTeamDidKill(killerCharacter.CharComponents.CharacterTeam);
+                    teamData.OnCharacterTeamDidKill(killedCharacter.CharComponents.CharacterTeam, killerCharacter.CharComponents.CharacterTeam);
                 }
                 if (GetTeamDataByTeam(killedCharacter.CharComponents.CharacterTeam.Team) == teamData)
                 {
-                    teamData.OnCharacterTeamKilled(killedCharacter.CharComponents.CharacterTeam);
+                    teamData.OnCharacterTeamKilled(killedCharacter.CharComponents.CharacterTeam, killedCharacter.CharComponents.CharacterTeam);
                 }
             }
         }
