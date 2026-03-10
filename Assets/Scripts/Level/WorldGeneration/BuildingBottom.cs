@@ -6,11 +6,16 @@ using UnityEngine.Tilemaps;
 public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
 {
     const int MIN_VERTICAL_RANGE = 50;
+    const int VERTICAL_GRIDDER_RATE = 10;
+    const int HORIZONTAL_GRIDDER_RATE = 15;
+    const float VERTICAL_GRIDDER_SPAWN_CHANCE = 0.825f;
+    const float HORIZONTAL_GRIDDER_SPAWN_CHANCE = 0.75f;
 
     public GameObject OffsetStart;
     public GameObject OffsetEnd;
     public TileBase FillTile;
     public TileBase OvergoundFillTile;
+    public TileBase ColumnFillTile;
     public int BuildingWallDecorationsPerHeight = 35;
     public List<GenerateOnFinishLevelEnviroment> AvaibleBuildingWallDecorations = new();
 
@@ -26,29 +31,101 @@ public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
         int y1 = BuildingInfo.GlobalLowestCoorY - MIN_VERTICAL_RANGE;
         int x2 = (int)math.floor(generationInfo.Offset.x + OffsetEnd.transform.position.x);
         int y2 = (int)math.floor(generationInfo.Offset.y + math.max(OffsetStart.transform.position.y, OffsetEnd.transform.position.y));
+        bool allColumsValid = true;
 
         for (int x = x1; x <= x2; x++)
         {
-            for (int y = y1; y <= y2; y++)
+            bool isValidColumn = true;
+            for (int y = y2; y >= y1; y--)
             {
                 Vector3Int tilePos = new Vector3Int(x, y);
 
-                if (!generateWhere.GetHasAnyTileAt(tilePos))
+                if (generateWhere.GetHasAnyTileAt(tilePos))
                 {
+                    isValidColumn = false;
+                    allColumsValid = false;
+                    break;
+                }
+            }
+
+            if (isValidColumn)
+            {
+                for (int y = y2; y >= y1; y--)
+                {
+                    Vector3Int tilePos = new Vector3Int(x, y);
+
                     targetTilemap.SetTile(tilePos, FillTile);
                     targetOvergoundTilemap.SetTile(tilePos, OvergoundFillTile);
                 }
             }
+            else if (x % VERTICAL_GRIDDER_RATE == 0 && UnityEngine.Random.value < VERTICAL_GRIDDER_SPAWN_CHANCE)
+            {
+                Tilemap targetColumnTilemap = generateWhere.GetBackgroundDecorations();
+                bool validForColumn = true;
+                for (int y = y2; y >= y1; y--)
+                {
+                    Vector3Int tilePos = new Vector3Int(x, y);
+
+                    if (targetColumnTilemap.HasTile(tilePos))
+                    {
+                        validForColumn = false;
+                        break;
+                    }
+                }
+
+                if (validForColumn)
+                {
+                    for (int y = y2; y >= y1; y--)
+                    {
+                        Vector3Int tilePos = new Vector3Int(x, y);
+
+                        if (
+                            (!generateWhere.GetForeground().HasTile(tilePos) || generateWhere.GetForeground().GetTile(tilePos) is RestrictInteriourWalls) &&
+                            (!generateWhere.GetBackground().HasTile(tilePos) || generateWhere.GetBackground().GetTile(tilePos) is RestrictInteriourWalls)
+                            )
+                        {
+                            targetColumnTilemap.SetTile(tilePos, ColumnFillTile);
+
+                            if (y % HORIZONTAL_GRIDDER_RATE == 0 && UnityEngine.Random.value < HORIZONTAL_GRIDDER_SPAWN_CHANCE)
+                            {
+                                if (targetColumnTilemap.HasTile(tilePos + Vector3Int.left * VERTICAL_GRIDDER_RATE))
+                                {
+                                    for (int subX = x; subX >= x - VERTICAL_GRIDDER_RATE; subX--)
+                                    {
+                                        Vector3Int subTilePos = new Vector3Int(subX, y);
+                                        targetColumnTilemap.SetTile(subTilePos, ColumnFillTile);
+                                    }
+                                }
+                                else if (targetColumnTilemap.HasTile(tilePos + Vector3Int.right * VERTICAL_GRIDDER_RATE))
+                                {
+                                    for (int subX = x; subX <= x + VERTICAL_GRIDDER_RATE; subX++)
+                                    {
+                                        Vector3Int subTilePos = new Vector3Int(subX, y);
+                                        targetColumnTilemap.SetTile(subTilePos, ColumnFillTile);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-        for (int i = 0; i < math.abs((y1 - y2) / BuildingWallDecorationsPerHeight); i++)
+        if (allColumsValid)
         {
-            NumberMath.PickRandomItem(AvaibleBuildingWallDecorations).PreGenerate(
-                generationInfo.GenerateWhere,
-                new Vector3(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)),
-                generationInfo.Building,
-                generationInfo.Chunk
-                );
+            for (int i = 0; i < math.abs((y1 - y2) / BuildingWallDecorationsPerHeight); i++)
+            {
+                NumberMath.PickRandomItem(AvaibleBuildingWallDecorations).PreGenerate(
+                    generationInfo.GenerateWhere,
+                    new Vector3(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)),
+                    generationInfo.Building,
+                    generationInfo.Chunk
+                    );
+            }
         }
 
         return new List<GameObject> { targetTilemap.gameObject };

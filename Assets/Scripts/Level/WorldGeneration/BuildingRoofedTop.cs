@@ -28,56 +28,62 @@ public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
         int y1 = (int)math.floor(generationInfo.Offset.y + math.max(OffsetStart.transform.position.y, OffsetEnd.transform.position.y));
         int x2 = (int)math.floor(generationInfo.Offset.x + OffsetEnd.transform.position.x);
         int y2 = generationInfo.Building.HighestCoorY;
+        bool fullGenerationFailed = false;
 
         Tilemap targetTilemap = generateWhere.GetForeground();
         Tilemap targetOvergoundTilemap = generateWhere.GetOverground();
 
         for (int x = x1; x <= x2; x++)
         {
-            for (int y = y1; y <= y2; y++)
+            for (int y = y1; y <= y2 + RoofHeight; y++)
             {
                 Vector3Int tilePos = new Vector3Int(x, y);
 
-                if (!generateWhere.GetHasAnyTileAt(tilePos))
+                if (
+                    !generateWhere.GetHasAnyTileAt(tilePos) || 
+                    (targetTilemap.GetTile(tilePos) == FillTile && targetOvergoundTilemap.GetTile(tilePos) == RoofOvergroundFillTile)
+                    )
                 {
-                    targetTilemap.SetTile(tilePos, FillTile);
-                    targetOvergoundTilemap.SetTile(tilePos, OvergoundFillTile);
+                    if (y <= y2)
+                    {
+                        targetTilemap.SetTile(tilePos, FillTile);
+                        targetOvergoundTilemap.SetTile(tilePos, OvergoundFillTile);
+                    }
+                    else
+                    {
+                        targetTilemap.SetTile(tilePos, RoofFillTile);
+                        targetOvergoundTilemap.SetTile(tilePos, RoofOvergroundFillTile);
+                    }
+                }
+                else
+                {
+                    fullGenerationFailed = true;
+                    break;
                 }
             }
         }
 
-        for (int x = x1; x <= x2; x++)
+        if (!fullGenerationFailed)
         {
-            for (int y = y2; y <= y2 + RoofHeight; y++)
+            if (UnityEngine.Random.value < BuildingRoofDecorationsGenerationChance)
             {
-                Vector3Int tilePos = new Vector3Int(x, y);
-
-                if (!generateWhere.GetHasAnyTileAt(tilePos))
-                {
-                    targetTilemap.SetTile(tilePos, RoofFillTile);
-                    targetOvergoundTilemap.SetTile(tilePos, RoofOvergroundFillTile);
-                }
+                NumberMath.PickRandomItem(AvaibleBuildingRoofDecorations).PreGenerate(
+                    generationInfo.GenerateWhere,
+                    new Vector3(NumberMath.PickRandomInRangeNoSeed(x1, x2), y2 + RoofHeight + 1),
+                    generationInfo.Building,
+                    generationInfo.Chunk
+                    );
             }
-        }
 
-        if (UnityEngine.Random.value < BuildingRoofDecorationsGenerationChance)
-        {
-            NumberMath.PickRandomItem(AvaibleBuildingRoofDecorations).PreGenerate(
-                generationInfo.GenerateWhere,
-                new Vector3(NumberMath.PickRandomInRangeNoSeed(x1, x2), y2 + RoofHeight + 1),
-                generationInfo.Building,
-                generationInfo.Chunk
-                );
-        }
-
-        for (int i = 0; i < math.abs((y1 - y2) / BuildingWallDecorationsPerHeight); i++)
-        {
-            NumberMath.PickRandomItem(AvaibleBuildingWallDecorations).PreGenerate(
-                generationInfo.GenerateWhere,
-                new Vector3(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)),
-                generationInfo.Building,
-                generationInfo.Chunk
-                );
+            for (int i = 0; i < math.abs((y1 - y2) / BuildingWallDecorationsPerHeight); i++)
+            {
+                NumberMath.PickRandomItem(AvaibleBuildingWallDecorations).PreGenerate(
+                    generationInfo.GenerateWhere,
+                    new Vector3(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)),
+                    generationInfo.Building,
+                    generationInfo.Chunk
+                    );
+            }
         }
 
         return new List<GameObject> { targetTilemap.gameObject };
