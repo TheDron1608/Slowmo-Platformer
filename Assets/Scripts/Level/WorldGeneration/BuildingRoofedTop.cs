@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BuildingRoofedTop : GenerateOnFinishBuildingEnviroment
+public class BuildingRoofedTop : GenerateBeforeExtraChunksEnviroment
 {
     public GameObject OffsetStart;
     public GameObject OffsetEnd;

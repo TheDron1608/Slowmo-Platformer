@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BuildingBottom : GenerateOnFinishAllBuildingEnviroment
+public class BuildingBottom : GenerateBeforeExtraChunksEnviroment
 {
     const int MIN_VERTICAL_RANGE = 50;
     const int VERTICAL_GRIDDER_RATE = 10;

@@ -15,8 +15,10 @@ public class WorldGenerationManager : MonoBehaviour
     public int BuildingDistance = 25;
     public List<Chunk> Chunks = new();
     public List<BuildingEnterChunk> EnterBuildingChunks = new();
+    public List<Chunk> UnclosedConnectionsChunks = new();
     public Vector2 GenerateDirection = Vector2.one;
     public int ParallelRooms = 3;
+    public float UnlosedConnectionChunkGenerationChance = 0.33f;
     public int Seed;
 
     private UnityEngine.Random.State _randomState;
@@ -180,6 +182,35 @@ public class WorldGenerationManager : MonoBehaviour
                 if (finishGenerating)
                 {
                     break;
+                }
+            }
+        }
+
+        //generating enviroment with GenerateBeforeExtraChunksEnviroment attr
+        foreach (ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo beforeExtraChunksEnviroment in layer.GetGenerationTempInfoByType<GenerateBeforeExtraChunksEnviroment>(false))
+        {
+            beforeExtraChunksEnviroment.Generate();
+        }
+
+        //add extra chunks for closed connections
+        for (int chunkIter = 0; chunkIter < newBuildingInfo.Chunks.Count; chunkIter++)
+        {
+            if (UnityEngine.Random.value > UnlosedConnectionChunkGenerationChance) continue;
+
+            foreach (ChunkConnection.PreGeneratedChunkConnectionTempInfo connection in newBuildingInfo.Chunks[chunkIter].Connections)
+            {
+                if (connection.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED)
+                {
+                    Chunk[] validChunks = UnclosedConnectionsChunks.Where((c) => c.GetAnyConnectionIsValid(connection.GetTargetConnection())).ToArray();
+                    if (validChunks.Length > 0 && NumberMath.PickRandomItem(validChunks).TryAddChunk(
+                        layer,
+                        connection,
+                        newBuildingInfo,
+                        out ChunkInfo newChunkInfo,
+                        out ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunkConnection))
+                    {
+                        newChunkInfo.DistanceFromMainGenerationBranch = connection.Chunk.DistanceFromMainGenerationBranch + 1;
+                    }
                 }
             }
         }

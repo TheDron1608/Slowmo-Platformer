@@ -59,7 +59,7 @@ MonoBehaviour:
   - {fileID: 2670556852303785856, guid: 7b3b527486eba624bb18f80676329f90, type: 3}
   MaxModificatorOptions: 3
   ModifiactorsPickAmount: 1
-  ExtraModificatorChance: 0.1
+  ExtraModificatorChance: 0.33
   MaxExtraModificators: 3
   _clusterInstance: {fileID: 4234988079192789645, guid: 968f668076676f24682bd838d8859a3f, type: 3}
 --- !u!114 &8145630360655912481
@@ -125,8 +125,15 @@ MonoBehaviour:
   - {fileID: 1940515277747391731, guid: 8e394475cbfcbfa41a8c78678fcc96f3, type: 3}
   EnterBuildingChunks:
   - {fileID: 3180400563243364640, guid: 60023bb7a06e9934c8099ac09bda372a, type: 3}
+  UnclosedConnectionsChunks:
+  - {fileID: 3180400563243364640, guid: d3775c4bb036fe7469ac2c5ef69e3ac7, type: 3}
+  - {fileID: 3180400563243364640, guid: 29692b215dc6955469c9be5c2caf538c, type: 3}
+  - {fileID: 3180400563243364640, guid: e4559f095d3e5df4e8b5d24db726becd, type: 3}
+  - {fileID: 3180400563243364640, guid: a0bd9e15f65f3e748b3e5d8d0e4de7f9, type: 3}
+  - {fileID: 3180400563243364640, guid: eef148fbcbc687a45af03a182f182db4, type: 3}
   GenerateDirection: {x: 1, y: 0.5}
   ParallelRooms: 2
+  UnlosedConnectionChunkGenerationChance: 0.33
   Seed: 0
 --- !u!114 &8541215460873994013
 MonoBehaviour:

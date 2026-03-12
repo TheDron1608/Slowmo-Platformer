@@ -173,9 +173,16 @@ public class MultiTileMapsContainer : MonoBehaviour
                             GetForeground().SetTile(tilePos, foregroundTile);
                         }
                     }
+                    else if (tile is RestrictInteriourWalls)
+                    {
+                        if (!targetTileMap.HasTile(tilePos))
+                        {
+                            targetTileMap.SetTile(tilePos, tile);
+                        }
+                    }
                     else
                     {
-                        GetTileMapByBehaviourType(tilemap.GetComponent<TileBehaviour>().BehaviourType).SetTile(tilePos, tile);
+                        targetTileMap.SetTile(tilePos, tile);
                     }
                 }
             }

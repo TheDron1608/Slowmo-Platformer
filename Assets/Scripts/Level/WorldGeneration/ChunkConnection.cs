@@ -24,6 +24,11 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
             base.Remove();
             Chunk.Connections.Remove(this);
         }
+
+        public ChunkConnection GetTargetConnection()
+        {
+            return TargetGeneration.GetComponent<ChunkConnection>();
+        }
     }
 
     public enum ChunkConnectionDirection

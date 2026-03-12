@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -12,6 +13,18 @@ public class Chunk : MonoBehaviour
     public DoorGenerationPosition[] GetDoorGenerationPositions()
     {
         return transform.GetComponentsInChildren<DoorGenerationPosition>();
+    }
+
+    public bool GetAnyConnectionIsValid(ChunkConnection targetConnection)
+    {
+        foreach (var connection in GetConnections())
+        {
+            if (connection.GetConnectionIsValid(targetConnection))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public bool GetAnyConnectionIsValid(ChunkConnection targetConnection, out ChunkConnection validConnection)
@@ -96,7 +109,7 @@ public class Chunk : MonoBehaviour
     {
         newChunkInfo = default;
         connectedChunkConntection = default;
-        List<ChunkConnection> validConnections = GetValidConnections(sourceChunkConnection.TargetGeneration.GetComponent<ChunkConnection>());
+        var validConnections = GetValidConnections(sourceChunkConnection.GetTargetConnection()).OrderBy((e) => UnityEngine.Random.value);
 
         foreach (ChunkConnection connection in validConnections)
         {
