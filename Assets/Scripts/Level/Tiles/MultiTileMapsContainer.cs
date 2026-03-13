@@ -96,6 +96,16 @@ public class MultiTileMapsContainer : MonoBehaviour
         return false;
     }
 
+    public T GetTileAt<T>(Vector3Int position) where T : TileBase
+    {
+        foreach (Tilemap tilemap in _tilemaps)
+        {
+            T tile = tilemap.GetTile<T>(position);
+            if (tile != null) return tile;
+        }
+        return null;
+    }
+
     public List<TileBehaviour.TileBehaviourType> GetTileBehavioursAt(Vector2 position)
     {
         List<TileBehaviour.TileBehaviourType> result = new();

@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class BuildingBottom : GenerateBeforeExtraChunksEnviroment
 {
-    const int MIN_VERTICAL_RANGE = 50;
+    const int MIN_VERTICAL_RANGE = 20;
     const int VERTICAL_GRIDDER_RATE = 10;
     const int HORIZONTAL_GRIDDER_RATE = 15;
     const float VERTICAL_GRIDDER_SPAWN_CHANCE = 0.825f;
@@ -40,7 +40,10 @@ public class BuildingBottom : GenerateBeforeExtraChunksEnviroment
             {
                 Vector3Int tilePos = new Vector3Int(x, y);
 
-                if (generateWhere.GetHasAnyTileAt(tilePos))
+                if (
+                    generateWhere.GetForeground().HasTile(tilePos) ||
+                    generateWhere.GetBackground().HasTile(tilePos)
+                    )
                 {
                     isValidColumn = false;
                     allColumsValid = false;
@@ -80,8 +83,15 @@ public class BuildingBottom : GenerateBeforeExtraChunksEnviroment
                         Vector3Int tilePos = new Vector3Int(x, y);
 
                         if (
-                            (!generateWhere.GetForeground().HasTile(tilePos) || generateWhere.GetForeground().GetTile(tilePos) is RestrictInteriourWalls) &&
-                            (!generateWhere.GetBackground().HasTile(tilePos) || generateWhere.GetBackground().GetTile(tilePos) is RestrictInteriourWalls)
+                            (
+                                !generateWhere.GetForeground().HasTile(tilePos) || 
+                                generateWhere.GetForeground().GetTile(tilePos) is RestrictInteriourWalls
+                            ) &&
+                            (
+                                !generateWhere.GetBackground().HasTile(tilePos) || 
+                                generateWhere.GetBackground().GetTile(tilePos) is RestrictInteriourWalls ||
+                                generateWhere.GetBackground().GetTile<BackgroundRuleTile>(tilePos).CanBeOverridedByGridders
+                            )
                             )
                         {
                             targetColumnTilemap.SetTile(tilePos, ColumnFillTile);

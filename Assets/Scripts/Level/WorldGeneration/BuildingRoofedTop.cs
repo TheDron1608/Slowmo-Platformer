@@ -55,6 +55,18 @@ public class BuildingRoofedTop : GenerateBeforeExtraChunksEnviroment
                         targetOvergoundTilemap.SetTile(tilePos, RoofOvergroundFillTile);
                     }
                 }
+                else if (generateWhere.GetTileAt<RestrictInteriourWalls>(tilePos) != null)
+                {
+                    for (int roofY = y; roofY >= math.max(y1, y - RoofHeight); roofY--)
+                    {
+                        Vector3Int roofTilePos = new Vector3Int(x, roofY);
+                        targetTilemap.SetTile(roofTilePos, RoofFillTile);
+                        targetOvergoundTilemap.SetTile(roofTilePos, RoofOvergroundFillTile);
+                    }
+
+                    fullGenerationFailed = true;
+                    break;
+                }
                 else
                 {
                     fullGenerationFailed = true;
