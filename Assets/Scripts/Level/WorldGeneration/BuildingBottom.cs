@@ -76,7 +76,7 @@ public class BuildingBottom : GenerateBeforeExtraChunksEnviroment
                     }
                 }
 
-                if (validForColumn)
+                if (validForColumn && ColumnFillTile != null)
                 {
                     for (int y = y2; y >= y1; y--)
                     {
@@ -129,7 +129,7 @@ public class BuildingBottom : GenerateBeforeExtraChunksEnviroment
         {
             for (int i = 0; i < math.abs((y1 - y2) / BuildingWallDecorationsPerHeight); i++)
             {
-                NumberMath.PickRandomItem(AvaibleBuildingWallDecorations).PreGenerate(
+                NumberMath.PickRandomItem(AvaibleBuildingWallDecorations)?.PreGenerate(
                     generationInfo.GenerateWhere,
                     new Vector3(NumberMath.RandomCoinflip() ? x1 - 1 : x2 + 1, NumberMath.PickRandomInRangeNoSeed(y1, y2)),
                     generationInfo.Building,

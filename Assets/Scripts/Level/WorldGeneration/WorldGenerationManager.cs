@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-1)]
 public class WorldGenerationManager : MonoBehaviour
 {
     const int GENERATION_FAIL_ITERATIONS_LIMIT = 4;

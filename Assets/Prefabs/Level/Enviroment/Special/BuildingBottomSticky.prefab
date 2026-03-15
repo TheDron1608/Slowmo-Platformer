@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1022337116171949063
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: FillTile
+      value: 
+      objectReference: {fileID: 11400000, guid: e0ef98e59bcf013428398efb2fbc6bac, type: 2}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: ColumnFillTile
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: OvergoundFillTile
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: BuildingWallDecorationsPerHeight
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: AvaibleBuildingWallDecorations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: 'AvaibleBuildingWallDecorations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7396169187247402805, guid: 8f5bcf379267dfd40a1a231b3f6ff78f, type: 3}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: 'AvaibleBuildingWallDecorations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3963293598338348903, guid: e994883277cedb141b8a8390eab5de35, type: 3}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282756026274172374, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059842874588092670, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: m_Name
+      value: BuildingBottomSticky
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}

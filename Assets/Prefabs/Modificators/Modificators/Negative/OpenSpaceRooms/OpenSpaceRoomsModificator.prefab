@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8179689514373086561
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_Name
+      value: OpenSpaceRoomsModificator
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 452363227680443197}
+  m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+--- !u!1 &4804066781530051355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+  m_PrefabInstance: {fileID: 8179689514373086561}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &452363227680443197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4804066781530051355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d69fb8e477299542ae3910e3bae725f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModificatorType: 1
+  IconInstance: {fileID: 6148295679725917498, guid: f824069271d2829468c6a634bc9ac73c, type: 3}
+  CardInstance: {fileID: 7450765391694568918, guid: 6ee03d77f946a3d4ea6604780656bc4a, type: 3}
+  ModificatorMultiplier: 1
+  Chunks:
+  - {fileID: 1940515277747391731, guid: fda8afb9c0742cf4fa8ee49e326c1b03, type: 3}
+  - {fileID: 506989354111729446, guid: 2ae0cbe0a7e8b254ca6eb44c89257053, type: 3}
+  - {fileID: 506989354111729446, guid: 0a747de316ff7ed448b5da96815acaa8, type: 3}
+  - {fileID: 506989354111729446, guid: 10cebd877bc4e2e4fb8bc0b883909cc0, type: 3}
+  - {fileID: 506989354111729446, guid: d84ce60cf5169bc4689ed31458a8042c, type: 3}
+  - {fileID: 506989354111729446, guid: 1c115888a56b9e6408f86b6cca71cb56, type: 3}
+  - {fileID: 1940515277747391731, guid: 0215ac319b2ca5e4388692f69c9800c1, type: 3}
+  EnterBuildingChunks:
+  - {fileID: 3180400563243364640, guid: 60023bb7a06e9934c8099ac09bda372a, type: 3}
+  UnclosedConnectionsChunks:
+  - {fileID: 3180400563243364640, guid: d3775c4bb036fe7469ac2c5ef69e3ac7, type: 3}
+  - {fileID: 3180400563243364640, guid: 29692b215dc6955469c9be5c2caf538c, type: 3}
+  - {fileID: 3180400563243364640, guid: eef148fbcbc687a45af03a182f182db4, type: 3}
+  - {fileID: 3180400563243364640, guid: e4559f095d3e5df4e8b5d24db726becd, type: 3}
+  - {fileID: 3180400563243364640, guid: a0bd9e15f65f3e748b3e5d8d0e4de7f9, type: 3}
+  ParallelRooms: 3
+  UnlosedConnectionChunkGenerationChance: 0.5
