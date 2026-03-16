@@ -106,20 +106,7 @@ public class TileManager : MonoBehaviour
 
         NavigationPlatformInfo currentPlatform = null;
 
-        BoundsInt totalCellBounds = _multiTilesMaps.GetTileMaps().First().cellBounds;
-        foreach (Tilemap tilemap in _multiTilesMaps.GetTileMaps())
-        {
-            if ((totalCellBounds.min.x > tilemap.cellBounds.min.x) || (totalCellBounds.min.y > tilemap.cellBounds.min.y))
-            {
-                totalCellBounds.min = tilemap.cellBounds.min;
-            }
-            if ((totalCellBounds.max.x < tilemap.cellBounds.max.x) || (totalCellBounds.max.y < tilemap.cellBounds.max.y))
-            {
-                totalCellBounds.max = tilemap.cellBounds.max;
-            }
-        }
-
-        foreach (Vector3Int pos in totalCellBounds.allPositionsWithin)
+        foreach (Vector3Int pos in _multiTilesMaps.GetForeground().cellBounds.allPositionsWithin)
         {
             if (_multiTilesMaps.GetHasValidAsPlatformAt(pos) && !_multiTilesMaps.GetHasValidAsPlatformAt(pos + Vector3Int.up))
             {
@@ -136,8 +123,6 @@ public class TileManager : MonoBehaviour
             }
             else if (currentPlatform != null)
             {
-                //currentPlatform.Debug_DrawPlatform(Color.black, 999f);
-
                 _navigationPlatforms.Add(currentPlatform);
                 currentPlatform = null;
             }

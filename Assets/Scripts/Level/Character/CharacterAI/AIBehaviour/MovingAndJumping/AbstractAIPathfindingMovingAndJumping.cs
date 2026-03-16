@@ -53,7 +53,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         {
             //try stop moving if is conflicting target position with another character
             if (CanConflictPosition && CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(
-                (AbstractCharacterComponent collidingCharacter) => CharComponents.transform.position.x > collidingCharacter.transform.position.x)
+                (AbstractCharacterComponent collidingCharacter) => collidingCharacter.CharComponents.CharacterMoving.IsAbleToMove && CharComponents.transform.position.x > collidingCharacter.transform.position.x)
                 )
             {
                 //stop move if moving at same direction with another character at same position
@@ -93,7 +93,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         {
             //try stop moving if is conflicting target position with another character
             if (CanConflictPosition && CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(
-                (AbstractCharacterComponent collidingCharacter) => CharComponents.transform.position.x < collidingCharacter.transform.position.x)
+                (AbstractCharacterComponent collidingCharacter) => collidingCharacter.CharComponents.CharacterMoving.IsAbleToMove && CharComponents.transform.position.x < collidingCharacter.transform.position.x)
                 )
             {
                 //stop move if moving at same direction with another character at same position
@@ -174,12 +174,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
                 _selfStateBehaviourAI.Pathfinding.PathTarget.Value.Position :
                 TileManager.PositionToTilePosition(CharComponents.Center.transform.position);
 
-            Vector2Int sameWithTargetPosition =
-                checkWho.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.Pathfinding.PathTarget != null ?
-                checkWho.CharComponents.CharacterAIManager.CurrentActiveStateBehaviour.Pathfinding.PathTarget.Value.Position :
-                TileManager.PositionToTilePosition(checkWho.CharComponents.Center.transform.position);
-
-            return selfTargetPosition == sameWithTargetPosition;
+            return selfTargetPosition == TileManager.PositionToTilePosition(checkWho.CharComponents.transform.position);
         }
     }
 

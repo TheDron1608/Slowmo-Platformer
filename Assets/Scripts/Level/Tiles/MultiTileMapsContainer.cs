@@ -73,6 +73,7 @@ public class MultiTileMapsContainer : MonoBehaviour
         if (_requestUpdateNavigationAtEndOfFrame)
         {
             _layer.TileManager.UpdateEntireTileAINavigationInfo();
+            //_layer.TileManager.Debug_DrawAINavigationPaths(Color.red, 999f, 3, 4);
             _requestUpdateNavigationAtEndOfFrame = false;
             Tilemap.tilemapTileChanged += Tilemap_tilemapTileChanged;
         }
