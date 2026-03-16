@@ -6,7 +6,6 @@ public class DebugBootstrapInitializer : MonoBehaviour
     public CharacterComponentsManager StartCharacter;
     public List<AbstractModificator> StartModificators;
     public int DebugSessionID;
-    public string LoadSceneName = "Gameplay";
 
     private void Start()
     {
@@ -16,6 +15,6 @@ public class DebugBootstrapInitializer : MonoBehaviour
         {
             ModificatorsManager.Instance.AddModificator(modificator);
         }
-        UIManager.Instance.LoadSceneWithEffect(LoadSceneName);
+        UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
     }
 }

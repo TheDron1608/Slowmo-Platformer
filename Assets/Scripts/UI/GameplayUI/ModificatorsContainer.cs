@@ -10,7 +10,7 @@ public class ModificatorsContainer : MonoBehaviour
     const float CHANGE_SCENE_DELAY_AFTER_SPEND_ALL_PICKS = 0.5f;
     const float SHOW_CARDS_DELAY = 0.5f;
 
-    public string SceneNameAfterSpendAllPicks = "Gameplay";
+
     public Transform CardSpawnPosition;
     public Transform CardsContainer;
     public Transform CardTrackTargetsContainer;
@@ -191,7 +191,7 @@ public class ModificatorsContainer : MonoBehaviour
     private IEnumerator ChangeSceneDelayAfterSpendAllPicks()
     {
         yield return new WaitForSeconds(CHANGE_SCENE_DELAY_AFTER_SPEND_ALL_PICKS);
-        UIManager.Instance.LoadSceneWithEffect(SceneNameAfterSpendAllPicks);
+        UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
     }
 
     public void SetAllCardsInteractable(bool value)

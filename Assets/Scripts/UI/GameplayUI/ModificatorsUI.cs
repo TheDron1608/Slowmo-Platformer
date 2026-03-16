@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class ModificatorsUI : MonoBehaviour
 {
-    const string SMALL_INFO_SHOWN_ON_SCENE_NAME = "Gameplay";
-
     [SerializeField] private Transform _modificatorsContainer;
     [SerializeField] private Transform _modificatorTrackTargetsContainer;
     [SerializeField] private Transform _modificatorOnPauseTrackTargetsContainer;

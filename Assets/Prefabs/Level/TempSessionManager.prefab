@@ -79,7 +79,7 @@ MonoBehaviour:
   EnemyPoolInstance:
   - {fileID: 11400000, guid: e242a38beae302149b8fc51e8e231cb0, type: 2}
   PlayerCharacter: {fileID: 0}
-  EnemyAmountPerSpawner: 3
+  EnemyAmountPerSpawner: 1
 --- !u!114 &6844463855313677196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,9 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed049ad6df3185468d75ccc03af97df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildingsAmount: 4
-  MinBuildingRooms: 6
-  MaxBuildingRooms: 8
+  BuildingsAmount: 1
+  MinBuildingRooms: 4
+  MaxBuildingRooms: 4
   BuildingDistance: 15
   Chunks:
   - {fileID: 506989354111729446, guid: db9c5c38358cac4469de3655bc877f2f, type: 3}

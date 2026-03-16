@@ -27,13 +27,20 @@ public class TimeManager : MonoBehaviour
 
     private void Update()
     {
-        UIManager.Instance.SlowmoOverlay.Show();
+        if (SceneList.GetCurrentSceneIsGameplay())
+        {
+            UIManager.Instance.SlowmoOverlay.Show();
 
-        TrySetSlowmoOverlayFill(math.lerp(
-            UIManager.Instance.SlowmoOverlay.FillAmount,
-            Paused ? 0f : (1f - GetTotalTimeScale()),
-            Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
-            ));
+            TrySetSlowmoOverlayFill(math.lerp(
+                UIManager.Instance.SlowmoOverlay.FillAmount,
+                Paused ? 0f : (1f - GetTotalTimeScale()),
+                Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
+                ));
+        }
+        else
+        {
+            UIManager.Instance.SlowmoOverlay.Hide();
+        }
     }
 
     private void FixedUpdate()

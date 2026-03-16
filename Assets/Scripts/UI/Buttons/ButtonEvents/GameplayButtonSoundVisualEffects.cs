@@ -6,6 +6,6 @@ public class GameplayButtonSoundVisualEffects : ButtonSoundVisualEffects
     {
         return
             base.SelectCondition() &&
-            (SceneManager.GetActiveScene().name != "Gameplay" || (TimeManager.Instance?.Paused ?? true));
+            (!SceneList.GetCurrentSceneIsGameplay() || (TimeManager.Instance?.Paused ?? true));
     }
 }

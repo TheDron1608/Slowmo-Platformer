@@ -8,7 +8,6 @@ public class SuperHotModificator : AbstractMultiplierableModificator
 {
     const float TIME_SCALE_TOGGLE_SPEED = 15f;
     const float MIN_VELOCITY_FOR_NORMAL_TIME_SCALE = 3.5f;
-    const string GAMEPLAY_SCENE_NAME = "Gameplay";
 
     public float TimeSpeedOnIdle = 0.25f;
     public float TimeSpeedOnMoving = 1f;
@@ -25,7 +24,7 @@ public class SuperHotModificator : AbstractMultiplierableModificator
     {
         base.OnModificatorAdded();
 
-        _isGameplay = SceneManager.GetActiveScene().name == GAMEPLAY_SCENE_NAME;
+        _isGameplay = SceneList.GetCurrentSceneIsGameplay();
     }
 
     public override void OnLevelPreGenerated()

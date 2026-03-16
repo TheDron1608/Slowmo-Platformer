@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class DoomedModificator : AbstractModificator
 {
-    const string ENCOUNT_SCENE_NAME = "Gameplay";
     const string TIME_OUT_TEXT = "time out";
 
     public float TimeSeconds = 300f; //5 mins
@@ -25,7 +24,7 @@ public class DoomedModificator : AbstractModificator
     {
         if (
             !DisabledModificator && 
-            SceneManager.GetActiveScene().name == ENCOUNT_SCENE_NAME && 
+            SceneList.GetCurrentSceneIsGameplay() &&
             !TimeManager.Instance.Paused
             )
         {
