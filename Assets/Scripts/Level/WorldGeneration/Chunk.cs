@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class Chunk : MonoBehaviour
 {
+    public bool GeneratableAtMainBrunchOnly = false;
+
     public ChunkConnection[] GetConnections()
     {
         return transform.GetComponentsInChildren<ChunkConnection>();
@@ -107,6 +109,13 @@ public class Chunk : MonoBehaviour
         out ChunkInfo newChunkInfo,
         out ChunkConnection.PreGeneratedChunkConnectionTempInfo connectedChunkConntection)
     {
+        if (addWhere == null || sourceChunkConnection == null || building == null)
+        {
+            newChunkInfo = default;
+            connectedChunkConntection = default;
+            return false;
+        }
+
         newChunkInfo = default;
         connectedChunkConntection = default;
         var validConnections = GetValidConnections(sourceChunkConnection.GetTargetConnection()).OrderBy((e) => UnityEngine.Random.value);
