@@ -141,6 +141,7 @@ public class Chunk : MonoBehaviour
                     if (TileManager.PositionToTilePosition(connection.GetSpawnPosition()) == TileManager.PositionToTilePosition(newChunkInfo.Connections[i].GetSpawnPosition()))
                     {
                         connection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
+                        newChunkInfo.Connections[i].State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
                         newChunkInfo.Connections[i].Generated = true;
                         stopFindingChunkconnections = true;
                         break;

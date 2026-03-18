@@ -11,6 +11,7 @@ public class WorldGenerationManager : MonoBehaviour
     const int GENERATION_FAIL_ITERATIONS_LIMIT = 4;
     const int GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT = 12;
 
+    public float ShopGenerationChance = 0.2f;
     public int BuildingsAmount = 8;
     public int MinBuildingRooms = 3;
     public int MaxBuildingRooms = 12;
@@ -81,6 +82,9 @@ public class WorldGenerationManager : MonoBehaviour
             for (int layerIndexAdd = 1; layerIndexAdd < LayerManager.Instance.ZLayers.Count + 1; layerIndexAdd++)
             {
                 attemptingBuildingLayerIndex = (currentBuildingLayerIndex + layerIndexAdd) % LayerManager.Instance.ZLayers.Count;
+                //set building's random extra exits like shop doors or curse doors
+                List<DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes> extraExits = new();
+                if (RandomManager.Instance.ProcRandomGoodChance(ShopGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
 
                 //trying generate building, if failed GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT times finish generating
                 if (TryGenerateBuilding(
@@ -88,6 +92,7 @@ public class WorldGenerationManager : MonoBehaviour
                     currentBuildingEnterPosition,
                     NumberMath.PickRandomInRangeNoSeed(MinBuildingRooms, MaxBuildingRooms),
                     new Vector3Int((int)(GenerateDirection.normalized.x * 99999), (int)(GenerateDirection.normalized.y * 99999)),
+                    extraExits,
                     out BuildingInfo newBuilding
                     ))
                 {
@@ -128,16 +133,17 @@ public class WorldGenerationManager : MonoBehaviour
         }
     }
 
-    public bool TryGenerateBuilding(ZIndexLayer layer, Vector3Int position, int chunksAmount, Vector3Int prefferedPosition, out BuildingInfo newBuildingInfo)
+    public bool TryGenerateBuilding(ZIndexLayer layer, Vector3Int position, int chunksAmount, Vector3Int prefferedPosition, List<DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes> extraExits, out BuildingInfo newBuildingInfo)
     {
         //initializing building info
-        newBuildingInfo = new();
-        layer.BuildinsInfo.Add(newBuildingInfo);
-        newBuildingInfo.Layer = layer;
+        newBuildingInfo = default;
+        BuildingInfo newBuildingInfoResult = new();
+        layer.BuildinsInfo.Add(newBuildingInfoResult);
+        newBuildingInfoResult.Layer = layer;
 
         //creating first room with enter door, if failed generation or could not spawn any enter doors return false
-        if (!NumberMath.PickRandomItem(EnterBuildingChunks).TryGenerateChunkWithEnterAt(layer, position, newBuildingInfo, out ChunkInfo firstChunk)) return false;
-        newBuildingInfo.Enter = firstChunk.DoorGenPositions.First();
+        if (!NumberMath.PickRandomItem(EnterBuildingChunks).TryGenerateChunkWithEnterAt(layer, position, newBuildingInfoResult, out ChunkInfo firstChunk)) return false;
+        newBuildingInfoResult.Enter = firstChunk.DoorGenPositions.First();
         ChunkInfo currentMainBrunchChunk = firstChunk;
 
         //generate main brunch
@@ -153,20 +159,20 @@ public class WorldGenerationManager : MonoBehaviour
                         .Where(e => e.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED)
                         .OrderBy(e => Vector2.Distance(e.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition)))
                         .First(),
-                    newBuildingInfo,
+                    newBuildingInfoResult,
                     out ChunkInfo newChunkInfo,
                     out ChunkConnection.PreGeneratedChunkConnectionTempInfo newConnectionInfo
                     ))
                 {
                     currentMainBrunchChunk = newChunkInfo;
-                    newBuildingInfo.MainBrunchChunks.Add(newChunkInfo);
+                    newBuildingInfoResult.MainBrunchChunks.Add(newChunkInfo);
 
                     //setting exit door
                     if (i >= chunksAmount - 1)
                     {
                         if (newChunkInfo.DoorGenPositions.Count > 0)
                         {
-                            newBuildingInfo.Exit = newChunkInfo.DoorGenPositions.OrderBy(
+                            newBuildingInfoResult.Exit = newChunkInfo.DoorGenPositions.OrderBy(
                                 (DoorGenerationPosition.PreGeneratedDoorTempInfo door) => Vector2.Distance(door.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition))
                                 ).First();
                         }
@@ -181,13 +187,66 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
+        //generate extra exit brunchs
+        foreach (var extraExit in extraExits)
+        {
+            BuildingInfo.BuildingExtraExitBrunchInfo extraExitInfo = new();
+            Vector2 extraExitPrefferedPosition = VectorMath.PickRandomDirection() * 100000f;
+
+            ChunkInfo currentExtraExitChunk =
+                newBuildingInfoResult.Chunks
+                    .Where(e => e.Connections.Any(e => e.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED) && newBuildingInfoResult.Exit.Chunk != e && newBuildingInfoResult.Enter.Chunk != e)
+                    .OrderBy(e => Vector2.Distance(e.PickConnectionsAvgPosition(), extraExitPrefferedPosition))
+                    .FirstOrDefault();
+            if (currentExtraExitChunk == null) break;
+
+            for (int i = 0; i < chunksAmount / 2; i++)
+            {
+                for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
+                {
+                    if (NumberMath.PickRandomItem(Chunks).TryAddChunk(
+                        layer,
+                        currentExtraExitChunk.Connections
+                            .Where(e => e.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED)
+                            .OrderBy(e => Vector2.Distance(e.GetSpawnPosition(), extraExitPrefferedPosition))
+                            .FirstOrDefault(),
+                        newBuildingInfoResult,
+                        out ChunkInfo newChunkInfo,
+                        out ChunkConnection.PreGeneratedChunkConnectionTempInfo newConnectionInfo
+                        ))
+                    {
+                        newChunkInfo.DistanceFromMainGenerationBranch = currentExtraExitChunk.DistanceFromMainGenerationBranch + 1;
+                        currentExtraExitChunk = newChunkInfo;
+                        extraExitInfo.Chunks.Add(newChunkInfo);
+
+                        //setting exit door
+                        if (i >= chunksAmount / 2 - 1)
+                        {
+                            if (newChunkInfo.DoorGenPositions.Count > 0)
+                            {
+                                extraExitInfo.Exit = newChunkInfo.DoorGenPositions.OrderBy(
+                                    (DoorGenerationPosition.PreGeneratedDoorTempInfo door) => Vector2.Distance(door.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition))
+                                    ).First();
+                                extraExitInfo.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.NEXTLEVEL);
+                            }
+                            else
+                            {
+                                i--;
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+            }
+        }
+
         //generate parallel rooms
         List<Chunk> notMainBrunchChunks = Chunks.Where(e => !e.GeneratableAtMainBrunchOnly).ToList();
-        foreach (ChunkInfo mainBrunchChunk in newBuildingInfo.MainBrunchChunks)
+        for (int mainBrunchIter = 0; mainBrunchIter < newBuildingInfoResult.MainBrunchChunks.Count - ParallelRooms; mainBrunchIter++)
         {
-            if (newBuildingInfo.Exit.Chunk == mainBrunchChunk) continue;
-
-            List<ChunkInfo> validToGenerateChunks = new List<ChunkInfo> { mainBrunchChunk };
+            List<ChunkInfo> validToGenerateChunks = new List<ChunkInfo> { newBuildingInfoResult.MainBrunchChunks[mainBrunchIter] };
             for (int i = 0; i < ParallelRooms; i++)
             {
                 for (int j = 0; j < GENERATION_FAIL_ITERATIONS_LIMIT; j++)
@@ -201,7 +260,7 @@ public class WorldGenerationManager : MonoBehaviour
                     if (addToConnection != null && NumberMath.PickRandomItem(notMainBrunchChunks).TryAddChunk(
                         layer,
                         addToConnection,
-                        newBuildingInfo,
+                        newBuildingInfoResult,
                         out ChunkInfo newChunkInfo,
                         out ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunkConnection
                         ))
@@ -221,19 +280,19 @@ public class WorldGenerationManager : MonoBehaviour
         }
 
         //add extra chunks for closed connections
-        for (int chunkIter = 0; chunkIter < newBuildingInfo.Chunks.Count; chunkIter++)
+        for (int chunkIter = 0; chunkIter < newBuildingInfoResult.Chunks.Count; chunkIter++)
         {
             if (UnityEngine.Random.value > UnlosedConnectionChunkGenerationChance) continue;
 
-            foreach (ChunkConnection.PreGeneratedChunkConnectionTempInfo connection in newBuildingInfo.Chunks[chunkIter].Connections)
+            foreach (ChunkConnection.PreGeneratedChunkConnectionTempInfo connection in newBuildingInfoResult.Chunks[chunkIter].Connections)
             {
-                if (connection.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED)
+                if (connection.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED && !connection.Generated)
                 {
                     Chunk[] validChunks = UnclosedConnectionsChunks.Where((c) => c.GetAnyConnectionIsValid(connection.GetTargetConnection())).ToArray();
                     if (validChunks.Length > 0 && NumberMath.PickRandomItem(validChunks).TryAddChunk(
                         layer,
                         connection,
-                        newBuildingInfo,
+                        newBuildingInfoResult,
                         out ChunkInfo newChunkInfo,
                         out ChunkConnection.PreGeneratedChunkConnectionTempInfo newChunkConnection))
                     {
@@ -249,6 +308,7 @@ public class WorldGenerationManager : MonoBehaviour
             lateGenEnviroment.Generate();
         }
 
+        newBuildingInfo = newBuildingInfoResult;
         return true;
     }
 

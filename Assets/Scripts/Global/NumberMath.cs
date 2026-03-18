@@ -170,6 +170,12 @@ public static class NumberMath
         }
     }
 
+    public static T PickMiddleItem<T>(List<T> list)
+    {
+        if (list.Count == 0) return default;
+        return list[(int)math.floor(list.Count / 2f)];
+    }
+
     public static List<T> CreateCopyOfListOfInstantiatableObjs<T>(List<T> copy) where T : Object
     {
         List<T> result = new List<T>(copy.Count);

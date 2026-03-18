@@ -43,6 +43,16 @@ public class ChunkInfo
         return result / DoorGenPositions.Count;
     }
 
+    public Vector3 PickConnectionsAvgPosition()
+    {
+        Vector3 result = Vector2.zero;
+        foreach (var connection in Connections)
+        {
+            result += connection.GetSpawnPosition();
+        }
+        return result / Connections.Count;
+    }
+
     private void BreakableObj_OnBroken(object sender, MonoBehaviour e)
     {
         ObjectsInside.Remove(((MonoBehaviour)sender).gameObject);

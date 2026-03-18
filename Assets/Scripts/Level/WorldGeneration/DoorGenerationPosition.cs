@@ -10,7 +10,11 @@ public class DoorGenerationPosition : LateGenerateionEnviroment
         {
             CLOSED,
             ZINDEXDOOR,
-            NEXTLEVEL
+            NEXTLEVEL,
+            SHOP,
+            SUPER_SHOP,
+            CURSE,
+            SUPER_CURSE
         }
 
         public DoorGenerationTypes DoorType = DoorGenerationTypes.CLOSED;
@@ -38,6 +42,7 @@ public class DoorGenerationPosition : LateGenerateionEnviroment
     public GameObject ClosedDoor;
     public OnInteractEnterMultiZDoor ZIndexDoor;
     public OnInteractEnterNextLevelDoor NextLevelDoor;
+    public OnInteractEnterShopDoor ShopDoor;
 
     private GameObject GetCurrentTargetGenerationDoor(PreGeneratedDoorTempInfo generationInfo)
     {
@@ -49,6 +54,8 @@ public class DoorGenerationPosition : LateGenerateionEnviroment
                 return ZIndexDoor.gameObject;
             case PreGeneratedDoorTempInfo.DoorGenerationTypes.NEXTLEVEL:
                 return NextLevelDoor.gameObject;
+            case PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP:
+                return ShopDoor.gameObject;
             default:
                 throw new UnityException("generationInfo.DoorType is unset or has no valid value; value: " + generationInfo.DoorType);
         }

@@ -5,14 +5,14 @@ public static class SceneList
 {
     public const string MAIN_MENU = "MainMenu";
     public const string GAMEPLAY = "Gameplay";
-    public const string MODIFICATOR_CHOISE = "ModificatorChoise";
+    public const string SHOP = "Shop";
 
     private static readonly string[] GAMEPLAY_SCENES = {
         GAMEPLAY
     };
 
     private static readonly string[] MODIFICATOR_SCENES = { 
-        MODIFICATOR_CHOISE
+        SHOP
     };
 
     public static bool GetCurrentSceneIsGameplay()

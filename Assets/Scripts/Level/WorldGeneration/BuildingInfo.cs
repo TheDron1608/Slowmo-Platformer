@@ -3,11 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class BuildingInfo
 {
+    public class BuildingExtraExitBrunchInfo
+    {
+        public List<ChunkInfo> Chunks = new();
+        public DoorGenerationPosition.PreGeneratedDoorTempInfo Exit = null;
+    }
+
     public static int GlobalLowestCoorY = int.MaxValue;
     public static int GlobalHighestCoorY = int.MinValue;
 
     public List<ChunkInfo> Chunks = new();
     public List<ChunkInfo> MainBrunchChunks = new();
+    public List<BuildingExtraExitBrunchInfo> ExtraExitBrunchs = new();
     public ZIndexLayer Layer;
     public DoorGenerationPosition.PreGeneratedDoorTempInfo Enter;
     public DoorGenerationPosition.PreGeneratedDoorTempInfo Exit;
