@@ -84,9 +84,9 @@ public class ModificatorsUI : MonoBehaviour
     {
         SetSelectedModificatorInfoEnabled(false);
 
-        if (ModificatorsContainer.Instance != null)
+        if (CursePickManager.Instance != null)
         {
-            ModificatorsContainer.Instance.SetClusterDisplayedDescription(null);
+            CursePickManager.Instance.SetClusterDisplayedDescription(null);
         }
 
         _selectedModificatorTitle.text = title;

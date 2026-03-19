@@ -62,7 +62,7 @@ public class ModificatorCardsCluster : Button
     public override void OnSelect(BaseEventData eventData)
     {
         base.OnSelect(eventData);
-        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out ModificatorsContainer container))
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out CursePickManager container))
         {
             container.SetClusterDisplayedDescription(this);
         }
@@ -70,7 +70,7 @@ public class ModificatorCardsCluster : Button
 
     public void Pick()
     {
-        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out ModificatorsContainer container))
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out CursePickManager container))
         {
             foreach (ModificatorCard card in Cards)
             {
@@ -102,10 +102,10 @@ public class ModificatorCardsCluster : Button
         if (EventSystem.current == null) return;
         if (
             EventSystem.current.currentSelectedGameObject == gameObject &&
-            ModificatorsContainer.Instance?.ModificatorCardsClusters.Count > 0
+            CursePickManager.Instance?.ModificatorCardsClusters.Count > 0
             )
         {
-            EventSystem.current.SetSelectedGameObject(ModificatorsContainer.Instance.ModificatorCardsClusters.First().gameObject);
+            EventSystem.current.SetSelectedGameObject(CursePickManager.Instance.ModificatorCardsClusters.First().gameObject);
         }
     }
 }

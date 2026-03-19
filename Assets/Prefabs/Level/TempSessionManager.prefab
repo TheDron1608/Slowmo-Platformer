@@ -108,7 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed049ad6df3185468d75ccc03af97df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShopGenerationChance: 1
+  ShopDoorGenerationChance: 0.2
+  CurseDoorGenerationChance: 0.5
   BuildingsAmount: 3
   MinBuildingRooms: 4
   MaxBuildingRooms: 6

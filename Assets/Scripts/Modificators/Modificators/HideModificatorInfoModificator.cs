@@ -14,7 +14,7 @@ public class HideModificatorInfoModificator : AbstractModificator
     {
         base.OnModificatorChoiseStarted();
 
-        ModificatorsContainer.Instance.OnAddedItem += Instance_OnAddedItem;
+        CursePickManager.Instance.OnAddedItem += Instance_OnAddedItem;
     }
 
     private void Instance_OnAddedItem(object sender, ModificatorCardsCluster e)
@@ -36,7 +36,7 @@ public class HideModificatorInfoModificator : AbstractModificator
     {
         base.OnModificatorChoiseFinished();
 
-        ModificatorsContainer.Instance.OnAddedItem -= Instance_OnAddedItem;
+        CursePickManager.Instance.OnAddedItem -= Instance_OnAddedItem;
         _affectedCards = new();
     }
 

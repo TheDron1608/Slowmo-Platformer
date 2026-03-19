@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
@@ -62,15 +63,20 @@ public class ModificatorsManager : MonoBehaviour
         }
     }
 
-    public List<ModificatorCardsCluster> PickRandomModifcators()
+    public List<ModificatorCardsCluster> PickRandomModifcators(AbstractModificator.ModificatorTypes[] types = null)
     {
         List<ModificatorCardsCluster> result = new(ModifiactorsPickAmount);
+        List<AbstractModificator> filteredModificators = 
+            types == null ? 
+            AvaibleModificators : 
+            AvaibleModificators.Where(e => types.Contains(e.ModificatorType)).ToList();
+
         for (int i = 0; i < MaxModificatorOptions; i++)
         {
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
             for (int j = 0; j < MaxExtraModificators; j++)
             {
-                newCluster.AddCard(NumberMath.PickRandomItem(AvaibleModificators).CardInstance);
+                newCluster.AddCard(NumberMath.PickRandomItem(filteredModificators).CardInstance);
                 if (Random.value > ExtraModificatorChance) break;
             }
             result.Insert(i, newCluster);

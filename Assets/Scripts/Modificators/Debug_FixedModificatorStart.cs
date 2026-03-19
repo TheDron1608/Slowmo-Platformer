@@ -5,7 +5,7 @@ using UnityEngine;
 public class Debug_FixedModificatorStart : MonoBehaviour
 {
     public List<ModificatorCardsCluster> CardsOnStart = new();
-    [SerializeField] private ModificatorsContainer _container;
+    [SerializeField] private CursePickManager _container;
 
 
     private void Start()

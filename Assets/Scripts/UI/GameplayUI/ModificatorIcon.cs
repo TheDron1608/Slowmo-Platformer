@@ -138,9 +138,9 @@ public class ModificatorIcon : Selectable
 
     private void ShowInfo()
     {
-        if (ModificatorsContainer.Instance != null)
+        if (CursePickManager.Instance != null)
         {
-            ModificatorsContainer.Instance.SetIconDisplayedDescription(this);
+            CursePickManager.Instance.SetIconDisplayedDescription(this);
         }
         else
         {
@@ -154,9 +154,9 @@ public class ModificatorIcon : Selectable
 
     private void HideInfo()
     {
-        if (ModificatorsContainer.Instance != null)
+        if (CursePickManager.Instance != null)
         {
-            ModificatorsContainer.Instance.SetIconDisplayedDescription(null);
+            CursePickManager.Instance.SetIconDisplayedDescription(null);
         }
         else
         {

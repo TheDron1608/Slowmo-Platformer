@@ -11,7 +11,8 @@ public class WorldGenerationManager : MonoBehaviour
     const int GENERATION_FAIL_ITERATIONS_LIMIT = 4;
     const int GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT = 12;
 
-    public float ShopGenerationChance = 0.2f;
+    public float ShopDoorGenerationChance = 0.2f;
+    public float CurseDoorGenerationChance = 0.5f;
     public int BuildingsAmount = 8;
     public int MinBuildingRooms = 3;
     public int MaxBuildingRooms = 12;
@@ -84,7 +85,8 @@ public class WorldGenerationManager : MonoBehaviour
                 attemptingBuildingLayerIndex = (currentBuildingLayerIndex + layerIndexAdd) % LayerManager.Instance.ZLayers.Count;
                 //set building's random extra exits like shop doors or curse doors
                 List<DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes> extraExits = new();
-                if (RandomManager.Instance.ProcRandomGoodChance(ShopGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
+                if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
+                if (RandomManager.Instance.ProcRandomGoodChance(CurseDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE);
 
                 //trying generate building, if failed GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT times finish generating
                 if (TryGenerateBuilding(
@@ -227,7 +229,7 @@ public class WorldGenerationManager : MonoBehaviour
                                 extraExitInfo.Exit = newChunkInfo.DoorGenPositions.OrderBy(
                                     (DoorGenerationPosition.PreGeneratedDoorTempInfo door) => Vector2.Distance(door.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition))
                                     ).First();
-                                extraExitInfo.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.NEXTLEVEL);
+                                extraExitInfo.Exit.Generate(extraExit);
                             }
                             else
                             {
