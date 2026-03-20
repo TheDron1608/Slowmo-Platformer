@@ -9,6 +9,8 @@ public abstract class AbstractModificator : MonoBehaviour
         NEUTRAL
     }
 
+    public float ModificatorPrice = 0f;
+
     public ModificatorTypes ModificatorType;
     public ModificatorIcon IconInstance;
     public ModificatorCard CardInstance;
