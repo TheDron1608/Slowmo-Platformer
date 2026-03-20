@@ -77,9 +77,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9718a4b5994de4db4b4b08218368bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 80
   ModificatorType: 1
   IconInstance: {fileID: 6148295679725917498, guid: b37c14ad6a88bc2448229557d33bf9d7, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: 005a5854576438a458a74669c5cc5445, type: 3}
+  Multiplierable: 0
   ModificatorMultiplier: 1
   Enemy: {fileID: 11400000, guid: 6342c49ff39abca45acc0dd1ed63a6ba, type: 2}
   SpawnDelaySeconds: 5

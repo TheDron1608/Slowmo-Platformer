@@ -1,6 +1,6 @@
 ﻿using Unity.Mathematics;
 
-public class SetModificatorsOptionsAmountModificator : AbstractMultiplierableModificator
+public class SetModificatorsOptionsAmountModificator : AbstractModificator
 {
     public int AddOptions = 0;
 

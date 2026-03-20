@@ -77,8 +77,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d54a1e59598d6418598dc3e27b58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 200
+  ModificatorType: 0
   IconInstance: {fileID: 6148295679725917498, guid: a83f0f831f5d96f499e22eff6d87a523, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: 0e3bc53bf927c1542aaac705534a007c, type: 3}
+  Multiplierable: 1
   ModificatorMultiplier: 1
+  Team: 0
+  AffectChance: 1
+  ChanceType: 0
   PlayerCharacterEffectsOnStart:
   - {fileID: -3175890595162132154, guid: 0e335f52b802f0643992b9f1d0510d8d, type: 3}

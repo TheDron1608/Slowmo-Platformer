@@ -2,7 +2,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-public class RandomModificatorsDisable : AbstractMultiplierableModificator
+public class RandomModificatorsDisable : AbstractModificator
 {
     public ModificatorTypes TargetType;
     public int DisabledModificatorsAmount = 1;

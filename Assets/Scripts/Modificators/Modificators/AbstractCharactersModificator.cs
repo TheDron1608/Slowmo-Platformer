@@ -2,7 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractCharactersModificator : AbstractMultiplierableModificator
+public abstract class AbstractCharactersModificator : AbstractModificator
 {
     public TeamManager.Teams Team = TeamManager.Teams.PLAYER;
     public float AffectChance = 1f;

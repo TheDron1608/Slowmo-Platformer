@@ -77,8 +77,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eb3219068e28ce418d01f8f525269ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 200
   ModificatorType: 1
   IconInstance: {fileID: 6148295679725917498, guid: 375916504260c4f41bdbcff7cefeef41, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: 665d77d49a796df4aa3b09d72f6f3d9e, type: 3}
+  Multiplierable: 1
   ModificatorMultiplier: 1
   AddedEnemyItem: {fileID: 11400000, guid: 936298ac9f89c044195ae70da804a9ef, type: 2}

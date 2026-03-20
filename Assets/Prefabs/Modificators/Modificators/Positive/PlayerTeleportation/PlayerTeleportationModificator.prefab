@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: All20Modificator
+      value: PlayerTeleportationModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e739c3a6d424b146b3fd649a1aae33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 7
   ModificatorType: 0
   IconInstance: {fileID: 6148295679725917498, guid: 9d3a36f9791d13b4bb7cf9ff052b058b, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: 8cf7d8103f132e741b389380a3ebf710, type: 3}

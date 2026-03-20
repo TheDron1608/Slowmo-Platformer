@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TimeScaleModificator : AbstractMultiplierableModificator
+public class TimeScaleModificator : AbstractModificator
 {
     public float TimeScaleMultiplier = 1f;
 

@@ -2,7 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractHoldablesModificator : AbstractMultiplierableModificator
+public abstract class AbstractHoldablesModificator : AbstractModificator
 {
     public float AffectChance = 1f;
     public RandomManager.ProcChanceTypes ChanceType;

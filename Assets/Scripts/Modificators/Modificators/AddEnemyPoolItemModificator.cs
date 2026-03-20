@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AddEnemyPoolItemModificator : AbstractMultiplierableModificator
+public class AddEnemyPoolItemModificator : AbstractModificator
 {
     public EnemySpawnInfo AddedEnemyItem;
 

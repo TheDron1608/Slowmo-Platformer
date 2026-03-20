@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SuperHotModificator : AbstractMultiplierableModificator
+public class SuperHotModificator : AbstractModificator
 {
     const float TIME_SCALE_TOGGLE_SPEED = 15f;
     const float MIN_VELOCITY_FOR_NORMAL_TIME_SCALE = 3.5f;

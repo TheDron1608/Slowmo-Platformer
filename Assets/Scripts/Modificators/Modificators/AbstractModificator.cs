@@ -14,6 +14,8 @@ public abstract class AbstractModificator : MonoBehaviour
     public ModificatorTypes ModificatorType;
     public ModificatorIcon IconInstance;
     public ModificatorCard CardInstance;
+    public bool Multiplierable = false;
+    public float ModificatorMultiplier = 1f;
 
     private ModificatorIcon _currentIcon;
     private bool _disabledModificator = false;
@@ -47,7 +49,9 @@ public abstract class AbstractModificator : MonoBehaviour
 
     public virtual bool GetEqualType(AbstractModificator other)
     {
-        return GetType() == other.GetType();
+        return 
+            GetType() == other.GetType() && 
+            ((!Multiplierable && !other.Multiplierable) || ModificatorMultiplier == other.ModificatorMultiplier);
     }
 
     public void TryTriggerIconAnimation()

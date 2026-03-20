@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: ToughModifcator
+      value: ToughPlayerModifcator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,9 +77,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4928c52b62a2eaa4b9bb2efcf8be3e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 100
+  ModificatorType: 0
   IconInstance: {fileID: 6148295679725917498, guid: 004fa7e2f84664c4895e65ba3d724607, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: 167cdb2cdeaeec04e872de5c36d5234b, type: 3}
   ModificatorMultiplier: 1
   Team: 0
+  AffectChance: 1
+  ChanceType: 0
   CharacterEffectsOnDeath:
   - {fileID: 7915071378290817554, guid: e16a435ac7541ef429bb3057c47aeba2, type: 3}

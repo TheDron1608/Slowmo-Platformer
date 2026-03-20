@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class SetWorldGenerationChunksModificator : AbstractMultiplierableModificator
+public class SetWorldGenerationChunksModificator : AbstractModificator
 {
     public List<Chunk> Chunks = new();
     public List<BuildingEnterChunk> EnterBuildingChunks = new();

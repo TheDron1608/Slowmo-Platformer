@@ -1,6 +1,6 @@
 ﻿using Unity.Mathematics;
 
-public class MultiplyLevelSize : AbstractMultiplierableModificator
+public class MultiplyLevelSize : AbstractModificator
 {
     public float LevelSizeMultiplier;
 

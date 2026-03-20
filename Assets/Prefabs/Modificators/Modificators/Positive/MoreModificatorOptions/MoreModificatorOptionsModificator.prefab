@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: ExtraModificatorOptionsModificator
+      value: MoreModificatorOptionsModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,6 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ef522526cf35424f913404e31606a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 10
+  ModificatorType: 0
   IconInstance: {fileID: 6148295679725917498, guid: ec8478c324b50544ebf677f128232d3c, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: ebc8b84011566e54697c3ac85822c48a, type: 3}
   ModificatorMultiplier: 1

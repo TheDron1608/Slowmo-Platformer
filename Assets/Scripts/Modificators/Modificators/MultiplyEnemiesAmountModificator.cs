@@ -1,6 +1,6 @@
 ﻿using Unity.Mathematics;
 
-public class MultiplyEnemiesAmountModificator : AbstractMultiplierableModificator
+public class MultiplyEnemiesAmountModificator : AbstractModificator
 {
     public float EnemyAmountMultiplier;
 

@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class WeaponEffectsOnSpawnByTagModificator : AbstractMultiplierableModificator
+public class WeaponEffectsOnSpawnByTagModificator : AbstractModificator
 {
     public Weapon.WEAPON_TAGS[] Tag;
     public List<AbstractEffect> Effects = new();

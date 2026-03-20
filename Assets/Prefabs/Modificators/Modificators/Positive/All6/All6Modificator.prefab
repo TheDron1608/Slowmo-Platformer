@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: PlayerAdrenalineModificator
+      value: All6Modificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,8 +77,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a6e27c89fae574bbb0318de8c78504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 50
+  ModificatorType: 0
   IconInstance: {fileID: 6148295679725917498, guid: cf360dfe4f283f949a71f847cb470288, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: 797940bbd6d7f114fb15e776fb241366, type: 3}
+  Multiplierable: 1
+  ModificatorMultiplier: 1
   RandomChanceProcMultiplier: 1
   GoodRandomChanceProcMultiplier: 1.1
   BadRandomChanceProcMultiplier: 1

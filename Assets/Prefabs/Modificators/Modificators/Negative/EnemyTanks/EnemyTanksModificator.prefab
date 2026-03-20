@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: EnemySnipersModificator
+      value: EnemyTanksModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,8 +77,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eb3219068e28ce418d01f8f525269ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 15
   ModificatorType: 1
   IconInstance: {fileID: 6148295679725917498, guid: 9cc976480530a9c4293a9e6d8c0646b3, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: 518cae80a98c3d94f86e8999058d418e, type: 3}
+  Multiplierable: 1
   ModificatorMultiplier: 1
   AddedEnemyItem: {fileID: 11400000, guid: cb3db07ca8a93b44d8d52bf23511a9df, type: 2}

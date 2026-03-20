@@ -77,8 +77,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a6e27c89fae574bbb0318de8c78504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ModificatorPrice: 300
+  ModificatorType: 0
   IconInstance: {fileID: 6148295679725917498, guid: f1dd42f88515db84b94903d2e7cc119a, type: 3}
   CardInstance: {fileID: 7450765391694568918, guid: 2e9025041d9b7674e9a2af81d20db1f8, type: 3}
+  Multiplierable: 1
+  ModificatorMultiplier: 1
   RandomChanceProcMultiplier: 1
   GoodRandomChanceProcMultiplier: 2
   BadRandomChanceProcMultiplier: 1

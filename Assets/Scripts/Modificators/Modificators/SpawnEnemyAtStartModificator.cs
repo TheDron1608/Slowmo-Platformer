@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SpawnEnemyAtStartModificator : AbstractMultiplierableModificator
+public class SpawnEnemyAtStartModificator : AbstractModificator
 {
     public EnemySpawnInfo Enemy;
     public float SpawnDelaySeconds = 5f;
