@@ -8,7 +8,6 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ScoreManager : MonoBehaviour
 {
-    const string ENCOUNT_SCENE_NAME = "Gameplay";
     const TeamManager.Teams TRACKED_TEAM = TeamManager.Teams.PLAYER;
 
     [Serializable]
@@ -27,26 +26,34 @@ public class ScoreManager : MonoBehaviour
     public float ResetComboDelayOnStartLevel = 10f;
     public List<ComboState> ComboStates = new();
 
-    private int _currentScore = 0;
+    private int _totalScore = 0;
+    private int _tradableScore = 0;
     private int _currentCombo = 0;
     private float _comboLastTime;
     private float _currentMultiplier = 1f;
+    private ComboState _currentComboState = null;
 
     public event EventHandler OnAddedCombo;
     public event EventHandler OnResetCombo;
 
-    public int CurrentScore
+    public int TotalScore
     {
-        get => _currentScore;
+        get => _totalScore;
+    }
+
+    public int TradableScore
+    {
+        get => _tradableScore;
         set
         {
-            _currentScore = value;
+            _tradableScore = value;
             GameplayUIManager.GetInstance()?.Combo.ForceSetScore(value);
         }
     }
     public void AddScore(int value)
     {
-        _currentScore += value;
+        _tradableScore += value;
+        _totalScore += value;
         GameplayUIManager.GetInstance()?.Combo?.AddScore(value);
     }
 
@@ -56,7 +63,8 @@ public class ScoreManager : MonoBehaviour
         set
         {
             _currentCombo = value;
-            GameplayUIManager.GetInstance()?.Combo.UpdateCurrentCombo();
+            UpdateComboState();
+            GameplayUIManager.GetInstance()?.Combo.UpdateComboText();
         }
     }
 
@@ -73,10 +81,20 @@ public class ScoreManager : MonoBehaviour
     public float CurrentMultiplier
     {
         get => _currentMultiplier;
-        set
+        private set
         {
             _currentMultiplier = value;
             GameplayUIManager.GetInstance()?.Combo.UpdateCurrentMultiplier();
+        }
+    }
+
+    public ComboState CurrentComboState
+    {
+        get => _currentComboState;
+        private set
+        {
+            _currentComboState = value;
+            GameplayUIManager.GetInstance()?.Combo.UpdateComboState();
         }
     }
 
@@ -108,8 +126,24 @@ public class ScoreManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        UpdateComboState();
+
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
         TeamManager.Instance.GetTeamDataByTeam(TRACKED_TEAM).OnTeamMemberDidKill += ComboEncounter_OnTeamMemberDidKill;
+    }
+
+    private void UpdateComboState()
+    {
+        foreach (ComboState state in ComboStates)
+        {
+            if (state.MinCombo <= CurrentCombo && state.MaxCombo > CurrentCombo)
+            {
+                CurrentComboState = state;
+                CurrentMultiplier = state.Multiplier;
+
+                return;
+            }
+        }
     }
 
     private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
@@ -127,7 +161,7 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name != ENCOUNT_SCENE_NAME)
+        if (!SceneList.GetCurrentSceneIsGameplay())
         {
             return;
         }
@@ -145,7 +179,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-private void OnDestroy()
+    private void OnDestroy()
     {
         SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
         if (TeamManager.Instance != null)

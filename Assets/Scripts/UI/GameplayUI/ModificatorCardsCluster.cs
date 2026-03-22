@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class ModificatorCardsCluster : Button
 {
-    const float CLUSTER_HAND_MAX_ROTATION = 15f;
+    const float CLUSTER_HAND_MAX_ROTATION = 30f;
 
     [SerializeField] private RectTransform _cardsContainer;
 
@@ -48,6 +48,7 @@ public class ModificatorCardsCluster : Button
         {
             Cards[i].transform.SetParent(_cardsContainer.transform);
             float targetRotation = Cards.Count == 1 ? 0f : ((i / (Cards.Count - 1f)) - 0.5f) * CLUSTER_HAND_MAX_ROTATION;
+            Cards[i].transform.rotation = Cards[i].transform.parent.rotation;
             Cards[i].transform.Rotate(new Vector3(0, 0f, 1f), targetRotation);
             Cards[i].transform.position = _cardsContainer.transform.position + Vector3.left * (targetRotation / 60f) * math.abs(Cards[i].GetComponent<RectTransform>().rect.width);
         }
@@ -56,7 +57,10 @@ public class ModificatorCardsCluster : Button
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
-        Select();
+        if (interactable)
+        {
+            Select();
+        }
     }
 
     public override void OnSelect(BaseEventData eventData)
@@ -94,7 +98,9 @@ public class ModificatorCardsCluster : Button
 
     public void SetInteractable(bool value)
     {
-        interactable = value;
+        GetComponent<ButtonOnHoverMoveUp>().enabled = value;
+        GetComponent<ButtonSoundVisualEffects>().enabled = value;
+        enabled = value;
     }
 
     protected override void OnDestroy()

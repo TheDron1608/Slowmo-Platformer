@@ -1099,6 +1099,33 @@ MonoBehaviour:
     m_Localized: Deurbanization
     m_Metadata:
       m_Items: []
+  - m_Id: 34414475566358528
+    m_Localized: "\r* Enemy health increased by {HealthUp}%"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 34414359396720640
+    m_Localized: '* Enemy health increased by {HealthUp}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 34414355374383104
+    m_Localized: '* Enemy health increased by {HealthUp}%'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 34414353809907712
+    m_Localized: Health up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34414358390087680
+    m_Localized: Tank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34414360814395392
+    m_Localized: Juggernaut
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -1168,3 +1195,6 @@ MonoBehaviour:
         - id: 22093579119992832
         - id: 27909263364169728
         - id: 29070670940053504
+        - id: 34414475566358528
+        - id: 34414359396720640
+        - id: 34414355374383104

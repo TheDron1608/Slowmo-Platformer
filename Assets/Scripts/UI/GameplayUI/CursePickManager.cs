@@ -1,38 +1,112 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Linq;
-using Unity.VisualScripting;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class CursePickManager : AbstractModificatorCardsManager
 {
-    const float CHANGE_SCENE_DELAY_AFTER_SPEND_ALL_PICKS = 0.5f;
-    const float SHOW_CARDS_DELAY = 0.5f;
+    const float TRADE_FINISH_DELAY_AFTER_SPEND_ALL_PICKS = 0.5f;
+    const float SCORE_ENCOUNT_PER_SECOND = 100f;
+    const float MAX_MODIFICATOR_APPEAR_DELAY = 1f;
 
-    [SerializeField] private ModificatorCardsCluster _clusterInstance;
-    [SerializeField] private ModificatorVisualInfo _cardInfoInstance;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private UIElementTrackTarget _scoreTrackTarget;
+    [SerializeField] private Transform _showScoreTransform;
+    [SerializeField] private Transform _hideScoreTransform;
+    [SerializeField] private Transform _startButtonsContainer;
 
     private int _picksLeft = 1;
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
+    private Coroutine _tradeCoroutine = null;
 
     public static CursePickManager Instance;
 
     private void Awake()
     {
         _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
-        StartCoroutine(ShowCardsAfterDelay());
+        _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
+
         if (Instance != null) throw new UnityException("Limit of 1 ModificatorsContainer instance per scene");
         Instance = this;
     }
 
-    private IEnumerator ShowCardsAfterDelay()
+    private void Start()
     {
-        if (ModificatorsManager.Instance != null)
+        ShowScore();
+    }
+
+    public void Trade()
+    {
+        if (_tradeCoroutine == null)
         {
-            yield return new WaitForSeconds(SHOW_CARDS_DELAY);
-            AddModificatorCardsCluster(ModificatorsManager.Instance.PickRandomModifcators(new AbstractModificator.ModificatorTypes[] { AbstractModificator.ModificatorTypes.NEGATIVE }));
+            _tradeCoroutine = StartCoroutine(TradeCoroutine());
         }
+    }
+
+
+    public void FinishTrade()
+    {
+        _startButtonsContainer.gameObject.SetActive(false);
+        UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+    }
+
+    private IEnumerator TradeCoroutine()
+    {
+        if (ModificatorsManager.Instance != null && ScoreManager.Instance != null)
+        {
+            float modificatorAppearDelay = math.min(
+                ScoreManager.Instance.TradableScore / SCORE_ENCOUNT_PER_SECOND / ModificatorsManager.Instance.MaxModificatorOptions, 
+                MAX_MODIFICATOR_APPEAR_DELAY
+                );
+            float encountedScore = 0f;
+            float lastAddedCardScore = 1f;
+            float delayTime = 0f;
+
+            _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
+            _startButtonsContainer.gameObject.SetActive(false);
+            ShowScore();
+
+            while (encountedScore < ScoreManager.Instance.TradableScore)
+            {
+                encountedScore += Time.deltaTime * SCORE_ENCOUNT_PER_SECOND;
+                _scoreText.text = math.max(ScoreManager.Instance.TradableScore - encountedScore, 0f).ToString("0");
+
+                delayTime += Time.deltaTime;
+                if (delayTime > modificatorAppearDelay)
+                {
+                    ModificatorCardsCluster newCluster = ModificatorsManager.Instance.PickRandomModifcator(
+                        AbstractModificator.ModificatorTypes.NEGATIVE,
+                        lastAddedCardScore,
+                        encountedScore + 1f
+                        );
+
+                    if (newCluster != null)
+                    {
+                        newCluster.SetInteractable(false);
+                        AddModificatorCardsCluster(newCluster);
+                        if (ModificatorCardsClusters.Count > ModificatorsManager.Instance.MaxModificatorOptions)
+                        {
+                            RemoveModificatorCardsCluster(ModificatorCardsClusters.First());
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("not found any at range: " + lastAddedCardScore + "-" +encountedScore);
+                    }
+
+                    lastAddedCardScore = encountedScore;
+                    delayTime = 0f;
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            ScoreManager.Instance.TradableScore = 0;
+            SetAllCardsInteractable(true);
+        }
+
+        _tradeCoroutine = null;
     }
 
     public void SpendPicksLeft(int amount = 1)
@@ -52,7 +126,7 @@ public class CursePickManager : AbstractModificatorCardsManager
                     modificator.OnModificatorChoiseFinished();
                 }
             }
-            _changeSceneDelayAfterSpendAllPicksCoroutine = StartCoroutine(ChangeSceneDelayAfterSpendAllPicks());
+            _changeSceneDelayAfterSpendAllPicksCoroutine = StartCoroutine(FinishTradeAfterDelay());
         }
         else
         {
@@ -64,11 +138,25 @@ public class CursePickManager : AbstractModificatorCardsManager
             SetAllCardsInteractable(true);
         }
     }
-
-    private IEnumerator ChangeSceneDelayAfterSpendAllPicks()
+    private IEnumerator FinishTradeAfterDelay()
     {
-        yield return new WaitForSeconds(CHANGE_SCENE_DELAY_AFTER_SPEND_ALL_PICKS);
-        UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+        yield return new WaitForSeconds(TRADE_FINISH_DELAY_AFTER_SPEND_ALL_PICKS);
+        FinishTrade();
+    }
+
+    public void ShowScore()
+    {
+        _scoreTrackTarget.transform.position = _showScoreTransform.position;
+    }
+    public void HideScore()
+    {
+        _scoreTrackTarget.transform.position = _hideScoreTransform.position;
+    }
+
+    public override void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)
+    {
+        base.SetClusterDisplayedDescription(cluster);
+        HideScore();
     }
 
     private void OnDestroy()

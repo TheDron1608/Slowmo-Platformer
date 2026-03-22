@@ -160,7 +160,7 @@ public class WorldGenerationManager : MonoBehaviour
                     currentMainBrunchChunk.Connections
                         .Where(e => e.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED)
                         .OrderBy(e => Vector2.Distance(e.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition)))
-                        .First(),
+                        .FirstOrDefault(),
                     newBuildingInfoResult,
                     out ChunkInfo newChunkInfo,
                     out ChunkConnection.PreGeneratedChunkConnectionTempInfo newConnectionInfo

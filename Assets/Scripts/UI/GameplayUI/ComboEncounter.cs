@@ -29,28 +29,6 @@ public class ComboEncounter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private ShakableObject _comboInfoShaking;
 
-    public void UpdateCurrentCombo()
-    {
-        if (_comboText.IsDestroyed()) return;
-        _comboText.text = ScoreManager.Instance.CurrentCombo.ToString();
-
-        if (_oldComboBg.IsDestroyed() || _comboBg.IsDestroyed()) return;
-        foreach (ScoreManager.ComboState state in ScoreManager.Instance.ComboStates)
-        {
-            if (state.MinCombo <= ScoreManager.Instance.CurrentCombo && state.MaxCombo > ScoreManager.Instance.CurrentCombo)
-            {
-                if (_comboBg.sprite != state.BgSprite)
-                {
-                    if (_setBgCoroutine != null) StopCoroutine(_setBgCoroutine);
-                    _setBgCoroutine = StartCoroutine(ShowNewBg(state.BgSprite));
-                    _comboInfoShaking.ContantShakingForce = state.Shaking;
-                }
-
-                return;
-            }
-        }
-    }
-
     private IEnumerator ShowNewBg(Sprite sprite)
     {
         if (!_oldComboBg.IsDestroyed() && !_comboBg.IsDestroyed())
@@ -80,6 +58,23 @@ public class ComboEncounter : MonoBehaviour
         _setBgCoroutine = null;
     }
 
+    public void UpdateComboText()
+    {
+        _comboText.text = ScoreManager.Instance.CurrentCombo.ToString();
+    }
+
+    public void UpdateComboState()
+    {
+        if (_oldComboBg.IsDestroyed() || _comboBg.IsDestroyed()) return;
+
+        if (_comboBg.sprite != ScoreManager.Instance.CurrentComboState.BgSprite)
+        {
+            if (_setBgCoroutine != null) StopCoroutine(_setBgCoroutine);
+            _setBgCoroutine = StartCoroutine(ShowNewBg(ScoreManager.Instance.CurrentComboState.BgSprite));
+            _comboInfoShaking.ContantShakingForce = ScoreManager.Instance.CurrentComboState.Shaking;
+        }
+    }
+
     public void UpdateCurrentMultiplier()
     {
         if (_multiplierText.IsDestroyed()) return;
@@ -96,7 +91,7 @@ public class ComboEncounter : MonoBehaviour
 
     public void ForceSetScore(int score)
     {
-        _currentDisplayedScore = ScoreManager.Instance.CurrentScore;
+        _currentDisplayedScore = ScoreManager.Instance.TradableScore;
         _currentAddingScore = 0;
 
         if (_scoreText.IsDestroyed()) return;
@@ -142,11 +137,12 @@ public class ComboEncounter : MonoBehaviour
 
     private void Start()
     {
-        UpdateCurrentCombo();
+        UpdateComboText();
         UpdateCurrentMultiplier();
         UpdateComboLastTime();
+        UpdateComboState();
 
-        _currentDisplayedScore = ScoreManager.Instance.CurrentScore;
+        _currentDisplayedScore = ScoreManager.Instance.TradableScore;
         _scoreText.text = _currentDisplayedScore.ToString("00000");
     }
 }

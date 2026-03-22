@@ -5,13 +5,15 @@ using UnityEngine;
 [DefaultExecutionOrder(-1)]
 public class ModificatorsManager : MonoBehaviour
 {
+    const int MULTIPLE_MODIFICATORS_ORDER_LIMIT = 10;
+    const int MULTIPLE_MODIFICATORS_MAX_AMOUNT = 3;
+
     public static ModificatorsManager Instance;
 
     public List<AbstractModificator> AvaibleModificators = new();
     public int MaxModificatorOptions = 3;
     public int ModifiactorsPickAmount = 1;
     public float ExtraModificatorChance = 0.1f;
-    public int MaxExtraModificators = 3;
 
     [SerializeField] private ModificatorCardsCluster _clusterInstance;
 
@@ -63,23 +65,55 @@ public class ModificatorsManager : MonoBehaviour
         }
     }
 
-    public List<ModificatorCardsCluster> PickRandomModifcators(AbstractModificator.ModificatorTypes[] types = null)
+    public ModificatorCardsCluster PickRandomModifcator(AbstractModificator.ModificatorTypes type, float minPrice, float maxPrice)
     {
-        List<ModificatorCardsCluster> result = new(ModifiactorsPickAmount);
+        return PickRandomModifcator(new AbstractModificator.ModificatorTypes[] { type }, minPrice, maxPrice);
+    }
+
+    public ModificatorCardsCluster PickRandomModifcator(AbstractModificator.ModificatorTypes[] types, float minPrice, float maxPrice)
+    {
+        ModificatorCardsCluster result = Instantiate(_clusterInstance);
+
+        //try pick single modificator
         List<AbstractModificator> filteredModificators = 
             types == null ? 
             AvaibleModificators : 
-            AvaibleModificators.Where(e => types.Contains(e.ModificatorType)).ToList();
+            AvaibleModificators
+                .Where(e => types.Contains(e.ModificatorType) && e.ModificatorPrice >= minPrice && e.ModificatorPrice < maxPrice)
+                .ToList();
 
-        for (int i = 0; i < MaxModificatorOptions; i++)
+        if (filteredModificators.Count > 0)
         {
-            ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
-            for (int j = 0; j < MaxExtraModificators; j++)
+            result.AddCard(NumberMath.PickRandomItem(filteredModificators).CardInstance);
+        }
+        //if failed pick single modificaotr pick multiple cheap modificators
+        else
+        {
+            float totalPrice = 0;
+            int addedAmount = 0;
+            while (totalPrice < minPrice && addedAmount < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
             {
-                newCluster.AddCard(NumberMath.PickRandomItem(filteredModificators).CardInstance);
-                if (Random.value > ExtraModificatorChance) break;
+                AbstractModificator cheapModificator = NumberMath.PickRandomItem(
+                    types == null ?
+                    AvaibleModificators :
+                    AvaibleModificators
+                        .Where(e => types.Contains(e.ModificatorType) && e.ModificatorPrice < maxPrice - totalPrice)
+                        .OrderByDescending(e => e.ModificatorPrice)
+                        .Take(MULTIPLE_MODIFICATORS_ORDER_LIMIT)
+                        .ToList()
+                    );
+
+                if (cheapModificator != null)
+                {
+                    result.AddCard(cheapModificator.CardInstance);
+                    totalPrice += cheapModificator.ModificatorPrice;
+                    addedAmount++;
+                }
+                else
+                {
+                    break;
+                }
             }
-            result.Insert(i, newCluster);
         }
 
         return result;  

@@ -90,7 +90,7 @@ public class BuildingBottom : GenerateBeforeExtraChunksEnviroment
                             (
                                 !generateWhere.GetBackground().HasTile(tilePos) || 
                                 generateWhere.GetBackground().GetTile(tilePos) is RestrictInteriourWalls ||
-                                generateWhere.GetBackground().GetTile<BackgroundRuleTile>(tilePos).CanBeOverridedByGridders
+                                (generateWhere.GetBackground().GetTile<BackgroundRuleTile>(tilePos)?.CanBeOverridedByGridders ?? true)
                             )
                             )
                         {

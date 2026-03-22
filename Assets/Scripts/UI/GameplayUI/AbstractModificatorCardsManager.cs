@@ -11,8 +11,9 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     public Transform CardsContainer;
     public Transform CardTrackTargetsContainer;
     public Transform CardsInfoContainer;
-    [SerializeField] private ModificatorCardsCluster _clusterInstance;
-    [SerializeField] private ModificatorVisualInfo _cardInfoInstance;
+
+    [SerializeField] protected ModificatorCardsCluster _clusterInstance;
+    [SerializeField] protected ModificatorVisualInfo _cardInfoInstance;
 
     private List<ModificatorCardsCluster> _modificatorCardsClusters = new();
 
@@ -102,7 +103,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         }
     }
 
-    public void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)
+    public virtual void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)
     {
         foreach (Transform child in CardsInfoContainer)
         {
