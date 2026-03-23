@@ -32,6 +32,7 @@ public class ModificatorCardsCluster : Button
     public void AddCard(ModificatorCard card)
     {
         Cards.Add(Instantiate(card));
+        Cards.Sort((a, b) => a.ModificatorInstance.ModificatorPrice.CompareTo(b.ModificatorInstance.ModificatorPrice));
         UpdateClustersPosition();
     }
 

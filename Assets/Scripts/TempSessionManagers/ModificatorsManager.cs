@@ -14,6 +14,7 @@ public class ModificatorsManager : MonoBehaviour
     public int MaxModificatorOptions = 3;
     public int ModifiactorsPickAmount = 1;
     public float ExtraModificatorChance = 0.1f;
+    public float ExtraNeutralModificatorChance = 0.1f;
 
     [SerializeField] private ModificatorCardsCluster _clusterInstance;
 
@@ -67,19 +68,12 @@ public class ModificatorsManager : MonoBehaviour
 
     public ModificatorCardsCluster PickRandomModifcator(AbstractModificator.ModificatorTypes type, float minPrice, float maxPrice)
     {
-        return PickRandomModifcator(new AbstractModificator.ModificatorTypes[] { type }, minPrice, maxPrice);
-    }
-
-    public ModificatorCardsCluster PickRandomModifcator(AbstractModificator.ModificatorTypes[] types, float minPrice, float maxPrice)
-    {
         ModificatorCardsCluster result = Instantiate(_clusterInstance);
 
         //try pick single modificator
         List<AbstractModificator> filteredModificators = 
-            types == null ? 
-            AvaibleModificators : 
             AvaibleModificators
-                .Where(e => types.Contains(e.ModificatorType) && e.ModificatorPrice >= minPrice && e.ModificatorPrice < maxPrice)
+                .Where(e => e.ModificatorType == type && e.ModificatorPrice >= minPrice && e.ModificatorPrice < maxPrice)
                 .ToList();
 
         if (filteredModificators.Count > 0)
@@ -94,10 +88,8 @@ public class ModificatorsManager : MonoBehaviour
             while (totalPrice < minPrice && addedAmount < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
             {
                 AbstractModificator cheapModificator = NumberMath.PickRandomItem(
-                    types == null ?
-                    AvaibleModificators :
                     AvaibleModificators
-                        .Where(e => types.Contains(e.ModificatorType) && e.ModificatorPrice < maxPrice - totalPrice)
+                        .Where(e => e.ModificatorType == type && e.ModificatorPrice < maxPrice - totalPrice)
                         .OrderByDescending(e => e.ModificatorPrice)
                         .Take(MULTIPLE_MODIFICATORS_ORDER_LIMIT)
                         .ToList()
@@ -113,6 +105,20 @@ public class ModificatorsManager : MonoBehaviour
                 {
                     break;
                 }
+            }
+        }
+
+        if (RandomManager.Instance.ProcRandomChance(ExtraNeutralModificatorChance, RandomManager.ProcChanceTypes.GOOD))
+        {
+            AbstractModificator neutralModificator = NumberMath.PickRandomItem(
+                AvaibleModificators
+                    .Where(e => e.ModificatorType == AbstractModificator.ModificatorTypes.NEUTRAL && e.ModificatorPrice < maxPrice)
+                    .ToList()
+                );
+
+            if (neutralModificator != null)
+            {
+                result.AddCard(neutralModificator.CardInstance);
             }
         }
 

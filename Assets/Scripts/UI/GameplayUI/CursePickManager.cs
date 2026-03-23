@@ -15,6 +15,7 @@ public class CursePickManager : AbstractModificatorCardsManager
     [SerializeField] private Transform _showScoreTransform;
     [SerializeField] private Transform _hideScoreTransform;
     [SerializeField] private Transform _startButtonsContainer;
+    [SerializeField] private Transform _notEnoughPointsButtonsContainer;
 
     private int _picksLeft = 1;
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
@@ -60,8 +61,8 @@ public class CursePickManager : AbstractModificatorCardsManager
                 MAX_MODIFICATOR_APPEAR_DELAY
                 );
             float encountedScore = 0f;
-            float lastAddedCardScore = 1f;
-            float delayTime = 0f;
+            float lastAddedCardScore = math.min(1f, ScoreManager.Instance.TradableScore);
+            float delayTime = Time.deltaTime;
 
             _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
             _startButtonsContainer.gameObject.SetActive(false);
@@ -81,7 +82,7 @@ public class CursePickManager : AbstractModificatorCardsManager
                         encountedScore + 1f
                         );
 
-                    if (newCluster != null)
+                    if (newCluster != null && newCluster.Cards.Count > 0)
                     {
                         newCluster.SetInteractable(false);
                         AddModificatorCardsCluster(newCluster);
@@ -102,8 +103,16 @@ public class CursePickManager : AbstractModificatorCardsManager
                 yield return new WaitForEndOfFrame();
             }
 
-            ScoreManager.Instance.TradableScore = 0;
-            SetAllCardsInteractable(true);
+            if (ModificatorCardsClusters.Count == 0)
+            {
+                _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
+                ShowTradeFailedUI();
+            }
+            else
+            {
+                SetAllCardsInteractable(true);
+                ScoreManager.Instance.TradableScore = 0;
+            }
         }
 
         _tradeCoroutine = null;
@@ -157,6 +166,12 @@ public class CursePickManager : AbstractModificatorCardsManager
     {
         base.SetClusterDisplayedDescription(cluster);
         HideScore();
+    }
+
+    private void ShowTradeFailedUI()
+    {
+        _notEnoughPointsButtonsContainer.gameObject.SetActive(true);
+        _startButtonsContainer.gameObject.SetActive(false);
     }
 
     private void OnDestroy()
