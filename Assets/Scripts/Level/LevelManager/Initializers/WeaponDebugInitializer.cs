@@ -10,7 +10,7 @@ public class WeaponDebugInitializer : MonoBehaviour
     {
         foreach (AbstractModificator modificator in StartModificators)
         {
-            ModificatorsManager.Instance.AddModificator(modificator);
+            ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.PERMANENT);
         }
 
         UIManager.Instance.GameplayScreenOverlay.Show();

@@ -14,6 +14,14 @@ public class ModificatorCardsCluster : Button
 
     public List<ModificatorCard> Cards = new();
 
+    private AbstractModificator.ModificatorStatuses _addStatusOnPick;
+
+    public AbstractModificator.ModificatorStatuses AddStatusOnPick
+    {
+        get => _addStatusOnPick;
+        set => _addStatusOnPick = value;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -67,7 +75,7 @@ public class ModificatorCardsCluster : Button
     public override void OnSelect(BaseEventData eventData)
     {
         base.OnSelect(eventData);
-        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out CursePickManager container))
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
         {
             container.SetClusterDisplayedDescription(this);
         }
@@ -75,11 +83,11 @@ public class ModificatorCardsCluster : Button
 
     public void Pick()
     {
-        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out CursePickManager container))
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
         {
             foreach (ModificatorCard card in Cards)
             {
-                ModificatorsManager.Instance.AddModificator(card.ModificatorInstance);
+                ModificatorsManager.Instance.AddModificator(card.ModificatorInstance, AddStatusOnPick);
             }
 
             foreach (UIElementTrackTarget trackTarget in container.GetComponentsInChildren<UIElementTrackTarget>())

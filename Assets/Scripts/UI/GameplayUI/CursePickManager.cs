@@ -28,7 +28,7 @@ public class CursePickManager : AbstractModificatorCardsManager
         _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
         _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
 
-        if (Instance != null) throw new UnityException("Limit of 1 ModificatorsContainer instance per scene");
+        if (Instance != null) throw new UnityException("Limit of 1 CursePickManager instance per scene");
         Instance = this;
     }
 
@@ -46,7 +46,7 @@ public class CursePickManager : AbstractModificatorCardsManager
     }
 
 
-    public void FinishTrade()
+    public override void FinishTrade()
     {
         _startButtonsContainer.gameObject.SetActive(false);
         UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
@@ -76,7 +76,7 @@ public class CursePickManager : AbstractModificatorCardsManager
                 delayTime += Time.deltaTime;
                 if (delayTime > modificatorAppearDelay)
                 {
-                    ModificatorCardsCluster newCluster = ModificatorsManager.Instance.PickRandomModifcator(
+                    ModificatorCardsCluster newCluster = ModificatorsManager.Instance.PickRandomModificators(
                         AbstractModificator.ModificatorTypes.NEGATIVE,
                         lastAddedCardScore,
                         encountedScore + 1f
@@ -84,6 +84,7 @@ public class CursePickManager : AbstractModificatorCardsManager
 
                     if (newCluster != null && newCluster.Cards.Count > 0)
                     {
+                        newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.CURSE;
                         newCluster.SetInteractable(false);
                         AddModificatorCardsCluster(newCluster);
                         if (ModificatorCardsClusters.Count > ModificatorsManager.Instance.MaxModificatorOptions)
@@ -118,7 +119,7 @@ public class CursePickManager : AbstractModificatorCardsManager
         _tradeCoroutine = null;
     }
 
-    public void SpendPicksLeft(int amount = 1)
+    public override void SpendPicksLeft(int amount = 1)
     {
         _picksLeft -= amount;
         if (_picksLeft <= 0)
@@ -147,6 +148,7 @@ public class CursePickManager : AbstractModificatorCardsManager
             SetAllCardsInteractable(true);
         }
     }
+
     private IEnumerator FinishTradeAfterDelay()
     {
         yield return new WaitForSeconds(TRADE_FINISH_DELAY_AFTER_SPEND_ALL_PICKS);

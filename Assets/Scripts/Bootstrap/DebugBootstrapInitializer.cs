@@ -16,7 +16,7 @@ public class DebugBootstrapInitializer : MonoBehaviour
         ScoreManager.Instance.TradableScore = StartScore;
         foreach (AbstractModificator modificator in StartModificators)
         {
-            ModificatorsManager.Instance.AddModificator(modificator);
+            ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.CURSE);
         }
         UIManager.Instance.LoadSceneWithEffect(SceneName);
     }

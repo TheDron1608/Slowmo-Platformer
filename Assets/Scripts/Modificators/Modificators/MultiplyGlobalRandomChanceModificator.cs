@@ -28,6 +28,8 @@ public class MultiplyGlobalRandomChanceModificator : AbstractModificator
     {
         base.OnModificatorRemoved();
 
+        if (RandomManager.Instance == null) return;
+
         RandomManager.Instance.RandomChanceProcMultiplier /= RandomChanceProcMultiplier;
         RandomManager.Instance.GoodRandomChanceProcMultiplier /= GoodRandomChanceProcMultiplier;
         RandomManager.Instance.BadRandomChanceProcMultiplier /= BadRandomChanceProcMultiplier;

@@ -9,7 +9,7 @@ public class ButtonOnClickSelectStartModificator : MonoBehaviour
     {
         foreach (AbstractModificator mod in Modificators)
         {
-            ModificatorsManager.Instance.AddModificator(mod);
+            AbstractModificator newMod = ModificatorsManager.Instance.AddModificator(mod, AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT);
         }
     }
 }

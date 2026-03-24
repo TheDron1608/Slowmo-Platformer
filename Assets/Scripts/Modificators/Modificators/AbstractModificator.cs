@@ -9,6 +9,15 @@ public abstract class AbstractModificator : MonoBehaviour
         NEUTRAL
     }
 
+    public enum ModificatorStatuses
+    {
+        UNSET,
+        CHARACTER_DEFAULT,
+        PERMANENT,
+        CURSE,
+        TRADED
+    }
+
     public float ModificatorPrice = 0f;
 
     public ModificatorTypes ModificatorType;
@@ -16,6 +25,7 @@ public abstract class AbstractModificator : MonoBehaviour
     public ModificatorCard CardInstance;
     public bool Multiplierable = false;
     public float ModificatorMultiplier = 1f;
+    public ModificatorStatuses Status;
 
     private ModificatorIcon _currentIcon;
     private bool _disabledModificator = false;

@@ -38,19 +38,6 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         OnAddedItem?.Invoke(this, cluster);
     }
 
-    public void AddModificatorCardsCluster(List<ModificatorCardsCluster> clusters, float delay = 0.1f)
-    {
-        StartCoroutine(AddModificatorCardsClusterCoroutine(clusters));
-    }
-    private IEnumerator AddModificatorCardsClusterCoroutine(List<ModificatorCardsCluster> clusters, float delay = 0.1f)
-    {
-        foreach (ModificatorCardsCluster cluster in clusters)
-        {
-            AddModificatorCardsCluster(cluster);
-            yield return new WaitForSeconds(delay);
-        }
-    }
-
     public void RemoveModificatorCardsCluster(ModificatorCardsCluster card)
     {
         int removedCardIndex = _modificatorCardsClusters.IndexOf(card);
@@ -141,4 +128,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
             cluster.SetInteractable(value);
         }
     }
+
+    public abstract void SpendPicksLeft(int amount = 1);
+    public abstract void FinishTrade();
 }

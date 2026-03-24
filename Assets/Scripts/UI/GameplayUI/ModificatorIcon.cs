@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class ModificatorIcon : Selectable
 {
     const float TRIGGER_ANIMATION_DURATION = 0.75f;
-    const float TRIGGER_ANIMATION_OFFSET = -50f;
+    const float RAISE_ANIMATION_MULTIPLIER = 7.5f; 
+    const float RAISED_OFFSET = -50f;
     const string ICON_TITLE_GO_NAME = "IconTitle";
     const string DISABLE_ICON_GO_NAME = "DisableTitle";
     const float IMAGE_ON_HOVER_SCALE_MULTIPLIER = 1.25f;
@@ -27,6 +28,7 @@ public class ModificatorIcon : Selectable
     private Image _bgImage;
     private bool _disabledIcon = false;
     private AbstractModificator _currentModificator;
+    private bool _raising = false;
 
     public float Multiplier
     {
@@ -71,6 +73,12 @@ public class ModificatorIcon : Selectable
         set => _currentModificator = value;
     }
 
+    public bool Raising
+    {
+        get => _raising;
+        set => _raising = value;    
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -80,8 +88,19 @@ public class ModificatorIcon : Selectable
         targetGraphic = _bgImage;
     }
 
+    private void Update()
+    {
+        _iconContainer.localPosition = new Vector3(
+            _iconContainer.localPosition.x,
+            math.lerp(_iconContainer.localPosition.y, RAISED_OFFSET + (_raising ? RAISED_OFFSET : 0f), Time.deltaTime * RAISE_ANIMATION_MULTIPLIER),
+            _iconContainer.localPosition.z
+            );
+    }
+
     public void TriggerAnimation()
     {
+        if (_raising) return;
+
         if (_triggerAnimationCoroutine != null)
         {
             StopCoroutine(_triggerAnimationCoroutine);
@@ -100,7 +119,7 @@ public class ModificatorIcon : Selectable
         {
             _iconContainer.localPosition = new Vector3(
                 _iconContainer.localPosition.x,
-                math.sin(_currentTriggerAnimationProgress / TRIGGER_ANIMATION_DURATION * math.PI) * TRIGGER_ANIMATION_OFFSET,
+                math.sin(_currentTriggerAnimationProgress / TRIGGER_ANIMATION_DURATION * math.PI) * RAISED_OFFSET,
                 _iconContainer.localPosition.z
                 );
 
@@ -142,13 +161,14 @@ public class ModificatorIcon : Selectable
         {
             CursePickManager.Instance.SetIconDisplayedDescription(this);
         }
-        else
+        else if (BlessPickManager.Instance != null)
         {
-            if (UIManager.GamePaused())
-            {
-                UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(LocalizedTitle, LocalizedDescription, DisabledIcon);
-                UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfoEnabled(true);
-            }
+            BlessPickManager.Instance.SetIconDisplayedDescription(this);
+        }
+        else if (UIManager.GamePaused())
+        {
+            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(LocalizedTitle, LocalizedDescription, DisabledIcon);
+            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfoEnabled(true);
         }
     }
 

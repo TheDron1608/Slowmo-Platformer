@@ -5,14 +5,17 @@ using UnityEngine;
 public class Debug_FixedModificatorStart : MonoBehaviour
 {
     public List<ModificatorCardsCluster> CardsOnStart = new();
-    [SerializeField] private CursePickManager _container;
+    public AbstractModificator.ModificatorStatuses CardsStatus;
+    [SerializeField] private AbstractModificatorCardsManager _container;
 
 
     private void Start()
     {
         foreach (var cluster in CardsOnStart)
         {
-            _container.AddModificatorCardsCluster(Instantiate(cluster));
+            ModificatorCardsCluster newCluster = Instantiate(cluster);
+            newCluster.AddStatusOnPick = CardsStatus;
+            _container.AddModificatorCardsCluster(newCluster);
         }
     }
 }

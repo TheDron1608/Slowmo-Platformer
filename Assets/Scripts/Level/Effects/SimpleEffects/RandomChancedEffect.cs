@@ -41,7 +41,7 @@ public class RandomChancedEffect : AbstractEffectWithSender, IDelayedEffect, IMu
             base.Equals(other) && 
             RandomEffectChance == (other as RandomChancedEffect).RandomEffectChance &&
             RandomType == (other as RandomChancedEffect).RandomType &&
-            RandomEffect.Equals((other as RandomChancedEffect).RandomEffect) &&
-            ElseEffect.Equals((other as RandomChancedEffect).ElseEffect);
+            (RandomEffect?.Equals((other as RandomChancedEffect).RandomEffect) ?? (other as RandomChancedEffect).RandomEffect == RandomEffect) &&
+            (ElseEffect?.Equals((other as RandomChancedEffect).ElseEffect) ?? (other as RandomChancedEffect).ElseEffect == ElseEffect);
     }
 }
