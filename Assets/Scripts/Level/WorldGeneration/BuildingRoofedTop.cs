@@ -32,6 +32,7 @@ public class BuildingRoofedTop : GenerateBeforeExtraChunksEnviroment
 
         Tilemap targetTilemap = generateWhere.GetForeground();
         Tilemap targetOvergoundTilemap = generateWhere.GetOverground();
+        Tilemap targetBackgroundTilemap = generateWhere.GetBackground();
 
         for (int x = x1; x <= x2; x++)
         {
@@ -40,7 +41,7 @@ public class BuildingRoofedTop : GenerateBeforeExtraChunksEnviroment
                 Vector3Int tilePos = new Vector3Int(x, y);
 
                 if (
-                    !generateWhere.GetHasAnyTileAt(tilePos) || 
+                    (!targetTilemap.HasTile(tilePos) && !targetBackgroundTilemap.HasTile(tilePos) && !targetOvergoundTilemap.HasTile(tilePos)) || 
                     (targetTilemap.GetTile(tilePos) == FillTile && targetOvergoundTilemap.GetTile(tilePos) == RoofOvergroundFillTile)
                     )
                 {

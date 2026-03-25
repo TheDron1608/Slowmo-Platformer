@@ -98,17 +98,9 @@ public class BuildingBottom : GenerateBeforeExtraChunksEnviroment
 
                             if (y % HORIZONTAL_GRIDDER_RATE == 0 && UnityEngine.Random.value < HORIZONTAL_GRIDDER_SPAWN_CHANCE)
                             {
-                                if (targetColumnTilemap.HasTile(tilePos + Vector3Int.left * VERTICAL_GRIDDER_RATE))
+                                if (targetColumnTilemap.GetTile(tilePos + Vector3Int.left * VERTICAL_GRIDDER_RATE) == ColumnFillTile)
                                 {
                                     for (int subX = x; subX >= x - VERTICAL_GRIDDER_RATE; subX--)
-                                    {
-                                        Vector3Int subTilePos = new Vector3Int(subX, y);
-                                        targetColumnTilemap.SetTile(subTilePos, ColumnFillTile);
-                                    }
-                                }
-                                else if (targetColumnTilemap.HasTile(tilePos + Vector3Int.right * VERTICAL_GRIDDER_RATE))
-                                {
-                                    for (int subX = x; subX <= x + VERTICAL_GRIDDER_RATE; subX++)
                                     {
                                         Vector3Int subTilePos = new Vector3Int(subX, y);
                                         targetColumnTilemap.SetTile(subTilePos, ColumnFillTile);
