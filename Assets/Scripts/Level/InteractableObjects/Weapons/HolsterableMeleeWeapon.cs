@@ -10,9 +10,9 @@ public class HolsterableMeleeWeapon : MeleeWeapon
     public AbstractSoundPlayer SoundOnHolster;
     public AbstractSoundPlayer SoundOnUnholster;
 
-    private bool _isHolstered = false;
+    private bool _isHolstered = true;
     private float _timeToHolsterBack = 0f;
-    private Coroutine _currentHolsterBackCoroutine;
+    private int _comboPrevFrame = 0;
 
     public bool IsHolstered
     {
@@ -20,22 +20,11 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         set
         {
             if (_isHolstered == value) return;
+            if (value) Debug.Log(value);
 
             _animator.SetBool(ANIMATOR_IS_HOLSTERED_PROP_NAME, value);
             _isHolstered = value;
         }
-    }
-
-    protected override bool OnTryAttackSuccess(Vector2 direction)
-    {
-        if (!base.OnTryAttackSuccess(direction)) return false;
-
-        if (_currentHolsterBackCoroutine != null)
-        {
-            StopCoroutine(_currentHolsterBackCoroutine);
-        }
-
-        return true;
     }
 
     public override void OnFinishAttack()
@@ -43,23 +32,30 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         base.OnFinishAttack();
 
         IsHolstered = false;
+        _timeToHolsterBack = TimeToHolsterBackSeconds;
     }
 
-    //unused for now
-    private IEnumerator AwaitTimeAndHolsterBack()
+    private void Update()
     {
-        _timeToHolsterBack = TimeToHolsterBackSeconds;
-        while (_timeToHolsterBack > 0f)
-        {
-            yield return new WaitForFixedUpdate();
-
-            _timeToHolsterBack -= Time.fixedDeltaTime;
-        }
-
         if (TryGetComponent(out Holdable holdable) && holdable.CurrentHolder != null)
         {
-            IsHolstered = true;
-            _currentHolsterBackCoroutine = null;
+            if (holdable.CurrentHolder.CharComponents.CharacterTeam.Team != ScoreManager.TRACKED_TEAM)
+            {
+                _timeToHolsterBack -= Time.deltaTime;
+                if (_timeToHolsterBack < 0f)
+                {
+                    IsHolstered = true;
+                }
+            }
+            else if (!IsInCooldown)
+            {
+                if (ScoreManager.Instance.CurrentCombo == 0 && _comboPrevFrame != 0)
+                {
+                    IsHolstered = true;
+                }
+                _comboPrevFrame = ScoreManager.Instance.CurrentCombo;
+                Debug.Log(ScoreManager.Instance.CurrentCombo);
+            }
         }
     }
 }

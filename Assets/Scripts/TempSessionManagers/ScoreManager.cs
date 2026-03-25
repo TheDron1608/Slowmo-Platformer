@@ -8,7 +8,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class ScoreManager : MonoBehaviour
 {
-    const TeamManager.Teams TRACKED_TEAM = TeamManager.Teams.PLAYER;
+    public const TeamManager.Teams TRACKED_TEAM = TeamManager.Teams.PLAYER;
 
     [Serializable]
     public class ComboState
