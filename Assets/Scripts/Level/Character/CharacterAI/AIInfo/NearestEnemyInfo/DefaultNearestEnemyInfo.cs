@@ -13,34 +13,6 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
     {
         float minDistance = MaxEnemyDetectRange;
         ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-
-        CharacterTeam result = TryGetEnemyInfoFromNearAlly() ?? TryFindEnemy();
-
-        if (result != null)
-        {
-            _timeSinceLastEnemyDetection = 0f;
-        }
-        if (_nearestEnemy != null)
-        {
-            _lastEnemy = _nearestEnemy;
-            _lastEnemyPosition = _nearestEnemy.transform.position;
-            _lastEnemyLayer = LayerManager.Instance.GetZLayerOfGameObject(_nearestEnemy.gameObject);
-        }
-
-        _nearestEnemy = result;
-        _nearestEnemyDistance = minDistance;
-
-        if (_nearestEnemy == null && (_lastEnemy?.CharComponents.CharacterInteract.LastInteractObject?.TryGetComponent(out OnInteractEnterMultiZDoor zDoor) ?? false))
-        {
-            _lastEnemyPosition = zDoor.Exit.transform.position;
-            _lastEnemyLayer = zDoor.Exit.ZLayer;
-        }
-    }
-
-    private CharacterTeam TryFindEnemy()
-    {
-        float minDistance = MaxEnemyDetectRange;
-        ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         CharacterTeam result = null;
         foreach (Transform characterTransform in currentLayer.CharactersContainer.transform)
         {
@@ -70,6 +42,24 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             }
         }
 
-        return result;
+        if (result != null)
+        {
+            _timeSinceLastEnemyDetection = 0f;
+        }
+        if (_nearestEnemy != null)
+        {
+            _lastEnemy = _nearestEnemy;
+            _lastEnemyPosition = _nearestEnemy.transform.position;
+            _lastEnemyLayer = LayerManager.Instance.GetZLayerOfGameObject(_nearestEnemy.gameObject);
+        }
+
+        _nearestEnemy = result;
+        _nearestEnemyDistance = minDistance;
+
+        if (_nearestEnemy == null && (_lastEnemy?.CharComponents.CharacterInteract.LastInteractObject?.TryGetComponent(out OnInteractEnterMultiZDoor zDoor) ?? false))
+        {
+            _lastEnemyPosition = zDoor.Exit.transform.position;
+            _lastEnemyLayer = zDoor.Exit.ZLayer;
+        }
     }
 }
