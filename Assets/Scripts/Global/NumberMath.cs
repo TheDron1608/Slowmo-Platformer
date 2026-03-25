@@ -22,7 +22,7 @@ public static class NumberMath
 
     public static T PickRandomItem<T>(List<T> vector)
     {
-        if (vector.Count == 0) return default;
+        if (vector == null || vector.Count == 0) return default;
         return vector[(int)math.round(UnityEngine.Random.value * (vector.Count - 1))];
     }
     public static T PickRandomItem<T>(List<T> vector, int limit)

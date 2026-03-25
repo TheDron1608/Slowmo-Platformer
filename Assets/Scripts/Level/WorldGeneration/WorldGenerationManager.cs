@@ -188,6 +188,19 @@ public class WorldGenerationManager : MonoBehaviour
             }
         }
 
+        //try generate exit if previous attempt failed, if failed again return false
+        if (newBuildingInfoResult.Exit == null)
+        {
+            newBuildingInfoResult.Exit = NumberMath.PickRandomItem(
+                newBuildingInfo.Chunks
+                .Where(e => e.Connections.Count > 0)
+                .OrderBy(e => Vector2.Distance(e.PickDoorAvgPosition().Value, VectorMath.Vec3IntToVec3(prefferedPosition)))
+                .FirstOrDefault()?.DoorGenPositions
+                );
+
+            if (newBuildingInfoResult.Exit == null) return false;
+        }
+
         //generate extra exit brunchs
         foreach (var extraExit in extraExits)
         {
