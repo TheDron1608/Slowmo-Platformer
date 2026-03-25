@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 [CreateAssetMenu(fileName = "ModificatorPrices", menuName = "ModificatorPrices")]
 public class ModificatorPrices : ScriptableObject
 {
@@ -102,3 +102,5 @@ public class ModificatorPrices : ScriptableObject
         _prices = _prices.OrderBy(e => (int)e.Modificator.ModificatorType * 1_000_000f + e.Price).ToList();
     }
 }
+
+#endif
