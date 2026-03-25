@@ -143,7 +143,14 @@ public class ObjectEffectsReceiver : MonoBehaviour
     /// <returns>returns actual applied effect including AlternativeCharacterEffectIfResisted</returns>
     public virtual AbstractEffect ApplyEffect(AbstractEffect effect, MonoBehaviour sender, float effectMultiplier = 1f, bool ignoreDeflection = false)
     {
-        if (effect == null) return null;
+        if (
+            effect == null ||
+            gameObject.IsDestroyed() ||
+            (sender != null && sender.gameObject.IsDestroyed() && effect is AbstractEffectWithSender)
+            )
+        {
+            return null;
+        }
 
         if (
             !ignoreDeflection &&
