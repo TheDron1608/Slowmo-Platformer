@@ -1,7 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 public abstract class AbstractModificator : MonoBehaviour
 {
+    const string LOCALIZATION_TABLE_NAME = "GameplayUI";
+    const string LOCALIZATION_PERMANENT_KEY = "ModificatorStatusPermanent";
+    const string LOCALIZATION_TRADABLE_KEY = "ModificatorStatusTradable";
+    const string LOCALIZATION_PRICE_KEY = "ModificatorPrice";
+
+
     public enum ModificatorTypes
     {
         POSITIVE,
@@ -18,6 +25,26 @@ public abstract class AbstractModificator : MonoBehaviour
         TRADED
     }
 
+    public static string GetLocalizedStatus(ModificatorStatuses status, float price)
+    {
+        switch (status)
+        {
+            case ModificatorStatuses.CHARACTER_DEFAULT:
+                return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PERMANENT_KEY);
+            case ModificatorStatuses.PERMANENT:
+                return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PERMANENT_KEY);
+            case ModificatorStatuses.CURSE:
+                return
+                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_TRADABLE_KEY) + "\n" +
+                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + price.ToString("0");
+            case ModificatorStatuses.TRADED:
+                return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PERMANENT_KEY) + "\n" +
+                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + price.ToString("0");
+            default:
+                return "";
+        }
+    }
+
     public float ModificatorPrice = 0f;
 
     public ModificatorTypes ModificatorType;
@@ -25,7 +52,7 @@ public abstract class AbstractModificator : MonoBehaviour
     public ModificatorCard CardInstance;
     public bool Multiplierable = false;
     public float ModificatorMultiplier = 1f;
-    public ModificatorStatuses Status;
+    private ModificatorStatuses _status;
 
     private ModificatorIcon _currentIcon;
     private bool _disabledModificator = false;
@@ -57,10 +84,19 @@ public abstract class AbstractModificator : MonoBehaviour
         set => _currentIcon = value;
     }
 
+    public ModificatorStatuses Status
+    {
+        get => _status;
+        set
+        {
+            _status = value;
+        }
+    }
+
     public virtual bool GetEqualType(AbstractModificator other)
     {
-        return 
-            GetType() == other.GetType() && 
+        return
+            GetType() == other.GetType() &&
             ((!Multiplierable && !other.Multiplierable) || ModificatorMultiplier == other.ModificatorMultiplier);
     }
 
@@ -119,7 +155,7 @@ public abstract class AbstractModificator : MonoBehaviour
     {
         if (!DisabledModificator)
         {
-            OnModificatorRemoved(); 
+            OnModificatorRemoved();
         }
     }
 }

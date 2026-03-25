@@ -14,6 +14,7 @@ public class ModificatorCard : MonoBehaviour
     private string _localizedDescription;
     private Sprite _defaultSprite;
     private Sprite _overrideSprite;
+    private ModificatorCardsCluster _currentCluster = null;
 
     public float Multiplier
     {
@@ -48,6 +49,17 @@ public class ModificatorCard : MonoBehaviour
             _overrideSprite = value;
             _cardImage.sprite = _overrideSprite ?? _defaultSprite;
         }
+    }
+
+    public ModificatorCardsCluster CurrentCluster
+    {
+        get => _currentCluster;
+        set => _currentCluster = value;
+    }
+
+    public AbstractModificator.ModificatorStatuses Status
+    {
+        get => CurrentCluster.AddStatusOnPick;
     }
 
     private void Awake()

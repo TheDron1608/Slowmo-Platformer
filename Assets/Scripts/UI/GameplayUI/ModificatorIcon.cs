@@ -79,6 +79,11 @@ public class ModificatorIcon : Selectable
         set => _raising = value;    
     }
 
+    public AbstractModificator.ModificatorStatuses Status
+    {
+        get => CurrentModificator.Status;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -167,8 +172,7 @@ public class ModificatorIcon : Selectable
         }
         else if (UIManager.GamePaused())
         {
-            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(LocalizedTitle, LocalizedDescription, DisabledIcon);
-            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfoEnabled(true);
+            UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfo(this);
         }
     }
 

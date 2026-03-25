@@ -3,25 +3,35 @@ using UnityEngine;
 
 public class ModificatorVisualInfo : MonoBehaviour
 {
-    public ModificatorCard Card = null;
-    public ModificatorIcon Icon = null;
     public TextMeshProUGUI Title;
     public TextMeshProUGUI Description;
-    public bool StrikedDesc = false;
+    public TextMeshProUGUI Status;
 
-    private void Update()
+    public ModificatorCard Card
     {
-        if (Card != null)
+        set
         {
-            Title.text = Card.LocalizedTitle;
-            Description.text = Card.LocalizedDescription;
+            Title.text = value.LocalizedTitle;
+            Description.text = value.LocalizedDescription;
+            Status.text = AbstractModificator.GetLocalizedStatus(value.Status, value.ModificatorInstance.ModificatorPrice * value.Multiplier);
         }
-        else if (Icon != null)
-        {
-            Title.text = Icon.LocalizedTitle;
-            Description.text = Icon.LocalizedDescription;
-        }
+    }
 
-        Description.fontStyle = StrikedDesc ? FontStyles.Strikethrough : FontStyles.Normal;
+    public ModificatorIcon Icon
+    {
+        set
+        {
+            Title.text = value.LocalizedTitle;
+            Description.text = value.LocalizedDescription;
+            Status.text = AbstractModificator.GetLocalizedStatus(value.Status, value.ModificatorInstance.ModificatorPrice * value.Multiplier);
+        }
+    }
+
+    public bool StrikedDesc
+    {
+        set
+        {
+            Description.fontStyle = value ? FontStyles.Strikethrough : FontStyles.Normal;
+        }
     }
 }

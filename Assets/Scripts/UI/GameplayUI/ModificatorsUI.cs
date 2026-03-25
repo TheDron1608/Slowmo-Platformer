@@ -11,9 +11,7 @@ public class ModificatorsUI : MonoBehaviour
     [SerializeField] private Transform _modificatorOnPauseTrackTargetsContainer;
     [SerializeField] private Transform _onPauseContainer;
     [SerializeField] private Transform _modificatorsSpawnPosition;
-    [SerializeField] private Transform _selectedModificatorContainer;
-    [SerializeField] private TextMeshProUGUI _selectedModificatorTitle;
-    [SerializeField] private TextMeshProUGUI _selectedModificatorDesc;
+    [SerializeField] private ModificatorVisualInfo _cardInfo;
 
     private List<ModificatorIcon> _modificatorsIcons = new();
 
@@ -77,10 +75,10 @@ public class ModificatorsUI : MonoBehaviour
 
     public void SetSelectedModificatorInfoEnabled(bool value)
     {
-        _selectedModificatorContainer.gameObject.SetActive(value);
+        _cardInfo.gameObject.SetActive(value);
     }
 
-    public void SetSelectedModificatorInfo(string title, string desc, bool strikedDesc)
+    public void SetSelectedModificatorInfo(ModificatorIcon icon)
     {
         SetSelectedModificatorInfoEnabled(false);
 
@@ -88,11 +86,12 @@ public class ModificatorsUI : MonoBehaviour
         {
             CursePickManager.Instance.SetClusterDisplayedDescription(null);
         }
+        if (BlessPickManager.Instance != null)
+        {
+            BlessPickManager.Instance.SetClusterDisplayedDescription(null);
+        }
 
-        _selectedModificatorTitle.text = title;
-        _selectedModificatorDesc.text = desc;
-
-        _selectedModificatorDesc.fontStyle = strikedDesc ? FontStyles.Strikethrough : FontStyles.Normal;
+        _cardInfo.Icon = icon;
 
         SetSelectedModificatorInfoEnabled(true);
     }
