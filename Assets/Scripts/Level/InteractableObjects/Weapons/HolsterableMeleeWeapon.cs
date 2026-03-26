@@ -54,7 +54,6 @@ public class HolsterableMeleeWeapon : MeleeWeapon
                     IsHolstered = true;
                 }
                 _comboPrevFrame = ScoreManager.Instance.CurrentCombo;
-                Debug.Log(ScoreManager.Instance.CurrentCombo);
             }
         }
     }

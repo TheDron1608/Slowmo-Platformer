@@ -1,8 +1,13 @@
+using System;
 using System.Linq;
+using Unity.Mathematics;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 {
+    const float ANGLE_STEP = 0.05f;
+
     public InputActionReference GrabActionReference;
     public float GrabDangerousHoldablesExtraRange = 2.5f;
 
@@ -58,20 +63,40 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdateSelectedGrabObject();
     }
 
     private void UpdateSelectedGrabObject()
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject == null)
+        var holdables = CharComponents.CharacterHolding.GetAvaibleHoldables();
+
+        if (CharComponents.CharacterHolding.CurrentHoldObject == null && holdables.Count > 0)
         {
-            CurrentSelectedGrabObject = CharComponents.CharacterHolding.GetAvaibleHoldables().OrderBy(
-                (Holdable holdable) =>
-                    (VectorMath.Vec3ToVec2(holdable.transform.position - CharComponents.Center.transform.position).normalized - CharComponents.CharacterAiming.GetTargetAimNormalized()).magnitude +
-                    (!holdable.GetComponent<RangedWeapon>()?.GetIsOutOfAmmo() ?? true ? -1000f : 0f)
-                ).FirstOrDefault();
+            var holdableColliders = holdables.ConvertAll(e => e.GetComponent<Collider2D>());
+            holdableColliders.Sort(
+                (a, b) => a.bounds.SqrDistance(CharComponents.Center.transform.position).CompareTo(b.bounds.SqrDistance(CharComponents.Center.transform.position))
+                );
+
+            for (float angle = 0f; angle <= 1f; angle = angle > 0 ? -angle : -angle + ANGLE_STEP)
+            {
+                Ray ray = new(
+                    CharComponents.Center.transform.position,
+                    VectorMath.RotateVec2(CharComponents.CharacterAiming.GetTargetAimNormalized(), angle)
+                    );
+
+                //Debug.DrawRay(ray.origin, ray.direction, Color.red, Time.deltaTime);
+
+                foreach (Collider2D holdableCollider in holdableColliders)
+                {
+                    if (holdableCollider.bounds.IntersectRay(ray))
+                    {
+                        CurrentSelectedGrabObject = holdableCollider.GetComponent<Holdable>();
+                        return;
+                    }
+                }
+            }
         }
         else
         {

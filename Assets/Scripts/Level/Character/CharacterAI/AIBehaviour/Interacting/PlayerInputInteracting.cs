@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputInteracting : AbstractAIInteracting
 {
+    const float ANGLE_STEP = 0.05f;
+
     public InputActionReference InteractActionReference;
 
     private Interactable _currentSelectedInteractObject = null;
@@ -48,20 +50,45 @@ public class PlayerInputInteracting : AbstractAIInteracting
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdateSelectedInteractObject();
     }
 
     private void UpdateSelectedInteractObject()
     {
-        CurrentSelectedInteractObject = CharComponents.CharacterInteract.GetAvaibleInteractables().Where(
-            (Interactable interactable) => interactable.enabled && interactable.gameObject.activeSelf
-            ).OrderBy(
-            (Interactable interactable) =>
-                (VectorMath.Vec3ToVec2(interactable.transform.position - CharComponents.Center.transform.position).normalized - CharComponents.CharacterAiming.GetTargetAimNormalized()).magnitude *
-                Vector2.Distance(CharComponents.Center.transform.position, interactable.transform.position)
-            ).FirstOrDefault();
+        var interactables = CharComponents.CharacterInteract.GetAvaibleInteractables();
+
+        if (interactables.Count > 0)
+        {
+            var interactableColliders = interactables.ConvertAll(e => e.GetComponent<Collider2D>());
+            interactableColliders.Sort(
+                (a, b) => a.bounds.SqrDistance(CharComponents.Center.transform.position).CompareTo(b.bounds.SqrDistance(CharComponents.Center.transform.position))
+                );
+
+            for (float angle = 0f; angle <= 1f; angle = angle > 0 ? -angle : -angle + ANGLE_STEP)
+            {
+                Ray ray = new(
+                    CharComponents.Center.transform.position,
+                    VectorMath.RotateVec2(CharComponents.CharacterAiming.GetTargetAimNormalized(), angle)
+                    );
+
+                //Debug.DrawRay(ray.origin, ray.direction, Color.red, Time.deltaTime);
+
+                foreach (Collider2D interactableCollider in interactableColliders)
+                {
+                    if (interactableCollider.bounds.IntersectRay(ray))
+                    {
+                        CurrentSelectedInteractObject = interactableCollider.GetComponent<Interactable>();
+                        return;
+                    }
+                }
+            }
+        }
+        else
+        {
+            CurrentSelectedInteractObject = null;
+        }
     }
 
     private void OnDestroy()
