@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class CharacterCollision : AbstractCharacterComponent
 {
     const string ENVIROMENT_TAG_NAME = "Enviroment";
-    const float COLLISION_DETECTION_THICKNESS = 0.05f;
+    const float COLLISION_DETECTION_THICKNESS = 0.1f;
     const float CHECK_COLLIDING_INTERACTABLE_FURNITURE_DISTANCE = 3f;
 
     public class OnCollisionChangedEventArgs
@@ -231,15 +231,15 @@ public class CharacterCollision : AbstractCharacterComponent
         return UpdateTileCollidingAtMultiPoint(
             new Vector2(
                 bounds.center.x,
-                bounds.min.y - COLLISION_DETECTION_THICKNESS
+                bounds.min.y - COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale()
                 ),
             new Vector2(
                 bounds.min.x,
-                bounds.min.y - COLLISION_DETECTION_THICKNESS
+                bounds.min.y - COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale()
                 ),
             new Vector2(
                 bounds.max.x,
-                bounds.min.y - COLLISION_DETECTION_THICKNESS
+                bounds.min.y - COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale()
                 ),
             out collidedTile
             );
@@ -250,7 +250,7 @@ public class CharacterCollision : AbstractCharacterComponent
         return UpdateTileCollidingAtPoint(
             new Vector2(
                 bounds.center.x,
-                bounds.max.y + COLLISION_DETECTION_THICKNESS
+                bounds.max.y + COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale()
                 ),
             out collidedTile
             );
@@ -260,7 +260,7 @@ public class CharacterCollision : AbstractCharacterComponent
         Bounds bounds = CharComponents.CharacterRigidBodyCapsuleCollider.bounds;
         return UpdateTileCollidingAtPoint(
             new Vector2(
-                bounds.min.x - COLLISION_DETECTION_THICKNESS,
+                bounds.min.x - COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale(),
                 bounds.center.y
                 ),
             out collidedTile
@@ -271,7 +271,7 @@ public class CharacterCollision : AbstractCharacterComponent
         Bounds bounds = CharComponents.CharacterRigidBodyCapsuleCollider.bounds;
         return UpdateTileCollidingAtPoint(
             new Vector2(
-                bounds.max.x + COLLISION_DETECTION_THICKNESS,
+                bounds.max.x + COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale(),
                 bounds.center.y
                 ),
             out collidedTile

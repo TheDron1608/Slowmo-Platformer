@@ -131,7 +131,6 @@ public class CharacterVisual : AbstractCharacterComponent
         set
         {
             if (_mainState == value) return;
-
             OnMainStateChanged?.Invoke(this, new OnMainStateChangedEventArgs(_mainState, value));
 
             _mainState = value;
@@ -275,7 +274,11 @@ public class CharacterVisual : AbstractCharacterComponent
         {
             if (CharComponents.CharacterCollision.IsCollidingFloor())
             {
-                if (CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || !CharComponents.CharacterMoving.IsAbleToMoveThisFrame)
+                if (
+                    CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || 
+                    (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f && CharComponents.CharacterCollision.IsCollidingRightWall()) ||
+                    (CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0f && CharComponents.CharacterCollision.IsCollidingLeftWall())
+                    )
                 {
                     MainState = CharacterPartMainStates.IDLE;
                 }

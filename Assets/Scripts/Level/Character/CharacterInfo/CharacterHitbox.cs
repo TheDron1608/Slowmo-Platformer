@@ -117,14 +117,14 @@ public class CharacterHitbox : AbstractCharacterComponent
                 targetHitbox.Position.z
                 ), timeSpent / smoothChangeDuration);
             transform.localScale = math.lerp(baseScale, new Vector3(
-                CharComponents.CharacterVisual.FlippedH ? -targetHitbox.Scale.x : targetHitbox.Scale.x,
+                targetHitbox.Scale.x,
                 targetHitbox.Scale.y,
                 targetHitbox.Scale.z
                 ), timeSpent / smoothChangeDuration);
             transform.localRotation = math.slerp(baseRotation, targetHitbox.Rotation, timeSpent / smoothChangeDuration);
 
             yield return new WaitForFixedUpdate();
-            timeSpent += Time.deltaTime;
+            timeSpent += Time.fixedDeltaTime;
         }
 
         _changeHitboxSmoothlyCoroutine = null;

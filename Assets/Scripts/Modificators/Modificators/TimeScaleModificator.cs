@@ -4,25 +4,20 @@ public class TimeScaleModificator : AbstractModificator
 {
     public float TimeScaleMultiplier = 1f;
 
-    public override void OnLevelPreGenerated()
+    public override void OnModificatorAdded()
     {
-        base.OnLevelPreGenerated();
+        base.OnModificatorAdded();
 
-        Time.timeScale *= TimeScaleMultiplier;
-        if (TimeScaleMultiplier < 0f)
-        {
-            Time.fixedDeltaTime *= TimeScaleMultiplier;
-        }
+        TimeManager.Instance.CurrentTimeScale *= TimeScaleMultiplier;
     }
 
-    public override void OnLevelFinished()
+    public override void OnModificatorRemoved()
     {
-        base.OnLevelFinished();
+        base.OnModificatorRemoved();
 
-        Time.timeScale /= TimeScaleMultiplier;
-        if (TimeScaleMultiplier < 0f)
+        if (TimeManager.Instance != null)
         {
-            Time.fixedDeltaTime /= TimeScaleMultiplier;
+            TimeManager.Instance.CurrentTimeScale /= TimeScaleMultiplier;
         }
     }
 }

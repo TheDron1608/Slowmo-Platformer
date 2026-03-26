@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f159cd4f652d5247a7638a901452fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Tags: 
   _attackCooldown: 0.8125
   _attackCooldownMultiplier: 1
   AutoAttack: 0
@@ -356,6 +357,7 @@ MonoBehaviour:
   CharacterReloading: {fileID: 2103635049368087364}
   CharacterRolling: {fileID: 7585185559083403592}
   UnarmedAttacking: {fileID: 1895862788084180291}
+  CharacterSpecial: {fileID: 0}
   CharacterTeam: {fileID: 1912486057152472303}
   CharacterAIManager: {fileID: 0}
   CharacterCollision: {fileID: 2002335163756146061}
@@ -501,7 +503,6 @@ MonoBehaviour:
   _isAbleToStartChainsaw: 1
   _isAbleToShield: 1
   AttackCooldownMultiplier: 1
-  UnarmedAttackProjectile: {fileID: 0}
   ExtraProjectileEffects: []
 --- !u!114 &-1858980390697622286
 MonoBehaviour:
@@ -563,6 +564,7 @@ MonoBehaviour:
   _currentHoldObject: {fileID: 0}
   ThrowForce: 15
   MaxGrabRangeMultiplier: 1
+  EffectsOnHoldedObject: []
   Telekinesis: 0
   TelekinesisDistance: 10
   TelekinesisForce: 2.85

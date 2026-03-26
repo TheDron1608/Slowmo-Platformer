@@ -33,7 +33,7 @@ public class TimeManager : MonoBehaviour
 
             TrySetSlowmoOverlayFill(math.lerp(
                 UIManager.Instance.SlowmoOverlay.FillAmount,
-                Paused ? 0f : (1f - GetTotalTimeScale()),
+                Paused ? 0f : NumberMath.LimitFloatBetweenZeroAndOne(_tempSlowTimeLeft),
                 Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
                 ));
         }
@@ -45,16 +45,13 @@ public class TimeManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_tempSlowTimeLeft > 0f && !Paused)
-        {
-            _tempSlowTimeLeft -= Time.fixedUnscaledDeltaTime * TempSlowTimeDecaySpeed;
-            if (_tempSlowTimeLeft < 0f) _tempSlowTimeLeft = 0f;
+        _tempSlowTimeLeft -= Time.fixedUnscaledDeltaTime * TempSlowTimeDecaySpeed;
+        if (_tempSlowTimeLeft < 0f) _tempSlowTimeLeft = 0f;
 
-            float totalScale = GetTotalTimeScale();
+        float totalScale = GetTotalTimeScale();
 
-            Time.timeScale = totalScale;
-            Time.fixedDeltaTime = _baseFixedDeltaTime * totalScale;
-        }
+        Time.timeScale = totalScale;
+        Time.fixedDeltaTime = _baseFixedDeltaTime * totalScale;
     }
 
     public void TryTemporalSlowTime(float value)
@@ -86,7 +83,7 @@ public class TimeManager : MonoBehaviour
 
     public float GetTotalTimeScale()
     {
-        return math.max(math.min(CurrentTimeScale, 1f - NumberMath.LimitFloatBetweenMinusOneAndOne(_tempSlowTimeLeft)), MIN_TIME_SCALE);
+        return math.max(CurrentTimeScale * (1f - NumberMath.LimitFloatBetweenMinusOneAndOne(_tempSlowTimeLeft)), MIN_TIME_SCALE);
     }
 
     public bool Paused
@@ -103,8 +100,10 @@ public class TimeManager : MonoBehaviour
             }
             else
             {
-                Time.timeScale = _currentTimeScaleMultiplier;
-                Time.fixedDeltaTime = _baseFixedDeltaTime * _currentTimeScaleMultiplier;
+                float totalScale = GetTotalTimeScale();
+
+                Time.timeScale = totalScale;
+                Time.fixedDeltaTime = _baseFixedDeltaTime * totalScale;
             }
         }
     }

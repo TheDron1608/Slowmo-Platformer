@@ -20,11 +20,11 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     public static AbstractCharacterComponent TryGetCharacterFromSender(MonoBehaviour sender)
     {
-        if (sender == null || sender.IsDestroyed())
+        if (sender == null || sender.IsDestroyed() || sender.gameObject.IsDestroyed())
         {
             return null;
         }
-        if (sender.TryGetComponent(out AbstractCharacterComponent senderCharacter))
+        else if (sender.TryGetComponent(out AbstractCharacterComponent senderCharacter))
         {
             return senderCharacter;
         }
