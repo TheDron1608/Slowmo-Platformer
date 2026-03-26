@@ -127,6 +127,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
         {
             Die(damager);
         }
+        if (CurrentHealth > MinHealth && !GetComponent<ObjectEffectsReceiver>().GetHasEffect<ILethalEffect>(false))
+        {
+            Ressurect();
+        }
     }
 
     public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier)
