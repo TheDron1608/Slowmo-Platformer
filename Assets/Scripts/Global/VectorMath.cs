@@ -60,6 +60,18 @@ public static class VectorMath
         return result;
     }
 
+    public static Quaternion Vec2ToQuaternion2DNoMirroring(Vector2 target)
+    {
+        Quaternion result = new();
+        result.eulerAngles = new Vector3(
+            0f,
+            0f,
+            Mathf.Atan2(target.x, target.y) * -Mathf.Rad2Deg + 90f
+            );
+
+        return result;
+    }
+
     public static Vector3 Quartenion2DToVec3(Quaternion target)
     {
         return math.mul(target, Vector3.right);

@@ -5,6 +5,7 @@ public class CharacterLimbPart : CharacterPart
 {
     public CharacterPartHealth CharPartHealth;
     public CharacterHitbox CharPartHitbox;
+    public Collider2D Collider;
 
     public void UnequipAllEquipments()
     {

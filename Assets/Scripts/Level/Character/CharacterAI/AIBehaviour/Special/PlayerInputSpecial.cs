@@ -77,6 +77,7 @@ public class PlayerInputSpecial : AbstractAISpecial
     {
         if (CharComponents.CharacterSpecial == null) return;
 
+        //BLEED TELEPORTATION
         if (
             CharComponents.CharacterSpecial.TryGetComponent(out CharacterBleedTeleportation bleedTeleporation) && 
             bleedTeleporation.GetHasEnoughForCost() && 
@@ -88,7 +89,7 @@ public class PlayerInputSpecial : AbstractAISpecial
                 IsGamepadAiming = true;
             }
             else
-            {;
+            {
                 ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject);
                 Vector3? mousePos = CurrentDeviceTracker.GetMouseWorldPositionOnLayer(layer);
                 if (!mousePos.HasValue) return;
@@ -117,6 +118,7 @@ public class PlayerInputSpecial : AbstractAISpecial
             }
         }
 
+        //TELEPORTATION
         else if (
             CharComponents.CharacterSpecial.TryGetComponent(out CharacterTeleportation characterTeleportation) && 
             characterTeleportation.GetHasEnoughForCost()
@@ -135,15 +137,25 @@ public class PlayerInputSpecial : AbstractAISpecial
                 characterTeleportation.TryTeleport(mousePos.Value, layer);
             }
         }
+
+        //HOOKING
+        else if (
+            CharComponents.CharacterSpecial.TryGetComponent(out CharacterHook characterHook) &&
+            characterHook.GetHasEnoughForCost()
+            )
+        {
+            characterHook.TryHook(CharComponents.CharacterAiming.GetTargetAimNormalized());
+        }
     }
 
     private void HandleStopSpecial()
     {
-        if (CharComponents.CharacterSpecial == null || !_isGamepadAiming) return;
+        if (CharComponents.CharacterSpecial == null) return;
 
+        //BLEED TELEPORTATION
         if (CharComponents.CharacterSpecial.TryGetComponent(out CharacterBleedTeleportation characterBleedTeleportation))
         {
-            if (_bloodTeleportationTarget != null)
+            if (_bloodTeleportationTarget != null && _isGamepadAiming)
             {
                 IsGamepadAiming = false;
                 _teleportationGamepadAimTarget = null;
@@ -151,12 +163,19 @@ public class PlayerInputSpecial : AbstractAISpecial
             }
         }
 
+        //TELEPORATAION
         else if (CharComponents.CharacterSpecial.TryGetComponent(out CharacterTeleportation characterTeleportation))
         {
-            if (_teleportationGamepadAimTarget.HasValue && GamepadAimActionReference.action.ReadValue<Vector2>() != Vector2.zero)
+            if (_isGamepadAiming && _teleportationGamepadAimTarget.HasValue && GamepadAimActionReference.action.ReadValue<Vector2>() != Vector2.zero)
             {
                 characterTeleportation.TryTeleport(_teleportationGamepadAimTarget.Value, CharComponents.CharacterCollision.CurrentZLayer);
             }
+        }
+
+        //HOOKING
+        else if (CharComponents.CharacterSpecial.TryGetComponent(out CharacterHook characterHook))
+        {
+            characterHook.TryStopHook();
         }
 
         IsGamepadAiming = false;
