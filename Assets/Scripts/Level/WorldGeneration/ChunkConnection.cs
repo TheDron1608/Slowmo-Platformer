@@ -43,6 +43,7 @@ public class ChunkConnection : GenerateOnFinishBuildingEnviroment
     public ChunkConnectionDirection Direction;
     public Transform OnOpenedConnectionContainer;
     public Transform OnClosedConnectionContainer;
+    public int GenerationPriority = 0; //the higher value, the more preffered connection to be generated
 
     public override List<GameObject> Generate(PreGeneratedEnviromentTempInfo generationInfo)
     {

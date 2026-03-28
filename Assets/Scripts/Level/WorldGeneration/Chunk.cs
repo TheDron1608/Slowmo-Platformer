@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -140,9 +141,18 @@ public class Chunk : MonoBehaviour
                 {
                     if (TileManager.PositionToTilePosition(connection.GetSpawnPosition()) == TileManager.PositionToTilePosition(newChunkInfo.Connections[i].GetSpawnPosition()))
                     {
-                        connection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
-                        newChunkInfo.Connections[i].State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
-                        newChunkInfo.Connections[i].Generated = true;
+                        ChunkConnection.PreGeneratedChunkConnectionTempInfo connection2 = newChunkInfo.Connections[i];
+                        if (connection.GetTargetConnection().GenerationPriority >= connection.GetTargetConnection().GenerationPriority)
+                        {
+                            connection.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
+                            connection2.Generated = true;
+                        }
+                        else
+                        {
+                            connection2.State = ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.OPENED;
+                            connection.Generated = true;
+                        }
+
                         stopFindingChunkconnections = true;
                         break;
                     }

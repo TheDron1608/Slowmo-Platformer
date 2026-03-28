@@ -79,7 +79,7 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
             }
             else if (_currentPatrollDirection == PatrollDirection.UNSET)
             {
-                _currentPatrollDirection = CharComponents.CharacterVisual.FlippedH ? PatrollDirection.LEFT : PatrollDirection.RIGHT;
+                _currentPatrollDirection = NumberMath.RandomCoinflip() ? PatrollDirection.LEFT : PatrollDirection.RIGHT;
             }
 
             switch (_currentPatrollDirection)

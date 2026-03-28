@@ -57,6 +57,6 @@ public abstract class Interactable : SelectableObject, IEffectApplier
     /// </summary>
     protected virtual bool StartInteractCondition(GameObject interactor)
     {
-        return true;
+        return enabled;
     }
 }

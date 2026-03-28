@@ -168,48 +168,25 @@ public class WorldGenerationManager : MonoBehaviour
                     currentMainBrunchChunk = newChunkInfo;
                     newBuildingInfoResult.MainBrunchChunks.Add(newChunkInfo);
 
-                    //setting exit door
-                    if (i >= chunksAmount - 1)
-                    {
-                        if (newChunkInfo.DoorGenPositions.Count > 0)
-                        {
-                            newBuildingInfoResult.Exit = newChunkInfo.DoorGenPositions.OrderBy(
-                                (DoorGenerationPosition.PreGeneratedDoorTempInfo door) => Vector2.Distance(door.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition))
-                                ).First();
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
-
                     break;
                 }
             }
-        }
-
-        //try generate exit if previous attempt failed, if failed again return false
-        if (newBuildingInfoResult.Exit == null)
-        {
-            newBuildingInfoResult.Exit = NumberMath.PickRandomItem(
-                newBuildingInfo.Chunks
-                .Where(e => e.Connections.Count > 0)
-                .OrderBy(e => Vector2.Distance(e.PickDoorAvgPosition().Value, VectorMath.Vec3IntToVec3(prefferedPosition)))
-                .FirstOrDefault()?.DoorGenPositions
-                );
-
-            if (newBuildingInfoResult.Exit == null) return false;
         }
 
         //generate extra exit brunchs
         foreach (var extraExit in extraExits)
         {
             BuildingInfo.BuildingExtraExitBrunchInfo extraExitInfo = new();
+            extraExitInfo.ExitType = extraExit;
             Vector2 extraExitPrefferedPosition = VectorMath.PickRandomDirection() * 100000f;
 
             ChunkInfo currentExtraExitChunk =
                 newBuildingInfoResult.Chunks
-                    .Where(e => e.Connections.Any(e => e.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED) && newBuildingInfoResult.Exit.Chunk != e && newBuildingInfoResult.Enter.Chunk != e)
+                    .Where(e => e.Connections.Any(e =>
+                        e.State == ChunkConnection.PreGeneratedChunkConnectionTempInfo.ChunkConnectionState.CLOSED) && 
+                        e != newBuildingInfoResult.Enter.Chunk &&
+                        e != newBuildingInfoResult.MainBrunchChunks[newBuildingInfoResult.MainBrunchChunks.Count - 1]
+                        )
                     .OrderBy(e => Vector2.Distance(e.PickConnectionsAvgPosition(), extraExitPrefferedPosition))
                     .FirstOrDefault();
             if (currentExtraExitChunk == null) break;
@@ -233,27 +210,12 @@ public class WorldGenerationManager : MonoBehaviour
                         currentExtraExitChunk = newChunkInfo;
                         extraExitInfo.Chunks.Add(newChunkInfo);
 
-                        //setting exit door
-                        if (i >= chunksAmount / 2 - 1)
-                        {
-                            if (newChunkInfo.DoorGenPositions.Count > 0)
-                            {
-                                extraExitInfo.Exit = newChunkInfo.DoorGenPositions.OrderBy(
-                                    (DoorGenerationPosition.PreGeneratedDoorTempInfo door) => Vector2.Distance(door.GetSpawnPosition(), VectorMath.Vec3IntToVec3(prefferedPosition))
-                                    ).First();
-                                extraExitInfo.Exit.Generate(extraExit);
-                            }
-                            else
-                            {
-                                i--;
-                            }
-                        }
-
                         break;
                     }
                 }
-
             }
+
+            newBuildingInfoResult.ExtraExitBrunchs.Add(extraExitInfo);
         }
 
         //generate parallel rooms
@@ -321,6 +283,32 @@ public class WorldGenerationManager : MonoBehaviour
         {
             lateGenEnviroment.Generate();
         }
+
+        //setting extra brunchs' exit door
+        foreach (var extraExitBrunch in newBuildingInfoResult.ExtraExitBrunchs)
+        {
+            for (int i = extraExitBrunch.Chunks.Count - 1; i >= 0; i--)
+            {
+                if (extraExitBrunch.Chunks[i].DoorGenPositions.Count > 0)
+                {
+                    extraExitBrunch.Exit = NumberMath.PickRandomItem(extraExitBrunch.Chunks[i].DoorGenPositions);
+                    extraExitBrunch.Exit.Generate(extraExitBrunch.ExitType);
+
+                    break;
+                }
+            }
+        }
+
+        //setting main brunch's exit door
+        for (int i = newBuildingInfoResult.MainBrunchChunks.Count - 1; i >= 0; i--)
+        {
+            if (newBuildingInfoResult.MainBrunchChunks[i].DoorGenPositions.Count > 0)
+            {
+                newBuildingInfoResult.Exit = NumberMath.PickRandomItem(newBuildingInfoResult.MainBrunchChunks[i].DoorGenPositions);
+                break;
+            }
+        }
+        if (newBuildingInfoResult.Exit == null) return false;
 
         newBuildingInfo = newBuildingInfoResult;
         return true;

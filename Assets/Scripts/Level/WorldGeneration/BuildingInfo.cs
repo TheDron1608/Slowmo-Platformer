@@ -7,6 +7,7 @@ public class BuildingInfo
     {
         public List<ChunkInfo> Chunks = new();
         public DoorGenerationPosition.PreGeneratedDoorTempInfo Exit = null;
+        public DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes ExitType;
     }
 
     public static int GlobalLowestCoorY = int.MaxValue;
