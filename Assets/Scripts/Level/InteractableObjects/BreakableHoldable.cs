@@ -51,45 +51,44 @@ public class BreakableHoldable : BreakableObject
 
     public override void BreakObject(MonoBehaviour breaker)
     {
+        bool replacedBrokenHoldable = false;
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        Vector2 spawnPosition = transform.position;
+        if (TryGetComponent(out Collider2D collider))
         {
-            bool replacedBrokenHoldable = false;
-            ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-            Vector2 spawnPosition = transform.position;
-            if (TryGetComponent(out Collider2D collider))
+            spawnPosition += GameObjectUtility.GetCenterOfCollider(collider);
+        }
+
+        foreach (GameObject objectOnBreak in SpawnObjectsOnBreak)
+        {
+            if (!replacedBrokenHoldable && objectOnBreak.TryGetComponent(out Holdable holdableObjectOnBreak))
             {
-                spawnPosition += GameObjectUtility.GetCenterOfCollider(collider);
+                GetComponent<Holdable>().TransformToAnotherObject(holdableObjectOnBreak);
+                replacedBrokenHoldable = true;
             }
-
-            foreach (GameObject objectOnBreak in SpawnObjectsOnBreak)
+            else
             {
-                if (!replacedBrokenHoldable && objectOnBreak.TryGetComponent(out Holdable holdableObjectOnBreak))
-                {
-                    GetComponent<Holdable>().TransformToAnotherObject(holdableObjectOnBreak);
-                    replacedBrokenHoldable = true;
-                }
-                else
-                {
-                    GameObject newObjectOnBreak = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
-                        objectOnBreak,
-                        VectorMath.Vec3ToVec3Int(transform.position),
-                        null,
-                        null
-                        )?.FirstOrDefault();
+                GameObject newObjectOnBreak = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
+                    objectOnBreak,
+                    VectorMath.Vec3ToVec3Int(transform.position),
+                    null,
+                    null
+                    )?.FirstOrDefault();
 
-                    if (newObjectOnBreak != null)
-                    {
-                        newObjectOnBreak.transform.position = spawnPosition;
-                    }
+                if (newObjectOnBreak != null)
+                {
+                    newObjectOnBreak.transform.position = spawnPosition;
                 }
             }
         }
 
-        SpawnBrokenParticlesAndPlaySound(breaker);
-
-        SoundOnBreak.PlaySound();
-
-        RemoveAllStuckedObjects();
-
-        Destroy(gameObject);
+        if (replacedBrokenHoldable)
+        {
+            BreakObjectVisualOnly(breaker);
+        }
+        else
+        {
+            base.BreakObject(breaker);
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ public class MagReloadingWeapon : RangedWeapon
 
     private ParticleSpawner _magsPraticleSpawner;
     private bool _bulletLoadedInChamber = true;
+
+    public event EventHandler OnReloadedBullet;
 
     public int MagSize
     {
@@ -55,6 +58,7 @@ public class MagReloadingWeapon : RangedWeapon
                 SpendAmmo();
             }
             _bulletLoadedInChamber = value;
+            OnReloadedBullet?.Invoke(this, EventArgs.Empty);
         }
     }
 

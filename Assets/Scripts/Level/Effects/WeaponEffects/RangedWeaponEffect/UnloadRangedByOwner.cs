@@ -9,7 +9,14 @@ public class UnloadRangedByOwner : AbstractRangedWeaponEffect
         base.OnApply();
 
         RangedWeapon.TryUnloadAllBullets();
-        if (!RangedWeapon.TryGetComponent(out Holdable holdableWeapon) || holdableWeapon.CurrentHolder == null) RemoveSelf();
+        if (RangedWeapon.TryGetComponent(out Holdable holdableWeapon))
+        {
+            holdableWeapon.enabled = false;
+            if (holdableWeapon.CurrentHolder == null)
+            {
+                RemoveSelf();
+            }
+        }
     }
 
     private void FixedUpdate()

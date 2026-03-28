@@ -92,6 +92,7 @@ public class CharacterReloading : AbstractCharacterComponent
             rangedWeapon.TryReload()
             )
         {
+            Debug.Log("Reloaded");
             OnReload?.Invoke(this, EventArgs.Empty);
             return true;
         }

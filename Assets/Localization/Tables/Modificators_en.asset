@@ -1126,6 +1126,15 @@ MonoBehaviour:
     m_Localized: Juggernaut
     m_Metadata:
       m_Items: []
+  - m_Id: 37026845560119296
+    m_Localized: Peacemaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37026846214430720
+    m_Localized: "\r* Breaking or unloading a weapon heals {HealAmount} health"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1198,3 +1207,4 @@ MonoBehaviour:
         - id: 34414475566358528
         - id: 34414359396720640
         - id: 34414355374383104
+        - id: 37026846214430720

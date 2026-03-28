@@ -35,6 +35,9 @@ public class RangedWeapon : ThrowableWeapon
     private ParticleSpawner _cloudParticleSpawner;
     private ParticleSpawner _shootLightParticleSpawner;
 
+    public event EventHandler OnLoaded;
+    public event EventHandler OnUnloaded;
+
     //INITIALIZER
     protected override void OnAwake()
     {
@@ -61,13 +64,13 @@ public class RangedWeapon : ThrowableWeapon
     public bool IsReloading
     {
         get => _isReloading;
-        private set => _isReloading = value;
+        protected set => _isReloading = value;
     }
 
     public bool IsUnloading
     {
         get => _isUnloading;
-        private set => _isUnloading = value;
+        protected set => _isUnloading = value;
     }
 
 
@@ -217,7 +220,7 @@ public class RangedWeapon : ThrowableWeapon
     /// </summary>
     public virtual void OnLoadFinish()
     {
-        Unloaded = false;
+        OnLoaded?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -225,7 +228,7 @@ public class RangedWeapon : ThrowableWeapon
     /// </summary>
     public virtual void OnUnloadFinish()
     {
-        Unloaded = true;
         IsUnloading = false;
+        OnUnloaded?.Invoke(this, EventArgs.Empty);
     }
 }

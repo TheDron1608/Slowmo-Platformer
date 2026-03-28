@@ -337,8 +337,8 @@ public class Holdable : Interactable
 
     public void Give(CharacterHoldingObjects newHolder)
     {
-        OnGiven?.Invoke(this, newHolder);
         OnPickedUp(newHolder);
+        OnGiven?.Invoke(this, newHolder);
     }
 
     public void Throw(Vector2 direction, float throwForceMultiplier = 1f)

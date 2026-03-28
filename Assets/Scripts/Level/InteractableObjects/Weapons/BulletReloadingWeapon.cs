@@ -97,8 +97,6 @@ public class BulletReloadingWeapon : RangedWeapon
 
     public override void OnUnloadFinish()
     {
-        base.OnUnloadFinish();
-
         if (_isUnloadingAllBullets)
         {
             SpawnBulletParticles(math.min(AmmoAmountPerUnload, LoadedSpentAmmoLeft + LoadedLivingAmmoLeft));
@@ -114,6 +112,7 @@ public class BulletReloadingWeapon : RangedWeapon
             }
             else
             {
+                IsUnloading = false;
                 TryCloseMag();
             }
         }
@@ -124,5 +123,7 @@ public class BulletReloadingWeapon : RangedWeapon
             LoadedSpentAmmoLeft -= AmmoAmountPerUnload;
             if (LoadedSpentAmmoLeft < 0) LoadedSpentAmmoLeft = 0;
         }
+
+        base.OnUnloadFinish();
     }
 }

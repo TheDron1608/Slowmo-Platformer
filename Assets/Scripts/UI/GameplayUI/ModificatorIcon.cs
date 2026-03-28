@@ -95,9 +95,11 @@ public class ModificatorIcon : Selectable
 
     private void Update()
     {
+        if (_triggerAnimationCoroutine != null) return;
+
         _iconContainer.localPosition = new Vector3(
             _iconContainer.localPosition.x,
-            math.lerp(_iconContainer.localPosition.y, RAISED_OFFSET + (_raising ? RAISED_OFFSET : 0f), Time.deltaTime * RAISE_ANIMATION_MULTIPLIER),
+            math.lerp(_iconContainer.localPosition.y, (_raising ? RAISED_OFFSET : 0f), Time.deltaTime * RAISE_ANIMATION_MULTIPLIER),
             _iconContainer.localPosition.z
             );
     }
