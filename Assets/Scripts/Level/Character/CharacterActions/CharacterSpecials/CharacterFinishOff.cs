@@ -12,14 +12,25 @@ public class CharacterFinishOff : AbstractCharacterSpecial
     public List<AbstractEffect> EffectOnFinish = new();
     public float MaxDistanceForFinish = 1f;
     public CharacterVisual.CharacterPartBusyStates FinishAnimation = CharacterVisual.CharacterPartBusyStates.FINISH_OFF;
+    public CharacterVisual.CharacterPartBusyStates FinishedCharacterAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
     public CharacterPart.PartTypes FinishAffectedLimb = CharacterPart.PartTypes.HEAD;
 
     private bool _isFinishingOff = false;
     private AbstractCharacterComponent _currentFinishingCharacter = null;
 
+    public bool IsFinishingOff
+    {
+        get => _isFinishingOff;
+    }
+
+    public AbstractCharacterComponent CurrentFinishingCharacter
+    {
+        get => _currentFinishingCharacter;
+    }
+
     public bool TryFinishOff(AbstractCharacterComponent character)
     {
-        if (FinishOffCondition(character) && !_isFinishingOff)
+        if (FinishOffCondition(character) && !IsFinishingOff)
         {
             StartCoroutine(FinishOffCoroutine(character));
 
@@ -82,15 +93,20 @@ public class CharacterFinishOff : AbstractCharacterSpecial
         _isFinishingOff = false;
     }
 
-    public void Animator_FinishFinishingOff()
+    public virtual void Animator_FinishFinishingOff()
     {
         if (
-            _currentFinishingCharacter != null && 
+            CurrentFinishingCharacter != null && 
             !_currentFinishingCharacter.IsDestroyed() &&
-            _currentFinishingCharacter.CharComponents.CharacterPartsManager.GetCharacterPart(FinishAffectedLimb) is CharacterLimbPart finishLimb
+            CurrentFinishingCharacter.CharComponents.CharacterPartsManager.GetCharacterPart(FinishAffectedLimb) is CharacterLimbPart finishLimb
             )
         {
             finishLimb.CharPartEffectsReceiver.ApplyEffect(EffectOnFinish, CharComponents.CharacterAttacking);
+            if (FinishedCharacterAnimation != CharacterVisual.CharacterPartBusyStates.NONE)
+            {
+                CurrentFinishingCharacter.CharComponents.CharacterVisual.BreakBusyAnimation();
+                CurrentFinishingCharacter.CharComponents.CharacterVisual.CurrentBusyAnimation = FinishedCharacterAnimation;
+            }
         }
     }
 }

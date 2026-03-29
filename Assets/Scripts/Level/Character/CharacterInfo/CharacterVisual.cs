@@ -24,7 +24,8 @@ public class CharacterVisual : AbstractCharacterComponent
         MOVE = 1,
         JUMP = 2,
         SLIDE_ON_WALL = 3,
-        DEAD = 4
+        DEAD = 4,
+        DEAD_BROKEN_NECK = 5
     }
     public enum CharacterPartBusyStates
     {
@@ -43,7 +44,9 @@ public class CharacterVisual : AbstractCharacterComponent
         AIM = 12,
         CLUMSY_RELOAD = 13,
         CLUMSY_SHIELD = 14,
-        FINISH_OFF = 15
+        FINISH_OFF = 15,
+        BREAK_NECK = 16,
+        BROKE_NECK = 17
     }
 
     public class OnBusyStateChangedEventArgs
@@ -286,9 +289,16 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         if (CharComponents.CharacterMoving == null) return;
 
-        if (CharComponents.CharacterEffectsReceiver.GetHasEffect<Death>())
+        if (CharComponents.CharacterEffectsReceiver.TryGetEffect(out Death deathEffect))
         {
-            MainState = CharacterPartMainStates.DEAD;
+            if (deathEffect is DeathBrokenNeck)
+            {
+                MainState = CharacterPartMainStates.DEAD_BROKEN_NECK;
+            }
+            else
+            {
+                MainState = CharacterPartMainStates.DEAD;
+            }
         }
         else
         {
