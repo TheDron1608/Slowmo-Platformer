@@ -1,5 +1,13 @@
-public class HardStun : AbstractStun
+public class HardStun : AbstractStun, IMultiplierableEffect
 {
+    private float _effectMultiplier = 1f;
+
+    public float EffectMultiplier
+    {
+        get => _effectMultiplier;
+        set => _effectMultiplier = value;
+    }
+
     protected override void OnApply()
     {
         base.OnApply();
@@ -7,6 +15,7 @@ public class HardStun : AbstractStun
         AffectedCharacter.CharacterEffectsReceiver.RemoveEffect<MinorStun>();
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
+        AffectedCharacter.CharacterVisual.StunRecoverAnimationTimeMult /= EffectMultiplier;
         AffectedCharacter.CharacterVisual.CurrentBusyAnimation = CharacterVisual.CharacterPartBusyStates.FALLING_IN_AIR;
         AffectedCharacter.CharacterVisual.OnBusyStateChanged += CharacterVisual_OnBusyStateChanged;
 
@@ -40,5 +49,11 @@ public class HardStun : AbstractStun
             AffectedCharacter.CharacterVisual.OnBusyStateChanged -= CharacterVisual_OnBusyStateChanged;
             RemoveSelf();
         }
+    }
+
+    protected override void OnRemove()
+    {
+        base.OnRemove();
+        AffectedCharacter.CharacterVisual.StunRecoverAnimationTimeMult *= EffectMultiplier;
     }
 }

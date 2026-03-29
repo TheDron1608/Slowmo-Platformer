@@ -24,8 +24,10 @@ public class CharacterComponentsManager : MonoBehaviour
     public CharacterHealth CharacterHealth;
     public CharacterClumsyness CharacterClumsyness;
     public CharacterPartsManager CharacterPartsManager;
+    public Transform NavPointsContainer;
     public CharacterPositionPoint Center;
     public CharacterPositionPoint Bottom;
+    public CharacterPositionPoint FinishOffPosition;
     public GameObject CharacterPartsContainer;
     public Animator Animator;
     public SpriteRenderer SampleSpriteRenderer;

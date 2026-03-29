@@ -146,6 +146,36 @@ public class PlayerInputSpecial : AbstractAISpecial
         {
             characterHook.TryHook(CharComponents.CharacterAiming.GetTargetAimNormalized());
         }
+
+        //FINISH OFF
+        else if (
+            CharComponents.CharacterSpecial.TryGetComponent(out CharacterFinishOff finishoff) &&
+            finishoff.GetHasEnoughForCost()
+            )
+        {
+            AbstractCharacterComponent closesetCharacter = null;
+            float closesetCharacterDistance = float.MaxValue;
+            foreach (Transform characterTransform in CharComponents.CharacterCollision.CurrentZLayer.CharactersContainer)
+            {
+                if (
+                    characterTransform.TryGetComponent(out AbstractCharacterComponent character) &&
+                    finishoff.FinishOffCondition(character)
+                    )
+                {
+                    float distanceToCharacter = Vector2.Distance(character.CharComponents.Center.transform.position, CharComponents.Center.transform.position);
+                    if (distanceToCharacter < closesetCharacterDistance)
+                    {
+                        closesetCharacter = character;
+                        closesetCharacterDistance = Vector2.Distance(character.CharComponents.Center.transform.position, CharComponents.Center.transform.position);
+                    }
+                }
+            }
+
+            if (closesetCharacter != null)
+            {
+                finishoff.TryFinishOff(closesetCharacter);
+            }
+        }
     }
 
     private void HandleStopSpecial()

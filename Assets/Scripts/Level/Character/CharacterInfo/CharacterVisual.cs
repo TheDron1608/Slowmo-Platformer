@@ -8,10 +8,11 @@ using UnityEngine;
 public class CharacterVisual : AbstractCharacterComponent
 {
     const string CHARACTER_PARTS_GAMEOBJECT_NAME = "CharacterParts";
-    const string ANIMATOR_MAIN_STATE_PARAM_NAME = "MainState";
+    const string ANIMATOR_MAIN_STATE_PARAM_NAME  = "MainState";
     const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";
     const string ANIMATOR_JUMP_STATE_PARAM_NAME = "JumpState";
     const string ANIMATOR_BUSY_STATE_PARAM_NAME = "BusyState";
+    const string ANIMATOR_STUN_RECOVER_ANIMATION_TIME_MULTIPLIER_PARAM_NAME = "StunRecoverAnimationTimeMult";
     const string ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME = "BreakBusyAnimation";
 
     const float COOL_FLIP_SPEED_MUTLIPLIER = 5f;
@@ -41,7 +42,8 @@ public class CharacterVisual : AbstractCharacterComponent
         CLUMSY_MELEE_ATTACK = 11,
         AIM = 12,
         CLUMSY_RELOAD = 13,
-        CLUMSY_SHIELD = 14
+        CLUMSY_SHIELD = 14,
+        FINISH_OFF = 15
     }
 
     public class OnBusyStateChangedEventArgs
@@ -92,6 +94,7 @@ public class CharacterVisual : AbstractCharacterComponent
     private int _randomizedExtraSpriteSortingOrder;
     private Coroutine _coolFlipCoroutine = null;
     private bool _currentCoolFlipRotationAxisReversed = false;
+    private float _stunRecoverAnimationTimeMult = 1f;
 
     public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
@@ -119,6 +122,11 @@ public class CharacterVisual : AbstractCharacterComponent
         {
             if (_flippedH != value)
             {
+                CharComponents.NavPointsContainer.transform.localScale = new Vector3(
+                    value ? -1f : 1f,
+                    CharComponents.NavPointsContainer.transform.localScale.y,
+                    CharComponents.NavPointsContainer.transform.localScale.z
+                    );
                 OnSpriteFlippedChanged?.Invoke(this, value);
                 _flippedH = value;
             }
@@ -208,6 +216,18 @@ public class CharacterVisual : AbstractCharacterComponent
         {
             _moveSpeed = value;
             CharComponents.Animator.SetFloat(ANIMATOR_MOVE_SPEED_PARAM_NAME, value);
+        }
+    }
+
+    public float StunRecoverAnimationTimeMult
+    {
+        get => _stunRecoverAnimationTimeMult;
+        set
+        {
+            if (_stunRecoverAnimationTimeMult == value) return;
+
+            _stunRecoverAnimationTimeMult = value;
+            CharComponents.Animator.SetFloat(ANIMATOR_STUN_RECOVER_ANIMATION_TIME_MULTIPLIER_PARAM_NAME, _stunRecoverAnimationTimeMult);
         }
     }
 
@@ -350,6 +370,17 @@ public class CharacterVisual : AbstractCharacterComponent
         {
             OnSampleSpriteChanged?.Invoke(this, currentSprite);
             _spritePrevFrame = currentSprite;
+        }
+    }
+
+    public void Animator_FinishFinishingOff()
+    {
+        if (
+            CharComponents.CharacterSpecial != null && 
+            CharComponents.CharacterSpecial.TryGetComponent(out CharacterFinishOff finishingOff)
+            )
+        {
+            finishingOff.Animator_FinishFinishingOff();
         }
     }
 }
