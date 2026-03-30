@@ -9,6 +9,5 @@ public class AbstractLevelFinishDoor : AnimatedInteractable
         {
             modificator.OnLevelFinished();
         }
-        TeamManager.Instance.OnLevelFinished();
     }
 }

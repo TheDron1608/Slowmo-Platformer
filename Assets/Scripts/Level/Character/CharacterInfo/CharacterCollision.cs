@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -327,6 +328,8 @@ public class CharacterCollision : AbstractCharacterComponent
 
     private void UpdateTileCollidingInfo()
     {
+        if (TimeManager.Instance?.IsDestroyed() ?? true) return;
+
         GameObject prevColliderFromFloor = _colliderFromFloor;
         GameObject prevColliderFromRoof = _colliderFromRoof;
         GameObject prevColliderFromLeftWall = _colliderFromLeftWall;

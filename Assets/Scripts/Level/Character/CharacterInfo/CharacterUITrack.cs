@@ -27,7 +27,10 @@ public class CharacterUITrack : AbstractCharacterComponent
     private bool ExcludeDisableConditions()
     {
         return
-            !(CharComponents == null || CharComponents.IsDestroyed()) && //exclude if destroyed
+            !(//exclude if destroyed
+                (CharComponents?.IsDestroyed() ?? false) || 
+                (CharComponents?.CharacterSpecial.IsDestroyed() ?? false)
+            ) && 
             (CharComponents.CharacterSpecial?.GetComponent<CharacterBleedTeleportation>()?.IsTeleporting ?? false); //exclude if is teleporting
     }
 }

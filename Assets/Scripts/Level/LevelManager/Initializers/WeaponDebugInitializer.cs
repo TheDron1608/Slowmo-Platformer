@@ -25,7 +25,6 @@ public class WeaponDebugInitializer : MonoBehaviour
                 modificator.OnLevelPreGenerated();
             }
         }
-        TeamManager.Instance.OnLevelPreGenerated();
 
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
         {
