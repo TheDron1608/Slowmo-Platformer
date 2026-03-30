@@ -1072,7 +1072,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName: Gameplay
   StartCharacter: {fileID: 2886192054720589260, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
-  StartModificators: []
+  StartModificators:
+  - {fileID: 5417582868638941547, guid: 09bbb2973988c684ea7649c72230542f, type: 3}
   StartScore: 0
   DebugSessionID: 100
 --- !u!4 &2088602313
