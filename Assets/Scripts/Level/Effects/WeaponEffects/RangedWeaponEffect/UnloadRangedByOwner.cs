@@ -11,7 +11,6 @@ public class UnloadRangedByOwner : AbstractRangedWeaponEffect
         RangedWeapon.TryUnloadAllBullets();
         if (RangedWeapon.TryGetComponent(out Holdable holdableWeapon))
         {
-            holdableWeapon.enabled = false;
             if (holdableWeapon.CurrentHolder == null)
             {
                 RemoveSelf();
@@ -29,6 +28,7 @@ public class UnloadRangedByOwner : AbstractRangedWeaponEffect
                     new Vector2(holdableWeapon.CurrentHolder.CharComponents.CharacterVisual.FlippedH ? 1f : -1f, 1f),
                     DROP_VELOCITY
                     );
+                holdableWeapon.enabled = false;
 
                 RemoveSelf();
             }

@@ -40,6 +40,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     public int RepeatAttacksTimes = 1;
     public float DurationBetweenRepeatAttacks = 0.0667f; //in seconds
     public List<AbstractEffect> ExtraProjectileEffects = new();
+    public bool IsAbleToAttack = true;
 
     private bool _isInCooldown = false;
     private Transform _projectileSpawnPosition;
@@ -254,7 +255,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
 
     protected virtual bool AttackCondition()
     {
-        return true;
+        return IsAbleToAttack;
     }
 
     /// <summary>
