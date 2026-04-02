@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Localization.Components;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Localization.Settings;
 
 public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
@@ -10,8 +10,8 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     const string LOCALIZATION_PRICE_KEY = "ModificatorPrice";
 
 
-    public enum ModificatorTiers 
-    { 
+    public enum ModificatorTiers
+    {
         TIER_0 = 0,
         TIER_1 = 1,
         TIER_2 = 2,
@@ -54,6 +54,10 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         }
     }
 
+    public List<AbstractModificator> OverrideModificators = new();
+    public List<AbstractModificator> RestrictModificators = new();
+    public List<AbstractModificator> PrefferModificators = new();
+    public List<AbstractModificator> UnprefferModificators = new();
     public ModificatorTypes ModificatorType;
     public ModificatorTiers ModificatorTier;
     public Sprite IconSprite;

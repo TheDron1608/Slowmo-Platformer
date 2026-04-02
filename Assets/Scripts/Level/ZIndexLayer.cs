@@ -22,6 +22,7 @@ public class ZIndexLayer : MonoBehaviour
     const string ENVIROMENT_SORTING_LAYER_NAME = "Enviroment";
     const string OVERGROUND_SORTING_LAYER_NAME = "Overground";
     const string OTHER_SORTING_LAYER_NAME = "Other";
+    const string FOG_SORTING_LAYER_NAME = "Fog";
 
     public struct LayerAlphaMode
     {
@@ -54,6 +55,7 @@ public class ZIndexLayer : MonoBehaviour
     public int EnviromentSortingLayer { get; private set; }
     public int OvergroundSortingLayer { get; private set; }
     public int OtherSortingLayer { get; private set; }  
+    public int FogSortingLayer { get; private set; }
 
     public Transform CharactersContainer { get => _charactersContainer; }
     public Transform FurnitureContainer { get => _furnitureContainer; }
@@ -141,6 +143,7 @@ public class ZIndexLayer : MonoBehaviour
         EnviromentSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{ENVIROMENT_SORTING_LAYER_NAME}");
         OvergroundSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OVERGROUND_SORTING_LAYER_NAME}");
         OtherSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OTHER_SORTING_LAYER_NAME}");
+        FogSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{FOG_SORTING_LAYER_NAME}");
 
         EntireLayerMask = 
             (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << HitableHoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
@@ -252,7 +255,7 @@ public class ZIndexLayer : MonoBehaviour
                 SetLightRendererLayer(
                     gameObject,
                     ObjectsSortingLayer,
-                    new int[] { BackgroundSortingLayer, ObjectsSortingLayer },
+                    new int[] { BackgroundSortingLayer, ObjectsSortingLayer, FogSortingLayer },
                     new int[] { }
                 );
                 break;
@@ -295,7 +298,7 @@ public class ZIndexLayer : MonoBehaviour
                             gameObject,
                             EnviromentSortingLayer,
                             new int[] { EnviromentSortingLayer, BackgroundSortingLayer, ObjectsSortingLayer },
-                            new int[] { BackgroundSortingLayer, ObjectsSortingLayer }
+                            new int[] { BackgroundSortingLayer, ObjectsSortingLayer, FogSortingLayer }
                         );
                         break;
                 }
@@ -308,12 +311,21 @@ public class ZIndexLayer : MonoBehaviour
                     new int[] { }
                 );
                 break;
+            case LayerManager.FOG_TAG_NAME:
+                SetLightRendererLayer(
+                    gameObject,
+                    FogSortingLayer,
+                    new int[] { },
+                    new int[] { }
+                );
+                break;
         }
 
         switch (gameObject.tag)
         {
             case LayerManager.ZLAYER_TAG_NAME:
             case LayerManager.OTHER_TAG_NAME:
+            case LayerManager.FOG_TAG_NAME:
                 break;
 
             case LayerManager.PROJECTILE_TAG_NAME:

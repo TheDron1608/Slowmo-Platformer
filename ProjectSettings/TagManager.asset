@@ -19,6 +19,7 @@ TagManager:
   - LightParticle
   - WorldGenerationData
   - Other
+  - Fog
   layers:
   - Default
   - TransparentFX
@@ -71,6 +72,9 @@ TagManager:
   - name: Z1Other
     uniqueID: 780770869
     locked: 0
+  - name: Z1Fog
+    uniqueID: 2181935467
+    locked: 0
   - name: Z2Background
     uniqueID: 1867584105
     locked: 0
@@ -86,6 +90,9 @@ TagManager:
   - name: Z2Other
     uniqueID: 2179441651
     locked: 0
+  - name: Z2Fog
+    uniqueID: 3356051591
+    locked: 0
   - name: Z3Background
     uniqueID: 989300293
     locked: 0
@@ -100,6 +107,9 @@ TagManager:
     locked: 0
   - name: Z3Other
     uniqueID: 3890834183
+    locked: 0
+  - name: Z3Fog
+    uniqueID: 2648282755
     locked: 0
   m_RenderingLayers:
   - Default
