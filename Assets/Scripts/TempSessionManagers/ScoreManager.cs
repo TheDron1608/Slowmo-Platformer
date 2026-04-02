@@ -127,7 +127,6 @@ public class ScoreManager : MonoBehaviour
         UpdateComboState();
 
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
-        TeamManager.Instance.GetTeamDataByTeam(TRACKED_TEAM).OnTeamMemberDidKill += ComboEncounter_OnTeamMemberDidKill;
     }
 
     private void UpdateComboState()
@@ -180,10 +179,6 @@ public class ScoreManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
-        if (TeamManager.Instance != null)
-        {
-            TeamManager.Instance.GetTeamDataByTeam(TRACKED_TEAM).OnTeamMemberDidKill -= ComboEncounter_OnTeamMemberDidKill;
-        }
 
         Instance = null;
     }

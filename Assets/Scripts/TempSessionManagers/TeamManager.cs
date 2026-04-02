@@ -39,9 +39,6 @@ public class TeamManager : MonoBehaviour
         {
             _teamMembers.Remove(member);
         }
-
-        public event EventHandler<MemberKillEventArgs> OnTeamMemberKilled;
-        public event EventHandler<MemberKillEventArgs> OnTeamMemberDidKill;
     }
 
     public enum Teams : int

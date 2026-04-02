@@ -18,7 +18,6 @@ public class SessionManager : MonoBehaviour
     public class TempSessionData
     {
         public int CurrentKills = 0;
-        public int CurrentDeaths = 0;
         public int CurrentObtainedCurses = 0;
         public TimeSpan CurrentPlayTime = new TimeSpan(0, 0, 0, 0, 0); //0 seconds
     }
@@ -109,7 +108,6 @@ public class SessionManager : MonoBehaviour
     public void ApplyTempSessionToCurrentSessionAndSave()
     {
         CurrentSession.TotalKills += TempSession.CurrentKills;
-        CurrentSession.TotalDeaths += TempSession.CurrentDeaths;
         CurrentSession.TotalObtainedCurses += TempSession.CurrentObtainedCurses;
         CurrentSession.TotalPlayTime += (int)TempSession.CurrentPlayTime.TotalSeconds;
 

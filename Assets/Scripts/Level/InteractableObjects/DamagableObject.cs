@@ -75,6 +75,11 @@ public class DamagableObject : MonoBehaviour, IDamagable
         set => _defaultLethalEffects = value;  
     }
 
+    public bool Died
+    {
+        get => _died;
+    }
+
     private void Awake()
     {
         OnAwake();

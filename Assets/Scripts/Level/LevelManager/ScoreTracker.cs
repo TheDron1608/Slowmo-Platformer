@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class ScoreTracker : MonoBehaviour
 {
-    private void Start()
+    public static ScoreTracker Instance;
+
+    private void Awake()
     {
-        TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberDidKill += PlayerTeam_OnTeamMemberDidKill;
-        TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberKilled += ScoreTracker_OnTeamMemberKilled;
+        if (Instance != null) throw new UnityException("Limit of 1 ScoreTracker per scene");
+        Instance = this;
     }
 
-    private void PlayerTeam_OnTeamMemberDidKill(object sender, TeamManager.TeamData.MemberKillEventArgs e)
+    public void AddKill()
     {
         SessionManager.Instance.TempSession.CurrentKills++;
-    }
-    private void ScoreTracker_OnTeamMemberKilled(object sender, TeamManager.TeamData.MemberKillEventArgs e)
-    {
-        SessionManager.Instance.TempSession.CurrentDeaths++;
     }
 
     private void OnEnable()
@@ -39,10 +37,6 @@ public class ScoreTracker : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (TeamManager.Instance != null)
-        {
-            TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberDidKill -= PlayerTeam_OnTeamMemberDidKill;
-            TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).OnTeamMemberKilled -= ScoreTracker_OnTeamMemberKilled;
-        }
+        Instance = null;
     }
 }
