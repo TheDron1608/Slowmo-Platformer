@@ -102,7 +102,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
             foreach (ModificatorCard card in cluster.Cards)
             {
                 ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
-                newInfo.Card = card;
+                newInfo.TargetInfo = card;
             }
         }
     }
@@ -117,7 +117,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         if (icon != null)
         {
             ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
-            newInfo.Icon = icon;
+            newInfo.TargetInfo = icon;
         }
     }
 

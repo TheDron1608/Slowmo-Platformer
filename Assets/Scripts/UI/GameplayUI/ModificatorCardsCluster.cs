@@ -37,20 +37,25 @@ public class ModificatorCardsCluster : Button
         }
     }
 
-    public void AddCard(ModificatorCard card)
+    public void AddModificator(AbstractModificator modificator)
     {
-        ModificatorCard newCard = Instantiate(card);
+        ModificatorCard newCard = ModificatorsManager.Instance.CreateModificatorCard(modificator, transform);
         newCard.CurrentCluster = this;
         Cards.Add(newCard);
         Cards.Sort((a, b) => a.ModificatorInstance.ModificatorPrice.CompareTo(b.ModificatorInstance.ModificatorPrice));
         UpdateClustersPosition();
     }
 
-    public void RemoveCard(ModificatorCard card)
+    public void RemoveModificator(AbstractModificator modificator)
     {
-        Cards.Remove(card);
-        Destroy(card.gameObject);
-        UpdateClustersPosition();
+        ModificatorCard card = Cards.Find(e => e.ModificatorInstance.OriginalModificator == modificator);
+
+        if (card != null)
+        {
+            Cards.Remove(card);
+            Destroy(card.gameObject);
+            UpdateClustersPosition();
+        }
     }
 
     private void UpdateClustersPosition()

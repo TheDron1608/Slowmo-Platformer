@@ -1,13 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 
-public abstract class AbstractModificator : MonoBehaviour
+public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
 {
     const string LOCALIZATION_TABLE_NAME = "GameplayUI";
     const string LOCALIZATION_PERMANENT_KEY = "ModificatorStatusPermanent";
     const string LOCALIZATION_TRADABLE_KEY = "ModificatorStatusTradable";
     const string LOCALIZATION_PRICE_KEY = "ModificatorPrice";
 
+
+    public enum ModificatorTiers 
+    { 
+        TIER_0 = 0,
+        TIER_1 = 1,
+        TIER_2 = 2,
+        TIER_3 = 3
+    }
 
     public enum ModificatorTypes
     {
@@ -45,17 +54,43 @@ public abstract class AbstractModificator : MonoBehaviour
         }
     }
 
-    public float ModificatorPrice = 0f;
-
     public ModificatorTypes ModificatorType;
-    public ModificatorIcon IconInstance;
-    public ModificatorCard CardInstance;
-    public bool Multiplierable = false;
-    public float ModificatorMultiplier = 1f;
-    private ModificatorStatuses _status;
+    public ModificatorTiers ModificatorTier;
+    public Sprite IconSprite;
+    public Sprite CardSprite;
 
+    [SerializeField] private bool _multiplierable = false;
+    [SerializeField] private float _modificatorMultiplier = 1f;
+    [SerializeField] private float _modificatorPrice = 0f;
+    [SerializeField] private ModificatorLocalization _localization;
+
+    private ModificatorStatuses _status;
     private ModificatorIcon _currentIcon;
+    private AbstractModificator _originalModificator;
     private bool _disabledModificator = false;
+
+    public bool Multiplierable
+    {
+        get => _multiplierable;
+        set => _multiplierable = value;
+    }
+
+    public float ModificatorMultiplier
+    {
+        get => _modificatorMultiplier;
+        set => _modificatorMultiplier = value;
+    }
+
+    public float ModificatorPrice
+    {
+        get => _modificatorMultiplier;
+        set => _modificatorMultiplier = value;
+    }
+
+    public ModificatorLocalization Localization
+    {
+        get => _localization;
+    }
 
     public bool DisabledModificator
     {
@@ -74,7 +109,7 @@ public abstract class AbstractModificator : MonoBehaviour
                 OnModificatorRemoved();
             }
 
-            if (_currentIcon != null) _currentIcon.DisabledIcon = value;
+            if (_currentIcon != null) _currentIcon.DisabledModificator = value;
         }
     }
 
@@ -82,6 +117,12 @@ public abstract class AbstractModificator : MonoBehaviour
     {
         get => _currentIcon;
         set => _currentIcon = value;
+    }
+
+    public AbstractModificator OriginalModificator
+    {
+        get => _originalModificator;
+        set => _originalModificator = value;
     }
 
     public ModificatorStatuses Status
@@ -158,4 +199,11 @@ public abstract class AbstractModificator : MonoBehaviour
             OnModificatorRemoved();
         }
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        _localization = transform.GetComponentInChildren<ModificatorLocalization>();
+    }
+#endif
 }

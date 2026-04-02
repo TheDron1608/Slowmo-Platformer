@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ModificatorIcon : Selectable
+public class ModificatorIcon : Selectable, IModificatorInfo
 {
     const float TRIGGER_ANIMATION_DURATION = 0.75f;
     const float RAISE_ANIMATION_MULTIPLIER = 7.5f; 
@@ -17,16 +17,14 @@ public class ModificatorIcon : Selectable
 
     public AbstractModificator ModificatorInstance;
     [SerializeField] private RectTransform _iconContainer;
+    [SerializeField] private Image _titleImage;
+    [SerializeField] private Image _bgImage;
+    [SerializeField] private Image _disableIconImage;
 
     private float _multiplier = 1f;
-    private string _localizedTitle;
-    private string _localizedDescription;
     private float _currentTriggerAnimationProgress = 0f;
     private Coroutine _triggerAnimationCoroutine;
-    private Image _iconTitleImage;
-    private Image _disableIconImage;
-    private Image _bgImage;
-    private bool _disabledIcon = false;
+    private bool _disabledModificator = false;
     private AbstractModificator _currentModificator;
     private bool _raising = false;
 
@@ -43,27 +41,15 @@ public class ModificatorIcon : Selectable
         }
     }
 
-    public string LocalizedTitle
+    public bool DisabledModificator
     {
-        get => _localizedTitle;
-        set => _localizedTitle = value;
-    }
-
-    public string LocalizedDescription
-    {
-        get => _localizedDescription;
-        set => _localizedDescription = value;
-    }
-
-    public bool DisabledIcon
-    {
-        get => _disabledIcon;
+        get => _disabledModificator;
         set
         {
-            if (_disabledIcon == value) return;
-            _disabledIcon = value;
+            if (_disabledModificator == value) return;
+            _disabledModificator = value;
 
-            _disableIconImage.enabled = _disabledIcon;
+            _disableIconImage.enabled = _disabledModificator;
         }
     }
 
@@ -84,13 +70,38 @@ public class ModificatorIcon : Selectable
         get => CurrentModificator.Status;
     }
 
-    protected override void Awake()
+    public Image TitleImage
     {
-        base.Awake();
-        _iconTitleImage = GameObjectUtility.FindGameObjectInChildrenByName(transform, ICON_TITLE_GO_NAME)?.GetComponent<Image>();
-        _disableIconImage = GameObjectUtility.FindGameObjectInChildrenByName(transform, DISABLE_ICON_GO_NAME)?.GetComponent<Image>();
-        _bgImage = transform.GetComponentInChildren<Image>();
-        targetGraphic = _bgImage;
+        get => _titleImage;
+    }
+    public Image BgImage
+    {
+        get => _bgImage;
+    }
+
+    public ModificatorLocalization Localization
+    {
+        get => CurrentModificator.Localization;
+    }
+
+    public float ModificatorPrice
+    {
+        get => CurrentModificator.ModificatorPrice;
+    }
+
+    public bool Multiplierable
+    {
+        get => CurrentModificator.Multiplierable;
+    }
+
+    public float ModificatorMultiplier
+    {
+        get => CurrentModificator.ModificatorMultiplier;
+    }
+
+    protected override void Start()
+    {
+        _currentModificator.CurrentIcon = this;
     }
 
     private void Update()
@@ -187,6 +198,14 @@ public class ModificatorIcon : Selectable
         else
         {
             UIManager.Instance.ModificatorsScreenOverlay?.GetModificatorsUI().SetSelectedModificatorInfoEnabled(false);
+        }
+    }
+
+    protected override void OnDestroy()
+    {
+        if (_currentModificator != null)
+        {
+            _currentModificator.CurrentIcon = null;
         }
     }
 }

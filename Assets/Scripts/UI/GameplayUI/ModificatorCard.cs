@@ -1,44 +1,30 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ModificatorCard : MonoBehaviour
+public class ModificatorCard : MonoBehaviour, IModificatorInfo
 {
-    const string MODIFICATOR_TITLE_GO_NAME = "ModificatorTitle";
-
     public AbstractModificator ModificatorInstance;
-    [SerializeField] private Image _cardImage;
+    public Image TitleImage;
+    public Image BgImage;
 
-    private float _multiplier = 1f;
-    private string _localizedTitle;
-    private string _localizedDescription;
+    private float _modificatorMultiplier = 1f;
     private Sprite _defaultSprite;
     private Sprite _overrideSprite;
     private ModificatorCardsCluster _currentCluster = null;
+    private ModificatorLocalization _localization;
+    private bool _disabledModificator = false;
 
-    public float Multiplier
+    public float ModificatorMultiplier
     {
-        get => _multiplier;
+        get => _modificatorMultiplier;
         set
         {
-            _multiplier = value;
+            _modificatorMultiplier = value;
             if (TryGetComponent(out ModificatorLocalizationMultiplierableVariables localizedVars))
             {
                 localizedVars.UpdateLocalizedValues();
             }
         }
-    }
-
-    public string LocalizedTitle
-    {
-        get => _localizedTitle;
-        set => _localizedTitle = value;
-    }
-
-    public string LocalizedDescription
-    {
-        get => _localizedDescription;
-        set => _localizedDescription = value;
     }
 
     public Sprite OverrideSprite
@@ -47,7 +33,7 @@ public class ModificatorCard : MonoBehaviour
         set
         {
             _overrideSprite = value;
-            _cardImage.sprite = _overrideSprite ?? _defaultSprite;
+            TitleImage.sprite = _overrideSprite ?? _defaultSprite;
         }
     }
 
@@ -62,9 +48,30 @@ public class ModificatorCard : MonoBehaviour
         get => CurrentCluster.AddStatusOnPick;
     }
 
-    private void Awake()
+    public ModificatorLocalization Localization
     {
-        _cardImage = GameObjectUtility.FindGameObjectInChildrenByName(transform, MODIFICATOR_TITLE_GO_NAME).GetComponent<Image>();
-        _defaultSprite = _cardImage.sprite;
+        get => _localization;
+        set => _localization = value;
+    }
+
+    public bool DisabledModificator
+    {
+        get => _disabledModificator;
+        set => _disabledModificator = value;
+    }
+
+    public float ModificatorPrice
+    {
+        get => ModificatorInstance.ModificatorPrice;
+    }
+
+    public bool Multiplierable
+    {
+        get => ModificatorInstance.Multiplierable;
+    }
+
+    private void Start()
+    {
+        _defaultSprite = TitleImage.sprite;
     }
 }

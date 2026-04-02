@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class ModificatorVisualInfo : MonoBehaviour
 {
@@ -7,31 +8,19 @@ public class ModificatorVisualInfo : MonoBehaviour
     public TextMeshProUGUI Description;
     public TextMeshProUGUI Status;
 
-    public ModificatorCard Card
+    private IModificatorInfo _targetInfo;
+
+    public IModificatorInfo TargetInfo
     {
-        set
-        {
-            Title.text = value.LocalizedTitle;
-            Description.text = value.LocalizedDescription;
-            Status.text = AbstractModificator.GetLocalizedStatus(value.Status, value.ModificatorInstance.ModificatorPrice * value.Multiplier);
-        }
+        get => _targetInfo;
+        set => _targetInfo = value;
     }
 
-    public ModificatorIcon Icon
+    private void Update()
     {
-        set
-        {
-            Title.text = value.LocalizedTitle;
-            Description.text = value.LocalizedDescription;
-            Status.text = AbstractModificator.GetLocalizedStatus(value.Status, value.ModificatorInstance.ModificatorPrice * value.Multiplier);
-        }
-    }
-
-    public bool StrikedDesc
-    {
-        set
-        {
-            Description.fontStyle = value ? FontStyles.Strikethrough : FontStyles.Normal;
-        }
+        Title.text = TargetInfo.Localization.LocalizedTitle;
+        Description.text = TargetInfo.Localization.LocalizedDescription;
+        Status.text = AbstractModificator.GetLocalizedStatus(TargetInfo.Status, TargetInfo.ModificatorPrice * TargetInfo.ModificatorMultiplier);
+        Description.fontStyle = TargetInfo.DisabledModificator ? FontStyles.Strikethrough : FontStyles.Normal;
     }
 }

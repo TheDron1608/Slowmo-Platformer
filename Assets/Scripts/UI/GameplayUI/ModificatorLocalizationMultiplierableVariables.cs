@@ -23,8 +23,7 @@ public class ModificatorLocalizationMultiplierableVariables : MonoBehaviour
     public void UpdateLocalizedValues()
     {
         float multiplier = 
-            GetComponentInParent<ModificatorCard>()?.Multiplier ??
-            GetComponentInParent<ModificatorIcon>()?.Multiplier ?? 
+            GetComponentInParent<IModificatorInfo>()?.ModificatorMultiplier ??
             throw new UnityException(transform.parent.name + " must contain ModificatorCard or ModificatorIcon component");
 
         foreach (MultiplierableVariable variable in Variables)
@@ -49,7 +48,7 @@ public class ModificatorLocalizationMultiplierableVariables : MonoBehaviour
         _localizeComponent.RefreshString();
     }
 
-    private void Awake()
+    private void Start()
     {
         UpdateLocalizedValues();
     }

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
 public class HideModificatorInfoModificator : AbstractModificator
 {
-    const char REPLACE_CHAR = '?';
-
+    public bool HideTitle = false;
+    public bool HideDescription = true;
     public Sprite HiddenSprite;
     private List<ModificatorCard> _affectedCards = new();
 
@@ -25,8 +24,8 @@ public class HideModificatorInfoModificator : AbstractModificator
             {
                 localization.enabled = false;
             }
-            card.LocalizedTitle = card.LocalizedTitle.FilterReplace(REPLACE_CHAR, false, false, true, true, true, true);
-            card.LocalizedDescription = card.LocalizedDescription.FilterReplace(REPLACE_CHAR, false, false, true, true, true, true);
+            card.Localization.HideTitle = HideTitle;
+            card.Localization.HideDescription = HideDescription;
             card.OverrideSprite = HiddenSprite;
             _affectedCards.Add(card);
         }
@@ -46,11 +45,8 @@ public class HideModificatorInfoModificator : AbstractModificator
 
         foreach (ModificatorCard card in _affectedCards)
         {
-            foreach (LocalizeStringEvent localization in card.GetComponents<LocalizeStringEvent>())
-            {
-                localization.enabled = true;
-                localization.RefreshString();
-            }
+            card.Localization.HideTitle = false;
+            card.Localization.HideDescription = false;
             card.OverrideSprite = null;
         }
     }

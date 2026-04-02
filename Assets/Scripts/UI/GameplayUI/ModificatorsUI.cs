@@ -22,10 +22,7 @@ public class ModificatorsUI : MonoBehaviour
 
     public ModificatorIcon AddModificatorIcon(AbstractModificator modifiactor, bool instantly = false)
     {
-        ModificatorIcon newIcon = Instantiate(modifiactor.IconInstance, _modificatorsContainer);
-        modifiactor.CurrentIcon = newIcon;
-        newIcon.CurrentModificator = modifiactor;
-        newIcon.DisabledIcon = modifiactor.DisabledModificator;
+        ModificatorIcon newIcon = ModificatorsManager.Instance.CreateModificatorIcon(modifiactor, _modificatorsContainer);
 
         if (instantly)
         {
@@ -45,7 +42,7 @@ public class ModificatorsUI : MonoBehaviour
     {
         for (int i = 0; i < _modificatorsIcons.Count; i++)
         {
-            if (modificator.IconInstance.ModificatorInstance == _modificatorsIcons[i].ModificatorInstance)
+            if (_modificatorsIcons[i].CurrentModificator.OriginalModificator == modificator)
             {
                 modificator.CurrentIcon = null;
                 Destroy(_modificatorsIcons[i].gameObject);
@@ -91,7 +88,7 @@ public class ModificatorsUI : MonoBehaviour
             BlessPickManager.Instance.SetClusterDisplayedDescription(null);
         }
 
-        _cardInfo.Icon = icon;
+        _cardInfo.TargetInfo = icon;
 
         SetSelectedModificatorInfoEnabled(true);
     }

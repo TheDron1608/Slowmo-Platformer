@@ -18,7 +18,18 @@ public class ModificatorsManager : MonoBehaviour
     public float ExtraModificatorChance = 0.1f;
     public float ExtraNeutralModificatorChance = 0.1f;
 
+    [Header("Instances")]
     [SerializeField] private ModificatorCardsCluster _clusterInstance;
+    [SerializeField] private ModificatorIcon _emptyIconIstance;
+    [SerializeField] private ModificatorCard _emptyCardIstance;
+
+    [SerializeField] private List<Sprite> _characterIconBg;
+    [SerializeField] private List<Sprite> _permanentIconBg;
+    [SerializeField] private List<Sprite> _tradableIconBg;
+
+    [SerializeField] private List<Material> _positiveCardTierMaterials = new();
+    [SerializeField] private List<Material> _negativeCardTierMaterials = new();
+    [SerializeField] private List<Material> _neutralCardTierMaterials = new();
 
     private List<AbstractModificator> _currentModificators = new();
 
@@ -34,14 +45,75 @@ public class ModificatorsManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public ModificatorIcon CreateModificatorIcon(AbstractModificator modificator, Transform parent)
+    {
+        ModificatorIcon result = Instantiate(_emptyIconIstance, parent);
+        result.name = modificator.name + "Icon";
+        result.CurrentModificator = modificator;
+        result.ModificatorInstance = modificator.OriginalModificator;
+        result.DisabledModificator = modificator.DisabledModificator;
+        result.TitleImage.sprite = modificator.IconSprite;
+        switch (modificator.ModificatorType)
+        {
+            case AbstractModificator.ModificatorTypes.POSITIVE:
+                result.BgImage.material = _positiveCardTierMaterials[(int)modificator.ModificatorTier];
+                break;
+            case AbstractModificator.ModificatorTypes.NEGATIVE:
+                result.BgImage.material = _negativeCardTierMaterials[(int)modificator.ModificatorTier];
+                break;
+            case AbstractModificator.ModificatorTypes.NEUTRAL:
+                result.BgImage.material = _neutralCardTierMaterials[(int)modificator.ModificatorTier];
+                break;
+        }
+        switch (modificator.Status)
+        {
+            case AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT:
+                result.BgImage.sprite = NumberMath.PickRandomItem(_characterIconBg);
+                break;
+            case AbstractModificator.ModificatorStatuses.PERMANENT:
+            case AbstractModificator.ModificatorStatuses.TRADED:
+                result.BgImage.sprite = NumberMath.PickRandomItem(_permanentIconBg);
+                break;
+            case AbstractModificator.ModificatorStatuses.CURSE:
+                result.BgImage.sprite = NumberMath.PickRandomItem(_tradableIconBg);
+                break;
+        }
+
+        return result;
+    }
+
+    public ModificatorCard CreateModificatorCard(AbstractModificator modificator, Transform parent)
+    {
+        ModificatorCard result = Instantiate(_emptyCardIstance, parent);
+        result.name = modificator.name + "Card";
+        result.ModificatorInstance = modificator;
+        result.TitleImage.sprite = modificator.CardSprite;
+        switch (modificator.ModificatorType)
+        {
+            case AbstractModificator.ModificatorTypes.POSITIVE:
+                result.BgImage.material = _positiveCardTierMaterials[(int)modificator.ModificatorTier];
+                break;
+            case AbstractModificator.ModificatorTypes.NEGATIVE:
+                result.BgImage.material = _negativeCardTierMaterials[(int)modificator.ModificatorTier];
+                break;
+            case AbstractModificator.ModificatorTypes.NEUTRAL:
+                result.BgImage.material = _neutralCardTierMaterials[(int)modificator.ModificatorTier];
+                break;
+        }
+        result.Localization = Instantiate(modificator.Localization, result.transform);
+
+        return result;
+    }
+
     public AbstractModificator AddModificator(AbstractModificator modificator, AbstractModificator.ModificatorStatuses modificatorStatus)
     {
         AbstractModificator newModificator = Instantiate(modificator, transform);
+        newModificator.OriginalModificator = modificator;
         newModificator.Status = modificatorStatus;
         _currentModificators.Add(newModificator);
         if (UIManager.Instance?.ModificatorsScreenOverlay?.GetModificatorsUI() != null)
         {
-            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(modificator);
+            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(newModificator);
         }
 
         if (!newModificator.DisabledModificator)
@@ -113,7 +185,7 @@ public class ModificatorsManager : MonoBehaviour
             addedModificators.Add(newModificator);
             totalPrice += newModificator.ModificatorPrice;
 
-            result.AddCard(newModificator.CardInstance);
+            result.AddModificator(newModificator);
         }
 
         if (result.Cards.Count == 0) return null;
@@ -135,7 +207,7 @@ public class ModificatorsManager : MonoBehaviour
 
         if (filteredModificators.Count > 0)
         {
-            result.AddCard(NumberMath.PickRandomItem(filteredModificators).CardInstance);
+            result.AddModificator(NumberMath.PickRandomItem(filteredModificators));
         }
         //if failed pick single modificaotr pick multiple cheap modificators
         else
@@ -154,7 +226,7 @@ public class ModificatorsManager : MonoBehaviour
 
                 if (cheapModificator != null)
                 {
-                    result.AddCard(cheapModificator.CardInstance);
+                    result.AddModificator(cheapModificator);
                     totalPrice += cheapModificator.ModificatorPrice;
                     addedAmount++;
                 }
@@ -184,7 +256,7 @@ public class ModificatorsManager : MonoBehaviour
 
             if (neutralModificator != null)
             {
-                cluster.AddCard(neutralModificator.CardInstance);
+                cluster.AddModificator(neutralModificator);
             }
         }
     }
