@@ -7,6 +7,7 @@ public static class SceneList
     public const string GAMEPLAY = "Gameplay";
     public const string SHOP = "Shop";
     public const string CURSE = "Curse";
+    public const string MODIFICATOR_DEBUG = "ModificatorDebug";
 
     private static readonly string[] GAMEPLAY_SCENES = {
         GAMEPLAY
@@ -14,7 +15,8 @@ public static class SceneList
 
     private static readonly string[] MODIFICATOR_SCENES = { 
         SHOP,
-        CURSE
+        CURSE,
+        MODIFICATOR_DEBUG
     };
 
     public static bool GetCurrentSceneIsGameplay()

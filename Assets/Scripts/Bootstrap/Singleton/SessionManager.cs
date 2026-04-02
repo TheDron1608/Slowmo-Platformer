@@ -87,7 +87,6 @@ public class SessionManager : MonoBehaviour
         Sessions = GetAllSessionFromJSON();
     }
 
-
     private static List<SessionData> GetAllSessionFromJSON()
     {
         List<SessionData> result = new List<SessionData>();

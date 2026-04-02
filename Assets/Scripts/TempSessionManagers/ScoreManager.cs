@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -166,7 +164,7 @@ public class ScoreManager : MonoBehaviour
             return;
         }
 
-            float newComboLastTime = ComboLastTime - Time.deltaTime;
+        float newComboLastTime = ComboLastTime - Time.deltaTime;
         if (newComboLastTime < 0f)
         {
             newComboLastTime = 0f;

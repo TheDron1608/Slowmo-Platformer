@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEngine.VFX;
-using Unity.Mathematics;
+﻿using Unity.Mathematics;
+using UnityEngine;
 
 public class CharacterHook : AbstractCharacterSpecial
 {
@@ -64,7 +62,7 @@ public class CharacterHook : AbstractCharacterSpecial
             {
                 Vector2 hookalign = (_hookProjectile.transform.position - CharComponents.Center.transform.position).normalized;
                 float hookDistance = Vector2.Distance(_hookProjectile.transform.position, CharComponents.Center.transform.position);
-                CharComponents.CharacterRigidBody.linearVelocity +=  hookalign * math.min(hookDistance, MaxHookDistanceAttracktionVelocity) * HookAttracktionVelocity;
+                CharComponents.CharacterRigidBody.linearVelocity += hookalign * math.min(hookDistance, MaxHookDistanceAttracktionVelocity) * HookAttracktionVelocity;
             }
         }
     }
