@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 37496869680816128
+      value: 3073428593278976
       objectReference: {fileID: 0}
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: PlayerStrongFinishOffModificator
+      value: RenerationModifcator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,12 +61,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: 'managedReferences[6612637787658387465]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: managedReferences[6612637787658387465].m_Value
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 37496870809083904
+      value: 3073568217464832
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
+      value: RegenerationSpeed
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
       value: GUID:1ce5cf9b0c5f73d48a27e80327fac816
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
+      value: 6612637787658387465
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -74,7 +94,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5417582868638941547}
+      addedObject: {fileID: 1998567090488563821}
   m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
 --- !u!114 &2147315170708439846 stripped
 MonoBehaviour:
@@ -92,7 +112,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
   m_PrefabInstance: {fileID: 8179689514373086561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5417582868638941547
+--- !u!114 &1998567090488563821
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,13 +121,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 4804066781530051355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e739c3a6d424b146b3fd649a1aae33b, type: 3}
+  m_Script: {fileID: 11500000, guid: f7d54a1e59598d6418598dc3e27b58f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Stackable: 1
+  OverrideModificators: []
+  RestrictModificators:
+  - {fileID: 1998567090488563821, guid: 456163ab2920ef841b3646bcdcd8462d, type: 3}
+  - {fileID: 1998567090488563821, guid: ce80f8dea0ec7ba4cbceef2b014b85fc, type: 3}
+  SynergingModificators: []
+  UnsynergingModificators: []
   ModificatorType: 0
-  ModificatorTier: 1
-  IconSprite: {fileID: 21300000, guid: 1d52f1e5ba28f0f4dbdf9dd4ee818d5e, type: 3}
-  CardSprite: {fileID: 21300000, guid: 759da5acfcab23a48a4c8036fbd1ab93, type: 3}
+  ModificatorTier: 3
+  IconSprite: {fileID: 21300000, guid: 582f8e4f7fc77264b9f8097ff5441147, type: 3}
+  CardSprite: {fileID: 21300000, guid: baa3ade12d1211747bb848c7a2cfa126, type: 3}
   _multiplierable: 0
   _modificatorMultiplier: 1
   _modificatorPrice: 0
@@ -115,4 +142,5 @@ MonoBehaviour:
   Team: 0
   AffectChance: 1
   ChanceType: 0
-  Special: {fileID: 4794612061774172197, guid: 3daea6ea5b6622247975660740b78d8f, type: 3}
+  PlayerCharacterEffectsOnStart:
+  - {fileID: -3175890595162132154, guid: 0e335f52b802f0643992b9f1d0510d8d, type: 3}

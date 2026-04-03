@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 3073428593278976
+      value: 32641406954872832
       objectReference: {fileID: 0}
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: RenerationModifcator
+      value: WorldGenLandedRoomsModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,32 +61,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: 'managedReferences[6612637787658387465]'
-      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: managedReferences[6612637787658387465].m_Value
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 3073568217464832
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: RegenerationSpeed
+      value: 32641407600795648
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
       value: GUID:1ce5cf9b0c5f73d48a27e80327fac816
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
-      value: 6612637787658387465
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -94,7 +74,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1998567090488563821}
+      addedObject: {fileID: 452363227680443197}
   m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
 --- !u!114 &2147315170708439846 stripped
 MonoBehaviour:
@@ -112,7 +92,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
   m_PrefabInstance: {fileID: 8179689514373086561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1998567090488563821
+--- !u!114 &452363227680443197
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,19 +101,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 4804066781530051355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d54a1e59598d6418598dc3e27b58f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d69fb8e477299542ae3910e3bae725f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModificatorType: 0
-  ModificatorTier: 3
-  IconSprite: {fileID: 21300000, guid: 582f8e4f7fc77264b9f8097ff5441147, type: 3}
-  CardSprite: {fileID: 21300000, guid: baa3ade12d1211747bb848c7a2cfa126, type: 3}
+  Stackable: 0
+  OverrideModificators: []
+  RestrictModificators: []
+  SynergingModificators: []
+  UnsynergingModificators: []
+  ModificatorType: 1
+  ModificatorTier: 0
+  IconSprite: {fileID: 21300000, guid: b2291c74e168b3b44bc8fb3b3f49268c, type: 3}
+  CardSprite: {fileID: 21300000, guid: 486266bd8424a0c4795d9f7f10078432, type: 3}
   _multiplierable: 0
   _modificatorMultiplier: 1
   _modificatorPrice: 0
   _localization: {fileID: 2147315170708439846}
-  Team: 0
-  AffectChance: 1
-  ChanceType: 0
-  PlayerCharacterEffectsOnStart:
-  - {fileID: -3175890595162132154, guid: 0e335f52b802f0643992b9f1d0510d8d, type: 3}
+  Chunks:
+  - {fileID: 506989354111729446, guid: a5729f5a741d5a04eaab4a0421e9569c, type: 3}
+  - {fileID: 6291549286163885942, guid: 95837119557a4444db9886819c6197a2, type: 3}
+  - {fileID: 6291549286163885942, guid: 6fd2dd543dad7e44c955221e9817aed3, type: 3}
+  - {fileID: 6291549286163885942, guid: 203c59372c7db0649a8967ae584e3601, type: 3}
+  - {fileID: 506989354111729446, guid: c064c8e29adca184ea9b3945e96a0797, type: 3}
+  - {fileID: 506989354111729446, guid: e457514b89bbf884db708ce850f4efde, type: 3}
+  - {fileID: 506989354111729446, guid: 53fd01278aa10164bac8099a97c91a7c, type: 3}
+  - {fileID: 506989354111729446, guid: ca286a6cd21a73543ae337487c5f79e3, type: 3}
+  - {fileID: 6291549286163885942, guid: adf1d8f26a3d1b84ea081aa9702b6e00, type: 3}
+  - {fileID: 6291549286163885942, guid: 262c5fc0bbba3364880b81db9db4b1b1, type: 3}
+  EnterBuildingChunks:
+  - {fileID: 3180400563243364640, guid: 9f8192cb0e6ca324a8c28c2cc324d52d, type: 3}
+  UnclosedConnectionsChunks: []
+  ParallelRooms: 3
+  UnlosedConnectionChunkGenerationChance: 0

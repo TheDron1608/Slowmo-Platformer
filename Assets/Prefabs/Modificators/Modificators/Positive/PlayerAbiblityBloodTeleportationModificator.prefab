@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: PlayerBloodTeleportationModificator
+      value: PlayerAbiblityBloodTeleportationModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -140,6 +140,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e739c3a6d424b146b3fd649a1aae33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Stackable: 0
+  OverrideModificators:
+  - {fileID: 4794591185165762808, guid: 5cd68b57b6252d94c9e7db77cc2e907b, type: 3}
+  RestrictModificators:
+  - {fileID: 5417582868638941547, guid: 95fa7c17969a47741ac696cda3c21d62, type: 3}
+  - {fileID: 5417582868638941547, guid: 09bbb2973988c684ea7649c72230542f, type: 3}
+  SynergingModificators: []
+  UnsynergingModificators: []
   ModificatorType: 0
   ModificatorTier: 2
   IconSprite: {fileID: 21300000, guid: 7461473e11b0cad4d830734e0babcc5c, type: 3}

@@ -124,6 +124,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a6e27c89fae574bbb0318de8c78504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Stackable: 0
+  OverrideModificators: []
+  RestrictModificators:
+  - {fileID: 7749506300840802882, guid: 64c4d781fc1268e4cade4e6a9347e9c3, type: 3}
+  - {fileID: 7749506300840802882, guid: 90d446a210110524ba4bbc26f6ca15ab, type: 3}
+  - {fileID: 7749506300840802882, guid: 101b7456b50c97b4eae008c326cea611, type: 3}
+  - {fileID: 7749506300840802882, guid: e6470581e7b2f8d46b25349c8a4aaeb1, type: 3}
+  - {fileID: 7749506300840802882, guid: c5cb3c874903f3d4289caab7b2935795, type: 3}
+  SynergingModificators: []
+  UnsynergingModificators: []
   ModificatorType: 2
   ModificatorTier: 3
   IconSprite: {fileID: 21300000, guid: dcc17d9051686a94d9aa974651cdf28d, type: 3}

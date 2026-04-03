@@ -54,10 +54,11 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         }
     }
 
+    public bool Stackable = false;
     public List<AbstractModificator> OverrideModificators = new();
     public List<AbstractModificator> RestrictModificators = new();
-    public List<AbstractModificator> PrefferModificators = new();
-    public List<AbstractModificator> UnprefferModificators = new();
+    public List<AbstractModificator> SynergingModificators = new();
+    public List<AbstractModificator> UnsynergingModificators = new();
     public ModificatorTypes ModificatorType;
     public ModificatorTiers ModificatorTier;
     public Sprite IconSprite;
