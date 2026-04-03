@@ -47,4 +47,9 @@ public class Death : AbstractStun, ILethalEffect
     {
         return base.ApplyCondition(affectWho, sender) && !affectWho.GetHasEffect<Death>();
     }
+
+    protected override void OnReceivedSender(MonoBehaviour sender)
+    {
+        
+    }
 }

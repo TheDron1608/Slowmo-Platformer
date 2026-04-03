@@ -30,4 +30,9 @@ public class Busy : AbstractStun
             base.ApplyCondition(affectWho, sender) && 
             !affectWho.GetComponent<AbstractCharacterComponent>().CharComponents.CharacterEffectsReceiver.GetHasEffect<AbstractStun>();
     }
+
+    protected override void OnReceivedSender(MonoBehaviour sender)
+    {
+        
+    }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -391,9 +392,9 @@ public class CharacterCollision : AbstractCharacterComponent
                     ) ||
                     (
                         CanHitWhileHardStnned &&
-                        CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>() &&
-                        !CharComponents.CharacterEffectsReceiver.GetCharacterIsLastSender(otherCharComponent) &&
-                        GetHasEnoughVelocityToHit()
+                        GetHasEnoughVelocityToHit() &&
+                        CharComponents.CharacterEffectsReceiver.TryGetEffect(out HardStun selfStun) &&
+                        selfStun.TotalStunSenders.All(e => ObjectEffectsReceiver.TryGetCharacterFromSender(e)?.CharComponents != otherCharComponent.CharComponents)
                     ) ||
                     (
                         CanHitWhileRolling &&

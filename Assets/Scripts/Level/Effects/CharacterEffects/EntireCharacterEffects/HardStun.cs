@@ -1,6 +1,12 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class HardStun : AbstractStun, IMultiplierableEffect
 {
     private float _effectMultiplier = 1f;
+    private List<MonoBehaviour> _totalStunSenders = new();
+    private HardStun _oldStun = null;
 
     public float EffectMultiplier
     {
@@ -8,11 +14,16 @@ public class HardStun : AbstractStun, IMultiplierableEffect
         set => _effectMultiplier = value;
     }
 
+    public List<MonoBehaviour> TotalStunSenders
+    {
+        get => _totalStunSenders;
+    }
+
     protected override void OnApply()
     {
-        base.OnApply();
+        _oldStun = transform.parent.GetComponent<AbstractCharacterComponent>().CharComponents.CharacterEffectsReceiver.GetEffect<HardStun>();
 
-        AffectedCharacter.CharacterEffectsReceiver.RemoveEffect<MinorStun>();
+        base.OnApply();
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
         AffectedCharacter.CharacterVisual.StunRecoverAnimationTimeMult /= EffectMultiplier;
@@ -39,6 +50,20 @@ public class HardStun : AbstractStun, IMultiplierableEffect
         if (AffectedCharacter.CharacterHolding.ThrowObjectsOnStun)
         {
             AffectedCharacter.CharacterHolding.ForceStunThrow();
+        }
+    }
+
+    protected override void OnReceivedSender(MonoBehaviour sender)
+    {
+        if (sender != null)
+        {
+            _totalStunSenders.Add(sender);
+        }
+
+        List<MonoBehaviour> oldStunSenders = _oldStun?.TotalStunSenders;
+        if (oldStunSenders != null && oldStunSenders.Count > 0)
+        {
+            _totalStunSenders.AddRange(oldStunSenders);
         }
     }
 

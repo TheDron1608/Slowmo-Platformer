@@ -1,4 +1,5 @@
-﻿public abstract class AbstractStun : AbstractOverwritingCharacterEffect, IEntireCharacterEffect
+﻿[AllowEffectWithSenderReceiveNull]
+public abstract class AbstractStun : AbstractCharacterEffectWithSender, IEntireCharacterEffect
 {
     protected override void OnRemove()
     {
@@ -22,5 +23,11 @@
                 AffectedCharacter.CharacterSpecial.IsAbleToDoSpecial = true;
             }
         }
+    }
+
+    protected override void OnApply()
+    {
+        base.OnApply();
+        AffectedObject.RemoveEffect(this);
     }
 }

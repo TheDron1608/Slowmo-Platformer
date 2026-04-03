@@ -18,27 +18,36 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
     }
 
+    //oh god there are so many isdestroyed checks
     public static AbstractCharacterComponent TryGetCharacterFromSender(MonoBehaviour sender)
     {
         if (sender == null || sender.IsDestroyed() || sender.gameObject.IsDestroyed())
         {
             return null;
         }
-        else if (sender.TryGetComponent(out AbstractCharacterComponent senderCharacter))
+        else if (sender.TryGetComponent(out AbstractCharacterComponent senderCharacter) && !senderCharacter.IsDestroyed())
         {
             return senderCharacter;
         }
-        else if (sender.TryGetComponent(out Holdable senderHoldable))
+        else if (sender.TryGetComponent(out Holdable senderHoldable) && !senderHoldable.IsDestroyed())
         {
             return senderHoldable.CurrentHolder;
         }
-        else if (sender.TryGetComponent(out AbstractProjectile senderProjectile))
+        else if (
+            sender.TryGetComponent(out AbstractProjectile senderProjectile) && !senderProjectile.IsDestroyed() &&
+            senderProjectile.Weapon != null && !senderProjectile.Weapon.IsDestroyed()
+            )
         {
-            if (senderProjectile?.Weapon?.TryGetComponent(out Holdable holdableWeapon) ?? false)
+            if (
+                senderProjectile.Weapon.TryGetComponent(out Holdable holdableWeapon) && 
+                holdableWeapon != null && !holdableWeapon.IsDestroyed())
             {
                 return holdableWeapon?.CurrentHolder;
             }
-            else if (senderProjectile?.Weapon?.TryGetComponent(out UnarmedWeapon unarmedWeapon) ?? false)
+            else if (
+                senderProjectile.Weapon.TryGetComponent(out UnarmedWeapon unarmedWeapon) &&
+                unarmedWeapon != null && !unarmedWeapon.IsDestroyed()
+                )
             {
                 return unarmedWeapon?.CharComponents.CharacterAttacking;
             }
@@ -49,7 +58,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
     public List<AbstractEffect> CounterEffectsOnApplier = new();
     [SerializeField] private List<AbstractEffect> _currentEffects = new();
 
-    private MonoBehaviour _lastSender = null;
     private bool _wasKilledBefore = false;
 
 
@@ -59,11 +67,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
     public List<AbstractEffect> CurrentEffects
     {
         get => _currentEffects;
-    }
-
-    public MonoBehaviour LastSender
-    {
-        get => _lastSender;
     }
 
     public bool WasKilledBefore
@@ -84,25 +87,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
         {
             ApplyEffect(effect, null);
         }
-    }
-
-    private void AddLastEffectSender(MonoBehaviour effectSender)
-    {
-        if (effectSender != null)
-        {
-            _lastSender = effectSender;
-        }
-    }
-
-    public bool GetCharacterIsLastSender(AbstractCharacterComponent character)
-    {
-        return
-            LastSender != null &&
-            (
-                (LastSender.TryGetComponent(out AbstractCharacterComponent characterSender) && characterSender.CharComponents == character.CharComponents) ||
-                (LastSender.TryGetComponent(out AbstractProjectile projectileSender) && projectileSender.Owner != null && projectileSender.Owner.CharComponents == character.CharComponents) ||
-                (LastSender.TryGetComponent(out Holdable holdableSender) && holdableSender.CurrentHolder != null && holdableSender.CurrentHolder.CharComponents == character.CharComponents)
-            );
     }
 
     /// <returns>returns actual applied effect including AlternativeCharacterEffectIfResisted</returns>
@@ -185,7 +169,6 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
             if (sender != null)
             {
-                AddLastEffectSender(sender);
                 if (sender.TryGetComponent(out IEffectApplier effectApplier))
                 {
                     effectApplier.InvokeOnEffectApllied(effect, this);

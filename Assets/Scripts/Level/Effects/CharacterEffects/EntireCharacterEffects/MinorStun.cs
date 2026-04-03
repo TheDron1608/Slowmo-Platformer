@@ -54,4 +54,9 @@ public class MinorStun : AbstractStun
             !affectWho.GetHasEffect<HardStun>() &&
             !affectWho.GetHasEffect<Death>();
     }
+
+    protected override void OnReceivedSender(MonoBehaviour sender)
+    {
+        
+    }
 }
