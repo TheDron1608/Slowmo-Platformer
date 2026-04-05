@@ -139,6 +139,40 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         }
     }
 
+    /// <summary>
+    /// returns true 
+    /// if any of modificators have restrict relation or
+    /// if with modificator has override relation to this object or
+    /// if classes equal and unstackable
+    /// </summary>
+    public bool GetIsRestrictedWith(AbstractModificator with)
+    {
+        return
+            (!Stackable && with == Stackable) ||
+            with.OverrideModificators.Contains(this) ||
+            RestrictModificators.Contains(with) ||
+            with.RestrictModificators.Contains(this);
+    }
+
+    public bool GetIsSynergingWith(AbstractModificator with)
+    {
+        return
+            SynergingModificators.Contains(with) ||
+            with.SynergingModificators.Contains(this);
+    }
+
+    public bool GetIsUnsynergingWith(AbstractModificator with)
+    {
+        return
+            UnsynergingModificators.Contains(with) ||
+            with.UnsynergingModificators.Contains(this);
+    }
+
+    public bool GetIsOverriding(AbstractModificator overrideWho)
+    {
+        return OverrideModificators.Contains(overrideWho);
+    }
+
     public virtual bool GetEqualType(AbstractModificator other)
     {
         return

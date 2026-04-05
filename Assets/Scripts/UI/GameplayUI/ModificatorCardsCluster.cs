@@ -86,10 +86,43 @@ public class ModificatorCardsCluster : Button
         {
             container.SetClusterDisplayedDescription(this);
         }
+        ShowOverrideCurrentModificators();
+    }
+
+    private void ShowOverrideCurrentModificators()
+    {
+        foreach (AbstractModificator currentModificator in ModificatorsManager.Instance.CurrentModificators)
+        {
+            if (currentModificator.CurrentIcon == null) continue;
+
+            if (Cards.Any(e => e.ModificatorInstance.GetIsOverriding(currentModificator.OriginalModificator)))
+            {
+                currentModificator.CurrentIcon.Raising = true;
+                currentModificator.CurrentIcon.DisabledModificator = true;
+            }
+            else
+            {
+                currentModificator.CurrentIcon.Raising = false;
+                currentModificator.CurrentIcon.DisabledModificator = currentModificator.DisabledModificator;
+            }
+        }
+    }
+
+    private void HideOverrideCurrentModificators()
+    {
+        foreach (AbstractModificator currentModificator in ModificatorsManager.Instance.CurrentModificators)
+        {
+            if (currentModificator.CurrentIcon == null) continue;
+
+            currentModificator.CurrentIcon.Raising = false;
+            currentModificator.CurrentIcon.DisabledModificator = currentModificator.DisabledModificator;
+        }
     }
 
     public void Pick()
     {
+        HideOverrideCurrentModificators();
+
         if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
         {
             foreach (ModificatorCard card in Cards)

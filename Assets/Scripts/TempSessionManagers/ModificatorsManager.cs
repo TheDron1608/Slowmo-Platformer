@@ -12,7 +12,7 @@ public class ModificatorsManager : MonoBehaviour
 
     public static ModificatorsManager Instance;
 
-    public List<AbstractModificator> AvaibleModificators = new();
+    public List<AbstractModificator> ModificatorsPool = new();
     public int MaxModificatorOptions = 3;
     public int ModifiactorsPickAmount = 1;
     public float ExtraModificatorChance = 0.1f;
@@ -32,10 +32,63 @@ public class ModificatorsManager : MonoBehaviour
     [SerializeField] private List<Material> _neutralCardTierMaterials = new();
 
     private List<AbstractModificator> _currentModificators = new();
+    private List<AbstractModificator> _avaibleValidModificators = new();
+    private List<AbstractModificator> _avaibleSynergingValidModificators = new();
+    private List<AbstractModificator> _avaibleUnsynergingValidModificators = new();
+    private bool _requestUpdateAvaibleModificators = true;
 
     public List<AbstractModificator> CurrentModificators
     {
         get => _currentModificators;
+    }
+    public List<AbstractModificator> AvaibleValidModificators
+    {
+        get
+        {
+            if (_requestUpdateAvaibleModificators) UpdateAvaibleModificatorsInfo();
+            return _avaibleValidModificators;
+        }
+    }
+    public List<AbstractModificator> AvaibleSynergingValidModificators
+    {
+        get
+        {
+            if (_requestUpdateAvaibleModificators) UpdateAvaibleModificatorsInfo();
+            return _avaibleSynergingValidModificators;
+        }
+    }
+    public List<AbstractModificator> AvaibleUnsynergingValidModificators
+    {
+        get
+        {
+            if (_requestUpdateAvaibleModificators) UpdateAvaibleModificatorsInfo();
+            return _avaibleUnsynergingValidModificators;
+        }
+    }
+
+    private void UpdateAvaibleModificatorsInfo()
+    {
+        List<AbstractModificator> currentModificatorsOriginals = CurrentModificators.Select(e => e.OriginalModificator).ToList();
+
+        _avaibleValidModificators = ModificatorsPool.Where(
+            poolMod => currentModificatorsOriginals.All(
+                curMod => !poolMod.GetIsRestrictedWith(curMod)
+                )
+            ).ToList();
+
+        _avaibleSynergingValidModificators = _avaibleValidModificators.Where(
+            validMod => currentModificatorsOriginals.Any(
+                curMod => curMod.GetIsSynergingWith(validMod)
+                )
+            ).ToList();
+
+        _avaibleUnsynergingValidModificators = _avaibleValidModificators.Where(
+            validMod => currentModificatorsOriginals.Any(
+                curMod => curMod.GetIsUnsynergingWith(validMod)
+                )
+            ).ToList();
+
+        _requestUpdateAvaibleModificators = false;
     }
 
     private void Awake()
@@ -107,6 +160,15 @@ public class ModificatorsManager : MonoBehaviour
 
     public AbstractModificator AddModificator(AbstractModificator modificator, AbstractModificator.ModificatorStatuses modificatorStatus)
     {
+        for (int i = 0; i < CurrentModificators.Count; i++)
+        {
+            if (CurrentModificators[i].OriginalModificator.GetIsRestrictedWith(modificator))
+            {
+                RemoveModificatorAt(i);
+                i--;
+            }
+        }
+
         AbstractModificator newModificator = Instantiate(modificator, transform);
         newModificator.OriginalModificator = modificator;
         newModificator.Status = modificatorStatus;
@@ -121,6 +183,7 @@ public class ModificatorsManager : MonoBehaviour
             newModificator.OnModificatorAdded();
         }
 
+        _requestUpdateAvaibleModificators = true;
         return newModificator;
     }
 
@@ -130,16 +193,19 @@ public class ModificatorsManager : MonoBehaviour
         {
             if (modificator.GetEqualType(_currentModificators[i]))
             {
-                if (UIManager.Instance?.ModificatorsScreenOverlay != null)
-                {
-                    UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().RemoveModificatorIcon(_currentModificators[i]);
-                }
-                Destroy(_currentModificators[i].gameObject);
-                _currentModificators.RemoveAt(i);
-
+                RemoveModificatorAt(i);
                 break;
             }
         }
+    }
+
+    public void RemoveModificatorAt(int at)
+    {
+        UIManager.Instance?.ModificatorsScreenOverlay?.GetModificatorsUI()?.RemoveModificatorIcon(_currentModificators[at]);
+        Destroy(_currentModificators[at].gameObject);
+        _currentModificators.RemoveAt(at);
+
+        _requestUpdateAvaibleModificators = true;
     }
 
     public void RemoveModificators(AbstractModificator.ModificatorStatuses status)
@@ -167,7 +233,7 @@ public class ModificatorsManager : MonoBehaviour
         ModificatorCardsCluster result = Instantiate(_clusterInstance);
 
         List<AbstractModificator> filteredModificators = 
-            AvaibleModificators
+            AvaibleValidModificators
             .Where(e => e.ModificatorType == type && e.ModificatorPrice <= price)
             .ToList();
 
@@ -178,9 +244,10 @@ public class ModificatorsManager : MonoBehaviour
             AbstractModificator newModificator = 
                 filteredModificators
                 .Where(e => e.ModificatorPrice < price - totalPrice)
-                .Where(e => !addedModificators.Contains(e))
+                .Where(e => addedModificators.All(addedMod => !e.GetIsRestrictedWith(addedMod)))
                 .OrderBy(e => math.abs(e.ModificatorPrice - price))
                 .FirstOrDefault();
+            if (newModificator == null) break;
 
             addedModificators.Add(newModificator);
             totalPrice += newModificator.ModificatorPrice;
@@ -201,7 +268,7 @@ public class ModificatorsManager : MonoBehaviour
 
         //try pick single modificator
         List<AbstractModificator> filteredModificators = 
-            AvaibleModificators
+            AvaibleValidModificators
             .Where(e => e.ModificatorType == type && e.ModificatorPrice >= minPrice && e.ModificatorPrice < maxPrice)
             .ToList();
 
@@ -214,11 +281,13 @@ public class ModificatorsManager : MonoBehaviour
         {
             float totalPrice = 0;
             int addedAmount = 0;
+            List<AbstractModificator> addedModificators = new();
             while (totalPrice < minPrice && addedAmount < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
             {
                 AbstractModificator cheapModificator = NumberMath.PickRandomItem(
-                    AvaibleModificators
+                    AvaibleValidModificators
                         .Where(e => e.ModificatorType == type && e.ModificatorPrice < maxPrice - totalPrice)
+                        .Where(e => !addedModificators.Contains(e))
                         .OrderByDescending(e => e.ModificatorPrice)
                         .Take(MULTIPLE_MODIFICATORS_ORDER_LIMIT)
                         .ToList()
@@ -226,6 +295,7 @@ public class ModificatorsManager : MonoBehaviour
 
                 if (cheapModificator != null)
                 {
+                    addedModificators.Add(cheapModificator);
                     result.AddModificator(cheapModificator);
                     totalPrice += cheapModificator.ModificatorPrice;
                     addedAmount++;
@@ -249,7 +319,7 @@ public class ModificatorsManager : MonoBehaviour
         if (RandomManager.Instance.ProcRandomChance(ExtraNeutralModificatorChance, RandomManager.ProcChanceTypes.GOOD))
         {
             AbstractModificator neutralModificator = NumberMath.PickRandomItem(
-                AvaibleModificators
+                AvaibleValidModificators
                     .Where(e => e.ModificatorType == AbstractModificator.ModificatorTypes.NEUTRAL && e.ModificatorPrice < maxPrice)
                     .ToList()
                 );

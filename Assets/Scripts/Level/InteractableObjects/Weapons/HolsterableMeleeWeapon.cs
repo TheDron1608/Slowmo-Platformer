@@ -20,7 +20,6 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         set
         {
             if (_isHolstered == value) return;
-            if (value) Debug.Log(value);
 
             _animator.SetBool(ANIMATOR_IS_HOLSTERED_PROP_NAME, value);
             _isHolstered = value;

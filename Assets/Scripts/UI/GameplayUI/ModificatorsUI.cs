@@ -42,7 +42,10 @@ public class ModificatorsUI : MonoBehaviour
     {
         for (int i = 0; i < _modificatorsIcons.Count; i++)
         {
-            if (_modificatorsIcons[i].CurrentModificator.OriginalModificator == modificator)
+            if (
+                _modificatorsIcons[i].CurrentModificator == modificator ||
+                _modificatorsIcons[i].CurrentModificator.OriginalModificator == modificator
+                )
             {
                 modificator.CurrentIcon = null;
                 Destroy(_modificatorsIcons[i].gameObject);
