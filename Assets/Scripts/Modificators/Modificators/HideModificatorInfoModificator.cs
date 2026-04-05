@@ -16,18 +16,21 @@ public class HideModificatorInfoModificator : AbstractModificator
         CursePickManager.Instance.OnAddedItem += Instance_OnAddedItem;
     }
 
-    private void Instance_OnAddedItem(object sender, ModificatorCardsCluster e)
+    private void Instance_OnAddedItem(object sender, AbstractCardItem e)
     {
-        foreach (ModificatorCard card in e.Cards)
+        if (e is ModificatorCardsCluster cluster)
         {
-            foreach (LocalizeStringEvent localization in card.GetComponents<LocalizeStringEvent>())
+            foreach (ModificatorCard card in cluster.Cards)
             {
-                localization.enabled = false;
+                foreach (LocalizeStringEvent localization in card.GetComponents<LocalizeStringEvent>())
+                {
+                    localization.enabled = false;
+                }
+                card.Localization.HideTitle = HideTitle;
+                card.Localization.HideDescription = HideDescription;
+                card.OverrideSprite = HiddenSprite;
+                _affectedCards.Add(card);
             }
-            card.Localization.HideTitle = HideTitle;
-            card.Localization.HideDescription = HideDescription;
-            card.OverrideSprite = HiddenSprite;
-            _affectedCards.Add(card);
         }
     }
 

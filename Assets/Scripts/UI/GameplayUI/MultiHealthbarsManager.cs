@@ -20,7 +20,7 @@ public class MultiHealthbarsManager : MonoBehaviour
         Healthbar newHealthbar = Instantiate(_spawnHealthbar, _healthbarsSpawnPosition);
         newHealthbar.HealthTrackedCharacter = healthbarOwner;
         _currentHealthbars.Add(newHealthbar);
-        UIElementTrackTarget.CreateTrackTarget(_healthbarsTrackTargetsContainer, newHealthbar.transform);
+        UIElementTrackTarget.CreateTrackTarget(_healthbarsTrackTargetsContainer, newHealthbar);
 
         return newHealthbar;
     }

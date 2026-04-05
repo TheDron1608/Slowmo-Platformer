@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 public class UIElementTrackTarget : MonoBehaviour
 {
+    public interface IUIElementTrackTargetable
+    {
+        public UIElementTrackTarget SelfTrackTarget { get; set; }
+    }
+
     const float TRACK_SPEED_MULTIPLIER = 15f;
 
     public Transform TrackingUIElement;
@@ -12,6 +17,10 @@ public class UIElementTrackTarget : MonoBehaviour
     {
         if (TrackingUIElement == null)
         {
+            if (TrackingUIElement is IUIElementTrackTargetable targetableElement)
+            {
+                targetableElement.SelfTrackTarget = null;
+            }
             Destroy(gameObject);
         }
         else
@@ -20,7 +29,7 @@ public class UIElementTrackTarget : MonoBehaviour
         }
     }
 
-    public static UIElementTrackTarget CreateTrackTarget(Transform parent, Transform trackingUIElement)
+    public static UIElementTrackTarget CreateTrackTarget(Transform parent, MonoBehaviour trackingUIElement)
     {
         GameObject newGO = new("TrackTarget_" + trackingUIElement.gameObject.name);
 
@@ -34,11 +43,17 @@ public class UIElementTrackTarget : MonoBehaviour
             layoutElement.preferredWidth = rectTramsform.rect.width;
         }
 
+
         newGO.transform.SetParent(parent);
         newGO.transform.localPosition = Vector3.zero;
 
         UIElementTrackTarget newGOTrackTarget = newGO.AddComponent<UIElementTrackTarget>();
-        newGOTrackTarget.TrackingUIElement = trackingUIElement;
+        newGOTrackTarget.TrackingUIElement = trackingUIElement.transform;
+
+        if (trackingUIElement is IUIElementTrackTargetable targetableElement)
+        {
+            targetableElement.SelfTrackTarget = newGOTrackTarget;
+        }
 
         return newGOTrackTarget;
     }

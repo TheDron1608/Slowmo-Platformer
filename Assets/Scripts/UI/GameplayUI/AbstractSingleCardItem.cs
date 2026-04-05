@@ -1,0 +1,37 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public abstract class AbstractSingleCardItem : AbstractCardItem, IModificatorInfo
+{
+    [SerializeField] private ModificatorLocalization _localization;
+
+    public ModificatorLocalization Localization
+    {
+        get => _localization;
+    }
+
+    public AbstractModificator.ModificatorStatuses Status => AbstractModificator.ModificatorStatuses.NONE;
+
+    public bool DisabledModificator => false;
+
+    public float ModificatorPrice => 0;
+
+    public bool Multiplierable => false;
+
+    public float ModificatorMultiplier => 1f;
+
+    public override void OnSelect(BaseEventData eventData)
+    {
+        base.OnSelect(eventData);
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
+        {
+            container.SetDisplayedInfo(new List<IModificatorInfo>() { this });
+        }
+    }
+
+    protected override void OnValidate()
+    {
+        _localization = transform.GetComponentInChildren<ModificatorLocalization>();
+    }
+}

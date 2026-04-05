@@ -31,7 +31,8 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         CHARACTER_DEFAULT,
         PERMANENT,
         CURSE,
-        TRADED
+        TRADED,
+        NONE
     }
 
     public static string GetLocalizedStatus(ModificatorStatuses status, float price)

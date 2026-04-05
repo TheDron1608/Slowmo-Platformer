@@ -10,13 +10,13 @@ public class BlessPickManager : AbstractModificatorCardsManager
     const float SELL_ENCOUNT_PER_SECOND = 100f;
     const float SELL_DELAY_BETWEEN_MODIFICATORS = 0.25f;
 
+    [SerializeField] private SellCursesCard _sellCursesCardInstance;
     [SerializeField] private TextMeshProUGUI _soldPriceText;
     [SerializeField] private UIElementTrackTarget _soldPriceTrackTarget;
     [SerializeField] private Transform _showSoldPriceTransform;
     [SerializeField] private Transform _hideSoldPriceTransform;
-    [SerializeField] private Transform _startButtonsContainer;
-    [SerializeField] private Transform _notEnoughPointsButtonsContainer;
-    [SerializeField] private Transform _nothingForSaleButtonsContainer;
+    [SerializeField] private Transform _nothingToSellMessageContainer;
+    [SerializeField] private Transform _cantBuyAnyModificatorsMessageContainer;
 
     private int _picksLeft = 1;
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
@@ -37,8 +37,14 @@ public class BlessPickManager : AbstractModificatorCardsManager
     {
         if (ModificatorsManager.Instance.CurrentModificators.Where(e => e.Status == AbstractModificator.ModificatorStatuses.CURSE).Count() == 0)
         {
-            ShowNothingForSaleUI();
+            _nothingToSellMessageContainer.gameObject.SetActive(true);
         }
+        else
+        {
+            AddCard(Instantiate(_sellCursesCardInstance));
+        }
+
+        AddCard(Instantiate(_pickNothingCardInstance));
     }
 
     public void SellCurses()
@@ -52,7 +58,7 @@ public class BlessPickManager : AbstractModificatorCardsManager
 
     public override void FinishTrade()
     {
-        _startButtonsContainer.gameObject.SetActive(false);
+        base.FinishTrade();
         UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
     }
 
@@ -60,8 +66,9 @@ public class BlessPickManager : AbstractModificatorCardsManager
     {
         if (ModificatorsManager.Instance != null)
         {
+            ClearAllCards();
+            SetDisplayedInfo(null);
             _soldPriceText.text = ScoreManager.Instance.TradableScore.ToString("0");
-            _startButtonsContainer.gameObject.SetActive(false);
             ShowScore();
 
             //count total traded points
@@ -103,7 +110,7 @@ public class BlessPickManager : AbstractModificatorCardsManager
                 if (newCluster == null) break;
 
                 newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.TRADED;
-                AddModificatorCardsCluster(newCluster);
+                AddCard(newCluster);
 
                 currentBlessMaxPrice =
                     newCluster.Cards
@@ -114,13 +121,18 @@ public class BlessPickManager : AbstractModificatorCardsManager
             }
 
             //remove traded modificators if has any option
-            if (ModificatorCardsClusters.Count > 0)
+            if (Cards.Count > 0)
             {
                 ModificatorsManager.Instance.RemoveModificators(AbstractModificator.ModificatorStatuses.CURSE);
+                if (ModificatorsManager.Instance.CanSkipBlessPick)
+                {
+                    AddCard(Instantiate(_pickNothingCardInstance));
+                }
             }
             else
             {
-                ShowTradeFailedUI();
+                AddCard(Instantiate(_pickNothingCardInstance));
+                _cantBuyAnyModificatorsMessageContainer.gameObject.SetActive(true);
             }
 
             HideScore();
@@ -134,9 +146,9 @@ public class BlessPickManager : AbstractModificatorCardsManager
         _picksLeft -= amount;
         if (_picksLeft <= 0)
         {
-            while (ModificatorCardsClusters.Count > 0)
+            while (Cards.Count > 0)
             {
-                RemoveModificatorCardsCluster(ModificatorCardsClusters.First());
+                RemoveCard(Cards.First());
             }
 
             foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
@@ -176,23 +188,11 @@ public class BlessPickManager : AbstractModificatorCardsManager
         CardsInfoContainer.gameObject.SetActive(true);
     }
 
-    public override void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)
+    public override void SetDisplayedInfo(List<IModificatorInfo> infos)
     {
-        base.SetClusterDisplayedDescription(cluster);
-        HideScore();
-    }
+        base.SetDisplayedInfo(infos);
 
-    private void ShowTradeFailedUI()
-    {
-        _notEnoughPointsButtonsContainer.gameObject.SetActive(true);
-        _startButtonsContainer.gameObject.SetActive(false);
-        _nothingForSaleButtonsContainer.gameObject.SetActive(false);
-    }
-    private void ShowNothingForSaleUI()
-    {
-        _nothingForSaleButtonsContainer.gameObject.SetActive(true);
-        _startButtonsContainer.gameObject.SetActive(false);
-        _notEnoughPointsButtonsContainer.gameObject.SetActive(false);
+        HideScore();
     }
 
     private void OnDestroy()

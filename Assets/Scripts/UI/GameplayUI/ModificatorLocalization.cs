@@ -11,8 +11,8 @@ public class ModificatorLocalization : MonoBehaviour
     public bool HideTitle = false;
     public bool HideDescription = false;
 
-    private string _localizedTitle;
-    private string _localizedDescription;
+    private string _localizedTitle = "";
+    private string _localizedDescription = "";
 
     public string LocalizedTitle
     {

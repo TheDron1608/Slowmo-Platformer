@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Mathematics;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 public class CursePickManager : AbstractModificatorCardsManager
 {
-    const float TRADE_FINISH_DELAY_AFTER_SPEND_ALL_PICKS = 0.5f;
+    const float TRADE_DELAY = 0.75f;
     const float SCORE_ENCOUNT_PER_SECOND = 100f;
     const float MAX_MODIFICATOR_APPEAR_DELAY = 1f;
 
@@ -14,8 +15,6 @@ public class CursePickManager : AbstractModificatorCardsManager
     [SerializeField] private UIElementTrackTarget _scoreTrackTarget;
     [SerializeField] private Transform _showScoreTransform;
     [SerializeField] private Transform _hideScoreTransform;
-    [SerializeField] private Transform _startButtonsContainer;
-    [SerializeField] private Transform _notEnoughPointsButtonsContainer;
 
     private int _picksLeft = 1;
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
@@ -35,6 +34,7 @@ public class CursePickManager : AbstractModificatorCardsManager
     private void Start()
     {
         ShowScore();
+        Trade();
     }
 
     public void Trade()
@@ -48,7 +48,7 @@ public class CursePickManager : AbstractModificatorCardsManager
 
     public override void FinishTrade()
     {
-        _startButtonsContainer.gameObject.SetActive(false);
+        base.FinishTrade();
         UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
     }
 
@@ -56,19 +56,27 @@ public class CursePickManager : AbstractModificatorCardsManager
     {
         if (ModificatorsManager.Instance != null && ScoreManager.Instance != null)
         {
+            yield return new WaitForSeconds(TRADE_DELAY);
+
             float modificatorAppearDelay = math.min(
                 ScoreManager.Instance.TradableScore / SCORE_ENCOUNT_PER_SECOND / ModificatorsManager.Instance.MaxModificatorOptions, 
                 MAX_MODIFICATOR_APPEAR_DELAY
                 );
             float encountedScore = 0f;
             float lastAddedCardScore = math.min(1f, ScoreManager.Instance.TradableScore);
-            float delayTime = Time.deltaTime;
+            float delayTime = 0f;
+            int iter = 0;
 
             _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
-            _startButtonsContainer.gameObject.SetActive(false);
             ShowScore();
 
-            while (encountedScore < ScoreManager.Instance.TradableScore)
+            while (
+                (
+                    encountedScore < ScoreManager.Instance.TradableScore || 
+                    Cards.Count < ModificatorsManager.Instance.MaxModificatorOptions
+                ) &&
+                iter < ModificatorsManager.Instance.MaxModificatorOptions
+                )
             {
                 encountedScore += Time.deltaTime * SCORE_ENCOUNT_PER_SECOND;
                 _scoreText.text = math.max(ScoreManager.Instance.TradableScore - encountedScore, 0f).ToString("0");
@@ -86,33 +94,35 @@ public class CursePickManager : AbstractModificatorCardsManager
                     {
                         newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.CURSE;
                         newCluster.SetInteractable(false);
-                        AddModificatorCardsCluster(newCluster);
-                        if (ModificatorCardsClusters.Count > ModificatorsManager.Instance.MaxModificatorOptions)
+                        AddCard(newCluster);
+                        if (Cards.Count > ModificatorsManager.Instance.MaxModificatorOptions)
                         {
-                            RemoveModificatorCardsCluster(ModificatorCardsClusters.First());
+                            RemoveCard(Cards.First());
                         }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("not found any at range: " + lastAddedCardScore + "-" +encountedScore);
                     }
 
                     lastAddedCardScore = encountedScore;
                     delayTime = 0f;
+                    iter++;
                 }
 
                 yield return new WaitForEndOfFrame();
             }
 
-            if (ModificatorCardsClusters.Count == 0)
+            if (Cards.Count == 0)
             {
                 _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
-                ShowTradeFailedUI();
+                AddCard(Instantiate(_pickNothingCardInstance));
             }
             else
             {
+                if (ModificatorsManager.Instance.CanSkipCursePick)
+                {
+                    yield return new WaitForSeconds(modificatorAppearDelay);
+                    AddCard(Instantiate(_pickNothingCardInstance));
+                }
+
                 SetAllCardsInteractable(true);
-                ScoreManager.Instance.TradableScore = 0;
             }
         }
 
@@ -124,9 +134,9 @@ public class CursePickManager : AbstractModificatorCardsManager
         _picksLeft -= amount;
         if (_picksLeft <= 0)
         {
-            while (ModificatorCardsClusters.Count > 0)
+            while (Cards.Count > 0)
             {
-                RemoveModificatorCardsCluster(ModificatorCardsClusters.First());
+                RemoveCard(Cards.First());
             }
 
             foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
@@ -151,7 +161,7 @@ public class CursePickManager : AbstractModificatorCardsManager
 
     private IEnumerator FinishTradeAfterDelay()
     {
-        yield return new WaitForSeconds(TRADE_FINISH_DELAY_AFTER_SPEND_ALL_PICKS);
+        yield return new WaitForSeconds(TRADE_DELAY);
         FinishTrade();
     }
 
@@ -164,16 +174,11 @@ public class CursePickManager : AbstractModificatorCardsManager
         _scoreTrackTarget.transform.position = _hideScoreTransform.position;
     }
 
-    public override void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)
+    public override void SetDisplayedInfo(List<IModificatorInfo> infos)
     {
-        base.SetClusterDisplayedDescription(cluster);
-        HideScore();
-    }
+        base.SetDisplayedInfo(infos);
 
-    private void ShowTradeFailedUI()
-    {
-        _notEnoughPointsButtonsContainer.gameObject.SetActive(true);
-        _startButtonsContainer.gameObject.SetActive(false);
+        HideScore();
     }
 
     private void OnDestroy()

@@ -6,15 +6,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ModificatorCardsCluster : Button
+public class ModificatorCardsCluster : AbstractCardItem
 {
-    const float CLUSTER_HAND_MAX_ROTATION = 30f;
+    const float CLUSTER_HAND_BASE_ROTATION = 30f;
+    const float CLUSTER_HARD_ROTATION_CHANGE_SPEED = 5f;
 
     [SerializeField] private RectTransform _cardsContainer;
 
     public List<ModificatorCard> Cards = new();
 
     private AbstractModificator.ModificatorStatuses _addStatusOnPick;
+    private float _currentClusterRotation = CLUSTER_HAND_BASE_ROTATION;
 
     public AbstractModificator.ModificatorStatuses AddStatusOnPick
     {
@@ -25,15 +27,37 @@ public class ModificatorCardsCluster : Button
     protected override void Start()
     {
         base.Start();
-        UpdateClustersPosition();
 
-        if (EventSystem.current == null) return;
         if (
-            EventSystem.current.currentSelectedGameObject == null ||
-            EventSystem.current.currentSelectedGameObject.IsDestroyed()
+            EventSystem.current != null &&
+            CurrentDeviceTracker.GetGamepadIsConnected() &&
+            (
+                EventSystem.current.currentSelectedGameObject == null ||
+                EventSystem.current.currentSelectedGameObject.IsDestroyed()
+            )
             )
         {
             EventSystem.current.SetSelectedGameObject(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if (EventSystem.current == null) return;
+
+        _currentClusterRotation = math.lerp(
+            _currentClusterRotation,
+            CLUSTER_HAND_BASE_ROTATION * (EventSystem.current.currentSelectedGameObject == gameObject ? Cards.Count - 1f : 1f),
+            Time.deltaTime * CLUSTER_HARD_ROTATION_CHANGE_SPEED
+            );
+
+        for (int i = 0; i < Cards.Count; i++)
+        {
+            Cards[i].transform.SetParent(_cardsContainer.transform);
+            float targetRotation = Cards.Count == 1 ? 0f : ((i / (Cards.Count - 1f)) - 0.5f) * _currentClusterRotation;
+            Cards[i].transform.rotation = Cards[i].transform.parent.rotation;
+            Cards[i].transform.Rotate(new Vector3(0, 0f, 1f), targetRotation);
+            Cards[i].transform.position = _cardsContainer.transform.position + Vector3.left * (targetRotation / 60f) * math.abs(Cards[i].GetComponent<RectTransform>().rect.width);
         }
     }
 
@@ -43,7 +67,6 @@ public class ModificatorCardsCluster : Button
         newCard.CurrentCluster = this;
         Cards.Add(newCard);
         Cards.Sort((a, b) => a.ModificatorInstance.ModificatorPrice.CompareTo(b.ModificatorInstance.ModificatorPrice));
-        UpdateClustersPosition();
     }
 
     public void RemoveModificator(AbstractModificator modificator)
@@ -54,28 +77,6 @@ public class ModificatorCardsCluster : Button
         {
             Cards.Remove(card);
             Destroy(card.gameObject);
-            UpdateClustersPosition();
-        }
-    }
-
-    private void UpdateClustersPosition()
-    {
-        for (int i = 0; i < Cards.Count; i++)
-        {
-            Cards[i].transform.SetParent(_cardsContainer.transform);
-            float targetRotation = Cards.Count == 1 ? 0f : ((i / (Cards.Count - 1f)) - 0.5f) * CLUSTER_HAND_MAX_ROTATION;
-            Cards[i].transform.rotation = Cards[i].transform.parent.rotation;
-            Cards[i].transform.Rotate(new Vector3(0, 0f, 1f), targetRotation);
-            Cards[i].transform.position = _cardsContainer.transform.position + Vector3.left * (targetRotation / 60f) * math.abs(Cards[i].GetComponent<RectTransform>().rect.width);
-        }
-    }
-
-    public override void OnPointerEnter(PointerEventData eventData)
-    {
-        base.OnPointerEnter(eventData);
-        if (interactable)
-        {
-            Select();
         }
     }
 
@@ -119,7 +120,7 @@ public class ModificatorCardsCluster : Button
         }
     }
 
-    public void Pick()
+    public override void Pick()
     {
         HideOverrideCurrentModificators();
 
@@ -145,22 +146,15 @@ public class ModificatorCardsCluster : Button
         }
     }
 
-    public void SetInteractable(bool value)
-    {
-        GetComponent<ButtonOnHoverMoveUp>().enabled = value;
-        GetComponent<ButtonSoundVisualEffects>().enabled = value;
-        enabled = value;
-    }
-
     protected override void OnDestroy()
     {
         if (EventSystem.current == null) return;
         if (
             EventSystem.current.currentSelectedGameObject == gameObject &&
-            CursePickManager.Instance?.ModificatorCardsClusters.Count > 0
+            CursePickManager.Instance?.Cards.Count > 0
             )
         {
-            EventSystem.current.SetSelectedGameObject(CursePickManager.Instance.ModificatorCardsClusters.First().gameObject);
+            EventSystem.current.SetSelectedGameObject(CursePickManager.Instance.Cards.First().gameObject);
         }
     }
 }

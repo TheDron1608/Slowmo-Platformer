@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637791294062596].m_Value
-      value: 1.1
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
@@ -124,6 +124,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a6e27c89fae574bbb0318de8c78504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Stackable: 0
+  OverrideModificators: []
+  RestrictModificators: []
+  SynergingModificators: []
+  UnsynergingModificators: []
   ModificatorType: 0
   ModificatorTier: 0
   IconSprite: {fileID: 21300000, guid: 103cebc77c2ac21439dddd9a364bed9e, type: 3}

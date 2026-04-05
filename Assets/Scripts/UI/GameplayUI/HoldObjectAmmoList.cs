@@ -68,7 +68,7 @@ public class HoldObjectAmmoList : MonoBehaviour
             newGOImage.sprite = _ammoSprite;
             newGOImage.SetNativeSize();
 
-            UIElementTrackTarget.CreateTrackTarget(_trackTargetsContainer, newGO.transform);
+            UIElementTrackTarget.CreateTrackTarget(_trackTargetsContainer, newGOImage);
         }
 
         _overflowGameobject.transform.SetAsLastSibling();

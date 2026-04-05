@@ -17,6 +17,8 @@ public class ModificatorsManager : MonoBehaviour
     public int ModifiactorsPickAmount = 1;
     public float ExtraModificatorChance = 0.1f;
     public float ExtraNeutralModificatorChance = 0.1f;
+    public bool CanSkipBlessPick = true;
+    public bool CanSkipCursePick = true;
 
     [Header("Instances")]
     [SerializeField] private ModificatorCardsCluster _clusterInstance;

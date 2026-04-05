@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public abstract class AbstractModificatorCardsManager : MonoBehaviour
 {
@@ -13,34 +15,44 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     public Transform CardsInfoContainer;
 
     [SerializeField] protected ModificatorCardsCluster _clusterInstance;
+    [SerializeField] protected PickNothingCard _pickNothingCardInstance;
     [SerializeField] protected ModificatorVisualInfo _cardInfoInstance;
 
-    private List<ModificatorCardsCluster> _modificatorCardsClusters = new();
+    private List<AbstractCardItem> _cards = new();
 
-    public event EventHandler<ModificatorCardsCluster> OnAddedItem;
-    public event EventHandler<ModificatorCardsCluster> OnRemovedItem;
+    public event EventHandler<AbstractCardItem> OnAddedItem;
+    public event EventHandler<AbstractCardItem> OnRemovedItem;
 
-    public List<ModificatorCardsCluster> ModificatorCardsClusters
+    public List<AbstractCardItem> Cards
     {
-        get => _modificatorCardsClusters;
-        protected set => _modificatorCardsClusters = value;
+        get => _cards;
+        protected set => _cards = value;
     }
 
-    public void AddModificatorCardsCluster(ModificatorCardsCluster cluster)
+    public void AddCard(AbstractCardItem cluster)
     {
         cluster.transform.SetParent(CardsContainer);
         cluster.transform.position = CardSpawnPosition.transform.position;
 
-        UIElementTrackTarget.CreateTrackTarget(CardTrackTargetsContainer, cluster.transform);
+        UIElementTrackTarget.CreateTrackTarget(CardTrackTargetsContainer, cluster);
 
-        _modificatorCardsClusters.Add(cluster);
+        _cards.Add(cluster);
 
         OnAddedItem?.Invoke(this, cluster);
     }
 
-    public void RemoveModificatorCardsCluster(ModificatorCardsCluster card)
+
+    public void ClearAllCards()
     {
-        int removedCardIndex = _modificatorCardsClusters.IndexOf(card);
+        while (Cards.Count > 0)
+        {
+            RemoveCard(Cards.First());
+        }
+    }
+
+    public void RemoveCard(AbstractCardItem card)
+    {
+        int removedCardIndex = _cards.IndexOf(card);
 
         if (removedCardIndex != -1)
         {
@@ -49,27 +61,27 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
             {
                 if (
                     trackTargetTransform.TryGetComponent(out UIElementTrackTarget trackTarget) &&
-                    trackTarget.TrackingUIElement == _modificatorCardsClusters[removedCardIndex].transform
+                    trackTarget.TrackingUIElement == _cards[removedCardIndex].transform
                     )
                 {
-                    _modificatorCardsClusters[removedCardIndex].SetInteractable(false);
+                    _cards[removedCardIndex].SetInteractable(false);
 
                     foundTrackTarget = true;
                     trackTarget.transform.SetParent(CardSpawnPosition);
                     trackTarget.transform.localPosition = Vector3.zero;
 
-                    StartCoroutine(AwaitReachTrackTargetThenDestroy(trackTarget, _modificatorCardsClusters[removedCardIndex].transform));
+                    StartCoroutine(AwaitReachTrackTargetThenDestroy(trackTarget, _cards[removedCardIndex].transform));
                 }
             }
 
-            OnRemovedItem?.Invoke(this, _modificatorCardsClusters[removedCardIndex]);
+            OnRemovedItem?.Invoke(this, _cards[removedCardIndex]);
 
-            if (!foundTrackTarget && _modificatorCardsClusters.Count > removedCardIndex)
+            if (!foundTrackTarget && _cards.Count > removedCardIndex)
             {
-                Destroy(_modificatorCardsClusters[removedCardIndex].gameObject);
+                Destroy(_cards[removedCardIndex].gameObject);
             }
 
-            _modificatorCardsClusters.RemoveAt(removedCardIndex);
+            _cards.RemoveAt(removedCardIndex);
 
         }
     }
@@ -90,19 +102,24 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         }
     }
 
-    public virtual void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)
+    public void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)
+    {
+        SetDisplayedInfo(cluster?.Cards.ConvertAll(e => e as IModificatorInfo));
+    }
+
+    public virtual void SetDisplayedInfo(List<IModificatorInfo> infos)
     {
         foreach (Transform child in CardsInfoContainer)
         {
             Destroy(child.gameObject);
         }
-
-        if (cluster != null)
+        
+        if (infos != null)
         {
-            foreach (ModificatorCard card in cluster.Cards)
+            foreach (IModificatorInfo info in infos)
             {
                 ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
-                newInfo.TargetInfo = card;
+                newInfo.TargetInfo = info;
             }
         }
     }
@@ -123,12 +140,15 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
 
     public void SetAllCardsInteractable(bool value)
     {
-        foreach (ModificatorCardsCluster cluster in _modificatorCardsClusters)
+        foreach (AbstractCardItem cluster in _cards)
         {
             cluster.SetInteractable(value);
         }
     }
 
     public abstract void SpendPicksLeft(int amount = 1);
-    public abstract void FinishTrade();
+    public virtual void FinishTrade()
+    {
+        ClearAllCards();
+    }
 }

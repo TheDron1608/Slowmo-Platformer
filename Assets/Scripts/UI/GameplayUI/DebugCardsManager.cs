@@ -25,7 +25,7 @@ public class DebugCardsManager : AbstractModificatorCardsManager
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
             newCluster.AddStatusOnPick = CardsStatus;
             newCluster.AddModificator(modificator);
-            AddModificatorCardsCluster(newCluster);
+            AddCard(newCluster);
         }
     }
 }
