@@ -71,7 +71,10 @@ public class ModificatorCardsCluster : AbstractCardItem
 
     public void RemoveModificator(AbstractModificator modificator)
     {
-        ModificatorCard card = Cards.Find(e => e.ModificatorInstance.OriginalModificator == modificator);
+        ModificatorCard card = Cards.Find(e => 
+        e.ModificatorInstance == modificator ||
+        e.ModificatorInstance.OriginalModificator == modificator
+        );
 
         if (card != null)
         {
@@ -96,7 +99,7 @@ public class ModificatorCardsCluster : AbstractCardItem
         {
             if (currentModificator.CurrentIcon == null) continue;
 
-            if (Cards.Any(e => e.ModificatorInstance.GetIsOverriding(currentModificator.OriginalModificator)))
+            if (Cards.Any(e => e.ModificatorInstance.GetIsOverriding(currentModificator)))
             {
                 currentModificator.CurrentIcon.Raising = true;
                 currentModificator.CurrentIcon.DisabledModificator = true;

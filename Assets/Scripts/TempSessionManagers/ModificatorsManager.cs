@@ -70,22 +70,20 @@ public class ModificatorsManager : MonoBehaviour
 
     private void UpdateAvaibleModificatorsInfo()
     {
-        List<AbstractModificator> currentModificatorsOriginals = CurrentModificators.Select(e => e.OriginalModificator).ToList();
-
         _avaibleValidModificators = ModificatorsPool.Where(
-            poolMod => currentModificatorsOriginals.All(
+            poolMod => CurrentModificators.All(
                 curMod => !poolMod.GetIsRestrictedWith(curMod)
                 )
             ).ToList();
 
         _avaibleSynergingValidModificators = _avaibleValidModificators.Where(
-            validMod => currentModificatorsOriginals.Any(
+            validMod => CurrentModificators.Any(
                 curMod => curMod.GetIsSynergingWith(validMod)
                 )
             ).ToList();
 
         _avaibleUnsynergingValidModificators = _avaibleValidModificators.Where(
-            validMod => currentModificatorsOriginals.Any(
+            validMod => CurrentModificators.Any(
                 curMod => curMod.GetIsUnsynergingWith(validMod)
                 )
             ).ToList();
@@ -164,7 +162,7 @@ public class ModificatorsManager : MonoBehaviour
     {
         for (int i = 0; i < CurrentModificators.Count; i++)
         {
-            if (CurrentModificators[i].OriginalModificator.GetIsRestrictedWith(modificator))
+            if (CurrentModificators[i].GetIsRestrictedWith(modificator))
             {
                 RemoveModificatorAt(i);
                 i--;
@@ -246,7 +244,7 @@ public class ModificatorsManager : MonoBehaviour
             AbstractModificator newModificator = 
                 filteredModificators
                 .Where(e => e.ModificatorPrice < price - totalPrice)
-                .Where(e => addedModificators.All(addedMod => !e.GetIsRestrictedWith(addedMod)))
+                .Where(e => addedModificators.All(clusterItem => ModificatorIsValidWithClusterItems(e, clusterItem)))
                 .OrderBy(e => math.abs(e.ModificatorPrice - price))
                 .FirstOrDefault();
             if (newModificator == null) break;
@@ -289,7 +287,7 @@ public class ModificatorsManager : MonoBehaviour
                 AbstractModificator cheapModificator = NumberMath.PickRandomItem(
                     AvaibleValidModificators
                         .Where(e => e.ModificatorType == type && e.ModificatorPrice < maxPrice - totalPrice)
-                        .Where(e => !addedModificators.Contains(e))
+                        .Where(e => addedModificators.All(clusterItem => ModificatorIsValidWithClusterItems(e, clusterItem)))
                         .OrderByDescending(e => e.ModificatorPrice)
                         .Take(MULTIPLE_MODIFICATORS_ORDER_LIMIT)
                         .ToList()
@@ -314,6 +312,14 @@ public class ModificatorsManager : MonoBehaviour
         TryAddNeutralModificatorToCluster(result, maxPrice);
 
         return result;  
+    }
+
+    private bool ModificatorIsValidWithClusterItems(AbstractModificator added, AbstractModificator clusterItem)
+    {
+        return
+            !added.OriginalOrSelf != clusterItem.OriginalOrSelf &&
+            !added.GetIsRestrictedWith(clusterItem) &&
+            !added.GetIsOverriding(clusterItem);
     }
 
     private void TryAddNeutralModificatorToCluster(ModificatorCardsCluster cluster, float maxPrice)

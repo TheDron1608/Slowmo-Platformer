@@ -72,7 +72,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
 
     private ModificatorStatuses _status;
     private ModificatorIcon _currentIcon;
-    private AbstractModificator _originalModificator;
+    private AbstractModificator _originalModificator = null;
     private bool _disabledModificator = false;
 
     public bool Multiplierable
@@ -140,6 +140,11 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         }
     }
 
+    public AbstractModificator OriginalOrSelf
+    {
+        get => OriginalModificator ?? this;
+    }
+
     /// <summary>
     /// returns true 
     /// if any of modificators have restrict relation or
@@ -149,29 +154,29 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     public bool GetIsRestrictedWith(AbstractModificator with)
     {
         return
-            (!Stackable && with == Stackable) ||
-            with.OverrideModificators.Contains(this) ||
-            RestrictModificators.Contains(with) ||
-            with.RestrictModificators.Contains(this);
+            (!OriginalOrSelf.Stackable && with.OriginalOrSelf == OriginalOrSelf) ||
+            with.OriginalOrSelf.OverrideModificators.Contains(OriginalOrSelf) ||
+            OriginalOrSelf.RestrictModificators.Contains(OriginalOrSelf) ||
+            with.OriginalOrSelf.RestrictModificators.Contains(OriginalOrSelf);
     }
 
     public bool GetIsSynergingWith(AbstractModificator with)
     {
         return
-            SynergingModificators.Contains(with) ||
-            with.SynergingModificators.Contains(this);
+            OriginalOrSelf.SynergingModificators.Contains(with.OriginalOrSelf) ||
+            with.OriginalOrSelf.SynergingModificators.Contains(OriginalOrSelf);
     }
 
     public bool GetIsUnsynergingWith(AbstractModificator with)
     {
         return
-            UnsynergingModificators.Contains(with) ||
-            with.UnsynergingModificators.Contains(this);
+            OriginalOrSelf.UnsynergingModificators.Contains(with.OriginalOrSelf) ||
+            with.OriginalOrSelf.UnsynergingModificators.Contains(OriginalOrSelf);
     }
 
     public bool GetIsOverriding(AbstractModificator overrideWho)
     {
-        return OverrideModificators.Contains(overrideWho);
+        return OriginalOrSelf.OverrideModificators.Contains(overrideWho.OriginalOrSelf);
     }
 
     public virtual bool GetEqualType(AbstractModificator other)

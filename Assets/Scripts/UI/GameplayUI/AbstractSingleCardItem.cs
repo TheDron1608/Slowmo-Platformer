@@ -28,6 +28,14 @@ public abstract class AbstractSingleCardItem : AbstractCardItem, IModificatorInf
         {
             container.SetDisplayedInfo(new List<IModificatorInfo>() { this });
         }
+        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+        {
+            if (modificator.CurrentIcon != null)
+            {
+                modificator.CurrentIcon.Raising = false;
+                modificator.CurrentIcon.DisabledModificator = modificator.DisabledModificator;
+            }
+        }
     }
 
     protected override void OnValidate()
