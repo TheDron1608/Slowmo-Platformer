@@ -61,6 +61,14 @@ public class ModificatorCardsCluster : AbstractCardItem
         }
     }
 
+    public void AddModificator(List<AbstractModificator> modificators)
+    {
+        foreach (AbstractModificator modificator in modificators)
+        {
+            AddModificator(modificator);
+        }
+    }
+
     public void AddModificator(AbstractModificator modificator)
     {
         ModificatorCard newCard = ModificatorsManager.Instance.CreateModificatorCard(modificator, transform);

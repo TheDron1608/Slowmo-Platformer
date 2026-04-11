@@ -16,7 +16,6 @@ public class GameplayUIManager : MonoBehaviour
     public PauseMenu Pause;
     public ComboEncounter Combo;
     public InputActionReference PauseAction;
-    public string MainMenuSceneName = "MainMenu";
 
     private List<CharacterComponentsManager> _trackedCharacters = new();
     private RectTransform _holdObjectInfoRectTransform;
@@ -73,7 +72,10 @@ public class GameplayUIManager : MonoBehaviour
 
     private void PauseActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
-        if (GameOverUIManager.GetInstance() == null)
+        if (
+            !UIManager.Instance.GameOverScreenOverlay.IsShown() &&
+            !UIManager.Instance.DifficultyCurseChoiseScreenOverlay.IsShown()
+            )
         {
             Pause.Paused = !Pause.Paused;
         }

@@ -27,13 +27,29 @@ public class TimeManager : MonoBehaviour
 
     private void Update()
     {
+        UpdateSlowmoOverlay();
+    }
+
+    private void UpdateSlowmoOverlay()
+    {
         if (SceneList.GetCurrentSceneIsGameplay())
         {
+            if (!Paused)
+            {
+                _tempSlowTimeLeft -= Time.unscaledDeltaTime * TempSlowTimeDecaySpeed;
+                if (_tempSlowTimeLeft < 0f) _tempSlowTimeLeft = 0f;
+
+                float totalScale = GetTotalTimeScale();
+
+                Time.timeScale = totalScale;
+                Time.fixedDeltaTime = _baseFixedDeltaTime * totalScale;
+            }
+
             UIManager.Instance.SlowmoOverlay.Show();
 
             TrySetSlowmoOverlayFill(math.lerp(
                 UIManager.Instance.SlowmoOverlay.FillAmount,
-                Paused ? 0f : NumberMath.LimitFloatBetweenZeroAndOne(_tempSlowTimeLeft),
+                NumberMath.LimitFloatBetweenZeroAndOne(_tempSlowTimeLeft),
                 Time.unscaledDeltaTime * SLOWMO_OVERLAY_APPEAR_SPEED
                 ));
         }
@@ -41,17 +57,6 @@ public class TimeManager : MonoBehaviour
         {
             UIManager.Instance.SlowmoOverlay.Hide();
         }
-    }
-
-    private void FixedUpdate()
-    {
-        _tempSlowTimeLeft -= Time.fixedUnscaledDeltaTime * TempSlowTimeDecaySpeed;
-        if (_tempSlowTimeLeft < 0f) _tempSlowTimeLeft = 0f;
-
-        float totalScale = GetTotalTimeScale();
-
-        Time.timeScale = totalScale;
-        Time.fixedDeltaTime = _baseFixedDeltaTime * totalScale;
     }
 
     public void TryTemporalSlowTime(float value)

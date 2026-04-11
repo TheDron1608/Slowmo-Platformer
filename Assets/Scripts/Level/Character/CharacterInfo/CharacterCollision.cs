@@ -233,15 +233,15 @@ public class CharacterCollision : AbstractCharacterComponent
         return UpdateTileCollidingAtMultiPoint(
             new Vector2(
                 bounds.center.x,
-                bounds.min.y - COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale()
+                bounds.min.y - COLLISION_DETECTION_THICKNESS * GetDetectionTimeScale()
                 ),
             new Vector2(
                 bounds.min.x,
-                bounds.min.y - COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale()
+                bounds.min.y - COLLISION_DETECTION_THICKNESS * GetDetectionTimeScale()
                 ),
             new Vector2(
                 bounds.max.x,
-                bounds.min.y - COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale()
+                bounds.min.y - COLLISION_DETECTION_THICKNESS * GetDetectionTimeScale()
                 ),
             out collidedTile
             );
@@ -252,7 +252,7 @@ public class CharacterCollision : AbstractCharacterComponent
         return UpdateTileCollidingAtPoint(
             new Vector2(
                 bounds.center.x,
-                bounds.max.y + COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale()
+                bounds.max.y + COLLISION_DETECTION_THICKNESS * GetDetectionTimeScale()
                 ),
             out collidedTile
             );
@@ -262,7 +262,7 @@ public class CharacterCollision : AbstractCharacterComponent
         Bounds bounds = CharComponents.CharacterRigidBodyCapsuleCollider.bounds;
         return UpdateTileCollidingAtPoint(
             new Vector2(
-                bounds.min.x - COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale(),
+                bounds.min.x - COLLISION_DETECTION_THICKNESS * GetDetectionTimeScale(),
                 bounds.center.y
                 ),
             out collidedTile
@@ -273,11 +273,16 @@ public class CharacterCollision : AbstractCharacterComponent
         Bounds bounds = CharComponents.CharacterRigidBodyCapsuleCollider.bounds;
         return UpdateTileCollidingAtPoint(
             new Vector2(
-                bounds.max.x + COLLISION_DETECTION_THICKNESS * TimeManager.Instance.GetTotalTimeScale(),
+                bounds.max.x + COLLISION_DETECTION_THICKNESS * GetDetectionTimeScale(),
                 bounds.center.y
                 ),
             out collidedTile
             );
+    }
+
+    private float GetDetectionTimeScale()
+    {
+        return math.max(1f, TimeManager.Instance.GetTotalTimeScale());
     }
 
     private void FixedUpdate()

@@ -106,7 +106,8 @@ public class BlessPickManager : AbstractModificatorCardsManager
             float currentBlessMaxPrice = totalAddPrice;
             for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
             {
-                ModificatorCardsCluster newCluster = ModificatorsManager.Instance.PickRandomModificators(AbstractModificator.ModificatorTypes.POSITIVE, currentBlessMaxPrice - 1);
+                ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
+                newCluster.AddModificator(ModificatorsManager.Instance.PickRandomModificators(AbstractModificator.ModificatorTypes.POSITIVE, currentBlessMaxPrice - 1));
                 if (newCluster == null) break;
 
                 newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.TRADED;

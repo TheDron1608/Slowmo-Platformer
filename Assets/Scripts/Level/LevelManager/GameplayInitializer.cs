@@ -14,6 +14,7 @@ public class GameplayInitializer : MonoBehaviour
 
         UIManager.Instance.GameplayScreenOverlay.Show();
         UIManager.Instance.ModificatorsScreenOverlay.Show();
+        UIManager.Instance.DifficultyScreenOverlay.Show();
 
         WorldGenerationManager.Instance?.GenerateLevel();
 

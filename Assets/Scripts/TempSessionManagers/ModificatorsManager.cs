@@ -15,6 +15,7 @@ public class ModificatorsManager : MonoBehaviour
     public List<AbstractModificator> ModificatorsPool = new();
     public int MaxModificatorOptions = 3;
     public int ModifiactorsPickAmount = 1;
+    public int DifficultyUpNegativeModificatorsPickAmount = 1;
     public float ExtraModificatorChance = 0.1f;
     public float ExtraNeutralModificatorChance = 0.1f;
     public bool CanSkipBlessPick = true;
@@ -228,9 +229,9 @@ public class ModificatorsManager : MonoBehaviour
         }
     }
 
-    public ModificatorCardsCluster PickRandomModificators(AbstractModificator.ModificatorTypes type, float price)
+    public List<AbstractModificator> PickRandomModificators(AbstractModificator.ModificatorTypes type, float price, bool includeNeutral = true)
     {
-        ModificatorCardsCluster result = Instantiate(_clusterInstance);
+        List<AbstractModificator> result = new();
 
         List<AbstractModificator> filteredModificators = 
             AvaibleValidModificators
@@ -252,19 +253,20 @@ public class ModificatorsManager : MonoBehaviour
             addedModificators.Add(newModificator);
             totalPrice += newModificator.ModificatorPrice;
 
-            result.AddModificator(newModificator);
+            result.Add(newModificator);
         }
 
-        if (result.Cards.Count == 0) return null;
-
-        TryAddNeutralModificatorToCluster(result, price);
+        if (addedModificators.Count > 0 && includeNeutral)
+        {
+            TryAddNeutralModificator(result, price);
+        }
 
         return result;
     }
 
-    public ModificatorCardsCluster PickRandomModificators(AbstractModificator.ModificatorTypes type, float minPrice, float maxPrice)
+    public List<AbstractModificator> PickRandomModificators(AbstractModificator.ModificatorTypes type, float minPrice, float maxPrice, bool includeNeutral = true)
     {
-        ModificatorCardsCluster result = Instantiate(_clusterInstance);
+        List<AbstractModificator> result = new();
 
         //try pick single modificator
         List<AbstractModificator> filteredModificators = 
@@ -274,20 +276,19 @@ public class ModificatorsManager : MonoBehaviour
 
         if (filteredModificators.Count > 0)
         {
-            result.AddModificator(NumberMath.PickRandomItem(filteredModificators));
+            result.Add(NumberMath.PickRandomItem(filteredModificators));
         }
         //if failed pick single modificaotr pick multiple cheap modificators
         else
         {
             float totalPrice = 0;
             int addedAmount = 0;
-            List<AbstractModificator> addedModificators = new();
             while (totalPrice < minPrice && addedAmount < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
             {
                 AbstractModificator cheapModificator = NumberMath.PickRandomItem(
                     AvaibleValidModificators
                         .Where(e => e.ModificatorType == type && e.ModificatorPrice < maxPrice - totalPrice)
-                        .Where(e => addedModificators.All(clusterItem => ModificatorIsValidWithClusterItems(e, clusterItem)))
+                        .Where(e => result.All(clusterItem => ModificatorIsValidWithClusterItems(e, clusterItem)))
                         .OrderByDescending(e => e.ModificatorPrice)
                         .Take(MULTIPLE_MODIFICATORS_ORDER_LIMIT)
                         .ToList()
@@ -295,8 +296,7 @@ public class ModificatorsManager : MonoBehaviour
 
                 if (cheapModificator != null)
                 {
-                    addedModificators.Add(cheapModificator);
-                    result.AddModificator(cheapModificator);
+                    result.Add(cheapModificator);
                     totalPrice += cheapModificator.ModificatorPrice;
                     addedAmount++;
                 }
@@ -307,9 +307,10 @@ public class ModificatorsManager : MonoBehaviour
             }
         }
 
-        if (result.Cards.Count == 0) return null;
-
-        TryAddNeutralModificatorToCluster(result, maxPrice);
+        if (result.Count > 0 && includeNeutral)
+        {
+            TryAddNeutralModificator(result, maxPrice);
+        }
 
         return result;  
     }
@@ -322,7 +323,7 @@ public class ModificatorsManager : MonoBehaviour
             !added.GetIsOverriding(clusterItem);
     }
 
-    private void TryAddNeutralModificatorToCluster(ModificatorCardsCluster cluster, float maxPrice)
+    private void TryAddNeutralModificator(List<AbstractModificator> modificators, float maxPrice)
     {
         if (RandomManager.Instance.ProcRandomChance(ExtraNeutralModificatorChance, RandomManager.ProcChanceTypes.GOOD))
         {
@@ -334,7 +335,7 @@ public class ModificatorsManager : MonoBehaviour
 
             if (neutralModificator != null)
             {
-                cluster.AddModificator(neutralModificator);
+                modificators.Add(neutralModificator);
             }
         }
     }

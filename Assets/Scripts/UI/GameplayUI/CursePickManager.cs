@@ -84,11 +84,12 @@ public class CursePickManager : AbstractModificatorCardsManager
                 delayTime += Time.deltaTime;
                 if (delayTime > modificatorAppearDelay)
                 {
-                    ModificatorCardsCluster newCluster = ModificatorsManager.Instance.PickRandomModificators(
+                    ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
+                    newCluster.AddModificator(ModificatorsManager.Instance.PickRandomModificators(
                         AbstractModificator.ModificatorTypes.NEGATIVE,
                         lastAddedCardScore,
                         encountedScore + 1f
-                        );
+                        ));
 
                     if (newCluster != null && newCluster.Cards.Count > 0)
                     {

@@ -225,6 +225,35 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [Serializable]
+    public class DifficultyCurseChoiseUIScreenOverlay : ScreenOverlay
+    {
+        private DifficultyCurseChoiseUI _difficultyCurseChoiseUI = null;
+
+        public DifficultyCurseChoiseUI DifficultyCurseChoiseUI
+        {
+            get => _difficultyCurseChoiseUI;
+        }
+
+        public void Show(float cursePrice)
+        {
+            Show();
+            DifficultyCurseChoiseUI.InitCurseOptions(cursePrice);
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            _difficultyCurseChoiseUI = _currentScreenOverlay.GetComponent<DifficultyCurseChoiseUI>();
+        }
+
+        public override void Hide()
+        {
+            base.Hide();
+            _difficultyCurseChoiseUI = null;
+        }
+    }
+
     public ScreenOverlay InputBindingScreenOverlay;
     public ScreenOverlay SceneStartScreenOverlay;
     public ScreenOverlay SceneEndScreenOverlay;
@@ -232,6 +261,8 @@ public class UIManager : MonoBehaviour
     public GameplayUIScreenOverlay GameplayScreenOverlay;
     public GameOverUIScreenOverlay GameOverScreenOverlay;
     public ModificatorsUIScreenOverlay ModificatorsScreenOverlay;
+    public ScreenOverlay DifficultyScreenOverlay;
+    public DifficultyCurseChoiseUIScreenOverlay DifficultyCurseChoiseScreenOverlay;
     public TextableScreenOverlay LivingTimeLeftScreenOverlay;
     public FillableScreenOverlay SlowmoOverlay;
     public ScreenOverlay FPSCountScreenOverlay;

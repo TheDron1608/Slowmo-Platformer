@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8058129393259162476}
   - component: {fileID: 1121696484587488236}
+  - component: {fileID: -7059257760100694701}
   - component: {fileID: 8145630360655912481}
   - component: {fileID: 6844463855313677196}
   - component: {fileID: 1351074446885944845}
@@ -169,6 +170,7 @@ MonoBehaviour:
   - {fileID: 1998567090488563821, guid: f9d3bcbd44ca27f439d10d50d417237a, type: 3}
   MaxModificatorOptions: 3
   ModifiactorsPickAmount: 1
+  DifficultyUpNegativeModificatorsPickAmount: 1
   ExtraModificatorChance: 0.33
   ExtraNeutralModificatorChance: 0.1
   CanSkipBlessPick: 1
@@ -204,6 +206,40 @@ MonoBehaviour:
   - {fileID: 2100000, guid: af17d33f2b0d69e42ab61168632990cd, type: 2}
   - {fileID: 2100000, guid: fa4364d56bbeb4b44bdcc6b39cddcacf, type: 2}
   - {fileID: 2100000, guid: 3a95655de9f77e44481dc3df2767d84c, type: 2}
+--- !u!114 &-7059257760100694701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590695979345743307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f88b899d26c87640b7ea66f4093d188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CursesAmountPerLoopMult: 2
+  _initDifficulties:
+  - Duration: 5
+    Music: {fileID: 0}
+    CursesAmount: 0
+    CursesPrice: 0
+  - Duration: 5
+    Music: {fileID: 0}
+    CursesAmount: 1
+    CursesPrice: 30
+  - Duration: 20
+    Music: {fileID: 0}
+    CursesAmount: 1
+    CursesPrice: 100
+  - Duration: 20
+    Music: {fileID: 0}
+    CursesAmount: 3
+    CursesPrice: 150
+  - Duration: 60
+    Music: {fileID: 0}
+    CursesAmount: 5
+    CursesPrice: 200
 --- !u!114 &8145630360655912481
 MonoBehaviour:
   m_ObjectHideFlags: 0
