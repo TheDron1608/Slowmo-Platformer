@@ -8,9 +8,11 @@ public static class SceneList
     public const string SHOP = "Shop";
     public const string CURSE = "Curse";
     public const string MODIFICATOR_DEBUG = "ModificatorDebug";
+    public const string GAME_FINISHED = "GameFinished";
 
     private static readonly string[] GAMEPLAY_SCENES = {
-        GAMEPLAY
+        GAMEPLAY,
+        GAME_FINISHED
     };
 
     private static readonly string[] MODIFICATOR_SCENES = { 

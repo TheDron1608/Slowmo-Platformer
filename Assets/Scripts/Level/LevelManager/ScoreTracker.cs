@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScoreTracker : MonoBehaviour
@@ -8,7 +9,7 @@ public class ScoreTracker : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) throw new UnityException("Limit of 1 ScoreTracker per scene");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 ScoreTracker per scene");
         Instance = this;
     }
 

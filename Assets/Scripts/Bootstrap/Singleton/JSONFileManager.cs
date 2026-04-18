@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class JSONFileManager : MonoBehaviour
@@ -124,7 +125,7 @@ public class JSONFileManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
-        if (Instance != null) throw new UnityException("Limit of 1 Instance of JSONFileManager objects");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of JSONFileManager objects");
         Instance = this;
     }
 

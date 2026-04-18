@@ -10,13 +10,13 @@ public class DifficultyUI : MonoBehaviour
     public float TimeLineTimeCapacitySeconds = 180f; //3 mins
 
     [SerializeField] private RectTransform _stagesContainer;
+    [SerializeField] private RectTransform _timeLineSizeContainer;
     [SerializeField] private DifficultyUIItem _itemInstance;
-    [SerializeField] private TextMeshProUGUI _timeText;
-    [SerializeField] private Sprite _curseGainIcon;
-    [SerializeField] private Sprite _difficultyUpIcon;
+    [SerializeField] private TextMeshProUGUI _bottomInfoText;
 
     private List<DifficultyUIItem> _items = new();
     private int _currentItemIter = 0;
+    private float _currentTimelineScale = 1f;
 
     private void Update()
     {
@@ -27,13 +27,24 @@ public class DifficultyUI : MonoBehaviour
         float currentStageTime = 0;
         foreach (DifficultyManager.DifficultyStage stage in DifficultyManager.Instance.Difficulties)
         {
-            TryAddTimelineItem(currentStageTime, _difficultyUpIcon, "");
+            for (int i = 1; i <= stage.MidstageCursesAmount; i++)
+            {
+                TryAddTimelineItem(
+                    currentStageTime + i * (stage.Duration / (stage.MidstageCursesAmount + 1)),
+                    stage.MidCurseIcon,
+                    ""
+                    );
+            }
+
+            TryAddTimelineItem(currentStageTime, stage.DifficultyIcon, stage.LocalizedName?.GetLocalizedString());
 
             currentStageTime += stage.Duration;
         }
 
         TimeSpan time = new(0, 0, (int)math.floor(DifficultyManager.Instance.CurrentLoopDifficultyTime));
-        _timeText.text = time.ToString(@"mm\:ss");
+        _bottomInfoText.text = 
+            time.ToString(@"mm\:ss") + " | " + 
+            DifficultyManager.Instance.CurrentDifficulty.Value.LocalizedName?.GetLocalizedString();
     }
 
     private bool TryAddTimelineItem(float time, Sprite iconSprite, string titleText)

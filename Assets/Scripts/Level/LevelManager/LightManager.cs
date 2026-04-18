@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -123,7 +124,7 @@ public class LightManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) throw new UnityException("Limit of 1 LightManager instance per scene");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 LightManager instance per scene");
         Instance = this;
     }
 

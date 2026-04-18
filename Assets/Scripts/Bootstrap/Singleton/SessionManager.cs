@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SessionManager : MonoBehaviour
@@ -67,7 +68,7 @@ public class SessionManager : MonoBehaviour
 
     void Start()
     {
-        if (Instance != null) throw new UnityException("Limit of 1 Instance of SessionManager objects");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of SessionManager objects");
         Instance = this;
 
         ButtonOnClickNewSaveFile.OnNewSaveAdded += ButtonOnClickNewSaveFile_OnNewSaveAdded;

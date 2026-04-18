@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MaterialManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class MaterialManager : MonoBehaviour
 
     void Start()
     {
-        if (Instance != null) throw new UnityException("Limit of 1 Instance of MeterialManager objects");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of MeterialManager objects");
         Instance = this;
 
         DontDestroyOnLoad(this);

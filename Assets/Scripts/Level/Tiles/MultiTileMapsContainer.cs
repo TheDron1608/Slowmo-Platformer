@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -224,6 +225,15 @@ public class MultiTileMapsContainer : MonoBehaviour
         _overgroundDecorations.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
 
         _hallucinationTilemap.GetComponent<OverrideRendererEnabled>().OverrideValue = value;
+    }
+
+    public void SetTilemapsMaterialDependOnDifficulty(DifficultyManager.DifficultyStage difficulty)
+    {
+        foreach (Tilemap tilemap in _tilemaps)
+        {
+            tilemap.GetComponent<TileBehaviour>()?
+                .SetMaterialDependOnDifficulty(difficulty);
+        }
     }
 
     private void OnDestroy()

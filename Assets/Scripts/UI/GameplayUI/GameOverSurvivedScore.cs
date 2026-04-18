@@ -1,4 +1,6 @@
+using System;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class GameOverSurvivedScore : MonoBehaviour
@@ -9,6 +11,7 @@ public class GameOverSurvivedScore : MonoBehaviour
     public void UpdateLocalizedText(string value)
     {
         _localizedText = value;
-        _text.text = _localizedText + SessionManager.Instance.TempSession.CurrentPlayTime;
+        TimeSpan surviveTime = new(0, 0, (int)math.round(DifficultyManager.Instance.TotalDifficultyTime));
+        _text.text = _localizedText + surviveTime.ToString(@"mm\:ss");
     }
 }

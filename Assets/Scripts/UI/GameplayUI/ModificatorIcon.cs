@@ -1,17 +1,15 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ModificatorIcon : Selectable, IModificatorInfo
 {
     const float TRIGGER_ANIMATION_DURATION = 0.75f;
-    const float RAISE_ANIMATION_MULTIPLIER = 7.5f; 
+    const float RAISE_ANIMATION_MULTIPLIER = 7.5f;
     const float RAISED_OFFSET = -50f;
-    const string ICON_TITLE_GO_NAME = "IconTitle";
-    const string DISABLE_ICON_GO_NAME = "DisableTitle";
     const float IMAGE_ON_HOVER_SCALE_MULTIPLIER = 1.25f;
     const float IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER = 15f;
 
@@ -62,7 +60,7 @@ public class ModificatorIcon : Selectable, IModificatorInfo
     public bool Raising
     {
         get => _raising;
-        set => _raising = value;    
+        set => _raising = value;
     }
 
     public AbstractModificator.ModificatorStatuses Status
@@ -182,6 +180,11 @@ public class ModificatorIcon : Selectable, IModificatorInfo
         else if (BlessPickManager.Instance != null)
         {
             BlessPickManager.Instance.SetIconDisplayedDescription(this);
+        }
+        else if (UIManager.Instance.DifficultyCurseChoiseScreenOverlay.IsShown())
+        {
+            UIManager.Instance.DifficultyCurseChoiseScreenOverlay.DifficultyCurseChoiseUI
+                .SetDisplayedInfo(new List<IModificatorInfo> { this });
         }
         else if (UIManager.GamePaused())
         {

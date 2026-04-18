@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
@@ -10,7 +11,7 @@ public class AudioListenerInstance : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) throw new UnityException("limit of 1 AudioListenerInstance per scene");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("limit of 1 AudioListenerInstance per scene");
 
         Instance = this;
     }

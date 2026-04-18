@@ -8,7 +8,7 @@ public class OverrideRendererEnabled : MonoBehaviour
 
     private void Awake()
     {
-        _rendererComponent = GetComponent<Renderer>();
+        _rendererComponent = GetComponent<Renderer>() ?? throw new UnityException("Renderer component not found");
         _overridedValue = _rendererComponent.enabled;
 
         switch (_serializableOverrideValue)

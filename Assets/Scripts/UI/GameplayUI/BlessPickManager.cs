@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BlessPickManager : AbstractModificatorCardsManager
@@ -29,7 +30,7 @@ public class BlessPickManager : AbstractModificatorCardsManager
         _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
         _soldPriceText.text = ScoreManager.Instance.TradableScore.ToString("0");
 
-        if (Instance != null) throw new UnityException("Limit of 1 BlessPickManager instance per scene");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 BlessPickManager instance per scene");
         Instance = this;
     }
 

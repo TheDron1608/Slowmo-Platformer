@@ -45,6 +45,18 @@ public class UIManager : MonoBehaviour
         protected ScreenOverlayInstance _currentScreenOverlay;
         private Transform _screenOverlayContainer;
 
+        public void SetShown(bool value)
+        {
+            if (value)
+            {
+                Show();
+            }
+            else
+            {
+                Hide();
+            }
+        }
+
         public virtual void Show()
         {
             if (_currentScreenOverlay != null) return;
@@ -60,7 +72,7 @@ public class UIManager : MonoBehaviour
                 animatedImageComponent.AnimationFinished += AnimatedImage_OnAnimationFinished;
             }
 
-            UIManager.Instance.UpdateScreenOverlaysOrder();
+            Instance.UpdateScreenOverlaysOrder();
         }
 
 
@@ -157,6 +169,12 @@ public class UIManager : MonoBehaviour
             return _currentGameOverUI;
         }
 
+        public void Show(GameOverUIManager.GameOverReasons reason)
+        {
+            Show();
+            GetGameOverUI().GameOverReason = reason;
+        }
+
         public override void Show()
         {
             base.Show();
@@ -206,10 +224,14 @@ public class UIManager : MonoBehaviour
         public override void Show()
         {
             base.Show();
+
             _currentModificartorsUI = _currentScreenOverlay.GetComponent<ModificatorsUI>();
             foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
             {
-                _currentModificartorsUI.AddModificatorIcon(modificator, true);
+                if (modificator.CurrentIcon == null)
+                {
+                    _currentModificartorsUI.AddModificatorIcon(modificator, true);
+                }
             }
         }
 
@@ -217,11 +239,6 @@ public class UIManager : MonoBehaviour
         {
             base.Hide();
             _currentModificartorsUI = null;
-        }
-
-        public bool GetIsShown()
-        {
-            return _currentModificartorsUI != null;
         }
     }
 
@@ -274,6 +291,11 @@ public class UIManager : MonoBehaviour
     private AsyncOperation _sceneLoadingProcess; //used only at LoadSceneWithEffect and LoadSceneWithEffect_OnScreenOverlayAnimationFinished functions
     private ScreenOverlay[] ScreenOverlays;
 
+    public bool IsLoadingScene()
+    {
+        return _sceneLoadingProcess != null;
+    }
+
     public static bool GamePaused()
     {
         return
@@ -288,7 +310,7 @@ public class UIManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
-        if (Instance != null) throw new UnityException("Limit of 1 Instance of UIManager objects");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of UIManager objects");
         Instance = this;
 
         _screenOverlayContainer = GameObject.FindGameObjectWithTag("ScreenOverlayContainer");
@@ -324,15 +346,16 @@ public class UIManager : MonoBehaviour
     private void OnDestroy()
     {
         Instance = null;
+        SceneManager.activeSceneChanged -= SceneManager_OnActiveSceneChanged;
     }
 
     public void LoadSceneWithEffect(string sceneName)
     {
         if (_sceneLoadingProcess != null) return;
 
-        UIManager.Instance.SceneEndScreenOverlay.Show();
+        Instance.SceneEndScreenOverlay.Show();
 
-        UIManager.Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished += LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
+        Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished += LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
 
         _sceneLoadingProcess = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         _sceneLoadingProcess.allowSceneActivation = false;
@@ -341,7 +364,7 @@ public class UIManager : MonoBehaviour
     private void LoadSceneWithEffect_OnScreenOverlayAnimationFinished(object sender, EventArgs e)
     {
         _sceneLoadingProcess.allowSceneActivation = true;
-        UIManager.Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished -= LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
+        Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished -= LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
         _sceneLoadingProcess = null;
     }
 }

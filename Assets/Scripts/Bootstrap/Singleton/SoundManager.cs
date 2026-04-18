@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        if (Instance != null) throw new UnityException("Limit of 1 Instance of SoundManager objects");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of SoundManager objects");
         Instance = this;
 
         DontDestroyOnLoad(this);

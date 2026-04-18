@@ -61,10 +61,21 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     public override void FinishTrade()
     {
         base.FinishTrade();
+
         TimeManager.Instance.TryTemporalSlowTime(FINISH_TRADE_TEMP_SLOWMO);
         TimeManager.Instance.Paused = false;
-        UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Hide();
+
+        if (LayerManager.Instance != null)
+        {
+            foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
+            {
+                layer.SetEnvromentMaterialDependOnDifficulty(DifficultyManager.Instance.CurrentDifficulty.Value);
+            }
+        }
+
         ApplyFinishEffects();
+
+        UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Hide();
     }
 
     private void ApplyFinishEffects()

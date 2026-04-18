@@ -184,6 +184,11 @@ public class ModificatorsManager : MonoBehaviour
             newModificator.OnModificatorAdded();
         }
 
+        if (modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE)
+        {
+            SessionManager.Instance.CurrentSession.TotalObtainedCurses++;
+        }
+
         _requestUpdateAvaibleModificators = true;
         return newModificator;
     }

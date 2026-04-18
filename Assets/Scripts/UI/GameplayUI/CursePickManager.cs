@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CursePickManager : AbstractModificatorCardsManager
@@ -27,7 +28,7 @@ public class CursePickManager : AbstractModificatorCardsManager
         _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
         _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
 
-        if (Instance != null) throw new UnityException("Limit of 1 CursePickManager instance per scene");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 CursePickManager instance per scene");
         Instance = this;
     }
 

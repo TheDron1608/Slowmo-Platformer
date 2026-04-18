@@ -220,26 +220,123 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CursesAmountPerLoopMult: 2
   _initDifficulties:
-  - Duration: 5
+  - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
+    MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
+    Duration: 10
     Music: {fileID: 0}
-    CursesAmount: 0
-    CursesPrice: 0
-  - Duration: 5
+    MidstageCursesAmount: 0
+    CursesPrice: 10
+    LocalizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
+      m_TableEntryReference:
+        m_KeyId: 56582327916273664
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    PrimaryEnviromentMaterial: {fileID: 2100000, guid: 33399073aee655a43a7a062267e36116, type: 2}
+    SecondaryEnviromentMaterial: {fileID: 2100000, guid: 4c47773dfe103fe46b58598877be6618, type: 2}
+    BackgroundEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
+    ChangeSceneOnStart: 
+  - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
+    MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
+    Duration: 10
     Music: {fileID: 0}
-    CursesAmount: 1
-    CursesPrice: 30
-  - Duration: 20
+    MidstageCursesAmount: 0
+    CursesPrice: 50
+    LocalizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
+      m_TableEntryReference:
+        m_KeyId: 56582328625111040
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    PrimaryEnviromentMaterial: {fileID: 2100000, guid: 84045097658065a4fa85010314b6085d, type: 2}
+    SecondaryEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
+    BackgroundEnviromentMaterial: {fileID: 2100000, guid: 29fa2538a7f2b3b4e864dd43d660cc52, type: 2}
+    ChangeSceneOnStart: 
+  - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
+    MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
+    Duration: 10
     Music: {fileID: 0}
-    CursesAmount: 1
+    MidstageCursesAmount: 0
     CursesPrice: 100
-  - Duration: 20
+    LocalizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
+      m_TableEntryReference:
+        m_KeyId: 56582329308782592
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    PrimaryEnviromentMaterial: {fileID: 2100000, guid: 977e75f550aeaee48b481b5139b9700f, type: 2}
+    SecondaryEnviromentMaterial: {fileID: 2100000, guid: 977e75f550aeaee48b481b5139b9700f, type: 2}
+    BackgroundEnviromentMaterial: {fileID: 2100000, guid: 0513131ec74c0f04e9d0dce0a4529c20, type: 2}
+    ChangeSceneOnStart: 
+  - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
+    MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
+    Duration: 10
     Music: {fileID: 0}
-    CursesAmount: 3
+    MidstageCursesAmount: 1
+    CursesPrice: 125
+    LocalizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
+      m_TableEntryReference:
+        m_KeyId: 56582330005037056
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    PrimaryEnviromentMaterial: {fileID: 2100000, guid: ae1f22195f236594ab6536abba1626f0, type: 2}
+    SecondaryEnviromentMaterial: {fileID: 2100000, guid: ae1f22195f236594ab6536abba1626f0, type: 2}
+    BackgroundEnviromentMaterial: {fileID: 2100000, guid: b2ee73704b9fe594eb81a5c93d4d2bbe, type: 2}
+    ChangeSceneOnStart: 
+  - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
+    MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
+    Duration: 10
+    Music: {fileID: 0}
+    MidstageCursesAmount: 5
     CursesPrice: 150
-  - Duration: 60
+    LocalizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
+      m_TableEntryReference:
+        m_KeyId: 56582382328979456
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    PrimaryEnviromentMaterial: {fileID: 2100000, guid: 067391bd5fc9a144fa090a2a90e06d3b, type: 2}
+    SecondaryEnviromentMaterial: {fileID: 2100000, guid: 067391bd5fc9a144fa090a2a90e06d3b, type: 2}
+    BackgroundEnviromentMaterial: {fileID: 2100000, guid: 6b603dafea598f34ab8dad726ac7fbdd, type: 2}
+    ChangeSceneOnStart: 
+  - DifficultyIcon: {fileID: 21300000, guid: 2ecac1c170472994f85f245e01a863dc, type: 3}
+    MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
+    Duration: -1
     Music: {fileID: 0}
-    CursesAmount: 5
-    CursesPrice: 200
+    MidstageCursesAmount: 0
+    CursesPrice: 0
+    LocalizedName:
+      m_TableReference:
+        m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
+      m_TableEntryReference:
+        m_KeyId: 56582382328979456
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    PrimaryEnviromentMaterial: {fileID: 2100000, guid: 33399073aee655a43a7a062267e36116, type: 2}
+    SecondaryEnviromentMaterial: {fileID: 2100000, guid: 4c47773dfe103fe46b58598877be6618, type: 2}
+    BackgroundEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
+    ChangeSceneOnStart: GameFinished
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &8145630360655912481
 MonoBehaviour:
   m_ObjectHideFlags: 0

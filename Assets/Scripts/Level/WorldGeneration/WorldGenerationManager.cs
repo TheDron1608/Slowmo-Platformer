@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,7 +38,7 @@ public class WorldGenerationManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) throw new UnityException("limit of 1 WorldGenerationManager instance per scene");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("limit of 1 WorldGenerationManager instance per scene");
         Instance = this;
 
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;

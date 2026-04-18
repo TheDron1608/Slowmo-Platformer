@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEngine.Rendering.DebugUI;
 
 
 [DefaultExecutionOrder(-1)]
@@ -126,6 +127,8 @@ public class ZIndexLayer : MonoBehaviour
         UpdateLayerForAllChildren();
 
         LayerManager.Instance.TrySetLevelBottom(MultiTileMapsContainer.GetForeground().cellBounds.yMin);
+
+        SetEnvromentMaterialDependOnDifficulty(DifficultyManager.Instance.CurrentDifficulty.Value);
     }
 
     private void InitializeEnviromoentLayers()
@@ -241,6 +244,15 @@ public class ZIndexLayer : MonoBehaviour
         if (gameObject.TryGetComponent(out Renderer renderer))
         {
             renderer.sortingOrder = renderer.sortingOrder % 1000 + ZIndex * 1000;
+
+            if (gameObject.tag == LayerManager.FURNITURE_TAG_NAME)
+            {
+                renderer.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.SecondaryEnviromentMaterial;
+            }
+            else if (gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME)
+            {
+                renderer.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
+            }
         }
 
         switch (gameObject.tag)
@@ -492,5 +504,26 @@ public class ZIndexLayer : MonoBehaviour
         {
             LayerManager.Instance.InvokeOnObjectSpawned(holdable.gameObject);
         }
+    }
+
+    public void SetEnvromentMaterialDependOnDifficulty(DifficultyManager.DifficultyStage difficulty)
+    {
+        foreach (Transform furniture in FurnitureContainer)
+        {
+            if (furniture.TryGetComponent(out Renderer furnitureRenderer))
+            {
+                furnitureRenderer.sharedMaterial = difficulty.PrimaryEnviromentMaterial;
+            }
+        }
+
+        foreach (Transform interactableEnviroment in InteractableEnviromentContainer)
+        {
+            if (interactableEnviroment.TryGetComponent(out Renderer interactableEnvRenderer))
+            {
+                interactableEnvRenderer.sharedMaterial = difficulty.PrimaryEnviromentMaterial;
+            }
+        }
+
+        MultiTileMapsContainer.SetTilemapsMaterialDependOnDifficulty(difficulty);
     }
 }

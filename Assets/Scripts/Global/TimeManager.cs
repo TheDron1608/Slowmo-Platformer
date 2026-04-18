@@ -1,7 +1,7 @@
 ﻿
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class TimeManager : MonoBehaviour
 {
@@ -16,10 +16,17 @@ public class TimeManager : MonoBehaviour
     private float _currentTimeScaleMultiplier = 1f;
     private bool _paused = false;
     private float _tempSlowTimeLeft = 0f;
+    private bool _isLoadingProcessTimeStop = false;
+
+    public bool IsLoadingProcessTimeStop
+    {
+        get => _isLoadingProcessTimeStop;
+        set => _isLoadingProcessTimeStop = value;
+    }
 
     private void Awake()
     {
-        if (Instance != null) throw new UnityException("Limit of 1 TimeManager instance per scene");
+        if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 TimeManager instance per scene");
 
         Instance = this;
         _baseFixedDeltaTime = Time.fixedDeltaTime;
