@@ -40,6 +40,7 @@ public class DifficultyManager : MonoBehaviour
     private float _currentDifficultyMidCurseTime = 0f;
     private float _currentCursesAmountMult = 1f;
     private int _loops = 0;
+    private float _timeSpeedMultiplier = 1f;
 
     public float TotalDifficultyTime
     {
@@ -73,6 +74,12 @@ public class DifficultyManager : MonoBehaviour
         get => _loops;
     }
 
+    public float TimeSpeedMultiplier
+    {
+        get => _timeSpeedMultiplier;
+        set => _timeSpeedMultiplier = value;
+    }
+
     public static List<AbstractModificator> GetRandomCurseModificators(float cursePrice, List<AbstractModificator> exludeModificators)
     {
         return ModificatorsManager.Instance.PickRandomModificators(
@@ -104,10 +111,11 @@ public class DifficultyManager : MonoBehaviour
             !UIManager.Instance.IsLoadingScene()
             )
         {
-            _totalDifficultyTime += Time.unscaledDeltaTime;
-            _currentLoopDifficultyTime += Time.unscaledDeltaTime;
-            _currentDifficultyTime += Time.unscaledDeltaTime;
-            _currentDifficultyMidCurseTime += Time.unscaledDeltaTime;
+            float multiplierTime = Time.unscaledDeltaTime * TimeSpeedMultiplier;
+            _totalDifficultyTime += multiplierTime;
+            _currentLoopDifficultyTime += multiplierTime;
+            _currentDifficultyTime += multiplierTime;
+            _currentDifficultyMidCurseTime += multiplierTime;
 
             if (
                 CurrentDifficulty.Value.MidstageCursesAmount > 0 &&

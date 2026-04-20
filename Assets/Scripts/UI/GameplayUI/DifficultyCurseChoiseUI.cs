@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
@@ -16,6 +17,23 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     {
         _picksLeft = ModificatorsManager.Instance.DifficultyUpNegativeModificatorsPickAmount;
         TimeManager.Instance.Paused = true;
+    }
+
+    public void InitDebugCurseOptions()
+    {
+        ClearAllCards();
+
+        foreach (AbstractModificator modificator in ModificatorDebugManager.Instance.DebugModificators)
+        {
+
+            ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
+            newCluster.AddModificator(modificator);
+            newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.PERMANENT;
+            AddCard(newCluster);
+        }
+
+        _picksLeft = int.MaxValue;
+        if (Cards.Count == 0) FinishTrade();
     }
 
     public void InitCurseOptions(float cursePrice)

@@ -2,7 +2,6 @@
 
 public class DebugCardsManager : AbstractModificatorCardsManager
 {
-    public List<AbstractModificator> ModificatorsOnStart = new();
     public AbstractModificator.ModificatorStatuses CardsStatus;
     public CharacterComponentsManager StartCharacter;
 
@@ -20,7 +19,7 @@ public class DebugCardsManager : AbstractModificatorCardsManager
     {
         SpawnManager.Instance.PlayerCharacter = StartCharacter;
 
-        foreach (var modificator in ModificatorsOnStart)
+        foreach (var modificator in ModificatorDebugManager.Instance.DebugModificators)
         {
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
             newCluster.AddStatusOnPick = CardsStatus;

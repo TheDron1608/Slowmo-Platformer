@@ -226,11 +226,14 @@ public class UIManager : MonoBehaviour
             base.Show();
 
             _currentModificartorsUI = _currentScreenOverlay.GetComponent<ModificatorsUI>();
-            foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+            if (ModificatorsManager.Instance != null && !ModificatorsManager.Instance.IsDestroyed())
             {
-                if (modificator.CurrentIcon == null)
+                foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
                 {
-                    _currentModificartorsUI.AddModificatorIcon(modificator, true);
+                    if (modificator.CurrentIcon == null)
+                    {
+                        _currentModificartorsUI.AddModificatorIcon(modificator, true);
+                    }
                 }
             }
         }
@@ -250,6 +253,12 @@ public class UIManager : MonoBehaviour
         public DifficultyCurseChoiseUI DifficultyCurseChoiseUI
         {
             get => _difficultyCurseChoiseUI;
+        }
+
+        public void DebugShow()
+        {
+            Show();
+            DifficultyCurseChoiseUI.InitDebugCurseOptions();
         }
 
         public void Show(float cursePrice)
