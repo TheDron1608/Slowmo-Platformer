@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 [DefaultExecutionOrder(-6)]
 public class DifficultyManager : MonoBehaviour
 {
+    const float MAX_PRICE_REDUCTION = 0.9f;
+
     [Serializable]
     public class DifficultyStage
     {
@@ -69,6 +71,19 @@ public class DifficultyManager : MonoBehaviour
     public int Loops
     {
         get => _loops;
+    }
+
+    public static List<AbstractModificator> GetRandomCurseModificators(float cursePrice, List<AbstractModificator> exludeModificators)
+    {
+        return ModificatorsManager.Instance.PickRandomModificators(
+            AbstractModificator.ModificatorTypes.NEGATIVE,
+            cursePrice * MAX_PRICE_REDUCTION,
+            cursePrice,
+            false,
+            true,
+            true,
+            exludeModificators
+            );
     }
 
     private void Awake()
@@ -137,9 +152,9 @@ public class DifficultyManager : MonoBehaviour
 
     public void AddMidCurse()
     {
-        List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
-            AbstractModificator.ModificatorTypes.NEGATIVE,
-            CurrentDifficulty.Value.CursesPrice * Instance._currentCursesAmountMult
+        List<AbstractModificator> addModificators = GetRandomCurseModificators(
+            CurrentDifficulty.Value.CursesPrice * _currentCursesAmountMult, 
+            null
             );
 
         foreach (AbstractModificator addModificator in addModificators)

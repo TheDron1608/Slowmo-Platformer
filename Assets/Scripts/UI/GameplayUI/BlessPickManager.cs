@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class BlessPickManager : AbstractModificatorCardsManager
 {
+    const float MAX_PRICE_REDUCTION = 0.8f;
     const float TRADE_FINISH_DELAY_AFTER_SPEND_ALL_PICKS = 0.5f;
     const float SELL_ENCOUNT_PER_SECOND = 100f;
     const float SELL_DELAY_BETWEEN_MODIFICATORS = 0.25f;
@@ -104,22 +105,30 @@ public class BlessPickManager : AbstractModificatorCardsManager
             }
 
             //show sellable modifiers
-            float currentBlessMaxPrice = totalAddPrice;
+            List<AbstractModificator> addedModificators = new();
             for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
             {
-                ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
-                newCluster.AddModificator(ModificatorsManager.Instance.PickRandomModificators(AbstractModificator.ModificatorTypes.POSITIVE, currentBlessMaxPrice - 1));
-                if (newCluster == null) break;
+                List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
+                    AbstractModificator.ModificatorTypes.POSITIVE,
+                    totalAddPrice * MAX_PRICE_REDUCTION,
+                    totalAddPrice,
+                    false,
+                    true,
+                    true,
+                    addedModificators
+                    );
 
-                newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.TRADED;
-                AddCard(newCluster);
-
-                currentBlessMaxPrice =
-                    newCluster.Cards
-                    .Where(e => e.ModificatorInstance.ModificatorType == AbstractModificator.ModificatorTypes.POSITIVE)
-                    .OrderBy(e => e.ModificatorInstance.ModificatorPrice)
-                    .First()
-                    .ModificatorInstance.ModificatorPrice;
+                if (addModificators.Count > 0)
+                {
+                    ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
+                    newCluster.AddModificator(addModificators);
+                    newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.TRADED;
+                    AddCard(newCluster);
+                }
+                else
+                {
+                    break;
+                }
             }
 
             //remove traded modificators if has any option

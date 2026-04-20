@@ -56,6 +56,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     }
 
     public bool Stackable = false;
+    public bool AllowPermanent = true;
     public List<AbstractModificator> OverrideModificators = new();
     public List<AbstractModificator> RestrictModificators = new();
     public List<AbstractModificator> SynergingModificators = new();
@@ -177,6 +178,20 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     public bool GetIsOverriding(AbstractModificator overrideWho)
     {
         return OriginalOrSelf.OverrideModificators.Contains(overrideWho.OriginalOrSelf);
+    }
+
+    public float GetPriceDependedOnOverrides(List<AbstractModificator> possibleOverridedModificators)
+    {
+        float result = ModificatorPrice;
+        foreach (AbstractModificator possibleOverridedModificator in possibleOverridedModificators)
+        {
+            if (GetIsOverriding(possibleOverridedModificator))
+            {
+                result -= possibleOverridedModificator.ModificatorPrice;
+            }
+        }
+
+        return result;
     }
 
     public virtual bool GetEqualType(AbstractModificator other)

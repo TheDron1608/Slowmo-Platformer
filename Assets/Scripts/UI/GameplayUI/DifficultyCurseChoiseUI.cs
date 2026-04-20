@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 {
-    const float MAX_CURSE_PRICE_REDUCTION = 0.667f;
     const float FINISH_TRADE_TEMP_SLOWMO = 1.5f;
 
     public List<AbstractEffect> CharacterEffectsOnFinish = new();
@@ -23,25 +22,27 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     {
         ClearAllCards();
 
-        float currentBlessMaxPrice = cursePrice;
+        List<AbstractModificator> addedModificators = new();
         for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
         {
+            List<AbstractModificator> addModificators = DifficultyManager.GetRandomCurseModificators(cursePrice, addedModificators);
+
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
-            newCluster.AddModificator(ModificatorsManager.Instance.PickRandomModificators(AbstractModificator.ModificatorTypes.NEGATIVE, currentBlessMaxPrice - 1));
-            if (newCluster == null) break;
-
+            newCluster.AddModificator(addModificators);
             newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.PERMANENT;
-            AddCard(newCluster);
 
-            /*currentBlessMaxPrice =
-                newCluster.Cards
-                .Where(e => e.ModificatorInstance.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE)
-                .OrderBy(e => e.ModificatorInstance.ModificatorPrice)
-                .First()
-                .ModificatorInstance.ModificatorPrice;*/
-
-            if (currentBlessMaxPrice < cursePrice * MAX_CURSE_PRICE_REDUCTION) break;
+            if (newCluster == null || newCluster.Cards.Count == 0)
+            {
+                break;
+            }
+            else
+            {
+                addedModificators.AddRange(addModificators);
+                AddCard(newCluster);
+            }
         }
+
+        if (Cards.Count == 0) FinishTrade();
     }
 
     public override void SpendPicksLeft(int amount = 1)

@@ -104,12 +104,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9edd41c167fdd7c43b23cb9a3b25696a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Stackable: 0
+  OverrideModificators: []
+  RestrictModificators: []
+  SynergingModificators: []
+  UnsynergingModificators: []
   ModificatorType: 1
   ModificatorTier: 2
   IconSprite: {fileID: 21300000, guid: 191e8eaeb94f68e4d81b8195f76b63b3, type: 3}
   CardSprite: {fileID: 21300000, guid: b7c41dd1380a1274d8e3e91e05e964b5, type: 3}
   _multiplierable: 0
-  _modificatorMultiplier: 1
+  _modificatorMultiplier: 50
   _modificatorPrice: 0
   _localization: {fileID: 2147315170708439846}
   CameraAngle: 180

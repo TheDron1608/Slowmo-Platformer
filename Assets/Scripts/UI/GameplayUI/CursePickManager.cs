@@ -59,6 +59,7 @@ public class CursePickManager : AbstractModificatorCardsManager
         {
             yield return new WaitForSeconds(TRADE_DELAY);
 
+            List<AbstractModificator> addedModificators = new();
             float modificatorAppearDelay = math.min(
                 ScoreManager.Instance.TradableScore / SCORE_ENCOUNT_PER_SECOND / ModificatorsManager.Instance.MaxModificatorOptions, 
                 MAX_MODIFICATOR_APPEAR_DELAY
@@ -85,22 +86,33 @@ public class CursePickManager : AbstractModificatorCardsManager
                 delayTime += Time.deltaTime;
                 if (delayTime > modificatorAppearDelay)
                 {
-                    ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
-                    newCluster.AddModificator(ModificatorsManager.Instance.PickRandomModificators(
+                    List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
                         AbstractModificator.ModificatorTypes.NEGATIVE,
                         lastAddedCardScore,
-                        encountedScore + 1f
-                        ));
+                        encountedScore,
+                        true,
+                        false,
+                        true,
+                        addedModificators
+                        );
 
-                    if (newCluster != null && newCluster.Cards.Count > 0)
+                    if (addModificators.Count > 0)
                     {
+                        ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
+                        newCluster.AddModificator(addModificators);
                         newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.CURSE;
-                        newCluster.SetInteractable(false);
                         AddCard(newCluster);
+
+                        addedModificators.AddRange(addModificators);
+                        
                         if (Cards.Count > ModificatorsManager.Instance.MaxModificatorOptions)
                         {
                             RemoveCard(Cards.First());
                         }
+                    }
+                    else
+                    {
+                        break;
                     }
 
                     lastAddedCardScore = encountedScore;

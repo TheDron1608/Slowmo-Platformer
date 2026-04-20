@@ -104,12 +104,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbbe839598f998a48a04eb90f9917c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Stackable: 0
+  OverrideModificators: []
+  RestrictModificators: []
+  SynergingModificators: []
+  UnsynergingModificators: []
   ModificatorType: 1
   ModificatorTier: 0
   IconSprite: {fileID: 21300000, guid: 8a2135c9e2c33ae4aa1095ad098da8de, type: 3}
   CardSprite: {fileID: 21300000, guid: 7f9d69e26167353488ad9a3c6f0f85b2, type: 3}
   _multiplierable: 0
-  _modificatorMultiplier: 1
+  _modificatorMultiplier: 25
   _modificatorPrice: 0
   _localization: {fileID: 2147315170708439846}
   Team: 1

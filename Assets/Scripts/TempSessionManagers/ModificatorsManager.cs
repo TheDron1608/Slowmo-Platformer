@@ -1,13 +1,15 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
 public class ModificatorsManager : MonoBehaviour
 {
     const int MULTIPLE_MODIFICATORS_ORDER_LIMIT = 10;
-    const int MULTIPLE_MODIFICATORS_MAX_AMOUNT = 3;
+    const int MULTIPLE_MODIFICATORS_MAX_AMOUNT = 5;
     const float MIN_SINGLE_MODIFICATOR_REQUIRED_PRICE = 0.75f;
 
     public static ModificatorsManager Instance;
@@ -234,81 +236,50 @@ public class ModificatorsManager : MonoBehaviour
         }
     }
 
-    public List<AbstractModificator> PickRandomModificators(AbstractModificator.ModificatorTypes type, float price, bool includeNeutral = true)
+    public List<AbstractModificator> PickRandomModificators(
+        AbstractModificator.ModificatorTypes type,
+        float minPrice,
+        float maxPrice,
+        bool allowPermanentIncapable = true,
+        bool allowOverridePermanent = false,
+        bool includeNeutral = true,
+        List<AbstractModificator> excludeModificators = null
+        )
     {
         List<AbstractModificator> result = new();
+        IEnumerable<AbstractModificator> filteredModificators = AvaibleValidModificators.Where(e =>
+            e.ModificatorType == type &&
+            (allowPermanentIncapable || e.AllowPermanent) &&
+            (excludeModificators == null || !excludeModificators.Contains(e)) &&
+            !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2))
+            );
 
-        List<AbstractModificator> filteredModificators = 
-            AvaibleValidModificators
-            .Where(e => e.ModificatorType == type && e.ModificatorPrice <= price)
-            .ToList();
+        AbstractModificator singleModificatorResult =
+            NumberMath.PickRandomItem(filteredModificators.Where(
+                e => {
+                    float overrideDependedPrice = e.GetPriceDependedOnOverrides(CurrentModificators);
+                    return overrideDependedPrice >= minPrice && overrideDependedPrice <= maxPrice;
+                }
+            ).ToList());
 
-        float totalPrice = 0;
-        List<AbstractModificator> addedModificators = new();
-        while (totalPrice < price * MIN_SINGLE_MODIFICATOR_REQUIRED_PRICE && addedModificators.Count < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
+        if (singleModificatorResult != null)
         {
-            AbstractModificator newModificator = 
-                filteredModificators
-                .Where(e => e.ModificatorPrice < price - totalPrice)
-                .Where(e => addedModificators.All(clusterItem => ModificatorIsValidWithClusterItems(e, clusterItem)))
-                .OrderBy(e => math.abs(e.ModificatorPrice - price))
-                .FirstOrDefault();
-            if (newModificator == null) break;
-
-            addedModificators.Add(newModificator);
-            totalPrice += newModificator.ModificatorPrice;
-
-            result.Add(newModificator);
+            result.Add(singleModificatorResult);
         }
-
-        if (addedModificators.Count > 0 && includeNeutral)
-        {
-            TryAddNeutralModificator(result, price);
-        }
-
-        return result;
-    }
-
-    public List<AbstractModificator> PickRandomModificators(AbstractModificator.ModificatorTypes type, float minPrice, float maxPrice, bool includeNeutral = true)
-    {
-        List<AbstractModificator> result = new();
-
-        //try pick single modificator
-        List<AbstractModificator> filteredModificators = 
-            AvaibleValidModificators
-            .Where(e => e.ModificatorType == type && e.ModificatorPrice >= minPrice && e.ModificatorPrice < maxPrice)
-            .ToList();
-
-        if (filteredModificators.Count > 0)
-        {
-            result.Add(NumberMath.PickRandomItem(filteredModificators));
-        }
-        //if failed pick single modificaotr pick multiple cheap modificators
         else
         {
-            float totalPrice = 0;
-            int addedAmount = 0;
-            while (totalPrice < minPrice && addedAmount < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
+            float totalModificatorsPrice = 0f;
+            while (totalModificatorsPrice < minPrice && result.Count < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
             {
-                AbstractModificator cheapModificator = NumberMath.PickRandomItem(
-                    AvaibleValidModificators
-                        .Where(e => e.ModificatorType == type && e.ModificatorPrice < maxPrice - totalPrice)
-                        .Where(e => result.All(clusterItem => ModificatorIsValidWithClusterItems(e, clusterItem)))
-                        .OrderByDescending(e => e.ModificatorPrice)
-                        .Take(MULTIPLE_MODIFICATORS_ORDER_LIMIT)
-                        .ToList()
+                filteredModificators = filteredModificators.Where(e =>
+                    result.All(e2 => e != e2 && !e.GetIsRestrictedWith(e2) && !e.GetIsOverriding(e2)) &&
+                    e.ModificatorPrice <= maxPrice - totalModificatorsPrice
                     );
 
-                if (cheapModificator != null)
-                {
-                    result.Add(cheapModificator);
-                    totalPrice += cheapModificator.ModificatorPrice;
-                    addedAmount++;
-                }
-                else
-                {
-                    break;
-                }
+                if (filteredModificators.Count() == 0) break;
+                AbstractModificator addModificator = filteredModificators.OrderBy(e => e.ModificatorPrice).Last();
+                result.Add(addModificator);
+                totalModificatorsPrice += addModificator.GetPriceDependedOnOverrides(CurrentModificators);
             }
         }
 
@@ -318,14 +289,6 @@ public class ModificatorsManager : MonoBehaviour
         }
 
         return result;  
-    }
-
-    private bool ModificatorIsValidWithClusterItems(AbstractModificator added, AbstractModificator clusterItem)
-    {
-        return
-            !added.OriginalOrSelf != clusterItem.OriginalOrSelf &&
-            !added.GetIsRestrictedWith(clusterItem) &&
-            !added.GetIsOverriding(clusterItem);
     }
 
     private void TryAddNeutralModificator(List<AbstractModificator> modificators, float maxPrice)

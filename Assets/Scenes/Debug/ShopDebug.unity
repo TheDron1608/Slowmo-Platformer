@@ -1072,7 +1072,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName: Shop
   StartCharacter: {fileID: 2886192054720589260, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
-  StartModificators: []
+  StartModificators:
+  - {fileID: 7749506300840802882, guid: c5cb3c874903f3d4289caab7b2935795, type: 3}
+  - {fileID: 1829506628575085629, guid: 23026be636786354baaf57c824b060fd, type: 3}
+  - {fileID: 1103204441450374480, guid: d3f147d51e9946740b5d748b8ab60487, type: 3}
+  - {fileID: 2834338375577101956, guid: 7e7136ca142621741931c6c9d5a41063, type: 3}
   StartScore: 50
 --- !u!4 &2088602313
 Transform:

@@ -510,7 +510,11 @@ public class ZIndexLayer : MonoBehaviour
     {
         foreach (Transform furniture in FurnitureContainer)
         {
-            if (furniture.TryGetComponent(out Renderer furnitureRenderer))
+            if (furniture.TryGetComponent(out DynamicMaterial furnitureDynamicMaterial))
+            {
+                furnitureDynamicMaterial.DefaultMaterial = difficulty.PrimaryEnviromentMaterial;
+            }
+            else if (furniture.TryGetComponent(out Renderer furnitureRenderer))
             {
                 furnitureRenderer.sharedMaterial = difficulty.PrimaryEnviromentMaterial;
             }
@@ -518,7 +522,11 @@ public class ZIndexLayer : MonoBehaviour
 
         foreach (Transform interactableEnviroment in InteractableEnviromentContainer)
         {
-            if (interactableEnviroment.TryGetComponent(out Renderer interactableEnvRenderer))
+            if (interactableEnviroment.TryGetComponent(out DynamicMaterial interactableEnviromentDynamicMaterial))
+            {
+                interactableEnviromentDynamicMaterial.DefaultMaterial = difficulty.PrimaryEnviromentMaterial;
+            }
+            else if (interactableEnviroment.TryGetComponent(out Renderer interactableEnvRenderer))
             {
                 interactableEnvRenderer.sharedMaterial = difficulty.PrimaryEnviromentMaterial;
             }

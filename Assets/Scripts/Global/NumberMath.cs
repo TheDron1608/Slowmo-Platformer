@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public static class NumberMath

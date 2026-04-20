@@ -61,15 +61,21 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     {
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         Vector2 spawnPosition = TryGetComponent(out Collider2D collider) ? GameObjectUtility.GetCenterOfCollider(collider) : transform.position;
+        Material brokenObjMaterial = GetComponent<Renderer>()?.sharedMaterial;
 
         foreach (GameObject objectInside in SpawnObjectsOnBreak)
         {
-            layer.TrySpawnObject(
+           GameObject particleGO = layer.TrySpawnObject(
                 objectInside.gameObject,
                 spawnPosition,
                 null,
                 null
-                );
+                ).FirstOrDefault();
+
+            if (brokenObjMaterial != null && particleGO != null && particleGO.TryGetComponent(out Renderer particleRenderer))
+            {
+                particleRenderer.sharedMaterial = brokenObjMaterial;
+            }
         }
         SpawnObjectsOnBreak.Clear();
 
