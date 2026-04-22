@@ -172,7 +172,7 @@ public class RangedWeapon : ThrowableWeapon
 
     protected override bool AttackCondition()
     {
-        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded && !RandomManager.Instance.ProcRandomBadChance(JamChance);
+        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded && (!RandomManager.Instance?.ProcRandomBadChance(JamChance) ?? false);
     }
 
     protected virtual bool ReloadCondition()
