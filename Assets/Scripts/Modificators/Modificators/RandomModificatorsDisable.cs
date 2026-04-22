@@ -17,9 +17,9 @@ public class RandomModificatorsDisable : AbstractModificator
         }
     }
 
-    public override void OnModificatorChoiseFinished()
+    public override void OnModificatorChoiseFinished(AbstractModificatorCardsManager choise)
     {
-        base.OnModificatorChoiseFinished();
+        base.OnModificatorChoiseFinished(choise);
 
         RandomizeDisabledModificators();
     }

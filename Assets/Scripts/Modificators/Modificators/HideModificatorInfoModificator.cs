@@ -9,11 +9,11 @@ public class HideModificatorInfoModificator : AbstractModificator
     public Sprite HiddenSprite;
     private List<ModificatorCard> _affectedCards = new();
 
-    public override void OnModificatorChoiseStarted()
+    public override void OnModificatorChoiseStarted(AbstractModificatorCardsManager choise)
     {
-        base.OnModificatorChoiseStarted();
+        base.OnModificatorChoiseStarted(choise);
 
-        CursePickManager.Instance.OnAddedItem += Instance_OnAddedItem;
+        choise.OnAddedItem += Instance_OnAddedItem;
     }
 
     private void Instance_OnAddedItem(object sender, AbstractCardItem e)
@@ -34,11 +34,11 @@ public class HideModificatorInfoModificator : AbstractModificator
         }
     }
 
-    public override void OnModificatorChoiseFinished()
+    public override void OnModificatorChoiseFinished(AbstractModificatorCardsManager choise)
     {
-        base.OnModificatorChoiseFinished();
+        base.OnModificatorChoiseFinished(choise);
 
-        CursePickManager.Instance.OnAddedItem -= Instance_OnAddedItem;
+        choise.OnAddedItem -= Instance_OnAddedItem;
         _affectedCards = new();
     }
 

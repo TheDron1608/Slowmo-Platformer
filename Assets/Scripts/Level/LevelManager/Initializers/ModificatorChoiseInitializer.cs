@@ -9,7 +9,14 @@ public class ModificatorChoiseInitializer : MonoBehaviour
         {
             if (!modificator.DisabledModificator)
             {
-                modificator.OnModificatorChoiseStarted();
+                if (CursePickManager.Instance != null)
+                {
+                    modificator.OnModificatorChoiseStarted(CursePickManager.Instance);
+                }
+                else if (BlessPickManager.Instance != null)
+                {
+                    modificator.OnModificatorChoiseStarted(BlessPickManager.Instance);
+                }
             }
         }
     }

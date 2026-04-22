@@ -239,12 +239,12 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         LayerManager.Instance.OnObjectSpawned -= OnObjectSpawned;
     }
 
-    public virtual void OnModificatorChoiseStarted()
+    public virtual void OnModificatorChoiseStarted(AbstractModificatorCardsManager choise)
     {
 
     }
 
-    public virtual void OnModificatorChoiseFinished()
+    public virtual void OnModificatorChoiseFinished(AbstractModificatorCardsManager choise)
     {
 
     }

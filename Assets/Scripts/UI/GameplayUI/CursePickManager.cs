@@ -157,7 +157,7 @@ public class CursePickManager : AbstractModificatorCardsManager
             {
                 if (!modificator.DisabledModificator)
                 {
-                    modificator.OnModificatorChoiseFinished();
+                    modificator.OnModificatorChoiseFinished(this);
                 }
             }
             _changeSceneDelayAfterSpendAllPicksCoroutine = StartCoroutine(FinishTradeAfterDelay());

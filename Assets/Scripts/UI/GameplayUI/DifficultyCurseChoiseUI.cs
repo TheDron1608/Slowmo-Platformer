@@ -24,6 +24,8 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     {
         ClearAllCards();
 
+        InvokeModificatorChoiseStarted();
+
         foreach (AbstractModificator modificator in ModificatorDebugManager.Instance.DebugModificators)
         {
 
@@ -33,6 +35,8 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
             AddCard(newCluster);
         }
 
+        InvokeModificatorChoiseFinished();
+
         _picksLeft = int.MaxValue;
         if (Cards.Count == 0) FinishTrade();
     }
@@ -40,6 +44,8 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     public void InitCurseOptions(float cursePrice)
     {
         ClearAllCards();
+
+        InvokeModificatorChoiseStarted();
 
         List<AbstractModificator> addedModificators = new();
         for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
@@ -60,6 +66,8 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
                 AddCard(newCluster);
             }
         }
+
+        InvokeModificatorChoiseFinished();
 
         if (Cards.Count == 0) FinishTrade();
     }
@@ -125,6 +133,28 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
                 {
                     character.CharComponents.CharacterEffectsReceiver.ApplyEffect(EnemiesEffectOnFinish, playerCharacter);
                 }
+            }
+        }
+    }
+
+    private void InvokeModificatorChoiseStarted()
+    {
+        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+        {
+            if (!modificator.DisabledModificator)
+            {
+                modificator.OnModificatorChoiseStarted(this);
+            }
+        }
+    }
+
+    private void InvokeModificatorChoiseFinished()
+    {
+        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+        {
+            if (!modificator.DisabledModificator)
+            {
+                modificator.OnModificatorChoiseFinished(this);
             }
         }
     }
