@@ -65,6 +65,8 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     public ModificatorTiers ModificatorTier;
     public Sprite IconSprite;
     public Sprite CardSprite;
+    public GameObject CustomIconContent = null;
+    public GameObject CustomCardContent = null;
 
     [SerializeField] private bool _multiplierable = false;
     [SerializeField] private float _modificatorPrice = 0f;

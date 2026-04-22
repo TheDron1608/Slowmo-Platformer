@@ -18,6 +18,7 @@ public class ModificatorIcon : Selectable, IModificatorInfo
     [SerializeField] private Image _titleImage;
     [SerializeField] private Image _bgImage;
     [SerializeField] private Image _disableIconImage;
+    [SerializeField] private RectTransform _customContentContainer;
 
     private float _multiplier = 1f;
     private float _currentTriggerAnimationProgress = 0f;
@@ -49,6 +50,11 @@ public class ModificatorIcon : Selectable, IModificatorInfo
 
             _disableIconImage.enabled = _disabledModificator;
         }
+    }
+
+    public RectTransform CustomContentContainer
+    {
+        get => _customContentContainer;
     }
 
     public AbstractModificator CurrentModificator

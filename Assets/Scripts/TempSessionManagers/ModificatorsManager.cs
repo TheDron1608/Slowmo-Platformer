@@ -108,7 +108,18 @@ public class ModificatorsManager : MonoBehaviour
         result.CurrentModificator = modificator;
         result.ModificatorInstance = modificator.OriginalModificator;
         result.DisabledModificator = modificator.DisabledModificator;
-        result.TitleImage.sprite = modificator.IconSprite;
+
+        if (modificator.CustomIconContent == null)
+        {
+            result.TitleImage.sprite = modificator.IconSprite;
+            result.CustomContentContainer.gameObject.SetActive(false);
+        }
+        else
+        {
+            Instantiate(modificator.CustomIconContent, result.CustomContentContainer);
+            result.TitleImage.gameObject.SetActive(false);
+        }
+
         switch (modificator.ModificatorType)
         {
             case AbstractModificator.ModificatorTypes.POSITIVE:
@@ -121,6 +132,7 @@ public class ModificatorsManager : MonoBehaviour
                 result.BgImage.material = _neutralCardTierMaterials[(int)modificator.ModificatorTier];
                 break;
         }
+
         switch (modificator.Status)
         {
             case AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT:
@@ -143,7 +155,7 @@ public class ModificatorsManager : MonoBehaviour
         ModificatorCard result = Instantiate(_emptyCardIstance, parent);
         result.name = modificator.name + "Card";
         result.ModificatorInstance = modificator;
-        result.TitleImage.sprite = modificator.CardSprite;
+
         switch (modificator.ModificatorType)
         {
             case AbstractModificator.ModificatorTypes.POSITIVE:
@@ -156,6 +168,18 @@ public class ModificatorsManager : MonoBehaviour
                 result.BgImage.material = _neutralCardTierMaterials[(int)modificator.ModificatorTier];
                 break;
         }
+
+        if (modificator.CustomCardContent == null)
+        {
+            result.TitleImage.sprite = modificator.CardSprite;
+            result.CustomContentContainer.gameObject.SetActive(false);
+        }
+        else
+        {
+            Instantiate(modificator.CustomCardContent, result.CustomContentContainer);
+            result.TitleImage.gameObject.SetActive(false);
+        }
+
         result.Localization = Instantiate(modificator.Localization, result.transform);
 
         return result;

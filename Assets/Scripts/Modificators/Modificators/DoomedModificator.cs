@@ -11,13 +11,16 @@ public class DoomedModificator : AbstractModificator
 
     private float _timeLeft = 300f;
 
+    public float TimeLeft
+    {
+        get => _timeLeft;
+    }
+
     public override void OnModificatorAdded()
     {
         base.OnModificatorAdded();
 
         _timeLeft = TimeSeconds;
-
-        UpdateIconText();
     }
 
     private void Update()
@@ -45,28 +48,6 @@ public class DoomedModificator : AbstractModificator
                     {
                         character.CharComponents.CharacterHealth.Gib(null);
                     }
-                }
-            }
-        }
-
-        UpdateIconText();
-    }
-
-    private void UpdateIconText()
-    {
-        if (CurrentIcon != null)
-        {
-            TextMeshProUGUI iconText = CurrentIcon.GetComponentInChildren<TextMeshProUGUI>();
-
-            if (iconText != null)
-            {
-                if (_timeLeft > 0f)
-                {
-                    iconText.text = new TimeSpan(0, 0, (int)_timeLeft).ToString("mm':'ss");
-                }
-                else
-                {
-                    iconText.text = TIME_OUT_TEXT;
                 }
             }
         }

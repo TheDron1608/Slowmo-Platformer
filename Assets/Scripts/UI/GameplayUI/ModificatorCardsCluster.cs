@@ -41,7 +41,9 @@ public class ModificatorCardsCluster : AbstractCardItem
         }
     }
 
-    private void Update()
+    //cool but disturbing visual effect
+
+    /*private void Update()
     {
         if (EventSystem.current == null) return;
 
@@ -59,7 +61,7 @@ public class ModificatorCardsCluster : AbstractCardItem
             Cards[i].transform.Rotate(new Vector3(0, 0f, 1f), targetRotation);
             Cards[i].transform.position = _cardsContainer.transform.position + Vector3.left * (targetRotation / 60f) * math.abs(Cards[i].GetComponent<RectTransform>().rect.width);
         }
-    }
+    }*/
 
     public void AddModificator(List<AbstractModificator> modificators)
     {
