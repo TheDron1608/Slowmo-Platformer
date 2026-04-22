@@ -4,6 +4,7 @@ using UnityEngine;
 public class CharacterPartsManager : AbstractCharacterComponent
 {
     private List<CharacterPart> _characterParts = new();
+    private List<CharacterEquipmentPart> _awaitingAddEquipments = new();
 
     public List<CharacterPart> CharacterParts
     {
@@ -14,6 +15,15 @@ public class CharacterPartsManager : AbstractCharacterComponent
     {
         base.OnAwake();
         UpdateCharacterParts();
+    }
+
+    private void OnEnable()
+    {
+        foreach (CharacterEquipmentPart awaitedEquipment in _awaitingAddEquipments)
+        {
+            ForceAddPart(awaitedEquipment);
+        }
+        _awaitingAddEquipments.Clear();
     }
 
     private void UpdateCharacterParts()
@@ -93,21 +103,16 @@ public class CharacterPartsManager : AbstractCharacterComponent
         return result;
     }
 
-    public CharacterEquipmentPart GiveNewEquipment(CharacterEquipmentPart equipment)
+    public void GiveNewEquipment(CharacterEquipmentPart equipment)
     {
-        if (equipment == null) return null;
-
-        foreach (CharacterEquipmentPart limbEquipment in GetCharacterPartEquipment(GetCharacterPart(equipment.EquipAtType)))
+        if (gameObject.activeInHierarchy)
         {
-            limbEquipment.DestroyPart();
+            ForceAddPart(equipment);
         }
-
-        CharacterEquipmentPart newEquipment = Instantiate(equipment, CharComponents.CharacterPartsContainer.transform);
-        LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(newEquipment.gameObject), newEquipment.gameObject);
-        AddCharacterPart(newEquipment);
-        LayerManager.Instance.InvokeOnObjectSpawned(newEquipment.gameObject);
-
-        return newEquipment;
+        else
+        {
+            _awaitingAddEquipments.Add(equipment);
+        }
     }
 
     public void RemoveEquipment(CharacterEquipmentPart equipment)
@@ -121,6 +126,23 @@ public class CharacterPartsManager : AbstractCharacterComponent
                 i--;
             }
         }
+    }
+
+    private CharacterEquipmentPart ForceAddPart(CharacterEquipmentPart equipment)
+    {
+        if (equipment == null) return null;
+
+        foreach (CharacterEquipmentPart limbEquipment in GetCharacterPartEquipment(GetCharacterPart(equipment.EquipAtType)))
+        {
+            limbEquipment.DestroyPart();
+        }
+
+        CharacterEquipmentPart newEquipment = Instantiate(equipment, CharComponents.CharacterPartsContainer.transform);
+        CharComponents.CharacterCollision.CurrentZLayer.UpdateLayerForAllChildren(newEquipment.transform);
+        AddCharacterPart(newEquipment);
+        LayerManager.Instance.InvokeOnObjectSpawned(newEquipment.gameObject);
+
+        return newEquipment;
     }
 
     private void OnDestroy()

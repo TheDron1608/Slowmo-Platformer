@@ -10,6 +10,32 @@ public class AddEnemyPoolItemModificator : AbstractModificator
     {
         base.OnModificatorAdded();
 
+        if (LayerManager.Instance != null)
+        {
+            foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
+            {
+                foreach (Transform characterT in layer.CharactersContainer)
+                {
+                    if (
+                        UnityEngine.Random.value < AddedEnemyItem.Rarity &&
+                        characterT.TryGetComponent(out AbstractCharacterComponent character)
+                        ) 
+                    {
+                        Vector2 oldCharacterPosition = characterT.position;
+                        if (character.CharComponents != null)
+                        {
+                            character.CharComponents.CharacterHealth.Gib(null);
+                        }
+                        else
+                        {
+                            Destroy(character.gameObject);
+                        }
+                        AddedEnemyItem.SpawnAt(oldCharacterPosition, layer);
+                    }
+                }
+            }
+        }
+
         _addedEnemyItem = Instantiate(AddedEnemyItem);
         _addedEnemyItem.Rarity *= ModificatorMultiplier;
 

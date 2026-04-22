@@ -41,6 +41,31 @@ public abstract class AbstractTeamHoldablesModificator : AbstractModificator
         }
     }
 
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        if (LayerManager.Instance != null)
+        {
+            foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
+            {
+                foreach (Transform holdableT in layer.HoldablesContainer)
+                {
+                    if (
+                        holdableT.TryGetComponent(out Holdable holdable) &&
+                        RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
+                        )
+                    {
+                        _affectedHoldables.Add(holdable);
+                        holdable.OnGiven += AffectedHoldable_OnGiven;
+                        holdable.OnThrown += AffectedHoldable_OnThrown;
+                        OnHoldableAffected(holdable);
+                    }
+                }
+            }
+        }
+    }
+
     public override void OnModificatorRemoved()
     {
         base.OnModificatorRemoved();

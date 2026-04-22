@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEngine;
 
 public class RandomModificatorsDisable : AbstractModificator
 {
@@ -9,10 +7,25 @@ public class RandomModificatorsDisable : AbstractModificator
 
     private List<AbstractModificator> _currentDisabledModificators = new();
 
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        if (SceneList.GetCurrentSceneIsGameplay())
+        {
+            RandomizeDisabledModificators();
+        }
+    }
+
     public override void OnModificatorChoiseFinished()
     {
         base.OnModificatorChoiseFinished();
 
+        RandomizeDisabledModificators();
+    }
+
+    private void RandomizeDisabledModificators()
+    {
         //getting valid modificators for disable
         List<AbstractModificator> possibleModificatorsForDisable = new();
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
@@ -51,7 +64,5 @@ public class RandomModificatorsDisable : AbstractModificator
             }
         }
         _currentDisabledModificators = disableModificators;
-
-       // Debug.Log(_currentDisabledModificators.Count);
     }
 }

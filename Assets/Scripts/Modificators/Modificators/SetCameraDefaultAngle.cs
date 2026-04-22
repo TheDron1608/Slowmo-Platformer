@@ -6,6 +6,18 @@ public class SetCameraDefaultAngle : AbstractModificator
 
     private float _defaultCameraAngle;
 
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        if (SceneList.GetCurrentSceneIsGameplay())
+        {
+            _defaultCameraAngle = Camera.main.GetComponent<CameraTrack>().DefaultCameraAngle;
+            Camera.main.GetComponent<CameraTrack>().DefaultCameraAngle = CameraAngle;
+            Camera.main.GetComponent<CameraTrack>().InstantRotateToTrackVelocity();
+        }
+    }
+
     public override void OnLevelGenerated()
     {
         base.OnLevelGenerated();

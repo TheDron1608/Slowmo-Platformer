@@ -30,6 +30,18 @@ public class SetWorldGenerationChunksModificator : AbstractModificator
         WorldGenerationManager.Instance.UnclosedConnectionsChunks = UnclosedConnectionsChunks;
         WorldGenerationManager.Instance.ParallelRooms = ParallelRooms;
         WorldGenerationManager.Instance.UnlosedConnectionChunkGenerationChance = UnlosedConnectionChunkGenerationChance;
+
+        if (SceneList.GetCurrentSceneIsGameplay())
+        {
+            if (UIManager.Instance.DifficultyCurseChoiseScreenOverlay.IsShown())
+            {
+                UIManager.Instance.DifficultyCurseChoiseScreenOverlay.DifficultyCurseChoiseUI.RequestSceneChangeOnFinish(SceneList.GAMEPLAY);
+            }
+            else
+            {
+                UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+            }
+        }
     }
 
     public override void OnModificatorRemoved()

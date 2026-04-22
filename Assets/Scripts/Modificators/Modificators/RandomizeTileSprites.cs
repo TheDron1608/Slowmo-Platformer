@@ -14,10 +14,32 @@ public class RandomizeTileSprites : AbstractModificator
 
     private Tile[] RandomTilesScriptableObjs;
 
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        if (LayerManager.Instance != null)
+        {
+            GenerateRandomizedTiles();
+        }
+    }
+
     public override void OnLevelGenerated()
     {
         base.OnLevelGenerated();
 
+        GenerateRandomizedTiles();
+    }
+
+    public override void OnModificatorRemoved()
+    {
+        base.OnModificatorRemoved();
+
+        HideRandomizedTiles();
+    }
+
+    private void GenerateRandomizedTiles()
+    {
         RandomTilesScriptableObjs = new Tile[RandomSpritesPool.Count];
         for (int i = 0; i < RandomTilesScriptableObjs.Length; i++)
         {
@@ -49,8 +71,8 @@ public class RandomizeTileSprites : AbstractModificator
                     if (currentSprite != null)
                     {
                         layer.MultiTileMapsContainer.GetHallucinationTilemap().SetTile(
-                            currentTilePos, 
-                            RandomManager.Instance.ProcRandomBadChanceNoTrigger(RandomizeAmount) ? 
+                            currentTilePos,
+                            RandomManager.Instance.ProcRandomBadChanceNoTrigger(RandomizeAmount) ?
                                 NumberMath.PickRandomItem(RandomTilesScriptableObjs) :
                                 (
                                     layer.MultiTileMapsContainer.GetForeground().GetTile(currentTilePos) ??
@@ -73,10 +95,8 @@ public class RandomizeTileSprites : AbstractModificator
         }
     }
 
-    public override void OnModificatorRemoved()
+    private void HideRandomizedTiles()
     {
-        base.OnModificatorRemoved();
-
         if (LayerManager.Instance != null)
         {
             foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)

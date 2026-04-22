@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-1)]
 public class SpawnManager : MonoBehaviour
@@ -10,11 +12,21 @@ public class SpawnManager : MonoBehaviour
     public List<LootDropChanceInfo> LootDropsInstance = new();
     public List<EnemySpawnInfo> EnemyPoolInstance = new();
     public CharacterComponentsManager PlayerCharacter;
-    public float EnemyAmountPerSpawner = 1f;
 
+    [SerializeField] private float _enemyAmountPerSpawner = 1f;
+    private float _actualEnemyAmountPerSpawner = 1f;
     private List<LootDropChanceInfo> _lootDrops;
     private List<EnemySpawnInfo> _enemyPool;
 
+    public float EnemyAmountPerSpawner
+    {
+        get => _enemyAmountPerSpawner;
+        set
+        {
+            _actualEnemyAmountPerSpawner = math.max(_enemyAmountPerSpawner, value);
+            _enemyAmountPerSpawner = value;
+        }
+    }
     public List<LootDropChanceInfo> LootDrops
     {
         get => _lootDrops;
@@ -24,6 +36,10 @@ public class SpawnManager : MonoBehaviour
     {
         get => _enemyPool;
         set => _enemyPool = value;
+    }
+    public float ActualEnemyAmountPerSpawner
+    {
+        get => _actualEnemyAmountPerSpawner;
     }
 
     public List<GameObject> GetLootDropsByType(LootDropChanceInfo.LootSpawnerTypes type)
@@ -92,10 +108,18 @@ public class SpawnManager : MonoBehaviour
 
         LootDrops = NumberMath.CreateCopyOfListOfInstantiatableObjs(LootDropsInstance);
         EnemyPool = NumberMath.CreateCopyOfListOfInstantiatableObjs(EnemyPoolInstance);
+
+        SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+    }
+
+    private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
+    {
+        _actualEnemyAmountPerSpawner = EnemyAmountPerSpawner;
     }
 
     private void OnDestroy()
     {
+        SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
         Instance = null;
     }
 }

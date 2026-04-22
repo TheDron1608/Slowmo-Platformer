@@ -14,6 +14,7 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
     public Material EffectMaterial = null;
 
     private ObjectEffectsReceiver _affectedObject;
+    private bool _initialized = false; 
 
     public event EventHandler OnRemoved;
 
@@ -31,6 +32,7 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
 
     private void Awake()
     {
+        _initialized = true;
         if (transform.parent.TryGetComponent(out _affectedObject))
         {
             OnApply();
@@ -43,7 +45,10 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
 
     public void OnRemovedEffect()
     {
-        OnRemove();
+        if (_initialized)
+        {
+            OnRemove();
+        }
         Destroy(gameObject);
     }
 

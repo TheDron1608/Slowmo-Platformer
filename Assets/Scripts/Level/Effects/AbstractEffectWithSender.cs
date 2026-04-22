@@ -19,7 +19,6 @@ public abstract class AbstractEffectWithSender : AbstractEffect
         if (sender != null || GetType().HasAttribute<AllowEffectWithSenderReceiveNull>())
         {
             Sender = sender;
-            OnReceivedSender(sender);
         }
         else
         {
@@ -39,6 +38,10 @@ public abstract class AbstractEffectWithSender : AbstractEffect
             {
                 throw new UnityException(gameObject.name + " not received sender at the end of the frame it was instanitiated, use AllowEffectWithSenderReceiveNull to allow use null as receiver");
             }
+        }
+        else
+        {
+            OnReceivedSender(Sender);
         }
     }
 

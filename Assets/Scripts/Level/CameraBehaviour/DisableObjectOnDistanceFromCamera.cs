@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DefaultExecutionOrder(100)]
 public class DisableObjectOnDistanceFromCamera : MonoBehaviour
 {
     public float DistanceToDistable = 50f;

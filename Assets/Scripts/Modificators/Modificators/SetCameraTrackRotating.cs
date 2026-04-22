@@ -6,6 +6,18 @@ public class SetCameraTrackRotating : AbstractModificator
 
     private float _defaultTrackRotatingDeg;
 
+
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        if (SceneList.GetCurrentSceneIsGameplay())
+        {
+            _defaultTrackRotatingDeg = Camera.main.GetComponent<CameraTrack>().CameraTrackRotatingDeg;
+            Camera.main.GetComponent<CameraTrack>().CameraTrackRotatingDeg = TrackRotatingDeg;
+        }
+    }
+
     public override void OnLevelGenerated()
     {
         base.OnLevelGenerated();

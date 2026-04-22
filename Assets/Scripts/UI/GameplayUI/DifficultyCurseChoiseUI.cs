@@ -12,6 +12,7 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     public float EnemyEffectAffectDistance = 10f;
 
     private int _picksLeft = 1;
+    private string _requestSceneChangeOnFinish = null;
 
     private void OnEnable()
     {
@@ -63,6 +64,11 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
         if (Cards.Count == 0) FinishTrade();
     }
 
+    public void RequestSceneChangeOnFinish(string sceneName)
+    {
+        _requestSceneChangeOnFinish = sceneName;
+    }
+
     public override void SpendPicksLeft(int amount = 1)
     {
         _picksLeft -= amount;
@@ -92,9 +98,15 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
             }
         }
 
+        UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Hide();
+
         ApplyFinishEffects();
 
-        UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Hide();
+        if (_requestSceneChangeOnFinish != null)
+        {
+            UIManager.Instance.LoadSceneWithEffect(_requestSceneChangeOnFinish);
+            _requestSceneChangeOnFinish = null;
+        }
     }
 
     private void ApplyFinishEffects()

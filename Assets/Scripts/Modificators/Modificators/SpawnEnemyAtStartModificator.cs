@@ -12,6 +12,16 @@ public class SpawnEnemyAtStartModificator : AbstractModificator
 
     private List<CharacterComponentsManager> _addedEnemies = new();
 
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        if (SceneList.GetCurrentSceneIsGameplay())
+        {
+            SpawnEnemy();
+        }
+    }
+
     public override void OnLevelGenerated()
     {
         base.OnLevelGenerated();
@@ -23,6 +33,11 @@ public class SpawnEnemyAtStartModificator : AbstractModificator
     {
         yield return new WaitForSeconds(SpawnDelaySeconds);
 
+        SpawnEnemy();
+    }
+
+    private void SpawnEnemy()
+    {
         if (WorldGenerationManager.Instance.GeneratedBuildings.Count > 0)
         {
             for (int i = 0; i < math.max(1f, ModificatorMultiplier); i++)

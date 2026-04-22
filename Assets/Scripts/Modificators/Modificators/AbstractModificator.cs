@@ -67,10 +67,10 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     public Sprite CardSprite;
 
     [SerializeField] private bool _multiplierable = false;
-    [SerializeField] private float _modificatorMultiplier = 1f;
     [SerializeField] private float _modificatorPrice = 0f;
     [SerializeField] private ModificatorLocalization _localization;
 
+    private float _modificatorMultiplier = 1f;
     private ModificatorStatuses _status;
     private ModificatorIcon _currentIcon;
     private AbstractModificator _originalModificator = null;
@@ -90,8 +90,8 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
 
     public float ModificatorPrice
     {
-        get => _modificatorMultiplier;
-        set => _modificatorMultiplier = value;
+        get => _modificatorPrice;
+        set => _modificatorPrice = value;
     }
 
     public ModificatorLocalization Localization

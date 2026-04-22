@@ -25,6 +25,30 @@ public abstract class AbstractCharactersModificator : AbstractModificator
         }
     }
 
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        if (LayerManager.Instance != null)
+        {
+            foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
+            {
+                foreach (Transform characterT in layer.CharactersContainer)
+                {
+                    if (
+                        characterT.TryGetComponent(out AbstractCharacterComponent character) &&
+                        character.CharComponents.CharacterTeam.Team == Team &&
+                        RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
+                        )
+                    {
+                        _affectedCharacters.Add(character.CharComponents);
+                        OnCharacterAffected(character.CharComponents);
+                    }
+                }
+            }
+        }
+    }
+
     public override void OnModificatorRemoved()
     {
         base.OnModificatorRemoved();
