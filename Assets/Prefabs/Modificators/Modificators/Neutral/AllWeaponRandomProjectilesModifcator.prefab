@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stackable: 0
+  AllowPermanent: 1
   OverrideModificators:
   - {fileID: 3235146437312553186, guid: 6bd80ffb63f072f489675689cdacd82f, type: 3}
   - {fileID: 3235146437312553186, guid: 6ca68ff39e28d4940a126726bd0176d9, type: 3}
@@ -124,10 +125,11 @@ MonoBehaviour:
   UnsynergingModificators: []
   ModificatorType: 2
   ModificatorTier: 3
-  IconSprite: {fileID: 0}
+  IconSprite: {fileID: 21300000, guid: 95eb4f9905a688d4fabbe11bb1bec23f, type: 3}
   CardSprite: {fileID: 0}
+  CustomIconContent: {fileID: 0}
+  CustomCardContent: {fileID: 3917497354415684865, guid: 39c080b52bf9dd048aa3de5b57dc9024, type: 3}
   _multiplierable: 0
-  _modificatorMultiplier: 50
   _modificatorPrice: 0
   _localization: {fileID: 2147315170708439846}
   Tag: 
