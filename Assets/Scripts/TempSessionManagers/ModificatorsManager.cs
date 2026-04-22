@@ -189,7 +189,11 @@ public class ModificatorsManager : MonoBehaviour
     {
         for (int i = 0; i < CurrentModificators.Count; i++)
         {
-            if (CurrentModificators[i].GetIsRestrictedWith(modificator))
+            if (CurrentModificators[i].GetIsOverriding(modificator))
+            {
+                return null;
+            }
+            else if (CurrentModificators[i].GetIsRestrictedWith(modificator))
             {
                 RemoveModificatorAt(i);
                 i--;
