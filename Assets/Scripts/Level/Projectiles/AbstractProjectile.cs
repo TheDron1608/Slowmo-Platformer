@@ -19,6 +19,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public bool IsAbleToHit = true;
     public Sprite GameplayUISprite;
     public AbstractSoundPlayer SoundOnAttack;
+    public CharacterVisual.CharacterPartBusyStates UnarmedAttackAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
 
     private Weapon _weapon = null;
     private CharacterHoldingObjects _deflector = null;
@@ -179,6 +180,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         FriendlyFire = original.FriendlyFire;
         IsAbleToHit = original.IsAbleToHit;
         HitAmountOnSingleTargetForExtraEffects = original.HitAmountOnSingleTargetForExtraEffects;
+        UnarmedAttackAnimation = original.UnarmedAttackAnimation;
 
         Animator animator = GetComponent<Animator>();
         Animator originalAnimator = original.GetComponent<Animator>();
@@ -268,6 +270,13 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
                 for (int i = 0; i < projectiles.Count; i++)
                 {
                     holderCharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffects, projectiles[i], 1f, true);
+                }
+            }
+            else if (weapon.TryGetComponent(out UnarmedWeapon unarmedWeapon))
+            {
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    unarmedWeapon.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffects, projectiles[i], 1f, true);
                 }
             }
 

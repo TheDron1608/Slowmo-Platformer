@@ -28,6 +28,15 @@ public class UnarmedWeapon : Weapon
         throw new UnityException("not found CharacterComponentsManager component in " + gameObject.name + " or in the same tagged child gameObjects");
     }
 
+    protected override bool OnTryAttackSuccess(Vector2 direction)
+    {
+        if (Projectile.UnarmedAttackAnimation != CharacterVisual.CharacterPartBusyStates.NONE)
+        {
+            CharComponents.CharacterVisual.CurrentBusyAnimation = Projectile.UnarmedAttackAnimation;
+        }
+        return base.OnTryAttackSuccess(direction);
+    }
+
     private void Update()
     {
         transform.rotation = VectorMath.Vec2ToQuarterninon2D(CharComponents.CharacterAiming.GetCurrentAimNormalized());

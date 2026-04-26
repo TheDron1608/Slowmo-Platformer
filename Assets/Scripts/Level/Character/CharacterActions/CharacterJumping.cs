@@ -70,7 +70,11 @@ public class CharacterJumping : AbstractCharacterComponent
     {
         if (
             (
-                (CharComponents.CharacterVisual.IsBusy() && !(CanForceStopRollingOnJump && CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.ROLL)) &&
+                (
+                    CharComponents.CharacterVisual.IsBusy() && 
+                    !(CanForceStopRollingOnJump && CharComponents.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.ROLL) &&
+                    !CharComponents.CharacterVisual.AllowMovementOnBusyAnimation
+                    ) &&
                 CharComponents.CharacterVisual.CurrentBusyAnimation != CharacterVisual.CharacterPartBusyStates.CLUMSY_JUMP_CHANGE
             ) ||
             !IsAbleToJump

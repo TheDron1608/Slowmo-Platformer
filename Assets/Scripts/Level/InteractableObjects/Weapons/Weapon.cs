@@ -188,6 +188,14 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         return AttackCondition();
     }
 
+    public void RemoveAllProjectiles()
+    {
+        while (Projectiles.Count > 0)
+        {
+            Projectiles[0].RemoveProjectile();
+        }
+    }
+
     protected virtual bool OnTryAttackSuccess(Vector2 direction)
     {
         OnAttackSucceed?.Invoke(this, EventArgs.Empty);

@@ -46,7 +46,8 @@ public class CharacterVisual : AbstractCharacterComponent
         CLUMSY_SHIELD = 14,
         FINISH_OFF = 15,
         BREAK_NECK = 16,
-        BROKE_NECK = 17
+        BROKE_NECK = 17,
+        KICK = 18
     }
 
     public class OnBusyStateChangedEventArgs
@@ -98,6 +99,7 @@ public class CharacterVisual : AbstractCharacterComponent
     private Coroutine _coolFlipCoroutine = null;
     private bool _currentCoolFlipRotationAxisReversed = false;
     private float _stunRecoverAnimationTimeMult = 1f;
+    private bool _allowMovementOnBusyAnimation = false;
 
     public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
@@ -161,6 +163,12 @@ public class CharacterVisual : AbstractCharacterComponent
             _currentBusyAnimation = value;
             CharComponents.Animator.SetInteger(ANIMATOR_BUSY_STATE_PARAM_NAME, (int)value);
         }
+    }
+
+    public bool AllowMovementOnBusyAnimation
+    {
+        get => _allowMovementOnBusyAnimation;
+        set => _allowMovementOnBusyAnimation = value;
     }
 
     public bool IsBusy()
@@ -392,5 +400,10 @@ public class CharacterVisual : AbstractCharacterComponent
         {
             finishingOff.Animator_FinishFinishingOff();
         }
+    }
+
+    public void Animator_FinishUnarmedAttacking()
+    {
+        CharComponents.UnarmedAttacking.RemoveAllProjectiles();
     }
 }

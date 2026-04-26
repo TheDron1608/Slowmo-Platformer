@@ -129,7 +129,10 @@ public class CharacterMoving : AbstractCharacterComponent
     /// <param name="direction">Value between -1 and 1</param>
     public void TryMove(float direction)
     {
-        if (IsAbleToMove && !CharComponents.CharacterVisual.IsBusy())
+        if (
+            IsAbleToMove && 
+            (!CharComponents.CharacterVisual.IsBusy() || CharComponents.CharacterVisual.AllowMovementOnBusyAnimation)
+            )
         {
             if (GetIsNeedChangeClumsyDirection(direction))
             {
@@ -185,7 +188,7 @@ public class CharacterMoving : AbstractCharacterComponent
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
-        if (e.NewState != CharacterVisual.CharacterPartBusyStates.NONE)
+        if (e.NewState != CharacterVisual.CharacterPartBusyStates.NONE && !CharComponents.CharacterVisual.AllowMovementOnBusyAnimation)
         {
             ForceMove(0f);
         }
