@@ -28,7 +28,7 @@ public class CameraDisablerObjectsOnDistance : MonoBehaviour
     {
         foreach (var trackedObject in TrackedObjects)
         {
-            if (trackedObject.enabled)
+            if (trackedObject.enabled && trackedObject.DisableCondition())
             {
                 bool newValue = Vector2.Distance(transform.position, trackedObject.transform.position) < trackedObject.DistanceToDistable;
                 if (trackedObject.gameObject.activeSelf != newValue)

@@ -34,22 +34,31 @@ public class ObjectEffectsReceiver : MonoBehaviour
             return senderHoldable.CurrentHolder;
         }
         else if (
-            sender.TryGetComponent(out AbstractProjectile senderProjectile) && !senderProjectile.IsDestroyed() &&
-            senderProjectile.Weapon != null && !senderProjectile.Weapon.IsDestroyed()
+            sender.TryGetComponent(out AbstractProjectile senderProjectile) && !senderProjectile.IsDestroyed()
             )
         {
             if (
-                senderProjectile.Weapon.TryGetComponent(out Holdable holdableWeapon) && 
-                holdableWeapon != null && !holdableWeapon.IsDestroyed())
-            {
-                return holdableWeapon?.CurrentHolder;
-            }
-            else if (
-                senderProjectile.Weapon.TryGetComponent(out UnarmedWeapon unarmedWeapon) &&
-                unarmedWeapon != null && !unarmedWeapon.IsDestroyed()
+                senderProjectile.Deflector != null &&
+                !senderProjectile.Deflector.IsDestroyed()
                 )
             {
-                return unarmedWeapon?.CharComponents.CharacterAttacking;
+                return senderProjectile.Deflector;
+            }
+            else if (senderProjectile.Weapon != null && !senderProjectile.Weapon.IsDestroyed())
+            {
+                if (
+                    senderProjectile.Weapon.TryGetComponent(out Holdable holdableWeapon) &&
+                    holdableWeapon != null && !holdableWeapon.IsDestroyed())
+                {
+                    return holdableWeapon?.CurrentHolder;
+                }
+                else if (
+                    senderProjectile.Weapon.TryGetComponent(out UnarmedWeapon unarmedWeapon) &&
+                    unarmedWeapon != null && !unarmedWeapon.IsDestroyed()
+                    )
+                {
+                    return unarmedWeapon?.CharComponents.CharacterAttacking;
+                }
             }
         }
         return null;

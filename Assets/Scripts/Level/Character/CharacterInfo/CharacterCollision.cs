@@ -368,6 +368,11 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         if (CharComponents.Center.transform.position.y < LayerManager.Instance.GetLevelBottom() && !CharComponents.CharacterVisual.GetIsVisible())
         {
+            if (_encountKillOnOutOfMapCharacter?.CharComponents.CharacterTeam.Team == ScoreManager.TRACKED_TEAM && !CharComponents.CharacterHealth.Died)
+            {
+                ScoreManager.Instance.AddCombo();
+            }
+
             CharComponents.CharacterHealth.Die(_encountKillOnOutOfMapCharacter, null);
             Destroy(CharComponents.gameObject);
         }
