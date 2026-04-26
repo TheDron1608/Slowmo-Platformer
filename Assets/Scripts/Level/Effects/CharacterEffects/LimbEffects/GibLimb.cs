@@ -9,4 +9,11 @@ public class GibLimb : AbstractCharacterLimbEffectWithSender
 
         RemoveSelf();
     }
+
+    public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
+    {
+        return
+            base.ApplyCondition(affectWho, sender) &&
+            (affectWho.GetComponent<CharacterLimbPart>()?.CharPartHealth.Gibable ?? false);
+    }
 }

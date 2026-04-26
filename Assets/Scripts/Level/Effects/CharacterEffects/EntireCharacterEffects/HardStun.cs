@@ -22,6 +22,7 @@ public class HardStun : AbstractStun, IMultiplierableEffect
     protected override void OnApply()
     {
         _oldStun = transform.parent.GetComponent<AbstractCharacterComponent>().CharComponents.CharacterEffectsReceiver.GetEffect<HardStun>();
+        AffectedObject.RemoveEffect<MinorStun>();
 
         base.OnApply();
 

@@ -33,7 +33,7 @@ public class Knockback : AbstractCharacterEffectWithSender, IEntireCharacterEffe
         }
         else
         {
-            throw new UnityException("Knockback effect must be sended by GameObject containing AbstractProjectile component");
+            throw new UnityException("Knockback effect must be sended by GameObject containing AbstractProjectile or RigihBody2D component");
         }
 
         if (CanFlipSprites)

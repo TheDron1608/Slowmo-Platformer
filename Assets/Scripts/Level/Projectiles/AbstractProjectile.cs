@@ -9,10 +9,12 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     const string ANIMATOR_RESET_TRIGGER_NAME = "Reset";
 
     public int AmountOnSpawn = 1;
+    public int HitAmountOnSingleTargetForExtraEffects = 1;
     public float Accuracy = 1f;
     public List<AbstractEffect> HitEffects = new();
     public List<AbstractEffect> SelfEffects = new();
     public List<AbstractEffect> SelfEffectsOnWeapon = new();
+    public List<AbstractEffect> ExtraEffectsOnAllProjectilesHitSingleTarget = new();
     public bool FriendlyFire = false;
     public bool IsAbleToHit = true;
     public Sprite GameplayUISprite;
@@ -27,6 +29,8 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     private BoxCollider2D _colliderComponent;
     private List<AbstractEffect> _extraEffectsFromWeapon = new();
     private List<AbstractEffect> _extraEffectsFromOwner = new();
+    private List<AbstractProjectile> _multitSpawnProjectiles = new();
+    private List<GameObject> _hitObjects = new();
 
     public event EventHandler<GameObject> OnHitSomeOne;
     public event EventHandler OnDestroyed;
@@ -40,6 +44,11 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public bool WasDeflectedThisFrame
     {
         get => _wasDeflectedThisFrame;
+    }
+
+    public List<GameObject> HitObjects
+    {
+        get => _hitObjects;
     }
 
     private void Awake()
@@ -129,6 +138,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         {
             AbstractProjectile newProjectile = ProjectilesManager.Instance.GetUnusedProjectile(this);
             newProjectile.SetAttrs(this, VectorMath.RandomizeQuarternion(direction, Accuracy * accuracityMultiplier), position, layer, weapon);
+            newProjectile._multitSpawnProjectiles = result;
             result.Insert(i, newProjectile);
         }
 
@@ -154,6 +164,8 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         _weapon = null;
         _owner = null;
         _deflector = null;
+        _multitSpawnProjectiles = new();
+        _hitObjects = new();
 
         transform.rotation = direction;
         transform.position = weapon.ProjectileSpawnPosition.transform.position;
@@ -163,8 +175,10 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         Accuracy = original.Accuracy;
         HitEffects = original.HitEffects;
         SelfEffects = original.SelfEffects;
+        ExtraEffectsOnAllProjectilesHitSingleTarget = original.ExtraEffectsOnAllProjectilesHitSingleTarget;
         FriendlyFire = original.FriendlyFire;
         IsAbleToHit = original.IsAbleToHit;
+        HitAmountOnSingleTargetForExtraEffects = original.HitAmountOnSingleTargetForExtraEffects;
 
         Animator animator = GetComponent<Animator>();
         Animator originalAnimator = original.GetComponent<Animator>();
@@ -269,6 +283,8 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
     public virtual void OnHit(GameObject hitObject)
     {
+        _hitObjects.Add(hitObject);
+
         if (hitObject.TryGetComponent(out MeleeProjectile meleeProjectile) && meleeProjectile.DeflectCondition(this))
         {
             meleeProjectile.OnDeflect(this);
@@ -277,8 +293,13 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         if (GameObjectUtility.TryGetComponentInSelfOrParent(hitObject.gameObject, out ObjectEffectsReceiver hitObjectEffectsReceiver))
         {
             hitObjectEffectsReceiver.ApplyEffect(HitEffects, this);
-            if (WasDeflectedThisFrame) return;
 
+            if (_multitSpawnProjectiles.Count(e => e.HitObjects.Contains(hitObject)) == HitAmountOnSingleTargetForExtraEffects)
+            {
+                hitObjectEffectsReceiver.ApplyEffect(ExtraEffectsOnAllProjectilesHitSingleTarget, this);
+            }
+
+            if (WasDeflectedThisFrame) return;
 
             OnHitSomeOne?.Invoke(this, hitObject);
         }

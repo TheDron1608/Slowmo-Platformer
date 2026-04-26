@@ -9,7 +9,7 @@ public class Death : AbstractStun, ILethalEffect
 
         AffectedCharacter.CharacterVisual.BreakBusyAnimation();
 
-        AffectedCharacter.CharacterEffectsReceiver.RemoveEffect<MinorStun>();
+        AffectedObject.RemoveEffectExceptSelf(this);
 
         AffectedCharacter.CharacterMoving.IsAbleToMove = false;
         AffectedCharacter.CharacterJumping.IsAbleToJump = false;

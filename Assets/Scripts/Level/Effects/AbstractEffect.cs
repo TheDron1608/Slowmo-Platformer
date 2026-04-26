@@ -32,6 +32,11 @@ public abstract class AbstractEffect : MonoBehaviour, IComparable<AbstractEffect
 
     private void Awake()
     {
+        OnAwake();
+    }
+
+    protected virtual void OnAwake()
+    {
         _initialized = true;
         if (transform.parent.TryGetComponent(out _affectedObject))
         {

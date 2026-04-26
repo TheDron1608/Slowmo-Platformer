@@ -3,14 +3,6 @@ using UnityEngine;
 
 public class RangedWeapon : ThrowableWeapon
 {
-    public enum ProjectileType
-    {
-        BULLET,
-        BUCKSHOT,
-        BURST,
-        BUCKSHOT_BURST
-    }
-
     protected const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
     protected const string CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudParticleSpawner";
     protected const string SHOOT_LIGHT_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "ShootLightParticleSpawner";

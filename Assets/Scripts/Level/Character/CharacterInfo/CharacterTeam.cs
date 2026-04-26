@@ -56,7 +56,8 @@ public class CharacterTeam : AbstractCharacterComponent
         if (
             e.Effect is ILethalEffect &&
             e.Receiver.TryGetComponent(out AbstractCharacterComponent characterReceiver) &&
-            !characterReceiver.CharComponents.CharacterHealth.Died
+            !characterReceiver.CharComponents.CharacterHealth.Died &&
+            ScoreTracker.Instance != null
             )
         {
             ScoreManager.Instance.AddCombo();

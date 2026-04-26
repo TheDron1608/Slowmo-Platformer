@@ -24,10 +24,4 @@ public abstract class AbstractStun : AbstractCharacterEffectWithSender, IEntireC
             }
         }
     }
-
-    protected override void OnApply()
-    {
-        base.OnApply();
-        AffectedObject.RemoveEffect(this);
-    }
 }

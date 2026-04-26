@@ -35,19 +35,19 @@ PrefabInstance:
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'HitEffects.Array.data[0]'
       value: 
-      objectReference: {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
+      objectReference: {fileID: 344805414714566387, guid: a0f0ae383bb72db43bf5b307563a5249, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'HitEffects.Array.data[1]'
       value: 
-      objectReference: {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
+      objectReference: {fileID: -4082839253099350160, guid: 356a4a5448836a3489c3605d0abf3805, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'HitEffects.Array.data[2]'
       value: 
-      objectReference: {fileID: 344805414714566387, guid: a0f0ae383bb72db43bf5b307563a5249, type: 3}
+      objectReference: {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'HitEffects.Array.data[3]'
       value: 
-      objectReference: {fileID: -4082839253099350160, guid: 356a4a5448836a3489c3605d0abf3805, type: 3}
+      objectReference: {fileID: 977385987182254359, guid: d6156c0fe2f649d4597e824b78b33abe, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'HitEffects.Array.data[4]'
       value: 
@@ -56,6 +56,22 @@ PrefabInstance:
       propertyPath: 'SelfEffects.Array.data[0]'
       value: 
       objectReference: {fileID: 977385987182254359, guid: f6e48e76de351da439e84784530ff31d, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: HitAmountOnSingleTargetForExtraEffects
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: ExtraEffectsOnAllProjectilesHitSingleTarget.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'ExtraEffectsOnAllProjectilesHitSingleTarget.Array.data[0]'
+      value: 
+      objectReference: {fileID: -4082839253099350160, guid: 955b827657bb6d74db0dc8228226dfa3, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'ExtraEffectsOnAllProjectilesHitSingleTarget.Array.data[1]'
+      value: 
+      objectReference: {fileID: 344805414714566387, guid: f4b4afa0d92405f498e18a47304c4f97, type: 3}
     - target: {fileID: 6055842515521288623, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: DefaultSound
       value: 

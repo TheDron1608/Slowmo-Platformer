@@ -26,8 +26,10 @@ public abstract class AbstractEffectWithSender : AbstractEffect
         }
     }
 
-    private void Start()
+    protected override void OnAwake()
     {
+        base.OnAwake();
+
         if (Sender == null)
         {
             if (GetType().HasAttribute<AllowEffectWithSenderReceiveNull>())

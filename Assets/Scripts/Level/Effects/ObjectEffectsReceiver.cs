@@ -165,6 +165,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
         if (ApplyCondition(effect, sender) && effect.ApplyCondition(this, sender))
         {
+            effect.gameObject.SetActive(false);
             AbstractEffect newEffect = Instantiate(effect, transform);
             _currentEffects.Add(newEffect);
             if (newEffect is IMultiplierableEffect multiplierableEffect)
@@ -175,6 +176,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
             {
                 effectWithsender.ApplySender(sender);
             }
+            newEffect.gameObject.SetActive(true);
 
             if (sender != null)
             {
@@ -255,6 +257,31 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 _currentEffects.RemoveAt(i);
                 removedEffect.OnRemovedEffect();
                 break;
+            }
+        }
+        UpdateEffectMaterial();
+    }
+
+    public void RemoveEffectExceptSelf(AbstractEffect effect)
+    {
+        if (effect == null || effect.IsDestroyed()) return;
+
+        for (int i = 0; i < _currentEffects.Count; i++)
+        {
+            if (_currentEffects[i] == effect) continue;
+
+            foreach (AbstractEffect incomingEffect in effect.GetSelfIncludeIncomingEffects())
+            {
+                if (ReferenceEquals(_currentEffects[i], incomingEffect) || _currentEffects[i].Equals(incomingEffect))
+                {
+                    AbstractEffect removedEffect = _currentEffects[i];
+                    if (removedEffect.IsDestroyed()) continue;
+                    OnEffectRemoved?.Invoke(this, removedEffect);
+                    _currentEffects.RemoveAt(i);
+                    removedEffect.OnRemovedEffect();
+
+                    if (i > 0) i--;
+                }
             }
         }
         UpdateEffectMaterial();
