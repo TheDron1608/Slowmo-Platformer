@@ -71,8 +71,11 @@ MonoBehaviour:
   EffectsOnThrowHit:
   - {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
   - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
+  StuckedObjectEffectsOnRemove:
+  - {fileID: 484576719013597578, guid: 69713a4334def064e9b325428379aae9, type: 3}
   SoundOnPickedUp: {fileID: 4247608961323020551}
   SoundOnThrown: {fileID: 7229261275548789197}
+  _hitableWhenIsHolded: 0
 --- !u!114 &4590741514344514613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d100269564114db44399500a96378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultColor: 200
 --- !u!212 &668012051540842779
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -74,34 +74,28 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 
         if (CharComponents.CharacterHolding.CurrentHoldObject == null && holdables.Count > 0)
         {
-            var holdableColliders = holdables.ConvertAll(e => e.GetComponent<Collider2D>());
-            holdableColliders.Sort(
-                (a, b) => a.bounds.SqrDistance(CharComponents.Center.transform.position).CompareTo(b.bounds.SqrDistance(CharComponents.Center.transform.position))
-                );
-
-            for (float angle = 0f; angle <= 1f; angle = angle > 0 ? -angle : -angle + ANGLE_STEP)
-            {
-                Ray ray = new(
-                    CharComponents.Center.transform.position,
-                    VectorMath.RotateVec2(CharComponents.CharacterAiming.GetTargetAimNormalized(), angle)
-                    );
-
-                //Debug.DrawRay(ray.origin, ray.direction, Color.red, Time.deltaTime);
-
-                foreach (Collider2D holdableCollider in holdableColliders)
-                {
-                    if (holdableCollider.bounds.IntersectRay(ray))
-                    {
-                        CurrentSelectedGrabObject = holdableCollider.GetComponent<Holdable>();
-                        return;
-                    }
-                }
-            }
+            CurrentSelectedGrabObject = holdables
+                .OrderBy(HoldableOrderByPattern)
+                .FirstOrDefault()
+                ?.GetComponent<Holdable>();
         }
         else
         {
             CurrentSelectedGrabObject = null;
         }
+    }
+
+    private float HoldableOrderByPattern(Holdable go)
+    {
+        Collider2D collider = go?.GetComponent<Collider2D>();
+        if (collider == null) return float.MaxValue;
+
+        return
+            collider.bounds.SqrDistance(CharComponents.Center.transform.position) *
+            Vector2.Angle(
+                collider.bounds.center - CharComponents.Center.transform.position, 
+                CharComponents.CharacterAiming.GetTargetAimNormalized()
+                );
     }
 
     private void OnDestroy()
