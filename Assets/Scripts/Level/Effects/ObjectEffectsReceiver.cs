@@ -105,6 +105,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
             !ignoreDeflection &&
             sender != null &&
             sender.TryGetComponent(out ObjectEffectsReceiver senderEffectsReceiver) &&
+            senderEffectsReceiver != this &&
             CounterEffectsOnApplier.Count > 0
             )
         {
@@ -123,7 +124,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         effects.Sort();
 
         for (int i = 0; i < effects.Count; i++)
-        {
+        { 
             if (effects[i] != null)
             {
                 result.Add(ApplyEffect(effects[i], sender, effectMultiplier, true));
@@ -149,6 +150,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
             !ignoreDeflection &&
             sender != null &&
             sender.TryGetComponent(out ObjectEffectsReceiver senderEffectsReceiver) &&
+            senderEffectsReceiver != this &&
             CounterEffectsOnApplier.Count > 0
             )
         {
@@ -427,6 +429,23 @@ public class ObjectEffectsReceiver : MonoBehaviour
             }
         }
         return result;
+    }
+
+    public bool GetHasImmuneToEffect(List<AbstractEffect> effects)
+    {
+        List<EffectImmunity> immunities = GetEffects<EffectImmunity>();
+        foreach (AbstractEffect effect in effects)
+        {
+            foreach (EffectImmunity immunity in immunities)
+            {
+                if (immunity.GetIsImmuneTo(effect))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public bool GetHasImmuneToEffect(AbstractEffect effect)

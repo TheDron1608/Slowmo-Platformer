@@ -26,6 +26,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     private CharacterHoldingObjects _owner = null;
     protected List<Collider2D> _currentHittingColliders = new();
     protected bool _wasDeflectedThisFrame = false;
+    protected bool _failedPierceThisFrame = false;
     private ObjectEffectsReceiver _effectsReceiver;
     private BoxCollider2D _colliderComponent;
     private List<AbstractEffect> _extraEffectsFromWeapon = new();
@@ -45,6 +46,11 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public bool WasDeflectedThisFrame
     {
         get => _wasDeflectedThisFrame;
+    }
+
+    public bool WasResistedDamageThisFrame
+    {
+        get => _failedPierceThisFrame;
     }
 
     public List<GameObject> HitObjects
@@ -223,6 +229,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     protected virtual void OnLateUpdate()
     {
         _wasDeflectedThisFrame = false;
+        _failedPierceThisFrame = false;
     }
 
     protected void AddCurrentHittingCollidersItem(Collider2D item)
@@ -301,7 +308,12 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
         if (GameObjectUtility.TryGetComponentInSelfOrParent(hitObject.gameObject, out ObjectEffectsReceiver hitObjectEffectsReceiver))
         {
-            hitObjectEffectsReceiver.ApplyEffect(HitEffects, this);
+            List<AbstractEffect> appliedEffects = hitObjectEffectsReceiver.ApplyEffect(HitEffects, this);
+
+            if (HitEffects.Any(e => e is Damage) && !appliedEffects.Any(e => e is Damage))
+            {
+                _failedPierceThisFrame = true;
+            }
 
             if (_multitSpawnProjectiles.Count(e => e.HitObjects.Contains(hitObject)) == HitAmountOnSingleTargetForExtraEffects)
             {

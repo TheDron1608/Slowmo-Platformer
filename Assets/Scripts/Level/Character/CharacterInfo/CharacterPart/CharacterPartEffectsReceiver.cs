@@ -19,9 +19,18 @@ public class CharacterPartEffectsReceiver : ObjectEffectsReceiver
             !ignoreDeflection &&
             sender != null && 
             sender.TryGetComponent(out ObjectEffectsReceiver senderEffectsReceiver) && 
-            CharComponents.CharacterEffectsReceiver.CounterEffectsOnApplier.Count > 0)
+            senderEffectsReceiver != this
+            )
         {
             senderEffectsReceiver.ApplyEffect(CharComponents.CharacterEffectsReceiver.CounterEffectsOnApplier, this, 1f, true);
+            if (TryGetComponent(out CharacterLimbPart limbPart))
+            {
+                foreach (CharacterEquipmentPart equipment in limbPart.GetEquipedAtParts())
+                {
+                    senderEffectsReceiver.ApplyEffect(equipment.CharPartEffectsReceiver.CounterEffectsOnApplier, equipment, 1f, true);
+                }
+            }
+
             if (
                 sender == null ||
                 sender.IsDestroyed() ||

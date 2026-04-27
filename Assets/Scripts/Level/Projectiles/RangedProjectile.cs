@@ -7,9 +7,15 @@ public class RangedProjectile : AbstractProjectile
 {
     const float HOMING_MAX_ANGLE = 15f;
     const float HOMING_MAX_DISTANCE = 10f;
+    const float RICOCHET_MAX_ANGLE = 10f;
     const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
     const float PARTICLES_ON_WALL_HIT_VELOCITY = 1f;
     const float PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY = 360f;
+    const float REMOVE_PARTICLE_EFFECT_MAX_VELOCITY_MULT = 4.5f;
+    const float REMOVE_PARTICLE_EFFECT_MIN_VELOCITY_MULT = 3f;
+    const float REMOVE_PARTICLE_EFFECT_ANGULAR_VELOCITY = 960f;
+    const float REMOVE_PARTICLE_EFFECT_ACCURACY = 0.8f;
+    const float REMOVE_PARTICLE_EFFECT_DIRECTION_UP_OFFSET = 2f;
     const string PROJECTILE_TIP_GAMEOBJECT_NAME = "ProjectileTip";
 
     public float BulletSpeed = 35f;
@@ -18,6 +24,7 @@ public class RangedProjectile : AbstractProjectile
     public PhysicsParticle BulletCasingParticle;
     public int MaxPierces = 0; //times projectiles will not doestroy iteself if gibs or cuts off damaged character
     public List<AbstractParticle> ParticlesOnWallHit = new();
+    public AbstractParticle ParticleOnFaliedPierce;
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
@@ -79,6 +86,7 @@ public class RangedProjectile : AbstractProjectile
         BulletCasingParticle = rangedOriginal.BulletCasingParticle;
         MaxPierces = rangedOriginal.MaxPierces;
         ParticlesOnWallHit = rangedOriginal.ParticlesOnWallHit;
+        ParticleOnFaliedPierce = rangedOriginal.ParticleOnFaliedPierce;
 
         _rangeMoved = 0f;
         _piercesLeft = MaxPierces;
@@ -184,12 +192,22 @@ public class RangedProjectile : AbstractProjectile
 
         IDamagable damagableHitobject = hitObject.GetComponent<IDamagable>() ?? hitObject.transform.parent.GetComponent<IDamagable>();
         ObjectEffectsReceiver effectableHitobject = hitObject.GetComponent<ObjectEffectsReceiver>() ?? hitObject.transform.parent.GetComponent<ObjectEffectsReceiver>();
-        if (
-            _piercesLeft > 0 &&
-            (damagableHitobject?.PiercableThrought ?? false)
-            )
+
+        if (_piercesLeft > 0 && (damagableHitobject?.PiercableThrought ?? false))
         {
             _piercesLeft--;
+        }
+        else if (_failedPierceThisFrame && hitObject.TryGetComponent(out Collider2D hitObjectCollider))
+        {
+            Vector2 ricochetDirection = (hitObjectCollider.ClosestPoint(transform.position) - VectorMath.Vec3ToVec2(transform.position)).normalized;
+            if (ricochetDirection != Vector2.zero && VectorMath.GetMinAngle(MoveAlignVec2, ricochetDirection) > RICOCHET_MAX_ANGLE)
+            {
+                MoveAlignVec2 = -ricochetDirection;
+            }
+            else
+            {
+                RemoveProjectileWithParticleEffect(hitObjectCollider);
+            }
         }
         else if (!_wasDeflectedThisFrame)
         {
@@ -214,5 +232,24 @@ public class RangedProjectile : AbstractProjectile
     {
         base.RemoveProjectile();
         transform.parent = ProjectilesManager.Instance.UnusedRangedProjectilesContainer;
+    }
+
+    public void RemoveProjectileWithParticleEffect(Collider2D hitTo)
+    {
+        ParticleSpawner.SpawnParticle(
+            ParticleOnFaliedPierce,
+            hitTo.ClosestPoint(transform.position),
+            VectorMath.RandomizeVec2(
+                (transform.position - hitTo.bounds.center).normalized + Vector3.up * REMOVE_PARTICLE_EFFECT_DIRECTION_UP_OFFSET, 
+                REMOVE_PARTICLE_EFFECT_ACCURACY
+                ),
+            0f,
+            NumberMath.PickRandomInRangeNoSeed(REMOVE_PARTICLE_EFFECT_MIN_VELOCITY_MULT, REMOVE_PARTICLE_EFFECT_MAX_VELOCITY_MULT),
+            NumberMath.PickRandomInRangeNoSeed(-REMOVE_PARTICLE_EFFECT_ANGULAR_VELOCITY, REMOVE_PARTICLE_EFFECT_ANGULAR_VELOCITY),
+            GetComponent<Renderer>()?.sharedMaterial,
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject)
+            );
+
+        RemoveProjectile();
     }
 }
