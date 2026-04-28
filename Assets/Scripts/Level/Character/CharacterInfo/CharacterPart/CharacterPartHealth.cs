@@ -119,6 +119,11 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         }
     }
 
+    public void SetHealth(float health, MonoBehaviour setter)
+    {
+        CharComponents.CharacterHealth.SetHealth(health, setter);
+    }
+
     public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier)
     {
         CharComponents.CharacterHealth.ApplyMaxHealth(newMaxHealth, applier);

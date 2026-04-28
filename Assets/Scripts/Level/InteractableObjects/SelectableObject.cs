@@ -25,6 +25,8 @@ public class SelectableObject : MonoBehaviour
         get => _selected;
         set
         {
+            if (!gameObject.activeInHierarchy) return;
+
             if (value)
             {
                 if (!_selected)

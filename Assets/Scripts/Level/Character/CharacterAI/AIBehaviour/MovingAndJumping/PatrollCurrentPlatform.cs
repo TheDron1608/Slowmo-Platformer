@@ -27,7 +27,7 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
 
     private void CharacterCollision_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
     {
-        if (!CanOpenDoors && (e.Collider?.TryGetComponent(out OnInteractToggleOpenDoor door) ?? false))
+        if (gameObject.activeInHierarchy && !CanOpenDoors && (e.Collider?.TryGetComponent(out OnInteractToggleOpenDoor door) ?? false))
         {
             _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(
                 _currentPatrollDirection == PatrollDirection.LEFT ? PatrollDirection.RIGHT : PatrollDirection.LEFT)

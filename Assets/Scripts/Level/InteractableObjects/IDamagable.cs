@@ -8,6 +8,7 @@ public interface IDamagable
     public float MinHealth { get; }
     public float CurrentHealth { get; }
     public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultiplier = 1f);
+    public void SetHealth(float health, MonoBehaviour setter);
     public bool PiercableThrought { get; set; }
     public bool HitableByMeleeProjectiles { get; set; }
     public bool HitableByRangedProjectiles { get; set; }
@@ -19,4 +20,9 @@ public interface IDamagable
     public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier);
     public void ApplyMinHealth(float newMinHealth, MonoBehaviour applier);
     public void ApplyProjectileHit(AbstractProjectile hitter);
+
+    public void RestoreHealth(MonoBehaviour restorer)
+    {
+        SetHealth(MaxHealth, restorer);
+    }
 }

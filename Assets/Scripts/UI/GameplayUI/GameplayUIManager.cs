@@ -10,6 +10,8 @@ public class GameplayUIManager : MonoBehaviour
     const float HOLD_OBJECT_INFO_VISIBILITY_CHANGE_SPEED_MULTIPLIER = 8f;
     const float HOLD_OBJECT_HIDE_POS_MULTIPLIER_X = 1.5f;
     const float HOLD_OBJECT_HIDE_POS_MULTIPLIER_Y = -1.5f;
+    const float DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER = 5f;
+    const float DYING_DAMAGED_OVERLAY_FILL_AMOUNT = 2f;
 
     public MultiHealthbarsManager MultiHealthbarsManager;
     public HoldObjectInfo HoldObjectInfo;
@@ -17,7 +19,7 @@ public class GameplayUIManager : MonoBehaviour
     public ComboEncounter Combo;
     public InputActionReference PauseAction;
 
-    private List<CharacterComponentsManager> _trackedCharacters = new();
+    private List<CharacterUITrack> _trackedCharacters = new();
     private RectTransform _holdObjectInfoRectTransform;
 
     public static GameplayUIManager GetInstance()
@@ -37,27 +39,33 @@ public class GameplayUIManager : MonoBehaviour
     private void OnDestroy()
     {
         PauseAction.action.started -= PauseActionReference_OnActionStarted;
+        UIManager.Instance?.DamagedScreenOverlay?.Hide();
+        UIManager.Instance?.LivingTimeLeftScreenOverlay?.Hide();
     }
 
-    public void AddTrackedCharacter(CharacterComponentsManager character)
+    public void AddTrackedCharacter(CharacterUITrack character)
     {
         _trackedCharacters.Add(character);
-        MultiHealthbarsManager.AddHealthbar(character.CharacterHealth);
-        HoldObjectInfo.TrackedHolder = _trackedCharacters.Count == 1 ? character.CharacterHolding : null;
+        if (character.TrackHealth)
+        {
+            MultiHealthbarsManager.AddHealthbar(character);
+        }
+        if (character.TrackHoldable && _trackedCharacters.Count == 1)
+        {
+            HoldObjectInfo.TrackedHolder = character.CharComponents.CharacterHolding;
+        }
     }
 
-    public void RemoveTrackedCharacter(CharacterComponentsManager character)
+    public void RemoveTrackedCharacter(CharacterUITrack character)
     {
         _trackedCharacters.Remove(character);
-        MultiHealthbarsManager.RemoveHealthbar(character.CharacterHealth);
-        HoldObjectInfo.TrackedHolder = _trackedCharacters.Count == 1 ? _trackedCharacters[0].CharacterHolding : null;
+        MultiHealthbarsManager.RemoveHealthbar(character);
+        HoldObjectInfo.TrackedHolder = _trackedCharacters.Where(e => e.TrackHoldable).FirstOrDefault()?.CharComponents.CharacterHolding;
     }
 
     private bool ShowHoldObjectInfoCondition()
     {
-        return
-            _trackedCharacters.Count == 1 &&
-            _trackedCharacters.First().CharacterHolding.CurrentHoldObject != null;
+        return _trackedCharacters.Any(e => e.TrackHoldable && e.CharComponents.CharacterHolding.CurrentHoldObject != null);
     }
 
     private void FixedUpdate()
@@ -68,6 +76,50 @@ public class GameplayUIManager : MonoBehaviour
             enableHoldObjectInfo ? Vector2.zero : new Vector2(_holdObjectInfoRectTransform.rect.width * HOLD_OBJECT_HIDE_POS_MULTIPLIER_X, _holdObjectInfoRectTransform.rect.height * HOLD_OBJECT_HIDE_POS_MULTIPLIER_Y),
             Time.deltaTime * HOLD_OBJECT_INFO_VISIBILITY_CHANGE_SPEED_MULTIPLIER
             );
+
+        if (_trackedCharacters.Count > 0 && !UIManager.Instance.GameOverScreenOverlay.IsShown())
+        {
+            ILethalEffect dyingEffect = null;
+            AbstractEffect dyingEffectOwner = null;
+            CharacterUITrack dyingCharacter = _trackedCharacters.Find(
+                e => e.TrackIsDying && e.GetTrackedIsDying(out dyingEffect, out dyingEffectOwner)
+                );
+
+            UIManager.Instance.DamagedScreenOverlay.Show();
+            UIManager.Instance.DamagedScreenOverlay.FillAmount = math.lerp(
+                UIManager.Instance.DamagedScreenOverlay.FillAmount,
+                1f - math.sin(PickAvgHealthRelative() * math.PI / 2),
+                Time.deltaTime * DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER
+                );
+
+            if (dyingCharacter != null && dyingEffectOwner is TimeDelayedEffect timeDelayedDyingEffect)
+            {
+                UIManager.Instance.GetLiveTimeLeftScreenOverlayByType(dyingCharacter.LiveTimeLeftType).Show(
+                    timeDelayedDyingEffect.TimeLeft.ToString("0.00")
+                    );
+            }
+            else
+            {
+                UIManager.Instance.LivingTimeLeftScreenOverlay.Hide();
+                UIManager.Instance.SwordPlayerLiveTimeLeftScreenOverlay.Hide();
+            }
+        }
+        else
+        {
+            UIManager.Instance.DamagedScreenOverlay.Hide();
+            UIManager.Instance.LivingTimeLeftScreenOverlay.Hide();
+        }
+    }
+
+    private float PickAvgHealthRelative()
+    {
+        float result = 0;
+        foreach (CharacterUITrack character in _trackedCharacters)
+        {
+            result += character.CharComponents.CharacterHealth.CurrentHealth / character.CharComponents.CharacterHealth.MaxHealth;
+        }
+        result /= _trackedCharacters.Count;
+        return result;
     }
 
     private void PauseActionReference_OnActionStarted(InputAction.CallbackContext context)

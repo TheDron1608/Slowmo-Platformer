@@ -150,6 +150,7 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
 --- !u!1 &3563836969740914839
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +409,7 @@ MonoBehaviour:
   CharacterPartsContainer: {fileID: 7534914569010161185}
   Animator: {fileID: 5132265527720135938}
   SampleSpriteRenderer: {fileID: 8445559202426260191}
+  UITrack: {fileID: 0}
   CharacterRigidBody: {fileID: 7607223272691296094}
   CharacterRigidBodyCapsuleCollider: {fileID: 4524364239507995928}
   CharacterRigidBodyCapsuleColliderHitBox: {fileID: 640373735122174765}
@@ -423,7 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2bedc42197ff7479504cc92c5b06fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Team: 0
+  _team: 0
 --- !u!114 &5897571605525893540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,7 +680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc9786e7afc70f40a789c36026239e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedToHitOtherCharacters: 7.5
+  SpeedToHitOtherCharacters: 5
   CanHitWhileHardStnned: 1
   CanHitWhileMoving: 0
   CanHitWhileRolling: 0

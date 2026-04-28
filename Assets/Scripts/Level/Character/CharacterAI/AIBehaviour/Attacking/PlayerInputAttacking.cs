@@ -82,6 +82,10 @@ public class PlayerInputAttacking : AbstractAIAttacking
         {
             CharComponents.CharacterAiming.AimWeaponDown = true;
         }
+        else
+        {
+            CharComponents.CharacterAiming.AimWeaponDown = false;
+        }
     }
 
     private void UpdateAimInput()

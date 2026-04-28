@@ -16,6 +16,7 @@ public class OnInteractToggleOpenDoor : Interactable
     private ZIndexLayer _layer;
 
     private bool _isOpen = false;
+    private bool _isOpening = false;
 
     protected override void OnAwake()
     {
@@ -98,5 +99,13 @@ public class OnInteractToggleOpenDoor : Interactable
         {
             ForceOpen(character.gameObject);
         }
+    }
+
+    protected override bool StartInteractCondition(GameObject interactor)
+    {
+        return
+            base.StartInteractCondition(interactor) &&
+            !(IsOpen && (_animator.GetBool(ANIMATOR_OPEN_TRIGGER_NAME) || _animator.GetBool(ANIMATOR_FORCE_OPEN_TRIGGER_NAME))) &&
+            !(!IsOpen && _animator.GetBool(ANIMATOR_CLOSE_TRIGGER_NAME));
     }
 }

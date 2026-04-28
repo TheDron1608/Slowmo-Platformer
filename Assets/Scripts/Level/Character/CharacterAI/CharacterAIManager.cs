@@ -47,6 +47,17 @@ public class CharacterAIManager : AbstractCharacterComponent
         }
     }
 
+    public void RemoveAI()
+    {
+        CharComponents.CharacterAIManager = null;
+        Destroy(gameObject);
+    }
+
+    public void SetAIDisabled(bool value)
+    {
+        GetComponent<DisableObjectOnDistanceFromCamera>().ForceDisable = value;
+    }
+
     protected override void OnAwake()
     {
         base.OnAwake();

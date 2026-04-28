@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[AllowEffectWithSenderReceiveNull]
 public class Damage : AbstractDamagableObjectEffectWithSender
 {
     public float DamageAmount = 1f;
@@ -19,7 +20,7 @@ public class Damage : AbstractDamagableObjectEffectWithSender
             }
         }
 
-        AffectedDamagableObject.ApplyDamage(DamageAmount * damageMult * DamageManager.Instance.GlobalDamageMultiplier, sender, DamageMultiplierMultiplier);
+        AffectedDamagableObject.ApplyDamage(DamageAmount * damageMult * DamageManager.Instance?.GlobalDamageMultiplier ?? 1f, sender, DamageMultiplierMultiplier);
 
         RemoveSelf();
     }

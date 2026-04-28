@@ -388,9 +388,9 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         return true;
     }
 
-    public void GiveNewHoldable(Holdable holdable)
+    public Holdable GiveNewHoldable(Holdable holdable)
     {
-        if (holdable == null) return;
+        if (holdable == null) return null;
 
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject);
         Holdable newHoldable = layer.TrySpawnObject(
@@ -404,6 +404,8 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         {
             ForceGrab(newHoldable);
         }
+
+        return newHoldable;
     }
 
     private void OnDestroy()

@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class Healthbar : MonoBehaviour
 {
-    const float CHARACTER_HEALTH_AMOUNT_TO_REACH_MAX_HEALTHBAR_WIDTH = 10f;
-    const float MIN_HEALTHBAR_WIDTH = 30f;
+    const float CHARACTER_HEALTH_AMOUNT_TO_REACH_MAX_HEALTHBAR_WIDTH = 6f;
+    const float MIN_HEALTHBAR_WIDTH = 200f;
     const float MAX_HEALTHBAR_WIDTH = 800f;
-    const float MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT = 150f;
+    const float MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT = 100f;
     const float HEALTH_CHANGE_SPEED_MULTIPLIER = 2f;
 
     public bool ShowHealthNumber = false;
@@ -16,7 +16,6 @@ public class Healthbar : MonoBehaviour
     public float DamagedScreenOverlayFillOnDamage = 0.5f;
     public Color DefaultTextColor = Color.white;
     public Color DyingTextColor = Color.red;
-    public Color DeadTextColor = Color.white;
 
     [Header("const references")]
     public Image HealthbarHealth;
@@ -25,18 +24,30 @@ public class Healthbar : MonoBehaviour
     public TextMeshProUGUI HealthbarText;
 
     private CharacterHealth _healthTrackedCharacter;
+    private CharacterUITrack _uiTrackSource;
     private string _deathText = "DEAD";
     private RectTransform _selfRectTransform;
 
     public CharacterHealth HealthTrackedCharacter
     {
         get => _healthTrackedCharacter;
-        set
+        private set
         {
             if (_healthTrackedCharacter != null) _healthTrackedCharacter.OnHitByProjectile -= HealthTrackedCharacter_OnHitByProjectile;
             if (value != null) value.OnHitByProjectile += HealthTrackedCharacter_OnHitByProjectile;
 
             _healthTrackedCharacter = value;
+        }
+    }
+
+    public CharacterUITrack UITrackSource
+    {
+        get => _uiTrackSource;
+        set
+        {
+            if (_uiTrackSource == value) return;
+            _uiTrackSource = value;
+            HealthTrackedCharacter = _uiTrackSource.CharComponents.CharacterHealth;
         }
     }
 
@@ -73,10 +84,10 @@ public class Healthbar : MonoBehaviour
         {
             HealthbarText.text = "";
         }
-        else if (GetTrackedIsDead())
+        else if (UITrackSource.GetTrackedIsDead())
         {
             HealthbarText.text = _deathText;
-            HealthbarText.color = DeadTextColor;
+            HealthbarText.color = DyingTextColor;
         }
         else if (ShowHealthNumber)
         {
@@ -97,26 +108,6 @@ public class Healthbar : MonoBehaviour
     public void SetDeathText(string text)
     {
         _deathText = text;
-    }
-
-    public bool GetTrackedIsDead()
-    {
-        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
-    }
-
-    public bool GetTrackedIsDying()
-    {
-        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>(true) && !GetTrackedIsDead();
-    }
-
-    public bool GetTrackedIsDead(out ILethalEffect deathEffect)
-    {
-        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.TryGetEffect(out deathEffect);
-    }
-
-    public bool GetTrackedIsDying(out ILethalEffect deathEffect, out AbstractEffect deathEffectOwner)
-    {
-        return HealthTrackedCharacter.CharComponents.CharacterEffectsReceiver.TryGetEffect(out deathEffect, out deathEffectOwner, true) && !GetTrackedIsDead();
     }
 
     public float GetFillAmount()

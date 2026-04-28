@@ -1122,6 +1122,18 @@ MonoBehaviour:
     m_Localized: "\r* The player can kick the enemy when not holding a weapon"
     m_Metadata:
       m_Items: []
+  - m_Id: 48287512308981760
+    m_Localized: "\r* You receive a sword at the start\r\n* Using an ability converts
+      the enemy closest to the sword to your side\r\n* Using an ability costs {ConvertCost}
+      combo\r\n* Converted characters cannot live longer than {ConvertLiveTime} and
+      will die if they are too far from the sword"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 48287511650476032
+    m_Localized: "\rSword cult"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -1198,3 +1210,4 @@ MonoBehaviour:
         - id: 38580377199288320
         - id: 38580374561071104
         - id: 38580360967331840
+        - id: 48287512308981760

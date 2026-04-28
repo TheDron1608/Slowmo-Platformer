@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,7 +10,14 @@ public class GameOverManager : MonoBehaviour
 
     const float GAME_OVER_UPDATES_PER_SECOND = 10f;
 
+    private List<System.Func<bool>> _extraAllDeadGameOverConditions = new();
     private GameOverUIManager.GameOverReasons? _forceFinishGame = null;
+
+    public List<System.Func<bool>> ExtraAllDeadGameOverConditions
+    {
+        get => _extraAllDeadGameOverConditions;
+        set => _extraAllDeadGameOverConditions = value;
+    }
 
     public void ForceFinishGame(GameOverUIManager.GameOverReasons reason)
     {
@@ -41,7 +49,7 @@ public class GameOverManager : MonoBehaviour
             SetGameplayUIShown(false);
             UIManager.Instance.GameOverScreenOverlay.Show(_forceFinishGame.Value);
         }
-        else if (CheckIsAllDead())
+        else if (CheckIsAllDead() && _extraAllDeadGameOverConditions.All(e => e.Invoke()))
         {
             SetGameplayUIShown(false);
             UIManager.Instance.GameOverScreenOverlay.Show(GameOverUIManager.GameOverReasons.ALL_DEAD);
@@ -70,7 +78,6 @@ public class GameOverManager : MonoBehaviour
     private void SetGameplayUIShown(bool value)
     {
         UIManager.Instance.GameplayScreenOverlay.SetShown(value);
-        UIManager.Instance.DamagedScreenOverlay.SetShown(value);
         UIManager.Instance.ModificatorsScreenOverlay.SetShown(value);
     }
 

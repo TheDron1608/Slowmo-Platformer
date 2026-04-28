@@ -60,7 +60,7 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
 
     public bool TryInteract(Interactable interactable)
     {
-        if (interactable.TryInteract(CharComponents.gameObject))
+        if (IsAbleToInteractWithObjects && interactable.TryInteract(CharComponents.gameObject))
         {
             _lastInteractObject = interactable;
 

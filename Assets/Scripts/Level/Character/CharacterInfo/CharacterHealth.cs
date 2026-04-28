@@ -51,14 +51,6 @@ public class CharacterHealth : DamagableObject
             Die(damager, damagedPart);
         }
     }
-    public void SetHealth(float health, MonoBehaviour setter, CharacterLimbPart damagedPart)
-    {
-        CurrentHealth = health;
-        if (CurrentHealth <= MinHealth)
-        {
-            Die(setter, damagedPart);
-        }
-    }
 
     public void Die(MonoBehaviour killer, CharacterLimbPart lethallyDamagedPart)
     {

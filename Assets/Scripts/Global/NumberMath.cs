@@ -184,4 +184,12 @@ public static class NumberMath
         }
         return result;
     }
+
+    public static void RemoveListMultiItems<T>(List<T> removeFrom, List<T> remove)
+    {
+        foreach (T removeItem in remove)
+        {
+            removeFrom.Remove(removeItem);
+        }
+    }
 }

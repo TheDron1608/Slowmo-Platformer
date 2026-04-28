@@ -10,7 +10,6 @@ public class HoldObjectInfo : MonoBehaviour
     public CharacterHoldingObjects TrackedHolder = null;
 
     private Holdable _currentHoldObject = null;
-    private string _unarmedText = "UNARMED";
 
     [Header("const references")]
     [SerializeField] private GameObject _holdObjectImageContainer;
@@ -106,7 +105,7 @@ public class HoldObjectInfo : MonoBehaviour
         {
             //hide hold object info
             _holdObjectImageContainer.gameObject.SetActive(false);
-            _holdObjectName.text = _unarmedText;
+            _holdObjectName.text = "";
         }
     }
 }

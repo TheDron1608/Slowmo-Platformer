@@ -17,7 +17,7 @@ public class WeaponDebugInitializer : MonoBehaviour
         UIManager.Instance.ModificatorsScreenOverlay.Show();
         UIManager.Instance.DifficultyScreenOverlay.Show();
 
-        GameplayUIManager.GetInstance().AddTrackedCharacter(TrackedCharacter);
+        GameplayUIManager.GetInstance().AddTrackedCharacter(TrackedCharacter.UITrack);
 
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {

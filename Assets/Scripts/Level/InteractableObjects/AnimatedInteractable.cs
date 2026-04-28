@@ -44,7 +44,7 @@ public abstract class AnimatedInteractable : Interactable
 
         if (SelfAnimatorOnFinishIntreactTriggerName != "")
         {
-            GetComponent<Animator>().SetTrigger(SelfAnimatorOnFinishIntreactTriggerName);
+            GetComponent<Animator>()?.SetTrigger(SelfAnimatorOnFinishIntreactTriggerName);
         }
 
         CharacterVisual charVisual;

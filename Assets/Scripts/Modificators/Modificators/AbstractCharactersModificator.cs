@@ -47,6 +47,11 @@ public abstract class AbstractCharactersModificator : AbstractModificator
                 }
             }
         }
+
+        if (TeamManager.Instance != null)
+        {
+            TeamManager.Instance.OnTeamChanged += Instance_OnTeamChanged;
+        }
     }
 
     public override void OnModificatorRemoved()
@@ -62,6 +67,23 @@ public abstract class AbstractCharactersModificator : AbstractModificator
         }
 
         _affectedCharacters = new();
+
+        if (TeamManager.Instance != null)
+        {
+            TeamManager.Instance.OnTeamChanged -= Instance_OnTeamChanged;
+        }
+    }
+
+    private void Instance_OnTeamChanged(object sender, TeamManager.OnTeamChangedEventArgs e)
+    {
+        if (e.OldTeam == Team)
+        {
+            OnCharacterRemovedAffect(e.Character.CharComponents);
+        }
+        if (e.NewTeam == Team)
+        {
+            OnCharacterAffected(e.Character.CharComponents);
+        }
     }
 
     protected abstract void OnCharacterAffected(CharacterComponentsManager character);

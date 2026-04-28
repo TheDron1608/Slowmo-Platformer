@@ -9,6 +9,12 @@ using UnityEngine.UI;
 [DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
 {
+    public enum LiveTimeLeftTypes
+    {
+        DEFAULT,
+        SWORD_PLAYER
+    }
+
     private bool _showFPS = false;
 
     public bool ShowFPS
@@ -149,7 +155,7 @@ public class UIManager : MonoBehaviour
         public void Show(string text)
         {
             Show();
-            _currentTextContainer.text = text;
+            TextContent = text;
         }
 
         public override void Hide()
@@ -290,6 +296,7 @@ public class UIManager : MonoBehaviour
     public ScreenOverlay DifficultyScreenOverlay;
     public DifficultyCurseChoiseUIScreenOverlay DifficultyCurseChoiseScreenOverlay;
     public TextableScreenOverlay LivingTimeLeftScreenOverlay;
+    public TextableScreenOverlay SwordPlayerLiveTimeLeftScreenOverlay;
     public FillableScreenOverlay SlowmoOverlay;
     public ScreenOverlay FPSCountScreenOverlay;
     public ScreenOverlay SettingOverlay;
@@ -313,6 +320,18 @@ public class UIManager : MonoBehaviour
                 Instance.GameplayScreenOverlay.GetGameplayUI().Pause.gameObject.activeSelf ||
                 Instance.GameOverScreenOverlay.GetCurrentScreenOverlay() != null
             );
+    }
+
+    public TextableScreenOverlay GetLiveTimeLeftScreenOverlayByType(LiveTimeLeftTypes type)
+    {
+        switch (type)
+        {
+            case LiveTimeLeftTypes.DEFAULT:
+                return LivingTimeLeftScreenOverlay;
+            case LiveTimeLeftTypes.SWORD_PLAYER:
+                return SwordPlayerLiveTimeLeftScreenOverlay;
+        }
+        throw new UnityException("not found value for type: " + type.ToString());
     }
 
     private void Awake()

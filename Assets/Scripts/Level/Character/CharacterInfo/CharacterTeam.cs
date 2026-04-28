@@ -1,6 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
+﻿using UnityEngine;
 
 [DefaultExecutionOrder(7)]
 public class CharacterTeam : AbstractCharacterComponent
@@ -26,6 +24,8 @@ public class CharacterTeam : AbstractCharacterComponent
                 CharComponents.CharacterAttacking.OnEffectApplied += TrackedTeamMember_OnEffectApplied;
             }
 
+            TeamManager.Instance.InvokeTeamChanged(new(this, _team, value));
+
             _team = value;
         }
     }
@@ -44,6 +44,11 @@ public class CharacterTeam : AbstractCharacterComponent
     public bool GetIsAllyToAnotherTeam(CharacterTeam anotherTeam)
     {
         return Team == anotherTeam?.Team;
+    }
+
+    public bool GetIsAllyToAnotherTeam(TeamManager.Teams team)
+    {
+        return Team == team;
     }
 
     public TeamManager.TeamData GetTeamData()

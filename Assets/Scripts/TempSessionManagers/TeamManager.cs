@@ -48,13 +48,34 @@ public class TeamManager : MonoBehaviour
         CHASER = 2
     }
 
+    public class OnTeamChangedEventArgs
+    {
+        public CharacterTeam Character;
+        public Teams OldTeam;
+        public Teams NewTeam;
+
+        public OnTeamChangedEventArgs(CharacterTeam character, Teams oldTeam, Teams newTeam)
+        {
+            Character = character;
+            OldTeam = oldTeam;
+            NewTeam = newTeam;
+        }
+    }
+
     public static TeamManager Instance;
 
     public List<TeamData> TeamDatas = new();
 
+    public event EventHandler<OnTeamChangedEventArgs> OnTeamChanged;    
+
     public TeamData GetTeamDataByTeam(Teams team)
     {
         return TeamDatas[(int)team];
+    }
+
+    public void InvokeTeamChanged(OnTeamChangedEventArgs eventArgs)
+    {
+        OnTeamChanged?.Invoke(this, eventArgs);
     }
 
     private void Awake()

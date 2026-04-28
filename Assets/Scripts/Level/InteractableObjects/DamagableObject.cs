@@ -123,14 +123,19 @@ public class DamagableObject : MonoBehaviour, IDamagable
             SoundOnDamage.PlaySound();
         }
 
-        CurrentHealth -= damage;
+        SetHealth(CurrentHealth - damage, damager);
+    }
+
+    public void SetHealth(float health, MonoBehaviour setter)
+    {
+        CurrentHealth = health;
         if (CurrentHealth >= MaxHealth)
         {
             CurrentHealth = MaxHealth;
         }
         if (CurrentHealth <= MinHealth)
         {
-            Die(damager);
+            Die(setter);
         }
         if (CurrentHealth > MinHealth && !GetComponent<ObjectEffectsReceiver>().GetHasEffect<ILethalEffect>(false))
         {

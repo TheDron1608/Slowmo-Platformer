@@ -7,12 +7,12 @@ public class MultiplyTeamMemberHealthModificator : AbstractCharactersModificator
     protected override void OnCharacterAffected(CharacterComponentsManager character)
     {
         character.CharacterHealth.ApplyMaxHealth(character.CharacterHealth.MaxHealth * HealthMultiplier * ModificatorMultiplier, null);
-        character.CharacterHealth.SetHealth(character.CharacterHealth.CurrentHealth * HealthMultiplier * ModificatorMultiplier, null, null);
+        character.CharacterHealth.SetHealth(character.CharacterHealth.CurrentHealth * HealthMultiplier * ModificatorMultiplier, null);
     }
 
     protected override void OnCharacterRemovedAffect(CharacterComponentsManager character)
     {
-        character.CharacterHealth.SetHealth(character.CharacterHealth.CurrentHealth / HealthMultiplier / ModificatorMultiplier, null, null);
+        character.CharacterHealth.SetHealth(character.CharacterHealth.CurrentHealth / HealthMultiplier / ModificatorMultiplier, null);
         character.CharacterHealth.ApplyMaxHealth(character.CharacterHealth.MaxHealth / HealthMultiplier / ModificatorMultiplier, null);
     }
 }

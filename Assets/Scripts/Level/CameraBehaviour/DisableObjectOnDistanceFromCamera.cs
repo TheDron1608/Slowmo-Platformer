@@ -5,6 +5,16 @@ public class DisableObjectOnDistanceFromCamera : MonoBehaviour
 {
     public float DistanceToDistable = 50f;
 
+    public bool ForceDisable
+    {
+        get => enabled;
+        set
+        {
+            enabled = !value;
+            if (value) gameObject.SetActive(false);
+        }
+    }
+
     private void Awake()
     {
         Camera.main.GetComponent<CameraDisablerObjectsOnDistance>().TrackedObjects.Add(this);
