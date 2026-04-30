@@ -5,13 +5,11 @@ public class WeaponDebugInitializer : MonoBehaviour
 {
     public List<AbstractModificator> StartModificators;
     public CharacterComponentsManager TrackedCharacter;
+    public int StartCombo = 0;
 
     private void Start()
     {
-        foreach (AbstractModificator modificator in StartModificators)
-        {
-            ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.PERMANENT);
-        }
+        ScoreManager.Instance.CurrentCombo = StartCombo;
 
         UIManager.Instance.GameplayScreenOverlay.Show();
         UIManager.Instance.ModificatorsScreenOverlay.Show();
@@ -38,6 +36,11 @@ public class WeaponDebugInitializer : MonoBehaviour
             {
                 modificator.OnLevelGenerated();
             }
+        }
+
+        foreach (AbstractModificator modificator in StartModificators)
+        {
+            ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.PERMANENT);
         }
     }
 }

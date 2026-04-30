@@ -16,7 +16,6 @@ public class SleepingCarpProjectileDeflection : AbstractRangedProjectileDeflecti
                 VectorMath.Quartenion2DToVec2(VectorMath.RandomizeQuarternion(Quaternion.FromToRotation(characterSender.CharComponents.Center.transform.position, RangedProjectile.transform.position), DeflectionAccuracy))
                 );
 
-            RangedProjectile.transform.position = RangedProjectile.ProjectileTip.position;
             RangedProjectile.MoveAlignVec2 = newAlign;
         }
 

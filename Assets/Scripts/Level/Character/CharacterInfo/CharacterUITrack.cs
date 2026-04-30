@@ -49,6 +49,15 @@ public class CharacterUITrack : AbstractCharacterComponent
         return CharComponents.CharacterEffectsReceiver.TryGetEffect(out deathEffect, out deathEffectOwner, true) && !GetTrackedIsDead();
     }
 
+    public void RefreshAllTracks()
+    {
+        if (_tracked)
+        {
+            SetTracked(false);
+            SetTracked(true);
+        }
+    }
+
     private void OnEnable()
     {
         SetTracked(TrackIfDead || !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>());

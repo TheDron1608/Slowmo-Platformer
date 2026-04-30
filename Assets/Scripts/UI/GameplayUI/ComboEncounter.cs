@@ -100,32 +100,35 @@ public class ComboEncounter : MonoBehaviour
 
     private IEnumerator ScoreEncount()
     {
-        if (!_scoreText.IsDestroyed())
+        if (_currentAddingScore > 0)
         {
-            _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
-        }
-
-        yield return new WaitForSeconds(SCORE_ENCOUNT_DELAY_SECONDS);
-
-        while (_currentAddingScore > 0)
-        {
-            int scoreChange = (int)math.ceil(Time.deltaTime * SCORE_ENCOUNT_SPEED_PER_SECOND);
-            if (_currentAddingScore < scoreChange) scoreChange = _currentAddingScore;
-
-            _currentAddingScore -= scoreChange;
-            _currentDisplayedScore += scoreChange;
-
             if (!_scoreText.IsDestroyed())
             {
                 _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
             }
 
-            yield return new WaitForEndOfFrame();
-        }
+            yield return new WaitForSeconds(SCORE_ENCOUNT_DELAY_SECONDS);
 
-        if (!_scoreText.IsDestroyed())
-        {
-            _scoreText.text = _currentDisplayedScore.ToString("00000");
+            while (_currentAddingScore > 0)
+            {
+                int scoreChange = (int)math.ceil(Time.deltaTime * SCORE_ENCOUNT_SPEED_PER_SECOND);
+                if (_currentAddingScore < scoreChange) scoreChange = _currentAddingScore;
+
+                _currentAddingScore -= scoreChange;
+                _currentDisplayedScore += scoreChange;
+
+                if (!_scoreText.IsDestroyed())
+                {
+                    _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            if (!_scoreText.IsDestroyed())
+            {
+                _scoreText.text = _currentDisplayedScore.ToString("00000");
+            }
         }
     }
 

@@ -317,7 +317,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
             if (_multitSpawnProjectiles.Count(e => e.HitObjects.Contains(hitObject)) == HitAmountOnSingleTargetForExtraEffects)
             {
-                hitObjectEffectsReceiver.ApplyEffect(ExtraEffectsOnAllProjectilesHitSingleTarget, this);
+                hitObjectEffectsReceiver.ApplyEffect(ExtraEffectsOnAllProjectilesHitSingleTarget, this, 1f, true);
             }
 
             if (WasDeflectedThisFrame) return;

@@ -20,9 +20,13 @@ public class ScoreManager : MonoBehaviour
 
     public static ScoreManager Instance;
 
+    public int MinCombo = 0;
     public float ResetComboDelay = 5f;
     public float ResetComboDelayOnStartLevel = 10f;
     public List<ComboState> ComboStates = new();
+    public Action<ScoreManager> OverrideResetComboEvent = null;
+
+    private Action<ScoreManager> DefaultResetComboEvent = (e) => { e.CurrentCombo = 0; };
 
     private int _totalScore = 0;
     private int _tradableScore = 0;
@@ -30,6 +34,7 @@ public class ScoreManager : MonoBehaviour
     private float _comboLastTime;
     private float _currentMultiplier = 1f;
     private ComboState _currentComboState = null;
+    private float _resetScoreEncountSpeedMultiplier = 1f;
 
     public event EventHandler OnAddedCombo;
     public event EventHandler OnResetCombo;
@@ -48,6 +53,13 @@ public class ScoreManager : MonoBehaviour
             GameplayUIManager.GetInstance()?.Combo.ForceSetScore(value);
         }
     }
+
+    public float ResetScoreEncountSpeedMultiplier
+    {
+        get => _resetScoreEncountSpeedMultiplier;
+        set => _resetScoreEncountSpeedMultiplier = value;
+    }
+
     public void AddScore(int value)
     {
         _tradableScore += value;
@@ -61,6 +73,7 @@ public class ScoreManager : MonoBehaviour
         set
         {
             _currentCombo = value;
+            if (_currentCombo < MinCombo) _currentCombo = MinCombo;
             UpdateComboState();
             GameplayUIManager.GetInstance()?.Combo.UpdateComboText();
         }
@@ -110,12 +123,13 @@ public class ScoreManager : MonoBehaviour
 
     public void ResetCombo()
     {
-        if (CurrentCombo > 0)
+        if (CurrentCombo > MinCombo)
         {
             OnResetCombo?.Invoke(this, EventArgs.Empty);
             AddScore((int)math.round(CurrentCombo * CurrentMultiplier));
         }
-        CurrentCombo = 0;
+        
+        (OverrideResetComboEvent ?? DefaultResetComboEvent)?.Invoke(this);
     }
 
     private void Awake()
@@ -145,7 +159,7 @@ public class ScoreManager : MonoBehaviour
 
     private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
     {
-        _comboLastTime = CurrentCombo > 0 ? ResetComboDelayOnStartLevel : 0f;
+        _comboLastTime = CurrentCombo > MinCombo ? ResetComboDelayOnStartLevel : 0f;
     }
 
     private void ComboEncounter_OnTeamMemberDidKill(object sender, TeamManager.TeamData.MemberKillEventArgs e)
@@ -163,12 +177,12 @@ public class ScoreManager : MonoBehaviour
             return;
         }
 
-        float newComboLastTime = ComboLastTime - Time.deltaTime;
+        float newComboLastTime = ComboLastTime - Time.deltaTime * ResetScoreEncountSpeedMultiplier;
         if (newComboLastTime < 0f)
         {
             newComboLastTime = 0f;
             ComboLastTime = newComboLastTime;
-            if (CurrentCombo > 0) ResetCombo();
+            if (CurrentCombo > MinCombo) ResetCombo();
         }
         else
         {

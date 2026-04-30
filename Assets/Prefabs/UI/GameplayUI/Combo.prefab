@@ -51,40 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1528a87f0a87c964fa2f746ad4c3be1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TrackedTeam: 0
-  ResetComboDelay: 7.5
-  ResetComboDelayOnStartLevel: 10
-  _comboStates:
-  - MinCombo: 0
-    MaxCombo: 1
-    BgSprite: {fileID: 21300000, guid: 242450881671b2f4cb6a150c63db07d3, type: 3}
-    Multiplier: 0
-    Shaking: 0
-  - MinCombo: 1
-    MaxCombo: 5
-    BgSprite: {fileID: 21300000, guid: 07cdbb9ebe5f18747af8617ed35b059b, type: 3}
-    Multiplier: 1
-    Shaking: 0
-  - MinCombo: 5
-    MaxCombo: 10
-    BgSprite: {fileID: 21300000, guid: a7e9553d3f345f942a3fd0725ad54e64, type: 3}
-    Multiplier: 1.5
-    Shaking: 0.1
-  - MinCombo: 10
-    MaxCombo: 20
-    BgSprite: {fileID: 21300000, guid: 06905193a3ec3814e9a609e1ddaa9810, type: 3}
-    Multiplier: 2
-    Shaking: 0.25
-  - MinCombo: 20
-    MaxCombo: 30
-    BgSprite: {fileID: 21300000, guid: d8f467bc594af78418cd72e9c2249aa4, type: 3}
-    Multiplier: 3
-    Shaking: 0.5
-  - MinCombo: 30
-    MaxCombo: 999999
-    BgSprite: {fileID: 21300000, guid: bc8c65285a6482c4e8254a1d78bc948d, type: 3}
-    Multiplier: 5
-    Shaking: 1
   _visualContainer: {fileID: 0}
   _comboBg: {fileID: 7901678236940788578}
   _oldComboBg: {fileID: 9130252048867896668}
@@ -605,7 +571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.7696562
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_LocalRotation.w

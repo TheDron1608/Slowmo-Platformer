@@ -1134,6 +1134,37 @@ MonoBehaviour:
     m_Localized: "\rSword cult"
     m_Metadata:
       m_Items: []
+  - m_Id: 48719723764097024
+    m_Localized: Vigor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48719724397436928
+    m_Localized: "\r* Combo halves instead of reset (decreases by 1 if less than
+      0)\r\n* Combo reset speed x{ResetComboMultiplier}\r\n* You die if your combo
+      drops to {MinCombo}"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 48728468984406016
+    m_Localized: Dodging master
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48728469554831360
+    m_Localized: '* You reflect any projectiles as long as your combo is above 0
+
+      *
+      Reflecting a projectile costs {DodgeComboCost} combo'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 48730691038584832
+    m_Localized: Glass
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48730691650953216
+    m_Localized: '* One hit and you''re dead'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -1211,3 +1242,5 @@ MonoBehaviour:
         - id: 38580374561071104
         - id: 38580360967331840
         - id: 48287512308981760
+        - id: 48719724397436928
+        - id: 48728469554831360
