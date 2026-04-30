@@ -109,7 +109,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
             CounterEffectsOnApplier.Count > 0
             )
         {
-            senderEffectsReceiver.ApplyEffect(CounterEffectsOnApplier, this);
+            senderEffectsReceiver.ApplyEffect(CounterEffectsOnApplier, this, 1f, true);
             if (
                 sender == null ||
                 sender.IsDestroyed() || 
