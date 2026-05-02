@@ -12,6 +12,7 @@ public class GameplayUIManager : MonoBehaviour
     const float HOLD_OBJECT_HIDE_POS_MULTIPLIER_Y = -1.5f;
     const float DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER = 5f;
     const float DYING_DAMAGED_OVERLAY_FILL_AMOUNT = 2f;
+    const float UNLIMITED_HEALTH_DAMAGE_OVERLAY_FAKE_MAX_HEALTH = 2f;
 
     public MultiHealthbarsManager MultiHealthbarsManager;
     public HoldObjectInfo HoldObjectInfo;
@@ -116,7 +117,14 @@ public class GameplayUIManager : MonoBehaviour
         float result = 0;
         foreach (CharacterUITrack character in _trackedCharacters)
         {
-            result += character.CharComponents.CharacterHealth.CurrentHealth / character.CharComponents.CharacterHealth.MaxHealth;
+            CharacterHealth characterHealth = character.CharComponents.CharacterHealth;
+            result +=
+                characterHealth.CurrentHealth / 
+                (
+                    characterHealth.UnlimitedHealth ? 
+                    math.max(UNLIMITED_HEALTH_DAMAGE_OVERLAY_FAKE_MAX_HEALTH, characterHealth.CurrentHealth):
+                    characterHealth.MaxHealth
+                );
         }
         result /= _trackedCharacters.Count;
         return result;

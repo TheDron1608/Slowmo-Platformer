@@ -125,9 +125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stackable: 1
+  AllowPermanent: 1
   OverrideModificators: []
-  RestrictModificators:
-  - {fileID: 1998567090488563821, guid: 172ebfd33c6f19c4e9f5b0edaa82233f, type: 3}
+  RestrictModificators: []
   SynergingModificators: []
   UnsynergingModificators:
   - {fileID: 2670556852303785856, guid: 7b3b527486eba624bb18f80676329f90, type: 3}
@@ -135,8 +135,9 @@ MonoBehaviour:
   ModificatorTier: 2
   IconSprite: {fileID: 21300000, guid: c37c322882dbd94439635ca75295cd41, type: 3}
   CardSprite: {fileID: 21300000, guid: fc97ca2eb8b8b05479b6dd3bf1d663f7, type: 3}
+  CustomIconContent: {fileID: 0}
+  CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorMultiplier: 200
   _modificatorPrice: 0
   _localization: {fileID: 2147315170708439846}
   Team: 0

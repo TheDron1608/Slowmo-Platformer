@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class DamagableObject : MonoBehaviour, IDamagable
@@ -17,6 +18,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
+    [SerializeField] private bool _unlimitedHealth = false;
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
     public List<AbstractEffect> EffectsOnLethal = new();
@@ -49,6 +51,16 @@ public class DamagableObject : MonoBehaviour, IDamagable
     {
         get => _hitableByRangedProjectiles;
         set => _hitableByRangedProjectiles = value;
+    }
+
+    public bool UnlimitedHealth
+    {
+        get => _unlimitedHealth;
+        set
+        {
+            _unlimitedHealth = value;
+            ApplyMaxHealth(CurrentHealth, null);
+        }
     }
 
     public float CurrentHealth
@@ -129,6 +141,11 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public void SetHealth(float health, MonoBehaviour setter)
     {
         CurrentHealth = health;
+        if (UnlimitedHealth)
+        {
+            ApplyMaxHealth(CurrentHealth, setter);
+        }
+
         if (CurrentHealth >= MaxHealth)
         {
             CurrentHealth = MaxHealth;
@@ -145,8 +162,8 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier)
     {
-        MaxHealth = newMaxHealth;
-        if (CurrentHealth > MaxHealth && !CanHaveHealthOverMax)
+        MaxHealth = math.max(newMaxHealth, MinHealth);
+        if (CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;
         }
@@ -158,7 +175,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void ApplyMinHealth(float newMinHealth, MonoBehaviour applier)
     {
-        MinHealth = newMinHealth;
+        MinHealth = math.min(newMinHealth, MaxHealth);
         if (CurrentHealth < MinHealth)
         {
             Die(applier);

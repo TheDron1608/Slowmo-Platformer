@@ -13,6 +13,7 @@ public interface IDamagable
     public bool HitableByMeleeProjectiles { get; set; }
     public bool HitableByRangedProjectiles { get; set; }
     public float DamageMultiplier { get; set; }
+    public bool UnlimitedHealth { get; set; }
 
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;

@@ -55,6 +55,11 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         set => _hitableByRangedProjectiles = value;
     }
 
+    public bool UnlimitedHealth { 
+        get => CharComponents.CharacterHealth.UnlimitedHealth; 
+        set => CharComponents.CharacterHealth.UnlimitedHealth = value;
+    }
+
     public float CurrentHealth
     {
         get => CharComponents.CharacterHealth.CurrentHealth;

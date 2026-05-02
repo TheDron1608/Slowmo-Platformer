@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 3073428593278976
+      value: 49627624955420672
       objectReference: {fileID: 0}
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: RenerationModifcator
+      value: RelativeHealthDrainModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -70,15 +70,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637787658387465].m_Value
-      value: 0.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 3073568217464832
+      value: 49627625479708672
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: RegenerationSpeed
+      value: HealthLossPrecent
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -127,13 +127,14 @@ MonoBehaviour:
   Stackable: 1
   AllowPermanent: 1
   OverrideModificators: []
-  RestrictModificators: []
+  RestrictModificators:
+  - {fileID: 1998567090488563821, guid: 172ebfd33c6f19c4e9f5b0edaa82233f, type: 3}
   SynergingModificators: []
   UnsynergingModificators: []
-  ModificatorType: 0
-  ModificatorTier: 3
-  IconSprite: {fileID: 21300000, guid: 582f8e4f7fc77264b9f8097ff5441147, type: 3}
-  CardSprite: {fileID: 21300000, guid: baa3ade12d1211747bb848c7a2cfa126, type: 3}
+  ModificatorType: 1
+  ModificatorTier: 2
+  IconSprite: {fileID: 21300000, guid: c37c322882dbd94439635ca75295cd41, type: 3}
+  CardSprite: {fileID: 21300000, guid: fc97ca2eb8b8b05479b6dd3bf1d663f7, type: 3}
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
@@ -141,6 +142,7 @@ MonoBehaviour:
   _localization: {fileID: 2147315170708439846}
   Team: 0
   AffectChance: 1
-  ChanceType: 0
+  ChanceType: 1
   PlayerCharacterEffectsOnStart:
-  - {fileID: -3175890595162132154, guid: 0e335f52b802f0643992b9f1d0510d8d, type: 3}
+  - {fileID: -3950852017349237793, guid: 96f5190a44d627242a60eee664abc52a, type: 3}
+  - {fileID: 9221670374400228948, guid: 37669f24461d02242b0aa491cbc2138f, type: 3}

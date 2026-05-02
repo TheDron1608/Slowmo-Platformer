@@ -1187,6 +1187,18 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 49627624955420672
+    m_Localized: Decay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49627625479708672
+    m_Localized: '* Maximum health is unlimited
+
+      * You lose {HealthLossPrecent}%
+      of your current health per second'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1267,3 +1279,4 @@ MonoBehaviour:
         - id: 48719724397436928
         - id: 48728469554831360
         - id: 49275715270713344
+        - id: 49627625479708672

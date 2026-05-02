@@ -42,6 +42,11 @@ public class CharacterHealth : DamagableObject
     public void ApplyDamage(float damage, MonoBehaviour damager, CharacterLimbPart damagedPart)
     {
         CurrentHealth -= damage;
+        if (UnlimitedHealth)
+        {
+            ApplyMaxHealth(CurrentHealth, damager);
+        }
+
         if (CurrentHealth >= MaxHealth)
         {
             CurrentHealth = MaxHealth;

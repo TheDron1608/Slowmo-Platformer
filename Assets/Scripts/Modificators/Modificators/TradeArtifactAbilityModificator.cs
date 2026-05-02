@@ -5,13 +5,38 @@ using UnityEngine;
 public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator
 {
     public int ArtifactsCapacity = 5;
+    public float ArtifactPricePerCombo = 1.5f;
     public float SlowTimeOnGainArtifact = 2f;
     public float HealAmountPerArtifactPrice = 0.01f;
     public TeamManager.Teams HealTeam = TeamManager.Teams.PLAYER;
+    public float StartArtifactPriceIfIsCharacterModificator = 100f;
 
     private List<AbstractModificator> _currentArtifacts = new();
 
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        if (Status == ModificatorStatuses.CHARACTER_DEFAULT)
+        {
+            TryAddArtifact(StartArtifactPriceIfIsCharacterModificator);
+        }
+    }
+
     public override bool OnSpecialActivated()
+    {
+        if (TryAddArtifact(ScoreManager.Instance.CurrentCombo * ArtifactPricePerCombo))
+        {
+            ScoreManager.Instance.ResetCombo();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool TryAddArtifact(float price)
     {
         AbstractModificator randomModificator = ModificatorsManager.Instance.PickRandomModificators(
             ModificatorTypes.NEGATIVE,
@@ -29,7 +54,6 @@ public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator
             TimeManager.Instance.TryTemporalSlowTime(SlowTimeOnGainArtifact);
 
             _currentArtifacts.Add(ModificatorsManager.Instance.AddModificator(randomModificator, ModificatorStatuses.ARTIFACT));
-            ScoreManager.Instance.ResetCombo();
 
             if (_currentArtifacts.Count > 5)
             {
