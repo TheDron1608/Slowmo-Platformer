@@ -22,6 +22,7 @@ public class ModificatorsManager : MonoBehaviour
     public float ExtraNeutralModificatorChance = 0.1f;
     public bool CanSkipBlessPick = true;
     public bool CanSkipCursePick = true;
+    public float ArtifactSpoilDurationSeconds = 60 * 5f;
 
     [Header("Instances")]
     [SerializeField] private ModificatorCardsCluster _clusterInstance;
@@ -31,6 +32,7 @@ public class ModificatorsManager : MonoBehaviour
     [SerializeField] private List<Sprite> _characterIconBg;
     [SerializeField] private List<Sprite> _permanentIconBg;
     [SerializeField] private List<Sprite> _tradableIconBg;
+    [SerializeField] private List<Sprite> _artifactIconBg;
 
     [SerializeField] private List<Material> _positiveCardTierMaterials = new();
     [SerializeField] private List<Material> _negativeCardTierMaterials = new();
@@ -145,6 +147,9 @@ public class ModificatorsManager : MonoBehaviour
             case AbstractModificator.ModificatorStatuses.CURSE:
                 result.BgImage.sprite = NumberMath.PickRandomItem(_tradableIconBg);
                 break;
+            case AbstractModificator.ModificatorStatuses.ARTIFACT:
+                result.BgImage.sprite = NumberMath.PickMiddleItem(_artifactIconBg);
+                break;
         }
 
         return result;
@@ -204,10 +209,10 @@ public class ModificatorsManager : MonoBehaviour
         newModificator.OriginalModificator = modificator;
         newModificator.Status = modificatorStatus;
         _currentModificators.Add(newModificator);
-        if (UIManager.Instance?.ModificatorsScreenOverlay?.GetModificatorsUI() != null)
-        {
-            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().AddModificatorIcon(newModificator);
-        }
+
+        ModificatorIcon newIcon = 
+            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI()?.AddModificatorIcon(newModificator) ??
+            UIManager.Instance.ArtifactModificatorsScreenOverlay.GetModificatorsUI()?.AddModificatorIcon(newModificator);
 
         if (!newModificator.DisabledModificator)
         {
@@ -227,7 +232,7 @@ public class ModificatorsManager : MonoBehaviour
     {
         for (int i = 0; i < _currentModificators.Count; i++)
         {
-            if (modificator.GetEqualType(_currentModificators[i]))
+            if (modificator == _currentModificators[i])
             {
                 RemoveModificatorAt(i);
                 break;
@@ -238,6 +243,7 @@ public class ModificatorsManager : MonoBehaviour
     public void RemoveModificatorAt(int at)
     {
         UIManager.Instance?.ModificatorsScreenOverlay?.GetModificatorsUI()?.RemoveModificatorIcon(_currentModificators[at]);
+        UIManager.Instance?.ArtifactModificatorsScreenOverlay?.GetModificatorsUI()?.RemoveModificatorIcon(_currentModificators[at]);
         Destroy(_currentModificators[at].gameObject);
         _currentModificators.RemoveAt(at);
 
@@ -271,7 +277,8 @@ public class ModificatorsManager : MonoBehaviour
         bool allowPermanentIncapable = true,
         bool allowOverridePermanent = false,
         bool includeNeutral = true,
-        List<AbstractModificator> excludeModificators = null
+        List<AbstractModificator> excludeModificators = null,
+        bool singleOnly = false
         )
     {
         List<AbstractModificator> result = new();
@@ -294,7 +301,7 @@ public class ModificatorsManager : MonoBehaviour
         {
             result.Add(singleModificatorResult);
         }
-        else
+        else if (!singleOnly)
         {
             float totalModificatorsPrice = 0f;
             while (totalModificatorsPrice < minPrice && result.Count < MULTIPLE_MODIFICATORS_MAX_AMOUNT)

@@ -12,7 +12,6 @@ public class MitosisGib : Gib, IEntireCharacterEffect, ILethalEffect
 
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        Debug.Log(AffectedCharacter);
         Vector2 mitosisSpawnPosition = AffectedCharacter.transform.position;
         ZIndexLayer mitosisLayer = LayerManager.Instance.GetZLayerOfGameObject(AffectedObject.gameObject);
 

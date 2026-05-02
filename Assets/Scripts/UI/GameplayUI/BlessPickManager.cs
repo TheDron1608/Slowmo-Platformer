@@ -155,7 +155,7 @@ public class BlessPickManager : AbstractModificatorCardsManager
     public override void SpendPicksLeft(int amount = 1)
     {
         _picksLeft -= amount;
-        if (_picksLeft <= 0)
+        if (_picksLeft <= 0 || Cards.Count == 0)
         {
             while (Cards.Count > 0)
             {

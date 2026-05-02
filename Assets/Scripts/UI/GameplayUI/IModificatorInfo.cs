@@ -7,4 +7,6 @@ public interface IModificatorInfo
     public float ModificatorPrice { get; }
     public bool Multiplierable { get; }
     public float ModificatorMultiplier { get; }
+
+    public float? GetSpoilProgress();
 } 

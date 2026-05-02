@@ -192,4 +192,11 @@ public static class NumberMath
             removeFrom.Remove(removeItem);
         }
     }
+
+    public static LinkedList<T> ArrayToLinkedList<T>(T[] array)
+    {
+        LinkedList<T> result = new();
+        foreach (var arrayVal in array) result.AddLast(arrayVal);
+        return result;
+    }
 }

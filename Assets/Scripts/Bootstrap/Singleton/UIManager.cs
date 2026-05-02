@@ -267,10 +267,10 @@ public class UIManager : MonoBehaviour
             DifficultyCurseChoiseUI.InitDebugCurseOptions();
         }
 
-        public void Show(float cursePrice)
+        public void Show(float cursePrice, int pickAmount)
         {
             Show();
-            DifficultyCurseChoiseUI.InitCurseOptions(cursePrice);
+            DifficultyCurseChoiseUI.InitCurseOptions(cursePrice, pickAmount);
         }
 
         public override void Show()
@@ -293,6 +293,7 @@ public class UIManager : MonoBehaviour
     public GameplayUIScreenOverlay GameplayScreenOverlay;
     public GameOverUIScreenOverlay GameOverScreenOverlay;
     public ModificatorsUIScreenOverlay ModificatorsScreenOverlay;
+    public ModificatorsUIScreenOverlay ArtifactModificatorsScreenOverlay;
     public ScreenOverlay DifficultyScreenOverlay;
     public DifficultyCurseChoiseUIScreenOverlay DifficultyCurseChoiseScreenOverlay;
     public TextableScreenOverlay LivingTimeLeftScreenOverlay;
@@ -381,6 +382,8 @@ public class UIManager : MonoBehaviour
     {
         if (_sceneLoadingProcess != null) return;
 
+        if (TimeManager.Instance != null) TimeManager.Instance.Paused = true;
+
         Instance.SceneEndScreenOverlay.Show();
 
         Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished += LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
@@ -391,8 +394,11 @@ public class UIManager : MonoBehaviour
 
     private void LoadSceneWithEffect_OnScreenOverlayAnimationFinished(object sender, EventArgs e)
     {
+        if (TimeManager.Instance != null) TimeManager.Instance.Paused = false;
+
         _sceneLoadingProcess.allowSceneActivation = true;
         Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished -= LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
         _sceneLoadingProcess = null;
+
     }
 }

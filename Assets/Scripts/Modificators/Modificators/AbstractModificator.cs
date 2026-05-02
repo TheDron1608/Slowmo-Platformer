@@ -7,8 +7,9 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     const string LOCALIZATION_TABLE_NAME = "GameplayUI";
     const string LOCALIZATION_PERMANENT_KEY = "ModificatorStatusPermanent";
     const string LOCALIZATION_TRADABLE_KEY = "ModificatorStatusTradable";
+    const string LOCALIZATION_ARTIFACT_KEY = "ModificatorStatusArtifact";
     const string LOCALIZATION_PRICE_KEY = "ModificatorPrice";
-
+    const string LOCALIZATION_SPOILED_KEY = "ModificatorSpoilProgress";
 
     public enum ModificatorTiers
     {
@@ -22,7 +23,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     {
         POSITIVE,
         NEGATIVE,
-        NEUTRAL
+        NEUTRAL,
     }
 
     public enum ModificatorStatuses
@@ -32,10 +33,11 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         PERMANENT,
         CURSE,
         TRADED,
-        NONE
+        NONE,
+        ARTIFACT
     }
 
-    public static string GetLocalizedStatus(ModificatorStatuses status, float price)
+    public static string GetLocalizedStatus(ModificatorStatuses status, float price, float? spoilProgress)
     {
         switch (status)
         {
@@ -50,6 +52,10 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
             case ModificatorStatuses.TRADED:
                 return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PERMANENT_KEY) + "\n" +
                     LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + price.ToString("0");
+            case ModificatorStatuses.ARTIFACT:
+                return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_ARTIFACT_KEY) + "\n" +
+                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + price.ToString("0") +
+                    (spoilProgress != null ? "\n" + LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_SPOILED_KEY) + (spoilProgress.Value * 100f).ToString("F0") + "%" : "");
             default:
                 return "";
         }
@@ -77,6 +83,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     private ModificatorIcon _currentIcon;
     private AbstractModificator _originalModificator = null;
     private bool _disabledModificator = false;
+    private float _modificatorLivetime = 0f;
 
     public bool Multiplierable
     {
@@ -196,11 +203,16 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         return result;
     }
 
-    public virtual bool GetEqualType(AbstractModificator other)
+    public float? GetSpoilProgress()
     {
-        return
-            GetType() == other.GetType() &&
-            ((!Multiplierable && !other.Multiplierable) || ModificatorMultiplier == other.ModificatorMultiplier);
+        if (Status == ModificatorStatuses.ARTIFACT)
+        {
+            return NumberMath.LimitFloatBetweenZeroAndOne(_modificatorLivetime / (ModificatorsManager.Instance?.ArtifactSpoilDurationSeconds ?? 1f));
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public void TryTriggerIconAnimation()
@@ -252,6 +264,11 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     protected virtual void OnObjectSpawned(object sender, GameObject e)
     {
 
+    }
+
+    private void FixedUpdate()
+    {
+        _modificatorLivetime += Time.fixedDeltaTime;
     }
 
     private void OnDestroy()

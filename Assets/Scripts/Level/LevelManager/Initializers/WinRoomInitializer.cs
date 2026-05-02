@@ -25,7 +25,8 @@ public class WinRoomInitializer : MonoBehaviour
     private void Start()
     {
         UIManager.Instance.GameplayScreenOverlay.Show();
-        UIManager.Instance.ModificatorsScreenOverlay.Show();
+        UIManager.Instance.ModificatorsScreenOverlay.Hide();
+        UIManager.Instance.ArtifactModificatorsScreenOverlay.Hide();
         UIManager.Instance.DifficultyScreenOverlay.Show();
 
         _spawnedPlayer = SpawnManager.Instance?.SpawnPlayerCharacterAt(

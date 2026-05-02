@@ -24,6 +24,7 @@ public class ModificatorChoiseInitializer : MonoBehaviour
     private void Start()
     {
         UIManager.Instance.ModificatorsScreenOverlay.Show();
+        UIManager.Instance.ArtifactModificatorsScreenOverlay.Show();
         UIManager.Instance.DifficultyScreenOverlay.Show();
     }
 }

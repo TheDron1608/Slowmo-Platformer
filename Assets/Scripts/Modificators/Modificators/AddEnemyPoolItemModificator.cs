@@ -18,7 +18,8 @@ public class AddEnemyPoolItemModificator : AbstractModificator
                 {
                     if (
                         UnityEngine.Random.value < AddedEnemyItem.Rarity &&
-                        characterT.TryGetComponent(out AbstractCharacterComponent character)
+                        characterT.TryGetComponent(out AbstractCharacterComponent character) &&
+                        character.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(TeamManager.Teams.DEFAULT_ENEMY)
                         ) 
                     {
                         Vector2 oldCharacterPosition = characterT.position;

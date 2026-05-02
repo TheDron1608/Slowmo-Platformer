@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
@@ -41,7 +40,7 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
         if (Cards.Count == 0) FinishTrade();
     }
 
-    public void InitCurseOptions(float cursePrice)
+    public void InitCurseOptions(float cursePrice, int pickAmount)
     {
         ClearAllCards();
 
@@ -69,7 +68,9 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 
         InvokeModificatorChoiseFinished();
 
-        if (Cards.Count == 0) FinishTrade();
+        _picksLeft = pickAmount;
+
+        if (Cards.Count == 0 || _picksLeft == 0) FinishTrade();
     }
 
     public void RequestSceneChangeOnFinish(string sceneName)
@@ -81,7 +82,7 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     {
         _picksLeft -= amount;
 
-        if (_picksLeft <= 0)
+        if (_picksLeft <= 0 || Cards.Count == 0)
         {
             while (Cards.Count > 0)
             {

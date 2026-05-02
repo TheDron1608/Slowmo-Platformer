@@ -21,6 +21,11 @@ public abstract class AbstractSingleCardItem : AbstractCardItem, IModificatorInf
 
     public float ModificatorMultiplier => 1f;
 
+    public float? GetSpoilProgress()
+    {
+        return null;
+    }
+
     public override void OnSelect(BaseEventData eventData)
     {
         base.OnSelect(eventData);

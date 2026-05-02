@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,10 +21,12 @@ public class AnimatedImage : MonoBehaviour
     public AnimatedSpritePlayMode AnimationPlayMode;
     public bool IsPlaying = true;
     public bool ReversePlaying = false;
+    public bool TimeScaleDepended = true;
 
     private Image _imageComponent;
     private int _currentFrame;
     private float _timeLeftSinceLastFrame = 0f;
+    private Coroutine _updateCoroutine = null;
 
     public event EventHandler AnimationFinished;
 
@@ -62,31 +65,53 @@ public class AnimatedImage : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (IsPlaying)
+        _updateCoroutine = StartCoroutine(UpdateLoop());
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(_updateCoroutine);
+    }
+
+    private IEnumerator UpdateLoop()
+    {
+        while (true)
         {
-            if (
-                (_currentFrame >= _frames.Count - 1 && !ReversePlaying) ||
-                (_currentFrame <= 0 && ReversePlaying)
-            )
+            if (IsPlaying)
             {
-                AnimationFinishedProcess();
+                if (
+                    (_currentFrame >= _frames.Count - 1 && !ReversePlaying) ||
+                    (_currentFrame <= 0 && ReversePlaying)
+                )
+                {
+                    AnimationFinishedProcess();
+                }
+
+                _timeLeftSinceLastFrame += TimeScaleDepended ? Time.deltaTime : 1f / FPS;
+
+                if (_timeLeftSinceLastFrame >= 1f / (float)FPS)
+                {
+                    if (ReversePlaying)
+                    {
+                        CurrentFrame--;
+                    }
+                    else
+                    {
+                        CurrentFrame++;
+                    }
+                    _timeLeftSinceLastFrame = 1f / (float)FPS - _timeLeftSinceLastFrame;
+                }
             }
 
-            _timeLeftSinceLastFrame += Time.deltaTime;
-
-            if (_timeLeftSinceLastFrame >= 1f / (float)FPS)
+            if (TimeScaleDepended)
             {
-                if (ReversePlaying)
-                {
-                    CurrentFrame--;
-                }
-                else
-                {
-                    CurrentFrame++;
-                }
-                _timeLeftSinceLastFrame = 1f / (float)FPS - _timeLeftSinceLastFrame;
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                yield return new WaitForSeconds(1 / FPS);
             }
         }
     }

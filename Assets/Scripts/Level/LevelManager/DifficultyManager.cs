@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -19,6 +20,7 @@ public class DifficultyManager : MonoBehaviour
         public AudioClip Music = null;
         public int MidstageCursesAmount = 0;
         public float CursesPrice = 10;
+        public int CursesAmount = 1;
         public LocalizedString LocalizedName;
         public Material PrimaryEnviromentMaterial = null;
         public Material SecondaryEnviromentMaterial = null;
@@ -28,11 +30,11 @@ public class DifficultyManager : MonoBehaviour
 
     public static DifficultyManager Instance = null;
 
-    public LinkedList<DifficultyStage> Difficulties = new();
     public float CursesAmountPerLoopMult = 2;
 
     [SerializeField] private DifficultyStage[] _initDifficulties = new DifficultyStage[0];
 
+    private LinkedList<DifficultyStage> _difficulties = new();
     private LinkedListNode<DifficultyStage> _currentDifficulty;
     private float _totalDifficultyTime = 0f;
     private float _currentLoopDifficultyTime = 0f;
@@ -41,6 +43,37 @@ public class DifficultyManager : MonoBehaviour
     private float _currentCursesAmountMult = 1f;
     private int _loops = 0;
     private float _timeSpeedMultiplier = 1f;
+    private float _cursesPickAmountMult = 1f;
+
+    public LinkedList<DifficultyStage> Difficulties
+    {
+        get => _difficulties;
+        set
+        {
+            if (_difficulties == value) return;
+
+            _difficulties = value;
+            UpdateCurrentDifficultyDependedOnLoopTime();
+        }
+    }
+
+    private void UpdateCurrentDifficultyDependedOnLoopTime()
+    {
+        float totalStageTime = 0f;
+        LinkedListNode<DifficultyStage> currentDifficulty = Difficulties.First;
+        do
+        {
+            totalStageTime += currentDifficulty.Value.Duration;
+            if (totalStageTime > CurrentLoopDifficultyTime)
+            {
+                _currentDifficulty = currentDifficulty;
+                _currentDifficultyTime = CurrentLoopDifficultyTime - totalStageTime + currentDifficulty.Value.Duration;
+                break;
+            }
+            currentDifficulty = currentDifficulty.Next;
+        }
+        while (currentDifficulty.Next != null);
+    }
 
     public float TotalDifficultyTime
     {
@@ -80,6 +113,12 @@ public class DifficultyManager : MonoBehaviour
         set => _timeSpeedMultiplier = value;
     }
 
+    public float CursesPickAmountMultiplier
+    {
+        get => _currentCursesAmountMult;
+        set => _currentCursesAmountMult = value;
+    }
+
     public static List<AbstractModificator> GetRandomCurseModificators(float cursePrice, List<AbstractModificator> exludeModificators)
     {
         return ModificatorsManager.Instance.PickRandomModificators(
@@ -97,8 +136,7 @@ public class DifficultyManager : MonoBehaviour
     {
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 DifficultyManager instance per scene");
         Instance = this;
-        foreach (var initDiff in _initDifficulties) Difficulties.AddLast(initDiff);
-        CurrentDifficulty = Difficulties.First;
+        Difficulties = NumberMath.ArrayToLinkedList(_initDifficulties);
     }
 
     private void Update()
@@ -138,7 +176,13 @@ public class DifficultyManager : MonoBehaviour
             CurrentDifficulty = CurrentDifficulty.Next;
             if (CurrentDifficulty.Value.CursesPrice > 0f)
             {
-                StartDifficultyCurseChoise(CurrentDifficulty.Value.CursesPrice);
+                float cursePrice = CurrentDifficulty.Value.CursesPrice;
+                int curseAmount = (int)math.ceil(CurrentDifficulty.Value.CursesAmount * CursesPickAmountMultiplier);
+
+                if (cursePrice > 0f && curseAmount > 0)
+                {
+                    UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(cursePrice, curseAmount);
+                }
             }
         }
 
@@ -171,11 +215,6 @@ public class DifficultyManager : MonoBehaviour
         }
 
         Instance._currentDifficultyMidCurseTime = 0f;
-    }
-
-    public void StartDifficultyCurseChoise(float cursePrice)
-    {
-        UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(cursePrice);
     }
 
     private void OnDestroy()

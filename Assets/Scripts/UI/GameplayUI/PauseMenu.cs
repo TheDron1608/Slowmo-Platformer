@@ -33,7 +33,8 @@ public class PauseMenu : MonoBehaviour
             if (!_paused) SoundOnUnpause.PlaySound(false, Vector2.zero);
 
             gameObject.SetActive(value);
-            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI().SetPauseModificatorsAligment(value);
+            UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI()?.SetPauseModificatorsAligment(value);
+            UIManager.Instance.ArtifactModificatorsScreenOverlay.GetModificatorsUI()?.SetPauseModificatorsAligment(value);
 
             if (_paused) SoundOnPause.PlaySound();
 

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ModificatorsUI : MonoBehaviour
 {
+    public List<AbstractModificator.ModificatorStatuses> AllowContainStatus = new();
+
     [SerializeField] private Transform _modificatorsContainer;
     [SerializeField] private Transform _modificatorTrackTargetsContainer;
     [SerializeField] private Transform _modificatorOnPauseTrackTargetsContainer;
@@ -22,6 +22,8 @@ public class ModificatorsUI : MonoBehaviour
 
     public ModificatorIcon AddModificatorIcon(AbstractModificator modifiactor, bool instantly = false)
     {
+        if (!AllowContainStatus.Contains(modifiactor.Status)) return null;
+
         ModificatorIcon newIcon = ModificatorsManager.Instance.CreateModificatorIcon(modifiactor, _modificatorsContainer);
 
         if (instantly)
@@ -59,7 +61,7 @@ public class ModificatorsUI : MonoBehaviour
     public void SetPauseModificatorsAligment(bool value)
     {
         foreach (
-            Transform child in 
+            Transform child in
             (value ? _modificatorTrackTargetsContainer : _modificatorOnPauseTrackTargetsContainer).GetComponentsInChildren<Transform>()
             )
         {

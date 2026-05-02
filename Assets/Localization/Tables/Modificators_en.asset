@@ -1165,6 +1165,28 @@ MonoBehaviour:
     m_Localized: '* One hit and you''re dead'
     m_Metadata:
       m_Items: []
+  - m_Id: 49010918759309312
+    m_Localized: Absolutely nothing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49010920923570176
+    m_Localized: "\r* You cannot obtain and sell modifiers\r\n* You still receive
+      permanent modifiers over time"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49275710807973888
+    m_Localized: Collector
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49275715270713344
+    m_Localized: "\r* Using this ability will grant you a negative modifier with
+      the \"Artifact\" status.\r\n* The higher the combo, the more expensive the
+      artifact.\r\n* Artifacts heal you; the healing increases based on the cost
+      and decreases passively over time.\r\n* You can collect up to {ModificatorCapacity}
+      artifacts. Exceeding the limit will replace the last artifact with a new one."
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1244,3 +1266,4 @@ MonoBehaviour:
         - id: 48287512308981760
         - id: 48719724397436928
         - id: 48728469554831360
+        - id: 49275715270713344

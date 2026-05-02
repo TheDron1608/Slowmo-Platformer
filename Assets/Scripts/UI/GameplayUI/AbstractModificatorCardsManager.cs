@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public abstract class AbstractModificatorCardsManager : MonoBehaviour
 {
@@ -88,7 +86,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     private IEnumerator AwaitReachTrackTargetThenDestroy(UIElementTrackTarget trackTarget, Transform trackedUIElement)
     {
         while (
-            !trackTarget.IsDestroyed() && 
+            !trackTarget.IsDestroyed() &&
             !trackedUIElement.IsDestroyed() &&
             Vector2.Distance(trackTarget.transform.position, trackedUIElement.position) > 0.05f
             )
@@ -113,7 +111,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        
+
         if (infos != null)
         {
             foreach (IModificatorInfo info in infos)

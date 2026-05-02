@@ -130,7 +130,10 @@ public class CharacterPartsManager : AbstractCharacterComponent
 
     private CharacterEquipmentPart ForceAddPart(CharacterEquipmentPart equipment)
     {
-        if (equipment == null) return null;
+        if (equipment == null || GetCharacterPart(equipment.EquipAtType) == null)
+        {
+            return null;
+        }
 
         foreach (CharacterEquipmentPart limbEquipment in GetCharacterPartEquipment(GetCharacterPart(equipment.EquipAtType)))
         {

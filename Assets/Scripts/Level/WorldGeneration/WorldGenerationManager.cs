@@ -13,6 +13,8 @@ public class WorldGenerationManager : MonoBehaviour
 
     public float ShopDoorGenerationChance = 0.2f;
     public float CurseDoorGenerationChance = 0.5f;
+    public DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes DefaultExitDoorType = DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE;
+    public bool EnableExtraExitBrunchs = true;
     public int BuildingsAmount = 8;
     public int MinBuildingRooms = 3;
     public int MaxBuildingRooms = 12;
@@ -85,8 +87,11 @@ public class WorldGenerationManager : MonoBehaviour
                 attemptingBuildingLayerIndex = (currentBuildingLayerIndex + layerIndexAdd) % LayerManager.Instance.ZLayers.Count;
                 //set building's random extra exits like shop doors or curse doors
                 List<DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes> extraExits = new();
-                if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
-                if (RandomManager.Instance.ProcRandomGoodChance(CurseDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE);
+                if (EnableExtraExitBrunchs)
+                {
+                    if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
+                    if (RandomManager.Instance.ProcRandomGoodChance(CurseDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE);
+                }
 
                 //trying generate building, if failed GENERATION_BUILDING_FAIL_INTERATIONS_LIMIT times finish generating
                 if (TryGenerateBuilding(
@@ -115,7 +120,7 @@ public class WorldGenerationManager : MonoBehaviour
         }
 
         //generate next level door
-        prevBuilding.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.NEXTLEVEL);
+        prevBuilding.Exit.Generate(DefaultExitDoorType);
 
         //generating enviroment with OnFinishAllBuilding Enviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
