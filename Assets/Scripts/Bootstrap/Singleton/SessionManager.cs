@@ -14,6 +14,8 @@ public class SessionManager : MonoBehaviour
         public int TotalDeaths = 0;
         public int TotalObtainedCurses = 0;
         public int TotalPlayTime = 0;
+
+        public List<string> UnlockedCharacters = new();
     }
 
     public class TempSessionData
@@ -25,11 +27,15 @@ public class SessionManager : MonoBehaviour
 
     public static SessionManager Instance;
 
+    public List<SessionData> Sessions;
+    public List<PlayerCharacterInfo> DefaultUnlockedCharacters = new();
 
     [SerializeField] private GameObject _tempSessionManagersPrefab;
     private GameObject _tempSessionManagersInstance = null;
     private SessionData _currentSession;
     private TempSessionData _tempSession;
+
+    public event EventHandler CurrentSessionChanged;
 
     public SessionData CurrentSession
     {
@@ -61,10 +67,6 @@ public class SessionManager : MonoBehaviour
     {
         get => _tempSession;
     }
-
-    public List<SessionData> Sessions;
-
-    public event EventHandler CurrentSessionChanged;
 
     void Start()
     {

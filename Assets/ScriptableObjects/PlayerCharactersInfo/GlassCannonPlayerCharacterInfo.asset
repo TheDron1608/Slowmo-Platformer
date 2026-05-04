@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb0a3a6da175e64185c61fa4c4c9db3, type: 3}
+  m_Name: GlassCannonPlayerCharacterInfo
+  m_EditorClassIdentifier: 
+  PlayerCharacter: {fileID: 8898827625141962709, guid: 19e600a8ea9c72245bf6e4ebbe759599, type: 3}
+  StartModificators:
+  - {fileID: 3473386559249604030, guid: 34fed42b1ad78614cbf4b2cdaf91d3da, type: 3}
+  - {fileID: 4275088403563012476, guid: eafa826d663e836438ca8ce2dd5c6747, type: 3}
+  - {fileID: -525454969644069919, guid: b2ed5ae8bb3b0f24f96be844af071c7b, type: 3}
+  LocalizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:7ceda435e9d75874db4627ac1b530e06
+    m_TableEntryReference:
+      m_KeyId: 59974664512053248
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  LocalizedDesc:
+    m_TableReference:
+      m_TableCollectionName: GUID:7ceda435e9d75874db4627ac1b530e06
+    m_TableEntryReference:
+      m_KeyId: 59974665178947584
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  CharacterIconSprite: {fileID: 21300000, guid: 729c1ac4d12184b429bd8f9f87cacb68, type: 3}
+  InfoTextColor: {r: 1, g: 1, b: 1, a: 1}
+  InfoIconMaterial: {fileID: 2100000, guid: 33399073aee655a43a7a062267e36116, type: 2}
+  InfoBgMaterial: {fileID: 2100000, guid: 456e990236b9dc648bb3209fd2312820, type: 2}
+  references:
+    version: 2
+    RefIds: []

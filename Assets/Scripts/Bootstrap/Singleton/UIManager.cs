@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -283,6 +284,40 @@ public class UIManager : MonoBehaviour
         {
             base.Hide();
             _difficultyCurseChoiseUI = null;
+        }
+    }
+
+    [Serializable]
+    public class CharacterUnlockedMessageScreenOverlay : ScreenOverlay
+    {
+        public TextMeshProUGUI UnlockedText;
+        public TextMeshProUGUI UnlockedWhatText;
+        public Image IconImage;
+        public Image BgImage;
+
+        private PlayerCharacterInfo _unlockedCharacter = null;
+
+        public void Show(PlayerCharacterInfo unlockedCharacter)
+        {
+            _unlockedCharacter = unlockedCharacter;
+            Show();
+        }
+
+        public override void Show()
+        {
+            if (_unlockedCharacter == null) return;
+
+            base.Show();
+
+            UnlockedWhatText.text = _unlockedCharacter.LocalizedName.ToString();
+            UnlockedWhatText.color = _unlockedCharacter.InfoTextColor;
+
+            UnlockedText.color = _unlockedCharacter.InfoTextColor;
+
+            IconImage.sprite = _unlockedCharacter.CharacterIconSprite;
+            IconImage.material = _unlockedCharacter.InfoIconMaterial;
+
+            BgImage.material = _unlockedCharacter.InfoBgMaterial;
         }
     }
 

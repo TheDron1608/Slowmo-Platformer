@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb0a3a6da175e64185c61fa4c4c9db3, type: 3}
+  m_Name: CollectorPlayerCharacterInfo
+  m_EditorClassIdentifier: 
+  PlayerCharacter: {fileID: 4293752405073391556, guid: 0f25cf5b77765db4391a4009fdd9d306, type: 3}
+  StartModificators:
+  - {fileID: 8853570779579415213, guid: 46eed126f7d6ba54298fe76a4230bcff, type: 3}
+  - {fileID: 1998567090488563821, guid: 800746c7e4d23804aaa0b36b5137ac35, type: 3}
+  - {fileID: 2723193819129322726, guid: c01503a98e12c9142924ae880b43bd6e, type: 3}
+  LocalizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:7ceda435e9d75874db4627ac1b530e06
+    m_TableEntryReference:
+      m_KeyId: 60875014270066688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  LocalizedDesc:
+    m_TableReference:
+      m_TableCollectionName: GUID:7ceda435e9d75874db4627ac1b530e06
+    m_TableEntryReference:
+      m_KeyId: 60875015016652800
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  CharacterIconSprite: {fileID: 21300000, guid: ecd904e4889c332439b47f25aa69a851, type: 3}
+  InfoTextColor: {r: 0, g: 0, b: 0, a: 1}
+  InfoIconMaterial: {fileID: 2100000, guid: 456e990236b9dc648bb3209fd2312820, type: 2}
+  InfoBgMaterial: {fileID: 2100000, guid: 6874176a5fdf89949901b3a7cbf10b61, type: 2}
+  references:
+    version: 2
+    RefIds: []
