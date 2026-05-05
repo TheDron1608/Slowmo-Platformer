@@ -210,6 +210,10 @@ PrefabInstance:
       propertyPath: AIPickUpPriority
       value: 34
       objectReference: {fileID: 0}
+    - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: FindingUniqueCodeName
+      value: Magnum
+      objectReference: {fileID: 0}
     - target: {fileID: 3494821441574348939, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: m_Offset.x
       value: 0.1
@@ -378,6 +382,7 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
   AmmoLeft: 6
   MaxAmmo: 12
   JamChance: 0

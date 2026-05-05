@@ -220,6 +220,10 @@ PrefabInstance:
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: FindingUniqueCodeName
+      value: AutoPistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: SpeedToGetThroughWall
       value: 20
       objectReference: {fileID: 0}
@@ -411,6 +415,7 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.01
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
   AmmoLeft: 20
   MaxAmmo: 40
   JamChance: 0

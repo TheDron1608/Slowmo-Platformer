@@ -9,6 +9,8 @@ public class PlayerCharacterInfo : ScriptableObject
     public List<AbstractModificator> StartModificators;
     public LocalizedString LocalizedName;
     public LocalizedString LocalizedDesc;
+    public LocalizedString LocalizedUnlockCondition;
+    public GameObject CustomUnlockConditionInfo = null;
     public Sprite CharacterIconSprite;
     public Color InfoTextColor;
     public Material InfoIconMaterial;

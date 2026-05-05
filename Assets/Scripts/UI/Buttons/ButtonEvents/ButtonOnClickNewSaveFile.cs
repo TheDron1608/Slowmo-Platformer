@@ -26,7 +26,7 @@ public class ButtonOnClickNewSaveFile : MonoBehaviour
 
     public void UpdateHideIfLimitOfSavesReached()
     {
-        if (JSONFileManager.CountFilesInFolder(JSONFileManager.Instance.SavesFolder) >= MAX_SAVE_FILES_LIMIT)
+        if (SessionManager.Instance.Sessions.Count >= MAX_SAVE_FILES_LIMIT)
         {
             gameObject.SetActive(false);
         }

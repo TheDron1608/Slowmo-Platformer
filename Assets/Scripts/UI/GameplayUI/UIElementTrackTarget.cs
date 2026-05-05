@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class UIElementTrackTarget : MonoBehaviour
     }
 
     const float TRACK_SPEED_MULTIPLIER = 15f;
+    const float TRACK_REACHED_DISTANCE_PRECISSION = 0.05f;
 
     public Transform TrackingUIElement;
 
@@ -56,5 +58,12 @@ public class UIElementTrackTarget : MonoBehaviour
         }
 
         return newGOTrackTarget;
+    }
+
+    public bool GetIsReachedTrackTarget()
+    {
+        if (TrackingUIElement == null || TrackingUIElement.IsDestroyed()) return false;
+
+        return Vector2.Distance(transform.position, TrackingUIElement.transform.position) < TRACK_REACHED_DISTANCE_PRECISSION;
     }
 }

@@ -16,8 +16,6 @@ public class UIManager : MonoBehaviour
         SWORD_PLAYER
     }
 
-    private bool _showFPS = false;
-
     public bool ShowFPS
     {
         get => _showFPS;
@@ -290,34 +288,18 @@ public class UIManager : MonoBehaviour
     [Serializable]
     public class CharacterUnlockedMessageScreenOverlay : ScreenOverlay
     {
-        public TextMeshProUGUI UnlockedText;
-        public TextMeshProUGUI UnlockedWhatText;
-        public Image IconImage;
-        public Image BgImage;
-
-        private PlayerCharacterInfo _unlockedCharacter = null;
+        public CharacterUnlockedMessageUI _message;
 
         public void Show(PlayerCharacterInfo unlockedCharacter)
         {
-            _unlockedCharacter = unlockedCharacter;
             Show();
+            _message.SetUnlockedCharacterInfo(unlockedCharacter);
         }
 
         public override void Show()
         {
-            if (_unlockedCharacter == null) return;
-
             base.Show();
-
-            UnlockedWhatText.text = _unlockedCharacter.LocalizedName.ToString();
-            UnlockedWhatText.color = _unlockedCharacter.InfoTextColor;
-
-            UnlockedText.color = _unlockedCharacter.InfoTextColor;
-
-            IconImage.sprite = _unlockedCharacter.CharacterIconSprite;
-            IconImage.material = _unlockedCharacter.InfoIconMaterial;
-
-            BgImage.material = _unlockedCharacter.InfoBgMaterial;
+            _message = _currentScreenOverlay.GetComponent<CharacterUnlockedMessageUI>();
         }
     }
 
@@ -336,12 +318,14 @@ public class UIManager : MonoBehaviour
     public FillableScreenOverlay SlowmoOverlay;
     public ScreenOverlay FPSCountScreenOverlay;
     public ScreenOverlay SettingOverlay;
+    public CharacterUnlockedMessageScreenOverlay UnlockedCharacterMessageOverlay;
 
     public static UIManager Instance;
 
     private GameObject _screenOverlayContainer;
     private AsyncOperation _sceneLoadingProcess; //used only at LoadSceneWithEffect and LoadSceneWithEffect_OnScreenOverlayAnimationFinished functions
-    private ScreenOverlay[] ScreenOverlays;
+    private bool _showFPS = false;
+    private ScreenOverlay[] _allOverlays;
 
     public bool IsLoadingScene()
     {
@@ -374,6 +358,26 @@ public class UIManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
+        _allOverlays = new ScreenOverlay[]
+        {
+            InputBindingScreenOverlay,
+            SceneStartScreenOverlay,
+            SceneEndScreenOverlay,
+            DamagedScreenOverlay,
+            GameplayScreenOverlay,
+            GameOverScreenOverlay,
+            ModificatorsScreenOverlay,
+            ArtifactModificatorsScreenOverlay,
+            DifficultyScreenOverlay,
+            DifficultyCurseChoiseScreenOverlay,
+            LivingTimeLeftScreenOverlay,
+            SwordPlayerLiveTimeLeftScreenOverlay,
+            SlowmoOverlay,
+            FPSCountScreenOverlay,
+            SettingOverlay,
+            UnlockedCharacterMessageOverlay
+        };
+
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of UIManager objects");
         Instance = this;
 
@@ -398,7 +402,12 @@ public class UIManager : MonoBehaviour
     private void SceneManager_OnActiveSceneChanged(Scene arg0, Scene arg1)
     {
         _screenOverlayContainer = GameObject.FindGameObjectWithTag("ScreenOverlayContainer");
-        SceneEndScreenOverlay.Hide();
+
+        foreach (ScreenOverlay overlay in _allOverlays)
+        {
+            overlay.Hide();
+        }
+
         SceneStartScreenOverlay.Show();
 
         if (ShowFPS)

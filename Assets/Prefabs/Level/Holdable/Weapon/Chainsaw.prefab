@@ -147,6 +147,10 @@ PrefabInstance:
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: FindingUniqueCodeName
+      value: Chainsaw
+      objectReference: {fileID: 0}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: HoldDistanceWhenIsHolded
       value: -0.1
       objectReference: {fileID: 0}
@@ -341,6 +345,7 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
   AttackRangeMultiplier: 1
   MaxFuel: 10
   MaxStartSuccessChance: 0.75

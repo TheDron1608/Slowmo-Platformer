@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -218,6 +219,8 @@ public class MultiTileMapsContainer : MonoBehaviour
 
     public void ToggleHallucinationTilemapVisibility(bool value)
     {
+        if (gameObject.IsDestroyed()) return;
+
         _foreground.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
         _background.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
         _backgroundDecorations.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;

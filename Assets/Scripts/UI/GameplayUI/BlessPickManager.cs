@@ -147,6 +147,15 @@ public class BlessPickManager : AbstractModificatorCardsManager
             }
 
             HideScore();
+
+            if (SessionManager.Instance?.TempSession != null)
+            {
+                SessionManager.Instance.TempSession.TotalSoldCurses = totalAddPrice;
+                if (SessionManager.Instance.TempSession.MaxSoldCurses < totalAddPrice)
+                {
+                    SessionManager.Instance.TempSession.MaxSoldCurses = totalAddPrice;
+                }
+            }
         }
 
         _sellCursesCoroutine = null;

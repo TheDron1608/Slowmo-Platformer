@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 public class SetCharacterButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -21,17 +22,7 @@ public class SetCharacterButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _characterSelectContainer.SetCharacterInfo(
-            _button.interactable ?
-                PlayerInfo.LocalizedName.GetLocalizedString() :
-                PlayerInfo.LocalizedName.GetLocalizedString().FilterReplace(HIDE_INFO_REPLACE_CHAR, false, false, true, true, true, true),
-            _button.interactable ? 
-                PlayerInfo.LocalizedDesc.GetLocalizedString() :
-                PlayerInfo.LocalizedDesc.GetLocalizedString().FilterReplace(HIDE_INFO_REPLACE_CHAR, false, false, true, true, true, true),
-            FloorLevel,
-            PlayerInfo.InfoBgMaterial,
-            PlayerInfo.InfoTextColor
-            );
+        _characterSelectContainer.SetCharacterInfo(PlayerInfo, FloorLevel);
         _characterSelectContainer.SetCharacterInfoVisibility(true);
     }
 
@@ -51,11 +42,7 @@ public class SetCharacterButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     private void Instance_CurrentSessionChanged(object sender, System.EventArgs e)
     {
-        if (
-            SessionManager.Instance == null ||
-            SessionManager.Instance.CurrentSession.UnlockedCharacters.Contains(PlayerInfo.GetUnlockCharacterJSONName()) ||
-            SessionManager.Instance.DefaultUnlockedCharacters.Contains(PlayerInfo)
-            )
+        if (SessionManager.Instance?.GetCharacterIsUnlocked(PlayerInfo) ?? true)
         {
             _button.interactable = true;
             _iconImage.sprite = PlayerInfo.CharacterIconSprite;

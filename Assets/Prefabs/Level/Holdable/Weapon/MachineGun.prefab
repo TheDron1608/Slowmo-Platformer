@@ -77,6 +77,10 @@ PrefabInstance:
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: FindingUniqueCodeName
+      value: MachineGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: SpeedToGetThroughWall
       value: 8
       objectReference: {fileID: 0}
@@ -273,6 +277,7 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
   AmmoLeft: 60
   MaxAmmo: 120
   JamChance: 0

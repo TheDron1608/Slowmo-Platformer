@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: AIPickUpPriority
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: FindingUniqueCodeName
+      value: BurstGun
+      objectReference: {fileID: 0}
     - target: {fileID: 3016777206437800495, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -266,6 +270,7 @@ MonoBehaviour:
   RepeatAttacksTimes: 3
   DurationBetweenRepeatAttacks: 0.0667
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
   AmmoLeft: 18
   MaxAmmo: 36
   JamChance: 0

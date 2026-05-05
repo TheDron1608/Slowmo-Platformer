@@ -17,6 +17,10 @@ PrefabInstance:
       value: 1.33
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: FindingUniqueCodeName
+      value: BrokenWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: RotatableWhenIsHolded
       value: 0
       objectReference: {fileID: 0}
@@ -222,4 +226,5 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.25
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
   AttackRangeMultiplier: 1

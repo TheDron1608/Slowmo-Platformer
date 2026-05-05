@@ -23,6 +23,7 @@ public class Holdable : Interactable
     }
 
     [Header("Holdable")]
+    public string FindingUniqueCodeName;
     public int AIPickUpPriority = 0;
     public bool RotatableWhenIsHolded = true;
     public bool ResetRotationWhenIsHolded = false;

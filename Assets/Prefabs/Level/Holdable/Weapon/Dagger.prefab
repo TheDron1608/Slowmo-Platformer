@@ -29,6 +29,10 @@ PrefabInstance:
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: FindingUniqueCodeName
+      value: Dagger
+      objectReference: {fileID: 0}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: SpeedToGetThroughWall
       value: 5
       objectReference: {fileID: 0}
@@ -209,6 +213,7 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
   AttackRangeMultiplier: 1
   SoundOnSpin: {fileID: 2024307989499341766}
 --- !u!4 &7235024961734572361 stripped

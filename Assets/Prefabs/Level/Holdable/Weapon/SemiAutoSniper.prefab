@@ -167,6 +167,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.438
       objectReference: {fileID: 0}
+    - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: FindingUniqueCodeName
+      value: SASniper
+      objectReference: {fileID: 0}
     - target: {fileID: 3016777206437800495, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.0625
@@ -356,6 +360,7 @@ MonoBehaviour:
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.2
   ExtraProjectileEffects: []
+  IsAbleToAttack: 1
   AmmoLeft: 5
   MaxAmmo: 10
   JamChance: 0

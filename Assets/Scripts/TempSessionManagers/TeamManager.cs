@@ -23,12 +23,8 @@ public class TeamManager : MonoBehaviour
 
         public string Name;
 
-        private int _totalKills = 0;
-        private int _totalDeaths = 0;
         private List<CharacterTeam> _teamMembers = new();
 
-        public int GetTotalKills() => _totalKills;
-        public int GetTotalDeaths() => _totalDeaths;
         public List<CharacterTeam> GetTeamMembers() => _teamMembers;
 
         public void AddTeamMember(CharacterTeam member)

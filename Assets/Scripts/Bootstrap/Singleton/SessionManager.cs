@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(10)]
 public class SessionManager : MonoBehaviour
 {
     public class SessionData
@@ -14,6 +16,8 @@ public class SessionManager : MonoBehaviour
         public int TotalDeaths = 0;
         public int TotalObtainedCurses = 0;
         public int TotalPlayTime = 0;
+        public float TotalSoldCurses = 0f;
+        public List<string> FoundUniqueHoldables = new();
 
         public List<string> UnlockedCharacters = new();
     }
@@ -22,6 +26,8 @@ public class SessionManager : MonoBehaviour
     {
         public int CurrentKills = 0;
         public int CurrentObtainedCurses = 0;
+        public float TotalSoldCurses = 0f;
+        public float MaxSoldCurses = 0f;
         public TimeSpan CurrentPlayTime = new TimeSpan(0, 0, 0, 0, 0); //0 seconds
     }
 
@@ -34,6 +40,7 @@ public class SessionManager : MonoBehaviour
     private GameObject _tempSessionManagersInstance = null;
     private SessionData _currentSession;
     private TempSessionData _tempSession;
+    private bool _requestSaveSessionBeforeLoadScene = false;
 
     public event EventHandler CurrentSessionChanged;
 
@@ -68,12 +75,25 @@ public class SessionManager : MonoBehaviour
         get => _tempSession;
     }
 
-    void Start()
+    public bool GetCharacterIsUnlocked(PlayerCharacterInfo character)
+    {
+        return
+            (CurrentSession?.UnlockedCharacters.Contains(character.GetUnlockCharacterJSONName()) ?? false) ||
+            DefaultUnlockedCharacters.Contains(character);
+    }
+
+    public void RequestSaveSessionBeforeLoadScene()
+    {
+        _requestSaveSessionBeforeLoadScene = true;
+    }
+
+    void Awake()
     {
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of SessionManager objects");
         Instance = this;
 
         ButtonOnClickNewSaveFile.OnNewSaveAdded += ButtonOnClickNewSaveFile_OnNewSaveAdded;
+        SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
         UpdateSessions();
 
         DontDestroyOnLoad(this);
@@ -82,6 +102,15 @@ public class SessionManager : MonoBehaviour
     private void ButtonOnClickNewSaveFile_OnNewSaveAdded(object sender, EventArgs e)
     {
         UpdateSessions();
+    }
+
+    private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
+    {
+        if (_requestSaveSessionBeforeLoadScene)
+        {
+            SaveCurrentSession();
+            _requestSaveSessionBeforeLoadScene = false;
+        }
     }
 
     public void UpdateSessions()
@@ -113,6 +142,7 @@ public class SessionManager : MonoBehaviour
         CurrentSession.TotalKills += TempSession.CurrentKills;
         CurrentSession.TotalObtainedCurses += TempSession.CurrentObtainedCurses;
         CurrentSession.TotalPlayTime += (int)TempSession.CurrentPlayTime.TotalSeconds;
+        CurrentSession.TotalSoldCurses += TempSession.TotalSoldCurses;
 
         SaveCurrentSession();
     }

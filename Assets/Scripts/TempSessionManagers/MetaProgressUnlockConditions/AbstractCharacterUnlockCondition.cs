@@ -1,11 +1,8 @@
-﻿using System;
-using UnityEngine.Localization;
+﻿using UnityEngine;
 
-[Serializable]
-public abstract class AbstractCharacterUnlockCondition
+public abstract class AbstractCharacterUnlockCondition : ScriptableObject
 {
     public PlayerCharacterInfo UnlockCharacter;
-    public LocalizedString LocalizaedUnlockCondition;
 
     public abstract bool UnlockCondition();
 }
