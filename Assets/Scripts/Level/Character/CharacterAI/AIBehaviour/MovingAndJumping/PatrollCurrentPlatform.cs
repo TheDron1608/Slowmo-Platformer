@@ -63,15 +63,23 @@ public class PatrollCurrentPlatform : AbstractAIPathfindingMovingAndJumping
             {
                 _currentPatrollDirection = PatrollDirection.NO_MOVE;
             }
-            else if (characterTilePosition == new Vector2Int(currentPlatform.Position.x, currentPlatform.Position.y + 1))
+            else if (
+                _currentPatrollDirection != PatrollDirection.RIGHT &&
+                characterTilePosition == new Vector2Int(currentPlatform.Position.x, currentPlatform.Position.y + 1)
+                )
             {
+                _currentPatrollDirection = PatrollDirection.NO_MOVE;
                 if (_currentPatrollDirectionSetCoroutine == null)
                 {
                     _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(PatrollDirection.RIGHT));
                 }
             }
-            else if (characterTilePosition == new Vector2Int(currentPlatform.TailPositionX, currentPlatform.Position.y + 1))
+            else if (
+                _currentPatrollDirection != PatrollDirection.LEFT &&
+                characterTilePosition == new Vector2Int(currentPlatform.TailPositionX, currentPlatform.Position.y + 1)
+                )
             {
+                _currentPatrollDirection = PatrollDirection.NO_MOVE;
                 if (_currentPatrollDirectionSetCoroutine == null)
                 {
                     _currentPatrollDirectionSetCoroutine = StartCoroutine(SetPatrollDirectionAfterDelay(PatrollDirection.LEFT));

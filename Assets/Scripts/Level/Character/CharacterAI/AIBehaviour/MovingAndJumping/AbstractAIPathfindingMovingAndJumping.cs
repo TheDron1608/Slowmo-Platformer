@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAndJumping
 {
     const float COLLISION_DETECTION_DISTANCE_PRECISSION = 0.05f;
+    const float REACH_TARGET_PRECISSION = 0.15f;
 
     /// <summary>
     /// if true, character will try not to stand on single position with other characters
@@ -65,6 +66,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
                 }
                 //stop move and apply reaching chain target if path chain target is occured by another character
                 else if (
+                    CharComponents.transform.position.x < _currentChain.Value.TargetPosition.x + REACH_TARGET_PRECISSION ||
                     CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(GetIsBlockingTargetPosition)
                     )
                 {
@@ -104,7 +106,10 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
                     CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.None);
                 }
                 //stop move and apply reaching chain target if path chain target is occured by another character
-                else if (CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(GetIsBlockingTargetPosition))
+                else if (
+                    CharComponents.transform.position.x > _currentChain.Value.TargetPosition.x - REACH_TARGET_PRECISSION ||
+                    CharComponents.CharacterCollision.CurrentCollidingCharacters.Find(GetIsBlockingTargetPosition)
+                    )
                 {
                     CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.None);
                     OnReachedChainTarget();
@@ -125,7 +130,7 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         //try finish moving
         else
         {
-            if (characterTilePosition.y == _currentChain.Value.TargetPosition.y && CharComponents.CharacterCollision.IsCollidingFloor())
+            if (math.abs(CharComponents.transform.position.x - _currentChain.Value.TargetPosition.y) < REACH_TARGET_PRECISSION && CharComponents.CharacterCollision.IsCollidingFloor())
             {
                 OnReachedChainTarget();
                 return;
