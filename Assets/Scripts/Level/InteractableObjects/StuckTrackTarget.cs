@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StuckTrackTarget : MonoBehaviour
@@ -21,7 +22,7 @@ public class StuckTrackTarget : MonoBehaviour
 
     private void Update()
     {
-        if (StuckedObject.StuckedToCollider?.transform != StuckTo)
+        if (StuckedObject.StuckedToCollider?.transform != StuckTo || StuckedObject.StuckedToCollider.IsDestroyed())
         {
             Destroy(gameObject);
         }
