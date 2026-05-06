@@ -152,6 +152,11 @@ public class CharacterMoving : AbstractCharacterComponent
 
     public void ForceMove(float direction)
     {
+        if (GetIsNeedChangeFastDirection(direction))
+        {
+            CharComponents.CharacterVisual.FastMoveAlignChange();
+        }
+
         _lastMoveDirection = direction;
         if (direction != 0f)
         {
@@ -184,6 +189,17 @@ public class CharacterMoving : AbstractCharacterComponent
             direction != 0f &&
             !CharComponents.CharacterVisual.IsBusy() &&
             IsAbleToMove;
+    }
+
+    public bool GetIsNeedChangeFastDirection(float direction)
+    {
+        return
+           CharComponents.CharacterCollision.IsCollidingFloor() &&
+           !CharComponents.CharacterClumsyness.ClumsyMovement &&
+           (CharComponents.CharacterVisual.FlippedH ^ direction < 0f) &&
+           direction != 0f &&
+           !CharComponents.CharacterVisual.IsBusy() &&
+           IsAbleToMove;
     }
 
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)

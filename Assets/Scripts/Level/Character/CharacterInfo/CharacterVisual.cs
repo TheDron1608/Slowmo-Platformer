@@ -14,7 +14,10 @@ public class CharacterVisual : AbstractCharacterComponent
     const string ANIMATOR_BUSY_STATE_PARAM_NAME = "BusyState";
     const string ANIMATOR_STUN_RECOVER_ANIMATION_TIME_MULTIPLIER_PARAM_NAME = "StunRecoverAnimationTimeMult";
     const string ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME = "BreakBusyAnimation";
+    public string FAST_MOVE_ALIGN_CHANGE_TRIGGER_NAME = "FastMoveAlignChange";
 
+    const float JUMP_VELOCITY_FOR_DEFAULT_JUMP_ANIMATION_STATE = 5f;
+    const float MOVE_VELOCITY_FOR_DEFAULT_MOVE_ANIM_SPEED = 5f;
     const float COOL_FLIP_SPEED_MUTLIPLIER = 5f;
     const float COOL_FLIP_DEGREES = 360f * 2f;
 
@@ -72,19 +75,6 @@ public class CharacterVisual : AbstractCharacterComponent
             NewState = newState;
         }
     }
-
-    /// <summary>
-    /// Required Y velocity to change jump sprite
-    /// </summary>
-    public float JumpStateVelocityRange = 8f;
-    /// <summary>
-    /// Required X velocity to set move animation speed multiplier to 1.0,
-    /// Example1:
-    /// if chracter MoveSpeedVelocityRange = 10f, and character's vecloityX is 5f, then move animation speed multiplier is 0.5f (5f / 10f)
-    /// Example2:
-    /// if chracter MoveSpeedVelocityRange = 10f, and character's vecloityX is 20f, then move animation speed multiplier is 2f (20f / 10f)
-    /// </summary>
-    public float MoveSpeedVelocityRange = 8f;
 
     public CharacterMultiSpritesSO MultiSpritesSO;
 
@@ -201,6 +191,18 @@ public class CharacterVisual : AbstractCharacterComponent
         CharComponents.Animator.SetTrigger(ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME);
     }
 
+    public void FastMoveAlignChange()
+    {
+        if (
+            !IsBusy() && 
+            (MainState == CharacterPartMainStates.MOVE || MainState == CharacterPartMainStates.IDLE)
+            )
+        {
+            ForceResetBusyAnimation();
+            CharComponents.Animator.SetTrigger(FAST_MOVE_ALIGN_CHANGE_TRIGGER_NAME);
+        }
+    }
+
     public float JumpState
     {
         get => _jumpState;
@@ -263,7 +265,11 @@ public class CharacterVisual : AbstractCharacterComponent
         float totalRotation = 0;
         while (math.abs(totalRotation) < COOL_FLIP_DEGREES - 0.5f)
         {
-            totalRotation = math.lerp(totalRotation, _currentCoolFlipRotationAxisReversed ? -COOL_FLIP_DEGREES : COOL_FLIP_DEGREES, Time.deltaTime * COOL_FLIP_SPEED_MUTLIPLIER);
+            totalRotation = math.lerp(
+                totalRotation, 
+                _currentCoolFlipRotationAxisReversed ? -COOL_FLIP_DEGREES : COOL_FLIP_DEGREES, 
+                Time.deltaTime * COOL_FLIP_SPEED_MUTLIPLIER
+                );
 
             Quaternion newRotation = new();
             newRotation.eulerAngles = new Vector3(0f, 0f, totalRotation);
@@ -289,7 +295,7 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         if (!CharComponents.CharacterCollision.IsCollidingFloor())
         {
-            JumpState = CharComponents.CharacterRigidBody.linearVelocityY / JumpStateVelocityRange;
+            JumpState = CharComponents.CharacterRigidBody.linearVelocityY / JUMP_VELOCITY_FOR_DEFAULT_JUMP_ANIMATION_STATE;
         }
     }
 
@@ -359,7 +365,9 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void UpdateMoveSpeedParam()
     {
-        MoveSpeed = CharComponents.CharacterRigidBody.linearVelocityX / MoveSpeedVelocityRange * (FlippedH ? -1f : 1f);
+        MoveSpeed = 
+            CharComponents.CharacterMoving.GetCurrentMoveDirection() * CharComponents.CharacterMoving.Speed / 
+            MOVE_VELOCITY_FOR_DEFAULT_MOVE_ANIM_SPEED * (FlippedH ? -1f : 1f);
     }
 
     private void UpdateStunnedBusyStateParam()
