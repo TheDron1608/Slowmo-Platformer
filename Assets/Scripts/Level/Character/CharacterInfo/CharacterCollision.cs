@@ -49,6 +49,7 @@ public class CharacterCollision : AbstractCharacterComponent
     private float _timeInAir;
     private float _timeOnGround;
     private Vector2 _positionPrevFrame;
+    private Vector2 _velocityPrevFrame = Vector2.zero;
     private List<AbstractCharacterComponent> _currentCollidingCharacters = new();
     private List<Collider2D> _currentNearbyCollidableFurniture = new();
     private AbstractCharacterComponent _encountKillOnOutOfMapCharacter = null;
@@ -89,6 +90,11 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         get => _positionPrevFrame;
         private set => _positionPrevFrame = value;
+    }
+    public Vector2 VelocityPrevFrame
+    {
+        get => _velocityPrevFrame;
+        private set => _velocityPrevFrame = value;
     }
     public List<AbstractCharacterComponent> CurrentCollidingCharacters
     {
@@ -157,6 +163,11 @@ public class CharacterCollision : AbstractCharacterComponent
     {
         _currentCollidingCharacters = new();
         UpdateCurrentZLayer();
+    }
+
+    public void RecoverVelocityFromPrevFrame()
+    {
+        CharComponents.CharacterRigidBody.linearVelocity = _velocityPrevFrame;
     }
 
     public bool GetIsStickingOnWall()
@@ -431,6 +442,8 @@ public class CharacterCollision : AbstractCharacterComponent
                 }
             }
         }
+
+        VelocityPrevFrame = CharComponents.CharacterRigidBody.linearVelocity;
     }
 
     public bool GetHasEnoughVelocityToHit()

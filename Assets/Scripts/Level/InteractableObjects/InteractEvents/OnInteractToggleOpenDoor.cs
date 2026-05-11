@@ -94,9 +94,13 @@ public class OnInteractToggleOpenDoor : Interactable
     {
         if (
             collision.collider.TryGetComponent(out AbstractCharacterComponent character) &&
-            character.CharComponents.CharacterRolling.IsRolling
+            (   
+                character.CharComponents.CharacterRolling.IsRolling ||
+                character.CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>()
+            )
             )
         {
+            character.CharComponents.CharacterCollision.RecoverVelocityFromPrevFrame();
             ForceOpen(character.gameObject);
         }
     }
