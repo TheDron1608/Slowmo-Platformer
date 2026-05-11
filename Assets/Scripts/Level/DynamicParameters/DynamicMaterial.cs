@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class DynamicMaterial : MonoBehaviour
 {
+    public bool AllowChangeMaterial = true;
+
     private Material _defaultMaterial;
     private Material _overrideMaterial = null;
 
@@ -14,6 +16,8 @@ public class DynamicMaterial : MonoBehaviour
         get => _defaultMaterial;
         set
         {
+            if (!AllowChangeMaterial) return;
+
             _defaultMaterial = value;
             UpdateColor();
         }
@@ -23,6 +27,8 @@ public class DynamicMaterial : MonoBehaviour
         get => _overrideMaterial;
         set
         {
+            if (!AllowChangeMaterial) return;
+
             _overrideMaterial = value;
             UpdateColor();
         }

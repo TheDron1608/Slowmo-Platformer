@@ -25,10 +25,9 @@ public class WorldGenerationManager : MonoBehaviour
     public Vector2 GenerateDirection = Vector2.one;
     public int ParallelRooms = 3;
     public float UnlosedConnectionChunkGenerationChance = 0.33f;
-    public int Seed;
 
-    private UnityEngine.Random.State _randomState;
     private List<BuildingInfo> _generatedBuildings = new();
+    private int _currentWorldGenIteration = 0;
 
     public static WorldGenerationManager Instance;
 
@@ -44,9 +43,6 @@ public class WorldGenerationManager : MonoBehaviour
         Instance = this;
 
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
-
-        _randomState = UnityEngine.Random.state;
-        UnityEngine.Random.InitState(Seed);
     }
 
     private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
@@ -56,8 +52,8 @@ public class WorldGenerationManager : MonoBehaviour
 
     public void GenerateLevel()
     {
-        //setting variables
-        UnityEngine.Random.state = _randomState;
+        UnityEngine.Random.InitState(RandomManager.Instance.GenRandomWorldGenSeed(_currentWorldGenIteration));
+        _currentWorldGenIteration++;
 
         Vector3Int currentBuildingEnterPosition = Vector3Int.zero;
         int currentBuildingLayerIndex = (int)math.floor(LayerManager.Instance.ZLayers.Count / 2f) - 1;

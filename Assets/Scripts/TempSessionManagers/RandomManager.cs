@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class RandomManager : MonoBehaviour
 {
+    const int WORLD_GEN_SEEDS_AMOUNT = 100;
+
     public enum ProcChanceTypes
     {
         GOOD,
@@ -18,6 +20,8 @@ public class RandomManager : MonoBehaviour
     public event EventHandler OnBadRandomChanceProcd;
     public event EventHandler OnGoodRandomChanceProcd;
 
+    private long _randomSeed;
+    private int[] _worldGenSeeds = new int[WORLD_GEN_SEEDS_AMOUNT];
 
     public bool ProcRandomChance(float baseChance, ProcChanceTypes type)
     {
@@ -63,11 +67,23 @@ public class RandomManager : MonoBehaviour
         return (UnityEngine.Random.value * RandomChanceProcMultiplier * GoodRandomChanceProcMultiplier) < baseChance;
     }
 
+    public int GenRandomWorldGenSeed(int iteration)
+    {
+        return _worldGenSeeds[iteration % _worldGenSeeds.Length];
+    }
+
     private void Awake()
     {
         if (Instance != null) throw new UnityException("maximum of 1 RandomManager instance");
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        UnityEngine.Random.InitState(DateTime.Now.Second);
+
+        for (int i = 0; i < _worldGenSeeds.Length; i++)
+        {
+            _worldGenSeeds[i] = (int)(UnityEngine.Random.value * int.MaxValue);
+        }
     }
 
     private void OnDestroy()

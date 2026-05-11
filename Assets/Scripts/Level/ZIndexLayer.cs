@@ -245,13 +245,27 @@ public class ZIndexLayer : MonoBehaviour
         {
             renderer.sortingOrder = renderer.sortingOrder % 1000 + ZIndex * 1000;
 
-            if (gameObject.tag == LayerManager.FURNITURE_TAG_NAME)
+            if (gameObject.TryGetComponent(out DynamicMaterial dynamicMaterial))
             {
-                renderer.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.SecondaryEnviromentMaterial;
+                if (gameObject.tag == LayerManager.FURNITURE_TAG_NAME)
+                {
+                    dynamicMaterial.DefaultMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.SecondaryEnviromentMaterial;
+                }
+                else if (gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME)
+                {
+                    dynamicMaterial.DefaultMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
+                }
             }
-            else if (gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME)
+            else
             {
-                renderer.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
+                if (gameObject.tag == LayerManager.FURNITURE_TAG_NAME)
+                {
+                    renderer.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.SecondaryEnviromentMaterial;
+                }
+                else if (gameObject.tag == LayerManager.ENVIROMENT_TAG_NAME)
+                {
+                    renderer.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
+                }
             }
         }
 
