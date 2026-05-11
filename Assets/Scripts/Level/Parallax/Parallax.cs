@@ -9,6 +9,7 @@ public class Parallax : MonoBehaviour
     public List<Sprite> BgSprite;
     public int SpritesAmount = 10;
     public float ParallaxScale = 1f;
+    public int ParallaxSortingOrder = 1;
 
     [SerializeField] private Material _parallaxMaterial;
     [SerializeField] private Color _parallaxColor = Color.white;
@@ -45,6 +46,7 @@ public class Parallax : MonoBehaviour
             newParallaxRenderer.sharedMaterial = _parallaxMaterial;
             newParallaxRenderer.color = _parallaxColor;
             newParallaxRenderer.sprite = NumberMath.PickRandomItem(BgSprite);
+            newParallaxRenderer.sortingOrder = ParallaxSortingOrder;
 
             _currentParallaxSprites.Add(newParallaxRenderer);
         }
