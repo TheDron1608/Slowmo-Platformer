@@ -106,6 +106,10 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
                 layer.SetEnvromentMaterialDependOnDifficulty(DifficultyManager.Instance.CurrentDifficulty.Value);
             }
         }
+        if (ParallaxManager.Instance != null)
+        {
+            ParallaxManager.Instance.SetParallaxMaterialDependedOnDifficulty(DifficultyManager.Instance.CurrentDifficulty.Value);
+        }
 
         UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Hide();
 

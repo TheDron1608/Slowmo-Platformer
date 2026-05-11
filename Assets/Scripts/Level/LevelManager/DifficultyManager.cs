@@ -25,6 +25,7 @@ public class DifficultyManager : MonoBehaviour
         public Material PrimaryEnviromentMaterial = null;
         public Material SecondaryEnviromentMaterial = null;
         public Material BackgroundEnviromentMaterial = null;
+        public Material SkyMaterial = null;
         public string ChangeSceneOnStart = "";
     }
 
@@ -139,6 +140,11 @@ public class DifficultyManager : MonoBehaviour
         Difficulties = NumberMath.ArrayToLinkedList(_initDifficulties);
     }
 
+    private void Start()
+    {
+        ParallaxManager.Instance.SkyMaterial = CurrentDifficulty.Value.SkyMaterial;
+    }
+
     private void Update()
     {
         if (
@@ -181,9 +187,14 @@ public class DifficultyManager : MonoBehaviour
 
                 if (cursePrice > 0f && curseAmount > 0)
                 {
-                    UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(cursePrice, curseAmount);
+                    UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
+                        CurrentDifficulty.Value.CursesPrice, 
+                        curseAmount
+                        );
                 }
             }
+
+            ParallaxManager.Instance.SkyMaterial = CurrentDifficulty.Value.SkyMaterial;
         }
 
         if (CurrentDifficulty.Value.ChangeSceneOnStart != "")
@@ -205,7 +216,7 @@ public class DifficultyManager : MonoBehaviour
     public void AddMidCurse()
     {
         List<AbstractModificator> addModificators = GetRandomCurseModificators(
-            CurrentDifficulty.Value.CursesPrice * _currentCursesAmountMult, 
+            CurrentDifficulty.Value.CursesPrice, 
             null
             );
 

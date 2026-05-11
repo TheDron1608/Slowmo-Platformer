@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -4635136553597321242}
   - component: {fileID: -7512956509481476535}
   - component: {fileID: -6381328398672318965}
+  - component: {fileID: 2860093168356533796}
   m_Layer: 0
   m_Name: TempSessionManager
   m_TagString: Untagged
@@ -227,7 +228,7 @@ MonoBehaviour:
   _initDifficulties:
   - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
-    Duration: 180
+    Duration: 10
     Music: {fileID: 0}
     MidstageCursesAmount: 0
     CursesPrice: 50
@@ -244,6 +245,7 @@ MonoBehaviour:
     PrimaryEnviromentMaterial: {fileID: 2100000, guid: 33399073aee655a43a7a062267e36116, type: 2}
     SecondaryEnviromentMaterial: {fileID: 2100000, guid: 4c47773dfe103fe46b58598877be6618, type: 2}
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
+    SkyMaterial: {fileID: 2100000, guid: 4c47773dfe103fe46b58598877be6618, type: 2}
     ChangeSceneOnStart: 
   - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
@@ -264,6 +266,7 @@ MonoBehaviour:
     PrimaryEnviromentMaterial: {fileID: 2100000, guid: 84045097658065a4fa85010314b6085d, type: 2}
     SecondaryEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: 29fa2538a7f2b3b4e864dd43d660cc52, type: 2}
+    SkyMaterial: {fileID: 2100000, guid: 4988c535ad5f795438743df00e8e1e25, type: 2}
     ChangeSceneOnStart: 
   - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
@@ -284,6 +287,7 @@ MonoBehaviour:
     PrimaryEnviromentMaterial: {fileID: 2100000, guid: 977e75f550aeaee48b481b5139b9700f, type: 2}
     SecondaryEnviromentMaterial: {fileID: 2100000, guid: 977e75f550aeaee48b481b5139b9700f, type: 2}
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: 0513131ec74c0f04e9d0dce0a4529c20, type: 2}
+    SkyMaterial: {fileID: 2100000, guid: b2ee73704b9fe594eb81a5c93d4d2bbe, type: 2}
     ChangeSceneOnStart: 
   - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
@@ -304,6 +308,7 @@ MonoBehaviour:
     PrimaryEnviromentMaterial: {fileID: 2100000, guid: ae1f22195f236594ab6536abba1626f0, type: 2}
     SecondaryEnviromentMaterial: {fileID: 2100000, guid: ae1f22195f236594ab6536abba1626f0, type: 2}
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: b2ee73704b9fe594eb81a5c93d4d2bbe, type: 2}
+    SkyMaterial: {fileID: 2100000, guid: 396ac49075c8b13498a7f1642f269317, type: 2}
     ChangeSceneOnStart: 
   - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
@@ -324,6 +329,7 @@ MonoBehaviour:
     PrimaryEnviromentMaterial: {fileID: 2100000, guid: 067391bd5fc9a144fa090a2a90e06d3b, type: 2}
     SecondaryEnviromentMaterial: {fileID: 2100000, guid: 067391bd5fc9a144fa090a2a90e06d3b, type: 2}
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: 6b603dafea598f34ab8dad726ac7fbdd, type: 2}
+    SkyMaterial: {fileID: 2100000, guid: 973792fb09eb97841bfa21277ca39a49, type: 2}
     ChangeSceneOnStart: 
   - DifficultyIcon: {fileID: 21300000, guid: 2ecac1c170472994f85f245e01a863dc, type: 3}
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
@@ -344,6 +350,7 @@ MonoBehaviour:
     PrimaryEnviromentMaterial: {fileID: 2100000, guid: 33399073aee655a43a7a062267e36116, type: 2}
     SecondaryEnviromentMaterial: {fileID: 2100000, guid: 4c47773dfe103fe46b58598877be6618, type: 2}
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
+    SkyMaterial: {fileID: 0}
     ChangeSceneOnStart: GameFinished
   references:
     version: 2
@@ -533,3 +540,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TempSlowTimeDecaySpeed: 1
+--- !u!114 &2860093168356533796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590695979345743307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780ddf0931a7caa49a9fc353b2e3f850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParallaxInstance: {fileID: 8650776314814631224, guid: 8c6e7c737631c9d4bba3c8af0d9e57ff, type: 3}

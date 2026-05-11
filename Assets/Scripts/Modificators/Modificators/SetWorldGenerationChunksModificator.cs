@@ -8,12 +8,14 @@ public class SetWorldGenerationChunksModificator : AbstractModificator
     public List<Chunk> UnclosedConnectionsChunks = new();
     public int ParallelRooms = 3;
     public float UnlosedConnectionChunkGenerationChance = 0.33f;
+    public GameObject OverrideParallaxes = null;
 
     private List<Chunk> _oldChunks;
     private List<BuildingEnterChunk> _oldEnterBuildingChunks;
     private List<Chunk> _oldUnclosedConnectionsChunks;
     private int _oldParallelRooms;
     private float _oldUnlosedConnectionChunkGenerationChance;
+    private GameObject _oldParallax;
 
     public override void OnModificatorAdded()
     {
@@ -24,12 +26,15 @@ public class SetWorldGenerationChunksModificator : AbstractModificator
         _oldUnclosedConnectionsChunks = WorldGenerationManager.Instance.UnclosedConnectionsChunks;
         _oldParallelRooms = WorldGenerationManager.Instance.ParallelRooms;
         _oldUnlosedConnectionChunkGenerationChance = WorldGenerationManager.Instance.UnlosedConnectionChunkGenerationChance;
+        _oldParallax = ParallaxManager.Instance.ParallaxInstance;
 
         WorldGenerationManager.Instance.Chunks = Chunks;
         WorldGenerationManager.Instance.EnterBuildingChunks = EnterBuildingChunks;
         WorldGenerationManager.Instance.UnclosedConnectionsChunks = UnclosedConnectionsChunks;
         WorldGenerationManager.Instance.ParallelRooms = ParallelRooms;
         WorldGenerationManager.Instance.UnlosedConnectionChunkGenerationChance = UnlosedConnectionChunkGenerationChance;
+
+        ParallaxManager.Instance.ParallaxInstance = OverrideParallaxes;
 
         if (SceneList.GetCurrentSceneIsGameplay())
         {
@@ -55,6 +60,10 @@ public class SetWorldGenerationChunksModificator : AbstractModificator
             WorldGenerationManager.Instance.UnclosedConnectionsChunks = _oldUnclosedConnectionsChunks;
             WorldGenerationManager.Instance.ParallelRooms = _oldParallelRooms;
             WorldGenerationManager.Instance.UnlosedConnectionChunkGenerationChance = _oldUnlosedConnectionChunkGenerationChance;
+        }
+        if (ParallaxManager.Instance != null && _oldParallax != null)
+        {
+            ParallaxManager.Instance.ParallaxInstance = _oldParallax;
         }
     }
 }

@@ -219,7 +219,7 @@ public class MultiTileMapsContainer : MonoBehaviour
 
     public void ToggleHallucinationTilemapVisibility(bool value)
     {
-        if (gameObject.IsDestroyed()) return;
+        if (gameObject?.IsDestroyed() ?? true) return;
 
         _foreground.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
         _background.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
