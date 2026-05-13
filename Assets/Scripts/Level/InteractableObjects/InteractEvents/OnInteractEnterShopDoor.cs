@@ -7,6 +7,13 @@ public class OnInteractEnterShopDoor : AbstractLevelFinishDoor
     {
         base.OnFinishInteract(interactor);
 
-        UIManager.Instance.LoadSceneWithEffect(SceneList.SHOP);
+        if (ModificatorsManager.Instance.CanSellCurses)
+        {
+            UIManager.Instance.LoadSceneWithEffect(SceneList.SHOP);
+        }
+        else
+        {
+            UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+        }
     }
 }

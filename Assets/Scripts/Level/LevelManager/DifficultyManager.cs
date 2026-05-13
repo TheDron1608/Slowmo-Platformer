@@ -46,6 +46,8 @@ public class DifficultyManager : MonoBehaviour
     private float _timeSpeedMultiplier = 1f;
     private float _cursesPickAmountMult = 1f;
 
+    public event EventHandler<DifficultyStage> OnDifficultyIncreased;
+
     public LinkedList<DifficultyStage> Difficulties
     {
         get => _difficulties;
@@ -204,6 +206,8 @@ public class DifficultyManager : MonoBehaviour
 
         _currentDifficultyTime = 0f;
         _currentDifficultyMidCurseTime = 0f;
+
+        OnDifficultyIncreased?.Invoke(this, CurrentDifficulty.Value);
     }
 
     public void RaiseUpLoop()

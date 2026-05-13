@@ -179,6 +179,8 @@ MonoBehaviour:
   ExtraNeutralModificatorChance: 0.1
   CanSkipBlessPick: 1
   CanSkipCursePick: 1
+  CanSellCurses: 1
+  CanPickCurses: 1
   ArtifactSpoilDurationSeconds: 300
   _clusterInstance: {fileID: 4234988079192789645, guid: 968f668076676f24682bd838d8859a3f, type: 3}
   _emptyIconIstance: {fileID: 7416449499025929707, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
@@ -228,7 +230,7 @@ MonoBehaviour:
   _initDifficulties:
   - DifficultyIcon: {fileID: 21300000, guid: d11bb0ff55caf2f42be7f57a1c6325df, type: 3}
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
-    Duration: 180
+    Duration: 10
     Music: {fileID: 0}
     MidstageCursesAmount: 0
     CursesPrice: 50
@@ -431,7 +433,6 @@ MonoBehaviour:
   GenerateDirection: {x: 1, y: 0.5}
   ParallelRooms: 2
   UnlosedConnectionChunkGenerationChance: 0.33
-  Seed: 0
 --- !u!114 &8541215460873994013
 MonoBehaviour:
   m_ObjectHideFlags: 0

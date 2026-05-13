@@ -118,11 +118,11 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
 
             if (_disabledModificator)
             {
-                OnModificatorAdded();
+                OnModificatorRemoved();
             }
             else
             {
-                OnModificatorRemoved();
+                OnModificatorAdded();
             }
 
             if (_currentIcon != null) _currentIcon.DisabledModificator = value;

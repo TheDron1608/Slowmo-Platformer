@@ -7,6 +7,13 @@ public class OnInteractEnterCurse : AbstractLevelFinishDoor
     {
         base.OnFinishInteract(interactor);
 
-        UIManager.Instance.LoadSceneWithEffect(SceneList.CURSE);
+        if (ModificatorsManager.Instance.CanPickCurses)
+        {
+            UIManager.Instance.LoadSceneWithEffect(SceneList.CURSE);
+        }
+        else
+        {
+            UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+        }
     }
 }
