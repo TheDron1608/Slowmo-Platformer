@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stackable: 1
+  AllowPermanent: 1
   OverrideModificators:
   - {fileID: 4275088403563012476, guid: 0ff8cafc1815fe94fb98d6b162cf0fb6, type: 3}
   RestrictModificators: []
@@ -135,11 +136,13 @@ MonoBehaviour:
   ModificatorTier: 0
   IconSprite: {fileID: 21300000, guid: cc20e168045002b4c8a6c0d62aed60a9, type: 3}
   CardSprite: {fileID: 21300000, guid: a7bbaa974c4e765429fdb7691532ccbd, type: 3}
+  CustomIconContent: {fileID: 0}
+  CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorMultiplier: 50
-  _modificatorPrice: 0
+  _modificatorPrice: 100
   _localization: {fileID: 2147315170708439846}
   Team: 1
   AffectChance: 1
   ChanceType: 1
   HealthMultiplier: 2
+  HideHealthTrack: 0
