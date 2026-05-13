@@ -120,6 +120,7 @@ public class BlessPickManager : AbstractModificatorCardsManager
 
                 if (addModificators.Count > 0)
                 {
+                    addedModificators.AddRange(addModificators);
                     ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
                     newCluster.AddModificator(addModificators);
                     newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.TRADED;
