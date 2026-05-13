@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class ModificatorCardsCluster : AbstractCardItem
 {
     const float CLUSTER_HAND_BASE_ROTATION = 30f;
-    const float CLUSTER_HARD_ROTATION_CHANGE_SPEED = 5f;
 
     [SerializeField] private RectTransform _cardsContainer;
 
@@ -43,25 +42,18 @@ public class ModificatorCardsCluster : AbstractCardItem
 
     //cool but disturbing visual effect
 
-    /*private void Update()
+    private void UpdateCardsPositions()
     {
-        if (EventSystem.current == null) return;
-
-        _currentClusterRotation = math.lerp(
-            _currentClusterRotation,
-            CLUSTER_HAND_BASE_ROTATION * (EventSystem.current.currentSelectedGameObject == gameObject ? Cards.Count - 1f : 1f),
-            Time.deltaTime * CLUSTER_HARD_ROTATION_CHANGE_SPEED
-            );
-
         for (int i = 0; i < Cards.Count; i++)
         {
+            Cards[i].transform.SetAsLastSibling();
             Cards[i].transform.SetParent(_cardsContainer.transform);
-            float targetRotation = Cards.Count == 1 ? 0f : ((i / (Cards.Count - 1f)) - 0.5f) * _currentClusterRotation;
+            float targetRotation = Cards.Count == 1 ? 0f : ((i / (Cards.Count - 1f)) - 0.5f) * CLUSTER_HAND_BASE_ROTATION;
             Cards[i].transform.rotation = Cards[i].transform.parent.rotation;
             Cards[i].transform.Rotate(new Vector3(0, 0f, 1f), targetRotation);
             Cards[i].transform.position = _cardsContainer.transform.position + Vector3.left * (targetRotation / 60f) * math.abs(Cards[i].GetComponent<RectTransform>().rect.width);
         }
-    }*/
+    }
 
     public void AddModificator(List<AbstractModificator> modificators)
     {
@@ -77,6 +69,7 @@ public class ModificatorCardsCluster : AbstractCardItem
         newCard.CurrentCluster = this;
         Cards.Add(newCard);
         Cards.Sort((a, b) => a.ModificatorInstance.ModificatorPrice.CompareTo(b.ModificatorInstance.ModificatorPrice));
+        UpdateCardsPositions();
     }
 
     public void RemoveModificator(AbstractModificator modificator)
