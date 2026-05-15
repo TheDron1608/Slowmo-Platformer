@@ -1232,6 +1232,18 @@ MonoBehaviour:
     m_Localized: "\r* You receive significantly stronger tradable negative modifiers"
     m_Metadata:
       m_Items: []
+  - m_Id: 54358641960263680
+    m_Localized: Stagnation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54358642643935232
+    m_Localized: '* Selling negative modifiers is {ProfitMult}% more profitable.
+
+      *
+      After selling negative modifiers, they become permanent.'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1313,3 +1325,4 @@ MonoBehaviour:
         - id: 48728469554831360
         - id: 49275715270713344
         - id: 49627625479708672
+        - id: 54358642643935232

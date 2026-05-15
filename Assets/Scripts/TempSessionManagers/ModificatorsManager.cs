@@ -24,6 +24,8 @@ public class ModificatorsManager : MonoBehaviour
     public bool CanSkipCursePick = true;
     public bool CanSellCurses = true;
     public bool CanPickCurses = true;
+    public bool RemoveModifictorsOnSell = true;
+    public bool ResetScoreOnSell = true;
     public float TradeCurseProfitMult = 1f;
     public float TradeBlessProfitMult = 1f;
     public float ArtifactSpoilDurationSeconds = 60 * 5f;

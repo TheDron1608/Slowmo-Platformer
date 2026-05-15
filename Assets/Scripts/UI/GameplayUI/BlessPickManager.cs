@@ -132,13 +132,32 @@ public class BlessPickManager : AbstractModificatorCardsManager
                 }
             }
 
-            //remove traded modificators if has any option
+            //remove traded modificators if has any option and RemoveModifictorsOnSell is true
             if (Cards.Count > 0)
             {
-                ModificatorsManager.Instance.RemoveModificators(AbstractModificator.ModificatorStatuses.CURSE);
+                if (ModificatorsManager.Instance.RemoveModifictorsOnSell)
+                {
+                    ModificatorsManager.Instance.RemoveModificators(AbstractModificator.ModificatorStatuses.CURSE);
+                }
+                else
+                {
+                    foreach (AbstractModificator mod in ModificatorsManager.Instance.CurrentModificators)
+                    {
+                        if (mod.Status == AbstractModificator.ModificatorStatuses.CURSE)
+                        {
+                            mod.Status = AbstractModificator.ModificatorStatuses.PERMANENT;
+                        }
+                    }
+                }
+
                 if (ModificatorsManager.Instance.CanSkipBlessPick)
                 {
                     AddCard(Instantiate(_pickNothingCardInstance));
+                }
+
+                if (ModificatorsManager.Instance.ResetScoreOnSell)
+                {
+                    ScoreManager.Instance.TradableScore = 0;
                 }
             }
             else

@@ -26,7 +26,7 @@ public class CursePickManager : AbstractModificatorCardsManager
     private void Awake()
     {
         _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
-        _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
+        _scoreText.text = (ScoreManager.Instance.TradableScore + ScoreManager.Instance.CurrentCombo * ScoreManager.Instance.CurrentMultiplier).ToString("0");
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 CursePickManager instance per scene");
         Instance = this;
@@ -60,28 +60,29 @@ public class CursePickManager : AbstractModificatorCardsManager
             yield return new WaitForSeconds(TRADE_DELAY);
 
             List<AbstractModificator> addedModificators = new();
+            float totalTradableScore = ScoreManager.Instance.TradableScore + ScoreManager.Instance.CurrentCombo * ScoreManager.Instance.CurrentMultiplier;
             float modificatorAppearDelay = math.min(
-                ScoreManager.Instance.TradableScore / SCORE_ENCOUNT_PER_SECOND / ModificatorsManager.Instance.MaxModificatorOptions, 
+                totalTradableScore / SCORE_ENCOUNT_PER_SECOND / ModificatorsManager.Instance.MaxModificatorOptions, 
                 MAX_MODIFICATOR_APPEAR_DELAY
                 );
             float encountedScore = 0f;
-            float lastAddedCardScore = math.min(1f, ScoreManager.Instance.TradableScore);
+            float lastAddedCardScore = math.min(1f, totalTradableScore);
             float delayTime = 0f;
             int iter = 0;
 
-            _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
+            _scoreText.text = totalTradableScore.ToString("0");
             ShowScore();
 
             while (
                 (
-                    encountedScore < ScoreManager.Instance.TradableScore || 
+                    encountedScore < totalTradableScore || 
                     Cards.Count < ModificatorsManager.Instance.MaxModificatorOptions
                 ) &&
                 iter < ModificatorsManager.Instance.MaxModificatorOptions
                 )
             {
                 encountedScore += Time.deltaTime * SCORE_ENCOUNT_PER_SECOND;
-                _scoreText.text = math.max(ScoreManager.Instance.TradableScore - encountedScore, 0f).ToString("0");
+                _scoreText.text = math.max(totalTradableScore - encountedScore, 0f).ToString("0");
 
                 delayTime += Time.deltaTime;
                 if (delayTime > modificatorAppearDelay)
@@ -122,10 +123,10 @@ public class CursePickManager : AbstractModificatorCardsManager
 
                 yield return new WaitForEndOfFrame();
             }
+            _scoreText.text = "0";
 
             if (Cards.Count == 0)
             {
-                _scoreText.text = ScoreManager.Instance.TradableScore.ToString("0");
                 AddCard(Instantiate(_pickNothingCardInstance));
             }
             else

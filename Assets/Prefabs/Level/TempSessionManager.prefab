@@ -181,6 +181,9 @@ MonoBehaviour:
   CanSkipCursePick: 1
   CanSellCurses: 1
   CanPickCurses: 1
+  RemoveModifictorsOnSell: 1
+  TradeCurseProfitMult: 1
+  TradeBlessProfitMult: 1
   ArtifactSpoilDurationSeconds: 300
   _clusterInstance: {fileID: 4234988079192789645, guid: 968f668076676f24682bd838d8859a3f, type: 3}
   _emptyIconIstance: {fileID: 7416449499025929707, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
@@ -403,9 +406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed049ad6df3185468d75ccc03af97df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShopDoorGenerationChance: 0.1
+  ShopDoorGenerationChance: 0.2
   CurseDoorGenerationChance: 0.333
-  DefaultExitDoorType: 4
   EnableExtraExitBrunchs: 1
   BuildingsAmount: 3
   MinBuildingRooms: 4

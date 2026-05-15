@@ -13,7 +13,6 @@ public class WorldGenerationManager : MonoBehaviour
 
     public float ShopDoorGenerationChance = 0.2f;
     public float CurseDoorGenerationChance = 0.5f;
-    public DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes DefaultExitDoorType = DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE;
     public bool EnableExtraExitBrunchs = true;
     public int BuildingsAmount = 8;
     public int MinBuildingRooms = 3;
@@ -116,7 +115,11 @@ public class WorldGenerationManager : MonoBehaviour
         }
 
         //generate next level door
-        prevBuilding.Exit.Generate(DefaultExitDoorType);
+        prevBuilding.Exit.Generate(
+            RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance) ? 
+            DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP :
+            DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE
+            );
 
         //generating enviroment with OnFinishAllBuilding Enviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
