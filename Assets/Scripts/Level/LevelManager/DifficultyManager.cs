@@ -27,6 +27,11 @@ public class DifficultyManager : MonoBehaviour
         public Material BackgroundEnviromentMaterial = null;
         public Material SkyMaterial = null;
         public string ChangeSceneOnStart = "";
+
+        public float GetDelayBetweenMidCurses()
+        {
+            return Duration / (MidstageCursesAmount + 1);
+        }
     }
 
     public static DifficultyManager Instance = null;
@@ -37,10 +42,12 @@ public class DifficultyManager : MonoBehaviour
 
     private LinkedList<DifficultyStage> _difficulties = new();
     private LinkedListNode<DifficultyStage> _currentDifficulty;
+    private float _realtimeTotalDifficultyTime = 0f;
     private float _totalDifficultyTime = 0f;
     private float _currentLoopDifficultyTime = 0f;
     private float _currentDifficultyTime = 0f;
     private float _currentDifficultyMidCurseTime = 0f;
+    private int _currentDifficultyAddedMidCurses = 0;
     private float _currentCursesAmountMult = 1f;
     private int _loops = 0;
     private float _timeSpeedMultiplier = 1f;
@@ -78,6 +85,10 @@ public class DifficultyManager : MonoBehaviour
         while (currentDifficulty.Next != null);
     }
 
+    public float RealtimeTotalDifficultyTime
+    {
+        get => _realtimeTotalDifficultyTime;
+    }
     public float TotalDifficultyTime
     {
         get => _totalDifficultyTime;
@@ -135,6 +146,35 @@ public class DifficultyManager : MonoBehaviour
             );
     }
 
+    public void UpdateDifficultyEnviromentMaterial()
+    {
+        if (LayerManager.Instance != null)
+        {
+            foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
+            {
+                layer.SetEnvromentMaterialDependOnDifficulty(CurrentDifficulty.Value);
+            }
+        }
+        if (ParallaxManager.Instance != null)
+        {
+            ParallaxManager.Instance.SetParallaxMaterialDependedOnDifficulty(CurrentDifficulty.Value);
+            ParallaxManager.Instance.SkyMaterial = CurrentDifficulty.Value.SkyMaterial;
+        }
+    }
+
+    public void ForceRaiseUpDifficulty()
+    {
+        ForceSkipTime(CurrentDifficulty.Value.Duration - _currentDifficultyTime);
+    }
+
+    public void ForceSkipTime(float time)
+    {
+        _totalDifficultyTime += time;
+        _currentLoopDifficultyTime += time;
+        _currentDifficultyTime += time;
+        _currentDifficultyMidCurseTime += time;
+    }
+
     private void Awake()
     {
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 DifficultyManager instance per scene");
@@ -157,27 +197,35 @@ public class DifficultyManager : MonoBehaviour
             !UIManager.Instance.IsLoadingScene()
             )
         {
+            _realtimeTotalDifficultyTime += Time.unscaledDeltaTime;
+
             float multiplierTime = Time.unscaledDeltaTime * TimeSpeedMultiplier;
             _totalDifficultyTime += multiplierTime;
             _currentLoopDifficultyTime += multiplierTime;
             _currentDifficultyTime += multiplierTime;
             _currentDifficultyMidCurseTime += multiplierTime;
 
-            if (
-                CurrentDifficulty.Value.MidstageCursesAmount > 0 &&
-                _currentDifficultyMidCurseTime > (CurrentDifficulty.Value.Duration / (CurrentDifficulty.Value.MidstageCursesAmount + 1))
+            while (
+                CurrentDifficulty.Value.MidstageCursesAmount > _currentDifficultyAddedMidCurses &&
+                _currentDifficultyMidCurseTime > CurrentDifficulty.Value.GetDelayBetweenMidCurses()
                 )
             {
                 AddMidCurse();
+                _currentDifficultyMidCurseTime -= CurrentDifficulty.Value.GetDelayBetweenMidCurses();
+                _currentDifficultyAddedMidCurses++;
             }
+
             if (_currentDifficultyTime > CurrentDifficulty.Value.Duration && CurrentDifficulty.Value.Duration >= 0f)
             {
                 RaiseUpDifficulty();
+                _currentDifficultyTime = 0f;
+                _currentDifficultyMidCurseTime = 0f;
+                _currentDifficultyAddedMidCurses = 0;
             }
         }
     }
 
-    public void RaiseUpDifficulty()
+    private void RaiseUpDifficulty()
     {
         if (CurrentDifficulty.Next != null)
         {
@@ -194,9 +242,11 @@ public class DifficultyManager : MonoBehaviour
                         curseAmount
                         );
                 }
+                else
+                {
+                    UpdateDifficultyEnviromentMaterial();
+                }
             }
-
-            ParallaxManager.Instance.SkyMaterial = CurrentDifficulty.Value.SkyMaterial;
         }
 
         if (CurrentDifficulty.Value.ChangeSceneOnStart != "")
@@ -204,20 +254,17 @@ public class DifficultyManager : MonoBehaviour
             UIManager.Instance.LoadSceneWithEffect(CurrentDifficulty.Value.ChangeSceneOnStart);
         }
 
-        _currentDifficultyTime = 0f;
-        _currentDifficultyMidCurseTime = 0f;
-
         OnDifficultyIncreased?.Invoke(this, CurrentDifficulty.Value);
     }
 
-    public void RaiseUpLoop()
+    private void RaiseUpLoop()
     {
         _loops++;
         _currentCursesAmountMult *= CursesAmountPerLoopMult;
         _currentLoopDifficultyTime = 0f;
     }
 
-    public void AddMidCurse()
+    private void AddMidCurse()
     {
         List<AbstractModificator> addModificators = GetRandomCurseModificators(
             CurrentDifficulty.Value.CursesPrice, 
@@ -228,8 +275,6 @@ public class DifficultyManager : MonoBehaviour
         {
             ModificatorsManager.Instance.AddModificator(addModificator, AbstractModificator.ModificatorStatuses.PERMANENT);
         }
-
-        Instance._currentDifficultyMidCurseTime = 0f;
     }
 
     private void OnDestroy()

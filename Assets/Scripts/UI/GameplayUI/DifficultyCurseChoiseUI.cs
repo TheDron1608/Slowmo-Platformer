@@ -99,17 +99,7 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
         TimeManager.Instance.TryTemporalSlowTime(FINISH_TRADE_TEMP_SLOWMO);
         TimeManager.Instance.Paused = false;
 
-        if (LayerManager.Instance != null)
-        {
-            foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
-            {
-                layer.SetEnvromentMaterialDependOnDifficulty(DifficultyManager.Instance.CurrentDifficulty.Value);
-            }
-        }
-        if (ParallaxManager.Instance != null)
-        {
-            ParallaxManager.Instance.SetParallaxMaterialDependedOnDifficulty(DifficultyManager.Instance.CurrentDifficulty.Value);
-        }
+        DifficultyManager.Instance.UpdateDifficultyEnviromentMaterial();
 
         UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Hide();
 

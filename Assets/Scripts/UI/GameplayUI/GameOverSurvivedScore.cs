@@ -11,7 +11,7 @@ public class GameOverSurvivedScore : MonoBehaviour
     public void UpdateLocalizedText(string value)
     {
         _localizedText = value;
-        TimeSpan surviveTime = new(0, 0, (int)math.round(DifficultyManager.Instance.TotalDifficultyTime));
+        TimeSpan surviveTime = new(0, 0, (int)math.round(DifficultyManager.Instance.RealtimeTotalDifficultyTime));
         _text.text = _localizedText + surviveTime.ToString(@"mm\:ss");
     }
 }
