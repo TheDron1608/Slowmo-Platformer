@@ -110,8 +110,8 @@ public class BlessPickManager : AbstractModificatorCardsManager
             {
                 List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
                     AbstractModificator.ModificatorTypes.POSITIVE,
-                    totalAddPrice * MAX_PRICE_REDUCTION,
-                    totalAddPrice,
+                    totalAddPrice * ModificatorsManager.Instance.TradeBlessProfitMult * MAX_PRICE_REDUCTION,
+                    totalAddPrice * ModificatorsManager.Instance.TradeBlessProfitMult,
                     false,
                     true,
                     true,

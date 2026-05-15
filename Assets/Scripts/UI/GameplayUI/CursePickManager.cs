@@ -88,8 +88,8 @@ public class CursePickManager : AbstractModificatorCardsManager
                 {
                     List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
                         AbstractModificator.ModificatorTypes.NEGATIVE,
-                        lastAddedCardScore,
-                        encountedScore,
+                        lastAddedCardScore * ModificatorsManager.Instance.TradeCurseProfitMult,
+                        encountedScore * ModificatorsManager.Instance.TradeCurseProfitMult,
                         true,
                         false,
                         true,
