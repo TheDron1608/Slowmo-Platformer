@@ -67,6 +67,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     public List<AbstractModificator> RestrictModificators = new();
     public List<AbstractModificator> SynergingModificators = new();
     public List<AbstractModificator> UnsynergingModificators = new();
+    public AbstractModificator HarderVersion = null;
     public ModificatorTypes ModificatorType;
     public ModificatorTiers ModificatorTier;
     public Sprite IconSprite;
