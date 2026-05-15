@@ -107,13 +107,6 @@ public class DifficultyManager : MonoBehaviour
     public LinkedListNode<DifficultyStage> CurrentDifficulty
     {
         get => _currentDifficulty;
-        set
-        {
-            if (_currentDifficulty == value) return;
-
-            _currentDifficulty = value;
-            _currentDifficultyTime = 0f;
-        }
     }
 
     public int Loops
@@ -175,6 +168,16 @@ public class DifficultyManager : MonoBehaviour
         _currentDifficultyMidCurseTime += time;
     }
 
+    public void ForceResetDifficulty()
+    {
+        _totalDifficultyTime = 0f;
+        _currentLoopDifficultyTime = 0f;
+        _currentDifficultyTime = 0f;
+        _currentDifficultyMidCurseTime = 0f;
+
+        SetDifficulty(Difficulties.First);
+    }
+
     private void Awake()
     {
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 DifficultyManager instance per scene");
@@ -217,7 +220,7 @@ public class DifficultyManager : MonoBehaviour
 
             if (_currentDifficultyTime > CurrentDifficulty.Value.Duration && CurrentDifficulty.Value.Duration >= 0f)
             {
-                RaiseUpDifficulty();
+                SetDifficulty(CurrentDifficulty.Next);
                 _currentDifficultyTime = 0f;
                 _currentDifficultyMidCurseTime = 0f;
                 _currentDifficultyAddedMidCurses = 0;
@@ -225,27 +228,28 @@ public class DifficultyManager : MonoBehaviour
         }
     }
 
-    private void RaiseUpDifficulty()
+    private void SetDifficulty(LinkedListNode<DifficultyStage> difficulty)
     {
-        if (CurrentDifficulty.Next != null)
-        {
-            CurrentDifficulty = CurrentDifficulty.Next;
-            if (CurrentDifficulty.Value.CursesPrice > 0f)
-            {
-                float cursePrice = CurrentDifficulty.Value.CursesPrice;
-                int curseAmount = (int)math.ceil(CurrentDifficulty.Value.CursesAmount * CursesPickAmountMultiplier);
+        if (CurrentDifficulty == difficulty) return;
 
-                if (cursePrice > 0f && curseAmount > 0)
-                {
-                    UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
-                        CurrentDifficulty.Value.CursesPrice, 
-                        curseAmount
-                        );
-                }
-                else
-                {
-                    UpdateDifficultyEnviromentMaterial();
-                }
+        _currentDifficulty = difficulty;
+        _currentDifficultyTime = 0f;
+
+        if (CurrentDifficulty.Value.CursesPrice > 0f)
+        {
+            float cursePrice = CurrentDifficulty.Value.CursesPrice;
+            int curseAmount = (int)math.ceil(CurrentDifficulty.Value.CursesAmount * CursesPickAmountMultiplier);
+
+            if (cursePrice > 0f && curseAmount > 0)
+            {
+                UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
+                    CurrentDifficulty.Value.CursesPrice, 
+                    curseAmount
+                    );
+            }
+            else
+            {
+                UpdateDifficultyEnviromentMaterial();
             }
         }
 
