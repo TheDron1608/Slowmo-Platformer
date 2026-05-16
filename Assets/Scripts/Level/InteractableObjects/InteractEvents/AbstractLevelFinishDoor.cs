@@ -5,9 +5,9 @@ public class AbstractLevelFinishDoor : AnimatedInteractable
     {
         base.OnFinishInteract(interactor);
 
-        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+        for(int i = 0; i < ModificatorsManager.Instance.CurrentModificators.Count; i++)
         {
-            modificator.OnLevelFinished();
+            ModificatorsManager.Instance.CurrentModificators[i].OnLevelFinished();
         }
     }
 }
