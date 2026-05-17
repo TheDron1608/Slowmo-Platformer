@@ -17,6 +17,9 @@ public class ModificatorsManager : MonoBehaviour
     public List<AbstractModificator> ModificatorsPool = new();
     public int MaxModificatorOptions = 3;
     public int ModifiactorsPickAmount = 1;
+    public int BlessPickRerolls = 0;
+    public int CursePickRerolls = 0;
+    public int DifficultyCursePickRerolls = 0;
     public int DifficultyUpNegativeModificatorsPickAmount = 1;
     public float ExtraModificatorChance = 0.1f;
     public float ExtraNeutralModificatorChance = 0.1f;

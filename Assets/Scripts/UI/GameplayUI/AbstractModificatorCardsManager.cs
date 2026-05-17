@@ -14,9 +14,11 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
 
     [SerializeField] protected ModificatorCardsCluster _clusterInstance;
     [SerializeField] protected PickNothingCard _pickNothingCardInstance;
+    [SerializeField] protected RerollCard _rerollCardInstace;
     [SerializeField] protected ModificatorVisualInfo _cardInfoInstance;
 
     private List<AbstractCardItem> _cards = new();
+    private int _rerollsLeft = 0;
 
     public event EventHandler<AbstractCardItem> OnAddedItem;
     public event EventHandler<AbstractCardItem> OnRemovedItem;
@@ -25,6 +27,12 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     {
         get => _cards;
         protected set => _cards = value;
+    }
+
+    public int RerollsLeft
+    {
+        get => _rerollsLeft;
+        protected set => _rerollsLeft = value;
     }
 
     public void AddCard(AbstractCardItem cluster)
@@ -145,8 +153,27 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     }
 
     public abstract void SpendPicksLeft(int amount = 1);
+
     public virtual void FinishTrade()
     {
         ClearAllCards();
+    }
+
+    public bool TryReroll()
+    {
+        if (_rerollsLeft > 0)
+        {
+            ForceReroll();
+            return true;
+        }
+        return false;
+    }
+
+    public virtual void ForceReroll()
+    {
+        _rerollsLeft--;
+        RandomManager.Instance.InitNewSeed();
+        ClearAllCards();
+        SetDisplayedInfo(null);
     }
 }

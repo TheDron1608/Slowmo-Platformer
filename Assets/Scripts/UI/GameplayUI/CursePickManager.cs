@@ -20,6 +20,7 @@ public class CursePickManager : AbstractModificatorCardsManager
     private int _picksLeft = 1;
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
     private Coroutine _tradeCoroutine = null;
+    private float _tradedPrice = 0f;
 
     public static CursePickManager Instance;
 
@@ -30,6 +31,8 @@ public class CursePickManager : AbstractModificatorCardsManager
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 CursePickManager instance per scene");
         Instance = this;
+
+        RerollsLeft = ModificatorsManager.Instance.CursePickRerolls;
     }
 
     private void Start()
@@ -123,6 +126,7 @@ public class CursePickManager : AbstractModificatorCardsManager
 
                 yield return new WaitForEndOfFrame();
             }
+            _tradedPrice = encountedScore;
             _scoreText.text = "0";
 
             if (Cards.Count == 0)
@@ -131,6 +135,12 @@ public class CursePickManager : AbstractModificatorCardsManager
             }
             else
             {
+                if (RerollsLeft > 0)
+                {
+                    yield return new WaitForSeconds(modificatorAppearDelay);
+                    AddCard(Instantiate(_rerollCardInstace));
+                }
+
                 if (ModificatorsManager.Instance.CanSkipCursePick)
                 {
                     yield return new WaitForSeconds(modificatorAppearDelay);
@@ -142,6 +152,58 @@ public class CursePickManager : AbstractModificatorCardsManager
         }
 
         _tradeCoroutine = null;
+    }
+
+    public override void ForceReroll()
+    {
+        base.ForceReroll();
+
+        List<AbstractModificator> addedModificators = new();
+        for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
+        {
+            List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
+                AbstractModificator.ModificatorTypes.NEGATIVE,
+                0f,
+                _tradedPrice * ModificatorsManager.Instance.TradeCurseProfitMult,
+                true,
+                false,
+                true,
+                addedModificators
+                );
+
+            if (addModificators.Count > 0)
+            {
+                ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
+                newCluster.AddModificator(addModificators);
+                newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.CURSE;
+                AddCard(newCluster);
+
+                addedModificators.AddRange(addModificators);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (Cards.Count == 0)
+        {
+            AddCard(Instantiate(_pickNothingCardInstance));
+        }
+        else
+        {
+            if (RerollsLeft > 0)
+            {
+                AddCard(Instantiate(_rerollCardInstace));
+            }
+
+            if (ModificatorsManager.Instance.CanSkipCursePick)
+            {
+                AddCard(Instantiate(_pickNothingCardInstance));
+            }
+
+            SetAllCardsInteractable(true);
+        }
     }
 
     public override void SpendPicksLeft(int amount = 1)

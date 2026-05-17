@@ -26,7 +26,6 @@ public class WorldGenerationManager : MonoBehaviour
     public float UnlosedConnectionChunkGenerationChance = 0.33f;
 
     private List<BuildingInfo> _generatedBuildings = new();
-    private int _currentWorldGenIteration = 0;
 
     public static WorldGenerationManager Instance;
 
@@ -51,8 +50,7 @@ public class WorldGenerationManager : MonoBehaviour
 
     public void GenerateLevel()
     {
-        UnityEngine.Random.InitState(RandomManager.Instance.GenRandomWorldGenSeed(_currentWorldGenIteration));
-        _currentWorldGenIteration++;
+        RandomManager.Instance.InitNewSeed();
 
         Vector3Int currentBuildingEnterPosition = Vector3Int.zero;
         int currentBuildingLayerIndex = (int)math.floor(LayerManager.Instance.ZLayers.Count / 2f) - 1;

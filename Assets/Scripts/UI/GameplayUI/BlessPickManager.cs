@@ -20,6 +20,7 @@ public class BlessPickManager : AbstractModificatorCardsManager
     [SerializeField] private Transform _nothingToSellMessageContainer;
     [SerializeField] private Transform _cantBuyAnyModificatorsMessageContainer;
 
+    private float _tradedPrice = 0f;
     private int _picksLeft = 1;
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
     private Coroutine _sellCursesCoroutine = null;
@@ -33,6 +34,8 @@ public class BlessPickManager : AbstractModificatorCardsManager
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 BlessPickManager instance per scene");
         Instance = this;
+
+        RerollsLeft = ModificatorsManager.Instance.BlessPickRerolls;
     }
 
     private void Start()
@@ -71,10 +74,10 @@ public class BlessPickManager : AbstractModificatorCardsManager
             ClearAllCards();
             SetDisplayedInfo(null);
             _soldPriceText.text = ScoreManager.Instance.TradableScore.ToString("0");
+            _tradedPrice = 0f;
             ShowScore();
 
             //count total traded points
-            float totalAddPrice = 0;
             foreach (
                 AbstractModificator modificator in
                 ModificatorsManager.Instance.CurrentModificators
@@ -93,8 +96,8 @@ public class BlessPickManager : AbstractModificatorCardsManager
                     }
 
                     modificatorAddPrice += modificatorAddPriceThisFrame;
-                    totalAddPrice += modificatorAddPriceThisFrame;
-                    _soldPriceText.text = totalAddPrice.ToString("0");
+                    _tradedPrice += modificatorAddPriceThisFrame;
+                    _soldPriceText.text = _tradedPrice.ToString("0");
 
                     yield return new WaitForEndOfFrame();
                 }
@@ -110,8 +113,8 @@ public class BlessPickManager : AbstractModificatorCardsManager
             {
                 List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
                     AbstractModificator.ModificatorTypes.POSITIVE,
-                    totalAddPrice * ModificatorsManager.Instance.TradeBlessProfitMult * MAX_PRICE_REDUCTION,
-                    totalAddPrice * ModificatorsManager.Instance.TradeBlessProfitMult,
+                    _tradedPrice * ModificatorsManager.Instance.TradeBlessProfitMult * MAX_PRICE_REDUCTION,
+                    _tradedPrice * ModificatorsManager.Instance.TradeBlessProfitMult,
                     false,
                     true,
                     true,
@@ -132,53 +135,92 @@ public class BlessPickManager : AbstractModificatorCardsManager
                 }
             }
 
-            //remove traded modificators if has any option and RemoveModifictorsOnSell is true
-            if (Cards.Count > 0)
-            {
-                if (ModificatorsManager.Instance.RemoveModifictorsOnSell)
-                {
-                    ModificatorsManager.Instance.RemoveModificators(AbstractModificator.ModificatorStatuses.CURSE);
-                }
-                else
-                {
-                    foreach (AbstractModificator mod in ModificatorsManager.Instance.CurrentModificators)
-                    {
-                        if (mod.Status == AbstractModificator.ModificatorStatuses.CURSE)
-                        {
-                            mod.Status = AbstractModificator.ModificatorStatuses.PERMANENT;
-                        }
-                    }
-                }
-
-                if (ModificatorsManager.Instance.CanSkipBlessPick)
-                {
-                    AddCard(Instantiate(_pickNothingCardInstance));
-                }
-
-                if (ModificatorsManager.Instance.ResetScoreOnSell)
-                {
-                    ScoreManager.Instance.TradableScore = 0;
-                }
-            }
-            else
-            {
-                AddCard(Instantiate(_pickNothingCardInstance));
-                _cantBuyAnyModificatorsMessageContainer.gameObject.SetActive(true);
-            }
-
-            HideScore();
-
-            if (SessionManager.Instance?.TempSession != null)
-            {
-                SessionManager.Instance.TempSession.TotalSoldCurses = totalAddPrice;
-                if (SessionManager.Instance.TempSession.MaxSoldCurses < totalAddPrice)
-                {
-                    SessionManager.Instance.TempSession.MaxSoldCurses = totalAddPrice;
-                }
-            }
+            InitSpecialCards();
         }
 
         _sellCursesCoroutine = null;
+    }
+
+    public override void ForceReroll()
+    {
+        base.ForceReroll();
+
+        if (ModificatorsManager.Instance != null)
+        {
+            //show sellable modifiers
+            List<AbstractModificator> addedModificators = new();
+            for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
+            {
+                List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
+                    AbstractModificator.ModificatorTypes.POSITIVE,
+                    _tradedPrice * ModificatorsManager.Instance.TradeBlessProfitMult * MAX_PRICE_REDUCTION,
+                    _tradedPrice * ModificatorsManager.Instance.TradeBlessProfitMult,
+                    false,
+                    true,
+                    true,
+                    addedModificators
+                    );
+
+                if (addModificators.Count > 0)
+                {
+                    addedModificators.AddRange(addModificators);
+                    ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
+                    newCluster.AddModificator(addModificators);
+                    newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.TRADED;
+                    AddCard(newCluster);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            InitSpecialCards();
+
+            HideScore();
+        }
+    }
+
+    private void InitSpecialCards()
+    {
+        //remove traded modificators if has any option and RemoveModifictorsOnSell is true
+        if (Cards.Count > 0)
+        {
+            if (ModificatorsManager.Instance.RemoveModifictorsOnSell)
+            {
+                ModificatorsManager.Instance.RemoveModificators(AbstractModificator.ModificatorStatuses.CURSE);
+            }
+            else
+            {
+                foreach (AbstractModificator mod in ModificatorsManager.Instance.CurrentModificators)
+                {
+                    if (mod.Status == AbstractModificator.ModificatorStatuses.CURSE)
+                    {
+                        mod.Status = AbstractModificator.ModificatorStatuses.PERMANENT;
+                    }
+                }
+            }
+
+            if (RerollsLeft > 0)
+            {
+                AddCard(Instantiate(_rerollCardInstace));
+            }
+
+            if (ModificatorsManager.Instance.CanSkipBlessPick)
+            {
+                AddCard(Instantiate(_pickNothingCardInstance));
+            }
+
+            if (ModificatorsManager.Instance.ResetScoreOnSell)
+            {
+                ScoreManager.Instance.TradableScore = 0;
+            }
+        }
+        else
+        {
+            AddCard(Instantiate(_pickNothingCardInstance));
+            _cantBuyAnyModificatorsMessageContainer.gameObject.SetActive(true);
+        }
     }
 
     public override void SpendPicksLeft(int amount = 1)

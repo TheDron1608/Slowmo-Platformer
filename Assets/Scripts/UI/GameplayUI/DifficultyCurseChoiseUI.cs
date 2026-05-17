@@ -12,6 +12,13 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 
     private int _picksLeft = 1;
     private string _requestSceneChangeOnFinish = null;
+    private float _initCursePrice = 0f;
+    private int _initPickAmount = 0;
+
+    private void Awake()
+    {
+        RerollsLeft = ModificatorsManager.Instance.DifficultyCursePickRerolls;
+    }
 
     private void OnEnable()
     {
@@ -46,10 +53,13 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 
         InvokeModificatorChoiseStarted();
 
+        _initCursePrice = cursePrice;   
+        _initPickAmount = pickAmount;
+
         List<AbstractModificator> addedModificators = new();
         for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
         {
-            List<AbstractModificator> addModificators = DifficultyManager.GetRandomCurseModificators(cursePrice, addedModificators);
+            List<AbstractModificator> addModificators = DifficultyManager.GetRandomCurseModificators(_initCursePrice, addedModificators);
 
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
             newCluster.AddModificator(addModificators);
@@ -68,9 +78,56 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 
         InvokeModificatorChoiseFinished();
 
-        _picksLeft = pickAmount;
+        _picksLeft = _initPickAmount;
 
-        if (Cards.Count == 0 || _picksLeft == 0) FinishTrade();
+        if (Cards.Count == 0 || _picksLeft == 0)
+        {
+            FinishTrade();
+        }
+        else if (RerollsLeft > 0)
+        {
+            AddCard(Instantiate(_rerollCardInstace));
+        }
+    }
+
+    public override void ForceReroll()
+    {
+        base.ForceReroll();
+
+        InvokeModificatorChoiseStarted();
+
+        List<AbstractModificator> addedModificators = new();
+        for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
+        {
+            List<AbstractModificator> addModificators = DifficultyManager.GetRandomCurseModificators(_initCursePrice, addedModificators);
+
+            ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
+            newCluster.AddModificator(addModificators);
+            newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.PERMANENT;
+
+            if (newCluster == null || newCluster.Cards.Count == 0)
+            {
+                break;
+            }
+            else
+            {
+                addedModificators.AddRange(addModificators);
+                AddCard(newCluster);
+            }
+        }
+
+        InvokeModificatorChoiseFinished();
+
+        _picksLeft = _initPickAmount;
+
+        if (Cards.Count == 0 || _picksLeft == 0)
+        {
+            FinishTrade();
+        }
+        else if (RerollsLeft > 0)
+        {
+            AddCard(Instantiate(_rerollCardInstace));
+        }
     }
 
     public void RequestSceneChangeOnFinish(string sceneName)

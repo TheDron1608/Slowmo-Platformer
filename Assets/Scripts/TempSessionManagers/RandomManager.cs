@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RandomManager : MonoBehaviour
 {
-    const int WORLD_GEN_SEEDS_AMOUNT = 100;
+    const int RANDOM_SEEDS_AMOUNT = 100;
 
     public enum ProcChanceTypes
     {
@@ -20,8 +20,8 @@ public class RandomManager : MonoBehaviour
     public event EventHandler OnBadRandomChanceProcd;
     public event EventHandler OnGoodRandomChanceProcd;
 
-    private long _randomSeed;
-    private int[] _worldGenSeeds = new int[WORLD_GEN_SEEDS_AMOUNT];
+    private int[] _randomSeeds = new int[RANDOM_SEEDS_AMOUNT];
+    private int _seedIteration = 0;
 
     public bool ProcRandomChance(float baseChance, ProcChanceTypes type)
     {
@@ -67,9 +67,10 @@ public class RandomManager : MonoBehaviour
         return (UnityEngine.Random.value * RandomChanceProcMultiplier * GoodRandomChanceProcMultiplier) < baseChance;
     }
 
-    public int GenRandomWorldGenSeed(int iteration)
+    public void InitNewSeed()
     {
-        return _worldGenSeeds[iteration % _worldGenSeeds.Length];
+        _seedIteration = (_seedIteration + 1) % _randomSeeds.Length;
+        UnityEngine.Random.InitState(_seedIteration);
     }
 
     private void Awake()
@@ -80,9 +81,9 @@ public class RandomManager : MonoBehaviour
 
         UnityEngine.Random.InitState(DateTime.Now.Second);
 
-        for (int i = 0; i < _worldGenSeeds.Length; i++)
+        for (int i = 0; i < _randomSeeds.Length; i++)
         {
-            _worldGenSeeds[i] = (int)(UnityEngine.Random.value * int.MaxValue);
+            _randomSeeds[i] = (int)(UnityEngine.Random.value * int.MaxValue);
         }
     }
 

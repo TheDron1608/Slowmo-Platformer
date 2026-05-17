@@ -174,6 +174,9 @@ MonoBehaviour:
   - {fileID: 1998567090488563821, guid: f9d3bcbd44ca27f439d10d50d417237a, type: 3}
   MaxModificatorOptions: 3
   ModifiactorsPickAmount: 1
+  BlessPickRerolls: 0
+  CursePickRerolls: 0
+  DifficultyCursePickRerolls: 0
   DifficultyUpNegativeModificatorsPickAmount: 1
   ExtraModificatorChance: 0.33
   ExtraNeutralModificatorChance: 0.1
@@ -182,6 +185,7 @@ MonoBehaviour:
   CanSellCurses: 1
   CanPickCurses: 1
   RemoveModifictorsOnSell: 1
+  ResetScoreOnSell: 1
   TradeCurseProfitMult: 1
   TradeBlessProfitMult: 1
   ArtifactSpoilDurationSeconds: 300
