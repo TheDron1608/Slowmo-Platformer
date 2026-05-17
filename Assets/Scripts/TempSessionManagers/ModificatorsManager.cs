@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
@@ -219,7 +216,7 @@ public class ModificatorsManager : MonoBehaviour
         newModificator.Status = modificatorStatus;
         _currentModificators.Add(newModificator);
 
-        ModificatorIcon newIcon = 
+        ModificatorIcon newIcon =
             UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI()?.AddModificatorIcon(newModificator) ??
             UIManager.Instance.ArtifactModificatorsScreenOverlay.GetModificatorsUI()?.AddModificatorIcon(newModificator);
 
@@ -300,7 +297,8 @@ public class ModificatorsManager : MonoBehaviour
 
         AbstractModificator singleModificatorResult =
             NumberMath.PickRandomItem(filteredModificators.Where(
-                e => {
+                e =>
+                {
                     float overrideDependedPrice = e.GetPriceDependedOnOverrides(CurrentModificators);
                     return overrideDependedPrice >= minPrice && overrideDependedPrice <= maxPrice;
                 }
@@ -332,7 +330,7 @@ public class ModificatorsManager : MonoBehaviour
             TryAddNeutralModificator(result, maxPrice);
         }
 
-        return result;  
+        return result;
     }
 
     private void TryAddNeutralModificator(List<AbstractModificator> modificators, float maxPrice)
