@@ -97,7 +97,9 @@ public class CursePickManager : AbstractModificatorCardsManager
                         true,
                         false,
                         true,
-                        addedModificators
+                        addedModificators,
+                        false,
+                        ModificatorsManager.Instance.CursePickCounterMods
                         );
 
                     if (addModificators.Count > 0)
@@ -168,7 +170,9 @@ public class CursePickManager : AbstractModificatorCardsManager
                 true,
                 false,
                 true,
-                addedModificators
+                addedModificators,
+                false,
+                ModificatorsManager.Instance.CursePickCounterMods
                 );
 
             if (addModificators.Count > 0)

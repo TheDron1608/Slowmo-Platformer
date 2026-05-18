@@ -1294,6 +1294,34 @@ MonoBehaviour:
     m_Localized: '* You cannot skip the selection of tradable negative modifiers'
     m_Metadata:
       m_Items: []
+  - m_Id: 55102672239566848
+    m_Localized: Game changer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55102630434938880
+    m_Localized: "\rPermanent hypercompensation"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55102522020569088
+    m_Localized: Hypercompensation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55102522700046336
+    m_Localized: "\r* You get double amount of negative modifiers sold, but you also
+      get a positive modifier equal to half the total price"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55102631420600320
+    m_Localized: "\r* When selling, you receive 2 times more permanent positive modifiers,
+      but you also receive a negative modifier equal to half the total price"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55102672889683968
+    m_Localized: '* You get {AddModsPercent} more modifiers, but you also get modifiers
+      of the opposite type equal to half the total cost'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1377,3 +1405,4 @@ MonoBehaviour:
         - id: 49627625479708672
         - id: 54358642643935232
         - id: 54902327492190208
+        - id: 55102672889683968

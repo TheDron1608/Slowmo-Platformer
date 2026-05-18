@@ -17,6 +17,9 @@ public class ModificatorsManager : MonoBehaviour
     public int BlessPickRerolls = 0;
     public int CursePickRerolls = 0;
     public int DifficultyCursePickRerolls = 0;
+    public float BlessPickCounterMods = 0f;
+    public float CursePickCounterMods = 0f;
+    public float DifficultyCursePickCounterMods = 0f;
     public int DifficultyUpNegativeModificatorsPickAmount = 1;
     public float ExtraModificatorChance = 0.1f;
     public float ExtraNeutralModificatorChance = 0.1f;
@@ -284,9 +287,11 @@ public class ModificatorsManager : MonoBehaviour
         bool allowOverridePermanent = false,
         bool includeNeutral = true,
         List<AbstractModificator> excludeModificators = null,
-        bool singleOnly = false
+        bool singleOnly = false,
+        float counterModificatorsRelativePrice = 0f
         )
     {
+        float counterPriceMult = type == AbstractModificator.ModificatorTypes.NEUTRAL ? 0f : (1f + counterModificatorsRelativePrice);
         List<AbstractModificator> result = new();
         IEnumerable<AbstractModificator> filteredModificators = AvaibleValidModificators.Where(e =>
             e.ModificatorType == type &&
@@ -300,7 +305,7 @@ public class ModificatorsManager : MonoBehaviour
                 e =>
                 {
                     float overrideDependedPrice = e.GetPriceDependedOnOverrides(CurrentModificators);
-                    return overrideDependedPrice >= minPrice && overrideDependedPrice <= maxPrice;
+                    return overrideDependedPrice >= minPrice * counterPriceMult && overrideDependedPrice <= maxPrice * counterPriceMult;
                 }
             ).ToList());
 
@@ -311,11 +316,11 @@ public class ModificatorsManager : MonoBehaviour
         else if (!singleOnly)
         {
             float totalModificatorsPrice = 0f;
-            while (totalModificatorsPrice < minPrice && result.Count < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
+            while (totalModificatorsPrice < minPrice * counterPriceMult && result.Count < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
             {
                 filteredModificators = filteredModificators.Where(e =>
                     result.All(e2 => e != e2 && !e.GetIsRestrictedWith(e2) && !e.GetIsOverriding(e2)) &&
-                    e.ModificatorPrice <= maxPrice - totalModificatorsPrice
+                    e.ModificatorPrice <= maxPrice * counterPriceMult - totalModificatorsPrice
                     );
 
                 if (filteredModificators.Count() == 0) break;
@@ -323,6 +328,23 @@ public class ModificatorsManager : MonoBehaviour
                 result.Add(addModificator);
                 totalModificatorsPrice += addModificator.GetPriceDependedOnOverrides(CurrentModificators);
             }
+        }
+
+        if (counterModificatorsRelativePrice != 0f)
+        {
+            result.AddRange(PickRandomModificators(
+                type == AbstractModificator.ModificatorTypes.POSITIVE ?
+                    AbstractModificator.ModificatorTypes.NEGATIVE :
+                    AbstractModificator.ModificatorTypes.POSITIVE,
+                minPrice / counterPriceMult,
+                maxPrice / counterPriceMult,
+                allowPermanentIncapable,
+                allowOverridePermanent,
+                false,
+                NumberMath.MergeLists(excludeModificators, result),
+                singleOnly,
+                0f
+                ));
         }
 
         if (result.Count > 0 && includeNeutral)

@@ -12,6 +12,9 @@ public class BlessPickManager : AbstractModificatorCardsManager
     const float SELL_ENCOUNT_PER_SECOND = 100f;
     const float SELL_DELAY_BETWEEN_MODIFICATORS = 0.25f;
 
+    public Color AddColorText = Color.white;
+    public Color SubtractColorText = Color.red;
+
     [SerializeField] private SellCursesCard _sellCursesCardInstance;
     [SerializeField] private TextMeshProUGUI _soldPriceText;
     [SerializeField] private UIElementTrackTarget _soldPriceTrackTarget;
@@ -84,22 +87,48 @@ public class BlessPickManager : AbstractModificatorCardsManager
                     .Where(e => e.Status == AbstractModificator.ModificatorStatuses.CURSE)
                 )
             {
+                if (modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEUTRAL) continue;
+
                 modificator.CurrentIcon.Raising = true;
 
-                float modificatorAddPrice = 0;
-                while (modificatorAddPrice < modificator.ModificatorPrice)
+                if (modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE)
                 {
-                    float modificatorAddPriceThisFrame = Time.deltaTime * SELL_ENCOUNT_PER_SECOND;
-                    if (modificatorAddPrice + modificatorAddPriceThisFrame > modificator.ModificatorPrice)
+                    _soldPriceText.color = AddColorText;
+                    float modificatorAddPrice = 0;
+                    while (modificatorAddPrice < modificator.ModificatorPrice)
                     {
-                        modificatorAddPriceThisFrame = modificator.ModificatorPrice - modificatorAddPrice;
+                        float modificatorAddPriceThisFrame = Time.deltaTime * SELL_ENCOUNT_PER_SECOND;
+                        if (modificatorAddPrice + modificatorAddPriceThisFrame > modificator.ModificatorPrice)
+                        {
+                            modificatorAddPriceThisFrame = modificator.ModificatorPrice - modificatorAddPrice;
+                        }
+
+                        modificatorAddPrice += modificatorAddPriceThisFrame;
+                        _tradedPrice += modificatorAddPriceThisFrame;
+                        _soldPriceText.text = _tradedPrice.ToString("0");
+
+                        yield return new WaitForEndOfFrame();
                     }
+                }
 
-                    modificatorAddPrice += modificatorAddPriceThisFrame;
-                    _tradedPrice += modificatorAddPriceThisFrame;
-                    _soldPriceText.text = _tradedPrice.ToString("0");
+                else if (modificator.ModificatorType == AbstractModificator.ModificatorTypes.POSITIVE)
+                {
+                    _soldPriceText.color = SubtractColorText;
+                    float modificatorRemovePrice = 0;
+                    while (modificatorRemovePrice > -modificator.ModificatorPrice)
+                    {
+                        float modificatorRemovePriceThisFrame = -Time.deltaTime * SELL_ENCOUNT_PER_SECOND;
+                        if (modificatorRemovePrice + modificatorRemovePriceThisFrame > modificator.ModificatorPrice)
+                        {
+                            modificatorRemovePriceThisFrame = modificator.ModificatorPrice - modificatorRemovePrice;
+                        }
 
-                    yield return new WaitForEndOfFrame();
+                        modificatorRemovePrice += modificatorRemovePriceThisFrame;
+                        _tradedPrice += modificatorRemovePriceThisFrame;
+                        _soldPriceText.text = _tradedPrice.ToString("0");
+
+                        yield return new WaitForEndOfFrame();
+                    }
                 }
 
                 modificator.CurrentIcon.Raising = false;
@@ -118,7 +147,9 @@ public class BlessPickManager : AbstractModificatorCardsManager
                     false,
                     true,
                     true,
-                    addedModificators
+                    addedModificators,
+                    false,
+                    ModificatorsManager.Instance.BlessPickCounterMods
                     );
 
                 if (addModificators.Count > 0)
@@ -158,7 +189,9 @@ public class BlessPickManager : AbstractModificatorCardsManager
                     false,
                     true,
                     true,
-                    addedModificators
+                    addedModificators,
+                    false,
+                    ModificatorsManager.Instance.BlessPickCounterMods
                     );
 
                 if (addModificators.Count > 0)

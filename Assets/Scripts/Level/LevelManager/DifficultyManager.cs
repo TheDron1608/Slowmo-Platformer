@@ -135,7 +135,9 @@ public class DifficultyManager : MonoBehaviour
             false,
             true,
             true,
-            exludeModificators
+            exludeModificators,
+            false,
+            ModificatorsManager.Instance.DifficultyCursePickCounterMods
             );
     }
 
