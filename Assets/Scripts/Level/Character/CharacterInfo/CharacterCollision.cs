@@ -415,7 +415,10 @@ public class CharacterCollision : AbstractCharacterComponent
                         CanHitWhileHardStnned &&
                         GetHasEnoughVelocityToHit() &&
                         CharComponents.CharacterEffectsReceiver.TryGetEffect(out HardStun selfStun) &&
-                        selfStun.TotalStunSenders.All(e => ObjectEffectsReceiver.TryGetCharacterFromSender(e)?.CharComponents != otherCharComponent.CharComponents)
+                        selfStun.TotalStunSenders.All(e => 
+                            (!ObjectEffectsReceiver.TryGetCharacterFromSender(e)?.CharComponents.CharacterTeam
+                            .GetIsAllyToAnotherTeam(otherCharComponent.CharComponents.CharacterTeam)) ?? true
+                            )
                     ) ||
                     (
                         CanHitWhileRolling &&
