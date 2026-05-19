@@ -14,7 +14,7 @@ public class CharacterVisual : AbstractCharacterComponent
     const string ANIMATOR_BUSY_STATE_PARAM_NAME = "BusyState";
     const string ANIMATOR_STUN_RECOVER_ANIMATION_TIME_MULTIPLIER_PARAM_NAME = "StunRecoverAnimationTimeMult";
     const string ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME = "BreakBusyAnimation";
-    public string FAST_MOVE_ALIGN_CHANGE_TRIGGER_NAME = "FastMoveAlignChange";
+    const string FAST_MOVE_ALIGN_CHANGE_TRIGGER_NAME = "FastMoveAlignChange";
 
     const float JUMP_VELOCITY_FOR_DEFAULT_JUMP_ANIMATION_STATE = 5f;
     const float MOVE_VELOCITY_FOR_DEFAULT_MOVE_ANIM_SPEED = 5f;
