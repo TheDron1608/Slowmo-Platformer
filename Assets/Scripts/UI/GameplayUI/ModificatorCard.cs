@@ -35,6 +35,8 @@ public class ModificatorCard : MonoBehaviour, IModificatorInfo
         {
             _overrideSprite = value;
             TitleImage.sprite = _overrideSprite ?? _defaultSprite;
+            CustomContentContainer.gameObject.SetActive(value == null);
+            TitleImage.gameObject.SetActive(value != null);
         }
     }
 
