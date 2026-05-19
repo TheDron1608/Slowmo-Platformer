@@ -70,7 +70,7 @@ public class RandomManager : MonoBehaviour
     public void InitNewSeed()
     {
         _seedIteration = (_seedIteration + 1) % _randomSeeds.Length;
-        UnityEngine.Random.InitState(_seedIteration);
+        UnityEngine.Random.InitState(_randomSeeds[_seedIteration]);
     }
 
     private void Awake()
@@ -79,7 +79,7 @@ public class RandomManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        UnityEngine.Random.InitState(DateTime.Now.Second);
+        UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
 
         for (int i = 0; i < _randomSeeds.Length; i++)
         {

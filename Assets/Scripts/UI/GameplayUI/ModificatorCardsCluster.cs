@@ -132,9 +132,10 @@ public class ModificatorCardsCluster : AbstractCardItem
 
         if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
         {
+            List<AbstractModificator> addedModificators = new();
             foreach (ModificatorCard card in Cards)
             {
-                ModificatorsManager.Instance.AddModificator(card.ModificatorInstance, AddStatusOnPick);
+                addedModificators.Add(ModificatorsManager.Instance.AddModificator(card.ModificatorInstance, AddStatusOnPick));
             }
 
             foreach (UIElementTrackTarget trackTarget in container.GetComponentsInChildren<UIElementTrackTarget>())
@@ -148,6 +149,7 @@ public class ModificatorCardsCluster : AbstractCardItem
                 }
             }
 
+            container.PickedModificators.AddRange(addedModificators);
             container.SpendPicksLeft();
         }
     }

@@ -220,13 +220,6 @@ public class CursePickManager : AbstractModificatorCardsManager
                 RemoveCard(Cards.First());
             }
 
-            foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
-            {
-                if (!modificator.DisabledModificator)
-                {
-                    modificator.OnModificatorChoiseFinished(this);
-                }
-            }
             _changeSceneDelayAfterSpendAllPicksCoroutine = StartCoroutine(FinishTradeAfterDelay());
         }
         else

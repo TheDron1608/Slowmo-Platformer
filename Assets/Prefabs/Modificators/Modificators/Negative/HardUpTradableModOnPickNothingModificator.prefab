@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 34414358390087680
+      value: 55795128253784064
       objectReference: {fileID: 0}
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: EnemyHealthUpMediumModificator
+      value: HardUpTradableModOnPickNothingModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,24 +61,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: 'managedReferences[6612637791294062604]'
+      propertyPath: 'managedReferences[6612637791294062603]'
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: managedReferences[6612637791294062604].m_Value
+      propertyPath: managedReferences[6612637791294062603].m_Value
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 34414359396720640
+      value: 55795128861958144
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: HealthUp
+      value: LevelSizeMultPrecent
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
-      value: 6612637791294062604
+      value: 6612637791294062603
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -94,7 +94,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4275088403563012476}
+      addedObject: {fileID: 5403731385325856835}
   m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
 --- !u!114 &2147315170708439846 stripped
 MonoBehaviour:
@@ -112,7 +112,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
   m_PrefabInstance: {fileID: 8179689514373086561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4275088403563012476
+--- !u!114 &5403731385325856835
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,29 +121,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 4804066781530051355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a25a907d0625b14ead0acd7be051e86, type: 3}
+  m_Script: {fileID: 11500000, guid: f6c9fd710a07dd340ac19288be47284b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Stackable: 1
+  Stackable: 0
   AllowPermanent: 1
-  OverrideModificators:
-  - {fileID: 4275088403563012476, guid: 0ff8cafc1815fe94fb98d6b162cf0fb6, type: 3}
+  OverrideModificators: []
   RestrictModificators: []
-  SynergingModificators:
-  - {fileID: 2670556852303785856, guid: 7b3b527486eba624bb18f80676329f90, type: 3}
+  SynergingModificators: []
   UnsynergingModificators: []
-  HarderVersion: {fileID: 4275088403563012476, guid: 004ac3e9993018f4a923a3f8b948bcfc, type: 3}
+  HarderVersion: {fileID: 0}
   ModificatorType: 1
   ModificatorTier: 1
-  IconSprite: {fileID: 21300000, guid: cc20e168045002b4c8a6c0d62aed60a9, type: 3}
-  CardSprite: {fileID: 21300000, guid: a7bbaa974c4e765429fdb7691532ccbd, type: 3}
+  IconSprite: {fileID: 21300000, guid: fc9c132a7c9b8864d82192b632bf3697, type: 3}
+  CardSprite: {fileID: 21300000, guid: 6f2dff07389fc094ab243845b3e18836, type: 3}
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 100
+  _modificatorPrice: 25
   _localization: {fileID: 2147315170708439846}
-  Team: 1
-  AffectChance: 1
-  ChanceType: 1
-  HealthMultiplier: 2
-  HideHealthTrack: 0
+  AffectOnStatus: 3

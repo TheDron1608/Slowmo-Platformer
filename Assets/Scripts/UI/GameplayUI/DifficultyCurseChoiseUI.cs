@@ -41,8 +41,6 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
             AddCard(newCluster);
         }
 
-        InvokeModificatorChoiseFinished();
-
         _picksLeft = int.MaxValue;
         if (Cards.Count == 0) FinishTrade();
     }
@@ -75,8 +73,6 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
                 AddCard(newCluster);
             }
         }
-
-        InvokeModificatorChoiseFinished();
 
         _picksLeft = _initPickAmount;
 
@@ -115,8 +111,6 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
                 AddCard(newCluster);
             }
         }
-
-        InvokeModificatorChoiseFinished();
 
         _picksLeft = _initPickAmount;
 
@@ -196,17 +190,6 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
             if (!modificator.DisabledModificator)
             {
                 modificator.OnModificatorChoiseStarted(this);
-            }
-        }
-    }
-
-    private void InvokeModificatorChoiseFinished()
-    {
-        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
-        {
-            if (!modificator.DisabledModificator)
-            {
-                modificator.OnModificatorChoiseFinished(this);
             }
         }
     }

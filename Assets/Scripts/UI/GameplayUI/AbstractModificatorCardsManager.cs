@@ -19,6 +19,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
 
     private List<AbstractCardItem> _cards = new();
     private int _rerollsLeft = 0;
+    private List<AbstractModificator> _pickedModificators = new();
 
     public event EventHandler<AbstractCardItem> OnAddedItem;
     public event EventHandler<AbstractCardItem> OnRemovedItem;
@@ -27,6 +28,12 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     {
         get => _cards;
         protected set => _cards = value;
+    }
+
+    public List<AbstractModificator> PickedModificators
+    {
+        get => _pickedModificators;
+        set => _pickedModificators = value;
     }
 
     public int RerollsLeft
@@ -157,6 +164,16 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     public virtual void FinishTrade()
     {
         ClearAllCards();
+
+        //collection can be modified on loop,
+        //may cause bugs but where are too less mods amount affecting on finish choise modifiers to worry about
+        for (int i = 0; i < ModificatorsManager.Instance.CurrentModificators.Count; i++)
+        {
+            if (!ModificatorsManager.Instance.CurrentModificators[i].DisabledModificator)
+            {
+                ModificatorsManager.Instance.CurrentModificators[i].OnModificatorChoiseFinished(this);
+            }
+        }
     }
 
     public bool TryReroll()
