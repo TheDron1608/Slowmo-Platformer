@@ -132,6 +132,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
             foreach (IModificatorInfo info in infos)
             {
                 ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
+                newInfo.transform.SetAsFirstSibling();
                 newInfo.TargetInfo = info;
             }
         }
