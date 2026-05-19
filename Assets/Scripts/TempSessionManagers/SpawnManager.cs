@@ -9,9 +9,11 @@ public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager Instance;
 
+    public bool KeepHoldableOnFinishLevel = true;
     public List<LootDropChanceInfo> LootDropsInstance = new();
     public List<EnemySpawnInfo> EnemyPoolInstance = new();
     public CharacterComponentsManager PlayerCharacter;
+    public Holdable PlayerCharacterHoldable = null;
 
     [SerializeField] private float _enemyAmountPerSpawner = 1f;
     private float _actualEnemyAmountPerSpawner = 1f;
@@ -75,6 +77,26 @@ public class SpawnManager : MonoBehaviour
         throw new UnityException("enemy key out of enemy pool range");
     }
 
+    public void FinishGameplay(AbstractCharacterComponent finishedCharacter, string loadScene)
+    {
+        Holdable saveHoldable = finishedCharacter?.CharComponents.CharacterHolding.CurrentHoldObject;
+
+        if (KeepHoldableOnFinishLevel && saveHoldable != PlayerCharacterHoldable && saveHoldable != null)
+        {
+            if (PlayerCharacterHoldable != null) Destroy(PlayerCharacterHoldable.gameObject);
+
+            PlayerCharacterHoldable = saveHoldable;
+            PlayerCharacterHoldable.transform.SetParent(transform);
+        }
+        else if (!KeepHoldableOnFinishLevel && PlayerCharacterHoldable != null)
+        {
+            Destroy(PlayerCharacterHoldable.gameObject);
+            PlayerCharacterHoldable = null;
+        }
+
+        UIManager.Instance.LoadSceneWithEffect(loadScene);
+    }
+
     public CharacterComponentsManager SpawnPlayerCharacterAtStartPosition()
     {
         return SpawnPlayerCharacterAt(
@@ -87,12 +109,16 @@ public class SpawnManager : MonoBehaviour
     {
         if (PlayerCharacter != null)
         {
-            return layer.TrySpawnObject(
+            CharacterComponentsManager newPlayer = layer.TrySpawnObject(
                 PlayerCharacter.gameObject,
                 position,
                 null,
                 null
                 ).First().GetComponent<AbstractCharacterComponent>().CharComponents;
+
+            if (KeepHoldableOnFinishLevel) newPlayer.CharacterHolding.GiveNewHoldable(PlayerCharacterHoldable);
+
+            return newPlayer;
         }
         else
         {

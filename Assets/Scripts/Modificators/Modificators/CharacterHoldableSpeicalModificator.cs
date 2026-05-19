@@ -15,11 +15,26 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
     private Holdable _currentSpecialHoldable = null;
     private List<CharacterComponentsManager> _convertedCharacters = new();
 
+    public override void OnModificatorAdded()
+    {
+        base.OnModificatorAdded();
+
+        SpawnManager.Instance.KeepHoldableOnFinishLevel = false;
+    }
+
     public override void OnModificatorRemoved()
     {
         base.OnModificatorRemoved();
 
-        GameOverManager.Instance?.ExtraAllDeadGameOverConditions.Remove(ExtraGameOverCondition);
+        if (GameOverManager.Instance != null)
+        {
+            GameOverManager.Instance.ExtraAllDeadGameOverConditions.Remove(ExtraGameOverCondition);
+        }
+
+        if (SpawnManager.Instance != null)
+        {
+            SpawnManager.Instance.KeepHoldableOnFinishLevel = true;
+        }
     }
 
     public override void OnLevelGenerated()

@@ -9,11 +9,11 @@ public class OnInteractEnterShopDoor : AbstractLevelFinishDoor
 
         if (ModificatorsManager.Instance.CanSellCurses)
         {
-            UIManager.Instance.LoadSceneWithEffect(SceneList.SHOP);
+            SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.SHOP);
         }
         else
         {
-            UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+            SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.GAMEPLAY);
         }
     }
 }

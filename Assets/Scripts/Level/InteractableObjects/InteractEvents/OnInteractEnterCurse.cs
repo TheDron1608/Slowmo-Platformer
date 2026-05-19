@@ -9,11 +9,11 @@ public class OnInteractEnterCurse : AbstractLevelFinishDoor
 
         if (ModificatorsManager.Instance.CanPickCurses)
         {
-            UIManager.Instance.LoadSceneWithEffect(SceneList.CURSE);
+            SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.CURSE);
         }
         else
         {
-            UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+            SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.GAMEPLAY);
         }
     }
 }

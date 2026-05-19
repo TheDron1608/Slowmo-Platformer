@@ -127,6 +127,9 @@ public class WorldGenerationManager : MonoBehaviour
             prevBuilding.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE);
         }
 
+        //generating enter door
+        GeneratedBuildings.FirstOrDefault()?.Enter.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CLOSED);
+
         //generating enviroment with OnFinishAllBuilding Enviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
         {

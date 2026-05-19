@@ -7,6 +7,6 @@ public class OnInteractEnterNextLevelDoor : AbstractLevelFinishDoor
     {
         base.OnFinishInteract(interactor);
 
-        UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+        SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.GAMEPLAY);
     }
 }
