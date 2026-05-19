@@ -129,15 +129,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 4804066781530051355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb3cea6471943649ba94b25e37faf3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 52a40bd84ea54994aa8fca139492c0d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Stackable: 0
   AllowPermanent: 1
   OverrideModificators: []
-  RestrictModificators: []
-  SynergingModificators: []
+  RestrictModificators:
+  - {fileID: 7302462975775333941, guid: 7c5af0d8bdd38a1489eed81b80481cba, type: 3}
+  - {fileID: 7302462975775333941, guid: c8d13930715c8094b8757261d7be49ea, type: 3}
+  - {fileID: -5614361381341054471, guid: a9fab4dc975d7b44aa21c793c32071c5, type: 3}
+  - {fileID: 5403731385325856835, guid: 837f01c81c2d9f0449a51806217707f5, type: 3}
+  - {fileID: 2771535563454615203, guid: ec04c798ec132844cb405d173dd682a1, type: 3}
+  - {fileID: 5218748826382271661, guid: 2c6a21e77469856488c5abb4c9e7f276, type: 3}
+  - {fileID: 6928128167822401547, guid: d0dc7fb1b2ea330419402faddee5de7d, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: -5614361381341054471, guid: 5a199a7bff9a26e4abc899a6a50ff228, type: 3}
+  SynergingModificators:
+  - {fileID: 8853570779579415213, guid: 46eed126f7d6ba54298fe76a4230bcff, type: 3}
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 1
   ModificatorTier: 0
   IconSprite: {fileID: 21300000, guid: 58741d5a0f94ebe41adc884f626f9a6d, type: 3}
@@ -147,5 +158,3 @@ MonoBehaviour:
   _multiplierable: 0
   _modificatorPrice: 50
   _localization: {fileID: 2147315170708439846}
-  OverrideDefaultDoorType: 2
-  OverrideEnableExtraExitBrunchsValue: 1

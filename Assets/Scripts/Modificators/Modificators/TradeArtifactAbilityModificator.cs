@@ -25,7 +25,7 @@ public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator
 
     public override bool OnSpecialActivated()
     {
-        if (TryAddArtifact(ScoreManager.Instance.CurrentCombo * ArtifactPricePerCombo))
+        if (TryAddArtifact(ScoreManager.Instance.CurrentCombo * ScoreManager.Instance.CurrentMultiplier * ArtifactPricePerCombo))
         {
             ScoreManager.Instance.ResetCombo();
             return true;
@@ -41,7 +41,7 @@ public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator
         AbstractModificator randomModificator = ModificatorsManager.Instance.PickRandomModificators(
             ModificatorTypes.NEGATIVE,
             0,
-            ScoreManager.Instance.CurrentCombo,
+            price,
             false,
             false,
             false,

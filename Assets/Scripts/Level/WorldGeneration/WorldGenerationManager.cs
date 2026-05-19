@@ -24,6 +24,7 @@ public class WorldGenerationManager : MonoBehaviour
     public Vector2 GenerateDirection = Vector2.one;
     public int ParallelRooms = 3;
     public float UnlosedConnectionChunkGenerationChance = 0.33f;
+    public bool RegularExitsOnly = false;
 
     private List<BuildingInfo> _generatedBuildings = new();
 
@@ -80,7 +81,7 @@ public class WorldGenerationManager : MonoBehaviour
                 attemptingBuildingLayerIndex = (currentBuildingLayerIndex + layerIndexAdd) % LayerManager.Instance.ZLayers.Count;
                 //set building's random extra exits like shop doors or curse doors
                 List<DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes> extraExits = new();
-                if (EnableExtraExitBrunchs)
+                if (EnableExtraExitBrunchs && !RegularExitsOnly)
                 {
                     if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
                     if (RandomManager.Instance.ProcRandomGoodChance(CurseDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE);
@@ -113,11 +114,18 @@ public class WorldGenerationManager : MonoBehaviour
         }
 
         //generate next level door
-        prevBuilding.Exit.Generate(
-            RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance) ? 
-            DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP :
-            DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE
-            );
+        if (RegularExitsOnly)
+        {
+            prevBuilding.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.NEXTLEVEL);
+        }
+        else if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance))
+        {
+            prevBuilding.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
+        }
+        else
+        {
+            prevBuilding.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE);
+        }
 
         //generating enviroment with OnFinishAllBuilding Enviroment attr
         foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
