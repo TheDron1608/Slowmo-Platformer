@@ -1330,6 +1330,15 @@ MonoBehaviour:
     m_Localized: '* Duplicates all tradable modifiers if they can be duplicated'
     m_Metadata:
       m_Items: []
+  - m_Id: 55627909834186752
+    m_Localized: Chaos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55627910698213376
+    m_Localized: "\r* Gain {GainAmount} random neutral modifiers"
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1414,3 +1423,4 @@ MonoBehaviour:
         - id: 54358642643935232
         - id: 54902327492190208
         - id: 55102672889683968
+        - id: 55627910698213376

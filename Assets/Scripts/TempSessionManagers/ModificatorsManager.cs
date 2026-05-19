@@ -291,7 +291,7 @@ public class ModificatorsManager : MonoBehaviour
         float counterModificatorsRelativePrice = 0f
         )
     {
-        float counterPriceMult = type == AbstractModificator.ModificatorTypes.NEUTRAL ? 0f : (1f + counterModificatorsRelativePrice);
+        float counterPriceMult = type == AbstractModificator.ModificatorTypes.NEUTRAL ? 1f : (1f + counterModificatorsRelativePrice);
         List<AbstractModificator> result = new();
         IEnumerable<AbstractModificator> filteredModificators = AvaibleValidModificators.Where(e =>
             e.ModificatorType == type &&
