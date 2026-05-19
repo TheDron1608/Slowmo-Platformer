@@ -267,7 +267,7 @@ public class WorldGenerationManager : MonoBehaviour
         }
 
         //add extra chunks for closed connections
-        for (int chunkIter = 0; chunkIter < newBuildingInfoResult.Chunks.Count; chunkIter++)
+        for (int chunkIter = 1; chunkIter < newBuildingInfoResult.Chunks.Count; chunkIter++)
         {
             if (UnityEngine.Random.value > UnlosedConnectionChunkGenerationChance) continue;
 
