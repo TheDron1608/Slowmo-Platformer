@@ -55,6 +55,7 @@ public class WorldGenerationManager : MonoBehaviour
 
         Vector3Int currentBuildingEnterPosition = Vector3Int.zero;
         int currentBuildingLayerIndex = (int)math.floor(LayerManager.Instance.ZLayers.Count / 2f) - 1;
+        bool validToGenerateShop = ModificatorsManager.Instance.CurrentModificators.Where(e => e.Status == AbstractModificator.ModificatorStatuses.CURSE).Count() != 0;
         BuildingInfo prevBuilding = null;
 
         //generating buildings
@@ -83,7 +84,7 @@ public class WorldGenerationManager : MonoBehaviour
                 List<DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes> extraExits = new();
                 if (EnableExtraExitBrunchs && !RegularExitsOnly)
                 {
-                    if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
+                    if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance) && validToGenerateShop) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
                     if (RandomManager.Instance.ProcRandomGoodChance(CurseDoorGenerationChance)) extraExits.Add(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.CURSE);
                 }
 
@@ -118,7 +119,7 @@ public class WorldGenerationManager : MonoBehaviour
         {
             prevBuilding.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.NEXTLEVEL);
         }
-        else if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance))
+        else if (RandomManager.Instance.ProcRandomGoodChance(ShopDoorGenerationChance) && validToGenerateShop)
         {
             prevBuilding.Exit.Generate(DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes.SHOP);
         }

@@ -137,6 +137,11 @@ public class CursePickManager : AbstractModificatorCardsManager
             }
             else
             {
+                if (ModificatorsManager.Instance.ResetScoreOnSell)
+                {
+                    ScoreManager.Instance.TradableScore = 0;
+                }
+
                 if (RerollsLeft > 0)
                 {
                     yield return new WaitForSeconds(modificatorAppearDelay);

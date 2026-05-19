@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 8075893469916281339}
   - component: {fileID: 3354637037970714152}
   m_Layer: 0
-  m_Name: GameplayUI
+  m_Name: GameplayUIScreenOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,6 @@ MonoBehaviour:
   Pause: {fileID: 7680905103825783552}
   Combo: {fileID: 6062735199283609201}
   PauseAction: {fileID: 943827633184004740, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  MainMenuSceneName: MainMenu
 --- !u!1001 &3874369748956194477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -397,11 +396,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3377724517460163657, guid: c7587e95eb958764f8d8e3ea8ef3ab8c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -250
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 3377724517460163657, guid: c7587e95eb958764f8d8e3ea8ef3ab8c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -350
+      value: -225
       objectReference: {fileID: 0}
     - target: {fileID: 3377724517460163657, guid: c7587e95eb958764f8d8e3ea8ef3ab8c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

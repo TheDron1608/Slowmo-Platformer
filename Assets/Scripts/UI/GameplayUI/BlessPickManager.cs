@@ -243,11 +243,6 @@ public class BlessPickManager : AbstractModificatorCardsManager
             {
                 AddCard(Instantiate(_pickNothingCardInstance));
             }
-
-            if (ModificatorsManager.Instance.ResetScoreOnSell)
-            {
-                ScoreManager.Instance.TradableScore = 0;
-            }
         }
         else
         {
