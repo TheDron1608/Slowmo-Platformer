@@ -15,16 +15,21 @@ public class DebugCardsManager : AbstractModificatorCardsManager
 
     }
 
-    private void Start()
+    public void AddDebugCards(List<AbstractModificator> debugModificators)
     {
-        SpawnManager.Instance.PlayerCharacter = StartCharacter;
-
-        foreach (var modificator in ModificatorDebugManager.Instance.DebugModificators)
+        foreach (var modificator in debugModificators)
         {
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
             newCluster.AddStatusOnPick = CardsStatus;
             newCluster.AddModificator(modificator);
             AddCard(newCluster);
         }
+    }
+
+    private void Start()
+    {
+        SpawnManager.Instance.PlayerCharacter = StartCharacter;
+
+        AddDebugCards(ModificatorDebugManager.Instance.DebugModificators);
     }
 }
