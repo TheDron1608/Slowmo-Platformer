@@ -89,7 +89,7 @@ public class AnimatedImage : MonoBehaviour
                     AnimationFinishedProcess();
                 }
 
-                _timeLeftSinceLastFrame += TimeScaleDepended ? Time.deltaTime : 1f / FPS;
+                _timeLeftSinceLastFrame += TimeScaleDepended ? Time.deltaTime : Time.unscaledDeltaTime;
 
                 if (_timeLeftSinceLastFrame >= 1f / (float)FPS)
                 {
@@ -105,14 +105,7 @@ public class AnimatedImage : MonoBehaviour
                 }
             }
 
-            if (TimeScaleDepended)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-            else
-            {
-                yield return new WaitForSeconds(1 / FPS);
-            }
+            yield return new WaitForEndOfFrame();
         }
     }
 
