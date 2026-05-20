@@ -19,8 +19,11 @@ public class DifficultyManager : MonoBehaviour
         public float Duration = 60 * 3; //3 minets
         public AudioClip Music = null;
         public int MidstageCursesAmount = 0;
-        public float CursesPrice = 10;
+        public float CursesMinPrice = 0f;
+        public float CursesMaxPrice = 0f;
         public int CursesAmount = 1;
+        public int OptionsAmount = 3;
+        public int TotalCursesOptions = 3;
         public LocalizedString LocalizedName;
         public Material PrimaryEnviromentMaterial = null;
         public Material SecondaryEnviromentMaterial = null;
@@ -39,6 +42,7 @@ public class DifficultyManager : MonoBehaviour
     public float CursesAmountPerLoopMult = 2;
 
     [SerializeField] private DifficultyStage[] _initDifficulties = new DifficultyStage[0];
+    [SerializeField] private float _timeSpeedMultiplier = 1f;
 
     private LinkedList<DifficultyStage> _difficulties = new();
     private LinkedListNode<DifficultyStage> _currentDifficulty;
@@ -50,7 +54,6 @@ public class DifficultyManager : MonoBehaviour
     private int _currentDifficultyAddedMidCurses = 0;
     private float _currentCursesAmountMult = 1f;
     private int _loops = 0;
-    private float _timeSpeedMultiplier = 1f;
     private float _cursesPickAmountMult = 1f;
 
     public event EventHandler<DifficultyStage> OnDifficultyIncreased;
@@ -124,21 +127,6 @@ public class DifficultyManager : MonoBehaviour
     {
         get => _currentCursesAmountMult;
         set => _currentCursesAmountMult = value;
-    }
-
-    public static List<AbstractModificator> GetRandomCurseModificators(float cursePrice, List<AbstractModificator> exludeModificators)
-    {
-        return ModificatorsManager.Instance.PickRandomModificators(
-            AbstractModificator.ModificatorTypes.NEGATIVE,
-            cursePrice * MAX_PRICE_REDUCTION,
-            cursePrice,
-            false,
-            true,
-            true,
-            exludeModificators,
-            false,
-            ModificatorsManager.Instance.DifficultyCursePickCounterMods
-            );
     }
 
     public void UpdateDifficultyEnviromentMaterial()
@@ -237,22 +225,18 @@ public class DifficultyManager : MonoBehaviour
         _currentDifficulty = difficulty;
         _currentDifficultyTime = 0f;
 
-        if (CurrentDifficulty.Value.CursesPrice > 0f)
+        if (CurrentDifficulty.Value.CursesAmount > 0)
         {
-            float cursePrice = CurrentDifficulty.Value.CursesPrice;
-            int curseAmount = (int)math.ceil(CurrentDifficulty.Value.CursesAmount * CursesPickAmountMultiplier);
-
-            if (cursePrice > 0f && curseAmount > 0)
-            {
-                UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
-                    CurrentDifficulty.Value.CursesPrice, 
-                    curseAmount
-                    );
-            }
-            else
-            {
-                UpdateDifficultyEnviromentMaterial();
-            }
+            UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
+                CurrentDifficulty.Value.CursesMinPrice,
+                CurrentDifficulty.Value.CursesMaxPrice,
+                (int)math.ceil(CurrentDifficulty.Value.CursesAmount * CursesPickAmountMultiplier),
+                (int)math.ceil(CurrentDifficulty.Value.OptionsAmount * CursesPickAmountMultiplier)
+                );
+        }
+        else
+        {
+            UpdateDifficultyEnviromentMaterial();
         }
 
         if (CurrentDifficulty.Value.ChangeSceneOnStart != "")
@@ -272,9 +256,15 @@ public class DifficultyManager : MonoBehaviour
 
     private void AddMidCurse()
     {
-        List<AbstractModificator> addModificators = GetRandomCurseModificators(
-            CurrentDifficulty.Value.CursesPrice, 
-            null
+        List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
+            AbstractModificator.ModificatorTypes.NEGATIVE,
+            CurrentDifficulty.Value.CursesMinPrice,
+            CurrentDifficulty.Value.CursesMaxPrice,
+            false,
+            true,
+            true,
+            null,
+            true
             );
 
         foreach (AbstractModificator addModificator in addModificators)

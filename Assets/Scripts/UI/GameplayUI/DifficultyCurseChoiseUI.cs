@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
@@ -12,8 +13,10 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 
     private int _picksLeft = 1;
     private string _requestSceneChangeOnFinish = null;
-    private float _initCursePrice = 0f;
+    private float _initCurseMinPrice = 0f;
+    private float _initCurseMaxPrice = 0f;
     private int _initPickAmount = 0;
+    private int _initOptionsAmount = 0;
 
     private void Awake()
     {
@@ -45,19 +48,31 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
         if (Cards.Count == 0) FinishTrade();
     }
 
-    public void InitCurseOptions(float cursePrice, int pickAmount)
+    public void InitCurseOptions(float curseMinPrice, float curseMaxPrice, int pickAmount, int optionsAmount)
     {
         ClearAllCards();
 
         InvokeModificatorChoiseStarted();
 
-        _initCursePrice = cursePrice;   
+        _initCurseMinPrice = curseMinPrice;   
+        _initCurseMaxPrice = curseMaxPrice;
         _initPickAmount = pickAmount;
+        _initOptionsAmount = optionsAmount;
 
         List<AbstractModificator> addedModificators = new();
-        for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
+        for (int i = 0; i < math.max(_initOptionsAmount, _initPickAmount); i++)
         {
-            List<AbstractModificator> addModificators = DifficultyManager.GetRandomCurseModificators(_initCursePrice, addedModificators);
+            List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
+                AbstractModificator.ModificatorTypes.NEGATIVE,
+                curseMinPrice,
+                curseMaxPrice,
+                false,
+                true,
+                true,
+                addedModificators,
+                false,
+                ModificatorsManager.Instance.DifficultyCursePickCounterMods
+                );
 
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
             newCluster.AddModificator(addModificators);
@@ -93,9 +108,19 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
         InvokeModificatorChoiseStarted();
 
         List<AbstractModificator> addedModificators = new();
-        for (int i = 0; i < ModificatorsManager.Instance.MaxModificatorOptions; i++)
+        for (int i = 0; i < math.max(_initOptionsAmount, _initPickAmount); i++)
         {
-            List<AbstractModificator> addModificators = DifficultyManager.GetRandomCurseModificators(_initCursePrice, addedModificators);
+            List<AbstractModificator> addModificators = ModificatorsManager.Instance.PickRandomModificators(
+                AbstractModificator.ModificatorTypes.NEGATIVE,
+                _initCurseMinPrice,
+                _initCurseMaxPrice,
+                false,
+                true,
+                true,
+                addedModificators,
+                false,
+                ModificatorsManager.Instance.DifficultyCursePickCounterMods
+                );
 
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);
             newCluster.AddModificator(addModificators);

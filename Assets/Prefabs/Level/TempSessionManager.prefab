@@ -255,8 +255,11 @@ MonoBehaviour:
     Duration: 180
     Music: {fileID: 0}
     MidstageCursesAmount: 0
-    CursesPrice: 50
+    CursesMinPrice: 25
+    CursesMaxPrice: 75
     CursesAmount: 1
+    OptionsAmount: 3
+    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -276,8 +279,11 @@ MonoBehaviour:
     Duration: 180
     Music: {fileID: 0}
     MidstageCursesAmount: 0
-    CursesPrice: 75
-    CursesAmount: 1
+    CursesMinPrice: 25
+    CursesMaxPrice: 75
+    CursesAmount: 2
+    OptionsAmount: 5
+    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -297,8 +303,11 @@ MonoBehaviour:
     Duration: 180
     Music: {fileID: 0}
     MidstageCursesAmount: 0
-    CursesPrice: 100
-    CursesAmount: 1
+    CursesMinPrice: 100
+    CursesMaxPrice: 175
+    CursesAmount: 2
+    OptionsAmount: 5
+    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -318,8 +327,11 @@ MonoBehaviour:
     Duration: 180
     Music: {fileID: 0}
     MidstageCursesAmount: 1
-    CursesPrice: 150
-    CursesAmount: 1
+    CursesMinPrice: 125
+    CursesMaxPrice: 200
+    CursesAmount: 3
+    OptionsAmount: 7
+    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -338,9 +350,12 @@ MonoBehaviour:
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
     Duration: 180
     Music: {fileID: 0}
-    MidstageCursesAmount: 5
-    CursesPrice: 200
-    CursesAmount: 1
+    MidstageCursesAmount: 3
+    CursesMinPrice: 100
+    CursesMaxPrice: 200
+    CursesAmount: 5
+    OptionsAmount: 7
+    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -360,8 +375,11 @@ MonoBehaviour:
     Duration: -1
     Music: {fileID: 0}
     MidstageCursesAmount: 0
-    CursesPrice: 0
+    CursesMinPrice: 0
+    CursesMaxPrice: 0
     CursesAmount: 1
+    OptionsAmount: 3
+    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -376,6 +394,7 @@ MonoBehaviour:
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
     SkyMaterial: {fileID: 0}
     ChangeSceneOnStart: GameFinished
+  _timeSpeedMultiplier: 36
   references:
     version: 2
     RefIds: []
@@ -530,11 +549,11 @@ MonoBehaviour:
     Multiplier: 2
     Shaking: 0.25
   - MinCombo: 20
-    MaxCombo: 30
+    MaxCombo: 50
     BgSprite: {fileID: 21300000, guid: d8f467bc594af78418cd72e9c2249aa4, type: 3}
     Multiplier: 3
     Shaking: 0.5
-  - MinCombo: 30
+  - MinCombo: 50
     MaxCombo: 999999
     BgSprite: {fileID: 21300000, guid: bc8c65285a6482c4e8254a1d78bc948d, type: 3}
     Multiplier: 5

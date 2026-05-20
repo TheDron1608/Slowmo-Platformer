@@ -266,10 +266,10 @@ public class UIManager : MonoBehaviour
             DifficultyCurseChoiseUI.InitDebugCurseOptions();
         }
 
-        public void Show(float cursePrice, int pickAmount)
+        public void Show(float curseMinPrice, float curseMaxPrice, int pickAmount, int optionsAmount)
         {
             Show();
-            DifficultyCurseChoiseUI.InitCurseOptions(cursePrice, pickAmount);
+            DifficultyCurseChoiseUI.InitCurseOptions(curseMinPrice, curseMaxPrice, pickAmount, optionsAmount);
         }
 
         public override void Show()
