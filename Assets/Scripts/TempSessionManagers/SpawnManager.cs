@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
@@ -92,6 +93,22 @@ public class SpawnManager : MonoBehaviour
         {
             Destroy(PlayerCharacterHoldable.gameObject);
             PlayerCharacterHoldable = null;
+        }
+
+        try
+        {
+            new LevelFinishAnalyticsEvent().SendEvent();
+        }
+        catch (Exception e)
+        {
+            if (AnalyticsManager.Instance.LogErrors)
+            {
+                Debug.LogWarning("sending analytics event error: " + e.ToString());
+            }
+        }
+        finally
+        {
+            AnalyticsManager.Instance.ResetTrackedInfo();
         }
 
         UIManager.Instance.LoadSceneWithEffect(loadScene);

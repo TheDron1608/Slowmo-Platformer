@@ -105,6 +105,7 @@ public class SaveButton : MonoBehaviour
 
     public void SetCurrentSession()
     {
+        AnalyticsManager.Instance.CollectData = true;
         SessionManager.Instance.CurrentSession = GetSessionData();
     }
 

@@ -54,7 +54,6 @@ public class DifficultyManager : MonoBehaviour
     private int _currentDifficultyAddedMidCurses = 0;
     private float _currentCursesAmountMult = 1f;
     private int _loops = 0;
-    private float _cursesPickAmountMult = 1f;
 
     public event EventHandler<DifficultyStage> OnDifficultyIncreased;
 

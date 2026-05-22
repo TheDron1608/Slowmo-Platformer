@@ -82,6 +82,24 @@ public class ModificatorsManager : MonoBehaviour
         }
     }
 
+    public float GetTotalModsPrice()
+    {
+        float result = 0f;
+        foreach (AbstractModificator mod in  CurrentModificators)
+        {
+            switch(mod.ModificatorType)
+            {
+                case AbstractModificator.ModificatorTypes.NEGATIVE:
+                    result += mod.ModificatorPrice * mod.ModificatorMultiplier;
+                    break;
+                case AbstractModificator.ModificatorTypes.POSITIVE:
+                    result -= mod.ModificatorPrice * mod.ModificatorMultiplier;
+                    break;
+            }
+        }
+        return result;
+    }
+
     private void UpdateAvaibleModificatorsInfo()
     {
         _avaibleValidModificators = ModificatorsPool.Where(

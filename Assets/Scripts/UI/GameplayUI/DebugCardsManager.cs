@@ -5,6 +5,11 @@ public class DebugCardsManager : AbstractModificatorCardsManager
     public AbstractModificator.ModificatorStatuses CardsStatus;
     public CharacterComponentsManager StartCharacter;
 
+    protected override string GetAnalyticsChoiseTypeName()
+    {
+        return null;
+    }
+
     public override void FinishTrade()
     {
         UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);

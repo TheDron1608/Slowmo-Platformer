@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -12,6 +13,7 @@ public class GameOverManager : MonoBehaviour
 
     private List<System.Func<bool>> _extraAllDeadGameOverConditions = new();
     private GameOverUIManager.GameOverReasons? _forceFinishGame = null;
+    private bool _gameWasFinishedBefore = false;
 
     public List<System.Func<bool>> ExtraAllDeadGameOverConditions
     {
@@ -44,15 +46,29 @@ public class GameOverManager : MonoBehaviour
 
     private void CheckIsGameOver()
     {
-        if (_forceFinishGame.HasValue)
+        if (
+            _forceFinishGame.HasValue ||
+            (CheckIsAllDead() && _extraAllDeadGameOverConditions.All(e => e.Invoke()))
+            )
         {
             SetGameplayUIShown(false);
-            UIManager.Instance.GameOverScreenOverlay.Show(_forceFinishGame.Value);
-        }
-        else if (CheckIsAllDead() && _extraAllDeadGameOverConditions.All(e => e.Invoke()))
-        {
-            SetGameplayUIShown(false);
-            UIManager.Instance.GameOverScreenOverlay.Show(GameOverUIManager.GameOverReasons.ALL_DEAD);
+            UIManager.Instance.GameOverScreenOverlay.Show(_forceFinishGame ?? GameOverUIManager.GameOverReasons.ALL_DEAD);
+
+            if (!_gameWasFinishedBefore)
+            {
+                try
+                {
+                    new GameOverAnalyticsEvent().SendEvent();
+                }
+                catch (Exception e)
+                {
+                    if (AnalyticsManager.Instance.LogErrors)
+                    {
+                        Debug.LogWarning("sending analytics event error: " + e.ToString());
+                    }
+                }
+            }
+            _gameWasFinishedBefore = true;
         }
         else
         {

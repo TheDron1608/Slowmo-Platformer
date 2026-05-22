@@ -24,6 +24,8 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     public event EventHandler<AbstractCardItem> OnAddedItem;
     public event EventHandler<AbstractCardItem> OnRemovedItem;
 
+    protected abstract string GetAnalyticsChoiseTypeName();
+
     public List<AbstractCardItem> Cards
     {
         get => _cards;
@@ -164,6 +166,34 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
 
     public virtual void FinishTrade()
     {
+        if (GetAnalyticsChoiseTypeName() != null)
+        {
+            foreach (AbstractCardItem card in Cards)
+            {
+                if (card is ModificatorCardsCluster cluster)
+                {
+                    foreach (ModificatorCard modCard in cluster.Cards)
+                    {
+                        try
+                        {
+                            new ModificatorPickChoiseAnalyticsEvent(
+                                modCard.ModificatorInstance.gameObject.name,
+                                true,
+                                GetAnalyticsChoiseTypeName()
+                                ).SendEvent();
+                        }
+                        catch (Exception e)
+                        {
+                            if (AnalyticsManager.Instance.LogErrors)
+                            {
+                                Debug.LogWarning("sending analytics event error: " + e.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         ClearAllCards();
 
         //collection can be modified on loop,

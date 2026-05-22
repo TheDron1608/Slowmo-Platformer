@@ -16,7 +16,6 @@ public class DifficultyUI : MonoBehaviour
 
     private List<DifficultyUIItem> _items = new();
     private int _currentItemIter = 0;
-    private float _currentTimelineScale = 1f;
 
     private void Update()
     {

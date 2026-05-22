@@ -16,7 +16,6 @@ public class OnInteractToggleOpenDoor : Interactable
     private ZIndexLayer _layer;
 
     private bool _isOpen = false;
-    private bool _isOpening = false;
 
     protected override void OnAwake()
     {

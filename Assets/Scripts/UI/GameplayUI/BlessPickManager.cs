@@ -30,6 +30,11 @@ public class BlessPickManager : AbstractModificatorCardsManager
 
     public static BlessPickManager Instance;
 
+    protected override string GetAnalyticsChoiseTypeName()
+    {
+        return "SellNegativePick";
+    }
+
     private void Awake()
     {
         _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;

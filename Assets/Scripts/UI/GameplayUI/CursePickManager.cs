@@ -24,6 +24,11 @@ public class CursePickManager : AbstractModificatorCardsManager
 
     public static CursePickManager Instance;
 
+    protected override string GetAnalyticsChoiseTypeName()
+    {
+        return "GainNegativePick";
+    }
+
     private void Awake()
     {
         _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;

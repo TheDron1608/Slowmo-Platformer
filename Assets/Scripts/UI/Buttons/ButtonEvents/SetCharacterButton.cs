@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -37,6 +38,18 @@ public class SetCharacterButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         foreach (AbstractModificator mod in PlayerInfo.StartModificators)
         {
             ModificatorsManager.Instance.AddModificator(mod, AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT);
+        }
+
+        try
+        {
+            new StartGameAnalyticsEvent(PlayerInfo.PlayerCharacter.gameObject.name).SendEvent();
+        }
+        catch (Exception e)
+        {
+            if (AnalyticsManager.Instance.LogErrors)
+            {
+                Debug.LogWarning("sending analytics event error: " + e.ToString());
+            }
         }
     }
 

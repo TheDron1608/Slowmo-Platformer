@@ -15,7 +15,6 @@ public class ModificatorCardsCluster : AbstractCardItem
     public List<ModificatorCard> Cards = new();
 
     private AbstractModificator.ModificatorStatuses _addStatusOnPick;
-    private float _currentClusterRotation = CLUSTER_HAND_BASE_ROTATION;
 
     public AbstractModificator.ModificatorStatuses AddStatusOnPick
     {

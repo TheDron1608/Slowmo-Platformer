@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(100)]
@@ -47,6 +48,18 @@ public class MetaProgressManager : MonoBehaviour
         {
             if (_currentLockedCharacters[i].UnlockCondition())
             {
+                try
+                {
+                    new ProgressionUnlockAnalyticsEvent(_currentLockedCharacters[i].UnlockCharacter.name).SendEvent();
+                }
+                catch (Exception e)
+                {
+                    if (AnalyticsManager.Instance.LogErrors)
+                    {
+                        Debug.LogWarning("sending analytics event error: " + e.ToString());
+                    }
+                }
+
                 UIManager.Instance.UnlockedCharacterMessageOverlay.Show(_currentLockedCharacters[i].UnlockCharacter);
 
                 SessionManager.Instance.CurrentSession.UnlockedCharacters.Add(_currentLockedCharacters[i].UnlockCharacter.GetUnlockCharacterJSONName());

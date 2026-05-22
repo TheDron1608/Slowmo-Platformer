@@ -17,6 +17,12 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     private float _initCurseMaxPrice = 0f;
     private int _initPickAmount = 0;
     private int _initOptionsAmount = 0;
+    private bool _isDebug = false;
+
+    protected override string GetAnalyticsChoiseTypeName()
+    {
+        return _isDebug ? null : "DifficultyNegativePick";
+    }
 
     private void Awake()
     {
@@ -31,6 +37,8 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 
     public void InitDebugCurseOptions()
     {
+        _isDebug = true;
+
         ClearAllCards();
 
         InvokeModificatorChoiseStarted();
@@ -50,6 +58,8 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 
     public void InitCurseOptions(float curseMinPrice, float curseMaxPrice, int pickAmount, int optionsAmount)
     {
+        _isDebug = false;
+
         ClearAllCards();
 
         InvokeModificatorChoiseStarted();
