@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 public static class CurrentDeviceTracker
 {
     const int KEYBOARD_BIND_INDEX = 0;
@@ -6,12 +8,7 @@ public static class CurrentDeviceTracker
 
     public static bool GetGamepadIsConnected()
     {
-        string[] joystickNames = Input.GetJoystickNames();
-        for (int i = 0; i < joystickNames.Length; i++)
-        {
-            if (joystickNames[i] != "") return true;
-        }
-        return false;
+        return InputSystem.devices.Any(e => e is Joystick || e is Gamepad);
     }
 
     public static int GetCurrentDeviceKeyBindIndex()
@@ -21,7 +18,9 @@ public static class CurrentDeviceTracker
 
     public static Vector3? GetMouseWorldPositionOnLayer(ZIndexLayer layer)
     {
-        RaycastHit[] mouseHits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+        if (Mouse.current == null) return null;
+
+        RaycastHit[] mouseHits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()));
         for (int i = 0; i < mouseHits.Length; i++)
         {
             if (mouseHits[i].collider.gameObject == layer.gameObject)
