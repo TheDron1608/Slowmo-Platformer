@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class MultiZLayerCamera : MonoBehaviour
     private ZIndexLayer _startZLayer;
 
     private Camera _cameraComponent;
+    private CameraTrack _cameraTrackComponent;
 
     private ZIndexLayer _currentLayer;
     public ZIndexLayer CurrentZLayer
@@ -26,6 +28,7 @@ public class MultiZLayerCamera : MonoBehaviour
     {
         _currentLayer = _startZLayer;
         if (!TryGetComponent(out _cameraComponent)) throw new UnityException("Camera component not found");
+        if (!TryGetComponent(out _cameraTrackComponent)) throw new UnityException("CameraTrack component not found");
     }
 
     private void LateUpdate()
@@ -50,15 +53,9 @@ public class MultiZLayerCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CurrentZLayer = GetCurrentZIndexLayer();
-    }
-
-    private ZIndexLayer GetCurrentZIndexLayer()
-    {
-        for (int i = LayerManager.Instance.ZLayers.Count - 1; i > 0; i--)
+        if (_cameraTrackComponent.TrackTargets.Count > 0)
         {
-            if (transform.position.z + LayerAppearDistance < LayerManager.Instance.ZLayers[i].transform.position.z) return LayerManager.Instance.ZLayers[i];
+            CurrentZLayer = LayerManager.Instance.GetZLayerOfGameObject(_cameraTrackComponent.TrackTargets[0].gameObject);
         }
-        return null;
     }
 }

@@ -9,6 +9,13 @@ public class CameraDisablerObjectsOnDistance : MonoBehaviour
 
     public List<DisableObjectOnDistanceFromCamera> TrackedObjects = new();
 
+    private MultiZLayerCamera _multiZLayerCamera;
+
+    private void Awake()
+    {
+        _multiZLayerCamera = GetComponent<MultiZLayerCamera>() ?? throw new UnityException("Not found MultiZLayerCamera component");
+    }
+
     private void OnEnable()
     {
         StopAllCoroutines();
@@ -30,7 +37,10 @@ public class CameraDisablerObjectsOnDistance : MonoBehaviour
         {
             if (trackedObject.enabled && trackedObject.DisableCondition())
             {
-                bool newValue = Vector2.Distance(transform.position, trackedObject.transform.position) < trackedObject.DistanceToDistable;
+                bool newValue =
+                    Vector2.Distance(transform.position, trackedObject.transform.position) < trackedObject.DistanceToDistable &&
+                    (!trackedObject.DisableOnDifferentLayers || LayerManager.Instance.GetZLayerOfGameObject(trackedObject.gameObject) == _multiZLayerCamera.CurrentZLayer);
+
                 if (trackedObject.gameObject.activeSelf != newValue)
                 {
                     trackedObject.gameObject.SetActive(newValue);
