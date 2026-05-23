@@ -127,6 +127,8 @@ public class ModificatorCardsCluster : AbstractCardItem
 
     public override void Pick()
     {
+        base.Pick();
+
         HideOverrideCurrentModificators();
 
         if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
@@ -148,7 +150,6 @@ public class ModificatorCardsCluster : AbstractCardItem
                 }
             }
 
-            container.PickedModificators.AddRange(addedModificators);
             container.SpendPicksLeft();
         }
     }

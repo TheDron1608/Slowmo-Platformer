@@ -30,7 +30,7 @@ public class BlessPickManager : AbstractModificatorCardsManager
 
     public static BlessPickManager Instance;
 
-    protected override string GetAnalyticsChoiseTypeName()
+    public override string GetAnalyticsChoiseTypeName()
     {
         return "SellNegativePick";
     }

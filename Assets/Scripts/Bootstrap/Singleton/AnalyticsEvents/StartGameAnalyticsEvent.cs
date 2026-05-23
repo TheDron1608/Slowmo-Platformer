@@ -1,13 +1,11 @@
-﻿[AnalyticsEventName("StartGameStats")]
-public class StartGameAnalyticsEvent : AbstractAnalyticsEvent
+﻿
+public class StartGameAnalyticsEvent : Unity.Services.Analytics.Event
 {
-    [AnalyticsPropName("CharacterName")]
-    public string CharacterName;
+    public string CharacterName { set { SetParameter("CharacterName", value); } }
 
-    [AnalyticsPropName("TotalUnlockedCharacters")]
-    public int TotalCharacters;
+    public int TotalCharacters { set { SetParameter("TotalUnlockedCharacters", value); } }
 
-    public StartGameAnalyticsEvent(string characterName)
+    public StartGameAnalyticsEvent(string characterName) : base("StartGameStats")
     {
         CharacterName = characterName;
 

@@ -19,12 +19,12 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
 
     private List<AbstractCardItem> _cards = new();
     private int _rerollsLeft = 0;
-    private List<AbstractModificator> _pickedModificators = new();
+    private Dictionary<AbstractCardItem, bool> _cardPickInfo = new();
 
     public event EventHandler<AbstractCardItem> OnAddedItem;
     public event EventHandler<AbstractCardItem> OnRemovedItem;
 
-    protected abstract string GetAnalyticsChoiseTypeName();
+    public abstract string GetAnalyticsChoiseTypeName();
 
     public List<AbstractCardItem> Cards
     {
@@ -32,16 +32,16 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         protected set => _cards = value;
     }
 
-    public List<AbstractModificator> PickedModificators
-    {
-        get => _pickedModificators;
-        set => _pickedModificators = value;
-    }
-
     public int RerollsLeft
     {
         get => _rerollsLeft;
         protected set => _rerollsLeft = value;
+    }
+
+    public Dictionary<AbstractCardItem, bool> CardPickInfo
+    {
+        get => _cardPickInfo;
+        set => _cardPickInfo = value;
     }
 
     public void AddCard(AbstractCardItem cluster)
@@ -52,6 +52,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         UIElementTrackTarget.CreateTrackTarget(CardTrackTargetsContainer, cluster);
 
         _cards.Add(cluster);
+        _cardPickInfo.Add(cluster, false);
 
         OnAddedItem?.Invoke(this, cluster);
     }
@@ -97,7 +98,6 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
             }
 
             _cards.RemoveAt(removedCardIndex);
-
         }
     }
     private IEnumerator AwaitReachTrackTargetThenDestroy(UIElementTrackTarget trackTarget, Transform trackedUIElement)
@@ -168,27 +168,19 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     {
         if (GetAnalyticsChoiseTypeName() != null)
         {
-            foreach (AbstractCardItem card in Cards)
+            foreach (var pickInfo in _cardPickInfo)
             {
-                if (card is ModificatorCardsCluster cluster)
+                if (pickInfo.Key is ModificatorCardsCluster cluster)
                 {
                     foreach (ModificatorCard modCard in cluster.Cards)
                     {
-                        try
-                        {
+                        AnalyticsManager.Instance.RecordEvent(
                             new ModificatorPickChoiseAnalyticsEvent(
                                 modCard.ModificatorInstance.gameObject.name,
-                                true,
+                                !pickInfo.Value,
                                 GetAnalyticsChoiseTypeName()
-                                ).SendEvent();
-                        }
-                        catch (Exception e)
-                        {
-                            if (AnalyticsManager.Instance.LogErrors)
-                            {
-                                Debug.LogWarning("sending analytics event error: " + e.ToString());
-                            }
-                        }
+                                )
+                            );
                     }
                 }
             }

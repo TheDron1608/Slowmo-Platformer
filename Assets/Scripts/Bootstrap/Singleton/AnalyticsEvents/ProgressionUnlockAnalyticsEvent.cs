@@ -1,13 +1,11 @@
-﻿[AnalyticsEventName("ProgressionUnlocks")]
-public class ProgressionUnlockAnalyticsEvent : AbstractAnalyticsEvent
+﻿
+public class ProgressionUnlockAnalyticsEvent : Unity.Services.Analytics.Event
 {
-    [AnalyticsPropName("UnclockName")]
-    public string UnlockName;
+    public string UnlockName { set { SetParameter("UnclockName", value); } }
 
-    [AnalyticsPropName("SaveTotalTime")]
-    public float SaveTotalTimeSeconds;
+    public float SaveTotalTimeSeconds { set { SetParameter("SaveTotalTime", value); } }
 
-    public ProgressionUnlockAnalyticsEvent(string unlockName)
+    public ProgressionUnlockAnalyticsEvent(string unlockName) : base("ProgressionUnlocks")
     {
         UnlockName = unlockName;
 

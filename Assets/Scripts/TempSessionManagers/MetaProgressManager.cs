@@ -48,17 +48,7 @@ public class MetaProgressManager : MonoBehaviour
         {
             if (_currentLockedCharacters[i].UnlockCondition())
             {
-                try
-                {
-                    new ProgressionUnlockAnalyticsEvent(_currentLockedCharacters[i].UnlockCharacter.name).SendEvent();
-                }
-                catch (Exception e)
-                {
-                    if (AnalyticsManager.Instance.LogErrors)
-                    {
-                        Debug.LogWarning("sending analytics event error: " + e.ToString());
-                    }
-                }
+                AnalyticsManager.Instance.RecordEvent(new ProgressionUnlockAnalyticsEvent(_currentLockedCharacters[i].UnlockCharacter.name));
 
                 UIManager.Instance.UnlockedCharacterMessageOverlay.Show(_currentLockedCharacters[i].UnlockCharacter);
 

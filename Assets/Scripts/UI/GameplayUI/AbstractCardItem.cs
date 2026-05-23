@@ -11,7 +11,16 @@ public abstract class AbstractCardItem : Button, UIElementTrackTarget.IUIElement
         set => _selfTrackTarget = value; 
     }
 
-    public abstract void Pick();
+    public virtual void Pick()
+    {
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
+        {
+            if (container.CardPickInfo.ContainsKey(this))
+            {
+                container.CardPickInfo[this] = true;
+            }
+        }
+    }
 
     public void SetInteractable(bool value)
     {

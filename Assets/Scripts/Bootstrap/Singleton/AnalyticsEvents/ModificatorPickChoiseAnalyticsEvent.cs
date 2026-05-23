@@ -1,31 +1,23 @@
 ﻿
 using System.Linq;
 
-[AnalyticsEventName("ModificatorPickChoise")]
-public class ModificatorPickChoiseAnalyticsEvent : AbstractAnalyticsEvent
+public class ModificatorPickChoiseAnalyticsEvent : Unity.Services.Analytics.Event
 {
-    [AnalyticsPropName("PlayerTotalPlaytimeSeconds")]
-    public float PlayerTotalPlayTime;
+    public float PlayerTotalPlayTime { set { SetParameter("PlayerTotalPlaytimeSeconds", value); } }
 
-    [AnalyticsPropName("PlayerCharacter")]
-    public string PlayerCharacterName;
+    public string PlayerCharacterName { set { SetParameter("PlayerCharacter", value); } }
 
-    [AnalyticsPropName("ModificatorName")]
-    public string ModName;
+    public string ModName { set { SetParameter("ModificatorName", value); } }
 
-    [AnalyticsPropName("IsRejected")]
-    public bool IsRejected;
+    public bool IsRejected { set { SetParameter("IsRejected", value); } }
 
-    [AnalyticsPropName("ChoiseType")]
-    public string ChoiseType;
+    public string ChoiseType { set { SetParameter("ChoiseType", value); } }
 
-    [AnalyticsPropName("TotalModPrice")]
-    public float TotalModsPrice;
+    public float TotalModsPrice { set { SetParameter("TotalModPrice", value); } }
 
-    [AnalyticsPropName("GameSessionTimeSeconds")]
-    public float GameSessionTime;
+    public float GameSessionTime { set { SetParameter("GameSessionTimeSeconds", value); } }
 
-    public ModificatorPickChoiseAnalyticsEvent(string modName, bool isRejected, string choiseType)
+    public ModificatorPickChoiseAnalyticsEvent(string modName, bool isRejected, string choiseType) : base("ModificatorPickChoise")
     {
         PlayerTotalPlayTime = SessionManager.Instance.Sessions.Sum(e => e.TotalPlayTime);
 

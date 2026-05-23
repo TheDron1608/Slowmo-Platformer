@@ -9,7 +9,7 @@ public class HardUpModificatorOnPickNothingModificator : AbstractModificator
     {
         base.OnModificatorChoiseFinished(choise);
 
-        if (choise.PickedModificators.Count == 0)
+        if (choise.CardPickInfo.Any(e => e.Value && e.Key is ModificatorCardsCluster cluter && cluter.Cards.Count > 0))
         {
             foreach (
                 AbstractModificator validMod in 

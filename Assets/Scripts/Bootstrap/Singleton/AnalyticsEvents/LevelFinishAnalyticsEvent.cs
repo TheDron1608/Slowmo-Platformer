@@ -1,36 +1,26 @@
 ﻿using System.Linq;
 
-[AnalyticsEventName("LevelFinishedStats")]
-public class LevelFinishAnalyticsEvent : AbstractAnalyticsEvent
+public class LevelFinishAnalyticsEvent : Unity.Services.Analytics.Event
 {
-    [AnalyticsPropName("PlayerTotalPlaytimeSeconds")]
-    public float PlayerTotalPlayTime;
+    public float PlayerTotalPlayTime { set { SetParameter("PlayerTotalPlaytimeSeconds", value); } }
 
-    [AnalyticsPropName("PlayerCharacter")]
-    public string PlayerCharacterName;
+    public string PlayerCharacterName { set { SetParameter("PlayerCharacter", value); } }
 
-    [AnalyticsPropName("TotalModPrice")]
-    public float TotalModsPrice;
+    public float TotalModsPrice { set { SetParameter("TotalModPrice", value); } }
 
-    [AnalyticsPropName("AveragePlayerHealth")]
-    public float AvgPlayerHealth;
+    public float AvgPlayerHealth { set { SetParameter("AveragePlayerHealth", value); } }
 
-    [AnalyticsPropName("MaxPlayerHealth")]
-    public float MaxPlayerHealth;
+    public float MaxPlayerHealth { set { SetParameter("MaxPlayerHealth", value); } }
 
-    [AnalyticsPropName("MinPlayerHealth")]
-    public float MinPlayerHealth;
+    public float MinPlayerHealth { set { SetParameter("MinPlayerHealth", value); } }
 
-    [AnalyticsPropName("AverageCombo")]
-    public float AvgCombo;
+    public float AvgCombo { set { SetParameter("AverageCombo", value); } }
 
-    [AnalyticsPropName("MaxCombo")]
-    public int MaxCombo;
+    public int MaxCombo { set { SetParameter("MaxCombo", value); } }
 
-    [AnalyticsPropName("GameSessionTimeSeconds")]
-    public float GameSessionTime;
+    public float GameSessionTime { set { SetParameter("GameSessionTimeSeconds", value); } }
 
-    public LevelFinishAnalyticsEvent()
+    public LevelFinishAnalyticsEvent() : base("LevelFinishedStats")
     {
         PlayerTotalPlayTime = SessionManager.Instance.Sessions.Sum(e => e.TotalPlayTime);
 

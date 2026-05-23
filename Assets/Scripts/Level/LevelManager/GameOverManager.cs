@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Services.Analytics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -56,17 +57,7 @@ public class GameOverManager : MonoBehaviour
 
             if (!_gameWasFinishedBefore)
             {
-                try
-                {
-                    new GameOverAnalyticsEvent().SendEvent();
-                }
-                catch (Exception e)
-                {
-                    if (AnalyticsManager.Instance.LogErrors)
-                    {
-                        Debug.LogWarning("sending analytics event error: " + e.ToString());
-                    }
-                }
+                AnalyticsManager.Instance.RecordEvent(new GameOverAnalyticsEvent());
             }
             _gameWasFinishedBefore = true;
         }

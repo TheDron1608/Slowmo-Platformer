@@ -95,21 +95,8 @@ public class SpawnManager : MonoBehaviour
             PlayerCharacterHoldable = null;
         }
 
-        try
-        {
-            new LevelFinishAnalyticsEvent().SendEvent();
-        }
-        catch (Exception e)
-        {
-            if (AnalyticsManager.Instance.LogErrors)
-            {
-                Debug.LogWarning("sending analytics event error: " + e.ToString());
-            }
-        }
-        finally
-        {
-            AnalyticsManager.Instance.ResetTrackedInfo();
-        }
+        AnalyticsManager.Instance.RecordEvent(new LevelFinishAnalyticsEvent());
+        AnalyticsManager.Instance.ResetTrackedInfo();
 
         UIManager.Instance.LoadSceneWithEffect(loadScene);
     }

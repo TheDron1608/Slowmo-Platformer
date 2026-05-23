@@ -1,22 +1,17 @@
 ﻿
 using System.Linq;
 
-[AnalyticsEventName("GameOverStats")]
-public class GameOverAnalyticsEvent : AbstractAnalyticsEvent
+public class GameOverAnalyticsEvent : Unity.Services.Analytics.Event
 {
-    [AnalyticsPropName("PlayerTotalPlaytimeSeconds")]
-    public float PlayerTotalPlayTime;
+    public float PlayerTotalPlayTime { set { SetParameter("PlayerTotalPlaytimeSeconds", value); } }
 
-    [AnalyticsPropName("PlayerCharacter")]
-    public string PlayerCharacterName;
+    public string PlayerCharacterName { set { SetParameter("PlayerCharacter", value); } }
 
-    [AnalyticsPropName("TotalModPrice")]
-    public float TotalModsPrice;
+    public float TotalModsPrice { set { SetParameter("TotalModPrice", value); } }
 
-    [AnalyticsPropName("GameSessionTimeSeconds")]
-    public float GameSessionTime;
+    public float GameSessionTime { set { SetParameter("GameSessionTimeSeconds", value); } }
 
-    public GameOverAnalyticsEvent()
+    public GameOverAnalyticsEvent() : base("GameOverStats")
     {
         PlayerTotalPlayTime = SessionManager.Instance.Sessions.Sum(e => e.TotalPlayTime);
 

@@ -40,17 +40,7 @@ public class SetCharacterButton : MonoBehaviour, IPointerEnterHandler, IPointerE
             ModificatorsManager.Instance.AddModificator(mod, AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT);
         }
 
-        try
-        {
-            new StartGameAnalyticsEvent(PlayerInfo.PlayerCharacter.gameObject.name).SendEvent();
-        }
-        catch (Exception e)
-        {
-            if (AnalyticsManager.Instance.LogErrors)
-            {
-                Debug.LogWarning("sending analytics event error: " + e.ToString());
-            }
-        }
+        AnalyticsManager.Instance.RecordEvent(new StartGameAnalyticsEvent(PlayerInfo.PlayerCharacter.gameObject.name));
     }
 
     private void Instance_CurrentSessionChanged(object sender, System.EventArgs e)

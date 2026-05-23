@@ -24,7 +24,7 @@ public class CursePickManager : AbstractModificatorCardsManager
 
     public static CursePickManager Instance;
 
-    protected override string GetAnalyticsChoiseTypeName()
+    public override string GetAnalyticsChoiseTypeName()
     {
         return "GainNegativePick";
     }

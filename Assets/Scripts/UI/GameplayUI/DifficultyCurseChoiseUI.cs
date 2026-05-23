@@ -19,7 +19,7 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     private int _initOptionsAmount = 0;
     private bool _isDebug = false;
 
-    protected override string GetAnalyticsChoiseTypeName()
+    public override string GetAnalyticsChoiseTypeName()
     {
         return _isDebug ? null : "DifficultyNegativePick";
     }

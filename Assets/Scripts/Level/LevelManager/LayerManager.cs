@@ -60,8 +60,8 @@ public class LayerManager : MonoBehaviour
     public ZIndexLayer GetZLayerOfGameObject(GameObject gameObj)
     {
         Transform parentGameObj = gameObj.transform.parent;
-        ZIndexLayer result;
-        while (!parentGameObj.gameObject.TryGetComponent(out result))
+        ZIndexLayer result = null;
+        while (parentGameObj != null && !parentGameObj.gameObject.TryGetComponent(out result))
         {
             parentGameObj = parentGameObj.parent;
         }
