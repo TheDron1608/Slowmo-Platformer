@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class DifficultyUI : MonoBehaviour
@@ -41,8 +40,8 @@ public class DifficultyUI : MonoBehaviour
         }
 
         TimeSpan time = new(0, 0, (int)math.floor(DifficultyManager.Instance.CurrentLoopDifficultyTime));
-        _bottomInfoText.text = 
-            time.ToString(@"mm\:ss") + " | " + 
+        _bottomInfoText.text =
+            time.ToString(@"mm\:ss") + " | " +
             DifficultyManager.Instance.CurrentDifficulty.Value.LocalizedName?.GetLocalizedString();
     }
 

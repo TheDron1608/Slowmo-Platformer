@@ -43,8 +43,10 @@ public abstract class AbstractSingleCardItem : AbstractCardItem, IModificatorInf
         }
     }
 
+#if UNITY_EDITOR
     protected override void OnValidate()
     {
         _localization = transform.GetComponentInChildren<ModificatorLocalization>();
     }
+#endif
 }
