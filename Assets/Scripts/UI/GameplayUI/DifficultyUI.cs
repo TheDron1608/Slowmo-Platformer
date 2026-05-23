@@ -39,6 +39,14 @@ public class DifficultyUI : MonoBehaviour
             currentStageTime += stage.Duration;
         }
 
+        foreach (DifficultyUIItem item in _items)
+        {
+            if (item.gameObject.activeSelf != item.IsUsedInTimeline)
+            {
+                item.gameObject.SetActive(item.IsUsedInTimeline);
+            }
+        }
+
         TimeSpan time = new(0, 0, (int)math.floor(DifficultyManager.Instance.CurrentLoopDifficultyTime));
         _bottomInfoText.text =
             time.ToString(@"mm\:ss") + " | " +
@@ -69,7 +77,7 @@ public class DifficultyUI : MonoBehaviour
                 _stagesContainer.transform.position.z
                 );
 
-            _items[_currentItemIter].gameObject.SetActive(true);
+            _items[_currentItemIter].IsUsedInTimeline = true;
 
             _currentItemIter++;
 
@@ -85,7 +93,7 @@ public class DifficultyUI : MonoBehaviour
     {
         foreach (var item in _items)
         {
-            item.gameObject.SetActive(false);
+            item.IsUsedInTimeline = false;
         }
         _currentItemIter = 0;
     }
