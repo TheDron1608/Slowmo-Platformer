@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 [DefaultExecutionOrder(2)]
 public class CharacterVisual : AbstractCharacterComponent
@@ -284,11 +285,25 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void Update()
     {
+        Profiler.BeginSample("UpdateMainStateParam");
         UpdateMainStateParam();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateJumpStateParam");
         UpdateJumpStateParam();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateMoveSpeedParam");
         UpdateMoveSpeedParam();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateStunnedBusyStateParam");
         UpdateStunnedBusyStateParam();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateSampleSpriteEvent");
         UpdateSampleSpriteEvent();
+        Profiler.EndSample();
     }
 
     private void UpdateJumpStateParam()

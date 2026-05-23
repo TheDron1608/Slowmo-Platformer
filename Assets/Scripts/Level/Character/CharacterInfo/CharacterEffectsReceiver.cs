@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [DefaultExecutionOrder(6)]
@@ -124,11 +125,17 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
 
     public override bool GetHasEffect(AbstractEffect effect, bool includeIncomingEffects = false)
     {
-        return base.GetHasEffect(effect, includeIncomingEffects) ||
-            _charComponents.CharacterPartsManager.CharacterParts.Any(
-                (CharacterPart part) => part.CharPartEffectsReceiver.GetHasSelfEffect(effect, includeIncomingEffects)
-            );
+        return base.GetHasEffect(effect, includeIncomingEffects) || GetAnyPartHasSelfEffect(effect, includeIncomingEffects);
     }
+    private bool GetAnyPartHasSelfEffect(AbstractEffect effect, bool includeIncomingEffects = false)
+    {
+        foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
+        {
+            if (charPart.CharPartEffectsReceiver.GetHasSelfEffect(effect, includeIncomingEffects)) return true;
+        }
+        return false;
+    }
+
     public bool GetHasSelfEffect(AbstractEffect effect, bool includeIncomingEffects = false)
     {
         return base.GetHasEffect(effect, includeIncomingEffects);
@@ -136,11 +143,17 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
 
     public override bool GetHasEffect<T>(bool includeIncomingEffects = false)
     {
-        return base.GetHasEffect<T>(includeIncomingEffects) ||
-            _charComponents.CharacterPartsManager.CharacterParts.Any(
-                (CharacterPart part) => part.CharPartEffectsReceiver.GetHasSelfEffect<T>(includeIncomingEffects)
-            );
+        return base.GetHasEffect<T>(includeIncomingEffects) || GetAnyPartHasSelfEffect<T>(includeIncomingEffects);
     }
+    private bool GetAnyPartHasSelfEffect<T>(bool includeIncomingEffects = false)
+    {
+        foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
+        {
+            if (charPart.CharPartEffectsReceiver.GetHasSelfEffect<T>(includeIncomingEffects)) return true;
+        }
+        return false;
+    }
+
     public bool GetHasSelfEffect<T>(bool includeIncomingEffects = false)
     {
         return base.GetHasEffect<T>(includeIncomingEffects);
