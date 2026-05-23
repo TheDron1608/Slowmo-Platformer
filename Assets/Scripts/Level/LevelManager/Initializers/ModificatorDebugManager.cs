@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [DefaultExecutionOrder(-1)]
 public class ModificatorDebugManager : MonoBehaviour
 {
-    public KeyCode OpenDebugKeyCode = KeyCode.Tilde;
+    public Key OpenDebugKey = Key.Tab;
     public List<AbstractModificator> DebugModificators = new();
 
     public static ModificatorDebugManager Instance = null;
@@ -18,11 +19,11 @@ public class ModificatorDebugManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(OpenDebugKeyCode) && SceneList.GetCurrentSceneIsGameplay())
+        if (Keyboard.current[OpenDebugKey].wasPressedThisFrame && SceneList.GetCurrentSceneIsGameplay())
         {
             SetOpenModDebug(true);
         }
-        else if (Input.GetKeyUp(OpenDebugKeyCode))
+        else if (Keyboard.current[OpenDebugKey].wasReleasedThisFrame)
         {
             SetOpenModDebug(false);
         }

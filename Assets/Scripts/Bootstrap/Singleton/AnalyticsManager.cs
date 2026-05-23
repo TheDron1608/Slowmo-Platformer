@@ -40,8 +40,6 @@ public class AnalyticsManager : MonoBehaviour
         get => _collectData;
         set
         {
-            if (_collectData == value) return;
-
             ConsentState newConsent = new();
             newConsent.AnalyticsIntent = value && AllowAnalyticsData ? ConsentStatus.Granted : ConsentStatus.Denied;
             newConsent.AdsIntent = value && AllowAdsData ? ConsentStatus.Granted : ConsentStatus.Denied;
@@ -89,6 +87,8 @@ public class AnalyticsManager : MonoBehaviour
         PerformanceReporting.enabled = false;
         Analytics.limitUserTracking = true;
         Analytics.deviceStatsEnabled = false;
+
+        CollectData = false;
     }
 
     private void OnEnable()
