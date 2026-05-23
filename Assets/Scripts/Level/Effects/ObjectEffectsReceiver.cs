@@ -31,7 +31,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
         }
         else if (sender.TryGetComponent(out Holdable senderHoldable) && !senderHoldable.IsDestroyed())
         {
-            return senderHoldable.CurrentHolder;
+            return senderHoldable.CurrentOrLastHolder;
         }
         else if (
             sender.TryGetComponent(out AbstractProjectile senderProjectile) && !senderProjectile.IsDestroyed()
