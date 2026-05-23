@@ -445,6 +445,7 @@ MonoBehaviour:
   _piercableThrought: 0
   _hitableByMeleeProjectiles: 1
   _hitableByRangedProjectiles: 1
+  _unlimitedHealth: 0
   LivingWithDeadlyHealthSeconds: 0
   CanHaveHealthOverMax: 0
   EffectsOnLethal:
@@ -665,8 +666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 406350f30be1be84cbef10d1791be909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpStateVelocityRange: 5
-  MoveSpeedVelocityRange: 5
   MultiSpritesSO: {fileID: 11400000, guid: f18c3b67c56c15e4db4b7bd1e6ed4f50, type: 2}
 --- !u!114 &2002335163756146061
 MonoBehaviour:
@@ -755,6 +754,7 @@ Animator:
   m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &8445559202426260191
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -773,6 +773,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -794,9 +796,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 30
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -1110572959994612896, guid: b7b6201b22592b64bbad63ee9f6fd8eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -806,7 +810,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8534364300553101477
 MonoBehaviour:

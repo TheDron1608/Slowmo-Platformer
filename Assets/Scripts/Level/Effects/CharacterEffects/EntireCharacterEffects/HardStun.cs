@@ -5,7 +5,7 @@ using UnityEngine;
 public class HardStun : AbstractStun, IMultiplierableEffect
 {
     private float _effectMultiplier = 1f;
-    private List<MonoBehaviour> _totalStunSenders = new();
+    private List<AbstractCharacterComponent> _totalStunSenderCharacters = new();
     private HardStun _oldStun = null;
 
     public float EffectMultiplier
@@ -14,9 +14,9 @@ public class HardStun : AbstractStun, IMultiplierableEffect
         set => _effectMultiplier = value;
     }
 
-    public List<MonoBehaviour> TotalStunSenders
+    public List<AbstractCharacterComponent> TotalStunSenderCharacters
     {
-        get => _totalStunSenders;
+        get => _totalStunSenderCharacters;
     }
 
     protected override void OnApply()
@@ -56,15 +56,16 @@ public class HardStun : AbstractStun, IMultiplierableEffect
 
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        if (sender != null)
+        AbstractCharacterComponent characterSender = ObjectEffectsReceiver.TryGetCharacterFromSender(sender);
+        if (characterSender != null)
         {
-            _totalStunSenders.Add(sender);
+            _totalStunSenderCharacters.Add(characterSender);
         }
 
-        List<MonoBehaviour> oldStunSenders = _oldStun?.TotalStunSenders;
-        if (oldStunSenders != null && oldStunSenders.Count > 0)
+        List<AbstractCharacterComponent> oldStunSenderCharacters = _oldStun?.TotalStunSenderCharacters;
+        if (oldStunSenderCharacters != null && oldStunSenderCharacters.Count > 0)
         {
-            _totalStunSenders.AddRange(oldStunSenders);
+            _totalStunSenderCharacters.AddRange(oldStunSenderCharacters);
         }
     }
 

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Tilemaps;
 
 public class CharacterCollision : AbstractCharacterComponent
@@ -40,7 +40,6 @@ public class CharacterCollision : AbstractCharacterComponent
     public PhysicsMaterial2D OnNotOnFloorPhysicsMaterial;
 
     const float COLLISION_HIT_DETECION_THICKNESS = 0.05f;
-    const float COLLISION_HEAD_OR_LEGS_DECECTION_OFFSET = 0.7f; //value between 0 and 1
 
     public event EventHandler<OnCollisionChangedEventArgs> OnCollisionChanged;
     public event EventHandler<AbstractCharacterComponent> OnHitOtherCharacters;
@@ -298,14 +297,37 @@ public class CharacterCollision : AbstractCharacterComponent
 
     private void FixedUpdate()
     {
+        Profiler.BeginSample("UpdateCurrentZLayer");
         UpdateCurrentZLayer();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateNearbyCollidableFuniture");
         UpdateNearbyCollidableFuniture();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateTileCollidingInfo");
         UpdateTileCollidingInfo();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateEncountKillOnOutOfMapCharacter");
         UpdateEncountKillOnOutOfMapCharacter();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateIsOutFromMapBottom");
         UpdateIsOutFromMapBottom();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateTimeOnAirOrGround");
         UpdateTimeOnAirOrGround();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateHitVelocity");
         UpdateHitVelocity();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdatePhysicsMaterial");
         UpdatePhysicsMaterial();
+        Profiler.EndSample();
     }
 
     private void UpdateCurrentZLayer()
@@ -315,7 +337,7 @@ public class CharacterCollision : AbstractCharacterComponent
 
     private void UpdateNearbyCollidableFuniture()
     {
-        _currentNearbyCollidableFurniture = new();
+        _currentNearbyCollidableFurniture.Clear();
         foreach (Transform furniture in _currentZLayer.InteractableEnviromentContainer)
         {
             if (
@@ -391,7 +413,7 @@ public class CharacterCollision : AbstractCharacterComponent
 
     public void UpdateHitVelocity()
     {
-        CurrentCollidingCharacters = new();
+        CurrentCollidingCharacters.Clear();
         float hitRadius = (CharComponents.CharacterRigidBodyCapsuleCollider.size.x + CharComponents.CharacterRigidBodyCapsuleCollider.size.y) / 2;
 
         foreach (Transform otherCharacterTransform in _currentZLayer.CharactersContainer)
@@ -400,8 +422,7 @@ public class CharacterCollision : AbstractCharacterComponent
                 otherCharacterTransform.gameObject.activeSelf &&
                 otherCharacterTransform.TryGetComponent(out AbstractCharacterComponent otherCharComponent) &&
                 Vector2.Distance(otherCharComponent.CharComponents.Center.transform.position, CharComponents.Center.transform.position) < hitRadius &&
-                otherCharComponent.CharComponents.CharacterCollision != this &&
-                !otherCharComponent.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
+                otherCharComponent.CharComponents.CharacterCollision != this
                 )
             {
                 CurrentCollidingCharacters.Add(otherCharComponent);
@@ -415,10 +436,7 @@ public class CharacterCollision : AbstractCharacterComponent
                         CanHitWhileHardStnned &&
                         GetHasEnoughVelocityToHit() &&
                         CharComponents.CharacterEffectsReceiver.TryGetEffect(out HardStun selfStun) &&
-                        selfStun.TotalStunSenders.All(e => 
-                            (!ObjectEffectsReceiver.TryGetCharacterFromSender(e)?.CharComponents.CharacterTeam
-                            .GetIsAllyToAnotherTeam(otherCharComponent.CharComponents.CharacterTeam)) ?? true
-                            )
+                        GetHardStunIsNotAppliedFromSelfInheritly(selfStun, otherCharComponent)
                     ) ||
                     (
                         CanHitWhileRolling &&
@@ -449,9 +467,21 @@ public class CharacterCollision : AbstractCharacterComponent
         VelocityPrevFrame = CharComponents.CharacterRigidBody.linearVelocity;
     }
 
+    private bool GetHardStunIsNotAppliedFromSelfInheritly(HardStun stun, AbstractCharacterComponent stunnWho)
+    {
+        foreach (var stunSender in stun.TotalStunSenderCharacters)
+        {
+            if (stunSender.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(stunnWho.CharComponents.CharacterTeam))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public bool GetHasEnoughVelocityToHit()
     {
-        return VectorMath.Vec2ToDistance(CharComponents.CharacterRigidBody.linearVelocity) >= SpeedToHitOtherCharacters;
+        return CharComponents.CharacterRigidBody.linearVelocity.sqrMagnitude >= math.pow(SpeedToHitOtherCharacters, 2f);
     }
 
     public Vector2 GetColliderSize()
@@ -465,16 +495,25 @@ public class CharacterCollision : AbstractCharacterComponent
         {
             if (CharComponents.CharacterEffectsReceiver.GetHasEffect<AbstractStun>())
             {
-                CharComponents.CharacterRigidBody.sharedMaterial = OnFallenPhysicsMaterial;
+                if (CharComponents.CharacterRigidBody.sharedMaterial != OnFallenPhysicsMaterial)
+                {
+                    CharComponents.CharacterRigidBody.sharedMaterial = OnFallenPhysicsMaterial;
+                }
             }
             else
             {
-                CharComponents.CharacterRigidBody.sharedMaterial = OnNotOnFloorPhysicsMaterial;
+                if (CharComponents.CharacterRigidBody.sharedMaterial != OnNotOnFloorPhysicsMaterial)
+                {
+                    CharComponents.CharacterRigidBody.sharedMaterial = OnNotOnFloorPhysicsMaterial;
+                }
             }
         }
         else
         {
-            CharComponents.CharacterRigidBody.sharedMaterial = DefaultPhyscsMaterial;
+            if (CharComponents.CharacterRigidBody.sharedMaterial != DefaultPhyscsMaterial)
+            {
+                CharComponents.CharacterRigidBody.sharedMaterial = DefaultPhyscsMaterial;
+            }
         }
     }
 
