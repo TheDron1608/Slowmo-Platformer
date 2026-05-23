@@ -60,6 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 1
   EffectsOnStartInteract: []
+  FindingUniqueCodeName: 
   AIPickUpPriority: 0
   RotatableWhenIsHolded: 1
   ResetRotationWhenIsHolded: 0
@@ -71,8 +72,6 @@ MonoBehaviour:
   EffectsOnThrowHit:
   - {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
   - {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
-  StuckedObjectEffectsOnRemove:
-  - {fileID: 484576719013597578, guid: 69713a4334def064e9b325428379aae9, type: 3}
   SoundOnPickedUp: {fileID: 4247608961323020551}
   SoundOnThrown: {fileID: 7229261275548789197}
   _hitableWhenIsHolded: 0
@@ -189,8 +188,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520d100269564114db44399500a96378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowChangeMaterial: 1
 --- !u!212 &668012051540842779
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -209,6 +210,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -230,9 +233,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 400
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 4329407632164072968, guid: 06ae8d003292baf479c2dc0c6228339a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -242,7 +247,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &3991735836254190343
 BoxCollider2D:
@@ -338,7 +342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c26c6dd209ce44a95f14ff4e641602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DistanceToDistable: 50
+  DistanceToDistable: 30
+  DisableOnDifferentLayers: 1
 --- !u!114 &7054485633160792855
 MonoBehaviour:
   m_ObjectHideFlags: 0

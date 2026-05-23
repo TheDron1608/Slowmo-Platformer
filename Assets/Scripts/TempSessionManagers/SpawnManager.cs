@@ -120,7 +120,11 @@ public class SpawnManager : MonoBehaviour
                 null
                 ).First().GetComponent<AbstractCharacterComponent>().CharComponents;
 
-            if (KeepHoldableOnFinishLevel) newPlayer.CharacterHolding.GiveNewHoldable(PlayerCharacterHoldable);
+            if (KeepHoldableOnFinishLevel)
+            {
+                PlayerCharacterHoldable?.gameObject.SetActive(true);
+                newPlayer.CharacterHolding.GiveNewHoldable(PlayerCharacterHoldable);
+            }
 
             return newPlayer;
         }
