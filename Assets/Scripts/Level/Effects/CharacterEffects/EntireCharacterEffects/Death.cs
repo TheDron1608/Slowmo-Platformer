@@ -31,7 +31,7 @@ public class Death : AbstractStun, ILethalEffect
             AffectedCharacter.CharacterSpecial.IsAbleToDoSpecial = false;
         }
 
-        AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(false);
+        AffectedCharacter.CharacterPartsManager.SetIsHitable(false);
 
         if (AffectedCharacter.CharacterHolding.ThrowObjectsOnDeath)
         {
@@ -45,7 +45,7 @@ public class Death : AbstractStun, ILethalEffect
 
         AffectedCharacter.CharacterAIManager?.SetAIDisabled(false);
 
-        AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(true);
+        AffectedCharacter.CharacterPartsManager.SetIsHitable(true);
     }
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)

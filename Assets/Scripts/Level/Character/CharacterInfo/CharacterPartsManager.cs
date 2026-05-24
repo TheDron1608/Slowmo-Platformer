@@ -66,7 +66,7 @@ public class CharacterPartsManager : AbstractCharacterComponent
         CharComponents.CharacterRigidBodyCapsuleColliderHitBox.SetHitBoxTransform(transform, smoothChangeDuration);
     }
 
-    public void SetHitBoxHitableByProjectiles(bool value)
+    public void SetIsHitable(bool value)
     {
         for (int i = 0; i < _characterParts.Count; i++)
         {
@@ -76,6 +76,14 @@ public class CharacterPartsManager : AbstractCharacterComponent
             }
         }
         CharComponents.CharacterRigidBodyCapsuleColliderHitBox.HitableByProjectiles = value;
+        if (value)
+        {
+            CharComponents.CharacterRigidBodyCapsuleCollider.excludeLayers &= CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer;
+        }
+        else
+        {
+            CharComponents.CharacterRigidBodyCapsuleCollider.excludeLayers |= CharComponents.CharacterCollision.CurrentZLayer.HoldablesLayer;
+        }
     }
 
     public CharacterPart GetCharacterPart(CharacterPart.PartTypes type)
