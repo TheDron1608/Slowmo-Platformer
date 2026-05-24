@@ -53,14 +53,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
 
     private void HandleStopAttacking()
     {
-        if (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) ?? false)
-        {
-            CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
-        }
-        else
-        {
-            CharComponents.CharacterAttacking.TryStopAttack();
-        }
+        CharComponents.CharacterAttacking.TryStopShield();
 
         AutoAttack = false;
     }
@@ -109,8 +102,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
     {
         if (
             AutoAttack &&
-            CharComponents.CharacterHolding.CurrentHoldObject != null &&
-            CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon weapon) &&
+            (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out Weapon weapon) ?? false) &&
             CharComponents.CharacterAttacking != null
             )
         {
@@ -120,6 +112,10 @@ public class PlayerInputAttacking : AbstractAIAttacking
             {
                 AutoAttack = false;
             }
+        }
+        else if (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon) ?? false)
+        {
+            hammerWeapon.TrySetHammered(true);
         }
     }
 

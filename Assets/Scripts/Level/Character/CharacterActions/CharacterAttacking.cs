@@ -303,7 +303,7 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     {
         if (TryShield()) return true;
 
-        if (TryHammerWeapon()) return true;
+        //if (TryHammerWeapon()) return true;
 
         if (TryStartChainsaw()) return true;
 

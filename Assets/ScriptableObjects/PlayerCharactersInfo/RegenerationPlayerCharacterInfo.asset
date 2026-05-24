@@ -16,6 +16,7 @@ MonoBehaviour:
   StartModificators:
   - {fileID: 1998567090488563821, guid: 172ebfd33c6f19c4e9f5b0edaa82233f, type: 3}
   - {fileID: 3166078807317539368, guid: ac40386a4133cfa40bac79223e91a9c3, type: 3}
+  StartHoldable: {fileID: 7881157311307483798, guid: 339378a274f6dee449af6bb99f202e69, type: 3}
   LocalizedName:
     m_TableReference:
       m_TableCollectionName: GUID:7ceda435e9d75874db4627ac1b530e06
@@ -34,6 +35,16 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  LocalizedUnlockCondition:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  CustomUnlockConditionInfo: {fileID: 0}
   CharacterIconSprite: {fileID: 21300000, guid: 582f8e4f7fc77264b9f8097ff5441147, type: 3}
   InfoTextColor: {r: 0, g: 0.5, b: 0, a: 1}
   InfoIconMaterial: {fileID: 2100000, guid: 55bb1c207060941458cbc51b57813875, type: 2}

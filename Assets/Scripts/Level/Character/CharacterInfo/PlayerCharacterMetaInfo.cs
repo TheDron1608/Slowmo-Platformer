@@ -7,6 +7,7 @@ public class PlayerCharacterInfo : ScriptableObject
 {
     public CharacterComponentsManager PlayerCharacter;
     public List<AbstractModificator> StartModificators;
+    public Holdable StartHoldable = null;
     public LocalizedString LocalizedName;
     public LocalizedString LocalizedDesc;
     public LocalizedString LocalizedUnlockCondition;

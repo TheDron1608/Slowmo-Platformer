@@ -39,6 +39,7 @@ public class SetCharacterButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             ModificatorsManager.Instance.AddModificator(mod, AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT);
         }
+        SpawnManager.Instance.PlayerCharacterHoldable = PlayerInfo.StartHoldable;
 
         AnalyticsManager.Instance.RecordEvent(new StartGameAnalyticsEvent(PlayerInfo.PlayerCharacter.gameObject.name));
     }
