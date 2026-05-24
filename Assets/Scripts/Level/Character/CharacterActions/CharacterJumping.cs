@@ -183,10 +183,13 @@ public class CharacterJumping : AbstractCharacterComponent
 
     private void CharacterCollision_OnCollisionChanged(object sender, CharacterCollision.OnCollisionChangedEventArgs e)
     {
-        if (e.CollisionAlign == Vector2.down && e.EnterOrReleasedCollision)
+        if (
+            e.EnterOrReleasedCollision &&
+            (e.CollisionAlign == Vector2.down || CharComponents.CharacterCollision.GetIsStickingOnWall())
+            )
         {
-            StopJump();
             _airJumpsLeft = AirJumps;
+            StopJump();
             CharComponents.CharacterCollision.OnCollisionChanged -= CharacterCollision_OnCollisionChanged;
         }
     }
