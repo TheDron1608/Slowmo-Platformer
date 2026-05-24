@@ -488,6 +488,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce37e5ab769b377409604a03bccc33af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllowAnalyticsData: 1
+  AllowAdsData: 0
   LogErrors: 1
 --- !u!4 &376242234
 Transform:
@@ -906,7 +908,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: af381f9de249c9d44ab2bb94953ebb07, type: 2}
   - {fileID: 11400000, guid: 3f8028aadc870e64f8fac584b8919b0e, type: 2}
   - {fileID: 11400000, guid: 6a2c263b88ccc704e93662864989064c, type: 2}
-  - {fileID: 11400000, guid: 3f8028aadc870e64f8fac584b8919b0e, type: 2}
   DefaultUnlockedCharacters:
   - {fileID: 11400000, guid: 5ca7e8c0dcd4eeb4cbd4dd1004cd87b8, type: 2}
   - {fileID: 11400000, guid: 040b4e1ceb82e0740a4a976111d5d589, type: 2}
