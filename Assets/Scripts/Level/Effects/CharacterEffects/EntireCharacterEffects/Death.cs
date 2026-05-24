@@ -23,6 +23,9 @@ public class Death : AbstractStun, ILethalEffect
         AffectedCharacter.CharacterReloading.IsAbleToReload = false;
         AffectedCharacter.CharacterRolling.IsAbleToRoll = false;
         AffectedCharacter.CharacterInteractionWithTiles.IsCurrentAbleToStickOnWalls = false;
+
+        AffectedCharacter.CharacterAIManager?.SetAIDisabled(true);
+
         if (AffectedCharacter.CharacterSpecial != null)
         {
             AffectedCharacter.CharacterSpecial.IsAbleToDoSpecial = false;
@@ -39,6 +42,8 @@ public class Death : AbstractStun, ILethalEffect
     protected override void OnRemove()
     {
         base.OnRemove();
+
+        AffectedCharacter.CharacterAIManager?.SetAIDisabled(false);
 
         AffectedCharacter.CharacterPartsManager.SetHitBoxHitableByProjectiles(true);
     }

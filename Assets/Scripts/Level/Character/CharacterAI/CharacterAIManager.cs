@@ -55,7 +55,7 @@ public class CharacterAIManager : AbstractCharacterComponent
 
     public void SetAIDisabled(bool value)
     {
-        GetComponent<DisableObjectOnDistanceFromCamera>().ForceDisable = value;
+        gameObject.SetActive(!value);
     }
 
     protected override void OnAwake()
