@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -84,14 +85,23 @@ public class SpawnManager : MonoBehaviour
 
         if (KeepHoldableOnFinishLevel && saveHoldable != PlayerCharacterHoldable && saveHoldable != null)
         {
-            if (PlayerCharacterHoldable != null) Destroy(PlayerCharacterHoldable.gameObject);
+            if (
+                PlayerCharacterHoldable != null &&
+                PlayerCharacterHoldable.gameObject.scene.name != null
+                )
+            {
+                Destroy(PlayerCharacterHoldable.gameObject);
+            }
 
             PlayerCharacterHoldable = saveHoldable;
             PlayerCharacterHoldable.transform.SetParent(transform);
         }
         else if (!KeepHoldableOnFinishLevel && PlayerCharacterHoldable != null)
         {
-            Destroy(PlayerCharacterHoldable.gameObject);
+            if (PlayerCharacterHoldable.gameObject.scene.name != null)
+            {
+                Destroy(PlayerCharacterHoldable.gameObject);
+            }
             PlayerCharacterHoldable = null;
         }
 
