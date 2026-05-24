@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterJumping : AbstractCharacterComponent
 {
+    const float AIR_JUMP_PARTICLE_VELOCITY = 0.5f;
+
     [SerializeField] private bool _isAbleToJump = true;
     public float JumpForce = 5f;
     public float KeepJumpGravityMultiplier = 0.5f;
@@ -12,6 +14,7 @@ public class CharacterJumping : AbstractCharacterComponent
     public int AirJumps = 0;
     public float JumpLimitForceMultiplier = 10f;
     public bool CanForceStopRollingOnJump = false;
+    public AbstractParticle ParticleOnAirJump;
     public AbstractSoundPlayer SoundOnJump;
 
     private int _airJumpsLeft = 0;
@@ -37,6 +40,11 @@ public class CharacterJumping : AbstractCharacterComponent
         return _isJumping;
     }
 
+    public bool GetIsAirJumping()
+    {
+        return _isJumping && _airJumpsLeft < AirJumps;
+    }
+
     public float GetBaseGravity()
     {
         return CharComponents.CharacterRigidBody.gravityScale / _currentGravityMultiplier;
@@ -59,6 +67,12 @@ public class CharacterJumping : AbstractCharacterComponent
             CharComponents.CharacterRigidBody.gravityScale *= 1 / _currentGravityMultiplier;
             _currentGravityMultiplier = 1;
         }
+    }
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        _airJumpsLeft = AirJumps;
     }
 
     private void OnEnable()
@@ -115,7 +129,7 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public void ForceStartJump()
     {
-        if (_isJumping || !IsAbleToJump) return;
+        if (!IsAbleToJump) return;
 
         if (GetIsAbleToJumpFromFloorOrWall())
         {
@@ -140,6 +154,20 @@ public class CharacterJumping : AbstractCharacterComponent
                 CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
             }
 
+            if (ParticleOnAirJump != null)
+            {
+                ParticleSpawner.SpawnParticle(
+                    ParticleOnAirJump,
+                    CharComponents.Bottom.transform.position,
+                    new Vector2(CharComponents.CharacterMoving.GetCurrentMoveDirection(), -1f).normalized,
+                    0f,
+                    AIR_JUMP_PARTICLE_VELOCITY,
+                    0f,
+                    CharComponents.CharacterEffectsReceiver.EffectMaterial,
+                    CharComponents.CharacterCollision.CurrentZLayer
+                    );
+            }
+
             _airJumpsLeft--;
             if (_airJumpsLeft < 0)
             {
@@ -158,6 +186,7 @@ public class CharacterJumping : AbstractCharacterComponent
         if (e.CollisionAlign == Vector2.down && e.EnterOrReleasedCollision)
         {
             StopJump();
+            _airJumpsLeft = AirJumps;
             CharComponents.CharacterCollision.OnCollisionChanged -= CharacterCollision_OnCollisionChanged;
         }
     }
@@ -206,12 +235,12 @@ public class CharacterJumping : AbstractCharacterComponent
 
     public bool GetIsAbleToJumpFromFloor()
     {
-        return CharComponents.CharacterCollision.IsCollidingFloor();
+        return !_isJumping && CharComponents.CharacterCollision.IsCollidingFloor();
     }
 
     public bool GetIsAbleToJumpFromWall()
     {
-        return CharComponents.CharacterCollision.GetIsStickingOnWall();
+        return !_isJumping && CharComponents.CharacterCollision.GetIsStickingOnWall();
     }
 
     public bool GetIsAbleToJumpFromAir()

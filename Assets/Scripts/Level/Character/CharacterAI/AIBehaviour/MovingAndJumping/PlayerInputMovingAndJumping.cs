@@ -44,6 +44,10 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
         {
             CharComponents.CharacterJumping.TryStartCoyoteJump();
         }
+        else if (CharComponents.CharacterJumping.GetIsAbleToJumpFromAir())
+        {
+            CharComponents.CharacterJumping.TryStartJump();
+        }
         else
         {
             _coyoteJumpTooEarlyTimeLeft = CoyoteEarlyTimer;

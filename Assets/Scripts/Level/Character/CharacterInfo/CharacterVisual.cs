@@ -16,6 +16,7 @@ public class CharacterVisual : AbstractCharacterComponent
     const string ANIMATOR_STUN_RECOVER_ANIMATION_TIME_MULTIPLIER_PARAM_NAME = "StunRecoverAnimationTimeMult";
     const string ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME = "BreakBusyAnimation";
     const string FAST_MOVE_ALIGN_CHANGE_TRIGGER_NAME = "FastMoveAlignChange";
+    const string AIR_JUMP_TRIGGER_NAME = "AirJump";
 
     const float JUMP_VELOCITY_FOR_DEFAULT_JUMP_ANIMATION_STATE = 5f;
     const float MOVE_VELOCITY_FOR_DEFAULT_MOVE_ANIM_SPEED = 5f;
@@ -103,6 +104,9 @@ public class CharacterVisual : AbstractCharacterComponent
         _characterPartsContainer = transform.Find(CHARACTER_PARTS_GAMEOBJECT_NAME);
         _spritePrevFrame = CharComponents.SampleSpriteRenderer.sprite;
         _randomizedExtraSpriteSortingOrder = (int)(UnityEngine.Random.value * 99f);
+        CharComponents.CharacterJumping.OnStartedJumping += CharacterJumping_OnStartedJumping;
+        CharComponents.CharacterAttacking.OnAttack += CharacterAttacking_OnAttack;
+        CharComponents.CharacterReloading.OnReload += CharacterReloading_OnReload;
     }
 
     private void OnEnable()
@@ -190,6 +194,14 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         CurrentBusyAnimation = CharacterPartBusyStates.NONE;
         CharComponents.Animator.SetTrigger(ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME);
+    }
+
+    public void BreakAirJumping()
+    {
+        if (!IsBusy() && MainState == CharacterPartMainStates.JUMP)
+        {
+            CharComponents.Animator.SetTrigger(ANIMATOR_BREAK_BUSY_ANIMATION_TRIGGER_NAME);
+        }
     }
 
     public void FastMoveAlignChange()
@@ -428,5 +440,30 @@ public class CharacterVisual : AbstractCharacterComponent
     public void Animator_FinishUnarmedAttacking()
     {
         CharComponents.UnarmedAttacking.RemoveAllProjectiles();
+    }
+
+    private void CharacterJumping_OnStartedJumping(object sender, EventArgs e)
+    {
+        if (CharComponents.CharacterJumping.GetIsAirJumping())
+        {
+            CharComponents.Animator.SetTrigger(AIR_JUMP_TRIGGER_NAME);
+        }
+    }
+
+    private void CharacterReloading_OnReload(object sender, EventArgs e)
+    {
+        BreakAirJumping();
+    }
+
+    private void CharacterAttacking_OnAttack(object sender, bool e)
+    {
+        BreakAirJumping();
+    }
+
+    private void OnDestroy()
+    {
+        if (CharComponents.CharacterJumping != null) CharComponents.CharacterJumping.OnStartedJumping -= CharacterJumping_OnStartedJumping;
+        if (CharComponents.CharacterAttacking != null) CharComponents.CharacterAttacking.OnAttack -= CharacterAttacking_OnAttack;
+        if (CharComponents.CharacterReloading != null) CharComponents.CharacterReloading.OnReload -= CharacterReloading_OnReload;
     }
 }
