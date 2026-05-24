@@ -91,11 +91,20 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
         if (collider == null) return float.MaxValue;
 
         return
+            (go.TryGetComponent(out Weapon weapon) && GetWeaponIsNotValidAsWeapon(weapon) ? 99999f : 0f) +
             collider.bounds.SqrDistance(CharComponents.Center.transform.position) *
             Vector2.Angle(
                 collider.bounds.center - CharComponents.Center.transform.position, 
                 CharComponents.CharacterAiming.GetTargetAimNormalized()
                 );
+    }
+
+    private bool GetWeaponIsNotValidAsWeapon(Weapon weapon)
+    {
+        return
+            (weapon.TryGetComponent(out RangedWeapon rangedWeapon) && rangedWeapon.GetIsOutOfAmmo()) ||
+            (weapon.TryGetComponent(out Chainsaw chainsaw) && chainsaw.FuelLeft <= 0.05f) ||
+            weapon.Tags.Contains(Weapon.WEAPON_TAGS.BROKEN);
     }
 
     private void OnDestroy()
