@@ -496,12 +496,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8537718361905042118, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: ExtraProjectileEffects.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8537718361905042118, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: 'ExtraProjectileEffects.Array.data[0]'
       value: 
       objectReference: {fileID: -5320657524776492580, guid: 812264ffa5255c847b6acd9840c08f09, type: 3}
+    - target: {fileID: 8537718361905042118, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: 'ExtraProjectileEffects.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5963720044659060791, guid: c96c6a5be520d664e96185b29b52f801, type: 3}
     m_RemovedComponents:
     - {fileID: -6740873504452267486, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
     - {fileID: 7515539461060809475, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
