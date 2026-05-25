@@ -60,7 +60,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3661487982477312
-    m_Localized: "\u041D\u0430\u0436\u043C\u0438\u0442\u0435 {ExitButton} \u0447\u0442\u043E\u0431\u044B
+    m_Localized: "\u041D\u0430\u0436\u043C\u0438\u0442\u0435 [{ExitButton}] \u0447\u0442\u043E\u0431\u044B
       \u0432\u044B\u0439\u0442\u0438"
     m_Metadata:
       m_Items:
@@ -154,6 +154,12 @@ MonoBehaviour:
     m_Localized: "\u041F\u0435\u0440\u0435\u0431\u0440\u043E\u0441\u0438\u0442\u044C"
     m_Metadata:
       m_Items: []
+  - m_Id: 72024547951616000
+    m_Localized: "\u041D\u0430\u0436\u043C\u0438\u0442\u0435 [{RestartButton}] \u0447\u0442\u043E\u0431\u044B
+      \u043D\u0430\u0447\u0430\u0442\u044C \u0437\u0430\u043D\u043E\u0432\u043E"
+    m_Metadata:
+      m_Items:
+      - rid: 3223126429313007718
   references:
     version: 2
     RefIds:
@@ -163,3 +169,4 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 3661487982477312
+        - id: 72024547951616000

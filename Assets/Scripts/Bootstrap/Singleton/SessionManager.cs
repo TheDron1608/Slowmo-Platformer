@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -40,6 +41,7 @@ public class SessionManager : MonoBehaviour
     private GameObject _tempSessionManagersInstance = null;
     private SessionData _currentSession;
     private TempSessionData _tempSession;
+    private PlayerCharacterInfo _currentSelectedPlayer = null;
     private bool _requestSaveSessionBeforeLoadScene = false;
 
     public event EventHandler CurrentSessionChanged;
@@ -49,7 +51,7 @@ public class SessionManager : MonoBehaviour
         get => _currentSession;
         set
         {
-            ResetTempSession();
+            ResetTempSessionData();
 
             if (value != _currentSession)
             {
@@ -73,6 +75,28 @@ public class SessionManager : MonoBehaviour
     public TempSessionData TempSession
     {
         get => _tempSession;
+    }
+
+    public PlayerCharacterInfo CurrentSelectedPlayer
+    {
+        get => _currentSelectedPlayer;
+        set
+        {
+            _currentSelectedPlayer = value;
+            InitSelectedPlayer();
+        }
+    }
+
+    public void InitSelectedPlayer()
+    {
+        SpawnManager.Instance.PlayerCharacter = CurrentSelectedPlayer.PlayerCharacter;
+        foreach (AbstractModificator mod in CurrentSelectedPlayer.StartModificators)
+        {
+            ModificatorsManager.Instance.AddModificator(mod, AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT);
+        }
+        SpawnManager.Instance.PlayerCharacterHoldable = CurrentSelectedPlayer.StartHoldable;
+
+        AnalyticsManager.Instance.RecordEvent(new StartGameAnalyticsEvent(CurrentSelectedPlayer.PlayerCharacter.gameObject.name));
     }
 
     public bool GetCharacterIsUnlocked(PlayerCharacterInfo character)
@@ -152,9 +176,29 @@ public class SessionManager : MonoBehaviour
         JSONFileManager.SaveJSON(JSONFileManager.Instance.SavesFolder, JSONFileManager.Instance.SaveFileRootName, CurrentSession.Id, JsonUtility.ToJson(CurrentSession));
     }
 
-    public void ResetTempSession()
+    public void ResetTempSessionData()
     {
         _tempSession = new();
+    }
+
+    public IEnumerator DestroyTempSession()
+    {
+        if (_tempSessionManagersInstance != null)
+        {
+            Destroy(_tempSessionManagersInstance);
+        }
+
+        if (!_tempSessionManagersInstance.IsDestroyed()) yield return null;
+    }
+
+    public IEnumerator ResetTempSession()
+    {
+        ResetTempSessionData();
+
+        yield return DestroyTempSession();
+
+        _tempSessionManagersInstance = Instantiate(_tempSessionManagersPrefab);
+        DontDestroyOnLoad(_tempSessionManagersInstance);
     }
 
     private void OnDestroy()

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,13 +11,14 @@ public class GameOverUIManager : MonoBehaviour
         FINISHED_GAME
     }
 
+    public InputActionReference RestartAction;
     public InputActionReference LeaveAction;
-    public string MainMenuSceneName;
 
     [SerializeField] private RectTransform _allDeadTitleContainer;
     [SerializeField] private RectTransform _finishedGameTitleContainer;
 
     private GameOverReasons _gameOverReason = GameOverReasons.UNSET;
+    private Coroutine _restartCoroutine = null;
 
     public GameOverReasons GameOverReason
     {
@@ -33,6 +35,7 @@ public class GameOverUIManager : MonoBehaviour
     private void Start()
     {
         LeaveAction.action.started += PauseActionReference_OnActionStarted;
+        RestartAction.action.started += RestartActionReference_started;
 
         UpdateGameOverTitle();
     }
@@ -56,15 +59,38 @@ public class GameOverUIManager : MonoBehaviour
     private void OnDestroy()
     {
         LeaveAction.action.started -= PauseActionReference_OnActionStarted;
+        RestartAction.action.started -= RestartActionReference_started;
     }
 
-    private void PauseActionReference_OnActionStarted(InputAction.CallbackContext context)
+    private void RestartActionReference_started(InputAction.CallbackContext obj)
+    {
+        if (_restartCoroutine == null) _restartCoroutine = StartCoroutine(RestartCoroutine());
+    }
+
+    private IEnumerator RestartCoroutine()
     {
         if (GameplayUIManager.GetInstance() != null) GameplayUIManager.GetInstance().Pause.Paused = false;
 
         SessionManager.Instance.ApplyTempSessionToCurrentSessionAndSave();
-        SessionManager.Instance.CurrentSession = null;
 
-        UIManager.Instance.LoadSceneWithEffect(MainMenuSceneName);
+        yield return SessionManager.Instance.ResetTempSession();
+        SessionManager.Instance.InitSelectedPlayer();
+
+        UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+    }
+
+    private void PauseActionReference_OnActionStarted(InputAction.CallbackContext context)
+    {
+        if (_restartCoroutine == null) Exit();
+    }
+
+    private void Exit()
+    {
+        if (GameplayUIManager.GetInstance() != null) GameplayUIManager.GetInstance().Pause.Paused = false;
+
+        SessionManager.Instance.ApplyTempSessionToCurrentSessionAndSave();
+        SessionManager.Instance.ResetTempSessionData();
+
+        UIManager.Instance.LoadSceneWithEffect(SceneList.MAIN_MENU);
     }
 }

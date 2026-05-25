@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
-public class GameOverExit : MonoBehaviour
+public class GameOverRestart : MonoBehaviour
 {
     [SerializeField] private LocalizeStringEvent _localizedText;
     [SerializeField] private GameOverUIManager _gameOverUI;
@@ -21,7 +21,7 @@ public class GameOverExit : MonoBehaviour
 
     public void UpdateText()
     {
-        (_localizedText.StringReference["ExitButton"] as StringVariable).Value =
-            _gameOverUI.LeaveAction.action.GetBindingDisplayString(CurrentDeviceTracker.GetCurrentDeviceKeyBindIndex()).ToUpper();
+        (_localizedText.StringReference["RestartButton"] as StringVariable).Value =
+            _gameOverUI.RestartAction.action.GetBindingDisplayString(CurrentDeviceTracker.GetCurrentDeviceKeyBindIndex()).ToUpper();
     }
 }

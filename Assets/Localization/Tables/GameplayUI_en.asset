@@ -60,7 +60,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3661487982477312
-    m_Localized: Press {ExitButton} to exit
+    m_Localized: Press [{ExitButton}] to exit
     m_Metadata:
       m_Items:
       - rid: 3223126429313007719
@@ -148,6 +148,11 @@ MonoBehaviour:
     m_Localized: Reroll
     m_Metadata:
       m_Items: []
+  - m_Id: 72024547951616000
+    m_Localized: Press [{RestartButton}] to restart
+    m_Metadata:
+      m_Items:
+      - rid: 3223126429313007719
   references:
     version: 2
     RefIds:
@@ -157,3 +162,4 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 3661487982477312
+        - id: 72024547951616000

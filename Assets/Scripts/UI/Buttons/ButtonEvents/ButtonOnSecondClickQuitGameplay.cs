@@ -13,26 +13,24 @@ public class ButtonOnSecondClickQuitGameplay : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _warnText;
 
-    private bool warned = false;
-    private Coroutine resetWarnCoroutine;
+    private bool _warned = false;
+    private Coroutine _resetWarnCoroutine = null;
+    private Coroutine _exitCoroutine = null;
 
     public void QuiatGameplay()
     {
-        if (!warned)
+        if (!_warned)
         {
             _quitText.gameObject.SetActive(false);
             _warnText.gameObject.SetActive(true);
-            warned = true;
-            resetWarnCoroutine = StartCoroutine(ResetWarningAfterDelay());
+            _warned = true;
+            _resetWarnCoroutine = StartCoroutine(ResetWarningAfterDelay());
         }
         else
         {
-            StopCoroutine(resetWarnCoroutine);
+            StopCoroutine(_resetWarnCoroutine);
 
-            GameplayUIManager.GetInstance().Pause.Paused = false;
-            SessionManager.Instance.CurrentSession = null;
-
-            UIManager.Instance.LoadSceneWithEffect(MainMenuScenename);
+            if (_exitCoroutine == null) _exitCoroutine = StartCoroutine(ExitCoroutine());
         }
     }
 
@@ -42,6 +40,14 @@ public class ButtonOnSecondClickQuitGameplay : MonoBehaviour
 
         _quitText.gameObject.SetActive(true);
         _warnText.gameObject.SetActive(false);
-        warned = false;
+        _warned = false;
+    }
+
+    private IEnumerator ExitCoroutine()
+    {
+        SessionManager.Instance.ApplyTempSessionToCurrentSessionAndSave();
+        yield return SessionManager.Instance.ResetTempSession();
+
+        UIManager.Instance.LoadSceneWithEffect(MainMenuScenename);
     }
 }

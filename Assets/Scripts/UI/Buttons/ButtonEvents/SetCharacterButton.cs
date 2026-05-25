@@ -34,14 +34,7 @@ public class SetCharacterButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void SelectCharacter()
     {
-        SpawnManager.Instance.PlayerCharacter = PlayerInfo.PlayerCharacter;
-        foreach (AbstractModificator mod in PlayerInfo.StartModificators)
-        {
-            ModificatorsManager.Instance.AddModificator(mod, AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT);
-        }
-        SpawnManager.Instance.PlayerCharacterHoldable = PlayerInfo.StartHoldable;
-
-        AnalyticsManager.Instance.RecordEvent(new StartGameAnalyticsEvent(PlayerInfo.PlayerCharacter.gameObject.name));
+        SessionManager.Instance.CurrentSelectedPlayer = PlayerInfo;
     }
 
     private void Instance_CurrentSessionChanged(object sender, System.EventArgs e)
