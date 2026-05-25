@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612638428439249023].m_Value
-      value: 1
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: DodgeComboCost
+      value: DodgeComboCostPercent
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -139,6 +139,7 @@ MonoBehaviour:
   RestrictModificators: []
   SynergingModificators: []
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 0
   ModificatorTier: 3
   IconSprite: {fileID: 21300000, guid: 729c1ac4d12184b429bd8f9f87cacb68, type: 3}

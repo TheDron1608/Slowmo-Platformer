@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class KnockoutMeleeProjectileOwnerDeflectionWithComboCost : AbstractMeleeProjectileDeflection
 {
-    public int ComboCost = 1;
+    public float ComboMultOnDeflect = 0.5f;
     public List<AbstractEffect> ExtraKnockoutEffects = new();
     public float KnockoutVelocity = 40f;
     public Vector2 KnockoutDirection = Vector2.one;
@@ -27,7 +28,7 @@ public class KnockoutMeleeProjectileOwnerDeflectionWithComboCost : AbstractMelee
 
             MeleeProjectile.Owner.CharComponents.CharacterEffectsReceiver.ApplyEffect(ExtraKnockoutEffects, Sender);
 
-            ScoreManager.Instance.CurrentCombo -= ComboCost;
+            ScoreManager.Instance.CurrentCombo = (int)math.floor(ScoreManager.Instance.CurrentCombo * ComboMultOnDeflect);
         }
 
         RemoveSelf();
@@ -37,7 +38,7 @@ public class KnockoutMeleeProjectileOwnerDeflectionWithComboCost : AbstractMelee
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            ScoreManager.Instance?.CurrentCombo >= ComboCost &&
+            ScoreManager.Instance?.CurrentCombo > 0 &&
             ((!affectWho.GetComponent<MeleeProjectile>().Owner?.gameObject.IsDestroyed()) ?? false);
     }
 
@@ -50,7 +51,7 @@ public class KnockoutMeleeProjectileOwnerDeflectionWithComboCost : AbstractMelee
     {
         return
             base.Equals(other) &&
-            ComboCost == (other as KnockoutMeleeProjectileOwnerDeflectionWithComboCost).ComboCost &&
+            ComboMultOnDeflect == (other as KnockoutMeleeProjectileOwnerDeflectionWithComboCost).ComboMultOnDeflect &&
             KnockoutVelocity == (other as KnockoutMeleeProjectileOwnerDeflectionWithComboCost).KnockoutVelocity &&
             ExtraKnockoutEffects == (other as KnockoutMeleeProjectileOwnerDeflectionWithComboCost).ExtraKnockoutEffects &&
             KnockoutDirection == (other as KnockoutMeleeProjectileOwnerDeflectionWithComboCost).KnockoutDirection;

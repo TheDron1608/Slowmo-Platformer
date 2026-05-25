@@ -94,7 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612638428439249009].m_Value
-      value: -10
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
@@ -162,6 +162,7 @@ MonoBehaviour:
   RestrictModificators: []
   SynergingModificators: []
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 0
   ModificatorTier: 2
   IconSprite: {fileID: 21300000, guid: 7f173d0b7ddd13c4c8789abd1e632ac8, type: 3}
@@ -173,6 +174,6 @@ MonoBehaviour:
   _localization: {fileID: 2147315170708439846}
   ResetScoreEncountSpeedMultiplierMultiplier: 1.5
   ComboMultiplierOnReset: 0.5
-  MinCombo: -10
+  MinCombo: -5
   PlayerCharacterKillEffectsOnReachMinCombo:
   - {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}

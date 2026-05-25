@@ -1,9 +1,10 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class DeflectRangedProjectileComboCost : AbstractRangedProjectileDeflection
 {
+    public float ComboMultOnDeflect = 0.5f;
     public float DeflectionAccuracy = 0.25f;
-    public int DeflectComboCost = 1;
 
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
@@ -20,7 +21,7 @@ public class DeflectRangedProjectileComboCost : AbstractRangedProjectileDeflecti
 
             RangedProjectile.MoveAlignVec2 = newAlign;
 
-            ScoreManager.Instance.CurrentCombo -= DeflectComboCost;
+            ScoreManager.Instance.CurrentCombo = (int)math.floor(ScoreManager.Instance.CurrentCombo * ComboMultOnDeflect);
         }
 
         RemoveSelf();
@@ -28,14 +29,14 @@ public class DeflectRangedProjectileComboCost : AbstractRangedProjectileDeflecti
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return base.ApplyCondition(affectWho, sender) && ScoreManager.Instance?.CurrentCombo >= DeflectComboCost;
+        return base.ApplyCondition(affectWho, sender) && ScoreManager.Instance?.CurrentCombo > 0;
     }
 
     public override bool Equals(AbstractEffect other)
     {
         return
             base.Equals(other) &&
-            DeflectComboCost == (other as DeflectRangedProjectileComboCost).DeflectComboCost &&
+            ComboMultOnDeflect == (other as DeflectRangedProjectileComboCost).ComboMultOnDeflect &&
             DeflectionAccuracy == (other as DeflectRangedProjectileComboCost).DeflectionAccuracy;
     }
 }
