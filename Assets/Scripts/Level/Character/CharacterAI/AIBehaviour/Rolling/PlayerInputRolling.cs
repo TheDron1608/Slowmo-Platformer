@@ -1,16 +1,30 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInputRolling : AbstractAIRolling
 {
+    public InputActionReference RollActionReference;
     public InputActionReference MoveActionReference;
     public float MinMoveSpeed = 0.5f;
+    public float CoyoteEarlyTimer = .33f;
 
     public float GamePadRollInputDelay = 0.075f;
 
     private bool _awaitingResetInputToReroll = false;
     private float _currentGamepadRollInputDelay = 0f;
+    private float? _awaitTooEarlyRollInput = null;
+
+    private void Start()
+    {
+        RollActionReference.action.started += RollActionReference_OnActionStarted;
+    }
+
+    private void RollActionReference_OnActionStarted(InputAction.CallbackContext context)
+    {
+        HandleRollInput();
+    }
 
     private void Update()
     {
@@ -19,8 +33,27 @@ public class PlayerInputRolling : AbstractAIRolling
     }
 
     //ROLL
+    public void HandleRollInput()
+    {
+        if (!CharComponents.CharacterRolling.TryRoll(CharComponents.CharacterVisual.FlippedH ? -1f : 1f))
+        {
+            _awaitTooEarlyRollInput = 0f;
+        }
+    }
+
     private void UpdateRollInput()
     {
+        if (_awaitTooEarlyRollInput.HasValue)
+        {
+            _awaitTooEarlyRollInput += Time.unscaledDeltaTime;
+            if (
+                CharComponents.CharacterRolling.TryRoll(CharComponents.CharacterVisual.FlippedH ? -1f : 1f) ||
+                _awaitTooEarlyRollInput.Value > CoyoteEarlyTimer
+                )
+            {
+                _awaitTooEarlyRollInput = null;
+            }
+        }
         if (
             MoveActionReference.action.ReadValue<Vector2>().y <= -0.5f &&
             math.abs(MoveActionReference.action.ReadValue<Vector2>().x) > 0.05f
@@ -41,11 +74,18 @@ public class PlayerInputRolling : AbstractAIRolling
                     }
                 }
             }
+
+            _awaitTooEarlyRollInput = null;
         }
         else
         {
             _awaitingResetInputToReroll = false;
             _currentGamepadRollInputDelay = 0f;
         }
+    }
+
+    private void OnDestroy()
+    {
+        RollActionReference.action.started -= RollActionReference_OnActionStarted;
     }
 }
