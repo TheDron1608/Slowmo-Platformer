@@ -37,4 +37,24 @@ public abstract class AbstractCardItem : Button, UIElementTrackTarget.IUIElement
             Select();
         }
     }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
+
+        if (!CurrentDeviceTracker.GetGamepadIsConnected())
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+    }
+
+    public override void OnDeselect(BaseEventData eventData)
+    {
+        base.OnDeselect(eventData);
+
+        if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
+        {
+            container.SetDefaultDisplayedInfo();
+        }
+    }
 }

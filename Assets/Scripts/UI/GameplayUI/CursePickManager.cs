@@ -17,7 +17,6 @@ public class CursePickManager : AbstractModificatorCardsManager
     [SerializeField] private Transform _showScoreTransform;
     [SerializeField] private Transform _hideScoreTransform;
 
-    private int _picksLeft = 1;
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
     private Coroutine _tradeCoroutine = null;
     private float _tradedPrice = 0f;
@@ -29,9 +28,11 @@ public class CursePickManager : AbstractModificatorCardsManager
         return "GainNegativePick";
     }
 
-    private void Awake()
+    protected override void OnAwake()
     {
-        _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
+        base.OnAwake();
+
+        PicksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
         _scoreText.text = (ScoreManager.Instance.TradableScore + ScoreManager.Instance.CurrentCombo * ScoreManager.Instance.CurrentMultiplier).ToString("0");
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 CursePickManager instance per scene");
@@ -65,6 +66,8 @@ public class CursePickManager : AbstractModificatorCardsManager
     {
         if (ModificatorsManager.Instance != null && ScoreManager.Instance != null)
         {
+            CardsInfoContainer.gameObject.SetActive(false);
+
             yield return new WaitForSeconds(TRADE_DELAY);
 
             List<AbstractModificator> addedModificators = new();
@@ -161,6 +164,9 @@ public class CursePickManager : AbstractModificatorCardsManager
 
                 SetAllCardsInteractable(true);
             }
+
+            HideScore();
+            CardsInfoContainer.gameObject.SetActive(true);
         }
 
         _tradeCoroutine = null;
@@ -222,8 +228,8 @@ public class CursePickManager : AbstractModificatorCardsManager
 
     public override void SpendPicksLeft(int amount = 1)
     {
-        _picksLeft -= amount;
-        if (_picksLeft <= 0 || Cards.Count == 0)
+        PicksLeft -= amount;
+        if (PicksLeft <= 0 || Cards.Count == 0)
         {
             while (Cards.Count > 0)
             {
@@ -256,13 +262,6 @@ public class CursePickManager : AbstractModificatorCardsManager
     public void HideScore()
     {
         _scoreTrackTarget.transform.position = _hideScoreTransform.position;
-    }
-
-    public override void SetDisplayedInfo(List<IModificatorInfo> infos)
-    {
-        base.SetDisplayedInfo(infos);
-
-        HideScore();
     }
 
     private void OnDestroy()

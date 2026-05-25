@@ -18,6 +18,8 @@ public class ModificatorVisualInfo : MonoBehaviour
 
     private void Update()
     {
+        if (TargetInfo == null) return;
+
         Title.text = TargetInfo.Localization.LocalizedTitle;
         Description.text = TargetInfo.Localization.LocalizedDescription;
         Status.text = AbstractModificator.GetLocalizedStatus(TargetInfo.Status, TargetInfo.ModificatorPrice * TargetInfo.ModificatorMultiplier, TargetInfo.GetSpoilProgress());

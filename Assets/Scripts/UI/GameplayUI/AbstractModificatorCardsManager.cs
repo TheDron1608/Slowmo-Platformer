@@ -2,15 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 public abstract class AbstractModificatorCardsManager : MonoBehaviour
 {
+    const float DEFAULT_INFO_WIDTH_MULT = 2f;
+
     public Transform CardSpawnPosition;
     public Transform CardsContainer;
     public Transform CardTrackTargetsContainer;
     public Transform CardsInfoContainer;
+    public TextMeshProUGUI PicksLeftText;
+
+    public LocalizedString PicksLeftLocalization;
+    public LocalizedString StartTitle;
+    public LocalizedString StartDesc;
 
     [SerializeField] protected ModificatorCardsCluster _clusterInstance;
     [SerializeField] protected PickNothingCard _pickNothingCardInstance;
@@ -20,11 +30,23 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     private List<AbstractCardItem> _cards = new();
     private int _rerollsLeft = 0;
     private Dictionary<AbstractCardItem, bool> _cardPickInfo = new();
+    private int _picksLeft;
 
     public event EventHandler<AbstractCardItem> OnAddedItem;
     public event EventHandler<AbstractCardItem> OnRemovedItem;
 
     public abstract string GetAnalyticsChoiseTypeName();
+
+    private void Awake()
+    {
+        OnAwake();
+    }
+
+    protected virtual void OnAwake()
+    {
+        SetDefaultDisplayedInfo();
+        PicksLeftText.text = PicksLeftLocalization.GetLocalizedString() + _picksLeft.ToString();
+    }
 
     public List<AbstractCardItem> Cards
     {
@@ -36,6 +58,16 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     {
         get => _rerollsLeft;
         protected set => _rerollsLeft = value;
+    }
+
+    public int PicksLeft
+    {
+        get => _picksLeft;
+        set
+        {
+            _picksLeft = value;
+            PicksLeftText.text = PicksLeftLocalization.GetLocalizedString() + _picksLeft.ToString();
+        }
     }
 
     public Dictionary<AbstractCardItem, bool> CardPickInfo
@@ -115,6 +147,19 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         {
             Destroy(trackedUIElement.gameObject);
         }
+    }
+
+    public void SetDefaultDisplayedInfo()
+    {
+        foreach (Transform child in CardsInfoContainer)
+        {
+            Destroy(child.gameObject);
+        }
+
+        ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
+        newInfo.GetComponent<RectTransform>().sizeDelta *= Vector3.right * DEFAULT_INFO_WIDTH_MULT;
+        newInfo.Title.text = StartTitle?.GetLocalizedString() ?? "";
+        newInfo.Description.text = StartDesc?.GetLocalizedString() ?? "";
     }
 
     public void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)

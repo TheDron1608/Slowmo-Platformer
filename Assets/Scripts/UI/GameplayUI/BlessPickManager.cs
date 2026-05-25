@@ -24,7 +24,6 @@ public class BlessPickManager : AbstractModificatorCardsManager
     [SerializeField] private Transform _cantBuyAnyModificatorsMessageContainer;
 
     private float _tradedPrice = 0f;
-    private int _picksLeft = 1;
     private Coroutine _changeSceneDelayAfterSpendAllPicksCoroutine = null;
     private Coroutine _sellCursesCoroutine = null;
 
@@ -35,9 +34,11 @@ public class BlessPickManager : AbstractModificatorCardsManager
         return "SellNegativePick";
     }
 
-    private void Awake()
+    protected override void OnAwake()
     {
-        _picksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
+        base.OnAwake();
+
+        PicksLeft = ModificatorsManager.Instance?.ModifiactorsPickAmount ?? 1;
         _soldPriceText.text = ScoreManager.Instance.TradableScore.ToString("0");
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 BlessPickManager instance per scene");
@@ -258,8 +259,8 @@ public class BlessPickManager : AbstractModificatorCardsManager
 
     public override void SpendPicksLeft(int amount = 1)
     {
-        _picksLeft -= amount;
-        if (_picksLeft <= 0 || Cards.Count == 0)
+        PicksLeft -= amount;
+        if (PicksLeft <= 0 || Cards.Count == 0)
         {
             while (Cards.Count > 0)
             {

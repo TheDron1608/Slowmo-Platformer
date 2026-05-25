@@ -10,6 +10,15 @@ public class DebugCardsManager : AbstractModificatorCardsManager
         return null;
     }
 
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+
+        SpawnManager.Instance.PlayerCharacter = StartCharacter;
+
+        AddDebugCards(ModificatorDebugManager.Instance.DebugModificators);
+    }
+
     public override void FinishTrade()
     {
         base.FinishTrade();
@@ -31,12 +40,5 @@ public class DebugCardsManager : AbstractModificatorCardsManager
             newCluster.AddModificator(modificator);
             AddCard(newCluster);
         }
-    }
-
-    private void Start()
-    {
-        SpawnManager.Instance.PlayerCharacter = StartCharacter;
-
-        AddDebugCards(ModificatorDebugManager.Instance.DebugModificators);
     }
 }

@@ -107,7 +107,9 @@ MonoBehaviour:
   Stackable: 0
   AllowPermanent: 1
   OverrideModificators: []
-  RestrictModificators: []
+  RestrictModificators:
+  - {fileID: 6953754227209997223, guid: 5bb42b3bd48d1b843b31f3ec6e56fdc3, type: 3}
+  - {fileID: 6953754227209997223, guid: 69f4f23265f8777499a92fd94cef7a18, type: 3}
   SynergingModificators: []
   UnsynergingModificators: []
   HarderVersion: {fileID: 3974444745285643857, guid: b4549621f91788d429f548acb0740e60, type: 3}

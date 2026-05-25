@@ -11,7 +11,6 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     public List<AbstractEffect> EnemiesEffectOnFinish = new();
     public float EnemyEffectAffectDistance = 10f;
 
-    private int _picksLeft = 1;
     private string _requestSceneChangeOnFinish = null;
     private float _initCurseMinPrice = 0f;
     private float _initCurseMaxPrice = 0f;
@@ -24,14 +23,16 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
         return _isDebug ? null : "DifficultyNegativePick";
     }
 
-    private void Awake()
+    protected override void OnAwake()
     {
+        base.OnAwake();
+
         RerollsLeft = ModificatorsManager.Instance.DifficultyCursePickRerolls;
     }
 
     private void OnEnable()
     {
-        _picksLeft = ModificatorsManager.Instance.DifficultyUpNegativeModificatorsPickAmount;
+        PicksLeft = ModificatorsManager.Instance.DifficultyUpNegativeModificatorsPickAmount;
         TimeManager.Instance.Paused = true;
     }
 
@@ -52,7 +53,7 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
             AddCard(newCluster);
         }
 
-        _picksLeft = int.MaxValue;
+        PicksLeft = int.MaxValue;
         if (Cards.Count == 0) FinishTrade();
     }
 
@@ -99,9 +100,9 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
             }
         }
 
-        _picksLeft = _initPickAmount;
+        PicksLeft = _initPickAmount;
 
-        if (Cards.Count == 0 || _picksLeft == 0)
+        if (Cards.Count == 0 || PicksLeft == 0)
         {
             FinishTrade();
         }
@@ -147,9 +148,9 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
             }
         }
 
-        _picksLeft = _initPickAmount;
+        PicksLeft = _initPickAmount;
 
-        if (Cards.Count == 0 || _picksLeft == 0)
+        if (Cards.Count == 0 || PicksLeft == 0)
         {
             FinishTrade();
         }
@@ -166,9 +167,9 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
 
     public override void SpendPicksLeft(int amount = 1)
     {
-        _picksLeft -= amount;
+        PicksLeft -= amount;
 
-        if (_picksLeft <= 0 || Cards.Count == 0)
+        if (PicksLeft <= 0 || Cards.Count == 0)
         {
             while (Cards.Count > 0)
             {
