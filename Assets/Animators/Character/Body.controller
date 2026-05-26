@@ -2395,6 +2395,20 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-918021107949176240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24f358ba0b19a14b95eecc2946adc25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetHitBoxTransformOnEnter
+  HitBoxOnEnter: 2
+  ChangeDuration: 0.05
 --- !u!1101 &-787712102200612421
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2533,6 +2547,20 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-173353632198732332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec77b4ab798b499478ec75a9faaea043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetHitBoxTransformOnExit
+  HitBoxOnExit: 0
+  ChangeDuration: 0.1
 --- !u!1101 &-164092935660667432
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2731,7 +2759,9 @@ AnimatorState:
   m_Transitions:
   - {fileID: 1690340618980821814}
   - {fileID: 1383230967077035520}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -918021107949176240}
+  - {fileID: -173353632198732332}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
