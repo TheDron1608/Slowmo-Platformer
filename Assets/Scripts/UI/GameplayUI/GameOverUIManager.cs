@@ -18,7 +18,7 @@ public class GameOverUIManager : MonoBehaviour
     [SerializeField] private RectTransform _finishedGameTitleContainer;
 
     private GameOverReasons _gameOverReason = GameOverReasons.UNSET;
-    private Coroutine _restartCoroutine = null;
+    private Coroutine _saveAndQuitCoroutine = null;
 
     public GameOverReasons GameOverReason
     {
@@ -64,7 +64,7 @@ public class GameOverUIManager : MonoBehaviour
 
     private void RestartActionReference_started(InputAction.CallbackContext obj)
     {
-        if (_restartCoroutine == null) _restartCoroutine = StartCoroutine(RestartCoroutine());
+        if (_saveAndQuitCoroutine == null) _saveAndQuitCoroutine = StartCoroutine(RestartCoroutine());
     }
 
     private IEnumerator RestartCoroutine()
@@ -81,15 +81,15 @@ public class GameOverUIManager : MonoBehaviour
 
     private void PauseActionReference_OnActionStarted(InputAction.CallbackContext context)
     {
-        if (_restartCoroutine == null) Exit();
+        if (_saveAndQuitCoroutine == null) _saveAndQuitCoroutine = StartCoroutine(Exit());
     }
 
-    private void Exit()
+    private IEnumerator Exit()
     {
         if (GameplayUIManager.GetInstance() != null) GameplayUIManager.GetInstance().Pause.Paused = false;
 
         SessionManager.Instance.ApplyTempSessionToCurrentSessionAndSave();
-        SessionManager.Instance.ResetTempSessionData();
+        yield return SessionManager.Instance.ResetTempSession();
 
         UIManager.Instance.LoadSceneWithEffect(SceneList.MAIN_MENU);
     }
