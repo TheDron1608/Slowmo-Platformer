@@ -8,7 +8,7 @@ public class OnAbleToDefendBehaviourAI : AbstractCharacterStateBehaviourAI
     public override bool StateBehaviourCondition()
     {
         return
-            CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<Shield>() != null &&
+            (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out Shield s) ?? false) &&
             TeamManager.Instance.GetTeamDataByTeam(CharComponents.CharacterTeam.Team).GetTeamMembers().Any(GetAllyIsValidForDefend);
             
     }

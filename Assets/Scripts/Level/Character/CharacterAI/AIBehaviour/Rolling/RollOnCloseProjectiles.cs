@@ -61,12 +61,20 @@ public class RollOnCloseProjectiles : AbstractAIRolling
     private bool GetProjectileMovingToCharacter(AbstractProjectile projectile)
     {
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-        return
-            Physics2D.Raycast(
+        RaycastHit2D rayCast = Physics2D.Raycast(
                 projectile.transform.position,
                 VectorMath.Quartenion2DToVec2(projectile.transform.rotation),
                 projectile.ProjectileSize + RangedProjectileDistanceToRoll,
                 (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer)
-                ).collider?.GetComponent<AbstractCharacterComponent>()?.CharComponents == CharComponents;
+                );
+
+        if (rayCast.collider.TryGetComponent(out AbstractCharacterComponent character))
+        {
+            return character.CharComponents == CharComponents;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

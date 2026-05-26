@@ -28,6 +28,6 @@ public class SpeedLoader : AbstractRangedWeaponEffect
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return base.ApplyCondition(affectWho, sender) && affectWho.GetComponent<BulletReloadingWeapon>() != null;
+        return base.ApplyCondition(affectWho, sender) && affectWho.TryGetComponent(out BulletReloadingWeapon brw);
     }
 }

@@ -12,7 +12,7 @@ public class ReselectFloorEventHandler : MonoBehaviour
     {
         ReselectFloorEventEmitter.ReselectFloorEventCalled += ReselectFloorEventEmitter_OnReselectFloorEventCalled;
 
-        if (!TryGetComponent<Renderer>(out _renderer))
+        if (!TryGetComponent(out _renderer))
         {
             throw new UnityException("renderer component not found in " + gameObject.name);
         }

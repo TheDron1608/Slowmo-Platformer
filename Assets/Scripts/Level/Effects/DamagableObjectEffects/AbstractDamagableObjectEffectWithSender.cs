@@ -14,7 +14,7 @@ public abstract class AbstractDamagableObjectEffectWithSender : AbstractEffectWi
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<IDamagable>() != null;
+            affectWho.TryGetComponent(out IDamagable damagable);
     }
 
     protected override void OnApply()

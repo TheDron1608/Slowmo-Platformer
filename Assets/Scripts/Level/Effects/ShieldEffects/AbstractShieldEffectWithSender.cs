@@ -13,7 +13,7 @@ public abstract class AbstractShieldEffect : AbstractEffect, IShieldEffect
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<Shield>() != null;
+            affectWho.TryGetComponent(out Shield s);
     }
 
     protected override void OnApply()

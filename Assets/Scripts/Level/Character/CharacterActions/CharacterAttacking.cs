@@ -156,7 +156,7 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
             (CharComponents.CharacterVisual.IsBusy() && !CharComponents.CharacterVisual.IsClumsyAnimation()) ||
             (
                 CharComponents.CharacterClumsyness.ClumsyRangedAttack && 
-                CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<RangedWeapon>() != null && 
+                (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out RangedWeapon rw) ?? false) && 
                 CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0f
             )
             )

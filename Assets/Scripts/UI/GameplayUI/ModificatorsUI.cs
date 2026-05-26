@@ -65,7 +65,7 @@ public class ModificatorsUI : MonoBehaviour
             (value ? _modificatorTrackTargetsContainer : _modificatorOnPauseTrackTargetsContainer).GetComponentsInChildren<Transform>()
             )
         {
-            if (child.GetComponent<LayoutGroup>() == null)
+            if (!child.TryGetComponent(out LayoutGroup lg))
             {
                 child.SetParent(value ? _modificatorOnPauseTrackTargetsContainer.transform : _modificatorTrackTargetsContainer.transform);
             }

@@ -13,7 +13,7 @@ public abstract class AbstractMeleeWeaponEffect : AbstractWeaponEffect, IMeleeWe
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<MeleeWeapon>() != null;
+            affectWho.TryGetComponent(out MeleeWeapon mw);
     }
 
     protected override void OnApply()

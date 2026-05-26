@@ -8,8 +8,8 @@ public class DisarmAndStealMeleeProjectileOwner : AbstractMeleeProjectileDeflect
         if (
             MeleeProjectile.Owner == null ||
             MeleeProjectile.Weapon == null ||
-            MeleeProjectile.Weapon.GetComponent<Holdable>() == null ||
-            MeleeProjectile.Owner.CurrentHoldObject != MeleeProjectile.Weapon.GetComponent<Holdable>()
+            !MeleeProjectile.Weapon.TryGetComponent(out Holdable holdable) ||
+            MeleeProjectile.Owner.CurrentHoldObject != holdable
             )
         {
             return;

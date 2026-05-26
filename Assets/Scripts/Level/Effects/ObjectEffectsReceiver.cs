@@ -216,7 +216,14 @@ public class ObjectEffectsReceiver : MonoBehaviour
     {
         get
         {
-            return GetComponent<DynamicMaterial>()?.GetCurrentMaterial();
+            if (TryGetComponent(out DynamicMaterial dynamicMaterial))
+            {
+                return dynamicMaterial.GetCurrentMaterial();
+            }
+            else
+            {
+                return null;
+            }
         }
         protected set
         {

@@ -7,7 +7,7 @@ public abstract class AbstractOnKillEffect : AbstractDamagableObjectEffect, ITri
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return base.ApplyCondition(affectWho, sender) && affectWho.GetComponent<IEffectApplier>() != null;
+        return base.ApplyCondition(affectWho, sender) && affectWho.TryGetComponent(out IEffectApplier eApplier);
     }
 
     protected override void OnApply()

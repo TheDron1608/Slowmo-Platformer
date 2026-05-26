@@ -13,7 +13,7 @@ public abstract class AbstractRangedWeaponEffect : AbstractWeaponEffect, IRanged
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<RangedWeapon>() != null;
+            affectWho.TryGetComponent(out RangedWeapon rw);
     }
 
     protected override void OnApply()

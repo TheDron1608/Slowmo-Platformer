@@ -102,9 +102,11 @@ public class CharacterUITrack : AbstractCharacterComponent
     {
         return
             !(//exclude if destroyed
-                (CharComponents?.IsDestroyed() ?? false) || 
+                (CharComponents?.IsDestroyed() ?? false) ||
                 (CharComponents?.CharacterSpecial.IsDestroyed() ?? false)
-            ) && 
-            (CharComponents.CharacterSpecial?.GetComponent<CharacterBleedTeleportation>()?.IsTeleporting ?? false); //exclude if is teleporting
+            ) &&
+            //exclude if is teleporting
+            (CharComponents.CharacterSpecial?.TryGetComponent(out CharacterBleedTeleportation bleedTele) ?? false) &&
+            bleedTele.IsTeleporting;
     }
 }

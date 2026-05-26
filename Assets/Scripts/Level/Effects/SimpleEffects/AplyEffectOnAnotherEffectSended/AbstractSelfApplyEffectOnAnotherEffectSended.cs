@@ -42,7 +42,7 @@ public abstract class AbstractSelfApplyEffectOnAnotherEffectSended : AbstractEff
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return base.ApplyCondition(affectWho, sender) && affectWho.GetComponent<IEffectApplier>() != null;
+        return base.ApplyCondition(affectWho, sender) && affectWho.TryGetComponent(out IEffectApplier eApplier);
     }
 
     public override List<AbstractEffect> GetSelfIncludeIncomingEffects()

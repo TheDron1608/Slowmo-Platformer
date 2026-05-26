@@ -29,7 +29,14 @@ public class BreakableHoldable : BreakableObject
             _usesLeft = value;
             if (_usesLeft <= 0 && !UnlimitedUses)
             {
-                BreakObject(GetComponent<Holdable>()?.CurrentHolder);
+                if (TryGetComponent(out Holdable holdable))
+                {
+                    BreakObject(holdable.CurrentHolder);
+                }
+                else
+                {
+                    BreakObject(null);
+                }
             }
         }
     }

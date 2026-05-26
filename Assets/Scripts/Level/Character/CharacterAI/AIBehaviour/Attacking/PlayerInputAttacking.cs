@@ -71,7 +71,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
         if (
             CharComponents.CharacterClumsyness.ClumsyRangedAttack &&
             CharComponents.CharacterMoving.GetCurrentMoveDirection() != 0f &&
-            CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<RangedWeapon>() != null
+            (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out RangedWeapon rw) ?? false)
             )
         {
             CharComponents.CharacterAiming.AimWeaponDown = true;

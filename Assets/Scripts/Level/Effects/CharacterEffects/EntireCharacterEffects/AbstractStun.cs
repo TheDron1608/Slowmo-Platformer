@@ -4,7 +4,7 @@ public abstract class AbstractStun : AbstractCharacterEffectWithSender, IEntireC
     protected override void OnRemove()
     {
         base.OnRemove();
-        if (AffectedCharacter.CharacterEffectsReceiver.GetEffect<AbstractStun>() == null)
+        if (!AffectedCharacter.CharacterEffectsReceiver.TryGetEffect(out AbstractStun aStun))
         {
             AffectedCharacter.CharacterMoving.IsAbleToMove = true;
             AffectedCharacter.CharacterJumping.IsAbleToJump = true;

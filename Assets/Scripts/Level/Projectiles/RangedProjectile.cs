@@ -190,8 +190,8 @@ public class RangedProjectile : AbstractProjectile
     {
         base.OnHit(hitObject);
 
-        IDamagable damagableHitobject = hitObject.GetComponent<IDamagable>() ?? hitObject.transform.parent.GetComponent<IDamagable>();
-        ObjectEffectsReceiver effectableHitobject = hitObject.GetComponent<ObjectEffectsReceiver>() ?? hitObject.transform.parent.GetComponent<ObjectEffectsReceiver>();
+        GameObjectUtility.TryGetComponentInSelfOrParent(hitObject, out IDamagable damagableHitobject);
+        GameObjectUtility.TryGetComponentInSelfOrParent(hitObject, out ObjectEffectsReceiver effectableHitobject);
 
         if (_piercesLeft > 0 && (damagableHitobject?.PiercableThrought ?? false))
         {
@@ -224,7 +224,7 @@ public class RangedProjectile : AbstractProjectile
     {
         return
             base.HitCondition(totalHitObjects, currentHitObjet) &&
-            currentHitObjet.GetComponent<AbstractProjectile>() == null &&
+            !currentHitObjet.TryGetComponent(out AbstractProjectile ah) &&
             (!GameObjectUtility.TryGetComponentInSelfOrParentOrChild(currentHitObjet.gameObject, out IDamagable damagableHitObject) || damagableHitObject.HitableByRangedProjectiles);
     }
 
@@ -246,7 +246,7 @@ public class RangedProjectile : AbstractProjectile
             0f,
             NumberMath.PickRandomInRangeNoSeed(REMOVE_PARTICLE_EFFECT_MIN_VELOCITY_MULT, REMOVE_PARTICLE_EFFECT_MAX_VELOCITY_MULT),
             NumberMath.PickRandomInRangeNoSeed(-REMOVE_PARTICLE_EFFECT_ANGULAR_VELOCITY, REMOVE_PARTICLE_EFFECT_ANGULAR_VELOCITY),
-            GetComponent<Renderer>()?.sharedMaterial,
+            TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : null,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject)
             );
 

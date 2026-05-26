@@ -116,7 +116,7 @@ public static class NumberMath
     {
         for (int i = 0; i < list.Count; i++)
         {
-            if (list[i].GetComponent<T>() != null)
+            if (list[i].TryGetComponent(out T t))
             {
                 return true;
             }

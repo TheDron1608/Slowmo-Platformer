@@ -109,7 +109,7 @@ public class CharacterAiming : AbstractCharacterComponent
         {
             Vector2 targetAim = new Vector2(
                 CharComponents.CharacterVisual.FlippedH ? -1f : 1f, 
-                CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<FlashLightHoldable>() == null ? AIM_DOWN_Y_AXIS : AIM_DOWN_FLASHLIGHT_Y_AXIS
+                !(CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out FlashLightHoldable flh)) ?? true ? AIM_DOWN_Y_AXIS : AIM_DOWN_FLASHLIGHT_Y_AXIS
                 ) + VectorMath.Vec3ToVec2(CharComponents.Center.transform.position);
             _currentAimPoint = Vector2.Lerp(_currentAimPoint, targetAim, AimSpeed * Time.deltaTime);
         }
@@ -144,7 +144,7 @@ public class CharacterAiming : AbstractCharacterComponent
 
     public bool GetHoldingValidForAimRangedWeapon()
     {
-        return CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<RangedWeapon>() != null && CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded;
+        return CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rw) && CharComponents.CharacterHolding.CurrentHoldObject.RotatableWhenIsHolded;
     }
 
     public void InstantMoveToTargetAim()

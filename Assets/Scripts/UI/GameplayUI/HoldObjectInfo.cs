@@ -76,7 +76,7 @@ public class HoldObjectInfo : MonoBehaviour
                 _durabilityContainer.SetActive(true);
                 _durabilityProgress.fillAmount = chainsaw.FuelLeft / chainsaw.MaxFuel;
             }
-            else if (_currentHoldObject.GetComponent<MeleeWeapon>() != null && _currentHoldObject.TryGetComponent(out BreakableHoldable breakableHoldable))
+            else if (_currentHoldObject.TryGetComponent(out MeleeWeapon mw) && _currentHoldObject.TryGetComponent(out BreakableHoldable breakableHoldable))
             {
                 _durabilityContainer.SetActive(true);
                 _durabilityProgress.fillAmount = math.lerp(

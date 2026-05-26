@@ -138,7 +138,10 @@ public class MultiTileMapsContainer : MonoBehaviour
 
         foreach (Tilemap tilemap in _tilemaps)
         {
-            if (tilemap.GetComponent<TileBehaviour>()?.BehaviourType == behaviour && tilemap.HasTile(tilePosition))
+            if (
+                tilemap.TryGetComponent(out TileBehaviour tileBeh) &&
+                tileBeh.BehaviourType == behaviour && 
+                tilemap.HasTile(tilePosition))
             {
                 return true;
             }

@@ -116,7 +116,6 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     }
     public CharacterHoldingObjects OwnerOrLastHolder
     {
-        //get => Owner ?? Weapon?.GetComponent<Holdable>()?.LastHolder;
         get
         {
             if (Owner != null && !Owner.IsDestroyed()) return Owner;
@@ -371,7 +370,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
                 (
                     charHitbox.HitableByProjectiles &&
                     GetIsHighestHitPriority(totalHitObjects, charHitbox) &&
-                    currentHitObjet.transform.parent.GetComponent<CharacterPart>() != null
+                    currentHitObjet.transform.parent.TryGetComponent(out CharacterPart charPart)
                 )
             ) &&
             !_currentHittingColliders.Contains(currentHitObjet);

@@ -111,7 +111,7 @@ public class ZIndexLayer : MonoBehaviour
         List<ComplexGenerateionEnviroment.PreGeneratedEnviromentTempInfo> result = new();
         for (int i = 0; i < _generationTempInfo.Count; i++)
         {
-            if (_generationTempInfo[i].TargetGeneration.GetComponent<T>() != null && (!_generationTempInfo[i].Generated || includeGenerated))
+            if (_generationTempInfo[i].TargetGeneration.TryGetComponent(out T t) && (!_generationTempInfo[i].Generated || includeGenerated))
             {
                 result.Add(_generationTempInfo[i]);
             }
@@ -291,7 +291,7 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.FLUID_PARTICLE_TAG_NAME:
-                int targetLayer = gameObject.GetComponent<FluidParticle>()?.GetCurrentLayerSotringOrder(this) ?? BackgroundSortingLayer;
+                int targetLayer = gameObject.TryGetComponent(out FluidParticle fp) ? fp.GetCurrentLayerSotringOrder(this) : BackgroundSortingLayer;
                 SetLightRendererLayer(
                     gameObject,
                     targetLayer,
@@ -301,7 +301,8 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.ENVIROMENT_TAG_NAME:
-                switch (gameObject.GetComponent<TileBehaviour>()?.BehaviourType)
+                gameObject.TryGetComponent(out TileBehaviour tileBeh);
+                switch (tileBeh?.BehaviourType)
                 {
                     case TileBehaviour.TileBehaviourType.BACKGROUND:
                     case TileBehaviour.TileBehaviourType.BACKGROUND_DECORATIONS:
@@ -375,7 +376,7 @@ public class ZIndexLayer : MonoBehaviour
                 break;
 
             case LayerManager.HOLDABLE_TAG_NAME:
-                gameObject.layer = (gameObject.GetComponent<Holdable>()?.GetIsHitableNow() ?? false) ? HitableHoldablesLayer : HoldablesLayer;
+                gameObject.layer = (gameObject.TryGetComponent(out Holdable h) ? h.GetIsHitableNow() : false) ? HitableHoldablesLayer : HoldablesLayer;
                 break;
 
             case LayerManager.PHYSICS_PARTICLE_TAG_NAME:
@@ -447,7 +448,7 @@ public class ZIndexLayer : MonoBehaviour
         {
             return TrySpawnObject(randomSpawn.PickRandomSpawnObject(), position, building, chunk);
         }
-        else if (spawnObject.GetComponent<RandomSpawnMultiItem>() != null)
+        else if (spawnObject.TryGetComponent(out RandomSpawnMultiItem rsmt))
         {
             List<GameObject> result = new();
             foreach (Transform spawnObjectChild in spawnObject.transform)
@@ -465,7 +466,7 @@ public class ZIndexLayer : MonoBehaviour
             complexGeneratable.PreGenerate(this, position, building, chunk);
             return null;
         }
-        else if (spawnObject.GetComponent<NonGeneratableObject>() == null)
+        else if (!spawnObject.TryGetComponent(out NonGeneratableObject ngo))
         {
             GameObject newObject = Instantiate(spawnObject, position + spawnObject.transform.position, spawnObject.transform.rotation, transform);
             LayerManager.Instance.ChangeZIndexForGameObject(this, newObject);

@@ -38,7 +38,10 @@ public class OnInteractToggleOpenDoor : Interactable
             LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForAllChildren(transform);
             _collider.isTrigger = value;
 
-            GetComponent<IStuckToObject>()?.RemoveAllStuckedObjects();
+            if (TryGetComponent(out IStuckToObject stuckToObj))
+            {
+                stuckToObj.RemoveAllStuckedObjects();
+            }
         }
     }
 

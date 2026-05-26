@@ -29,7 +29,10 @@ public class OnInteractOpenCloset : Interactable
 
             (_closed ? SoundOnClose : SoundOnOpen).PlaySound();
 
-            GetComponent<BreakableObject>()?.ReleaseObjectsInside();
+            if (TryGetComponent(out BreakableObject breakable))
+            {
+                breakable.ReleaseObjectsInside();
+            }
         }
     }
 

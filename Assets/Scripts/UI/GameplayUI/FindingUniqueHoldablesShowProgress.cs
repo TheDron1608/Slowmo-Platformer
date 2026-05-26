@@ -16,7 +16,7 @@ public class FindingUniqueHoldablesShowProgress : MonoBehaviour
 
         foreach (Holdable requiredHoldable in Mission.RequiredFindHoldables)
         {
-            Sprite requiredHoldableSprite = requiredHoldable.GetComponent<SpriteRenderer>()?.sprite;
+            Sprite requiredHoldableSprite = requiredHoldable.GetComponent<SpriteRenderer>().sprite;
 
             GameObject newGO = new GameObject(requiredHoldable.FindingUniqueCodeName);
             newGO.transform.SetParent(transform, false);

@@ -13,11 +13,17 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
     {
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         AbstractProjectile[] projectiles = layer.ProjectilesContainer.GetComponentsInChildren<AbstractProjectile>();
-        MeleeProjectile currentProjectile =
-            CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<MeleeWeapon>()?.Projectile?.GetComponent<MeleeProjectile>() ??
-            CharComponents.UnarmedAttacking.Projectile?.GetComponent<MeleeProjectile>();
-
-        if (currentProjectile != null && CharComponents.CharacterAttacking.IsAbleToAttack)
+        MeleeProjectile currentProjectile = null;
+        if (
+            CharComponents.CharacterAttacking.IsAbleToAttack &&
+            (
+                (
+                    (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out MeleeWeapon meleeW) ?? false) &&
+                    (meleeW.Projectile?.TryGetComponent(out currentProjectile) ?? false)
+                ) ||
+                (CharComponents.UnarmedAttacking.Projectile?.TryGetComponent(out currentProjectile) ?? false)
+                )
+            )
         {
             AbstractProjectile closestProjectile = null;
             float closestProjectileDistance = PROJECTILE_DEFLECTION_MAX_DISTANCE;
@@ -62,7 +68,7 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
                     return;
                 }
                 else if (
-                    closestProjectile.GetComponent<MeleeProjectile>() != null &&
+                    closestProjectile.TryGetComponent(out MeleeProjectile mp) &&
                     closestProjectileDistance <= currentProjectile.ProjectileSize + closestProjectile.ProjectileSize + MELEE_PROJECTILE_DEFLECTION_DETECTION_EXTRA_DISTANCE
                     )
                 {
@@ -87,11 +93,11 @@ public class DefaultAIAttackingAndDeflect : DefaultAIAttacking
     {
         return
             (
-                deflected.GetComponent<RangedProjectile>() != null &&
+                deflected.TryGetComponent(out RangedProjectile rp) &&
                 NumberMath.GetListContainsComponent<AbstractRangedProjectileDeflection, AbstractEffect>(deflector.EffectsOnDeflect)
             ) ||
             (
-                deflected.GetComponent<MeleeProjectile>() != null &&
+                deflected.TryGetComponent(out MeleeProjectile mp) &&
                 NumberMath.GetListContainsComponent<AbstractMeleeProjectileDeflection, AbstractEffect>(deflector.EffectsOnDeflect)
             );
     }

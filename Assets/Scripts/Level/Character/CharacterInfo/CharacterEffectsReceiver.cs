@@ -193,7 +193,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         {
             foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
             {
-                if (charPart.GetComponent<CharacterLimbPart>() != null && charPart.TryGetComponent(out SpriteRenderer charPartRenderer))
+                if (charPart.TryGetComponent(out CharacterLimbPart clp) && charPart.TryGetComponent(out SpriteRenderer charPartRenderer))
                 {
                     return charPartRenderer.sharedMaterial;
                 }
@@ -205,7 +205,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         {
             foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
             {
-                if (charPart.GetComponent<CharacterLimbPart>() != null && charPart.TryGetComponent(out DynamicMaterial dynamicMaterial))
+                if (charPart.TryGetComponent(out CharacterLimbPart clp) && charPart.TryGetComponent(out DynamicMaterial dynamicMaterial))
                 {
                     dynamicMaterial.OverrideMaterial = value;
                 }

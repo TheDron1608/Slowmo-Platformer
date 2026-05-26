@@ -15,7 +15,10 @@ public class ButtonSoundVisualEffects : MonoBehaviour, ISelectHandler, IDeselect
 
     protected void Awake()
     {
-        GetComponent<Button>()?.onClick.AddListener(() => SoundOnClick.PlaySound());
+        if (TryGetComponent(out Button button))
+        {
+            button.onClick.AddListener(() => SoundOnClick.PlaySound());
+        }
     }
 
     protected virtual bool SelectCondition()

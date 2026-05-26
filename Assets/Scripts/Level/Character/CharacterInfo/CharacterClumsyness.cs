@@ -11,9 +11,9 @@ public class CharacterClumsyness : AbstractCharacterComponent
     {
         if (CharComponents.CharacterHolding.CurrentHoldObject == null) return false;
 
-        if (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<RangedWeapon>() != null && ClumsyRangedAttack) return true;
-        if (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<MeleeWeapon>() != null && ClumsyMeleeAttack) return true;
-        if (CharComponents.CharacterHolding.CurrentHoldObject.GetComponent<Shield>() != null && ClumsyShielding) return true;
+        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out RangedWeapon rw) && ClumsyRangedAttack) return true;
+        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out MeleeWeapon mw) && ClumsyMeleeAttack) return true;
+        if (CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Shield s) && ClumsyShielding) return true;
 
         return false;
     }

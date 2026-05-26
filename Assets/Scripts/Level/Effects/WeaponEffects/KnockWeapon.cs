@@ -27,6 +27,6 @@ public class KnockWeapon : AbstractWeaponEffect
             base.ApplyCondition(affectWho, sender) &&
             affectWho.TryGetComponent(out Holdable holdableWeapon) &&
             holdableWeapon.CurrentHolder == null &&
-            affectWho.GetComponent<Rigidbody2D>() != null;
+            affectWho.TryGetComponent(out Rigidbody2D rb);
     }
 }

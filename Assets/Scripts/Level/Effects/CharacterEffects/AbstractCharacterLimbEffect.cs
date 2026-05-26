@@ -13,7 +13,7 @@ public abstract class AbstractCharacterLimbEffect : AbstractEffect, ICharacterPa
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<CharacterPart>() != null;
+            affectWho.TryGetComponent(out CharacterPart charPart);
     }
 
     protected override void OnApply()

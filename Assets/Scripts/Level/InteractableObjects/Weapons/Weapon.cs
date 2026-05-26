@@ -284,9 +284,9 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     public virtual void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
     {
         OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
-        if (!gameObject.IsDestroyed())
+        if (!gameObject.IsDestroyed() && TryGetComponent(out Holdable holdable))
         {
-            GetComponent<Holdable>()?.CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+            holdable.CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
         }
     }
 }

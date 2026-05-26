@@ -14,12 +14,19 @@ public abstract class AbstractCharacterEffect : AbstractEffect, ICharacterEffect
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<AbstractCharacterComponent>() != null;
+            affectWho.TryGetComponent(out AbstractCharacterComponent character);
     }
 
     protected override void OnApply()
     {
         base.OnApply();
-        _affectedCharacter = transform.parent.GetComponent<AbstractCharacterComponent>().CharComponents;
+        if (transform.parent.TryGetComponent(out AbstractCharacterComponent character))
+        {
+            _affectedCharacter = character.CharComponents;
+        }
+        else
+        {
+            throw new UnityException("not found AbstractCharacterComponent for character effect");
+        }
     }
 }

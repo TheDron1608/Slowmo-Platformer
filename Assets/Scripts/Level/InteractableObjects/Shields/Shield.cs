@@ -56,17 +56,26 @@ public class Shield : DamagableObject, IThrowableIteractableObj
             _holdableComponent.HoldDistanceWhenIsHolded = value ? _defaultHoldDistance : 0f;
             _holdableComponent.GetComponent<Renderer>().sortingOrder += value ? ORDER_IN_LAYER_ON_RAISED_CHNGE : -ORDER_IN_LAYER_ON_RAISED_CHNGE;
 
-            GetComponent<BreakableObject>()?.RemoveAllStuckedObjects();
+            if (TryGetComponent(out BreakableObject breakable))
+            {
+                breakable.RemoveAllStuckedObjects();
+            }
 
             if (_raised)
             {
                 _holdableComponent.CurrentHolder?.CharComponents.CharacterEffectsReceiver.ApplyEffect(HolderEffectsOnRaise, this, 1f, true);
-                GetComponent<ObjectEffectsReceiver>()?.ApplyEffect(SelfEffectsOnRaise, this, 1f, true);
+                if (TryGetComponent(out ObjectEffectsReceiver effectReceiver))
+                {
+                    effectReceiver.ApplyEffect(SelfEffectsOnRaise, this, 1f, true);
+                }
             }
             else
             {
                 _holdableComponent.CurrentOrLastHolder?.CharComponents.CharacterEffectsReceiver.RemoveEffect(HolderEffectsOnRaise);
-                GetComponent<ObjectEffectsReceiver>()?.RemoveEffect(SelfEffectsOnRaise);
+                if (TryGetComponent(out ObjectEffectsReceiver effectReceiver))
+                {
+                    effectReceiver.RemoveEffect(SelfEffectsOnRaise);
+                }
             }
         }
     }

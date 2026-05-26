@@ -13,7 +13,7 @@ public abstract class AbstractMeleeProjectileEffect : AbstractProjectileEffect, 
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<MeleeProjectile>() != null;
+            affectWho.TryGetComponent(out MeleeProjectile mp);
     }
 
     protected override void OnApply()

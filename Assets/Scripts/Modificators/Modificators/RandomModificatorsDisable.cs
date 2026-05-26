@@ -32,7 +32,7 @@ public class RandomModificatorsDisable : AbstractModificator
         {
             if (
                 modificator.ModificatorType == TargetType &&
-                modificator.GetComponent<RandomModificatorsDisable>() == null &&
+                !modificator.TryGetComponent(out RandomModificatorsDisable rmd) &&
                 (!modificator.DisabledModificator || _currentDisabledModificators.Contains(modificator))
                 )
             {

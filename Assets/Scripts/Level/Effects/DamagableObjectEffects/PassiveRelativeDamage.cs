@@ -9,6 +9,7 @@ public class PassiveRelativeDamage : AbstractDamagableObjectEffect, IMultipliera
     public bool AllowOnDying = true;
 
     private float _effectMultiplier = 1f;
+    private ObjectEffectsReceiver _affectedObjectEffectsReceiver = null;
 
     public float EffectMultiplier 
     { 
@@ -16,11 +17,18 @@ public class PassiveRelativeDamage : AbstractDamagableObjectEffect, IMultipliera
         set => _effectMultiplier = value; 
     }
 
+    protected override void OnApply()
+    {
+        base.OnApply();
+
+        AffectedObject.TryGetComponent(out _affectedObjectEffectsReceiver);
+    }
+
     private void FixedUpdate()
     {
         if (
-            (AllowOnDead || (!AffectedObject.GetComponent<ObjectEffectsReceiver>()?.GetHasEffect<ILethalEffect>() ?? true)) &&
-            (AllowOnDying || (!AffectedObject.GetComponent<ObjectEffectsReceiver>()?.GetHasEffect<ILethalEffect>(true) ?? true))
+            (AllowOnDead || (!_affectedObjectEffectsReceiver?.GetHasEffect<ILethalEffect>() ?? true)) &&
+            (AllowOnDying || (!_affectedObjectEffectsReceiver?.GetHasEffect<ILethalEffect>(true) ?? true))
             )
         {
             AffectedDamagableObject.ApplyDamage( 

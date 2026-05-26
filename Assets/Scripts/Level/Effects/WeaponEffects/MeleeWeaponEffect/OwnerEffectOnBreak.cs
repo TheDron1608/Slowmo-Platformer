@@ -18,7 +18,10 @@ public class OwnerEffectOnBreak : AbstractMeleeWeaponEffect, ITriggerableEffect
     private void OwnerEffectOnBreak_OnBroken(object sender, MonoBehaviour e)
     {
         OnTriggered?.Invoke(this, EventArgs.Empty);
-        MeleeWeapon.GetComponent<Holdable>()?.CurrentHolder?.CharComponents.CharacterEffectsReceiver.ApplyEffect(OwnerEffect, MeleeWeapon);
+        if (MeleeWeapon.TryGetComponent(out Holdable holdableWeapon))
+        {
+            holdableWeapon.CurrentHolder?.CharComponents.CharacterEffectsReceiver.ApplyEffect(OwnerEffect, MeleeWeapon);
+        }
     }
 
     protected override void OnRemove()
@@ -33,7 +36,7 @@ public class OwnerEffectOnBreak : AbstractMeleeWeaponEffect, ITriggerableEffect
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return base.ApplyCondition(affectWho, sender) && affectWho.GetComponent<Holdable>() != null && affectWho.GetComponent<BreakableHoldable>() != null;
+        return base.ApplyCondition(affectWho, sender) && affectWho.TryGetComponent(out Holdable h) && affectWho.TryGetComponent(out BreakableHoldable bh);
     }
 
     public override bool Equals(AbstractEffect other)

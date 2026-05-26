@@ -35,14 +35,17 @@ public class SlowReactionAIAttacking : AbstractDelayedAttacking
 
 
         yield return new WaitForSeconds(
-            CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<MeleeWeapon>() != null ?
+            CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out MeleeWeapon mw) ?? false ?
             CharComponents.CharacterClumsyness.GetIsClumsyAttackWithCurrentWeapon() && MeleeAttackDelaySeconds < CLUMSY_MELEE_ATTACK_MIN_DELAY ? 0f : MeleeAttackDelaySeconds :
             RangedAttackDelaySeconds
             );
         
         if (!CharComponents.CharacterReloading.GetIsReloading())
         {
-            if ((CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<Weapon>() ?? CharComponents.UnarmedAttacking)?.AutoAttack ?? false)
+            if (
+                ((CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out Weapon w) ?? false) && w.AutoAttack) || 
+                (CharComponents.UnarmedAttacking?.AutoAttack ?? false)
+                )
             {
                 yield return AttackAutoWeaponSomeTime(targetAim);
             }

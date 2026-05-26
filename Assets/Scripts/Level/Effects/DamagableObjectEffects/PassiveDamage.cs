@@ -7,6 +7,14 @@ public class PassiveDamage : AbstractDamagableObjectEffect, IMultiplierableEffec
     public bool AllowOnDying = true;
 
     private float _effectMultiplier = 1f;
+    private ObjectEffectsReceiver _affectedObjectEffectsReceiver = null;
+
+    protected override void OnApply()
+    {
+        base.OnApply();
+
+        AffectedObject.TryGetComponent(out _affectedObjectEffectsReceiver);
+    }
 
     public float EffectMultiplier 
     { 
@@ -17,8 +25,8 @@ public class PassiveDamage : AbstractDamagableObjectEffect, IMultiplierableEffec
     private void FixedUpdate()
     {
         if (
-            (AllowOnDead || (!AffectedObject.GetComponent<ObjectEffectsReceiver>()?.GetHasEffect<ILethalEffect>() ?? true)) &&
-            (AllowOnDying || (!AffectedObject.GetComponent<ObjectEffectsReceiver>()?.GetHasEffect<ILethalEffect>(true) ?? true))
+            (AllowOnDead || (!_affectedObjectEffectsReceiver?.GetHasEffect<ILethalEffect>() ?? true)) &&
+            (AllowOnDying || (!_affectedObjectEffectsReceiver?.GetHasEffect<ILethalEffect>(true) ?? true))
             )
         {
             AffectedDamagableObject.ApplyDamage(DamagePerSecond * EffectMultiplier * Time.fixedDeltaTime, null, 0f);

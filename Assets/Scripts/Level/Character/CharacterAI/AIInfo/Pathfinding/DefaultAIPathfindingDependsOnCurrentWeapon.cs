@@ -3,8 +3,8 @@
     protected override void OnUpdateInfo()
     {
         if (
-            (CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<MeleeWeapon>() != null && CharComponents.CharacterClumsyness.ClumsyMeleeAttack) ||
-            (CharComponents.CharacterHolding.CurrentHoldObject?.GetComponent<RangedWeapon>() != null && CharComponents.CharacterClumsyness.ClumsyRangedAttack)
+            ((CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out MeleeWeapon mw) ?? false) && CharComponents.CharacterClumsyness.ClumsyMeleeAttack) ||
+            ((CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out RangedWeapon rw) ?? false) && CharComponents.CharacterClumsyness.ClumsyRangedAttack)
             )
         {
             CanJumpToTarget = false;

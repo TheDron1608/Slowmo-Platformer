@@ -210,7 +210,11 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
             }
             AbstractParticle limbParticle = limbParticleSpawner.SpawnParticle();
 
-            if (limbParticle.TryGetComponent(out BoxCollider2D particleCollider) && (GetComponent<CharacterLimbPart>()?.CharPartHitbox.TryGetComponent(out Collider2D limbCollider) ?? false))
+            if (
+                limbParticle.TryGetComponent(out BoxCollider2D particleCollider) && 
+                TryGetComponent(out CharacterLimbPart limbPart) && 
+                limbPart.CharPartHitbox.TryGetComponent(out Collider2D limbCollider)
+                )
             {
                 GameObjectUtility.ConvertSimpleColliderToBoxCollider(particleCollider, limbCollider);
             }

@@ -30,9 +30,9 @@ public class SetCameraTrackRotating : AbstractModificator
     {
         base.OnModificatorRemoved();
 
-        if (Camera.main?.GetComponent<CameraTrack>() != null)
+        if (Camera.main?.TryGetComponent(out CameraTrack camTrack) ?? false)
         {
-            Camera.main.GetComponent<CameraTrack>().CameraTrackRotatingDeg = _defaultTrackRotatingDeg;
+            camTrack.CameraTrackRotatingDeg = _defaultTrackRotatingDeg;
         }
     }
 }

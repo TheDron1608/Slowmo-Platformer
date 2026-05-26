@@ -13,7 +13,7 @@ public abstract class AbstractProjectileEffect : AbstractEffect, IProjectileEffe
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<AbstractProjectile>() != null;
+            affectWho.TryGetComponent(out AbstractProjectile ap);
     }
 
     protected override void OnApply()

@@ -34,7 +34,7 @@ public class AIPrefferOnlyFirstGrabbedWeapon : AbstractAIPrefferedHoldable
             (
                 _onlyHoldable == null || 
                 _onlyHoldable.IsDestroyed() ||
-                (_onlyHoldable.GetComponent<RangedWeapon>()?.GetIsOutOfAmmo() ?? false) ||
+                (_onlyHoldable.TryGetComponent(out RangedWeapon rp) && rp.GetIsOutOfAmmo()) ||
                 _onlyHoldable == holdable
             );
     }

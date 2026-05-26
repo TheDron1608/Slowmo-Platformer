@@ -35,7 +35,10 @@ public class BreakableDoor : BreakableObject
         GetComponent<SpriteRenderer>().flipX = transform.position.x < breaker.transform.position.x;
         GetComponent<OnInteractToggleOpenDoor>().IsOpen = true;
         GetComponent<OnInteractToggleOpenDoor>().enabled = false;
-        GetComponent<Animator>()?.SetBool(ANIMATOR_DESTROYED_PROP_NAME, true);
+        if (TryGetComponent(out Animator anim))
+        {
+            anim.SetBool(ANIMATOR_DESTROYED_PROP_NAME, true);
+        }
         if (TryGetComponent(out DamagableObject damagableObject))
         {
             damagableObject.HitableByMeleeProjectiles = false;

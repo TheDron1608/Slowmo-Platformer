@@ -50,9 +50,9 @@ public class TeleportToTargetIfCantReach : AbstractAISpecial
                     }
                 }
 
-                if (closesetCharacter != null )
+                if (closesetCharacter != null && (CharComponents.CharacterSpecial?.TryGetComponent(out CharacterBleedTeleportation bleedTele) ?? false))
                 {
-                    CharComponents.CharacterSpecial?.GetComponent<CharacterBleedTeleportation>()?.TryTeleport(closesetCharacter);
+                    bleedTele.TryTeleport(closesetCharacter);
                 }
 
                 _cantReachTimeSpent = 0f;

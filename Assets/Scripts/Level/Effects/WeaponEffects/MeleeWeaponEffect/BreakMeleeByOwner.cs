@@ -20,9 +20,16 @@ public class BreakMeleeByOwner : AbstractMeleeWeaponEffectWithSender
     {
         _timeSpent += Time.fixedDeltaTime;
 
-        CharacterComponentsManager owner = 
-            Weapon.GetComponent<Holdable>()?.CurrentHolder.CharComponents ?? 
-            Weapon.GetComponent<UnarmedWeapon>()?.CharComponents;
+        CharacterComponentsManager owner = null;
+
+        if (Weapon.TryGetComponent(out Holdable holdableW))
+        {
+            owner = holdableW.CurrentHolder?.CharComponents;
+        }
+        else if (Weapon.TryGetComponent(out UnarmedWeapon unarmedW))
+        {
+            owner = unarmedW.CharComponents;
+        }
 
         if (_targetBreaker != null && owner == _targetBreaker.CharComponents)
         {
@@ -43,9 +50,17 @@ public class BreakMeleeByOwner : AbstractMeleeWeaponEffectWithSender
         {
             if (IncludeDestroyBrokenWeapon)
             {
-                breakableWeapon.SpawnObjectsOnBreak.RemoveAll(e => e.GetComponent<Weapon>() != null);
+                breakableWeapon.SpawnObjectsOnBreak.RemoveAll(e => e.TryGetComponent(out Weapon w));
             }
-            breakableWeapon.BreakObject(_targetBreaker?.GetComponent<AbstractCharacterComponent>()?.CharComponents.CharacterHolding);
+
+            if (_targetBreaker?.TryGetComponent(out AbstractCharacterComponent brekaerCharacter) ?? false)
+            {
+                breakableWeapon.BreakObject(brekaerCharacter.CharComponents.CharacterHolding);
+            }
+            else
+            {
+                breakableWeapon.BreakObject(null);
+            }
         }
         else
         {

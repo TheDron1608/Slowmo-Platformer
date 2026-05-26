@@ -23,7 +23,10 @@ public class DisableObjectOnDistanceFromCamera : MonoBehaviour
 
     private void OnDestroy()
     {
-        Camera.main?.GetComponent<CameraDisablerObjectsOnDistance>()?.TrackedObjects.Remove(this);
+        if (Camera.main != null && Camera.main.TryGetComponent(out CameraDisablerObjectsOnDistance disabler))
+        {
+            disabler.TrackedObjects.Remove(this);
+        }
     }
 
     public virtual bool DisableCondition()

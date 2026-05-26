@@ -61,7 +61,6 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     {
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         Vector2 spawnPosition = TryGetComponent(out Collider2D collider) ? GameObjectUtility.GetCenterOfCollider(collider) : transform.position;
-        Material brokenObjMaterial = GetComponent<Renderer>()?.sharedMaterial;
 
         foreach (GameObject objectInside in SpawnObjectsOnBreak)
         {
@@ -72,9 +71,9 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
                 null
                 ).FirstOrDefault();
 
-            if (brokenObjMaterial != null && particleGO != null && particleGO.TryGetComponent(out Renderer particleRenderer))
+            if (TryGetComponent(out Renderer renderer) && particleGO != null && particleGO.TryGetComponent(out Renderer particleRenderer))
             {
-                particleRenderer.sharedMaterial = brokenObjMaterial;
+                particleRenderer.sharedMaterial = renderer.sharedMaterial;
             }
         }
         SpawnObjectsOnBreak.Clear();
@@ -122,7 +121,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
             BREAK_PARTICLES_MAX_SPAWN_VELOCITY,
             BREAK_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
             BREAK_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
-            GetComponent<Renderer>()?.sharedMaterial,
+            TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : null,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject),
             _partcilesOnBreak.Count,
             BREAK_DIRECTIVE_PARTICLES_ACCURACY

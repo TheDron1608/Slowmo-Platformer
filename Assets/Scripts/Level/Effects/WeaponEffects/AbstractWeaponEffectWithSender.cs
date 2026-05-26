@@ -13,7 +13,7 @@ public abstract class AbstractWeaponEffectWithSender : AbstractEffectWithSender,
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<Weapon>() != null;
+            affectWho.TryGetComponent(out Weapon w);
     }
 
     protected override void OnApply()

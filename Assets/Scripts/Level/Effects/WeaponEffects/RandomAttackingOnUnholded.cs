@@ -34,6 +34,6 @@ public class RandomAttackingOnUnholded : AbstractWeaponEffect, IMultiplierableEf
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return base.ApplyCondition(affectWho, sender) && affectWho.GetComponent<Holdable>() != null;
+        return base.ApplyCondition(affectWho, sender) && affectWho.TryGetComponent(out Holdable h);
     }
 }

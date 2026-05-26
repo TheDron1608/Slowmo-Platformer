@@ -42,9 +42,9 @@ public abstract class AnimatedInteractable : Interactable
     {
         OnFinishInteract((sender as MonoBehaviour).gameObject);
 
-        if (SelfAnimatorOnFinishIntreactTriggerName != "")
+        if (SelfAnimatorOnFinishIntreactTriggerName != "" && TryGetComponent(out Animator anim))
         {
-            GetComponent<Animator>()?.SetTrigger(SelfAnimatorOnFinishIntreactTriggerName);
+            anim.SetTrigger(SelfAnimatorOnFinishIntreactTriggerName);
         }
 
         CharacterVisual charVisual;

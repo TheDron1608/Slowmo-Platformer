@@ -24,7 +24,10 @@ public class OwnerEffectOnUnload : AbstractRangedWeaponEffect, ITriggerableEffec
         if (RangedWeapon.GetIsOutOfAmmo())
         {
             OnTriggered?.Invoke(this, new EventArgs());
-            RangedWeapon.GetComponent<Holdable>()?.CurrentHolder?.CharComponents.CharacterEffectsReceiver.ApplyEffect(OwnerEffect, RangedWeapon);
+            if (RangedWeapon.TryGetComponent(out Holdable holdableWeapon))
+            {
+                holdableWeapon.CurrentHolder?.CharComponents.CharacterEffectsReceiver.ApplyEffect(OwnerEffect, RangedWeapon);
+            }
         }
     }
 
@@ -44,7 +47,7 @@ public class OwnerEffectOnUnload : AbstractRangedWeaponEffect, ITriggerableEffec
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return base.ApplyCondition(affectWho, sender) && affectWho.GetComponent<Holdable>() != null;
+        return base.ApplyCondition(affectWho, sender) && affectWho.TryGetComponent(out Holdable h);
     }
 
     public override bool Equals(AbstractEffect other)

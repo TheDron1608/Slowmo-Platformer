@@ -13,7 +13,7 @@ public abstract class AbstractRangedProjectileEffectWithSender : AbstractProject
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<RangedProjectile>() != null;
+            affectWho.TryGetComponent(out RangedProjectile rp);
     }
 
     protected override void OnApply()

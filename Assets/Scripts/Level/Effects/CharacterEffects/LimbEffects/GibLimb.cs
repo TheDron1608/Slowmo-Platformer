@@ -5,7 +5,10 @@ public class GibLimb : AbstractCharacterLimbEffectWithSender
 {
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        AffectedPart.GetComponent<CharacterLimbPart>()?.CharPartHealth.TryGib(sender);
+        if (AffectedPart.TryGetComponent(out CharacterLimbPart limbPart))
+        {
+            limbPart.CharPartHealth.TryGib(sender);
+        }
 
         RemoveSelf();
     }
@@ -14,6 +17,7 @@ public class GibLimb : AbstractCharacterLimbEffectWithSender
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            (affectWho.GetComponent<CharacterLimbPart>()?.CharPartHealth.Gibable ?? false);
+            affectWho.TryGetComponent(out CharacterLimbPart limbPart) &&
+            limbPart.CharPartHealth.Gibable;
     }
 }

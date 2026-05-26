@@ -124,8 +124,8 @@ public class MeleeProjectile : AbstractProjectile
     {
         return
             (
-                (deflected.GetComponent<MeleeProjectile>() != null && IsAbleToDeflectMeleeProjectiles) ||
-                (deflected.GetComponent<RangedProjectile>() != null && IsAbleToDeflectRangedProjectiles)
+                (deflected.TryGetComponent(out MeleeProjectile mp) && IsAbleToDeflectMeleeProjectiles) ||
+                (deflected.TryGetComponent(out RangedProjectile rp) && IsAbleToDeflectRangedProjectiles)
             ) &&
             deflected != this &&
             (
