@@ -21,12 +21,14 @@ public class WorldGenerationManager : MonoBehaviour
     public List<Chunk> Chunks = new();
     public List<BuildingEnterChunk> EnterBuildingChunks = new();
     public List<Chunk> UnclosedConnectionsChunks = new();
+    public BuildingEnterChunk TutorialChunk;
     public Vector2 GenerateDirection = Vector2.one;
     public int ParallelRooms = 3;
     public float UnlosedConnectionChunkGenerationChance = 0.33f;
     public bool RegularExitsOnly = false;
 
     private List<BuildingInfo> _generatedBuildings = new();
+    private int _totalGenerations = 0;
 
     public static WorldGenerationManager Instance;
 
@@ -147,6 +149,8 @@ public class WorldGenerationManager : MonoBehaviour
                 lateGenEnviroment.Generate();
             }
         }
+
+        _totalGenerations++;
     }
 
     public bool TryGenerateBuilding(ZIndexLayer layer, Vector3Int position, int chunksAmount, Vector3Int prefferedPosition, List<DoorGenerationPosition.PreGeneratedDoorTempInfo.DoorGenerationTypes> extraExits, out BuildingInfo newBuildingInfo)
@@ -158,7 +162,15 @@ public class WorldGenerationManager : MonoBehaviour
         newBuildingInfoResult.Layer = layer;
 
         //creating first room with enter door, if failed generation or could not spawn any enter doors return false
-        if (!NumberMath.PickRandomItem(EnterBuildingChunks).TryGenerateChunkWithEnterAt(layer, position, newBuildingInfoResult, out ChunkInfo firstChunk)) return false;
+        if (!(
+                _totalGenerations == 0 && _generatedBuildings.Count == 0 ?
+                TutorialChunk :
+                NumberMath.PickRandomItem(EnterBuildingChunks)
+            ).TryGenerateChunkWithEnterAt(layer, position, newBuildingInfoResult, out ChunkInfo firstChunk)
+            )
+        {
+            return false;
+        }
         newBuildingInfoResult.Enter = firstChunk.DoorGenPositions.First();
         ChunkInfo currentMainBrunchChunk = firstChunk;
 

@@ -268,6 +268,10 @@ public class ZIndexLayer : MonoBehaviour
                 }
             }
         }
+        else if (gameObject.TryGetComponent(out Canvas canvas))
+        {
+            canvas.sortingOrder = canvas.sortingOrder % 1000 + ZIndex * 1000;
+        }
 
         switch (gameObject.tag)
         {
@@ -401,6 +405,10 @@ public class ZIndexLayer : MonoBehaviour
         if (gameObject.TryGetComponent(out DynamicShadowCasterSortingLayer shadowSortingLayer))
         {
             shadowSortingLayer.SortingLayer = shadowTargetSortingLayers;
+        }
+        if (gameObject.TryGetComponent(out Canvas canvas))
+        {
+            canvas.sortingLayerID = sortingLayerId;
         }
     }
 
