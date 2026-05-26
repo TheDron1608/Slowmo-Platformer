@@ -274,6 +274,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialKeyRoll
   Key: {fileID: -4437373604592349571, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   KeyMoveAlt: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  KeyboardKeyIdx: 0
+  KeyboardMoveDownKeyIdx: 3
+  KeyboardMoveLeftKeyIdx: 2
+  KeyboardMoveRightKeyIdx: 4
+  GamepadKeyIdx: 1
+  GamepadMoveKeyIdx: 5
 --- !u!224 &8140937675177623598 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8271739197466691119, guid: dab141f3e0977c446ab845195a3a572f, type: 3}
