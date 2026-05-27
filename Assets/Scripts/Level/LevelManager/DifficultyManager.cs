@@ -31,9 +31,17 @@ public class DifficultyManager : MonoBehaviour
         public Material SkyMaterial = null;
         public string ChangeSceneOnStart = "";
 
+        private string _localizedName = null;
+
         public float GetDelayBetweenMidCurses()
         {
             return Duration / (MidstageCursesAmount + 1);
+        }
+
+        public string GetLocalizedName()
+        {
+            if (_localizedName == null) _localizedName = LocalizedName.GetLocalizedString();
+            return _localizedName;
         }
     }
 

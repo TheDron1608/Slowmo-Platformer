@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class DifficultyUI : MonoBehaviour
 {
@@ -20,8 +21,11 @@ public class DifficultyUI : MonoBehaviour
     {
         if (DifficultyManager.Instance == null) return;
 
+        Profiler.BeginSample("ClearTimeLines");
         ClearAllTimelines();
+        Profiler.EndSample();
 
+        Profiler.BeginSample("PlaceTimeLines");
         float currentStageTime = 0;
         foreach (DifficultyManager.DifficultyStage stage in DifficultyManager.Instance.Difficulties)
         {
@@ -34,11 +38,12 @@ public class DifficultyUI : MonoBehaviour
                     );
             }
 
-            TryAddTimelineItem(currentStageTime, stage.DifficultyIcon, stage.LocalizedName?.GetLocalizedString());
+            TryAddTimelineItem(currentStageTime, stage.DifficultyIcon, stage.GetLocalizedName());
 
             currentStageTime += stage.Duration;
         }
 
+        Profiler.BeginSample("EnablingTimeLines");
         foreach (DifficultyUIItem item in _items)
         {
             if (item.gameObject.activeSelf != item.IsUsedInTimeline)
@@ -46,11 +51,14 @@ public class DifficultyUI : MonoBehaviour
                 item.gameObject.SetActive(item.IsUsedInTimeline);
             }
         }
+        Profiler.EndSample();
 
+        Profiler.BeginSample("Setting time text");
         TimeSpan time = new(0, 0, (int)math.floor(DifficultyManager.Instance.CurrentLoopDifficultyTime));
         _bottomInfoText.text =
             time.ToString(@"mm\:ss") + " | " +
-            DifficultyManager.Instance.CurrentDifficulty.Value.LocalizedName?.GetLocalizedString();
+            DifficultyManager.Instance.CurrentDifficulty.Value.GetLocalizedName();
+        Profiler.EndSample();
     }
 
     private bool TryAddTimelineItem(float time, Sprite iconSprite, string titleText)
