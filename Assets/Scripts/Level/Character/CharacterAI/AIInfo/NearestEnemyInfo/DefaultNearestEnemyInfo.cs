@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
 {
@@ -11,6 +12,7 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
 
     protected override void OnUpdateInfo()
     {
+        Profiler.BeginSample("DefaultNearestEnemyInfo.UpdateInfo");
         float minDistance = MaxEnemyDetectRange;
         ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         CharacterTeam result = null;
@@ -61,5 +63,6 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             _lastEnemyPosition = zDoor.Exit.transform.position;
             _lastEnemyLayer = zDoor.Exit.ZLayer;
         }
+        Profiler.EndSample();
     }
 }

@@ -2,13 +2,16 @@
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class DefaultAIPathfinding : AbstractAIPathfinding
 {
     public bool CanJumpToTarget = true;
     public Color Debug_PathColor = new Color(1, 1, 1, 0);
+    public bool AdvancedPathinding = false;
 
-    const int PATHINDING_ITERATIONS_LIMIT = 64;
+    const int DEFAULT_ITERATIONS_LIMIT = 16;
+    const int ADVANCED_ITERATIONS_LIMIT = 64;
 
     private class PathChainElementPrecalculated
     {
@@ -77,11 +80,18 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         {
             return;
         }
+        Profiler.BeginSample("DefaultAIPathfinding.UpdateInfo");
 
         Vector2Int characterTilePosition = TileManager.PositionToTilePosition(transform.position);
 
         if (LayerManager.Instance.GetZLayerOfGameObject(gameObject) != PathTarget.Value.Layer)
         {
+            if (!AdvancedPathinding)
+            {
+                Profiler.EndSample();
+                return;
+            }
+
             List<OnInteractEnterMultiZDoor> validDoors = new();
             foreach (var door in LayerManager.Instance.GetZLayerOfGameObject(gameObject).FurnitureContainer.GetComponentsInChildren<OnInteractEnterMultiZDoor>(false))
             {
@@ -92,6 +102,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             }
             if (validDoors.Count == 0)
             {
+                Profiler.EndSample();
                 return;
             }
 
@@ -156,6 +167,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         if (startPlatform == null)
         {
             result = null;
+            Profiler.EndSample();
             return false;
         }
 
@@ -176,7 +188,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         PathChainElementPrecalculated nearestJumpToChain = null;
         Vector2Int pathTargetVec2Int = TileManager.PositionToTilePosition(to);
 
-        while (iterations < PATHINDING_ITERATIONS_LIMIT)
+        while (iterations < (AdvancedPathinding ? ADVANCED_ITERATIONS_LIMIT : DEFAULT_ITERATIONS_LIMIT))
         {
             if (CanJumpToTarget)
             {
@@ -303,7 +315,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             currentChain = currentChain.PrevElement;
 
             iterations++;
-            if (iterations > PATHINDING_ITERATIONS_LIMIT) throw new UnityException("iterations limit is reached, pathfinding system probably created invinite loop or too big");
+            if (iterations > (AdvancedPathinding ? ADVANCED_ITERATIONS_LIMIT : DEFAULT_ITERATIONS_LIMIT)) throw new UnityException("iterations limit is reached, pathfinding system probably created invinite loop or too big");
         }
         while (currentChain != null && currentChain.TargetPosition != from);
 
@@ -315,6 +327,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             result.AddLast(lastChain);
         }
 
+        Profiler.EndSample();
         return result.Last.Value.TargetPosition == to;
     }
 
