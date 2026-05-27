@@ -45,6 +45,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     private bool _isInCooldown = false;
     private Transform _projectileSpawnPosition;
     private List<AbstractProjectile> _projectiles = new();
+    private Coroutine _attackMultipleTimesCoroutine = null;
     private Coroutine _awaitAttackCooldownCoroutine = null;
 
     public event EventHandler<IEffectApplier.OnEffectAppliedEventArgs> OnEffectApplied;
@@ -139,7 +140,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     {
         if (AttackCondition() && (ignoreCooldown || !IsInCooldown))
         {
-            StartCoroutine(AttackMultipleTimes());
+            _attackMultipleTimesCoroutine = StartCoroutine(AttackMultipleTimes());
             return true;
         }
         else
@@ -259,11 +260,12 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
             yield return new WaitForSeconds(DurationBetweenRepeatAttacks);
         }
         _awaitAttackCooldownCoroutine = StartCoroutine(AwaitAttackCooldownFinish());
+        _attackMultipleTimesCoroutine = null;
     }
 
     protected virtual bool AttackCondition()
     {
-        return IsAbleToAttack;
+        return IsAbleToAttack && _attackMultipleTimesCoroutine == null;
     }
 
     /// <summary>
