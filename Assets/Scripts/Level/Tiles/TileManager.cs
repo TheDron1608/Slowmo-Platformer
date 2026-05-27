@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class TileManager : MonoBehaviour
 {
+    const int MAX_NAV_PLATFORM_PRECALCULATE_REACHABLE_DISTANCE = 7;
+
     public enum NavigationPlatformDirection
     {
         LEFT,
@@ -16,6 +16,7 @@ public class TileManager : MonoBehaviour
     {
         public Vector3Int Position;
         public int Width;
+        public List<NavigationPlatformInfo> PreCalculatedReachablePlatforms = new();
 
         public int TailPositionX
         {
@@ -27,9 +28,20 @@ public class TileManager : MonoBehaviour
             get => new Vector3Int(Position.x + Width - 1, Position.y, Position.z);
         }
 
-        public void Debug_DrawPlatform(Color color, float duration)
+        public void Debug_DrawPlatform(Color platformColor, Color reachablePlatformsColor, float duration)
         {
-            Debug.DrawLine(new Vector2(Position.x + 0.1f, Position.y + 1.4f), new Vector2(Position.x + Width - 0.1f, Position.y + 1.4f), color, duration);
+            Debug.DrawLine(
+                new Vector2(Position.x + 0.1f, Position.y + 1.4f), 
+                new Vector2(Position.x + Width - 0.1f, Position.y + 1.4f
+                ), platformColor, duration);
+
+            foreach (var rPl in PreCalculatedReachablePlatforms)
+            {
+                Debug.DrawLine(
+                    new Vector2((Position.x + TailPositionX) / 2f, Position.y + 1.4f), 
+                    new Vector2((rPl.Position.x + rPl.TailPositionX) / 2f, rPl.Position.y + 1.4f), 
+                    reachablePlatformsColor, duration);
+            }
         }
 
         public bool GetPositionInOnPlatform(Vector2Int position)
@@ -127,6 +139,29 @@ public class TileManager : MonoBehaviour
                 currentPlatform = null;
             }
         }
+
+        //createing precalculated relations
+        foreach (NavigationPlatformInfo platform in _navigationPlatforms)
+        {
+            foreach (NavigationPlatformInfo subplaform in _navigationPlatforms)
+            {
+                if (platform == subplaform) continue;
+                if (
+                    TryCreateTransition(
+                    platform, 
+                    subplaform, 
+                    new Vector2Int((platform.Position.x + platform.TailPositionX) / 2, platform.Position.y + 1),
+                    MAX_NAV_PLATFORM_PRECALCULATE_REACHABLE_DISTANCE,
+                    MAX_NAV_PLATFORM_PRECALCULATE_REACHABLE_DISTANCE
+                    ) != null
+                    )
+                {
+                    platform.PreCalculatedReachablePlatforms.Add(subplaform);
+                }
+            }
+        }
+
+        //Debug_DrawAINavigationPaths(Color.red, Color.orange, 999f);
     }
 
     public NavigationPlatformInfo GetNearestReachablePlatform(Vector2 position, int maxJumpHeight, int maxJumpWidth)
@@ -464,18 +499,26 @@ public class TileManager : MonoBehaviour
         return false;
     }
 
-    public void Debug_DrawAINavigationPaths(Color color, float duration, int maxJumpHeight, int maxJumpWidth)
+    public void Debug_DrawAINavigationPaths(Color platformColor, Color reachablePlatformsColor, float duration)
     {
         foreach (NavigationPlatformInfo platform in _navigationPlatforms)
         {
-            platform.Debug_DrawPlatform(color, duration);
+            platform.Debug_DrawPlatform(platformColor, reachablePlatformsColor, duration);
+        }
+    }
+
+    public void Debug_DrawAINavigationPathsWithCalculatedRelations(Color platformColor, Color reachablePlatformsColor, float duration, int maxJumpHeight, int maxJumpWidth)
+    {
+        foreach (NavigationPlatformInfo platform in _navigationPlatforms)
+        {
+            platform.Debug_DrawPlatform(platformColor, reachablePlatformsColor, duration);
 
             foreach (NavigationPlatformInfo subPlatform in _navigationPlatforms)
             {
                 if (subPlatform == platform) continue;
 
-                TryCreateTransition(platform, subPlatform, new Vector2Int(platform.TailPositionX, platform.Position.y + 1), maxJumpHeight, maxJumpWidth)?.Debug_DrawTransition(color, duration);
-                TryCreateTransition(platform, subPlatform, new Vector2Int(platform.TailPositionX, platform.Position.y + 1), maxJumpHeight, maxJumpWidth)?.Debug_DrawTransition(color, duration);
+                TryCreateTransition(platform, subPlatform, new Vector2Int(platform.TailPositionX, platform.Position.y + 1), maxJumpHeight, maxJumpWidth)?.Debug_DrawTransition(platformColor, duration);
+                TryCreateTransition(platform, subPlatform, new Vector2Int(platform.TailPositionX, platform.Position.y + 1), maxJumpHeight, maxJumpWidth)?.Debug_DrawTransition(platformColor, duration);
             }
         }
     }

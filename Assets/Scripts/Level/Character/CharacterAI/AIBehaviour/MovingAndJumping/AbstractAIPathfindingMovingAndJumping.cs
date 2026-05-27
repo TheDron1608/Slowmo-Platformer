@@ -16,8 +16,14 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
 
     private void FixedUpdate()
     {
-        UpdatePathTarget();
-        UpdateActionsToReachPathTarget();
+        if (
+            CharComponents.CharacterMoving.IsAbleToMove &&
+            (!CharComponents.CharacterVisual.IsBusy() || CharComponents.CharacterVisual.AllowMovementOnBusyAnimation)
+            )
+        {
+            UpdatePathTarget();
+            UpdateActionsToReachPathTarget();
+        }
     }
 
     protected abstract void UpdatePathTarget();

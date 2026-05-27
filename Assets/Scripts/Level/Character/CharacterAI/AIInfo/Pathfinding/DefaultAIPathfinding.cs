@@ -231,17 +231,17 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                 break;
             }
 
-            for (int j = 0; j < platforms.Count; j++)
+            foreach (var possibleReachablePlatform in currentChain.Platform.PreCalculatedReachablePlatforms)
             {
-                if (platforms[j] == null) continue;
+                if (possibleReachablePlatform == null) continue;
 
-                TileManager.NavigationPlatformTransitionInfo transition = tileManager.TryCreateTransition(currentChain.Platform, platforms[j], currentChain.StartPosition, maxJumpHeight, maxJumpWidth);
+                TileManager.NavigationPlatformTransitionInfo transition = tileManager.TryCreateTransition(currentChain.Platform, possibleReachablePlatform, currentChain.StartPosition, maxJumpHeight, maxJumpWidth);
                 if (transition != null)
                 {
                     PathChainElementPrecalculated newMoveChain = new(
                         currentChain.TargetPosition,
                         transition.StartConntection,
-                        platforms[j],
+                        possibleReachablePlatform,
                         to
                         );
                     newMoveChain.PrevElement = currentChain;
@@ -249,13 +249,12 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
                     PathChainElementPrecalculated newJumpChain = new(
                         transition.StartConntection,
                         transition.EndConnection,
-                        platforms[j],
+                        possibleReachablePlatform,
                         to
                         );
                     newJumpChain.PrevElement = newMoveChain;
 
                     requiredCalculateChains.Add(newJumpChain);
-                    platforms[j] = null;
                 }
 
             }
