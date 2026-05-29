@@ -19,6 +19,6 @@ public class GameOverAnalyticsEvent : Unity.Services.Analytics.Event
 
         TotalModsPrice = ModificatorsManager.Instance.GetTotalModsPrice();
 
-        GameSessionTime = DifficultyManager.Instance.RealtimeTotalDifficultyTime;
+        GameSessionTime = DifficultyManager.Instance.TotalDifficultyTime;
     }
 }
