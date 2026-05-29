@@ -16,6 +16,11 @@ public class ConvertTeam : AbstractCharacterEffect, IEntireCharacterEffect
     protected override void OnApply()
     {
         base.OnApply();
+
+        if (TryGetComponent(out DisableObjectOnDistanceFromCamera disableObject))
+        {
+            disableObject.AllowDisable = OverrideTeam != TeamManager.Teams.PLAYER;
+        }
         
         if (OverrideAI != null)
         {

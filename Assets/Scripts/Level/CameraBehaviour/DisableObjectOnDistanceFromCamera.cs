@@ -5,6 +5,13 @@ public class DisableObjectOnDistanceFromCamera : MonoBehaviour
 {
     public float DistanceToDistable = 50f;
     public bool DisableOnDifferentLayers = true;
+    private bool _allowDisable = true;
+
+    public bool AllowDisable
+    {
+        get => _allowDisable;
+        set => _allowDisable = value;
+    }
 
     public bool ForceDisable
     {
@@ -31,6 +38,6 @@ public class DisableObjectOnDistanceFromCamera : MonoBehaviour
 
     public virtual bool DisableCondition()
     {
-        return true;
+        return _allowDisable;
     }
 }

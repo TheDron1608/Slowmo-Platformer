@@ -160,11 +160,14 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                         i--;
                     }
                     else if (
-                        _convertedCharacters[i].CharacterCollision.CurrentZLayer != specialHoldableLayer ||
-                        Vector2.Distance(
-                            _convertedCharacters[i].transform.position, 
-                            _currentSpecialHoldable.transform.position
-                            ) > MaxCharacterDistanceFromHoldable
+                        _currentSpecialHoldable.CurrentHolder != _convertedCharacters[i].CharacterHolding &&
+                        (
+                            _convertedCharacters[i].CharacterCollision.CurrentZLayer != specialHoldableLayer ||
+                            Vector2.Distance(
+                                _convertedCharacters[i].transform.position, 
+                                _currentSpecialHoldable.transform.position
+                                ) > MaxCharacterDistanceFromHoldable
+                        )
                         )
                     {
                         _convertedCharacters[i].CharacterEffectsReceiver.ApplyEffect(EffectsOnTooFarFromHoldable, _currentSpecialHoldable);
