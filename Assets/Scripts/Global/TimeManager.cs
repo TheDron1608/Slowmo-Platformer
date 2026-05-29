@@ -93,6 +93,11 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    public float TempSlowTimeLeft
+    {
+        get => _tempSlowTimeLeft;
+    }
+
     public float GetTotalTimeScale()
     {
         return math.max(CurrentTimeScale * (1f - NumberMath.LimitFloatBetweenMinusOneAndOne(_tempSlowTimeLeft)), MIN_TIME_SCALE);

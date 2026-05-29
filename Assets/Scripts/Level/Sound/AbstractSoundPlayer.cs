@@ -5,22 +5,76 @@ public abstract class AbstractSoundPlayer : MonoBehaviour
     protected const float MIN_VOLUME = 0.01f;
 
     public Sound DefaultSound;
-    public float Pitch = 1f;
-    public float Volume = 1f;
     public SoundManager.SoundTypes SoundType = SoundManager.SoundTypes.SFX;
+
+    [SerializeField] private float _pitch = 1f;
+    [SerializeField] private float _volume = 1f;
     [SerializeField] protected AudioSource _audioSource;
 
     private float _dynamicVolumeMultiplier = 1f;
 
+    public float Pitch
+    {
+        get => _pitch;
+        set
+        {
+            if (_pitch == value) return;
+            
+            if (_audioSource != null)
+            {
+                _audioSource.pitch = _audioSource.pitch / _pitch * value;
+            }
+
+            _pitch = value;
+        }
+    }
+
+    public float Volume
+    {
+        get => _volume;
+        set
+        {
+            if (_volume == value) return;
+
+            _volume = value;
+
+            if (_audioSource != null)
+            {
+                _audioSource.volume = CalculateVolume();
+            }
+        }
+    }
+
+    public float PlayTime
+    {
+        get => _audioSource.time;
+        set => _audioSource.time = value;
+    }
+
     public float DynamicVolumeMultiplier
     {
         get => _dynamicVolumeMultiplier;
-        set => _dynamicVolumeMultiplier = value;
+        set
+        {
+            if (_dynamicVolumeMultiplier == value) return;
+
+            _dynamicVolumeMultiplier = value;
+
+            if (_audioSource != null)
+            {
+                _audioSource.volume = CalculateVolume();
+            }
+        }
     }
 
-    public void PlaySound(bool loop = false, Vector2? audioPoint = null)
+    public float CurrentClipDuration
     {
-        PlaySound(DefaultSound, loop, audioPoint);
+        get => _audioSource.isPlaying ? _audioSource.clip.length : 0f;
+    }
+
+    public void PlaySound(bool loop = false, Vector2? audioPoint = null, float? startTime = null)
+    {
+        PlaySound(DefaultSound, loop, audioPoint, startTime);
     }
 
     public void BreakAllSounds()
@@ -38,5 +92,5 @@ public abstract class AbstractSoundPlayer : MonoBehaviour
         return Volume * DynamicVolumeMultiplier * (SoundManager.Instance?.GetCurrentSoundTypeVolume(SoundType) ?? 1f);
     }
 
-    public abstract void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null);
+    public abstract void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null);
 }

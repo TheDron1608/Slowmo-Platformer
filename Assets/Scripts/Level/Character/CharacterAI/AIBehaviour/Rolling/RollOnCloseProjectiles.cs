@@ -68,7 +68,7 @@ public class RollOnCloseProjectiles : AbstractAIRolling
                 (1 << layer.CharactersLayer) | (1 << layer.EnviromentLayer)
                 );
 
-        if (rayCast.collider.TryGetComponent(out AbstractCharacterComponent character))
+        if (rayCast.collider?.TryGetComponent(out AbstractCharacterComponent character) ?? false)
         {
             return character.CharComponents == CharComponents;
         }

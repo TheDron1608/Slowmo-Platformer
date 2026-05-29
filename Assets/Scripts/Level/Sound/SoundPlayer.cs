@@ -6,19 +6,12 @@ public class SoundPlayer : AbstractSoundPlayer
 {
     const float MIN_VOLUME_DISTANCE = 15f;
 
-    public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null)
+    public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null)
     {
-        if (
-            sound == null || 
-            (!_audioSource.enabled && !audioPoint.HasValue)
-            )
-        {
-            return;
-        }
+        if (sound == null || !_audioSource.enabled || !gameObject.activeSelf) return;
 
         AudioClip randomClip = NumberMath.PickRandomItem(sound.AudioClips);
         float targetVolume = CalculateVolume();
-        if (targetVolume < MIN_VOLUME) return;
 
         if (audioPoint.HasValue)
         {
@@ -33,18 +26,12 @@ public class SoundPlayer : AbstractSoundPlayer
             _audioSource.loop = loop;
             _audioSource.pitch = Pitch + NumberMath.PickRandomInRangeNoSeed(-sound.RandomPitchSpread, sound.RandomPitchSpread);
             _audioSource.volume = targetVolume;
-
-            if (_audioSource.volume < MIN_VOLUME) return;
-
-            if (loop)
+            _audioSource.clip = randomClip;
+            if (startTime.HasValue)
             {
-                _audioSource.clip = randomClip;
-                _audioSource.Play();
+                _audioSource.time = startTime.Value * randomClip.length;
             }
-            else
-            {
-                _audioSource.PlayOneShot(randomClip);
-            }
+            _audioSource.Play();
         }
     }
 

@@ -17,7 +17,7 @@ public class DifficultyManager : MonoBehaviour
         public Sprite DifficultyIcon;
         public Sprite MidCurseIcon;
         public float Duration = 60 * 3; //3 minets
-        public AudioClip Music = null;
+        public Sound Music = null;
         public int MidstageCursesAmount = 0;
         public float CursesMinPrice = 0f;
         public float CursesMaxPrice = 0f;

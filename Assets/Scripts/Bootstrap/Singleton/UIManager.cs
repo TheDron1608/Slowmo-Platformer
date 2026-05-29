@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
@@ -426,23 +427,26 @@ public class UIManager : MonoBehaviour
     {
         if (_sceneLoadingProcess != null) return;
 
+        if (MusicManager.Instance != null) MusicManager.Instance.TargetMusicVolume = 0f;
         if (TimeManager.Instance != null) TimeManager.Instance.Paused = true;
 
         Instance.SceneEndScreenOverlay.Show();
 
-        Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished += LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
-
         _sceneLoadingProcess = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         _sceneLoadingProcess.allowSceneActivation = false;
+        StartCoroutine(LoadSceneAfterAwaitMusicFinish());
     }
 
-    private void LoadSceneWithEffect_OnScreenOverlayAnimationFinished(object sender, EventArgs e)
+    private IEnumerator LoadSceneAfterAwaitMusicFinish()
     {
+        if (MusicManager.Instance != null)
+        {
+            yield return new WaitForSecondsRealtime(MusicManager.VOLUME_CHANGE_DURATION);
+        }
+
         if (TimeManager.Instance != null) TimeManager.Instance.Paused = false;
 
         _sceneLoadingProcess.allowSceneActivation = true;
-        Instance.SceneEndScreenOverlay.ScreenOverlayAnimationFinished -= LoadSceneWithEffect_OnScreenOverlayAnimationFinished;
         _sceneLoadingProcess = null;
-
     }
 }

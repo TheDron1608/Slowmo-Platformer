@@ -14,8 +14,44 @@ public class SoundManager : MonoBehaviour
     [Serializable]
     public class SoundData
     {
-        public float MusicVolume = 1f;
-        public float SFXVolume = 1f;
+        private float _musicVolume = 1f;
+        private float _sFXVolume = 1f;
+
+        public float MusicVolume
+        {
+            get => _musicVolume;
+            set
+            {
+                if (_musicVolume == value) return;
+                _musicVolume = value;
+
+                foreach (var soundPlayer in FindObjectsByType<AbstractSoundPlayer>(FindObjectsSortMode.None))
+                {
+                    if (soundPlayer.SoundType == SoundTypes.MUSIC)
+                    {
+                        soundPlayer.Volume = _musicVolume;
+                    }
+                }
+            }
+        }
+
+        public float SFXVolume
+        {
+            get => _sFXVolume;
+            set
+            {
+                if (_sFXVolume == value) return;
+                _sFXVolume = value;
+
+                foreach (var soundPlayer in FindObjectsByType<AbstractSoundPlayer>(FindObjectsSortMode.None))
+                {
+                    if (soundPlayer.SoundType == SoundTypes.SFX)
+                    {
+                        soundPlayer.Volume = _musicVolume;
+                    }
+                }
+            }
+        }
     }
 
     public static SoundManager Instance;

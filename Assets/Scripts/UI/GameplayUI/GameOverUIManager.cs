@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class GameOverUIManager : MonoBehaviour
 {
+    const float MUSIC_VOLUME_ON_GAME_OVER = 0.1f;
+
     public enum GameOverReasons
     {
         UNSET,
@@ -38,6 +40,22 @@ public class GameOverUIManager : MonoBehaviour
         RestartAction.action.started += RestartActionReference_started;
 
         UpdateGameOverTitle();
+    }
+
+    private void OnEnable()
+    {
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.TargetMusicVolume = MUSIC_VOLUME_ON_GAME_OVER;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.TargetMusicVolume = 1f;
+        }
     }
 
     private void UpdateGameOverTitle()

@@ -7,32 +7,25 @@ public class StaticSoundPlayer : AbstractSoundPlayer
         AudioListenerInstance.Instance.OnDestroyed += Instance_OnDestroyed;
     }
 
-    public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null)
+    public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null)
     {
-        if (sound == null) return;
+        if (sound == null || !_audioSource.enabled || !gameObject.activeSelf) return;
 
         AudioClip randomClip = NumberMath.PickRandomItem(sound.AudioClips);
         float targetVolume = CalculateVolume();
-        if (targetVolume < MIN_VOLUME) return;
 
         _audioSource.loop = loop;
         _audioSource.pitch = Pitch + NumberMath.PickRandomInRangeNoSeed(-sound.RandomPitchSpread, sound.RandomPitchSpread);
         _audioSource.volume = targetVolume;
-
-        if (_audioSource.volume < MIN_VOLUME) return;
-
         _audioSource.transform.SetParent(AudioListenerInstance.Instance.transform);
         _audioSource.transform.localPosition = Vector3.zero;
+        _audioSource.clip = randomClip;
+        if (startTime.HasValue)
+        {
+            _audioSource.time = startTime.Value * randomClip.length;
+        }
+        _audioSource.Play();
 
-        if (loop)
-        {
-            _audioSource.clip = randomClip;
-            _audioSource.Play();
-        }
-        else
-        {
-            _audioSource.PlayOneShot(randomClip);
-        }
     }
 
     private void Instance_OnDestroyed(object sender, System.EventArgs e)
