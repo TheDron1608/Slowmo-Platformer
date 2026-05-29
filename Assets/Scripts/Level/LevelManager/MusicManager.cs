@@ -54,6 +54,7 @@ public class MusicManager : MonoBehaviour
         while (true)
         {
             if (
+                ForcePlayMusic == null && 
                 DifficultyManager.Instance != null &&
                 _currentTrackedMusicStage != DifficultyManager.Instance.CurrentDifficulty.Value
                 )
