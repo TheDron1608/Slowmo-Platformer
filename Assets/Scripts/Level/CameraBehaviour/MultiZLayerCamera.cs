@@ -55,7 +55,16 @@ public class MultiZLayerCamera : MonoBehaviour
     {
         if (_cameraTrackComponent.TrackTargets.Count > 0)
         {
-            CurrentZLayer = LayerManager.Instance.GetZLayerOfGameObject(_cameraTrackComponent.TrackTargets[0].gameObject);
+            ZIndexLayer maxZLayer = null;
+            foreach (var trackTarget in _cameraTrackComponent.TrackTargets)
+            {
+                ZIndexLayer currentTrackTargetZLayer = LayerManager.Instance.GetZLayerOfGameObject(_cameraTrackComponent.TrackTargets[0].gameObject);
+                if ((maxZLayer?.ZIndex ?? int.MinValue) < currentTrackTargetZLayer.ZIndex)
+                {
+                    maxZLayer = currentTrackTargetZLayer;
+                }
+            }
+            CurrentZLayer = maxZLayer;
         }
     }
 }
