@@ -36,6 +36,7 @@ public class ButtonScrollerOnScrollChangeVolume : MonoBehaviour
                 SoundManager.Instance.SoundVolume.SFXVolume = (float)volume / MAX_VOLUME;
                 break;
         }
+        SoundManager.Instance.SoundVolume.UpdateSoundData();
         SoundManager.Instance.SaveSoundToJSON();
     }
 }

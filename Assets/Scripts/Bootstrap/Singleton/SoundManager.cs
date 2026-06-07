@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using Unity.VisualScripting;
@@ -14,42 +15,14 @@ public class SoundManager : MonoBehaviour
     [Serializable]
     public class SoundData
     {
-        private float _musicVolume = 1f;
-        private float _sFXVolume = 1f;
+        public float MusicVolume = 1f;
+        public float SFXVolume = 1f;
 
-        public float MusicVolume
+        public void UpdateSoundData()
         {
-            get => _musicVolume;
-            set
+            foreach (var soundPlayer in FindObjectsByType<AbstractSoundPlayer>(FindObjectsSortMode.None))
             {
-                if (_musicVolume == value) return;
-                _musicVolume = value;
-
-                foreach (var soundPlayer in FindObjectsByType<AbstractSoundPlayer>(FindObjectsSortMode.None))
-                {
-                    if (soundPlayer.SoundType == SoundTypes.MUSIC)
-                    {
-                        soundPlayer.UpdateVolume();
-                    }
-                }
-            }
-        }
-
-        public float SFXVolume
-        {
-            get => _sFXVolume;
-            set
-            {
-                if (_sFXVolume == value) return;
-                _sFXVolume = value;
-
-                foreach (var soundPlayer in FindObjectsByType<AbstractSoundPlayer>(FindObjectsSortMode.None))
-                {
-                    if (soundPlayer.SoundType == SoundTypes.SFX)
-                    {
-                        soundPlayer.UpdateVolume();
-                    }
-                }
+                soundPlayer.UpdateVolume();
             }
         }
     }
