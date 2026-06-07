@@ -441,7 +441,8 @@ public class CharacterCollision : AbstractCharacterComponent
                     (
                         CanHitWhileRolling &&
                         CharComponents.CharacterRolling.IsRolling &&
-                        !CharComponents.CharacterRolling.CurrentRollHitCharacters.Contains(otherCharComponent)
+                        !CharComponents.CharacterRolling.CurrentRollHitCharacters.Contains(otherCharComponent) &&
+                        !otherCharComponent.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
                     )
                     )
                 {
@@ -458,7 +459,12 @@ public class CharacterCollision : AbstractCharacterComponent
                         CharComponents.CharacterRolling.CurrentRollHitCharacters.Add(otherCharComponent);
                     }
 
-                    CharComponents.CharacterRolling.SoundOnRollHit.PlaySound();
+                    if (
+                        (CharComponents.CharacterRolling.IsRolling || CharComponents.CharacterEffectsReceiver.GetHasEffect<AbstractStun>()) && 
+                        !otherCharComponent.CharComponents.CharacterRolling.SoundOnRollHit.GetIsPlaying())
+                    {
+                        CharComponents.CharacterRolling.SoundOnRollHit.PlaySound();
+                    }
                     OnHitOtherCharacters?.Invoke(this, otherCharComponent);
                 }
             }

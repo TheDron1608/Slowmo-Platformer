@@ -20,7 +20,7 @@ public interface IDamagable
 
     public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier);
     public void ApplyMinHealth(float newMinHealth, MonoBehaviour applier);
-    public void ApplyProjectileHit(AbstractProjectile hitter);
+    public void ApplyProjectileHit(AbstractProjectile hitter, bool includeSound = true);
 
     public void RestoreHealth(MonoBehaviour restorer)
     {

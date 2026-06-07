@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
@@ -25,9 +26,11 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
-    public AbstractSoundPlayer SoundOnDamage;
     public AbstractSoundPlayer SoundOnGib;
     public AbstractSoundPlayer SoundOnCutOff;
+    public AbstractSoundPlayer SoundOnLethalDamage;
+
+    private bool _partRemoved = false;
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 
@@ -101,8 +104,6 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 math.max(1, (int)math.floor(damage * ParticlesPerDamage)),
                 BLEED_PARTICLES_ACCURACY
                 );
-
-            SoundOnDamage.PlaySound();
         }
 
         if (CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() && ParticlesOnLethalHit.Count > 0)
@@ -139,10 +140,16 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         CharComponents.CharacterHealth.ApplyMaxHealth(newMinHealth, applier);
     }
 
-    public void ApplyProjectileHit(AbstractProjectile hitter)
+    public void ApplyProjectileHit(AbstractProjectile hitter, bool includeSound = true)
     {
         OnHitByProjectile?.Invoke(this, hitter);
-        CharComponents.CharacterHealth.ApplyProjectileHit(hitter);
+
+        bool isDead = CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
+        CharComponents.CharacterHealth.ApplyProjectileHit(hitter, includeSound && !_partRemoved && !isDead);
+        if (isDead && includeSound)
+        {
+            SoundOnLethalDamage.PlaySound();
+        }
     }
 
     public bool TryCutOff(MonoBehaviour cutter)
@@ -160,6 +167,10 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
     public void CutOff(MonoBehaviour cutter)
     {
+        SoundOnCutOff.PlaySound(false, transform.position);
+
+        _partRemoved = true;
+
         if (LosingLimbIsLethal)
         {
             CharComponents.CharacterHealth.Die(cutter, GetComponent<CharacterLimbPart>());
@@ -188,8 +199,6 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 BLEED_PARTICLES_ACCURACY
                 );
         }
-
-        SoundOnCutOff.PlaySound(false, transform.position);
 
         if (TryGetComponent(out CharacterLimbPart limbPart))
         {
@@ -265,6 +274,10 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
     public void Gib(MonoBehaviour gibber)
     {
+        SoundOnGib.PlaySound(false, transform.position);
+
+        _partRemoved = true;
+
         if (LosingLimbIsLethal)
         {
             CharComponents.CharacterHealth.Die(gibber, GetComponent<CharacterLimbPart>());
@@ -288,8 +301,6 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 0f
                 );
         }
-
-        SoundOnGib.PlaySound(false, transform.position);
 
         if (TryGetComponent(out CharacterLimbPart limbPart))
         {

@@ -131,8 +131,6 @@ public class DamagableObject : MonoBehaviour, IDamagable
                     PARTICLES_ON_DAMAGE_ACCURACY
                     );
             }
-
-            SoundOnDamage.PlaySound();
         }
 
         SetHealth(CurrentHealth - damage, damager);
@@ -201,8 +199,13 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
     }
 
-    public void ApplyProjectileHit(AbstractProjectile hitter)
+    public void ApplyProjectileHit(AbstractProjectile hitter, bool includeSound = true)
     {
+        if (includeSound)
+        {
+            SoundOnDamage.PlaySound();
+        }
+
         OnHitByProjectile?.Invoke(this, hitter);
     }
 }

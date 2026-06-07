@@ -60,16 +60,26 @@ public abstract class AbstractSoundPlayer : MonoBehaviour
 
             _dynamicVolumeMultiplier = value;
 
-            if (_audioSource != null)
-            {
-                _audioSource.volume = CalculateVolume();
-            }
+            UpdateVolume();
         }
     }
 
     public float CurrentClipDuration
     {
         get => _audioSource.isPlaying ? _audioSource.clip.length : 0f;
+    }
+
+    private void Awake()
+    {
+        UpdateVolume();
+    }
+
+    public void UpdateVolume()
+    {
+        if (_audioSource != null)
+        {
+            _audioSource.volume = CalculateVolume();
+        }
     }
 
     public void PlaySound(bool loop = false, Vector2? audioPoint = null, float? startTime = null)

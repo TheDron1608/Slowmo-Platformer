@@ -52,8 +52,8 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
             if (_teleportingHoldable.TryGetComponent(out DisableObjectOnDistanceFromCamera holdableDisabler))
             {
                 holdableDisabler.enabled = false;
+                holdableDisabler.gameObject.SetActive(false);
             }
-            holdableDisabler.gameObject.SetActive(false);
         }
 
         TrySetDisableOnDistanceActive(false);

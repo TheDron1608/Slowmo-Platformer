@@ -29,7 +29,7 @@ public class SoundManager : MonoBehaviour
                 {
                     if (soundPlayer.SoundType == SoundTypes.MUSIC)
                     {
-                        soundPlayer.Volume = _musicVolume;
+                        soundPlayer.UpdateVolume();
                     }
                 }
             }
@@ -47,7 +47,7 @@ public class SoundManager : MonoBehaviour
                 {
                     if (soundPlayer.SoundType == SoundTypes.SFX)
                     {
-                        soundPlayer.Volume = _musicVolume;
+                        soundPlayer.UpdateVolume();
                     }
                 }
             }

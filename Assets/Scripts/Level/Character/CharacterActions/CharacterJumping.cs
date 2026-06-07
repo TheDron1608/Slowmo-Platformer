@@ -16,6 +16,7 @@ public class CharacterJumping : AbstractCharacterComponent
     public bool CanForceStopRollingOnJump = false;
     public AbstractParticle ParticleOnAirJump;
     public AbstractSoundPlayer SoundOnJump;
+    public AbstractSoundPlayer SoundOnAirJump;
 
     private int _airJumpsLeft = 0;
     private bool _isJumping = false;
@@ -146,6 +147,8 @@ public class CharacterJumping : AbstractCharacterComponent
             {
                 CharComponents.CharacterRigidBody.linearVelocityX -= JumpOffWallForce;
             }
+
+            SoundOnJump?.PlaySound();
         }
         else if (GetIsAbleToJumpFromAir())
         {
@@ -173,6 +176,8 @@ public class CharacterJumping : AbstractCharacterComponent
             {
                 _airJumpsLeft = 0;
             }
+
+            SoundOnAirJump?.PlaySound();    
         }
 
         _isJumping = true;
@@ -204,6 +209,8 @@ public class CharacterJumping : AbstractCharacterComponent
         {
             CharComponents.CharacterRigidBody.linearVelocityY = JumpForce;
         }
+
+        SoundOnJump?.PlaySound();
 
         _isJumping = true;
 

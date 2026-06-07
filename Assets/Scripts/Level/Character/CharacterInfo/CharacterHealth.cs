@@ -104,7 +104,7 @@ public class CharacterHealth : DamagableObject
                 );
         }
 
-        SoundOnGib.PlaySound();
+        SoundOnGib.PlaySound(false, CharComponents.Center.transform.position);
 
         CharComponents.CharacterHolding.ForceStunThrow();
         CharComponents.CharacterStuckedObjects.RemoveAllStuckedObjects();

@@ -262,7 +262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicManager
   MusicPlayer: {fileID: 8461651513901553999}
   ForcePlayMusic: {fileID: 0}
-  DisableMusic: 0
+  TargetMusicVolume: 1
 --- !u!1 &4829675721774256220
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,6 +399,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5385443437079559187}
     m_Modifications:
+    - target: {fileID: 1644112846336942693, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
+      propertyPath: Priority
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1696940024585810937, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.90545
