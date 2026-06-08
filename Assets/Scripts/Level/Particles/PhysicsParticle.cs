@@ -33,6 +33,15 @@ public class PhysicsParticle : AbstractSpriteParticle
         colliderComponent.size = originalColliderComponent.size;
         colliderComponent.offset = originalColliderComponent.offset;
 
+        SoundPlayerOnCollide collideSoundComponent = GetComponent<SoundPlayerOnCollide>();
+        SoundPlayerOnCollide originalCollideSoundComponent = original.GetComponent<SoundPlayerOnCollide>();
+        collideSoundComponent.VeclocityForMaxVolume = originalCollideSoundComponent.VeclocityForMaxVolume;
+        collideSoundComponent.SoundPlayer.DefaultSound = originalCollideSoundComponent.SoundPlayer.DefaultSound;
+        collideSoundComponent.SoundPlayer.SoundType = originalCollideSoundComponent.SoundPlayer.SoundType;
+        collideSoundComponent.SoundPlayer.Volume = originalCollideSoundComponent.SoundPlayer.Volume;
+        collideSoundComponent.SoundPlayer.Pitch = originalCollideSoundComponent.SoundPlayer.Pitch;
+        collideSoundComponent.SoundPlayer.DynamicVolumeMultiplier = 1f;
+
         _rigidBodyComponent.linearVelocity = direction * velocity;
         _rigidBodyComponent.angularVelocity = angularVelocity;
         EnabledPhysics = true;

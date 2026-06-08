@@ -8,6 +8,11 @@ public class SoundPlayerOnCollide : MonoBehaviour
     private Rigidbody2D _rigidBodyComponent;
     private Vector2 _velocityPrevFrame = Vector2.zero;
 
+    public AbstractSoundPlayer SoundPlayer
+    {
+        get => _soundPlayer;
+    }
+
     private void Awake()
     {
         _rigidBodyComponent = GetComponentInParent<Rigidbody2D>() ?? throw new UnityException("not found RigidBody2D component in " + transform.parent.name);
