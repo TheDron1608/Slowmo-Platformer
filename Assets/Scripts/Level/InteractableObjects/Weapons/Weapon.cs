@@ -251,7 +251,10 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         int attackRepeatsLeft = RepeatAttacksTimes;
         while (true)
         {
-            if (!TrySingleAttack(GetCurrentAvaibleAim(), true)) break;
+            if (!TrySingleAttack(GetCurrentAvaibleAim(), true))
+            {
+                break;
+            }
 
             attackRepeatsLeft--;
 
@@ -265,7 +268,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
 
     protected virtual bool AttackCondition()
     {
-        return IsAbleToAttack && _attackMultipleTimesCoroutine == null;
+        return IsAbleToAttack;
     }
 
     /// <summary>
