@@ -13,7 +13,8 @@ public class LootDropChanceInfo : ScriptableObject
         DECORATIVE_FURNITURE,
         MELEE_WEAPON,
         RANGED_WEAPON,
-        SHIELD
+        SHIELD,
+        ARMOR
     }
 
     public float AnyDropChance = 1f;

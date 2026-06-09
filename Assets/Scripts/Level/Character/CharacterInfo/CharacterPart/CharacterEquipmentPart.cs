@@ -7,6 +7,7 @@ public class CharacterEquipmentPart : CharacterPart
     public PartTypes EquipAtType;
     public List<AbstractEffect> EffectsOnEquip;
     public bool CanUnequip = true;
+    public SoundPlayer SoundOnBreak;
 
     private CharacterLimbPart _currentLimbEquip;
 
@@ -24,6 +25,12 @@ public class CharacterEquipmentPart : CharacterPart
         }
 
         CharPartEffectsReceiver.ApplyEffect(EffectsOnEquip, this);
+    }
+
+    public void BreakPart()
+    {
+        SoundOnBreak?.PlaySound(false, transform.position);
+        TryUnequipPart();
     }
 
     public void TryUnequipPart()

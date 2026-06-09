@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: Priority
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: 3093386758680996966, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f06ed34a6114a341a7f1b577514eaa3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -71,6 +75,17 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 6677512809597469345}
   m_SourcePrefab: {fileID: 100100000, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+--- !u!114 &2002142667414145653 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3093386758680996966, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+  m_PrefabInstance: {fileID: 3541202579567175187}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559c9653b7826a246bd169f5741788bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2322660315203089891 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1233810082997720048, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
@@ -100,17 +115,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmountOnSpawn: 1
+  HitAmountOnSingleTargetForExtraEffects: 1
   Accuracy: 1
   HitEffects: []
   SelfEffects: []
   SelfEffectsOnWeapon:
   - {fileID: 2912774929501019236, guid: f819dc49b9668dd41a4e9438bb6af0bb, type: 3}
+  ExtraEffectsOnAllProjectilesHitSingleTarget: []
   FriendlyFire: 0
   IsAbleToHit: 1
-  GameplayUISprite: {fileID: 21300000, guid: d323050198ccf844f9d11d772a87f3de, type: 3}
+  GameplayUISprite: {fileID: 0}
   SoundOnAttack: {fileID: 2322660315203089891}
+  SoundOnBlocked: {fileID: 2002142667414145653}
+  UnarmedAttackAnimation: 0
   WallKnockback: 5
-  BlockKnockback: 15
   RepeatWallKnockback: 0
   IsAbleToDeflectRangedProjectiles: 1
   IsAbleToDeflectMeleeProjectiles: 1

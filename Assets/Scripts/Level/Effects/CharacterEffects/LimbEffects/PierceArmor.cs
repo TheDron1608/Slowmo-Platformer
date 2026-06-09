@@ -10,7 +10,7 @@ public class PierceArmor : AbstractCharacterLimbEffectWithSender
         {
             if (equipment.CharPartEffectsReceiver.TryGetEffect(out Armor armor) && PierceLevel >= armor.ArmorPierceResistantLevel)
             {
-                equipment.DestroyPart();
+                equipment.BreakPart();
             }
         }
 

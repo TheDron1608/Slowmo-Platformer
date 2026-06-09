@@ -140,12 +140,12 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         CharComponents.CharacterHealth.ApplyMaxHealth(newMinHealth, applier);
     }
 
-    public void ApplyProjectileHit(AbstractProjectile hitter, bool includeSound = true)
+    public void ApplyProjectileHit(AbstractProjectile hitter, bool isBlocked, bool includeSound = true)
     {
         OnHitByProjectile?.Invoke(this, hitter);
 
         bool isDead = CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
-        CharComponents.CharacterHealth.ApplyProjectileHit(hitter, includeSound && !_partRemoved && !isDead);
+        CharComponents.CharacterHealth.ApplyProjectileHit(hitter, isBlocked, includeSound && !_partRemoved && !isDead);
         if (isDead && includeSound)
         {
             SoundOnLethalDamage.PlaySound();

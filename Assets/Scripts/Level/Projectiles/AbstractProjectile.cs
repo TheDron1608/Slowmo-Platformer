@@ -19,6 +19,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public bool IsAbleToHit = true;
     public Sprite GameplayUISprite;
     public AbstractSoundPlayer SoundOnAttack;
+    public AbstractSoundPlayer SoundOnBlocked;
     public CharacterVisual.CharacterPartBusyStates UnarmedAttackAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
 
     private Weapon _weapon = null;
@@ -160,6 +161,9 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
     protected virtual void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
     {
+        transform.rotation = direction;
+        transform.position = weapon.ProjectileSpawnPosition.transform.position;
+
         gameObject.SetActive(true);
 
         _effectsReceiver.RemoveAllEffects();
@@ -172,9 +176,6 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         _deflector = null;
         _multitSpawnProjectiles = new();
         _hitObjects = new();
-
-        transform.rotation = direction;
-        transform.position = weapon.ProjectileSpawnPosition.transform.position;
 
         gameObject.name = original.gameObject.name;
         AmountOnSpawn = original.AmountOnSpawn;
@@ -201,6 +202,11 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         SoundOnAttack.SoundType = original.SoundOnAttack.SoundType;
         SoundOnAttack.Volume = original.SoundOnAttack.Volume;
         SoundOnAttack.Pitch = original.SoundOnAttack.Pitch;
+
+        SoundOnBlocked.DefaultSound = original.SoundOnBlocked.DefaultSound;
+        SoundOnBlocked.SoundType = original.SoundOnBlocked.SoundType;
+        SoundOnBlocked.Volume = original.SoundOnBlocked.Volume;
+        SoundOnBlocked.Pitch = original.SoundOnBlocked.Pitch;
 
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
     }
@@ -319,14 +325,15 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
                 hitObjectEffectsReceiver.ApplyEffect(ExtraEffectsOnAllProjectilesHitSingleTarget, this, 1f, true);
             }
 
-            if (WasDeflectedThisFrame) return;
-
-            OnHitSomeOne?.Invoke(this, hitObject);
+            if (!WasDeflectedThisFrame)
+            {
+                OnHitSomeOne?.Invoke(this, hitObject);
+            }
         }
 
         if (GameObjectUtility.TryGetComponentInSelfOrParent(hitObject.gameObject, out IDamagable hitDamagableObject))
         {
-            hitDamagableObject.ApplyProjectileHit(this);
+            hitDamagableObject.ApplyProjectileHit(this, WasDeflectedThisFrame || WasResistedDamageThisFrame);
         }
     }
 

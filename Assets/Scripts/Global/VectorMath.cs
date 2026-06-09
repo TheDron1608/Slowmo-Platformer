@@ -176,6 +176,6 @@ public static class VectorMath
     public static float GetMinAngle(Vector2 from, Vector2 to)
     {
         float result = Vector2.Angle(from, to);
-        return math.min(result, math.abs(result - 180f));
+        return math.min(math.abs(result), math.abs(result - 180f));
     }
 }

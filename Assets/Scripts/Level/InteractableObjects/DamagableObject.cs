@@ -199,13 +199,23 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
     }
 
-    public void ApplyProjectileHit(AbstractProjectile hitter, bool includeSound = true)
+    public void ApplyProjectileHit(AbstractProjectile hitter, bool isBlocked, bool includeSound = true)
     {
         if (includeSound)
         {
-            SoundOnDamage.PlaySound();
+            if (isBlocked)
+            {
+                hitter.SoundOnBlocked.PlaySound(false, hitter.transform.position);
+            }
+            else
+            {
+                SoundOnDamage.PlaySound();
+            }
         }
 
-        OnHitByProjectile?.Invoke(this, hitter);
+        if (!isBlocked)
+        {
+            OnHitByProjectile?.Invoke(this, hitter);
+        }
     }
 }

@@ -20,6 +20,7 @@ public class MeleeProjectile : AbstractProjectile
     private Rigidbody2D _rigidBody;
     private int _hitWallLayerMask;
     private AbstractParticle _currentSpawnedParticle = null;
+    private AbstractProjectile _lastDeflectedProjectile = null;
 
     public override Weapon Weapon
     {
@@ -161,7 +162,16 @@ public class MeleeProjectile : AbstractProjectile
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject)
             );
         }
-        SoundOnDeflect.PlaySound(false, deflectionPointPosition);
+
+        if (
+            _lastDeflectedProjectile != defleclectedProjectile &&
+            (!defleclectedProjectile.TryGetComponent(out MeleeProjectile meleeProjectile) || !meleeProjectile.SoundOnDeflect.GetIsPlaying())
+            )
+        {
+            SoundOnDeflect.PlaySound(false, deflectionPointPosition);
+        }
+
+        _lastDeflectedProjectile = defleclectedProjectile;
     }
 
     public override void OnHit(GameObject hitObject)
