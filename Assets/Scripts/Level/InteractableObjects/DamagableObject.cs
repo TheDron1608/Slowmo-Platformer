@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DamagableObject : MonoBehaviour, IDamagable
@@ -103,7 +104,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultiplier = 1f)
     {
-        if (damager != null)
+        if (damager != null && !damager.IsDestroyed())
         {
             //spawning particles on hit
             RaycastHit2D hit = Physics2D.Raycast(

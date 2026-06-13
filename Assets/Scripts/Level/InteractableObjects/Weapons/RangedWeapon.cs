@@ -200,11 +200,16 @@ public class RangedWeapon : ThrowableWeapon
     {
         base.OnTryAttackFail(direction);
 
-        if (!IsReloading && !IsInCooldown)
+        if (SpawnParticleOnUnableToAttackCondition())
         {
             SoundOnOutOfAmmo.PlaySound();
             _cloudParticleSpawner.SpawnParticle();
         }
+    }
+
+    protected virtual bool SpawnParticleOnUnableToAttackCondition()
+    {
+        return !IsReloading && !IsInCooldown;
     }
 
     /// <summary>

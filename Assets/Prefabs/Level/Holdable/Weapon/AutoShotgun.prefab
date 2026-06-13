@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: DefaultSound
       value: 
       objectReference: {fileID: 11400000, guid: 3226b498147790d418d1c84947cb1318, type: 2}
+    - target: {fileID: 462559084348855071, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 52a64d868b6776b4391ac3243825970e, type: 2}
     - target: {fileID: 622849601653692013, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultSound
       value: 
@@ -242,6 +246,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559c9653b7826a246bd169f5741788bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1535887332399576512 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 462559084348855071, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+  m_PrefabInstance: {fileID: 1385919483822778079}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559c9653b7826a246bd169f5741788bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3123718540723548213 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4062927577930290922, guid: 0fc57fb65423c53459fd280764125582, type: 3}
@@ -291,6 +306,7 @@ MonoBehaviour:
   _magSize: 8
   GameplayUIMagSprite: {fileID: 21300000, guid: 7da80ae6cbce3a347a1352c4d519c06d, type: 3}
   ReloadBulletSound: {fileID: 334857527402404261}
+  UnloadBulletSound: {fileID: 1535887332399576512}
 --- !u!114 &7387719741383629253 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8484136954617888538, guid: 0fc57fb65423c53459fd280764125582, type: 3}

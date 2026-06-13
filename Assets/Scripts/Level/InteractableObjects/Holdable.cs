@@ -482,6 +482,7 @@ public class Holdable : Interactable
             if (hammerWeapon.IsHammerring)
             {
                 hammerWeapon.TrySetHammered(false);
+                hammerWeapon.SoundOnHammer.BreakAllSounds();
             }
         }
         if (TryGetComponent(out Chainsaw chainsaw))

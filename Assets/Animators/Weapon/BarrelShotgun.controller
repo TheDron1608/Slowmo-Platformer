@@ -263,7 +263,7 @@ AnimatorState:
   - {fileID: 8714069449168441864}
   m_StateMachineBehaviours:
   - {fileID: -7843045036675306694}
-  - {fileID: 8045335796486581650}
+  - {fileID: -4253770629507957434}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -278,6 +278,19 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-4253770629507957434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f06f201b73923345abeeed5c25b8e33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChangeHoldDistanceWhenIsHolded
+  ChangeDistanceRange: 0.33
 --- !u!1102 &-3380571760146330037
 AnimatorState:
   serializedVersion: 6
@@ -887,18 +900,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &8045335796486581650
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1939e93d3b4b088448774f9cd7bc0304, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8213409411157272200
 MonoBehaviour:
   m_ObjectHideFlags: 1

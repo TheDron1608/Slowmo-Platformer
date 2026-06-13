@@ -135,18 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChangeDistanceRange: -0.33
---- !u!114 &-7152045456271709615
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1939e93d3b4b088448774f9cd7bc0304, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-7053423468458881901
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -356,7 +344,6 @@ AnimatorState:
   - {fileID: 5648430306318346170}
   m_StateMachineBehaviours:
   - {fileID: 7946646458577575032}
-  - {fileID: -7152045456271709615}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

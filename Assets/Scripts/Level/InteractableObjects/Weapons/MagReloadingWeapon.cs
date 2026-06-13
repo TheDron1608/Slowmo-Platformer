@@ -15,9 +15,11 @@ public class MagReloadingWeapon : RangedWeapon
     [SerializeField] private int _magSize = 16;
     public Sprite GameplayUIMagSprite;
     public AbstractSoundPlayer ReloadBulletSound;
+    public AbstractSoundPlayer UnloadBulletSound;
 
     private ParticleSpawner _magsPraticleSpawner;
     private bool _bulletLoadedInChamber = true;
+    private bool _isReloadingBullet = false;
 
     public event EventHandler OnReloadedBullet;
 
@@ -62,6 +64,11 @@ public class MagReloadingWeapon : RangedWeapon
         }
     }
 
+    public bool IsReloadingBullet
+    {
+        get => _isReloadingBullet;
+    }
+
     public override bool GetIsNeedReload()
     {
         return LoadedLivingAmmoLeft <= 0 && !Unloaded && !IsReloading;
@@ -81,6 +88,7 @@ public class MagReloadingWeapon : RangedWeapon
 
     public void ReloadBullet()
     {
+        _isReloadingBullet = true;
         _animator.SetTrigger(ANIMATOR_RELOAD_BULLET_TRIGGER_NAME);
     }
 
@@ -104,6 +112,11 @@ public class MagReloadingWeapon : RangedWeapon
     protected override bool ReloadCondition()
     {
         return LoadedLivingAmmoLeft <= MagSize;
+    }
+
+    protected override bool SpawnParticleOnUnableToAttackCondition()
+    {
+        return base.SpawnParticleOnUnableToAttackCondition() && !IsReloadingBullet;
     }
 
     protected override void OnReload()
@@ -133,7 +146,10 @@ public class MagReloadingWeapon : RangedWeapon
         LoadedLivingAmmoLeft = BulletLoadedInChamber ? 1 : 0;
         LoadedSpentAmmoLeft = 0;
 
-        ReloadBullet();
+        if (LoadedLivingAmmoLeft + LoadedSpentAmmoLeft > 0)
+        {
+            ReloadBullet();
+        }
     }
 
     public override void TryUnloadAllBullets()
@@ -171,10 +187,9 @@ public class MagReloadingWeapon : RangedWeapon
         Mags--;
     }
 
-    private IEnumerator SpawnParticleAfterDuration(int amount)
+    public virtual void OnReloadBulletFinish()
     {
-        yield return new WaitForSeconds(AWAIT_TIME_TO_SPAWN_BULLET_PARTICLE_ON_ATTACK);
-
-        SpawnBulletParticles(amount);
+        BulletLoadedInChamber = true;
+        _isReloadingBullet = false;
     }
 }

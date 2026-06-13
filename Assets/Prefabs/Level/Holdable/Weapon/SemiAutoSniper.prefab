@@ -155,6 +155,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 162398254517406078, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 76e22299293bbb54091266b380e29d99, type: 2}
+    - target: {fileID: 462559084348855071, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 1be3fefd02cf3b2419b744dc3d10a767, type: 2}
+    - target: {fileID: 622849601653692013, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 2bcdf4a2d790d3c4aaed2d611b2984fa, type: 2}
     - target: {fileID: 1638512053977861497, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: SpawnAngle
       value: 0
@@ -163,6 +175,10 @@ PrefabInstance:
       propertyPath: DefaultParticle
       value: 
       objectReference: {fileID: 1562997232960744757, guid: 263533d9b7be0ce4e8d749e38ff7a998, type: 3}
+    - target: {fileID: 1701904674743074682, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b5f7097c62eda54589e1a535767f6d3, type: 2}
     - target: {fileID: 2360972246015209950, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.1875
@@ -183,6 +199,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.0625
       objectReference: {fileID: 0}
+    - target: {fileID: 3869042643812683912, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 50af1ceac040c91468de5e18dda2549c, type: 2}
     - target: {fileID: 4127922327688644133, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_Offset.x
       value: 0.23
@@ -195,6 +215,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 1.0625
       objectReference: {fileID: 0}
+    - target: {fileID: 4644509480948084311, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: a496eb5e732a8b941a05502b2ea726aa, type: 2}
     - target: {fileID: 4674798138573560245, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: SpawnAngle
       value: -30
@@ -243,6 +267,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7714787943549044802, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 1476bfcb640710948bf06e66e62ccfd3, type: 2}
     - target: {fileID: 8252342045701605507, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -283,6 +311,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8484136954617888538, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 89e078c984497b446954c41cb69699b0, type: 2}
     - target: {fileID: 9219301384255191036, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 31024820585906176
@@ -376,6 +408,7 @@ MonoBehaviour:
   _magSize: 5
   GameplayUIMagSprite: {fileID: 21300000, guid: 6fd3a8dcb1373c543b7815a394cf0bad, type: 3}
   ReloadBulletSound: {fileID: 1172099274480633605}
+  UnloadBulletSound: {fileID: 0}
 --- !u!114 &2027671035545662064
 MonoBehaviour:
   m_ObjectHideFlags: 0

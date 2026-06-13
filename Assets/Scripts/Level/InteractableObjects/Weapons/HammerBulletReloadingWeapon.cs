@@ -37,6 +37,14 @@ public class HammerBulletReloadingWeapon : BulletReloadingWeapon
         if (Hammered || IsReloading) return false;
 
         _animator.SetBool(ANIMATOR_IS_HAMMERRED_PROP_NAME, value);
+
+        if (!value)
+        {
+            SoundOnHammer.BreakAllSounds();
+        }
+
+        IsHammerring = value;
+
         return true;
     }
 
@@ -69,7 +77,7 @@ public class HammerBulletReloadingWeapon : BulletReloadingWeapon
 
     protected override void OnReload()
     {
-        TrySetHammered(false);
+        Hammered = true;
         base.OnReload();
     }
 }

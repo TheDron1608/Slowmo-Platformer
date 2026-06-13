@@ -162,11 +162,15 @@ PrefabInstance:
     - target: {fileID: 162398254517406078, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultSound
       value: 
-      objectReference: {fileID: 11400000, guid: cb3fc8c88e3341b4e804e6ca65ab77ef, type: 2}
+      objectReference: {fileID: 11400000, guid: f3820d7f03a0cd24abcc41aa434b8aa2, type: 2}
+    - target: {fileID: 462559084348855071, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: db7f4e4429585454896963b2468ccbf8, type: 2}
     - target: {fileID: 622849601653692013, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultSound
       value: 
-      objectReference: {fileID: 11400000, guid: df232c950062460498cbe692b4e80599, type: 2}
+      objectReference: {fileID: 11400000, guid: cb7d16184ef32b143a4a133e67798e43, type: 2}
     - target: {fileID: 1137718682445415197, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: Particle
       value: 
@@ -190,7 +194,7 @@ PrefabInstance:
     - target: {fileID: 1701904674743074682, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultSound
       value: 
-      objectReference: {fileID: 11400000, guid: 460d3229fb51082498854619a219e378, type: 2}
+      objectReference: {fileID: 11400000, guid: db7f4e4429585454896963b2468ccbf8, type: 2}
     - target: {fileID: 2360972246015209950, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.128
@@ -246,7 +250,7 @@ PrefabInstance:
     - target: {fileID: 3869042643812683912, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultSound
       value: 
-      objectReference: {fileID: 11400000, guid: 07ee56eb5d0c93646ba0e27006bbcdd9, type: 2}
+      objectReference: {fileID: 11400000, guid: d57d50a9b6151084196d260ae5ce2383, type: 2}
     - target: {fileID: 4127922327688644133, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_Offset.x
       value: 0.145
@@ -266,7 +270,7 @@ PrefabInstance:
     - target: {fileID: 4644509480948084311, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultSound
       value: 
-      objectReference: {fileID: 11400000, guid: 2e15d6ae04c16814e9a7878441317c42, type: 2}
+      objectReference: {fileID: 11400000, guid: cdf8dff8d18e81f4989ce30383c4134c, type: 2}
     - target: {fileID: 4674798138573560245, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: Particle
       value: 
@@ -326,7 +330,7 @@ PrefabInstance:
     - target: {fileID: 7714787943549044802, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultSound
       value: 
-      objectReference: {fileID: 11400000, guid: f91cf7fc00d940940bd28d95db61703f, type: 2}
+      objectReference: {fileID: 11400000, guid: 2d1fc4af9a696e6409cd8705ee0ff10c, type: 2}
     - target: {fileID: 8252342045701605507, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -370,7 +374,7 @@ PrefabInstance:
     - target: {fileID: 8484136954617888538, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: DefaultSound
       value: 
-      objectReference: {fileID: 11400000, guid: be22460d2a34dd9408f6a656397e71c7, type: 2}
+      objectReference: {fileID: 11400000, guid: fa98efc1818764540949c05cddd091ea, type: 2}
     - target: {fileID: 9219301384255191036, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 31061845523447808
@@ -431,6 +435,7 @@ MonoBehaviour:
   _magSize: 20
   GameplayUIMagSprite: {fileID: 21300000, guid: f210eeb245447604795848f83529bc25, type: 3}
   ReloadBulletSound: {fileID: 6822461365025197857}
+  UnloadBulletSound: {fileID: 0}
 --- !u!114 &1377891964558642964
 MonoBehaviour:
   m_ObjectHideFlags: 0

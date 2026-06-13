@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public class BulletReloadingWeapon : RangedWeapon
 {
+    const float EMPTYNESS_LOAD_PITCH_MULT = 1.5f;
+
     [Header("Bullet reloading weapon")]
     public int AmmoAmountPerReload = 1;
     public int AmmoAmountPerUnload = 1;
@@ -125,5 +127,11 @@ public class BulletReloadingWeapon : RangedWeapon
         }
 
         base.OnUnloadFinish();
+    }
+
+    public void Animator_PlayLoadBulletSound()
+    {
+        SoundOnLoadBullet.Pitch = Mathf.Lerp(1f / EMPTYNESS_LOAD_PITCH_MULT, EMPTYNESS_LOAD_PITCH_MULT, NumberMath.LimitFloatBetweenZeroAndOne((float)(LoadedLivingAmmoLeft + 1) / MaxLoadedAmmo));
+        SoundOnLoadBullet.PlaySound();
     }
 }

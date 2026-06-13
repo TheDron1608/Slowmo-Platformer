@@ -69,7 +69,10 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
 
     public void UnloadBullet()
     {
-        _animator.SetTrigger(ANIMATOR_UNLOAD_BULLET_TRIGGER_NAME);
+        if (!IsReloading)
+        {
+            _animator.SetTrigger(ANIMATOR_UNLOAD_BULLET_TRIGGER_NAME);
+        }
     }
 
     protected override bool OnTryAttackSuccess(Vector2 direction)
@@ -89,16 +92,6 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     {
         yield return new WaitForSeconds(WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK);
         UnloadBullet();
-    }
-
-    public override void OnLoadFinish()
-    {
-        base.OnLoadFinish();
-
-        if (LoadedLivingAmmoLeft >= MaxLoadedAmmo || AmmoLeft <= 1)
-        {
-            OutOfAmmo = false;
-        }
     }
 
     public override void OnUnloadFinish()
