@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7293eb3147a4594459313393f5f33fb1, type: 3}
+  m_Name: BallisticShieldDamage
+  m_EditorClassIdentifier: 
+  AudioClips:
+  - {fileID: 8300000, guid: 7351d3f0e96e0e14a8185a5124c78759, type: 3}
+  - {fileID: 8300000, guid: b1a476a13294cd844b2ab86f34827c65, type: 3}
+  - {fileID: 8300000, guid: 1081dbcaa9014ad439b9afc543f18dc9, type: 3}
+  RandomPitchSpread: 0.2
