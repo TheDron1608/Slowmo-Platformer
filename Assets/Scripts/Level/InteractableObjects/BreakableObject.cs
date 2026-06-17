@@ -42,6 +42,8 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
 
     public virtual void BreakObject(MonoBehaviour breaker)
     {
+        ReleaseObjectsInside();
+
         BreakObjectVisualOnly(breaker);
 
         Destroy(gameObject);
@@ -49,8 +51,6 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     protected virtual void BreakObjectVisualOnly(MonoBehaviour breaker)
     {
         OnBroken?.Invoke(this, breaker);
-
-        ReleaseObjectsInside();
 
         SpawnBrokenParticlesAndPlaySound(breaker);
 

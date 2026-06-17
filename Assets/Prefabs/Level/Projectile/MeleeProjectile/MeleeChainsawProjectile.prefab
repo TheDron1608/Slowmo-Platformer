@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: HitEffects.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[0]'
@@ -95,15 +95,23 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[1]'
       value: 
-      objectReference: {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
+      objectReference: {fileID: -4082839253099350160, guid: 6394eb00646e0fb4aa63dafe64c86aa2, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[2]'
       value: 
-      objectReference: {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
+      objectReference: {fileID: 1988056217251537348, guid: 9e6d5b9f94b1cf1478f66b68574c9710, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[3]'
       value: 
+      objectReference: {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[4]'
+      value: 
       objectReference: {fileID: 344805414714566387, guid: 216f5b8552a8dd841b222d3d8a896905, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[5]'
+      value: 
+      objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: EffectsOnDeflect.Array.size
       value: 0

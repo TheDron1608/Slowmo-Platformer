@@ -18,7 +18,7 @@ public class MagReloadingWeapon : RangedWeapon
     public AbstractSoundPlayer UnloadBulletSound;
 
     private ParticleSpawner _magsPraticleSpawner;
-    private bool _bulletLoadedInChamber = true;
+    private bool _bulletLoadedInChamber = false;
     private bool _isReloadingBullet = false;
 
     public event EventHandler OnReloadedBullet;

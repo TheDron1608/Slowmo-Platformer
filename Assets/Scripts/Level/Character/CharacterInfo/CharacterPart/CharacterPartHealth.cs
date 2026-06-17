@@ -309,4 +309,16 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
         GameObject.Destroy(gameObject);
     }
+
+    public void ApplyThrowHit(Holdable holdable)
+    {
+        if (CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
+        {
+            SoundOnLethalDamage.PlaySound();
+        }
+        else
+        {
+            CharComponents.CharacterHealth.SoundOnDamage.PlaySound();
+        }
+    }
 }

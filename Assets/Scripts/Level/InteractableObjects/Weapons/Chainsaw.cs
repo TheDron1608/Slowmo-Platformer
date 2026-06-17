@@ -7,11 +7,19 @@ public class Chainsaw : MeleeWeapon
     const string ANIMATOR_STARTED_PROP_NAME = "Started";
     const string ANIMATOR_START_TRIGGER_NAME = "Start";
 
+    const float CHAINSAW_STARTED_VOLUME_INCREASE_DURATION = 0.5f;
+    const float CHAINSAW_STARED_MIN_PITCH = 0.5f;
     const float CLOUDS_PARTICLE_SPAWN_DURATION = 0.5f;
     const float CLOUDS_PARTICLE_SPAWN_CHANCE = 0.75f;
 
     const string CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudsParticleSpawner";
-    const string KNOCKBACK_COLLIDER_GAMEOBJECT_NAME = "KnockbackCollider";
+    
+    public enum ChainsawStartState
+    {
+        FAIL,
+        SUCCESS,
+        OUT_OF_FUEL
+    }
 
     [Header("Chainsaw")]
     public float MaxFuel = 10f;
@@ -20,24 +28,23 @@ public class Chainsaw : MeleeWeapon
     public float MaxJampChancePerSecond = 0.667f;
     public float MinJamChancePerSecond = 0f;
     public AbstractSoundPlayer SoundOnTryStart;
+    public AbstractSoundPlayer SoundOnSuccessStart;
+    public AbstractSoundPlayer SoundOnOutOfFuel;
     public AbstractSoundPlayer PassiveSoundOnStarted;
 
     private float _fuelLeft;
-
-
     private bool _isStarting = false;
+    private ChainsawStartState _startingState = ChainsawStartState.FAIL;
     private bool _started = false;
+    private float _passiveSoundProgress = 0f;
 
-    private Collider2D _colliderComponent;
-    private Rigidbody2D _rigidBodyComponent;
     private ParticleSpawner _cloudsParticleSpawner;
     private Coroutine _passiveCloudsSpawnerCoroutine;
 
     protected override void OnAwake()
     {
         base.OnAwake();
-        if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
-        if (!TryGetComponent(out _rigidBodyComponent)) throw new UnityException("RigidBody2D component not found");
+
         _cloudsParticleSpawner = transform.Find(CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
         FuelLeft = MaxFuel;
     }
@@ -54,12 +61,19 @@ public class Chainsaw : MeleeWeapon
         private set => _isStarting = value;
     }
 
+    public ChainsawStartState StartingState
+    {
+        get => _startingState;
+        private set => _startingState = value;
+    }
+
     public bool Started
     {
         get => _started;
         set
         {
             if (_started == value) return;
+            if (value && IsThrown) return;
 
             _started = value;
             _animator.SetBool(ANIMATOR_STARTED_PROP_NAME, value);
@@ -87,6 +101,19 @@ public class Chainsaw : MeleeWeapon
     {
         if (Started || IsStarting) return false;
 
+        if (FuelLeft <= 0)
+        {
+            _startingState = ChainsawStartState.OUT_OF_FUEL;
+        }
+        else if (UnityEngine.Random.value > math.lerp(MinStartSuccessChance, MaxStartSuccessChance, FuelLeft / MaxFuel))
+        {
+            _startingState = ChainsawStartState.FAIL;
+        }
+        else
+        {
+            _startingState = ChainsawStartState.SUCCESS;
+        }
+
         _animator.SetTrigger(ANIMATOR_START_TRIGGER_NAME);
 
         IsStarting = true;
@@ -100,7 +127,7 @@ public class Chainsaw : MeleeWeapon
 
         if (Started) return false;
 
-        if (FuelLeft > 0 && UnityEngine.Random.value < math.lerp(MinStartSuccessChance, MaxStartSuccessChance, FuelLeft / MaxFuel))
+        if (_startingState == ChainsawStartState.SUCCESS)
         {
             Started = true;
             return true;
@@ -130,6 +157,26 @@ public class Chainsaw : MeleeWeapon
 
     private void FixedUpdate()
     {
+        if (Started || (IsStarting && StartingState == ChainsawStartState.SUCCESS))
+        {
+            _passiveSoundProgress = NumberMath.LimitFloatBetweenZeroAndOne(_passiveSoundProgress + Time.fixedDeltaTime / CHAINSAW_STARTED_VOLUME_INCREASE_DURATION);
+        }
+        else
+        {
+            _passiveSoundProgress = NumberMath.LimitFloatBetweenZeroAndOne(_passiveSoundProgress - Time.fixedDeltaTime / CHAINSAW_STARTED_VOLUME_INCREASE_DURATION);
+        }
+
+        if(_passiveSoundProgress > 0f)
+        {
+            PassiveSoundOnStarted.Volume = _passiveSoundProgress;
+            PassiveSoundOnStarted.Pitch = math.max(_passiveSoundProgress, CHAINSAW_STARED_MIN_PITCH);
+            if (!PassiveSoundOnStarted.GetIsPlaying()) PassiveSoundOnStarted.PlaySound(true);
+        }
+        else
+        {
+            PassiveSoundOnStarted.BreakAllSounds();
+        }
+
         if (Started && Projectiles.Count > 0)
         {
             FuelLeft -= Time.fixedDeltaTime;

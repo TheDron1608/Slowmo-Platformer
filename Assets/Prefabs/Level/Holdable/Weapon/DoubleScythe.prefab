@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: SoundOnStuck
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b17df36c8516314595b73a3e7a37bb9, type: 2}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: SoundOnCollide
+      value: 
+      objectReference: {fileID: 11400000, guid: 0894ec4f6fb694e44a8b443515a0483d, type: 2}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: AIPickUpPriority
       value: 37
       objectReference: {fileID: 0}

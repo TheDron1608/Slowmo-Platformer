@@ -390,7 +390,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2695913558939108525}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 4355006092146796675}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -430,6 +431,18 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &4355006092146796675
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225eb39c78023fc43b0f2e580fff55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StopChainsawStartedPassiveSound
 --- !u!1102 &4530073389600306455
 AnimatorState:
   serializedVersion: 6
@@ -446,6 +459,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: -6817906478880243104}
   - {fileID: 2728390254056037120}
+  - {fileID: 4882479666609139091}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -460,6 +474,18 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &4882479666609139091
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f613c6310fc50144d8222efa478b02e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayChainsawStartedPassiveSound
 --- !u!1101 &5532453977424730657
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -504,7 +530,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f613c6310fc50144d8222efa478b02e8, type: 3}
   m_Name: 
@@ -522,7 +548,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 4318427133610073374}
   - {fileID: -6848697608311470204}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 8700139649254239117}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -550,6 +577,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 0
+--- !u!114 &8700139649254239117
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225eb39c78023fc43b0f2e580fff55bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StopChainsawStartedPassiveSound
 --- !u!1101 &9048986826871053108
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

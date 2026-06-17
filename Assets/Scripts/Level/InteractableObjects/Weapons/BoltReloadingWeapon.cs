@@ -13,8 +13,10 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     const float WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK = 0.25f; //in seconds
     private static readonly string[] ATTACK_COOLDOWN_ANIMATON_CLIP_NAMES = new string[] { "Load", "Unload" };
 
+    private bool _bulletLoadedInChamber = false;
     private bool _outOfAmmo = false;
     private float _loadBulletAnimationClipsDuration; //in seconds
+    private bool _isUnloadingBullet = false;
 
     public bool OutOfAmmo
     {
@@ -24,6 +26,15 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
             _animator.SetBool(ANIMATOR_OUT_OF_AMMO_PROP_NAME, value);
             _outOfAmmo = value;
         }
+    }
+    public bool BulletLoadedInChamber
+    {
+        get => _bulletLoadedInChamber;
+        set => _bulletLoadedInChamber = value;
+    }
+    public bool IsUnloadingBullet
+    {
+        get => _isUnloadingBullet;
     }
 
     public override float AttackCooldownMultiplier
@@ -72,6 +83,7 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
         if (!IsReloading)
         {
             _animator.SetTrigger(ANIMATOR_UNLOAD_BULLET_TRIGGER_NAME);
+            _isUnloadingBullet = true;
         }
     }
 
@@ -85,7 +97,12 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
 
     protected override bool AttackCondition()
     {
-        return base.AttackCondition() && LoadedSpentAmmoLeft < 1;
+        return base.AttackCondition() && LoadedSpentAmmoLeft < 1 && !IsUnloadingBullet;
+    }
+
+    protected override bool SpawnParticleOnUnableToAttackCondition()
+    {
+        return base.SpawnParticleOnUnableToAttackCondition() && !IsUnloadingBullet;
     }
 
     private IEnumerator UnloadBulletAfterDelay()
@@ -102,5 +119,11 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
         {
             OutOfAmmo = true;
         }
+        else
+        {
+            BulletLoadedInChamber = true;
+        }
+
+        _isUnloadingBullet = false;
     }
 }

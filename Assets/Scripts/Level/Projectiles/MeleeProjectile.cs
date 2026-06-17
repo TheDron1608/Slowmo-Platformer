@@ -146,9 +146,6 @@ public class MeleeProjectile : AbstractProjectile
     {
         Vector3 deflectionPointPosition = (transform.position + defleclectedProjectile.transform.position) / 2;
 
-        defleclectedProjectile.EffectsReceiver.ApplyEffect(EffectsOnDeflect, this);
-        Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnDeflect, this, 1f, true);
-
         if (ParticleOnDeflect != null && (!_currentSpawnedParticle?.IsSpawned ?? true))
         {
             _currentSpawnedParticle = ParticleSpawner.SpawnParticle(
@@ -170,6 +167,9 @@ public class MeleeProjectile : AbstractProjectile
         {
             SoundOnDeflect.PlaySound(false, deflectionPointPosition);
         }
+
+        defleclectedProjectile.EffectsReceiver.ApplyEffect(EffectsOnDeflect, this);
+        Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnDeflect, this, 1f, true);
 
         _lastDeflectedProjectile = defleclectedProjectile;
     }

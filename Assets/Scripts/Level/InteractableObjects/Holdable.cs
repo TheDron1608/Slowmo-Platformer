@@ -33,8 +33,10 @@ public class Holdable : Interactable
     public float SpeedToHitCharacter = 7.5f;
     public float SpeedToGetThrough = 15f;
     public List<AbstractEffect> EffectsOnThrowHit = new();
-    public AbstractSoundPlayer SoundOnPickedUp;
-    public AbstractSoundPlayer SoundOnThrown;
+    //public AbstractSoundPlayer SoundOnPickedUp;
+    //public AbstractSoundPlayer SoundOnThrown;
+    public Sound SoundOnCollide;
+    public Sound SoundOnStuck;
     [SerializeField] private bool _hitableWhenIsHolded = false;
 
     private CharacterHoldingObjects _currentHolder = null;
@@ -45,6 +47,7 @@ public class Holdable : Interactable
     private BoxCollider2D _colliderComponent;
     private CircleCollider2D _thrownColliderComponent;
     private ObjectEffectsReceiver _effectsReceiver;
+    private SoundPlayerOnCollide _collideSoundPlayer;
 
     private Collider2D _stuckedToCollider = null;
     private Quaternion _rotationPrevFrame = Quaternion.identity;
@@ -220,6 +223,7 @@ public class Holdable : Interactable
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("BoxCollider2D component not found");
         if (!TryGetComponent(out _thrownColliderComponent)) throw new UnityException("CircleCollider2D component not found");
         if (!TryGetComponent(out _effectsReceiver)) throw new UnityException("EffectsReceiver component not found");
+        if (!TryGetComponent(out _collideSoundPlayer)) throw new UnityException("SoundPlayerOnCollide component not found");
         _spriteRendererComponent.sortingOrder += (int)(UnityEngine.Random.value * 99f);
     }
 
@@ -259,6 +263,12 @@ public class Holdable : Interactable
             {
                 _rigidBodyComponent.includeLayers = 0;
             }
+
+            Sound newSound = VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) > SpeedToGetThrough ? SoundOnStuck : SoundOnCollide;
+            if (newSound != null)
+            {
+                _collideSoundPlayer.SoundPlayer.DefaultSound = newSound;
+            }
         }
     }
 
@@ -287,6 +297,8 @@ public class Holdable : Interactable
                         closestPartDistance = distance;
                         closestPart = limbpart;
                     }
+
+                    limbpart.CharPartHealth.ApplyThrowHit(this);
                 }
             }
 
@@ -455,7 +467,7 @@ public class Holdable : Interactable
         _effectsReceiver.RemoveEffect(_appliedHolderEffects);
         _appliedHolderEffects = new();
 
-        SoundOnThrown.PlaySound();
+        //SoundOnThrown.PlaySound();
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out Weapon weapon))
@@ -544,7 +556,7 @@ public class Holdable : Interactable
 
         _appliedHolderEffects = _effectsReceiver.ApplyEffect(newHolder.EffectsOnHoldedObject, newHolder);
 
-        SoundOnPickedUp.PlaySound();
+        //SoundOnPickedUp.PlaySound();
 
         //logic for weapon component and weapon class children classes
         if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
@@ -564,6 +576,10 @@ public class Holdable : Interactable
             {
                 magReloadingWeapon.TryCloseMag();
             }
+            else if (!magReloadingWeapon.BulletLoadedInChamber)
+            {
+                magReloadingWeapon.ReloadBullet();
+            }
         }
 
         if (TryGetComponent(out BulletReloadingWeapon bulletReloadWeapon))
@@ -574,9 +590,25 @@ public class Holdable : Interactable
             }
         }
 
+        if (TryGetComponent(out BoltReloadingWeapon boltReloadingWeapon))
+        {
+            if (!boltReloadingWeapon.BulletLoadedInChamber)
+            {
+                boltReloadingWeapon.UnloadBullet();
+            }
+        }
+
         if (TryGetComponent(out SpinableMeleeWeapon spinableMeleeWeapon))
         {
             spinableMeleeWeapon.Spin();
+        }
+
+        if (TryGetComponent(out HolsterableMeleeWeapon holsterableMeleeWeapon))
+        {
+            if (LastHolder != CurrentHolder)
+            {
+                holsterableMeleeWeapon.IsHolstered = !holsterableMeleeWeapon.IsHolstered;
+            }
         }
     }
 

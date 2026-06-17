@@ -58,7 +58,7 @@ public class BreakableHoldable : BreakableObject
 
     public override void BreakObject(MonoBehaviour breaker)
     {
-        bool replacedBrokenHoldable = false;
+        Holdable replaceHoldable = null;
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         Vector2 spawnPosition = transform.position;
         if (TryGetComponent(out Collider2D collider))
@@ -68,10 +68,9 @@ public class BreakableHoldable : BreakableObject
 
         foreach (GameObject objectOnBreak in SpawnObjectsOnBreak)
         {
-            if (!replacedBrokenHoldable && objectOnBreak.TryGetComponent(out Holdable holdableObjectOnBreak))
+            if (replaceHoldable == null && objectOnBreak.TryGetComponent(out Holdable holdableObjectOnBreak))
             {
-                GetComponent<Holdable>().TransformToAnotherObject(holdableObjectOnBreak);
-                replacedBrokenHoldable = true;
+                replaceHoldable = holdableObjectOnBreak;
             }
             else
             {
@@ -89,9 +88,10 @@ public class BreakableHoldable : BreakableObject
             }
         }
 
-        if (replacedBrokenHoldable)
+        if (replaceHoldable != null)
         {
             BreakObjectVisualOnly(breaker);
+            GetComponent<Holdable>().TransformToAnotherObject(replaceHoldable);
         }
         else
         {

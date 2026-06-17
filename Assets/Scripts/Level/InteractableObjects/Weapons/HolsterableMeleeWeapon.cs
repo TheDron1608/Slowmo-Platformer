@@ -11,8 +11,6 @@ public class HolsterableMeleeWeapon : MeleeWeapon
     public AbstractSoundPlayer SoundOnUnholster;
 
     private bool _isHolstered = true;
-    private float _timeToHolsterBack = 0f;
-    private int _comboPrevFrame = 0;
 
     public bool IsHolstered
     {
@@ -31,29 +29,8 @@ public class HolsterableMeleeWeapon : MeleeWeapon
         base.OnFinishAttack();
 
         IsHolstered = false;
-        _timeToHolsterBack = TimeToHolsterBackSeconds;
-    }
 
-    private void Update()
-    {
-        if (TryGetComponent(out Holdable holdable) && holdable.CurrentHolder != null)
-        {
-            if (holdable.CurrentHolder.CharComponents.CharacterTeam.Team != ScoreManager.TRACKED_TEAM)
-            {
-                _timeToHolsterBack -= Time.deltaTime;
-                if (_timeToHolsterBack < 0f)
-                {
-                    IsHolstered = true;
-                }
-            }
-            else if (!IsInCooldown)
-            {
-                if (ScoreManager.Instance.CurrentCombo == 0 && _comboPrevFrame != 0)
-                {
-                    IsHolstered = true;
-                }
-                _comboPrevFrame = ScoreManager.Instance.CurrentCombo;
-            }
-        }
+        SoundOnHolster.BreakAllSounds();
+        SoundOnUnholster.BreakAllSounds();
     }
 }
