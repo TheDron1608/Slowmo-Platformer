@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 {
     const string ANIMATOR_RESET_TRIGGER_NAME = "Reset";
+    const float MAX_ATTACK_SOUND_PITCH_ON_LOW_AMMO = 2f;
 
     public int AmountOnSpawn = 1;
     public int HitAmountOnSingleTargetForExtraEffects = 1;
@@ -151,7 +153,24 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
         if (weapon != null && result.Count > 0)
         {
-            result.First().SoundOnAttack.PlaySound(false, weapon.ProjectileSpawnPosition.transform.position);
+            if (weapon is RangedWeapon rangedWeapon)
+            {
+                result[0].SoundOnAttack.Pitch = math.lerp(
+                    1f, 
+                    MAX_ATTACK_SOUND_PITCH_ON_LOW_AMMO, 
+                    math.cos((float)rangedWeapon.LoadedLivingAmmoLeft / rangedWeapon.GetAmmoCapacity() * math.PIHALF)
+                    );
+            }
+            else
+            {
+                result[0].SoundOnAttack.Pitch = 1f;
+            }
+
+            result[0].SoundOnAttack.PlaySound(
+                weapon.OverrideAttackSound ?? result[0].SoundOnAttack.DefaultSound,
+                false, 
+                weapon.ProjectileSpawnPosition.transform.position
+                );
         }
 
         ApplySelfEffectOnWeaponUserOrWeapon(result, weapon);

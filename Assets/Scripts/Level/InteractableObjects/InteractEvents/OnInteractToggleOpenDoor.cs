@@ -92,21 +92,6 @@ public class OnInteractToggleOpenDoor : Interactable
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (
-            collision.collider.TryGetComponent(out AbstractCharacterComponent character) &&
-            (   
-                character.CharComponents.CharacterRolling.IsRolling ||
-                character.CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>()
-            )
-            )
-        {
-            character.CharComponents.CharacterCollision.RecoverVelocityFromPrevFrame();
-            ForceOpen(character.gameObject);
-        }
-    }
-
     protected override bool StartInteractCondition(GameObject interactor)
     {
         return

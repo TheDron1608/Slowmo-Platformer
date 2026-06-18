@@ -121,4 +121,9 @@ public class Shield : DamagableObject, IThrowableIteractableObj
         IsRaisingDown = false;
         Raised = value;
     }
+
+    private void OnDestroy()
+    {
+        Raised = false;
+    }
 }

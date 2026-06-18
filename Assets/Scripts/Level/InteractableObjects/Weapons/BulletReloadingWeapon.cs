@@ -129,6 +129,11 @@ public class BulletReloadingWeapon : RangedWeapon
         base.OnUnloadFinish();
     }
 
+    public override int GetAmmoCapacity()
+    {
+        return MaxLoadedAmmo;
+    }
+
     public void Animator_PlayLoadBulletSound()
     {
         SoundOnLoadBullet.Pitch = Mathf.Lerp(1f / EMPTYNESS_LOAD_PITCH_MULT, EMPTYNESS_LOAD_PITCH_MULT, NumberMath.LimitFloatBetweenZeroAndOne((float)(LoadedLivingAmmoLeft + 1) / MaxLoadedAmmo));

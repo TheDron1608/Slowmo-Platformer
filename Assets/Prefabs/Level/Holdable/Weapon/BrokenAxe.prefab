@@ -70,10 +70,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: _partcilesOnBreak.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: '_partcilesOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 38500c68b849f9f4085faa9e0c19a945, type: 3}
+    - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[1]'
       value: 
       objectReference: {fileID: 7786668160132991169, guid: 38500c68b849f9f4085faa9e0c19a945, type: 3}
     - target: {fileID: 4614931857041697082, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
@@ -201,10 +205,11 @@ MonoBehaviour:
   _attackCooldown: 1
   _attackCooldownMultiplier: 1
   AutoAttack: 0
-  Projectile: {fileID: 8872436519916515924, guid: bb6b74bb89e7f5044a578a23d2838add, type: 3}
+  Projectile: {fileID: 8872436519916515924, guid: 87f27216d7e505b4f87df8fee3847beb, type: 3}
   AccuracyMultiplier: 1
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.25
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  OverrideAttackSound: {fileID: 0}
   AttackRangeMultiplier: 1

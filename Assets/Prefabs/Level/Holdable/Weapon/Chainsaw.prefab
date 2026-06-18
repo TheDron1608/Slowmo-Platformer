@@ -468,16 +468,16 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      insertIndex: 4
+      insertIndex: -1
       addedObject: {fileID: 2144377546738142277}
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      insertIndex: 5
+      insertIndex: -1
       addedObject: {fileID: 242624480108073245}
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      insertIndex: 6
+      insertIndex: -1
       addedObject: {fileID: 4228306874347671271}
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
-      insertIndex: 7
+      insertIndex: -1
       addedObject: {fileID: 8815023449179686309}
     - targetCorrespondingSourceObject: {fileID: 6690885887489170633, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       insertIndex: -1
@@ -505,11 +505,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Tags: 000000001700000020000000
-  _attackCooldown: 0.15
+  _attackCooldown: 0.285
   _attackCooldownMultiplier: 1
   AutoAttack: 1
   Projectile: {fileID: 5034291969455746302, guid: 9177004b0f9f1de44868f9be139f294e, type: 3}
-  AccuracyMultiplier: 0.85
+  AccuracyMultiplier: 0.925
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   ExtraProjectileEffects: []

@@ -5,10 +5,8 @@ using UnityEngine;
 [DefaultExecutionOrder(1)]
 public class RangedProjectile : AbstractProjectile
 {
-    const float HOMING_MAX_ANGLE = 15f;
-    const float HOMING_MAX_DISTANCE = 10f;
-    const float RICOCHET_MAX_ANGLE = 10f;
-    const float MAX_RANGE_RADOMIZED_EXTRA_VALUE = 1.5f;
+    const float HOMING_TARGET_UPDATE_PER_SECOND = 2f;
+    //const float RICOCHET_MIN_ANGLE = 60f;
     const float PARTICLES_ON_WALL_HIT_VELOCITY = 1f;
     const float PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY = 360f;
     const float REMOVE_PARTICLE_EFFECT_MAX_VELOCITY_MULT = 4.5f;
@@ -35,6 +33,8 @@ public class RangedProjectile : AbstractProjectile
 
     private float _rangeMoved = 0f;
     private float _piercesLeft;
+    private float _timeSinceHomingTargetUpdate = 0f;
+    private AbstractCharacterComponent _currentHomingTarget = null;
 
     public Quaternion MoveAlign
     {
@@ -90,8 +90,12 @@ public class RangedProjectile : AbstractProjectile
 
         _rangeMoved = 0f;
         _piercesLeft = MaxPierces;
+        _timeSinceHomingTargetUpdate = 0f;
+        _currentHomingTarget = null;
 
         InitEffects(original, weapon);
+
+        UpdateHomingTarget();
     }
 
     protected override void OnUpdate()
@@ -117,28 +121,19 @@ public class RangedProjectile : AbstractProjectile
         //update homing
         if (Homing != 0f)
         {
-            CharacterComponentsManager bestHomingTarget = null;
-            float bestHomingTargetDistance = HOMING_MAX_DISTANCE;
-            foreach (Transform characterTrasnform in _layer.CharactersContainer.transform)
+            if (_timeSinceHomingTargetUpdate > 1f / HOMING_TARGET_UPDATE_PER_SECOND)
             {
-                if (characterTrasnform.TryGetComponent(out AbstractCharacterComponent character))
-                {
-                    float distanceToCharacter = Vector2.Distance(ProjectileTip.position, character.CharComponents.Center.transform.position);
-                    if (
-                        distanceToCharacter < bestHomingTargetDistance &&
-                        Vector2.Angle(transform.position, character.CharComponents.Center.transform.position) < HOMING_MAX_ANGLE &&
-                        (FriendlyFire || ((!(Deflector ?? Owner)?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(character.CharComponents.CharacterTeam)) ?? true))
-                    )
-                    {
-                        bestHomingTarget = character.CharComponents;
-                        bestHomingTargetDistance = distanceToCharacter;
-                    }
-                }
+                _timeSinceHomingTargetUpdate = 0f;
+                UpdateHomingTarget();
+            }
+            else
+            {
+                _timeSinceHomingTargetUpdate += Time.deltaTime;
             }
 
-            if (bestHomingTarget != null)
+            if (_currentHomingTarget != null)
             {
-                Vector2 targetAlign = (bestHomingTarget.Center.transform.position - transform.position).normalized;
+                Vector2 targetAlign = (_currentHomingTarget.CharComponents.Center.transform.position - transform.position).normalized;
                 MoveAlignVec2 = new Vector2(
                     math.lerp(MoveAlignVec2.x, targetAlign.x, Homing * Time.fixedDeltaTime),
                     math.lerp(MoveAlignVec2.y, targetAlign.y, Homing * Time.fixedDeltaTime)
@@ -186,6 +181,37 @@ public class RangedProjectile : AbstractProjectile
         _positionPreviousFrame = transform.position;
     }
 
+    private void UpdateHomingTarget()
+    {
+        if (_currentHomingTarget != null) return;
+
+        int raycastMask = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer;
+        AbstractCharacterComponent bestHomingTarget = null;
+        float bestHomingAngle = float.MaxValue;
+        foreach (Transform characterTransform in _layer.CharactersContainer.transform)
+        {
+            if (
+                characterTransform.gameObject.activeInHierarchy &&
+                characterTransform.TryGetComponent(out AbstractCharacterComponent character) &&
+                !character.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
+                )
+            {
+                float currentHomingAngle = Vector2.Angle(MoveAlignVec2, character.CharComponents.Center.transform.position - transform.position);
+                if (
+                    bestHomingAngle > currentHomingAngle &&
+                    (FriendlyFire || ((!(Deflector ?? Owner)?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(character.CharComponents.CharacterTeam)) ?? true)) &&
+                    Physics2D.Linecast(ProjectileTip.transform.position, character.CharComponents.Center.transform.position, raycastMask).collider == null
+                )
+                {
+                    bestHomingTarget = character;
+                    bestHomingAngle = currentHomingAngle;
+                }
+            }
+        }
+
+        _currentHomingTarget = bestHomingTarget;
+    }
+
     public override void OnHit(GameObject hitObject)
     {
         base.OnHit(hitObject);
@@ -199,20 +225,29 @@ public class RangedProjectile : AbstractProjectile
         }
         else if (_failedPierceThisFrame && hitObject.TryGetComponent(out Collider2D hitObjectCollider))
         {
-            Vector2 ricochetDirection = (hitObjectCollider.ClosestPoint(transform.position) - VectorMath.Vec3ToVec2(transform.position)).normalized;
-            if (ricochetDirection != Vector2.zero && VectorMath.GetMinAngle(MoveAlignVec2, ricochetDirection) > RICOCHET_MAX_ANGLE)
+            /*Vector2 ricochetDirection = (hitObjectCollider.ClosestPoint(transform.position) - VectorMath.Vec3ToVec2(transform.position)).normalized;
+            if (ricochetDirection != Vector2.zero && VectorMath.GetMinAngle(MoveAlignVec2, ricochetDirection) > RICOCHET_MIN_ANGLE)
             {
                 MoveAlignVec2 = -ricochetDirection;
             }
             else
             {
                 RemoveProjectileWithParticleEffect(hitObjectCollider);
-            }
+            }*/
+            RemoveProjectileWithParticleEffect(hitObjectCollider);
         }
         else if (!_wasDeflectedThisFrame)
         {
             RemoveProjectile();
         }
+    }
+
+    public override void OnDeflected(MonoBehaviour deflector)
+    {
+        base.OnDeflected(deflector);
+
+        _currentHomingTarget = null;
+        UpdateHomingTarget();
     }
 
     private void OnTriggerExit2D(Collider2D collision)

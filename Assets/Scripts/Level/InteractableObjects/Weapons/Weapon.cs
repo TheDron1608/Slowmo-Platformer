@@ -41,6 +41,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     public float DurationBetweenRepeatAttacks = 0.0667f; //in seconds
     public List<AbstractEffect> ExtraProjectileEffects = new();
     public bool IsAbleToAttack = true;
+    public Sound OverrideAttackSound = null;
 
     private bool _isInCooldown = false;
     private Transform _projectileSpawnPosition;

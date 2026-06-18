@@ -11,6 +11,7 @@ public class CharacterCollision : AbstractCharacterComponent
     const string ENVIROMENT_TAG_NAME = "Enviroment";
     const float COLLISION_DETECTION_THICKNESS = 0.1f;
     const float CHECK_COLLIDING_INTERACTABLE_FURNITURE_DISTANCE = 3f;
+    const float FORCE_OPEN_DOOR_MAX_DISTANCE = 1f;
 
     public class OnCollisionChangedEventArgs
     {
@@ -133,6 +134,11 @@ public class CharacterCollision : AbstractCharacterComponent
     public ForegroundRuleTile.ForegroundBehaviourType? GetTileBehaviourTypeFromRightWall()
     {
         return _collidedTileFromRightWall?.BehaviourType;
+    }
+
+    public List<Collider2D> CurrentNearbyCollidableFurniture
+    {
+        get => _currentNearbyCollidableFurniture;
     }
 
     protected override void OnAwake()
@@ -323,6 +329,10 @@ public class CharacterCollision : AbstractCharacterComponent
 
         Profiler.BeginSample("UpdateHitVelocity");
         UpdateHitVelocity();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdateForceOpenDoor");
+        UpdateForceOpenDoor();
         Profiler.EndSample();
 
         Profiler.BeginSample("UpdatePhysicsMaterial");
@@ -519,6 +529,39 @@ public class CharacterCollision : AbstractCharacterComponent
             if (CharComponents.CharacterRigidBody.sharedMaterial != DefaultPhyscsMaterial)
             {
                 CharComponents.CharacterRigidBody.sharedMaterial = DefaultPhyscsMaterial;
+            }
+        }
+    }
+
+    private void UpdateForceOpenDoor()
+    {
+        if (CharComponents.CharacterRolling.IsRolling)
+        {
+            foreach (Collider2D furniture in CharComponents.CharacterCollision.CurrentNearbyCollidableFurniture)
+            {
+                if (
+                    furniture.TryGetComponent(out OnInteractToggleOpenDoor door) &&
+                    (door.transform.position.x < CharComponents.Center.transform.position.x ^ CharComponents.CharacterRolling.CurrentRollDirection > 0f) &&
+                    Vector2.Distance(CharComponents.Center.transform.position, furniture.ClosestPoint(CharComponents.Center.transform.position)) < FORCE_OPEN_DOOR_MAX_DISTANCE
+                    )
+                {
+                    door.ForceOpen(gameObject);
+                    RecoverVelocityFromPrevFrame();
+                }
+            }
+        }
+        else if (CharComponents.CharacterEffectsReceiver.GetHasEffect<AbstractStun>())
+        {
+            foreach (Collider2D furniture in CharComponents.CharacterCollision.CurrentNearbyCollidableFurniture)
+            {
+                if (
+                    furniture.TryGetComponent(out OnInteractToggleOpenDoor door) &&
+                    Vector2.Distance(CharComponents.Center.transform.position, furniture.ClosestPoint(CharComponents.Center.transform.position)) < FORCE_OPEN_DOOR_MAX_DISTANCE
+                    )
+                {
+                    door.ForceOpen(gameObject);
+                    RecoverVelocityFromPrevFrame();
+                }
             }
         }
     }

@@ -40,6 +40,12 @@ public class CharacterRolling : AbstractCharacterComponent
             }
         }
     }
+
+    public float CurrentRollDirection
+    {
+        get => _currentRollDirection;
+    }
+
     public List<AbstractCharacterComponent> CurrentRollHitCharacters
     {
         get => _currentRollHitCharacters;

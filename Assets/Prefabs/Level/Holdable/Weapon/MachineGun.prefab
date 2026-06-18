@@ -273,7 +273,7 @@ MonoBehaviour:
   _attackCooldownMultiplier: 1
   AutoAttack: 1
   Projectile: {fileID: 2623125939629014027, guid: 3699778481da9204a9fddfc76d179eb0, type: 3}
-  AccuracyMultiplier: 0.95
+  AccuracyMultiplier: 0.975
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
   ExtraProjectileEffects: []
@@ -289,6 +289,7 @@ MonoBehaviour:
   _magSize: 60
   GameplayUIMagSprite: {fileID: 21300000, guid: b6afee699276cce4fab88f8e692bb155, type: 3}
   ReloadBulletSound: {fileID: 9098427846171706587}
+  UnloadBulletSound: {fileID: 0}
 --- !u!114 &5888475996446338379 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4062927577930290922, guid: 0fc57fb65423c53459fd280764125582, type: 3}

@@ -221,10 +221,11 @@ MonoBehaviour:
   _attackCooldown: 1
   _attackCooldownMultiplier: 1
   AutoAttack: 0
-  Projectile: {fileID: 8872436519916515924, guid: bb6b74bb89e7f5044a578a23d2838add, type: 3}
+  Projectile: {fileID: 8872436519916515924, guid: 87f27216d7e505b4f87df8fee3847beb, type: 3}
   AccuracyMultiplier: 1
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.25
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  OverrideAttackSound: {fileID: 0}
   AttackRangeMultiplier: 1

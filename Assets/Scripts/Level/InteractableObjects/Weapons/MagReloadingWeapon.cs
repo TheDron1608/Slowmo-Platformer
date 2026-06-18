@@ -192,4 +192,9 @@ public class MagReloadingWeapon : RangedWeapon
         BulletLoadedInChamber = true;
         _isReloadingBullet = false;
     }
+
+    public override int GetAmmoCapacity()
+    {
+        return MagSize;
+    }
 }

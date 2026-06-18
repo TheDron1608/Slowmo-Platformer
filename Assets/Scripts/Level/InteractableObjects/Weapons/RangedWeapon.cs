@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class RangedWeapon : ThrowableWeapon
+public abstract class RangedWeapon : ThrowableWeapon
 {
     protected const string BULLET_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "BulletParticleSpawner";
     protected const string CLOUD_PARTICLE_SPAWNER_GAMEOBJECT_NAME = "CloudParticleSpawner";
@@ -228,4 +228,6 @@ public class RangedWeapon : ThrowableWeapon
         IsUnloading = false;
         OnUnloaded?.Invoke(this, EventArgs.Empty);
     }
+
+    public abstract int GetAmmoCapacity();
 }
