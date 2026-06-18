@@ -1,42 +1,51 @@
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 public class ButtonScrollerOnScrollChangeVolume : MonoBehaviour
 {
     const int MAX_VOLUME = 10;
 
-    [SerializeField]
-    private SoundManager.SoundTypes _volumeType;
+    public enum ScrollerVolumeType
+    {
+        SFX,
+        MUSIC
+    }
+
+    public ScrollerVolumeType VolumeType;
     [SerializeField]
     private ButtonScroller _buttonScroller;
 
     private void Start()
     {
-        _buttonScroller.OnScrollChanged += ButtonScroller_OnScrollChanged;
-        switch (_volumeType)
+        switch (VolumeType)
         {
-            case SoundManager.SoundTypes.MUSIC:
-                _buttonScroller.CurrentValue = (int)((SoundManager.Instance?.SoundVolume.MusicVolume ?? 0.5f) * MAX_VOLUME);
+            case ScrollerVolumeType.SFX:
+                _buttonScroller.CurrentValue = (int)(SoundManager.Instance.SoundVolume.SFXVolume * MAX_VOLUME);
                 break;
-            case SoundManager.SoundTypes.SFX:
-                _buttonScroller.CurrentValue = (int)((SoundManager.Instance?.SoundVolume.SFXVolume ?? 0.5f) * MAX_VOLUME);
+            case ScrollerVolumeType.MUSIC:
+                _buttonScroller.CurrentValue = (int)(SoundManager.Instance.SoundVolume.MusicVolume * MAX_VOLUME);
                 break;
         }
+
+        _buttonScroller.OnScrollChanged += ButtonScroller_OnScrollChanged;
     }
 
     private void ButtonScroller_OnScrollChanged(object sender, int volume)
     {
         if (SoundManager.Instance == null) return;
 
-        switch (_volumeType)
+        switch (VolumeType)
         {
-            case SoundManager.SoundTypes.MUSIC:
-                SoundManager.Instance.SoundVolume.MusicVolume = (float)volume / MAX_VOLUME;
-                break;
-            case SoundManager.SoundTypes.SFX:
+            case ScrollerVolumeType.SFX:
                 SoundManager.Instance.SoundVolume.SFXVolume = (float)volume / MAX_VOLUME;
                 break;
+            case ScrollerVolumeType.MUSIC:
+                SoundManager.Instance.SoundVolume.MusicVolume = (float)volume / MAX_VOLUME;
+                break;
         }
-        SoundManager.Instance.SoundVolume.UpdateSoundData();
+
+        SoundManager.Instance.SoundVolume.ApplyChanges();
         SoundManager.Instance.SaveSoundToJSON();
     }
 }

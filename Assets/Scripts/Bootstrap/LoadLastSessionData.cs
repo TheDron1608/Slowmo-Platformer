@@ -31,5 +31,6 @@ public class LoadLastSessionData : MonoBehaviour
     private void LoadCurrentSoundVolume()
     {
         SoundManager.Instance.LoadSoundFromJSON();
+        SoundManager.Instance.SoundVolume.ApplyChanges();
     }
 }

@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultSound: {fileID: 0}
-  SoundType: 0
   _pitch: 1
   _volume: 1
   _audioSource: {fileID: 1644112846336942693}
@@ -91,7 +90,7 @@ AudioSource:
   m_GameObject: {fileID: 3995734430427506293}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4758656018052757643, guid: e66ae64d7b80f6f46bdaae72e72def08, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1

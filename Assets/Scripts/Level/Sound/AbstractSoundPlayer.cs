@@ -5,7 +5,6 @@ public abstract class AbstractSoundPlayer : MonoBehaviour
     protected const float MIN_VOLUME = 0.01f;
 
     public Sound DefaultSound;
-    public SoundManager.SoundTypes SoundType = SoundManager.SoundTypes.SFX;
 
     [SerializeField] private float _pitch = 1f;
     [SerializeField] private float _volume = 1f;
@@ -69,6 +68,11 @@ public abstract class AbstractSoundPlayer : MonoBehaviour
         get => _audioSource.isPlaying ? _audioSource.clip.length : 0f;
     }
 
+    public AudioSource AudioSource
+    {
+        get => _audioSource;
+    }
+
     private void Awake()
     {
         UpdateVolume();
@@ -99,7 +103,7 @@ public abstract class AbstractSoundPlayer : MonoBehaviour
 
     protected virtual float CalculateVolume()
     {
-        return Volume * DynamicVolumeMultiplier * (SoundManager.Instance?.GetCurrentSoundTypeVolume(SoundType) ?? 1f);
+        return Volume * DynamicVolumeMultiplier;
     }
 
     public abstract void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null);

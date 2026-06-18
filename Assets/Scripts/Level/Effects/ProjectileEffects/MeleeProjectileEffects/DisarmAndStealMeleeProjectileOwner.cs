@@ -4,7 +4,6 @@ public class DisarmAndStealMeleeProjectileOwner : AbstractMeleeProjectileDeflect
 {
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        Debug.Log("steal " + Projectile);
         if (
             MeleeProjectile.Owner == null ||
             MeleeProjectile.Weapon == null ||

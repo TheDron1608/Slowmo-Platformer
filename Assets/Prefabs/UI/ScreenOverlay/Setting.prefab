@@ -1215,6 +1215,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -1643081891237545732, guid: 748d7912bd9b4564cb4a03bbd2348856, type: 2}
     - target: {fileID: 4906424781766922533, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: VolumeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906424781766922533, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: TargetMixer
+      value: 
+      objectReference: {fileID: -619117244459723060, guid: e66ae64d7b80f6f46bdaae72e72def08, type: 2}
+    - target: {fileID: 4906424781766922533, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: _volumeType
       value: 1
       objectReference: {fileID: 0}
@@ -2797,6 +2805,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -1643081891237545732, guid: 748d7912bd9b4564cb4a03bbd2348856, type: 2}
     - target: {fileID: 4906424781766922533, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: VolumeType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906424781766922533, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
+      propertyPath: TargetMixer
+      value: 
+      objectReference: {fileID: 4758656018052757643, guid: e66ae64d7b80f6f46bdaae72e72def08, type: 2}
+    - target: {fileID: 4906424781766922533, guid: f45b6bdfde206294d9d180318a89804f, type: 3}
       propertyPath: _volumeType
       value: 0
       objectReference: {fileID: 0}
@@ -4043,6 +4059,10 @@ PrefabInstance:
     - target: {fileID: 3858424883743003936, guid: d0882f7a47d7c7d4c95a76a41c77a92c, type: 3}
       propertyPath: m_Name
       value: ShowFPSButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4072295178316328528, guid: d0882f7a47d7c7d4c95a76a41c77a92c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7655214136549103029, guid: d0882f7a47d7c7d4c95a76a41c77a92c, type: 3}
       propertyPath: m_Pivot.x

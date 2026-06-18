@@ -1,35 +1,50 @@
-using Newtonsoft.Json;
 using System;
-using System.Collections;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
-    public enum SoundTypes
-    {
-        SFX,
-        MUSIC
-    }
+    const string MASTER_PITCH_PROP_NAME = "MasterPitch";
+    const float MAX_SLOWTIME_PITCH = 0.5f;
+    const float SLOWTIME_PITCH_AFFECTION_MULT = 2.5f;
 
     [Serializable]
     public class SoundData
     {
+        const string MUSIC_VOLUME_PROP_NAME = "MusicVolume";
+        const string SFX_VOLUME_PROP_NAME = "SFXVolume";
+
         public float MusicVolume = 1f;
         public float SFXVolume = 1f;
 
-        public void UpdateSoundData()
+        public void ApplyChanges()
         {
-            foreach (var soundPlayer in FindObjectsByType<AbstractSoundPlayer>(FindObjectsSortMode.None))
-            {
-                soundPlayer.UpdateVolume();
-            }
+            Instance.MainMixer.SetFloat(MUSIC_VOLUME_PROP_NAME, MathF.Log10(math.max(MusicVolume, 0.00001f)) * 35f);
+            Instance.MainMixer.SetFloat(SFX_VOLUME_PROP_NAME, MathF.Log10(math.max(SFXVolume, 0.00001f)) * 35f);
         }
     }
 
     public static SoundManager Instance;
 
     public SoundData SoundVolume = new SoundData();
+
+    public AudioMixer MainMixer;
+
+    private float _masterPitch = 1f;
+
+    public float MasterPitch
+    {
+        get => _masterPitch;
+        private set
+        {
+            if (_masterPitch == value) return;
+
+            MainMixer.SetFloat(MASTER_PITCH_PROP_NAME, value);
+            _masterPitch = value;
+        }
+    }
 
     void Start()
     {
@@ -39,16 +54,16 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public float GetCurrentSoundTypeVolume(SoundTypes soundType)
+    private void Update()
     {
-        switch (soundType)
+        if (TimeManager.Instance != null)
         {
-            case SoundTypes.SFX:
-                return SoundVolume.SFXVolume;
-            case SoundTypes.MUSIC:
-                return SoundVolume.MusicVolume;
+            MasterPitch = math.lerp(1f, MAX_SLOWTIME_PITCH, NumberMath.LimitFloatBetweenZeroAndOne(TimeManager.Instance.TempSlowTimeLeft * SLOWTIME_PITCH_AFFECTION_MULT));
         }
-        throw new UnityException("not found soundData value for SoundType: " + soundType.ToString());
+        else
+        {
+            MasterPitch = 1f;
+        }
     }
 
     public void SaveSoundToJSON()
@@ -67,5 +82,4 @@ public class SoundManager : MonoBehaviour
     {
         Instance = null;
     }
-
 }

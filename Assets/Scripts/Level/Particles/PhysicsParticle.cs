@@ -37,7 +37,6 @@ public class PhysicsParticle : AbstractSpriteParticle
         SoundPlayerOnCollide originalCollideSoundComponent = original.GetComponent<SoundPlayerOnCollide>();
         collideSoundComponent.VeclocityForMaxVolume = originalCollideSoundComponent.VeclocityForMaxVolume;
         collideSoundComponent.SoundPlayer.DefaultSound = originalCollideSoundComponent.SoundPlayer.DefaultSound;
-        collideSoundComponent.SoundPlayer.SoundType = originalCollideSoundComponent.SoundPlayer.SoundType;
         collideSoundComponent.SoundPlayer.Volume = originalCollideSoundComponent.SoundPlayer.Volume;
         collideSoundComponent.SoundPlayer.Pitch = originalCollideSoundComponent.SoundPlayer.Pitch;
         collideSoundComponent.SoundPlayer.DynamicVolumeMultiplier = 1f;

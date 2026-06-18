@@ -194,8 +194,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Loading
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7d0a104b07ad9944983251a4d8675f16, type: 2}
-  m_sharedMaterial: {fileID: 718268473480168674, guid: 7d0a104b07ad9944983251a4d8675f16, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 748d7912bd9b4564cb4a03bbd2348856, type: 2}
+  m_sharedMaterial: {fileID: -1643081891237545732, guid: 748d7912bd9b4564cb4a03bbd2348856, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -304,6 +304,7 @@ MonoBehaviour:
   SoundVolume:
     MusicVolume: 5
     SFXVolume: 5
+  MainMixer: {fileID: 24100000, guid: e66ae64d7b80f6f46bdaae72e72def08, type: 2}
 --- !u!4 &162866865
 Transform:
   m_ObjectHideFlags: 0

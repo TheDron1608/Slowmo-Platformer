@@ -59,7 +59,6 @@ public class MeleeProjectile : AbstractProjectile
         ParticleOnDeflect = meleeOriginal.ParticleOnDeflect;
 
         SoundOnDeflect.DefaultSound = meleeOriginal.SoundOnDeflect.DefaultSound;
-        SoundOnDeflect.SoundType = meleeOriginal.SoundOnDeflect.SoundType;
         SoundOnDeflect.Volume = meleeOriginal.SoundOnDeflect.Volume;
         SoundOnDeflect.Pitch = meleeOriginal.SoundOnDeflect.Pitch;
 

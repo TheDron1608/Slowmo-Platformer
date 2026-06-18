@@ -100,7 +100,7 @@ public class MusicManager : MonoBehaviour
                     / MUSIC_START_OR_END_DURATION + MUSIC_VOLUME_ON_DIFFICULTY_FINISHED ?? float.MaxValue
                 );
 
-            MusicPlayer.DynamicVolumeMultiplier = NumberMath.LimitFloatBetweenZeroAndOne(_currentMusicVolume);
+            MusicPlayer.DynamicVolumeMultiplier = _currentMusicVolume;
 
             _timeSinceStartMusic += Time.deltaTime;
 

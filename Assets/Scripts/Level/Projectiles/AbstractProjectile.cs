@@ -218,12 +218,10 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         boxCollider.offset = originalBoxCollider.offset;
 
         SoundOnAttack.DefaultSound = original.SoundOnAttack.DefaultSound;
-        SoundOnAttack.SoundType = original.SoundOnAttack.SoundType;
         SoundOnAttack.Volume = original.SoundOnAttack.Volume;
         SoundOnAttack.Pitch = original.SoundOnAttack.Pitch;
 
         SoundOnBlocked.DefaultSound = original.SoundOnBlocked.DefaultSound;
-        SoundOnBlocked.SoundType = original.SoundOnBlocked.SoundType;
         SoundOnBlocked.Volume = original.SoundOnBlocked.Volume;
         SoundOnBlocked.Pitch = original.SoundOnBlocked.Pitch;
 
