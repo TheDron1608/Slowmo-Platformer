@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 6870792342462933236}
   - component: {fileID: 5806794469943578940}
   - component: {fileID: 1340688470173396758}
+  - component: {fileID: 1127353575625196146}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -247,6 +248,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef578626d4e2ac46a7912719b5e78e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1127353575625196146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360252234397813454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 296c106bfbadc1648945125a187803b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoiseManager
 --- !u!1 &4829675721774256220
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
     protected CharacterTeam _nearestEnemy = null;
     protected float? _nearestEnemyDistance = null;
     protected CharacterTeam _lastEnemy = null;
+    protected CharacterTeam _lastHeardEnemy = null;
     protected Vector2? _lastEnemyPosition = null;
     protected ZIndexLayer _lastEnemyLayer = null;
     protected float _timeSinceLastEnemyDetection = 999f;
@@ -38,6 +39,14 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
         }
     }
 
+    public CharacterTeam LastHeardEnemy
+    {
+        get
+        {
+            return _lastHeardEnemy;
+        }
+    }
+
     public Vector2? LastEnemyPosition
     {
         get
@@ -61,6 +70,23 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
         {
             TryUpdateInfo();
             return _timeSinceLastEnemyDetection;
+        }
+    }
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+
+        NoiseManager.Instance.OnNoiseCommited += OnNoiseCommited;
+    }
+
+    protected abstract void OnNoiseCommited(object sender, NoiseManager.OnNoiseCommitedEventArgs e);
+
+    private void OnDestroy()
+    {
+        if (NoiseManager.Instance != null)
+        {
+            NoiseManager.Instance.OnNoiseCommited -= OnNoiseCommited;
         }
     }
 

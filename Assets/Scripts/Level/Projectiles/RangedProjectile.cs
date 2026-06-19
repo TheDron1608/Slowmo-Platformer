@@ -19,6 +19,7 @@ public class RangedProjectile : AbstractProjectile
     public float BulletSpeed = 35f;
     public float MaxRange = 350f;
     public float Homing = 0f;
+    public float ShotNoiseDistance = 7.5f;
     public PhysicsParticle BulletCasingParticle;
     public int MaxPierces = 0; //times projectiles will not doestroy iteself if gibs or cuts off damaged character
     public List<AbstractParticle> ParticlesOnWallHit = new();
@@ -96,6 +97,7 @@ public class RangedProjectile : AbstractProjectile
         InitEffects(original, weapon);
 
         UpdateHomingTarget();
+        CommitNoise();
     }
 
     protected override void OnUpdate()
@@ -210,6 +212,17 @@ public class RangedProjectile : AbstractProjectile
         }
 
         _currentHomingTarget = bestHomingTarget;
+    }
+
+    public void CommitNoise()
+    {
+        NoiseManager.Instance.CommitNoise(
+            transform.position,
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+            ShotNoiseDistance * (Weapon?.AttackNoiseMultiplier ?? 1f),
+            gameObject,
+            (Deflector ?? Owner)?.CharComponents.CharacterTeam
+            );
     }
 
     public override void OnHit(GameObject hitObject)

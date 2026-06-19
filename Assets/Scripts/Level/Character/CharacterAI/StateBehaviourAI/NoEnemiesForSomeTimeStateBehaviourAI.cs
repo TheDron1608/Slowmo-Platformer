@@ -4,12 +4,16 @@ public class NoEnemiesForSomeTimeStateBehaviourAI : AbstractCharacterStateBehavi
 {
     [Header("Behaviour Condition Parameters")]
     public float AwaitTimeWithoutEnemiesToGetCalm = 5f;
+    public bool IgnoreHearingNoise = false;
 
     private bool _noEnemies = true;
 
     public override bool StateBehaviourCondition()
     {
-        if (CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.NearestEnemyInfo.NearestEnemy != null)
+        if (
+            CharComponents.CharacterAIManager.CurrentActiveStateBehaviour?.NearestEnemyInfo.NearestEnemy != null ||
+            (!IgnoreHearingNoise && NearestEnemyInfo.LastHeardEnemy != null)
+            )
         {
             _noEnemies = false;
         }

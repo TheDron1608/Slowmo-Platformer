@@ -36,6 +36,10 @@ PrefabInstance:
       propertyPath: OverrideAttackSound
       value: 
       objectReference: {fileID: 11400000, guid: 85ebecab4d670f246bf64e20b1866e07, type: 2}
+    - target: {fileID: 2793562931012305483, guid: 339378a274f6dee449af6bb99f202e69, type: 3}
+      propertyPath: AttackNoiseMultiplier
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3438419961377026585, guid: 339378a274f6dee449af6bb99f202e69, type: 3}
       propertyPath: m_Size.x
       value: 0.93460816
@@ -91,6 +95,10 @@ PrefabInstance:
     - target: {fileID: 4302648896826702040, guid: 339378a274f6dee449af6bb99f202e69, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718294132111844164, guid: 339378a274f6dee449af6bb99f202e69, type: 3}
+      propertyPath: DefaultSound
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6984414366707489396, guid: 339378a274f6dee449af6bb99f202e69, type: 3}
       propertyPath: m_LocalPosition.x

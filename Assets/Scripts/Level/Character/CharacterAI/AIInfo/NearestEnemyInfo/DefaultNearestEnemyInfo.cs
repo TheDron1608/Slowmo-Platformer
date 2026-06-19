@@ -4,6 +4,7 @@ using UnityEngine.Profiling;
 public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
 {
     public bool XRay = false;
+    public float HearingSensetivityMult = 1f;
 
     protected virtual bool CharacterCondition(CharacterComponentsManager character)
     {
@@ -64,5 +65,22 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             _lastEnemyLayer = zDoor.Exit.ZLayer;
         }
         Profiler.EndSample();
+    }
+
+    protected override void OnNoiseCommited(object sender, NoiseManager.OnNoiseCommitedEventArgs e)
+    {
+        if (NearestEnemy != null) return;
+
+        if (
+            e.SourceTeam != null && 
+            !CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(e.SourceTeam) &&
+            CharComponents.CharacterCollision.CurrentZLayer == e.Layer &&
+            Vector2.Distance(CharComponents.Center.transform.position, e.Position) < e.Distance * HearingSensetivityMult
+            )
+        {
+            _lastHeardEnemy = e.SourceTeam;
+            _lastEnemyPosition = e.Position;
+            _lastEnemyLayer = e.Layer;
+        }
     }
 }

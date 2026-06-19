@@ -8,6 +8,7 @@ public class MeleeProjectile : AbstractProjectile
     const float DEFLECT_PARTICLE_VELOCITY = 2.5f;
 
     public float WallKnockback = 5f;
+    public float NoiseOnDeflect = 3.5f;
     public bool RepeatWallKnockback = false;
     public bool IsAbleToDeflectRangedProjectiles = true;
     public bool IsAbleToDeflectMeleeProjectiles = true;
@@ -166,6 +167,14 @@ public class MeleeProjectile : AbstractProjectile
         {
             SoundOnDeflect.PlaySound(false, deflectionPointPosition);
         }
+
+        NoiseManager.Instance.CommitNoise(
+            transform.position,
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+            NoiseOnDeflect,
+            gameObject,
+            (Deflector ?? Owner)?.CharComponents.CharacterTeam
+            );
 
         defleclectedProjectile.EffectsReceiver.ApplyEffect(EffectsOnDeflect, this);
         Owner?.CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnDeflect, this, 1f, true);
