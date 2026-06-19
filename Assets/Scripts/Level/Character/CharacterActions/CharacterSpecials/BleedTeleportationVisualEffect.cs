@@ -6,14 +6,17 @@ public class BleedTeleportationVisualEffect : MonoBehaviour
     const float BLEED_MIN_VELOCITY = 1f;
     const float BLEED_MAX_VELOCITY = 3f;
     const float OVERRIDE_PARTICLE_LIFETIME = 0f;
+    const float PASSIVE_SOUND_PLAY_DELAY = 0.125f;
 
     public float Speed = 8.5f;
     public float ParticlesPerSecond = 10f;
+    public SoundPlayer PassiveBleedTeleportationSound;
 
     private CharacterBleedTeleportation _teleportationUser;
     private CharacterComponentsManager _targetTeleportTo;
     private float _timeToNextParticleSpawn = 0;
     private ZIndexLayer _currentZLayer;
+    private float _timeSincePassiveSound = 0f;
 
     public CharacterBleedTeleportation TeleportationUser
     {
@@ -33,6 +36,13 @@ public class BleedTeleportationVisualEffect : MonoBehaviour
 
     private void Update()
     {
+        _timeSincePassiveSound += Time.deltaTime;
+        if (_timeSincePassiveSound > PASSIVE_SOUND_PLAY_DELAY)
+        {
+            _timeSincePassiveSound = 0f;
+            PassiveBleedTeleportationSound.PlaySound(false, transform.position);
+        }
+
         if (TeleportationUser == null || TeleportationUser.IsDestroyed())
         {
 
@@ -74,6 +84,5 @@ public class BleedTeleportationVisualEffect : MonoBehaviour
                 _teleportationUser.TryFinishTeleport(_targetTeleportTo);
             }
         }
-
     }
 }

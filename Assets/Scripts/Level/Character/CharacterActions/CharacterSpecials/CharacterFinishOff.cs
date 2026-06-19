@@ -14,6 +14,7 @@ public class CharacterFinishOff : AbstractCharacterSpecial
     public CharacterVisual.CharacterPartBusyStates FinishAnimation = CharacterVisual.CharacterPartBusyStates.FINISH_OFF;
     public CharacterVisual.CharacterPartBusyStates FinishedCharacterAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
     public CharacterPart.PartTypes FinishAffectedLimb = CharacterPart.PartTypes.HEAD;
+    public AbstractSoundPlayer SoundOnFinishOff = null;
 
     private bool _isFinishingOff = false;
     private AbstractCharacterComponent _currentFinishingCharacter = null;
@@ -107,6 +108,7 @@ public class CharacterFinishOff : AbstractCharacterSpecial
                 CurrentFinishingCharacter.CharComponents.CharacterVisual.BreakBusyAnimation();
                 CurrentFinishingCharacter.CharComponents.CharacterVisual.CurrentBusyAnimation = FinishedCharacterAnimation;
             }
+            SoundOnFinishOff?.PlaySound();
         }
     }
 }

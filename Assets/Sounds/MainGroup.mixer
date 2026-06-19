@@ -1,29 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!244 &-7022307240005601192
-AudioMixerEffectController:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_EffectID: f1f4135ce654e3149ac7d207ba406e21
-  m_EffectName: Echo
-  m_MixLevel: e3ea76e79568cae48bc49a6fb5f11932
-  m_Parameters:
-  - m_ParameterName: Delay
-    m_GUID: 9c35cf13220bdd44eb2f8ab407935984
-  - m_ParameterName: Decay
-    m_GUID: 08c59f57155c5064488bd3dee91ad041
-  - m_ParameterName: Max channels
-    m_GUID: 5fdfe7de439c318449755b18345096cc
-  - m_ParameterName: Drymix
-    m_GUID: 90d17d170e2333c41a41a74dee6d23c4
-  - m_ParameterName: Wetmix
-    m_GUID: 34504afcffa0ac54da4354afdbe01eee
-  m_SendTarget: {fileID: 0}
-  m_EnableWetMix: 0
-  m_Bypass: 0
 --- !u!244 &-6810829704294976791
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -53,7 +29,6 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 7273338198277460820}
-  - {fileID: -7022307240005601192}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -137,43 +112,65 @@ AudioMixerSnapshotController:
     7a427040d0248b74e9b9533a12fba1e6: -10
     316cea01dbcf7174abaf09f529570d5d: 4719
     73f46e513b221724894136bd8bada9bc: 1310
+    13ca9561b32600d4fbb868e6f45dc751: 0.121
+    db3025a1c63925c46b8558ad4ee7800b: 0.105
     083b78a1261e00e4c9c221003c5cf0cc: 1
     f0d47fb13ae7a3d438788afa3f703ea9: 8408
     b6accf02bd7142d41991271c41c3152b: -32
     d93cf852f3562da489ab22098bc29f08: 197
     bf4d3f52c92e373409e619efbfb8958e: 30113
     da618e624c887a14cbd654b7fda8c81d: 44
-    9c35cf13220bdd44eb2f8ab407935984: 150
+    2172cf725c8688845903b1749674fe40: 0.243
+    cf6f6de28d9a7c54791ac14024c52f82: 0.516
+    9c35cf13220bdd44eb2f8ab407935984: 50
     96e79c53b61a97f439e012a0e92d92cd: 10.8
+    54a239b3bb9702c4cb08419aefb584b9: 1.03
     63a78db391afcf0409964d729afc6c8f: 1
     4cb610f32aa9bf34fbf7c768a0537d24: 10692
     a2a190242c70331469c56af38f323098: 465
     8883d134e87343e4b83154ae1a81d775: 158.2
+    88446254f441b1442a3bf207078f9bc6: 1
+    5656e2644bf95ca4b947f45a2ca5315f: 0.034
     ae204964811040a4cb4beb3b850f16e2: 0.092
+    2f10b145a531dac4cbd3bc70c08a2046: 0.5
+    91a323853806cb94b9fff938d11838c1: 0
     6029538577399214a86e9f768c3b57db: 1003
     f740f076f29ffac4fafefccf602cc547: 2.05
-    2c18ca9635fd47d40ba0d750a37fd661: 0.7
+    2c18ca9635fd47d40ba0d750a37fd661: 1
     0d0ddec67d6b4ca47bf98ae9ddb6b705: 0.66667175
     b191d8e6840efeb4ba68231a1ae5e47f: 389
-    90d17d170e2333c41a41a74dee6d23c4: 0.436
+    90d17d170e2333c41a41a74dee6d23c4: 0.5
     08c59f57155c5064488bd3dee91ad041: 0
     bab867c740b115044a1ac8e2ed6981eb: 460
+    fcd38c28d9a0381498a98bf53d6449dc: 0
+    680f5eb83eb83324a9b50a85b57fcc5f: 0
+    a8c036591f56062419a29378a99deb2f: 1
     339a785a320e96b43ab58b782dce7db1: 14.2
     5e782a8add1223747843b1c550ac7849: 3.89
     4fc740aa0234aec4aa86f5d2e11c9709: -10000
     237ce6aa7ee70854ab1b55f970c89e92: 4
+    69e0aa8b97b09b8459913780912573f9: 50
     67d766db531eed44893755146e93e12e: 0.5
+    94ebe2eb98e54af4bae9a8486d943d39: 1.02
     6674643cb2bc64741bb9b58d1854d4f5: 0.0585
     5a33805c13d5a9b47ba90b03256e90dd: -5519
+    d71fce9cd7fdfbe498894242fcd4367f: 0.44
     34504afcffa0ac54da4354afdbe01eee: 1
     fbd8443d280bf3b42861c4594afa52e5: -2287
     0805743df1a3fec459877ce8841fa88b: 0
+    61b1d76d502dd004a9b0d0e806cb99e9: 1
     5388559d594c01449b6dffea74532b81: 1.321
     936f57ad7851512489e9fd0dfbf185f8: -1478
+    19cecbbd411f96b4ba1e55d46f4c2d12: 0.8
     5d1307fd1461d0c479742fcfefd0367c: 87.8
+    ba86c31e0777fb546a2d5777b75f4521: 1
+    30ad853e460a64c4d9b7dff5dab33207: 1
     3cb022ce60ad21e45bf447ec6d895f6b: 0.166
     5fdfe7de439c318449755b18345096cc: 0
     eb30c35f38bae2b45aeed710eafa996b: 1
+    e7bb1b9f14e0319498f814284a7e5607: 1
+    a61056bfdc8f9684c8e9435dedf45c82: 100
+    456187cf7183b1f42b4781986d1ad155: 1
     02e2ccdf412218a4e8e5bd8b5644a8a4: 0.616
   m_TransitionOverrides: {}
 --- !u!243 &4758656018052757643

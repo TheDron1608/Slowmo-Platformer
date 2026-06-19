@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class CharacterTeleportation : AbstractCharacterSpecial
 {
-    const float FAILED_TELEPORTATION_DETECTING_DITANCE = 5f;
-    const float FAILED_TELEPORTATION_DETECTING_STEP = 0.5f;
-
     const float TELEPORATION_VISUAL_EFFECT_DURATION_SECONDS = 0.1f;
     const float TELEPORTATION_VISUAL_EFFECT_SPRITE_SIZE_UNITS = 2f;
 
@@ -19,6 +16,7 @@ public class CharacterTeleportation : AbstractCharacterSpecial
     const float PARTICLE_MAX_ANGULAR_VELOCITY = 360f;
 
     public List<AbstractParticle> ParticlesOnTeleport = new();
+    public SoundPlayer SoundOnTeleport = null;
     [SerializeField] private GameObject _visualEffect;
 
     private Coroutine _teleporationVisualEffectCoroutine;
@@ -65,6 +63,8 @@ public class CharacterTeleportation : AbstractCharacterSpecial
             PARTICLES_AMOUNT,
             0f
             );
+
+        SoundOnTeleport?.PlaySound();
 
         float maxWidth = Vector2.Distance(from, to) / TELEPORTATION_VISUAL_EFFECT_SPRITE_SIZE_UNITS;
         Vector2 targetRotation = (from - to).normalized;

@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class HealthCostingTeleportation : AbstractCharacterSpecial
 {
-    const float FAILED_TELEPORTATION_DETECTING_DITANCE = 5f;
-    const float FAILED_TELEPORTATION_DETECTING_STEP = 0.5f;
-
     const float TELEPORATION_VISUAL_EFFECT_DURATION_SECONDS = 0.1f;
     const float TELEPORTATION_VISUAL_EFFECT_SPRITE_SIZE_UNITS = 2f;
 

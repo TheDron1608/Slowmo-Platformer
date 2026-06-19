@@ -9,7 +9,7 @@ using UnityEngine.Profiling;
 public class CharacterVisual : AbstractCharacterComponent
 {
     const string CHARACTER_PARTS_GAMEOBJECT_NAME = "CharacterParts";
-    const string ANIMATOR_MAIN_STATE_PARAM_NAME  = "MainState";
+    const string ANIMATOR_MAIN_STATE_PARAM_NAME = "MainState";
     const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";
     const string ANIMATOR_JUMP_STATE_PARAM_NAME = "JumpState";
     const string ANIMATOR_BUSY_STATE_PARAM_NAME = "BusyState";
@@ -207,7 +207,7 @@ public class CharacterVisual : AbstractCharacterComponent
     public void FastMoveAlignChange()
     {
         if (
-            !IsBusy() && 
+            !IsBusy() &&
             (MainState == CharacterPartMainStates.MOVE || MainState == CharacterPartMainStates.IDLE)
             )
         {
@@ -279,8 +279,8 @@ public class CharacterVisual : AbstractCharacterComponent
         while (math.abs(totalRotation) < COOL_FLIP_DEGREES - 0.5f)
         {
             totalRotation = math.lerp(
-                totalRotation, 
-                _currentCoolFlipRotationAxisReversed ? -COOL_FLIP_DEGREES : COOL_FLIP_DEGREES, 
+                totalRotation,
+                _currentCoolFlipRotationAxisReversed ? -COOL_FLIP_DEGREES : COOL_FLIP_DEGREES,
                 Time.deltaTime * COOL_FLIP_SPEED_MUTLIPLIER
                 );
 
@@ -346,7 +346,7 @@ public class CharacterVisual : AbstractCharacterComponent
             if (CharComponents.CharacterCollision.IsCollidingFloor())
             {
                 if (
-                    CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f || 
+                    CharComponents.CharacterMoving.GetCurrentMoveDirection() == 0f ||
                     (CharComponents.CharacterMoving.GetCurrentMoveDirection() > 0f && CharComponents.CharacterCollision.IsCollidingRightWall()) ||
                     (CharComponents.CharacterMoving.GetCurrentMoveDirection() < 0f && CharComponents.CharacterCollision.IsCollidingLeftWall())
                     )
@@ -392,8 +392,8 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void UpdateMoveSpeedParam()
     {
-        MoveSpeed = 
-            CharComponents.CharacterMoving.GetCurrentMoveDirection() * CharComponents.CharacterMoving.Speed / 
+        MoveSpeed =
+            CharComponents.CharacterMoving.GetCurrentMoveDirection() * CharComponents.CharacterMoving.Speed /
             MOVE_VELOCITY_FOR_DEFAULT_MOVE_ANIM_SPEED * (FlippedH ? -1f : 1f);
     }
 
@@ -429,7 +429,7 @@ public class CharacterVisual : AbstractCharacterComponent
     public void Animator_FinishFinishingOff()
     {
         if (
-            CharComponents.CharacterSpecial != null && 
+            CharComponents.CharacterSpecial != null &&
             CharComponents.CharacterSpecial.TryGetComponent(out CharacterFinishOff finishingOff)
             )
         {
