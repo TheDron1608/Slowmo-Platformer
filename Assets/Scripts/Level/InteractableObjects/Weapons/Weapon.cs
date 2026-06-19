@@ -25,7 +25,9 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         SINGLE_ATTACKING = 30,
         SEMI_AUTO = 31,
         FULL_AUTO = 32,
-        BURST = 33
+        BURST = 33,
+
+        SILENCED = 40
     }
 
     protected const string PROJECTILE_SPAWN_POSITION_GAMEOBJECT_NAME = "ProjectileSpawnPosition";
