@@ -52,8 +52,12 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
         if (_nearestEnemy != null)
         {
             _lastEnemy = _nearestEnemy;
-            _lastEnemyPosition = _nearestEnemy.transform.position;
             _lastEnemyLayer = LayerManager.Instance.GetZLayerOfGameObject(_nearestEnemy.gameObject);
+            if (_lastEnemyPosition != _nearestEnemy.transform.position)
+            {
+                _lastEnemyPositionOnPlatform = GetPlatformPositionUnderPoint(_lastEnemyLayer, _nearestEnemy.transform.position);
+            }
+            _lastEnemyPosition = _nearestEnemy.transform.position;
         }
 
         _nearestEnemy = result;
@@ -63,6 +67,7 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
         {
             _lastEnemyPosition = zDoor.Exit.transform.position;
             _lastEnemyLayer = zDoor.Exit.ZLayer;
+            _lastEnemyPositionOnPlatform = _lastEnemyPosition;
         }
         Profiler.EndSample();
     }
@@ -82,6 +87,7 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             _lastHeardEnemy = e.SourceTeam;
             _lastEnemyPosition = e.Position;
             _lastEnemyLayer = e.Layer;
+            _lastEnemyPositionOnPlatform = GetPlatformPositionUnderPoint(_lastEnemyLayer, e.Position);
         }
     }
 }

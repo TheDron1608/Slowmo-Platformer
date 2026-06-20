@@ -9,6 +9,7 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
     protected CharacterTeam _lastEnemy = null;
     protected CharacterTeam _lastHeardEnemy = null;
     protected Vector2? _lastEnemyPosition = null;
+    protected Vector2? _lastEnemyPositionOnPlatform = null;
     protected ZIndexLayer _lastEnemyLayer = null;
     protected float _timeSinceLastEnemyDetection = 999f;
     protected float _timeSinceLastHeardEnemy = 999f;
@@ -56,6 +57,14 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
             return _lastEnemyPosition;
         }
     }
+    public Vector2? LastEnemyPositionOnPlatform
+    {
+        get
+        {
+            TryUpdateInfo();
+            return _lastEnemyPositionOnPlatform;
+        }
+    }
     public ZIndexLayer LastEnemyLayer
     {
         get
@@ -101,5 +110,19 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
         base.OnFixedUpdate();
         _timeSinceLastEnemyDetection += Time.deltaTime;
         _timeSinceLastHeardEnemy += Time.deltaTime;
+    }
+
+    protected Vector2? GetPlatformPositionUnderPoint(ZIndexLayer layer, Vector2 position)
+    {
+        TileManager.NavigationPlatformInfo platform = layer.TileManager.GetPlatformUnderPointContinuous(TileManager.PositionToTilePosition(position));
+
+        if (platform == null)
+        {
+            return null;
+        }
+        else
+        {
+            return new Vector2(position.x, platform.Position.y + 1f);
+        }
     }
 }

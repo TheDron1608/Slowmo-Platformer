@@ -51,6 +51,14 @@ public class TileManager : MonoBehaviour
                 Position.x <= position.x &&
                 Position.x + Width >= position.x;
         }
+
+        public bool GetPositionInOnPlatformContinuous(Vector2Int position)
+        {
+            return
+                Position.y < position.y &&
+                Position.x <= position.x &&
+                Position.x + Width >= position.x;
+        }
     }
 
     public class NavigationPlatformTransitionInfo
@@ -105,6 +113,18 @@ public class TileManager : MonoBehaviour
         for (int i = 0; i < NavigationPlatforms.Count; i++)
         {
             if (NavigationPlatforms[i].GetPositionInOnPlatform(point))
+            {
+                return NavigationPlatforms[i];
+            }
+        }
+        return null;
+    }
+
+    public NavigationPlatformInfo GetPlatformUnderPointContinuous(Vector2Int point)
+    {
+        for (int i = 0; i < NavigationPlatforms.Count; i++)
+        {
+            if (NavigationPlatforms[i].GetPositionInOnPlatformContinuous(point))
             {
                 return NavigationPlatforms[i];
             }

@@ -1,3 +1,7 @@
+
+
+using UnityEngine;
+
 public class ChaseNearestEnemyAI : AbstractAIPathfindingMovingAndJumping
 {
     public bool RememberLastEnemyPosition = true;
@@ -11,10 +15,13 @@ public class ChaseNearestEnemyAI : AbstractAIPathfindingMovingAndJumping
                 _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.gameObject
                 );
         }
-        else if (RememberLastEnemyPosition && _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.HasValue)
+        else if (
+            RememberLastEnemyPosition && 
+            (_selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPositionOnPlatform.HasValue || _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.HasValue)
+            )
         {
             _selfStateBehaviourAI.Pathfinding.PathTarget = new(
-                _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.Value,
+                _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPositionOnPlatform ?? _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.Value,
                 _selfStateBehaviourAI.NearestEnemyInfo.LastEnemyLayer
                 );
         }
