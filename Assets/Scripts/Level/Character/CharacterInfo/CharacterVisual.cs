@@ -23,7 +23,7 @@ public class CharacterVisual : AbstractCharacterComponent
     const float MOVE_VELOCITY_FOR_DEFAULT_MOVE_ANIM_SPEED = 5f;
     const float COOL_FLIP_SPEED_MUTLIPLIER = 5f;
     const float COOL_FLIP_DEGREES = 360f * 2f;
-    const float POPUP_ANIMATION_SPEED_MULT = 5f;
+    const float POPUP_ANIMATION_SPEED_MULT = 10f;
     const float POPUP_HIDE_ANIMATION_SPEED_MULT = 25f;
     const float POPUP_ANIMATION_EXTRA_HEIGHT = 0.33f;
     const float DETECTED_ENEMY_POPUP_DURATION = 1.5f;
@@ -298,7 +298,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
         _popupContainer.sprite = sprite;
         _popupContainer.transform.position = CharComponents.Center.transform.position;
-        _popupContainer.sharedMaterial = CharComponents.CharacterEffectsReceiver.EffectMaterial;
+        _popupContainer.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
         _popupContainer.color = new Color(1f, 1f, 1f, 0f);
     }
 
