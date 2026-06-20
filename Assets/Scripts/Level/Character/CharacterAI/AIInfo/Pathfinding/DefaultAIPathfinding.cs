@@ -67,7 +67,7 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         return
             base.GetIsAbleToReachPathTarget() &&
             (
-                PathChain?.Last == null ||
+                !PathTarget.HasValue || PathChain?.Last == null ||
                 PathTarget.Value.Position == PathChain?.Last.Value.TargetPosition
             );
     }
