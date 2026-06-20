@@ -46,6 +46,8 @@ public class ModificatorsManager : MonoBehaviour
     [SerializeField] private List<Material> _positiveCardTierMaterials = new();
     [SerializeField] private List<Material> _negativeCardTierMaterials = new();
     [SerializeField] private List<Material> _neutralCardTierMaterials = new();
+    [SerializeField] private List<Sprite> _cardTierBgs = new();
+    [SerializeField] private List<float> _cardTierShakeness = new();
 
     private List<AbstractModificator> _currentModificators = new();
     private List<AbstractModificator> _avaibleValidModificators = new();
@@ -200,6 +202,10 @@ public class ModificatorsManager : MonoBehaviour
                 result.BgImage.material = _neutralCardTierMaterials[(int)modificator.ModificatorTier];
                 break;
         }
+
+        result.BgImage.sprite = _cardTierBgs[(int)modificator.ModificatorTier];
+
+        result.ShakableObject.ContantShakingForce = _cardTierShakeness[(int)modificator.ModificatorTier];
 
         if (modificator.CustomCardContent == null)
         {

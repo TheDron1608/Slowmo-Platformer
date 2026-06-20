@@ -105,7 +105,7 @@ public class ModificatorIcon : Selectable, IModificatorInfo
 
     public float? GetSpoilProgress()
     {
-        return CurrentModificator.GetSpoilProgress();
+        return CurrentModificator?.GetSpoilProgress();
     }
 
     protected override void Start()

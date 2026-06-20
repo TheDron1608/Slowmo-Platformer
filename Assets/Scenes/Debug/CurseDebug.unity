@@ -453,6 +453,7 @@ MonoBehaviour:
   SoundVolume:
     MusicVolume: 5
     SFXVolume: 5
+  MainMixer: {fileID: 24100000, guid: e66ae64d7b80f6f46bdaae72e72def08, type: 2}
 --- !u!4 &162866865
 Transform:
   m_ObjectHideFlags: 0
@@ -1088,7 +1089,7 @@ MonoBehaviour:
   SceneName: Curse
   StartCharacter: {fileID: 2886192054720589260, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
   StartModificators: []
-  StartScore: 50
+  StartScore: 500
 --- !u!4 &2088602313
 Transform:
   m_ObjectHideFlags: 0

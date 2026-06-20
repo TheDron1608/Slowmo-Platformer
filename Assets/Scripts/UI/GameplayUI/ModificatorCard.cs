@@ -7,6 +7,7 @@ public class ModificatorCard : MonoBehaviour, IModificatorInfo
     public Image TitleImage;
     public Image BgImage;
     public RectTransform CustomContentContainer;
+    public ShakableObject ShakableObject;
 
     private float _modificatorMultiplier = 1f;
     private Sprite _defaultSprite;

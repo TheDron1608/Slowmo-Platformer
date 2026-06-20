@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ButtonOnHoverMoveUp : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    const float IMAGE_MOVE_UP_DISTANCE = 25f;
+    const float IMAGE_MOVE_UP_DISTANCE = 5f;
     const float IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER = 5.0f;
 
     [SerializeField] private Transform _targetTransform;

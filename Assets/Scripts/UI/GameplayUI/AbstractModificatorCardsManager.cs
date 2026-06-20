@@ -67,6 +67,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         {
             _picksLeft = value;
             PicksLeftText.text = PicksLeftLocalization.GetLocalizedString() + _picksLeft.ToString();
+            PicksLeftText.enabled = _picksLeft > 0;
         }
     }
 
@@ -219,7 +220,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
                 {
                     foreach (ModificatorCard modCard in cluster.Cards)
                     {
-                        AnalyticsManager.Instance.RecordEvent(
+                        AnalyticsManager.Instance?.RecordEvent(
                             new ModificatorPickChoiseAnalyticsEvent(
                                 modCard.ModificatorInstance.gameObject.name,
                                 !pickInfo.Value,
