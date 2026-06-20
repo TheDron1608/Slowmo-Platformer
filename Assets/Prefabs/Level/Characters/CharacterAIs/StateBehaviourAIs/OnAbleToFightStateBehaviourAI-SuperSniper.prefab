@@ -71,6 +71,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 433397273192693994}
+    - targetCorrespondingSourceObject: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5028801311715145767}
   m_SourcePrefab: {fileID: 100100000, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
 --- !u!1 &1595724756835359428 stripped
 GameObject:
@@ -93,3 +96,15 @@ MonoBehaviour:
   DistanceToPrepareRollAgain: 10
   MaxRollsCombo: 2
   InvertRollDirection: 1
+--- !u!114 &-5028801311715145767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595724756835359428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688806d84ba2b634abd825dd2f5a0e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeardNoiseAIPopupMessaging

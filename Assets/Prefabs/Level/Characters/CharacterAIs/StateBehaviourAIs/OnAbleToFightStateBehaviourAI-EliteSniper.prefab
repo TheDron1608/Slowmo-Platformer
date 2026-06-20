@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2472591697087730138, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
+      propertyPath: PopupMessaging
+      value: 
+      objectReference: {fileID: -4392336652328853058, guid: cae84891875640a4fb3770a372e8aaa1, type: 3}
     - target: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
       propertyPath: m_Name
       value: OnAbleToFightStateBehaviourAI-EliteSniper
@@ -59,6 +63,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6643998917420876704}
+    - targetCorrespondingSourceObject: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2767787980965306818}
   m_SourcePrefab: {fileID: 100100000, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
 --- !u!1 &1801458866853386409 stripped
 GameObject:
@@ -81,3 +88,15 @@ MonoBehaviour:
   DistanceToPrepareRollAgain: 5
   MaxRollsCombo: 1
   InvertRollDirection: 0
+--- !u!114 &-2767787980965306818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801458866853386409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688806d84ba2b634abd825dd2f5a0e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeardNoiseAIPopupMessaging

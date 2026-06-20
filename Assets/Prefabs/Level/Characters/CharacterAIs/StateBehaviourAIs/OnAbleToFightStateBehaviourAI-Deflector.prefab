@@ -25,6 +25,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7635522116767993189}
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
+      propertyPath: PopupMessaging
+      value: 
+      objectReference: {fileID: -4392336652328853058, guid: cae84891875640a4fb3770a372e8aaa1, type: 3}
+    - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: MovingAndJumping
       value: 
       objectReference: {fileID: 699679711382692708}
@@ -105,6 +109,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1385394540809312802}
+    - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3406254039791102921}
   m_SourcePrefab: {fileID: 100100000, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
 --- !u!1 &5393485392465938888 stripped
 GameObject:
@@ -156,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanConflictPosition: 1
-  MoveIfCantReachPathTarget: 1
+  DontMoveIfHeardEnemyOnlyAndCantReach: 1
   RememberLastEnemyPosition: 1
 --- !u!114 &-7320044556179888264
 MonoBehaviour:
@@ -216,3 +223,15 @@ MonoBehaviour:
   MaxWeaponDetectRange: 5
   MinWeaponPriority: 1
   CanCatchDangerousHoldable: 0
+--- !u!114 &-3406254039791102921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5393485392465938888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688806d84ba2b634abd825dd2f5a0e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeardNoiseAIPopupMessaging

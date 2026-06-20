@@ -29,6 +29,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7635522116767993189}
     - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
+      propertyPath: PopupMessaging
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: MovingAndJumping
       value: 
       objectReference: {fileID: 699679711382692708}
@@ -170,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanConflictPosition: 0
-  MoveIfCantReachPathTarget: 1
+  DontMoveIfHeardEnemyOnlyAndCantReach: 1
   RememberLastEnemyPosition: 1
 --- !u!114 &2887963303317067365
 MonoBehaviour:

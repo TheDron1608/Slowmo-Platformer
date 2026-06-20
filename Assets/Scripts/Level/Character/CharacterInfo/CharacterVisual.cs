@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Profiling;
+using UnityEngine.U2D;
 
 [DefaultExecutionOrder(2)]
 public class CharacterVisual : AbstractCharacterComponent
@@ -22,6 +23,10 @@ public class CharacterVisual : AbstractCharacterComponent
     const float MOVE_VELOCITY_FOR_DEFAULT_MOVE_ANIM_SPEED = 5f;
     const float COOL_FLIP_SPEED_MUTLIPLIER = 5f;
     const float COOL_FLIP_DEGREES = 360f * 2f;
+    const float POPUP_ANIMATION_SPEED_MULT = 5f;
+    const float POPUP_HIDE_ANIMATION_SPEED_MULT = 25f;
+    const float POPUP_ANIMATION_EXTRA_HEIGHT = 0.33f;
+    const float DETECTED_ENEMY_POPUP_DURATION = 1.5f;
 
     public enum CharacterPartMainStates
     {
@@ -79,6 +84,9 @@ public class CharacterVisual : AbstractCharacterComponent
     }
 
     public CharacterMultiSpritesSO MultiSpritesSO;
+    public Sprite HeardNoiseSprite;
+    public Sprite DetectedEnemySprite;
+    [SerializeField] private SpriteRenderer _popupContainer;
 
     private bool _flippedH = false;
     private CharacterPartMainStates _mainState = CharacterPartMainStates.IDLE;
@@ -92,6 +100,9 @@ public class CharacterVisual : AbstractCharacterComponent
     private bool _currentCoolFlipRotationAxisReversed = false;
     private float _stunRecoverAnimationTimeMult = 1f;
     private bool _allowMovementOnBusyAnimation = false;
+    private Sprite _targetPopupSprite = null;
+    private float _currentPopupDuration = 0f;
+    private float _targetPopupDuration = float.MaxValue;
 
     public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
@@ -267,6 +278,35 @@ public class CharacterVisual : AbstractCharacterComponent
         return CharComponents.CharacterPartsManager.CharacterParts.First()?.CharPartVisual.IsVisible() ?? false;
     }
 
+    public void PopupHeardNoise()
+    {
+        PopupSprite(HeardNoiseSprite, float.MaxValue);
+    }
+
+    public void PopupDetectedEnemy()
+    {
+        PopupSprite(DetectedEnemySprite, DETECTED_ENEMY_POPUP_DURATION);
+    }
+
+    private void PopupSprite(Sprite sprite, float duration)
+    {
+        if (_targetPopupSprite == sprite) return;
+
+        _targetPopupSprite = sprite;
+        _targetPopupDuration = duration;
+        _currentPopupDuration = 0f;
+
+        _popupContainer.sprite = sprite;
+        _popupContainer.transform.position = CharComponents.Center.transform.position;
+        _popupContainer.sharedMaterial = CharComponents.CharacterEffectsReceiver.EffectMaterial;
+        _popupContainer.color = new Color(1f, 1f, 1f, 0f);
+    }
+
+    public void RemovePopupMessage()
+    {
+        _targetPopupSprite = null;
+    }
+
     public void DoACoolFlip()
     {
         if (_coolFlipCoroutine != null) StopCoroutine(_coolFlipCoroutine);
@@ -315,6 +355,10 @@ public class CharacterVisual : AbstractCharacterComponent
 
         Profiler.BeginSample("UpdateSampleSpriteEvent");
         UpdateSampleSpriteEvent();
+        Profiler.EndSample();
+
+        Profiler.BeginSample("UpdatePopupMessage");
+        UpdatePopupMessage();
         Profiler.EndSample();
     }
 
@@ -423,6 +467,29 @@ public class CharacterVisual : AbstractCharacterComponent
         {
             OnSampleSpriteChanged?.Invoke(this, currentSprite);
             _spritePrevFrame = currentSprite;
+        }
+    }
+
+    private void UpdatePopupMessage()
+    {
+        _currentPopupDuration += Time.deltaTime;
+
+        _popupContainer.flipX = FlippedH;
+        _popupContainer.transform.position = math.lerp(
+            _popupContainer.transform.position,
+            CharComponents.Center.transform.position + Vector3.up * (POPUP_ANIMATION_EXTRA_HEIGHT + CharComponents.CharacterRigidBodyCapsuleCollider.size.y / 2f),
+            Time.deltaTime * POPUP_ANIMATION_SPEED_MULT
+            );
+
+        if (_targetPopupSprite != null && _currentPopupDuration < _targetPopupDuration)
+        {
+            _popupContainer.color = new Color(1f, 1f, 1f, math.lerp(_popupContainer.color.a, 1f, Time.deltaTime * POPUP_ANIMATION_SPEED_MULT));
+            _popupContainer.enabled = true;
+        }
+        else
+        {
+            _popupContainer.color = new Color(1f, 1f, 1f, math.lerp(_popupContainer.color.a, 0f, Time.deltaTime * POPUP_HIDE_ANIMATION_SPEED_MULT));
+            if (_popupContainer.color.a < 0.005f) _popupContainer.enabled = false;
         }
     }
 

@@ -21,6 +21,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1075199720159931106}
     - target: {fileID: 189993435817069538, guid: ad348c0c33b86564099609dcbf443509, type: 3}
+      propertyPath: PopupMessaging
+      value: 
+      objectReference: {fileID: 8228385849117333569}
+    - target: {fileID: 189993435817069538, guid: ad348c0c33b86564099609dcbf443509, type: 3}
       propertyPath: MovingAndJumping
       value: 
       objectReference: {fileID: 2698135821604394495}
@@ -98,6 +102,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5953367306065495403, guid: ad348c0c33b86564099609dcbf443509, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5362817789861963235}
+    - targetCorrespondingSourceObject: {fileID: 5953367306065495403, guid: ad348c0c33b86564099609dcbf443509, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8228385849117333569}
   m_SourcePrefab: {fileID: 100100000, guid: ad348c0c33b86564099609dcbf443509, type: 3}
 --- !u!1 &5525660507394423547 stripped
 GameObject:
@@ -130,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanConflictPosition: 1
+  DontMoveIfHeardEnemyOnlyAndCantReach: 1
   AllyDetectDistance: 5
   TowardExtraDistance: 1.25
 --- !u!114 &7370849849346494656
@@ -158,6 +166,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 15
+  XRay: 0
+  HearingSensetivityMult: 1
 --- !u!114 &1075199720159931106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanJumpToTarget: 1
   Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
+  AdvancedPathinding: 0
 --- !u!114 &5362817789861963235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,3 +198,15 @@ MonoBehaviour:
   MaxWeaponDetectRange: 5
   MinWeaponPriority: 1
   CanCatchDangerousHoldable: 0
+--- !u!114 &8228385849117333569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5525660507394423547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688806d84ba2b634abd825dd2f5a0e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeardNoiseAIPopupMessaging
