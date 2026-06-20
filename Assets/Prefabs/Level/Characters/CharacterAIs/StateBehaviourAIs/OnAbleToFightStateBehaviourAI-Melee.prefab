@@ -132,6 +132,8 @@ MonoBehaviour:
   StopAttackAimingDelaySeconds: 1.5
   AlwaysHammerWeaponBeforeAttack: 1
   DoNotAimIfNeedToMove: 0
+  AllowArms: 1
+  AllowUnarmed: 1
 --- !u!114 &1303693616419640889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanConflictPosition: 1
+  MoveIfCantReachPathTarget: 1
   RememberLastEnemyPosition: 1
 --- !u!114 &-3514633441653828416
 MonoBehaviour:
@@ -184,6 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 10
+  XRay: 0
+  HearingSensetivityMult: 1
 --- !u!114 &7615797020215694904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanJumpToTarget: 1
   Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
+  AdvancedPathinding: 0
 --- !u!114 &-8807798662303176005
 MonoBehaviour:
   m_ObjectHideFlags: 0

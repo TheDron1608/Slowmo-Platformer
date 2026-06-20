@@ -11,18 +11,36 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
     /// if true, character will try not to stand on single position with other characters
     /// </summary>
     public bool CanConflictPosition = true;
+    public bool DontMoveIfHeardEnemyOnlyAndCantReach = true;
 
     private LinkedListNode<AbstractAIPathfinding.PathChainElement> _currentChain = null;
 
     private void FixedUpdate()
+    {
+        OnFixedUpdate();
+    }
+
+    protected virtual void OnFixedUpdate()
     {
         if (
             CharComponents.CharacterMoving.IsAbleToMove &&
             (!CharComponents.CharacterVisual.IsBusy() || CharComponents.CharacterVisual.AllowMovementOnBusyAnimation)
             )
         {
-            UpdatePathTarget();
-            UpdateActionsToReachPathTarget();
+            if (
+                DontMoveIfHeardEnemyOnlyAndCantReach &&
+                _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy == null && 
+                _selfStateBehaviourAI.NearestEnemyInfo.LastHeardEnemy != null && 
+                _selfStateBehaviourAI.Pathfinding.PathTarget?.Position == TileManager.PositionToTilePosition(_selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition ?? Vector2.zero) &&
+                !_selfStateBehaviourAI.Pathfinding.GetIsAbleToReachPathTarget())
+            {
+                UpdateOnUnableToReachPathTarget();
+            }
+            else
+            {
+                UpdatePathTarget();
+                UpdateActionsToReachPathTarget();
+            }
         }
     }
 
@@ -200,5 +218,16 @@ public abstract class AbstractAIPathfindingMovingAndJumping : AbstractAIMovingAn
         }
 
         _currentChain = _currentChain?.Next;
+    }
+
+    private void UpdateOnUnableToReachPathTarget()
+    {
+        CharComponents.CharacterMoving.TryMove(CharacterMoving.MoveDirection.None);
+        CharComponents.CharacterJumping.StopJump();
+
+        if (_selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.HasValue)
+        {
+            CharComponents.CharacterMoving.TrySetClumsyAlign(_selfStateBehaviourAI.NearestEnemyInfo.LastEnemyPosition.Value.x - transform.position.x, true);
+        }
     }
 }

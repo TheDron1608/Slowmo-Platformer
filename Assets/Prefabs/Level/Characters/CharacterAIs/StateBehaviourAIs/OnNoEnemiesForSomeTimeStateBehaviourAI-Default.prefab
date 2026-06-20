@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: PrefferedHoldable
       value: 
       objectReference: {fileID: 1492247659187579170}
+    - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      propertyPath: IgnoreHearingNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2216794431347360548, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       propertyPath: m_Name
       value: OnNoEnemiesForSomeTimeStateBehaviourAI-Default
@@ -122,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanConflictPosition: 1
+  MoveIfCantReachPathTarget: 0
   PatroolSpeedMultiplier: 0.5
   OnReachedPatformEndAwaitingTime: 0.5
   CanOpenDoors: 0
@@ -139,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 10
   XRay: 0
+  HearingSensetivityMult: 1
 --- !u!114 &1153879855073497517
 MonoBehaviour:
   m_ObjectHideFlags: 0

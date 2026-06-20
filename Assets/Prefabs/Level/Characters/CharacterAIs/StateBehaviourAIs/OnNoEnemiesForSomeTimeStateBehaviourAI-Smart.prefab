@@ -33,6 +33,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5167105316368865448}
     - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
+      propertyPath: IgnoreHearingNoise
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1786416320470853634, guid: 8cdc7eebaea0f4a4284c394ca2c76cfe, type: 3}
       propertyPath: GrabbingAndThrowing
       value: 
       objectReference: {fileID: 4957829180631412234}
@@ -150,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanConflictPosition: 1
+  MoveIfCantReachPathTarget: 0
   PatroolSpeedMultiplier: 0.5
   OnReachedPatformEndAwaitingTime: 0.5
   CanOpenDoors: 0
@@ -179,6 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 10
   XRay: 0
+  HearingSensetivityMult: 1
 --- !u!114 &3013010435715966763
 MonoBehaviour:
   m_ObjectHideFlags: 0

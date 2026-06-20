@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanConflictPosition: 0
+  MoveIfCantReachPathTarget: 1
   RememberLastEnemyPosition: 1
 --- !u!114 &2887963303317067365
 MonoBehaviour:
@@ -224,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 50
   XRay: 1
+  HearingSensetivityMult: 1
   PrefferedTeam: 0
 --- !u!114 &7635522116767993189
 MonoBehaviour:

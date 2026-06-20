@@ -88,6 +88,7 @@ public class RangedProjectile : AbstractProjectile
         MaxPierces = rangedOriginal.MaxPierces;
         ParticlesOnWallHit = rangedOriginal.ParticlesOnWallHit;
         ParticleOnFaliedPierce = rangedOriginal.ParticleOnFaliedPierce;
+        ShotNoiseDistance = rangedOriginal.ShotNoiseDistance;
 
         _rangeMoved = 0f;
         _piercesLeft = MaxPierces;

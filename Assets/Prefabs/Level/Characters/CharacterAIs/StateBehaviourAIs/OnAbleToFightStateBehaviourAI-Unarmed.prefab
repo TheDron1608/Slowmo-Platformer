@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanConflictPosition: 1
+  MoveIfCantReachPathTarget: 1
   RememberLastEnemyPosition: 1
 --- !u!114 &926319739850196456
 MonoBehaviour:
@@ -161,7 +162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RollCooldown: 1
-  ProjectileDistanceToRoll: 3.5
+  MeleeProjectileDistanceToRoll: 2.5
+  RangedProjectileDistanceToRoll: 10
 --- !u!114 &-3514633441653828416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 10
+  XRay: 0
+  HearingSensetivityMult: 1
 --- !u!114 &7615797020215694904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanJumpToTarget: 1
   Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
+  AdvancedPathinding: 0
 --- !u!114 &1246793186852930002
 MonoBehaviour:
   m_ObjectHideFlags: 0

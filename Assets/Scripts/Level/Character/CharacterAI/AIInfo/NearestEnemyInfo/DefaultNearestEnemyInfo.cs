@@ -78,6 +78,7 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
             Vector2.Distance(CharComponents.Center.transform.position, e.Position) < e.Distance * HearingSensetivityMult
             )
         {
+            _timeSinceLastHeardEnemy = 0f;
             _lastHeardEnemy = e.SourceTeam;
             _lastEnemyPosition = e.Position;
             _lastEnemyLayer = e.Layer;

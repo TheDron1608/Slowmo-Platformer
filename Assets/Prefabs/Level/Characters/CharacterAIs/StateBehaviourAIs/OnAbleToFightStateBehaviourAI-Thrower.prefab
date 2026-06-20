@@ -134,6 +134,9 @@ MonoBehaviour:
   MeleeAttackDelaySeconds: 0
   StopAttackAimingDelaySeconds: 3.5
   AlwaysHammerWeaponBeforeAttack: 1
+  DoNotAimIfNeedToMove: 0
+  AllowArms: 1
+  AllowUnarmed: 1
 --- !u!114 &6777744621790621435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 092a36d00c1eed846bf918426caab1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanConflictPosition: 1
+  MoveIfCantReachPathTarget: 1
   RememberLastEnemyPosition: 1
 --- !u!114 &-8453944566468014328
 MonoBehaviour:
@@ -198,6 +203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxEnemyDetectRange: 10
+  XRay: 0
+  HearingSensetivityMult: 1
 --- !u!114 &8604940184364085456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanJumpToTarget: 0
   Debug_PathColor: {r: 1, g: 1, b: 1, a: 0}
+  AdvancedPathinding: 0
 --- !u!114 &3606616043188955943
 MonoBehaviour:
   m_ObjectHideFlags: 0

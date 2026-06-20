@@ -192,7 +192,7 @@ public abstract class RangedWeapon : ThrowableWeapon
     protected override bool OnTryAttackSuccess(Vector2 direction)
     {
         SpendAmmo();
-        _shootLightParticleSpawner.SpawnParticle();
+        _shootLightParticleSpawner?.SpawnParticle();
         return base.OnTryAttackSuccess(direction);
     }
 

@@ -11,6 +11,7 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
     protected Vector2? _lastEnemyPosition = null;
     protected ZIndexLayer _lastEnemyLayer = null;
     protected float _timeSinceLastEnemyDetection = 999f;
+    protected float _timeSinceLastHeardEnemy = 999f;
 
     public CharacterTeam NearestEnemy
     {
@@ -73,6 +74,11 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
         }
     }
 
+    public float TimeSinceLastHeardEnemy
+    {
+        get => _timeSinceLastHeardEnemy;
+    }
+
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -94,5 +100,6 @@ public abstract class AbstractAINearestEnemyInfo : AbstractAIInfo
     {
         base.OnFixedUpdate();
         _timeSinceLastEnemyDetection += Time.deltaTime;
+        _timeSinceLastHeardEnemy += Time.deltaTime;
     }
 }
