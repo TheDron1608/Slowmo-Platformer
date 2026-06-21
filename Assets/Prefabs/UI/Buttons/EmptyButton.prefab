@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2783410295627154645}
   - component: {fileID: 2343134867860783586}
   - component: {fileID: 1818829807119986620}
+  - component: {fileID: 4784365705833464160}
   m_Layer: 5
   m_Name: ButtonText
   m_TagString: Untagged
@@ -68,8 +69,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7d0a104b07ad9944983251a4d8675f16, type: 2}
-  m_sharedMaterial: {fileID: 718268473480168674, guid: 7d0a104b07ad9944983251a4d8675f16, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 748d7912bd9b4564cb4a03bbd2348856, type: 2}
+  m_sharedMaterial: {fileID: -1643081891237545732, guid: 748d7912bd9b4564cb4a03bbd2348856, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -104,6 +105,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -177,6 +179,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &4784365705833464160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053873370441415919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39e0442f36bca745b3040cd488c217b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TextDecodeEffect
 --- !u!1 &4222478142320599171
 GameObject:
   m_ObjectHideFlags: 0

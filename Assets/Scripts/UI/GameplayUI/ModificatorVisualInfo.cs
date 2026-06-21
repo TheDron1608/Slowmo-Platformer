@@ -13,10 +13,16 @@ public class ModificatorVisualInfo : MonoBehaviour
     public IModificatorInfo TargetInfo
     {
         get => _targetInfo;
-        set => _targetInfo = value;
+        set
+        {
+            if (_targetInfo == value) return;
+
+            _targetInfo = value;
+            UpdateInfo();
+        }
     }
 
-    private void Update()
+    private void UpdateInfo()
     {
         if (TargetInfo == null) return;
 

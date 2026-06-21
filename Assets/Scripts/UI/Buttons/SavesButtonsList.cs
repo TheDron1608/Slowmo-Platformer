@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(110)]
 public class SavesButtonsList : MonoBehaviour
 {
     public List<SaveButton> SaveButtonsList = new List<SaveButton>();

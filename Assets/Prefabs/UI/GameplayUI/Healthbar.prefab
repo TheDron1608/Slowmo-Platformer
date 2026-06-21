@@ -135,7 +135,6 @@ MonoBehaviour:
   DamagedScreenOverlayFillOnDamage: 0.33
   DefaultTextColor: {r: 1, g: 1, b: 1, a: 1}
   DyingTextColor: {r: 1, g: 0, b: 0, a: 1}
-  DeadTextColor: {r: 1, g: 1, b: 1, a: 1}
   HealthbarHealth: {fileID: 5684189742907523433}
   HealthbarHealthLoseChange: {fileID: 1490554566780040600}
   HealthbarHealthAddChange: {fileID: 4540714636875999840}
@@ -569,7 +568,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 413829446879158777, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

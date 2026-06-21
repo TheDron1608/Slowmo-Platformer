@@ -34,13 +34,13 @@ public static class NumberMath
     public static T PickRandomItem<T>(T[] array)
     {
         if (array.Length == 0) return default;
-        return array[(int)(UnityEngine.Random.value * (array.Length))];
+        return array[math.min((int)(UnityEngine.Random.value * array.Length), array.Length - 1)];
     }
     public static T PickRandomItem<T>(T[] array, int limit)
     {
         if (limit == -1) return PickRandomItem(array);
 
-        return array[(int)(UnityEngine.Random.value * Mathf.Min(array.Length, limit))];
+        return array[math.min((int)(UnityEngine.Random.value * Mathf.Min(array.Length, limit)), array.Length - 1)];
     }
 
     public static T PickRandomItem<T>(List<T> vector, T excludeObject)

@@ -10,6 +10,7 @@ public class HoldObjectInfo : MonoBehaviour
     public CharacterHoldingObjects TrackedHolder = null;
 
     private Holdable _currentHoldObject = null;
+    private string _currentHoldObjectName = null;
 
     [Header("const references")]
     [SerializeField] private GameObject _holdObjectImageContainer;
@@ -40,7 +41,11 @@ public class HoldObjectInfo : MonoBehaviour
             _holdObjectImage.SetNativeSize();
 
             //update holdable name
-            _holdObjectName.text = _currentHoldObject.GetLocalizedName();
+            if (_currentHoldObjectName != _currentHoldObject.GetLocalizedName())
+            {
+                _holdObjectName.text = _currentHoldObject.GetLocalizedName();
+                _currentHoldObjectName = _currentHoldObject.GetLocalizedName();
+            }
 
             //update ranged weapon loaded ammo info
             if (_currentHoldObject.TryGetComponent(out RangedWeapon rangedWeapon))
@@ -106,6 +111,7 @@ public class HoldObjectInfo : MonoBehaviour
             //hide hold object info
             _holdObjectImageContainer.gameObject.SetActive(false);
             _holdObjectName.text = "";
+            _currentHoldObjectName = null;
         }
     }
 }
