@@ -68,7 +68,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7266166796882309030}
-  - {fileID: 971617605622886254}
+  - {fileID: 2597123420401900473}
   - {fileID: 5935235982864396508}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -134,6 +134,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _cardsContainer: {fileID: 7266166796882309030}
+  _svEffects: {fileID: 2652251160524955272}
   Cards: []
 --- !u!114 &2652251160524955272
 MonoBehaviour:
@@ -147,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 934a1318402a03746baec37cb7df3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SoundOnClick: {fileID: 3268585330390560535}
+  SoundOnClick: {fileID: 301017590379486144}
   SoundOnHoverSelect: {fileID: 8248775602718257317}
 --- !u!114 &3164804603707973316
 MonoBehaviour:
@@ -170,7 +171,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2503537148367809475}
   m_CullTransparentMesh: 1
---- !u!1001 &1943123910002121879
+--- !u!1001 &3712769342294943808
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -239,15 +240,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
---- !u!4 &971617605622886254 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1696940024585810937, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
-  m_PrefabInstance: {fileID: 1943123910002121879}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3268585330390560535 stripped
+--- !u!114 &301017590379486144 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4011306408128934784, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
-  m_PrefabInstance: {fileID: 1943123910002121879}
+  m_PrefabInstance: {fileID: 3712769342294943808}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -255,6 +251,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81342ff9fbca8b6469ccbd3a5fa8485c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2597123420401900473 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1696940024585810937, guid: a1b902f4946f21c4f91c710897a742ca, type: 3}
+  m_PrefabInstance: {fileID: 3712769342294943808}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5031238043481916197
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -24,9 +24,7 @@ public abstract class AbstractCardItem : Button, UIElementTrackTarget.IUIElement
 
     public void SetInteractable(bool value)
     {
-        GetComponent<ButtonOnHoverMoveUp>().enabled = value;
-        GetComponent<ButtonSoundVisualEffects>().enabled = value;
-        enabled = value;
+        interactable = value;
     }
 
     public override void OnPointerEnter(PointerEventData eventData)

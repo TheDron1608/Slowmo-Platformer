@@ -12,9 +12,12 @@ public class ButtonSoundVisualEffects : MonoBehaviour, ISelectHandler, IDeselect
 
     private bool _scalingUp = false;
     private bool _isFirstFrame = true;
+    private Selectable _selectableComponent;
 
     protected void Awake()
     {
+        if (!TryGetComponent(out _selectableComponent)) throw new UnityException("Selectable component not found");
+
         if (TryGetComponent(out Button button))
         {
             button.onClick.AddListener(() => SoundOnClick.PlaySound());
@@ -23,7 +26,7 @@ public class ButtonSoundVisualEffects : MonoBehaviour, ISelectHandler, IDeselect
 
     protected virtual bool SelectCondition()
     {
-        return !_isFirstFrame;
+        return !_isFirstFrame && _selectableComponent.interactable;
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -54,12 +57,12 @@ public class ButtonSoundVisualEffects : MonoBehaviour, ISelectHandler, IDeselect
     {
         if (_scalingUp)
         {
-            float newScale = Mathf.LerpUnclamped(transform.localScale.x, IMAGE_ON_HOVER_SCALE_MULTIPLIER, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
+            float newScale = Mathf.Lerp(transform.localScale.x, IMAGE_ON_HOVER_SCALE_MULTIPLIER, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
             transform.localScale = new Vector3(newScale, newScale, newScale);
         }
         else
         {
-            float newScale = Mathf.LerpUnclamped(transform.localScale.x, 1f, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
+            float newScale = Mathf.Lerp(transform.localScale.x, 1f, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
             transform.localScale = new Vector3(newScale, newScale, newScale);
         }
     }

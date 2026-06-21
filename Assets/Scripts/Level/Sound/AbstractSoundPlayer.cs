@@ -86,9 +86,9 @@ public abstract class AbstractSoundPlayer : MonoBehaviour
         }
     }
 
-    public void PlaySound(bool loop = false, Vector2? audioPoint = null, float? startTime = null)
+    public void PlaySound(bool loop = false, Vector2? audioPoint = null, float? startTime = null, float volumeMult = 1f)
     {
-        PlaySound(DefaultSound, loop, audioPoint, startTime);
+        PlaySound(DefaultSound, loop, audioPoint, startTime, volumeMult);
     }
 
     public void BreakAllSounds()
@@ -106,5 +106,5 @@ public abstract class AbstractSoundPlayer : MonoBehaviour
         return Volume * DynamicVolumeMultiplier;
     }
 
-    public abstract void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null);
+    public abstract void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null, float volumeMult = 1f);
 }

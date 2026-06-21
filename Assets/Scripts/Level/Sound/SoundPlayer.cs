@@ -7,12 +7,14 @@ public class SoundPlayer : AbstractSoundPlayer
     const float MIN_VOLUME_DISTANCE = 18.5f;
 
     private AudioSource _clipPointSource = null;
+    private float _currentVolumeMult = 1f;
 
-    public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null)
+    public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null, float volumeMult = 1f)
     {
         if (sound == null || sound.AudioClips.Count == 0 || !_audioSource.enabled || !gameObject.activeSelf) return;
 
         AudioClip randomClip = NumberMath.PickRandomItem(sound.AudioClips);
+        _currentVolumeMult = volumeMult;
         float targetVolume = CalculateVolume();
 
         if (audioPoint.HasValue)
@@ -57,7 +59,7 @@ public class SoundPlayer : AbstractSoundPlayer
     protected override float CalculateVolume()
     {
         return 
-            base.CalculateVolume() * NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, transform.position) / MIN_VOLUME_DISTANCE);
+            base.CalculateVolume() * NumberMath.LimitFloatBetweenZeroAndOne(1f - Vector2.Distance(Camera.main.transform.position, transform.position) / MIN_VOLUME_DISTANCE * _currentVolumeMult);
     }
 
     private void OnEnable()

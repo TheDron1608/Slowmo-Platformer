@@ -10,6 +10,7 @@ public class CursePickManager : AbstractModificatorCardsManager
 {
     const float TRADE_DELAY = 0.75f;
     const float SCORE_ENCOUNT_PER_SECOND = 100f;
+    const float MAX_SCORE_ENCOUNT_DURATION = 3f;
     const float MAX_MODIFICATOR_APPEAR_DELAY = 1f;
 
     [SerializeField] private TextMeshProUGUI _scoreText;
@@ -72,27 +73,18 @@ public class CursePickManager : AbstractModificatorCardsManager
 
             List<AbstractModificator> addedModificators = new();
             float totalTradableScore = ScoreManager.Instance.TradableScore + ScoreManager.Instance.CurrentCombo * ScoreManager.Instance.CurrentMultiplier;
-            float modificatorAppearDelay = math.min(
-                totalTradableScore / SCORE_ENCOUNT_PER_SECOND / ModificatorsManager.Instance.MaxModificatorOptions, 
-                MAX_MODIFICATOR_APPEAR_DELAY
-                );
+            float targetEncountSpeed = math.max(SCORE_ENCOUNT_PER_SECOND, totalTradableScore / MAX_SCORE_ENCOUNT_DURATION);
+            float modificatorAppearDelay = totalTradableScore / targetEncountSpeed / ModificatorsManager.Instance.MaxModificatorOptions;
             float encountedScore = 0f;
             float lastAddedCardScore = math.min(1f, totalTradableScore);
             float delayTime = 0f;
-            int iter = 0;
 
             _scoreText.text = totalTradableScore.ToString("0");
             ShowScore();
 
-            while (
-                (
-                    encountedScore < totalTradableScore || 
-                    Cards.Count < ModificatorsManager.Instance.MaxModificatorOptions
-                ) &&
-                iter < ModificatorsManager.Instance.MaxModificatorOptions
-                )
+            while (Cards.Count < ModificatorsManager.Instance.MaxModificatorOptions)
             {
-                encountedScore += Time.deltaTime * SCORE_ENCOUNT_PER_SECOND;
+                encountedScore += Time.deltaTime * targetEncountSpeed;
                 _scoreText.text = math.max(totalTradableScore - encountedScore, 0f).ToString("0");
 
                 delayTime += Time.deltaTime;
@@ -116,6 +108,7 @@ public class CursePickManager : AbstractModificatorCardsManager
                         newCluster.AddModificator(addModificators);
                         newCluster.AddStatusOnPick = AbstractModificator.ModificatorStatuses.CURSE;
                         AddCard(newCluster);
+                        newCluster.interactable = false;
 
                         addedModificators.AddRange(addModificators);
                         
@@ -131,7 +124,6 @@ public class CursePickManager : AbstractModificatorCardsManager
 
                     lastAddedCardScore = encountedScore;
                     delayTime = 0f;
-                    iter++;
                 }
 
                 yield return new WaitForEndOfFrame();
@@ -152,20 +144,17 @@ public class CursePickManager : AbstractModificatorCardsManager
 
                 if (RerollsLeft > 0)
                 {
-                    yield return new WaitForSeconds(modificatorAppearDelay);
                     AddCard(Instantiate(_rerollCardInstace));
                 }
 
                 if (ModificatorsManager.Instance.CanSkipCursePick)
                 {
-                    yield return new WaitForSeconds(modificatorAppearDelay);
                     AddCard(Instantiate(_pickNothingCardInstance));
                 }
-
-                SetAllCardsInteractable(true);
             }
 
             HideScore();
+            SetAllCardsInteractable(true);
             CardsInfoContainer.gameObject.SetActive(true);
         }
 

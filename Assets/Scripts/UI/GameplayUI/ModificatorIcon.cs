@@ -19,6 +19,7 @@ public class ModificatorIcon : Selectable, IModificatorInfo
     [SerializeField] private Image _bgImage;
     [SerializeField] private Image _disableIconImage;
     [SerializeField] private RectTransform _customContentContainer;
+    [SerializeField] private GameplayButtonSoundVisualEffects _svEffects;
 
     private float _multiplier = 1f;
     private float _currentTriggerAnimationProgress = 0f;
@@ -101,6 +102,11 @@ public class ModificatorIcon : Selectable, IModificatorInfo
     public float ModificatorMultiplier
     {
         get => CurrentModificator.ModificatorMultiplier;
+    }
+
+    public GameplayButtonSoundVisualEffects SVEffects
+    {
+        get => _svEffects;
     }
 
     public float? GetSpoilProgress()

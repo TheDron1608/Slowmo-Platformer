@@ -48,6 +48,8 @@ public class ModificatorsManager : MonoBehaviour
     [SerializeField] private List<Material> _neutralCardTierMaterials = new();
     [SerializeField] private List<Sprite> _cardTierBgs = new();
     [SerializeField] private List<float> _cardTierShakeness = new();
+    [SerializeField] private List<Sound> _cardTierSelectSounds = new();
+    [SerializeField] private List<Sound> _cardTierPickSounds = new();
 
     private List<AbstractModificator> _currentModificators = new();
     private List<AbstractModificator> _avaibleValidModificators = new();
@@ -82,6 +84,15 @@ public class ModificatorsManager : MonoBehaviour
             if (_requestUpdateAvaibleModificators) UpdateAvaibleModificatorsInfo();
             return _avaibleUnsynergingValidModificators;
         }
+    }
+
+    public List<Sound> CardTierSelectSounds
+    {
+        get => _cardTierSelectSounds;
+    }
+    public List<Sound> CardTierPickSounds
+    {
+        get => _cardTierPickSounds; 
     }
 
     public float GetTotalModsPrice()
@@ -139,6 +150,9 @@ public class ModificatorsManager : MonoBehaviour
         result.CurrentModificator = modificator;
         result.ModificatorInstance = modificator.OriginalModificator;
         result.DisabledModificator = modificator.DisabledModificator;
+
+        result.SVEffects.SoundOnHoverSelect.DefaultSound = _cardTierSelectSounds[(int)modificator.ModificatorTier];
+        result.SVEffects.SoundOnClick.DefaultSound = _cardTierPickSounds[(int)modificator.ModificatorTier];
 
         if (modificator.CustomIconContent == null)
         {

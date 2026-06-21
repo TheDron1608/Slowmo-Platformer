@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Components;
+using UnityEngine.UI;
 
 public abstract class AbstractModificatorCardsManager : MonoBehaviour
 {
     const float DEFAULT_INFO_WIDTH_MULT = 2f;
+    const float ADD_MODIFICATOR_VOLUME_MULT = 0.333f;
 
     public Transform CardSpawnPosition;
     public Transform CardsContainer;
@@ -22,6 +21,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     public LocalizedString StartTitle;
     public LocalizedString StartDesc;
 
+    public Scrollbar Scrollbar;
     [SerializeField] protected ModificatorCardsCluster _clusterInstance;
     [SerializeField] protected PickNothingCard _pickNothingCardInstance;
     [SerializeField] protected RerollCard _rerollCardInstace;
@@ -77,17 +77,23 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         set => _cardPickInfo = value;
     }
 
-    public void AddCard(AbstractCardItem cluster)
+    public void AddCard(AbstractCardItem card)
     {
-        cluster.transform.SetParent(CardsContainer);
-        cluster.transform.position = CardSpawnPosition.transform.position;
+        card.transform.SetParent(CardsContainer);
+        card.transform.localScale = Vector3.one * 2f;
+        card.transform.position = CardSpawnPosition.transform.position;
 
-        UIElementTrackTarget.CreateTrackTarget(CardTrackTargetsContainer, cluster);
+        UIElementTrackTarget.CreateTrackTarget(CardTrackTargetsContainer, card);
 
-        _cards.Add(cluster);
-        _cardPickInfo.Add(cluster, false);
+        _cards.Add(card);
+        _cardPickInfo.Add(card, false);
 
-        OnAddedItem?.Invoke(this, cluster);
+        if (card is ModificatorCardsCluster cluster)
+        {
+            cluster.SVEffects.SoundOnClick.PlaySound(false, null, null, ADD_MODIFICATOR_VOLUME_MULT);
+        }
+
+        OnAddedItem?.Invoke(this, card);
     }
 
 
@@ -105,7 +111,6 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
 
         if (removedCardIndex != -1)
         {
-            bool foundTrackTarget = false;
             foreach (Transform trackTargetTransform in CardTrackTargetsContainer)
             {
                 if (
@@ -115,38 +120,14 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
                 {
                     _cards[removedCardIndex].SetInteractable(false);
 
-                    foundTrackTarget = true;
                     trackTarget.transform.SetParent(CardSpawnPosition);
                     trackTarget.transform.localPosition = Vector3.zero;
-
-                    StartCoroutine(AwaitReachTrackTargetThenDestroy(trackTarget, _cards[removedCardIndex].transform));
                 }
             }
 
             OnRemovedItem?.Invoke(this, _cards[removedCardIndex]);
 
-            if (!foundTrackTarget && _cards.Count > removedCardIndex)
-            {
-                Destroy(_cards[removedCardIndex].gameObject);
-            }
-
             _cards.RemoveAt(removedCardIndex);
-        }
-    }
-    private IEnumerator AwaitReachTrackTargetThenDestroy(UIElementTrackTarget trackTarget, Transform trackedUIElement)
-    {
-        while (
-            !trackTarget.IsDestroyed() &&
-            !trackedUIElement.IsDestroyed() &&
-            Vector2.Distance(trackTarget.transform.position, trackedUIElement.position) > 0.05f
-            )
-        {
-            yield return new WaitForEndOfFrame();
-        }
-
-        if (!trackedUIElement.IsDestroyed())
-        {
-            Destroy(trackedUIElement.gameObject);
         }
     }
 

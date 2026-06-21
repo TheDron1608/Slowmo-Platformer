@@ -11,6 +11,7 @@ public class ModificatorCardsCluster : AbstractCardItem
     const float CLUSTER_HAND_BASE_ROTATION = 30f;
 
     [SerializeField] private RectTransform _cardsContainer;
+    [SerializeField] private ButtonSoundVisualEffects _svEffects;
 
     public List<ModificatorCard> Cards = new();
 
@@ -21,6 +22,19 @@ public class ModificatorCardsCluster : AbstractCardItem
         get => _addStatusOnPick;
         set => _addStatusOnPick = value;
     }
+
+    public ButtonSoundVisualEffects SVEffects
+    {
+        get => _svEffects;
+    }
+
+#if UNITY_EDITOR
+    protected override void OnValidate()
+    {
+
+        _svEffects = GetComponent<ButtonSoundVisualEffects>();
+    }
+#endif
 
     protected override void Start()
     {
@@ -68,6 +82,8 @@ public class ModificatorCardsCluster : AbstractCardItem
         newCard.CurrentCluster = this;
         Cards.Add(newCard);
         Cards.Sort((a, b) => a.ModificatorInstance.ModificatorPrice.CompareTo(b.ModificatorInstance.ModificatorPrice));
+        SVEffects.SoundOnHoverSelect.DefaultSound = ModificatorsManager.Instance.CardTierSelectSounds[Cards.Max(e => (int)e.ModificatorInstance.ModificatorTier)];
+        SVEffects.SoundOnClick.DefaultSound = ModificatorsManager.Instance.CardTierPickSounds[Cards.Max(e => (int)e.ModificatorInstance.ModificatorTier)];
         UpdateCardsPositions();
     }
 
@@ -93,6 +109,17 @@ public class ModificatorCardsCluster : AbstractCardItem
             container.SetClusterDisplayedDescription(this);
         }
         ShowOverrideCurrentModificators();
+    }
+
+    public override void OnDeselect(BaseEventData eventData)
+    {
+        if (
+            GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container) &&
+            !container.Scrollbar.gameObject.activeSelf
+            )
+        {
+            base.OnDeselect(eventData);
+        }
     }
 
     private void ShowOverrideCurrentModificators()

@@ -11,22 +11,28 @@ public class ButtonOnHoverMoveUp : MonoBehaviour, ISelectHandler, IDeselectHandl
     [SerializeField] private Transform _targetTransform;
 
     private bool _movingUp = false;
+    private Selectable _selectableComponent;
+
+    private void Awake()
+    {
+        if (!TryGetComponent(out _selectableComponent)) throw new UnityException("Selectable component not found");
+    }
 
     private void Update()
     {
-        if (_movingUp)
-        {
-            _targetTransform.position = math.lerp(_targetTransform.position, transform.position + (Vector3.up * IMAGE_MOVE_UP_DISTANCE), IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
-        }
-        else
-        {
-            _targetTransform.position = math.lerp(_targetTransform.position, transform.position, IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime);
-        }
+        _targetTransform.position = math.lerp(
+            _targetTransform.position, 
+            transform.position + (_movingUp ? Vector3.up * IMAGE_MOVE_UP_DISTANCE : Vector3.zero),
+            IMAGE_ON_HOVER_SCALEUP_SPEED_MULTIPLIER * Time.unscaledDeltaTime
+            );
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _movingUp = true;
+        if (_selectableComponent.interactable)
+        {
+            _movingUp = true;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -36,7 +42,10 @@ public class ButtonOnHoverMoveUp : MonoBehaviour, ISelectHandler, IDeselectHandl
 
     public void OnSelect(BaseEventData eventData)
     {
-        _movingUp = true;
+        if (_selectableComponent.interactable)
+        {
+            _movingUp = true;
+        }
     }
 
     public void OnDeselect(BaseEventData eventData)
