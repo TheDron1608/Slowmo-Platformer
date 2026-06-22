@@ -18,9 +18,22 @@ public abstract class AbstractCharacterStateBehaviourAI : AbstractCharacterCompo
     public AbstractAISpecial Special;
     public AbstractAIPopupMessaging PopupMessaging;
     [Header("AIInfo")]
-    public AbstractAINearestEnemyInfo NearestEnemyInfo = null;
-    public AbstractAIPathfinding Pathfinding = null;
-    public AbstractAIPrefferedHoldable PrefferedHoldable = null;
+    [SerializeField] private AbstractAINearestEnemyInfo _nearestEnemyInfo = null;
+    [SerializeField] private AbstractAIPathfinding _pathfinding = null;
+    [SerializeField] private AbstractAIPrefferedHoldable _prefferedHoldable = null;
+
+    public AbstractAINearestEnemyInfo NearestEnemyInfo
+    {
+        get => _nearestEnemyInfo ?? CharComponents.CharacterAIManager.DefaultStateBehavioAI._nearestEnemyInfo;
+    }
+    public AbstractAIPathfinding Pathfinding
+    {
+        get => _pathfinding ?? CharComponents.CharacterAIManager.DefaultStateBehavioAI._pathfinding;
+    }
+    public AbstractAIPrefferedHoldable PrefferedHoldable
+    {
+        get => _prefferedHoldable ?? CharComponents.CharacterAIManager.DefaultStateBehavioAI._prefferedHoldable;
+    }
 
     public int CompareTo(AbstractCharacterStateBehaviourAI other)
     {
@@ -33,6 +46,13 @@ public abstract class AbstractCharacterStateBehaviourAI : AbstractCharacterCompo
         {
             newValueAIBehaviour.enabled = value;
         }
+    }
+
+    public void ForceUpdateAllInfo()
+    {
+        _nearestEnemyInfo?.ForceUpdateInfo();
+        _pathfinding?.ForceUpdateInfo();
+        _prefferedHoldable?.ForceUpdateInfo();
     }
 
     public abstract bool StateBehaviourCondition();

@@ -30,6 +30,11 @@ public abstract class AbstractAIInfo : AbstractCharacterComponent
         }
     }
 
+    public void ForceUpdateInfo()
+    {
+        _requireUpdateInfo = true;
+    }
+
     protected abstract void OnUpdateInfo();
 
     private void FixedUpdate()

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6700412131407762188
+--- !u!1001 &6042022175294542177
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,21 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2472591697087730138, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
+      propertyPath: PopupMessaging
+      value: 
+      objectReference: {fileID: -2767787980965306818}
     - target: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
       propertyPath: m_Name
-      value: OnAbleToFightStateBehaviourAI-SuperSniper
-      objectReference: {fileID: 0}
-    - target: {fileID: 6781793081339872332, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
-      propertyPath: OpenDoorDelaySeconds
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7784748385234015656, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
-      propertyPath: RangedAttackDelaySeconds
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7784748385234015656, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
-      propertyPath: StopAttackAimingDelaySeconds
-      value: 1
+      value: OnAbleToFightStateBehaviourAI-EliteSniper
       objectReference: {fileID: 0}
     - target: {fileID: 8377718019539060962, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -70,39 +62,39 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 433397273192693994}
+      addedObject: {fileID: 6643998917420876704}
     - targetCorrespondingSourceObject: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -5028801311715145767}
+      addedObject: {fileID: -2767787980965306818}
   m_SourcePrefab: {fileID: 100100000, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
---- !u!1 &1595724756835359428 stripped
+--- !u!1 &1801458866853386409 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5393485392465938888, guid: 76b11cbd4e8fac34da6324dd4e89176b, type: 3}
-  m_PrefabInstance: {fileID: 6700412131407762188}
+  m_PrefabInstance: {fileID: 6042022175294542177}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &433397273192693994
+--- !u!114 &6643998917420876704
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595724756835359428}
+  m_GameObject: {fileID: 1801458866853386409}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55e738b4eb0a996449b2850f41cf34ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DistanceToRoll: 1
-  DistanceToPrepareRollAgain: 10
-  MaxRollsCombo: 2
-  InvertRollDirection: 1
---- !u!114 &-5028801311715145767
+  DistanceToRoll: 3
+  DistanceToPrepareRollAgain: 5
+  MaxRollsCombo: 1
+  InvertRollDirection: 0
+--- !u!114 &-2767787980965306818
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595724756835359428}
+  m_GameObject: {fileID: 1801458866853386409}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 688806d84ba2b634abd825dd2f5a0e52, type: 3}

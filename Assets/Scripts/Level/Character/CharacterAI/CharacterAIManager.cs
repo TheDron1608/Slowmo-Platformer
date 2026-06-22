@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[DefaultExecutionOrder(6)]
+[DefaultExecutionOrder(60)]
 public class CharacterAIManager : AbstractCharacterComponent
 {
     [SerializeField] private List<AbstractCharacterStateBehaviourAI> _stateBehaviourAIs;
+    [SerializeField] private AbstractCharacterStateBehaviourAI _defaultStateBehaviorAI;
     private AbstractCharacterStateBehaviourAI _currentActiveStateBehaviour = null;
 
     public List<AbstractCharacterStateBehaviourAI> StateBehaviourAIs
@@ -14,14 +15,20 @@ public class CharacterAIManager : AbstractCharacterComponent
         set
         {
             _stateBehaviourAIs = value;
-            UpdateStateBehaviourAIs();
+            SortStateBehaviourAIs();
         }
+    }
+
+    public AbstractCharacterStateBehaviourAI DefaultStateBehavioAI
+    {
+        get => _defaultStateBehaviorAI;
     }
 
     public AbstractCharacterStateBehaviourAI AddStateBehaviourAI(AbstractCharacterStateBehaviourAI stateBehaviour)
     {
         AbstractCharacterStateBehaviourAI addedAI = Instantiate(stateBehaviour, transform);
         _stateBehaviourAIs.Add(addedAI);
+        SortStateBehaviourAIs();
         UpdateCurrentActionStateBehaviour();
         return addedAI;
     }
@@ -47,6 +54,21 @@ public class CharacterAIManager : AbstractCharacterComponent
         }
     }
 
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        SortStateBehaviourAIs();
+    }
+
+    private void SortStateBehaviourAIs()
+    {
+        _stateBehaviourAIs.OrderByDescending(state => state.UpdateOrder);
+        for (int i = 0; i < _stateBehaviourAIs.Count; i++)
+        {
+            _stateBehaviourAIs[i].SetEnabledBehaviours(false);
+        }
+    }
+
     public void RemoveAI()
     {
         CharComponents.CharacterAIManager = null;
@@ -56,12 +78,6 @@ public class CharacterAIManager : AbstractCharacterComponent
     public void SetAIDisabled(bool value)
     {
         gameObject.SetActive(!value);
-    }
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        UpdateStateBehaviourAIs();
     }
 
     private void OnEnable()
@@ -90,7 +106,11 @@ public class CharacterAIManager : AbstractCharacterComponent
         {
             if (_stateBehaviourAIs[i].StateBehaviourCondition())
             {
-                CurrentActiveStateBehaviour = _stateBehaviourAIs[i];
+                if (CurrentActiveStateBehaviour != _stateBehaviourAIs[i])
+                {
+                    CurrentActiveStateBehaviour = _stateBehaviourAIs[i];
+                    DefaultStateBehavioAI.ForceUpdateAllInfo();
+                }
                 return;
             }
         }

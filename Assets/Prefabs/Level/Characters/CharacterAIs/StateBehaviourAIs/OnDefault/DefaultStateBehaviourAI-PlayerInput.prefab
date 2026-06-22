@@ -120,21 +120,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6126463376241096688}
     - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
-      propertyPath: Pathfinding
-      value: 
-      objectReference: {fileID: 6534608384644892170}
-    - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       propertyPath: MovingAndJumping
       value: 
       objectReference: {fileID: -4078892998524912772}
-    - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
-      propertyPath: NearestEnemyInfo
-      value: 
-      objectReference: {fileID: 7543007422396285701}
-    - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
-      propertyPath: PrefferedHoldable
-      value: 
-      objectReference: {fileID: 7766500450207064679}
     - target: {fileID: -8383181396941939155, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       propertyPath: GrabbingAndThrowing
       value: 
@@ -211,15 +199,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2022757651714738705, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7623856940169448873}
-    - targetCorrespondingSourceObject: {fileID: 2022757651714738705, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7543007422396285701}
-    - targetCorrespondingSourceObject: {fileID: 2022757651714738705, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6534608384644892170}
-    - targetCorrespondingSourceObject: {fileID: 2022757651714738705, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7766500450207064679}
   m_SourcePrefab: {fileID: 100100000, guid: eae03cd99c935b646a372fcd69093a4d, type: 3}
 --- !u!4 &382401239924541349 stripped
 Transform:
@@ -273,6 +252,7 @@ MonoBehaviour:
   RollActionReference: {fileID: -4437373604592349571, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   MoveActionReference: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   MinMoveSpeed: 0.5
+  CoyoteEarlyTimer: 0.33
   GamePadRollInputDelay: 0.075
 --- !u!114 &-4078892998524912772
 MonoBehaviour:
@@ -337,44 +317,3 @@ MonoBehaviour:
   ValidTeleporationColor: {r: 1, g: 1, b: 1, a: 1}
   InvalidTeleportationColor: {r: 1, g: 0.39599997, b: 0.39599997, a: 1}
   _gamepadTeleportTargetUI: {fileID: 7163137118348185464}
---- !u!114 &7543007422396285701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4311263859851396751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d998b86c7b947c42ad9d3716d1ddc99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxEnemyDetectRange: 10
-  XRay: 0
---- !u!114 &6534608384644892170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4311263859851396751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff50d9c2ae90c134aa916b6b0b92cef3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7766500450207064679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4311263859851396751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2901b2a720a2f2d4ba9e7fdc80616853, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxWeaponDetectRange: 5
-  MinWeaponPriority: 1
-  CanCatchDangerousHoldable: 0

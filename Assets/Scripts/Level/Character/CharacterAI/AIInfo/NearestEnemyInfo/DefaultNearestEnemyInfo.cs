@@ -15,7 +15,7 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
     {
         Profiler.BeginSample("DefaultNearestEnemyInfo.UpdateInfo");
         float minDistance = MaxEnemyDetectRange;
-        ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        ZIndexLayer currentLayer = CharComponents.CharacterCollision.CurrentZLayer;
         CharacterTeam result = null;
         foreach (Transform characterTransform in currentLayer.CharactersContainer.transform)
         {

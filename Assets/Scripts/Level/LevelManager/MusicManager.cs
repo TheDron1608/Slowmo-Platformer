@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[DefaultExecutionOrder(10)]
 public class MusicManager : MonoBehaviour
 {
     public const float MUSIC_START_OR_END_DURATION = 2.5f;
@@ -47,6 +48,7 @@ public class MusicManager : MonoBehaviour
 
     private void OnEnable()
     {
+        if (SoundManager.Instance == null) return;
         StartCoroutine(UnscaledUpdateLoop());
     }
 
@@ -126,6 +128,8 @@ public class MusicManager : MonoBehaviour
 
     private void SetMusic(Sound music)
     {
+        if (SoundManager.Instance == null) return;
+
         MusicPlayer.BreakAllSounds();
         _timeSinceStartMusic = 0f;
         DifficultyManager.DifficultyStage currentStage = DifficultyManager.Instance.CurrentDifficulty.Value;
