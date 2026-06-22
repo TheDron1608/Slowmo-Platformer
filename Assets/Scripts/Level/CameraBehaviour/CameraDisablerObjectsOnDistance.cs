@@ -38,7 +38,7 @@ public class CameraDisablerObjectsOnDistance : MonoBehaviour
             if (trackedObject.enabled && trackedObject.DisableCondition())
             {
                 bool newValue =
-                    Vector2.Distance(transform.position, trackedObject.transform.position) < trackedObject.DistanceToDistable &&
+                    (!trackedObject.DisableOnDistance || Vector2.Distance(transform.position, trackedObject.transform.position) < trackedObject.DistanceToDistable) &&
                     (!trackedObject.DisableOnDifferentLayers || LayerManager.Instance.GetZLayerOfGameObject(trackedObject.gameObject) == _multiZLayerCamera.CurrentZLayer);
 
                 if (trackedObject.gameObject.activeSelf != newValue)

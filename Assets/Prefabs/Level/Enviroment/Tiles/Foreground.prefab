@@ -142,6 +142,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6161538541606763395, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7026324336244418276}
+    - targetCorrespondingSourceObject: {fileID: 6161538541606763395, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6117040108534775248}
   m_SourcePrefab: {fileID: 100100000, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}
 --- !u!1 &18481369919161199 stripped
 GameObject:
@@ -260,6 +263,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b69e016e883c8924594bbcc9ac0cf5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6117040108534775248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18481369919161199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc1ae41680c2e14d89b84753343d666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LayerSpriteCustomVisibility
+  VisibilityType: 1
 --- !u!19719996 &6723732504304156011 stripped
 TilemapCollider2D:
   m_CorrespondingSourceObject: {fileID: 616141076585776519, guid: 03d26751ad46ab749986ee24c7b85f9d, type: 3}

@@ -4,6 +4,7 @@ using UnityEngine;
 public class DisableObjectOnDistanceFromCamera : MonoBehaviour
 {
     public float DistanceToDistable = 50f;
+    public bool DisableOnDistance = true;
     public bool DisableOnDifferentLayers = true;
     private bool _allowDisable = true;
 
