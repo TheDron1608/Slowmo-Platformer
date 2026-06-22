@@ -4,7 +4,7 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
     public const float MUSIC_START_OR_END_DURATION = 2.5f;
-    public const float VOLUME_CHANGE_DURATION = 0.5f;
+    public const float VOLUME_CHANGE_DURATION = 0.25f;
     public const float MUSIC_VOLUME_ON_DIFFICULTY_FINISHED = 0.1f;
 
     public static MusicManager Instance;
@@ -18,6 +18,7 @@ public class MusicManager : MonoBehaviour
     private DifficultyManager.DifficultyStage _currentTrackedMusicStage = null;
     private Sound _requestChangeMusic = null;
     private float _lastDifficultyTime = 0f;
+    private bool _wasPausedPrevUpdate = false;
 
     public float CurrentMusicVolume
     {
@@ -53,6 +54,22 @@ public class MusicManager : MonoBehaviour
     {
         while (true)
         {
+            if (TimeManager.Instance != null)
+            {
+                if (TimeManager.Instance.Paused)
+                {
+                    _wasPausedPrevUpdate = true;
+                }
+                else if (_wasPausedPrevUpdate)
+                {
+                    _wasPausedPrevUpdate = false;
+                    if (ForcePlayMusic == null && DifficultyManager.Instance != null)
+                    {
+                        SetMusic(DifficultyManager.Instance.CurrentDifficulty.Value.Music);
+                    }
+                }
+            }
+
             if (
                 ForcePlayMusic == null && 
                 DifficultyManager.Instance != null &&
@@ -77,7 +94,7 @@ public class MusicManager : MonoBehaviour
             }
 
 
-            float targetVolume = _requestChangeMusic == null ? TargetMusicVolume : 0f;
+            float targetVolume = _requestChangeMusic == null && (!(TimeManager.Instance?.Paused) ?? true) ? TargetMusicVolume : 0f;
             if (_currentMusicVolume != targetVolume)
             {
                 if (_currentMusicVolume > targetVolume)
@@ -90,7 +107,6 @@ public class MusicManager : MonoBehaviour
                     _currentMusicVolume += Time.unscaledDeltaTime / VOLUME_CHANGE_DURATION;
                     if (_currentMusicVolume > targetVolume) _currentMusicVolume = targetVolume;
                 }
-
             }
 
             _currentMusicVolume = Mathf.Min(
@@ -100,7 +116,7 @@ public class MusicManager : MonoBehaviour
                     / MUSIC_START_OR_END_DURATION + MUSIC_VOLUME_ON_DIFFICULTY_FINISHED ?? float.MaxValue
                 );
 
-            MusicPlayer.DynamicVolumeMultiplier = _currentMusicVolume;
+            SoundManager.Instance.GameplayMusicVolume = _currentMusicVolume;
 
             _timeSinceStartMusic += Time.deltaTime;
 
@@ -110,9 +126,10 @@ public class MusicManager : MonoBehaviour
 
     private void SetMusic(Sound music)
     {
+        MusicPlayer.BreakAllSounds();
         _timeSinceStartMusic = 0f;
         DifficultyManager.DifficultyStage currentStage = DifficultyManager.Instance.CurrentDifficulty.Value;
-        MusicPlayer.DynamicVolumeMultiplier = 0f;
+        SoundManager.Instance.GameplayMusicVolume = 0f;
         MusicPlayer.PlaySound(
             currentStage.Music,
             false,

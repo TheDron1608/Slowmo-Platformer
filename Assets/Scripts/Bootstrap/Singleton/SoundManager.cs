@@ -7,8 +7,10 @@ using UnityEngine.Audio;
 public class SoundManager : MonoBehaviour
 {
     const string MASTER_PITCH_PROP_NAME = "MasterPitch";
+    const string MUSIC_VOLUME_PROP_NAME = "GameplayMusicVolume";
     const float MAX_SLOWTIME_PITCH = 0.5f;
     const float SLOWTIME_PITCH_AFFECTION_MULT = 2.5f;
+    const float VOLUME_FLOAT_TO_DECEBEL_STEP = 35f;
 
     [Serializable]
     public class SoundData
@@ -21,8 +23,8 @@ public class SoundManager : MonoBehaviour
 
         public void ApplyChanges()
         {
-            Instance.MainMixer.SetFloat(MUSIC_VOLUME_PROP_NAME, MathF.Log10(math.max(MusicVolume, 0.00001f)) * 35f);
-            Instance.MainMixer.SetFloat(SFX_VOLUME_PROP_NAME, MathF.Log10(math.max(SFXVolume, 0.00001f)) * 35f);
+            Instance.MainMixer.SetFloat(MUSIC_VOLUME_PROP_NAME, MathF.Log10(math.max(MusicVolume, 0.00001f)) * VOLUME_FLOAT_TO_DECEBEL_STEP);
+            Instance.MainMixer.SetFloat(SFX_VOLUME_PROP_NAME, MathF.Log10(math.max(SFXVolume, 0.00001f)) * VOLUME_FLOAT_TO_DECEBEL_STEP);
         }
     }
 
@@ -33,6 +35,7 @@ public class SoundManager : MonoBehaviour
     public AudioMixer MainMixer;
 
     private float _masterPitch = 1f;
+    private float _gameplayMusicVolume = 1f;
 
     public float MasterPitch
     {
@@ -43,6 +46,18 @@ public class SoundManager : MonoBehaviour
 
             MainMixer.SetFloat(MASTER_PITCH_PROP_NAME, value);
             _masterPitch = value;
+        }
+    }
+
+    public float GameplayMusicVolume
+    {
+        get => _gameplayMusicVolume;
+        set
+        {
+            if (_gameplayMusicVolume == value) return;
+
+            MainMixer.SetFloat(MUSIC_VOLUME_PROP_NAME, MathF.Log10(math.max(value, 0.00001f)) * VOLUME_FLOAT_TO_DECEBEL_STEP);
+            _gameplayMusicVolume = value;
         }
     }
 

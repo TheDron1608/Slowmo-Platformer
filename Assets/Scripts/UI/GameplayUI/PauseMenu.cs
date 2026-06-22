@@ -5,6 +5,7 @@ public class PauseMenu : MonoBehaviour
 {
     public AbstractSoundPlayer SoundOnPause;
     public AbstractSoundPlayer SoundOnUnpause;
+    public AbstractSoundPlayer PassiveSoundOnPaused;
 
     [SerializeField] private Button _defaultSelectedButton;
 
@@ -30,13 +31,20 @@ public class PauseMenu : MonoBehaviour
                 TimeManager.Instance.Paused = false;
             }
 
-            if (!_paused) SoundOnUnpause.PlaySound(false, Vector2.zero);
+            if (_paused)
+            {
+                SoundOnPause.PlaySound();
+                PassiveSoundOnPaused.PlaySound(true);
+            }
+            else
+            {
+                SoundOnUnpause.PlaySound(false, Vector2.zero);
+                PassiveSoundOnPaused.BreakAllSounds();
+            }
 
             gameObject.SetActive(value);
             UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI()?.SetPauseModificatorsAligment(value);
             UIManager.Instance.ArtifactModificatorsScreenOverlay.GetModificatorsUI()?.SetPauseModificatorsAligment(value);
-
-            if (_paused) SoundOnPause.PlaySound();
 
             if (CurrentDeviceTracker.GetGamepadIsConnected()) _defaultSelectedButton.Select();
         }
