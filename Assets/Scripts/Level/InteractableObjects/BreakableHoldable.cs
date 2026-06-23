@@ -4,9 +4,9 @@ using UnityEngine;
 public class BreakableHoldable : BreakableObject
 {
     [SerializeField] private int _maxUses = 10;
+    [SerializeField] private int _usesLeft;
     public bool UnlimitedUses = true;
 
-    private int _usesLeft;
 
     public int MaxUses
     {
@@ -39,11 +39,6 @@ public class BreakableHoldable : BreakableObject
                 }
             }
         }
-    }
-
-    private void Awake()
-    {
-        UsesLeft = MaxUses;
     }
 
     public void ResetUsesLeft()

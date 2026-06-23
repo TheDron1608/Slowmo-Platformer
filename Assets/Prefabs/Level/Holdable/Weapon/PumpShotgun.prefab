@@ -343,8 +343,10 @@ MonoBehaviour:
   AccuracyMultiplier: 0.975
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  OverrideAttackSound: {fileID: 0}
   AmmoLeft: 10
   MaxAmmo: 20
   JamChance: 0

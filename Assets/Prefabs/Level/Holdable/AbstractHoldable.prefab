@@ -73,7 +73,6 @@ MonoBehaviour:
   SoundOnCollide: {fileID: 0}
   SoundOnStuck: {fileID: 0}
   _hitableWhenIsHolded: 0
-  _collideSoundPlayer: {fileID: 7054485633160792855}
 --- !u!114 &4590741514344514613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +92,7 @@ MonoBehaviour:
   _partcilesOnBreak: []
   SoundOnBreak: {fileID: 1267336517609690898}
   _maxUses: 10
+  _usesLeft: 10
   UnlimitedUses: 1
 --- !u!114 &7107846151242222728
 MonoBehaviour:
@@ -342,6 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DistanceToDistable: 30
+  DisableOnDistance: 1
   DisableOnDifferentLayers: 1
 --- !u!114 &7054485633160792855
 MonoBehaviour:

@@ -39,7 +39,10 @@ public class LightManagerManagedLightSource : MonoBehaviour
 
     private void Update()
     {
-        if (LightType == LightManager.LightManagedType.FURNITURE)
+        if (
+            LightType == LightManager.LightManagedType.FURNITURE &&
+            LightManager.Instance != null
+            )
         {
             _furnitureDynamicIntensityMult = 1f - NumberMath.LimitFloatBetweenZeroAndOne(math.unlerp(
                 LightManager.Instance.FurnitureDynmicIntensityMinDistance, 

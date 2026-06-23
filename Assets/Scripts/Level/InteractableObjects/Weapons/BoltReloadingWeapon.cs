@@ -13,7 +13,8 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     const float WAIT_DURATION_TO_UNLOAD_BULLET_AFTER_ATTACK = 0.25f; //in seconds
     private static readonly string[] ATTACK_COOLDOWN_ANIMATON_CLIP_NAMES = new string[] { "Load", "Unload" };
 
-    private bool _bulletLoadedInChamber = false;
+    [SerializeField] private bool _bulletLoadedInChamberOnStart = false;
+
     private bool _outOfAmmo = false;
     private float _loadBulletAnimationClipsDuration; //in seconds
     private bool _isUnloadingBullet = false;
@@ -29,8 +30,8 @@ public class BoltReloadingWeapon : BulletReloadingWeapon
     }
     public bool BulletLoadedInChamber
     {
-        get => _bulletLoadedInChamber;
-        set => _bulletLoadedInChamber = value;
+        get => _bulletLoadedInChamberOnStart;
+        set => _bulletLoadedInChamberOnStart = value;
     }
     public bool IsUnloadingBullet
     {

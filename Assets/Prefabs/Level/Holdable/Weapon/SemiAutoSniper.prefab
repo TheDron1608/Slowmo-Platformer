@@ -188,6 +188,10 @@ PrefabInstance:
       value: -0.438
       objectReference: {fileID: 0}
     - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+      propertyPath: AIPickUpPriority
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 2625422590850693837, guid: 0fc57fb65423c53459fd280764125582, type: 3}
       propertyPath: FindingUniqueCodeName
       value: SASniper
       objectReference: {fileID: 0}
@@ -395,8 +399,10 @@ MonoBehaviour:
   AccuracyMultiplier: 1
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.2
+  AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  OverrideAttackSound: {fileID: 0}
   AmmoLeft: 10
   MaxAmmo: 20
   JamChance: 0

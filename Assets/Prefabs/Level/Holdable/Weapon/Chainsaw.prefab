@@ -512,10 +512,13 @@ MonoBehaviour:
   AccuracyMultiplier: 0.925
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  OverrideAttackSound: {fileID: 0}
   AttackRangeMultiplier: 1
-  MaxFuel: 20
+  MaxFuel: 40
+  FuelLeft: 40
   MaxStartSuccessChance: 0.75
   MinStartSuccessChance: 0.25
   MaxJampChancePerSecond: 0.667

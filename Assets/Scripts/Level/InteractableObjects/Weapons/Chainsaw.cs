@@ -23,6 +23,7 @@ public class Chainsaw : MeleeWeapon
 
     [Header("Chainsaw")]
     public float MaxFuel = 10f;
+    public float FuelLeft = 10f;
     public float MaxStartSuccessChance = .75f;
     public float MinStartSuccessChance = 0.25f;
     public float MaxJampChancePerSecond = 0.667f;
@@ -32,7 +33,6 @@ public class Chainsaw : MeleeWeapon
     public AbstractSoundPlayer SoundOnOutOfFuel;
     public AbstractSoundPlayer PassiveSoundOnStarted;
 
-    private float _fuelLeft;
     private bool _isStarting = false;
     private ChainsawStartState _startingState = ChainsawStartState.FAIL;
     private bool _started = false;
@@ -46,7 +46,6 @@ public class Chainsaw : MeleeWeapon
         base.OnAwake();
 
         _cloudsParticleSpawner = transform.Find(CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
-        FuelLeft = MaxFuel;
     }
 
     protected override void VirtualOnEnable()
@@ -89,12 +88,6 @@ public class Chainsaw : MeleeWeapon
                 }
             }
         }
-    }
-
-    public float FuelLeft
-    {
-        get => _fuelLeft;
-        set => _fuelLeft = value;
     }
 
     public bool TryStart()

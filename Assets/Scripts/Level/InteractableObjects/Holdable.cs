@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Holdable : Interactable
@@ -149,7 +150,7 @@ public class Holdable : Interactable
         get => _hitableWhenIsHolded;
         set
         {
-            if (_hitableWhenIsHolded == value) return;
+            if (_hitableWhenIsHolded == value || gameObject.IsDestroyed()) return;
 
             _hitableWhenIsHolded = value;
             gameObject.layer = GetIsHitableNow() ?

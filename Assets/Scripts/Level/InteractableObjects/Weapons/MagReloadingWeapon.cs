@@ -16,9 +16,9 @@ public class MagReloadingWeapon : RangedWeapon
     public Sprite GameplayUIMagSprite;
     public AbstractSoundPlayer ReloadBulletSound;
     public AbstractSoundPlayer UnloadBulletSound;
+    [SerializeField] private bool _bulletLoadedInChamber = false;
 
     private ParticleSpawner _magsPraticleSpawner;
-    private bool _bulletLoadedInChamber = false;
     private bool _isReloadingBullet = false;
 
     public event EventHandler OnReloadedBullet;
