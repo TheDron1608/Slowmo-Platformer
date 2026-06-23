@@ -13,7 +13,7 @@ public class OnInteractToggleOpenDoor : Interactable
     private Animator _animator;
     private Collider2D _collider;
     private SpriteRenderer _spriteRenderer;
-    private ZIndexLayer _layer;
+    private DamagableObject _damagableObject;
 
     private bool _isOpen = false;
 
@@ -23,7 +23,8 @@ public class OnInteractToggleOpenDoor : Interactable
         if (!TryGetComponent(out _animator)) throw new UnityException("Animator component not found at " + gameObject.name);
         if (!TryGetComponent(out _collider)) throw new UnityException("Collider2D component not found at " + gameObject.name);
         if (!TryGetComponent(out _spriteRenderer)) throw new UnityException("SpriteRenderer component not found at " + gameObject.name);
-        _layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+
+        TryGetComponent(out _damagableObject);
     }
 
     public bool IsOpen
@@ -37,6 +38,12 @@ public class OnInteractToggleOpenDoor : Interactable
             gameObject.tag = value ? LayerManager.FURNITURE_TAG_NAME : LayerManager.ENVIROMENT_TAG_NAME;
             LayerManager.Instance.GetZLayerOfGameObject(gameObject).UpdateLayerForAllChildren(transform);
             _collider.isTrigger = value;
+
+            if (_damagableObject != null)
+            {
+                _damagableObject.HitableByMeleeProjectiles = !value;
+                _damagableObject.HitableByRangedProjectiles = !value;
+            }
 
             if (TryGetComponent(out IStuckToObject stuckToObj))
             {
