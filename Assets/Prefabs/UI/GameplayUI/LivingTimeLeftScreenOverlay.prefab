@@ -50,8 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ddb429c2649b84d871522a92fb2470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PitchOnEncountStart: 0.5
-  PitchOnEncountFinish: 2
+  PitchOnEncountStart: 1
+  PitchOnEncountFinish: 3
+  StartContdownFrom: 999999
   _soundPlayer: {fileID: 7588917211511441304}
   _textMesh: {fileID: 4396678733021844626}
 --- !u!1001 &5475533198017017755

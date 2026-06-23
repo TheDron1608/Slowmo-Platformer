@@ -6,6 +6,7 @@ public class SoundPlayerOnTextCountDown : MonoBehaviour
 {
     public float PitchOnEncountStart = 1f;
     public float PitchOnEncountFinish = 1f;
+    public float StartContdownFrom = 999999f;
 
     [SerializeField] private AbstractSoundPlayer _soundPlayer;
     [SerializeField] private TextMeshProUGUI _textMesh;
@@ -28,14 +29,17 @@ public class SoundPlayerOnTextCountDown : MonoBehaviour
         if (float.TryParse(_textMesh.text, out currentEncountValue))
         {
             if (
-                !_encountValuePrevFrame.HasValue || 
-                math.abs(math.ceil(_encountValuePrevFrame.Value) - math.ceil(currentEncountValue)) > 0.5f
+                currentEncountValue <= StartContdownFrom &&
+                (
+                    !_encountValuePrevFrame.HasValue ||
+                    math.abs(math.ceil(_encountValuePrevFrame.Value) - math.ceil(currentEncountValue)) > 0.5f
+                )
                 )
             {
                 _soundPlayer.Pitch = math.lerp(
                     PitchOnEncountFinish,
                     PitchOnEncountStart,
-                    currentEncountValue / _maxEncountValue
+                    currentEncountValue / math.min(_maxEncountValue, StartContdownFrom)
                     );
                 _soundPlayer.PlaySound();
             }

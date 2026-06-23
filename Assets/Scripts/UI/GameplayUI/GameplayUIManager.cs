@@ -109,6 +109,7 @@ public class GameplayUIManager : MonoBehaviour
         {
             UIManager.Instance.DamagedScreenOverlay.Hide();
             UIManager.Instance.LivingTimeLeftScreenOverlay.Hide();
+            UIManager.Instance.SwordPlayerLiveTimeLeftScreenOverlay.Hide();
         }
     }
 
