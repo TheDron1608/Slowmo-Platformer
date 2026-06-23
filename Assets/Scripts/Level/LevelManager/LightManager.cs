@@ -15,6 +15,9 @@ public class LightManager : MonoBehaviour
 
     public static LightManager Instance;
 
+    public float FurnitureDynmicIntensityMaxDistance = 10f;
+    public float FurnitureDynmicIntensityMinDistance = 5f;
+
     private List<LightManagerManagedLightSource> _furnitureLightSources = new();
     private List<LightManagerManagedLightSource> _characterLightSources = new();
     private List<LightManagerManagedLightSource> _globalLightSources = new();

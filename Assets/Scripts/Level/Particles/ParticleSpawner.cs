@@ -22,6 +22,9 @@ public class ParticleSpawner : MonoBehaviour
 
     public AbstractParticle SpawnParticle(AbstractParticle particle)
     {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        if (layer == null) return null;
+
         return SpawnParticle(
                 particle,
                 transform.position,
@@ -30,7 +33,7 @@ public class ParticleSpawner : MonoBehaviour
                 SpawnVelocity * CalculateParticleAmountGlobalMultiplierByParticle(particle) * PARTICLE_VELOCITY_ON_AMOUNT_MULTIPLIER_DEPENDENCE,
                 SpawnAngularVeclocity,
                 OverrideEffectMaterial != null ? OverrideEffectMaterial : (GameObjectUtility.TryGetComponentInSelfOrParent(gameObject, out SpriteRenderer selfSprite) ? selfSprite.sharedMaterial : null),
-                LayerManager.Instance.GetZLayerOfGameObject(gameObject)
+                layer
                 );
     }
 

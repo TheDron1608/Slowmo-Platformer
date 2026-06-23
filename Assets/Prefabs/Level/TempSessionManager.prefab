@@ -372,9 +372,9 @@ MonoBehaviour:
     Music: {fileID: 11400000, guid: 0fd9aaef33e83f2458e6ab24eceffc5c, type: 2}
     MidstageCursesAmount: 3
     CursesMinPrice: 100
-    CursesMaxPrice: 200
+    CursesMaxPrice: 250
     CursesAmount: 5
-    OptionsAmount: 7
+    OptionsAmount: 9
     TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
@@ -524,6 +524,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99ce1e4f39a28ff4297f5f8598d2d56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FurnitureDynmicIntensityMaxDistance: 15
+  FurnitureDynmicIntensityMinDistance: 11
   _furnitureLightIntensityMultiplier: 1
   _characterLightIntensityMultiplier: 0
   _globalLightIntensityMultiplier: 1
