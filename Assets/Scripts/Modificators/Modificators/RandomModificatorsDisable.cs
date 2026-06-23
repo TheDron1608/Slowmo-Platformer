@@ -32,6 +32,7 @@ public class RandomModificatorsDisable : AbstractModificator
         {
             if (
                 modificator.ModificatorType == TargetType &&
+                modificator.Status != ModificatorStatuses.CHARACTER_DEFAULT &&
                 !modificator.TryGetComponent(out RandomModificatorsDisable rmd) &&
                 (!modificator.DisabledModificator || _currentDisabledModificators.Contains(modificator))
                 )
