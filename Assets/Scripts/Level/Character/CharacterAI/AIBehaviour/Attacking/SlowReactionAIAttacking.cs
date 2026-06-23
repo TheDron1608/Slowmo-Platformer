@@ -7,6 +7,11 @@ public class SlowReactionAIAttacking : AbstractDelayedAttacking
 
     private Coroutine _attackDelayingCoroutine = null;
 
+    private void OnEnable()
+    {
+        _attackDelayingCoroutine = null;
+    }
+
     protected override void OnTrackedEnemy()
     {
         CharComponents.CharacterAiming.AimWeaponDown = false;
