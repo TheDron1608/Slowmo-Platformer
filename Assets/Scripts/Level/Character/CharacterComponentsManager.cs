@@ -31,6 +31,7 @@ public class CharacterComponentsManager : MonoBehaviour
     public GameObject CharacterPartsContainer;
     public Animator Animator;
     public SpriteRenderer SampleSpriteRenderer;
+    public CharacterLoseLimbParticleSpawner LoseLimbParticleSpawner;
     public CharacterUITrack UITrack;
     [Header("CharacterPhysics")]
     public Rigidbody2D CharacterRigidBody;

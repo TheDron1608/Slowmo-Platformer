@@ -1,5 +1,68 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &985949771920949221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2477979386931666123}
+  - component: {fileID: 5082653957850934868}
+  - component: {fileID: 1229784056795063287}
+  m_Layer: 0
+  m_Name: LoseLimbParticleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2477979386931666123
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985949771920949221}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3304611690710999899}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5082653957850934868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985949771920949221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8342af74d023047990116243cc7f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleSpawner
+  DefaultParticle: {fileID: 0}
+  SpawnVelocity: 1.5
+  SpawnAngle: 0
+  SpawnAngularVeclocity: 0
+  OverrideEffectMaterial: {fileID: 0}
+--- !u!114 &1229784056795063287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985949771920949221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64726b5982e4aa343a1703e9ccdae8a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterLoseLimbParticleSpawner
+  _lastLostLimbPosition: {fileID: 6271425657134046072}
 --- !u!1 &1284036244268663210
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +93,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6271425657134046072}
   m_Father: {fileID: 4213330836085406466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &4524364239507995928
@@ -83,6 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitPriority: 1
+  AffectNavPoints: 1
   HitBoxTransforms:
   - Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 0}
@@ -250,6 +315,7 @@ Transform:
   m_Children:
   - {fileID: 7278110841080740943}
   - {fileID: 545899481232950087}
+  - {fileID: 2477979386931666123}
   m_Father: {fileID: 6159455458379205642}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2923137157774976431
@@ -413,6 +479,7 @@ MonoBehaviour:
   CharacterPartsContainer: {fileID: 7534914569010161185}
   Animator: {fileID: 5132265527720135938}
   SampleSpriteRenderer: {fileID: 8445559202426260191}
+  LoseLimbParticleSpawner: {fileID: 1229784056795063287}
   UITrack: {fileID: 0}
   CharacterRigidBody: {fileID: 7607223272691296094}
   CharacterRigidBodyCapsuleCollider: {fileID: 4524364239507995928}
@@ -846,6 +913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DistanceToDistable: 30
+  DisableOnDistance: 1
   DisableOnDifferentLayers: 1
 --- !u!114 &6087962188227585175
 MonoBehaviour:
@@ -863,6 +931,37 @@ MonoBehaviour:
   VeclocityForMaxVolume: 22.5
   DefaultCollideSound: {fileID: 11400000, guid: 10ef115e8a039d040b19956028cc205d, type: 2}
   StunnedCollideSound: {fileID: 11400000, guid: e69f7286b3f011544b810cb909333106, type: 2}
+--- !u!1 &7497564768733679126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6271425657134046072}
+  m_Layer: 0
+  m_Name: LastLostLimbPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6271425657134046072
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7497564768733679126}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5318205546132008437}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7534914569010161185
 GameObject:
   m_ObjectHideFlags: 0

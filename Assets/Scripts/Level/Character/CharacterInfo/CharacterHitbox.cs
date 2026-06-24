@@ -8,8 +8,6 @@ public class CharacterHitbox : AbstractCharacterComponent
 {
     const float FLIP_H_CHANGE_DURATION = 0.1f;
 
-    private Coroutine _changeHitboxSmoothlyCoroutine = null;
-
     public bool GetIsChangingHitBox()
     {
         return _changeHitboxSmoothlyCoroutine != null;
@@ -34,8 +32,8 @@ public class CharacterHitbox : AbstractCharacterComponent
     protected override void OnAwake()
     {
         base.OnAwake();
-        SetHitBoxTransform(AvaibleHitBoxTransforms.DEFAULT, 0.1f);
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("Collider2D component not found");
+        SetHitBoxTransform(AvaibleHitBoxTransforms.DEFAULT, 0.1f);
         CharComponents.CharacterVisual.OnSpriteFlippedChanged += CharacterVisual_OnSpriteFlippedChanged;
     }
 
@@ -48,9 +46,11 @@ public class CharacterHitbox : AbstractCharacterComponent
     /// If projectile hits two multiple parts of a single character same time, hit detection will be triggered on hitbox with the highest HitPriority
     /// </summary>
     public int HitPriority = 1;
+    public bool AffectNavPoints = false;
 
     private Collider2D _colliderComponent;
     private bool _hitableByProjectiles = true;
+    private Coroutine _changeHitboxSmoothlyCoroutine = null;
 
     public bool HitableByProjectiles
     {
@@ -122,6 +122,15 @@ public class CharacterHitbox : AbstractCharacterComponent
                 targetHitbox.Scale.z
                 ), timeSpent / smoothChangeDuration);
             transform.localRotation = math.slerp(baseRotation, targetHitbox.Rotation, timeSpent / smoothChangeDuration);
+
+            if (AffectNavPoints)
+            {
+                CharComponents.Center.transform.position = new Vector3(
+                    _colliderComponent.bounds.center.x, 
+                    _colliderComponent.bounds.center.y, 
+                    CharComponents.transform.position.z
+                    );
+            }
 
             yield return new WaitForFixedUpdate();
             timeSpent += Time.fixedDeltaTime;

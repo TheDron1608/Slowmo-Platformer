@@ -178,6 +178,11 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
         SpawnCutLimbParticle();
 
+        if (CharComponents.CharacterPartsManager.CharacterParts.Count > 1)
+        {
+            CharComponents.LoseLimbParticleSpawner.OnRemovedLimbPart(GetComponent<CharacterLimbPart>());
+        }
+
         if (ParticlesOnCutOff.Count > 0 && gameObject.activeSelf)
         {
             Vector3 cutPointPosition =
@@ -300,6 +305,11 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 ParticlesAmountOnLethal,
                 0f
                 );
+        }
+
+        if (CharComponents.CharacterPartsManager.CharacterParts.Count > 1)
+        {
+            CharComponents.LoseLimbParticleSpawner.OnRemovedLimbPart(GetComponent<CharacterLimbPart>());
         }
 
         if (TryGetComponent(out CharacterLimbPart limbPart))
