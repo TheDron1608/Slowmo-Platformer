@@ -45,6 +45,7 @@ public static class NumberMath
 
     public static T PickRandomItem<T>(List<T> vector, T excludeObject)
     {
+        if (vector.Count == 0) return default;
         int randomIndex = (int)(UnityEngine.Random.value * (vector.Count - 1));
         if (randomIndex >= vector.IndexOf(excludeObject) && vector.Count - 1 > randomIndex) randomIndex++;
 

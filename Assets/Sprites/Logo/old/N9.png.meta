@@ -1,31 +1,25 @@
 fileFormatVersion: 2
-guid: 2323b814a9a6f6e40b70bb6b620b22e4
+guid: fa96f1b9d0f8ee7439156ddba4ca7692
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4665857050089670837
-    second: RedSpaceDegraded_0
+      213: 7591706510164584939
+    second: N9_0
   - first:
-      213: 5880074106545893995
-    second: RedSpaceDegraded_1
+      213: 2529848202918880898
+    second: N9_1
   - first:
-      213: -6986106669949804878
-    second: RedSpaceDegraded_2
+      213: 3425284415402822337
+    second: N9_2
   - first:
-      213: 5445333888510704360
-    second: RedSpaceDegraded_3
+      213: -2666389296345065994
+    second: N9_3
   - first:
-      213: -1585158526660909841
-    second: RedSpaceDegraded_4
+      213: 1687971458328198278
+    second: N9_4
   - first:
-      213: -1045001980510385421
-    second: RedSpaceDegraded_5
-  - first:
-      213: -2573016567208271035
-    second: RedSpaceDegraded_6
-  - first:
-      213: -7388916660234539831
-    second: RedSpaceDegraded_7
+      213: 8746162043452551091
+    second: N9_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,13 +115,79 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RedSpaceDegraded_0
+      name: N9_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
+        y: 30
+        width: 6
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be9616139d82b5960800000000000000
+      internalID: 7591706510164584939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: N9_1
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 33
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 286e3ae6983db1320800000000000000
+      internalID: 2529848202918880898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: N9_2
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 30
+        width: 6
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ca44c2270e098f20800000000000000
+      internalID: 3425284415402822337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: N9_3
+      rect:
+        serializedVersion: 2
+        x: 5
         y: 6
-        width: 26
-        height: 51
+        width: 6
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,20 +196,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5b8c85b244470c040800000000000000
-      internalID: 4665857050089670837
+      spriteID: 6f5d276ef051ffad0800000000000000
+      internalID: -2666389296345065994
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RedSpaceDegraded_1
+      name: N9_4
       rect:
         serializedVersion: 2
-        x: 17
-        y: 4
-        width: 95
-        height: 52
+        x: 10
+        y: 8
+        width: 19
+        height: 19
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +218,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b62f3a5fe383a9150800000000000000
-      internalID: 5880074106545893995
+      spriteID: 68c76ac1911ec6710800000000000000
+      internalID: 1687971458328198278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RedSpaceDegraded_2
+      name: N9_5
       rect:
         serializedVersion: 2
-        x: 113
-        y: 19
-        width: 26
-        height: 22
+        x: 28
+        y: 6
+        width: 6
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,118 +240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2be97a66ffc5c0f90800000000000000
-      internalID: -6986106669949804878
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedSpaceDegraded_3
-      rect:
-        serializedVersion: 2
-        x: 125
-        y: 7
-        width: 31
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8eab31c2256b19b40800000000000000
-      internalID: 5445333888510704360
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedSpaceDegraded_4
-      rect:
-        serializedVersion: 2
-        x: 149
-        y: 29
-        width: 21
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fe4e1b1f7b2600ae0800000000000000
-      internalID: -1585158526660909841
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedSpaceDegraded_5
-      rect:
-        serializedVersion: 2
-        x: 161
-        y: 4
-        width: 63
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3fa49124c386f71f0800000000000000
-      internalID: -1045001980510385421
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedSpaceDegraded_6
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 3
-        width: 31
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5432b56801fca4cd0800000000000000
-      internalID: -2573016567208271035
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedSpaceDegraded_7
-      rect:
-        serializedVersion: 2
-        x: 106
-        y: 7
-        width: 31
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9cc21c7127b457990800000000000000
-      internalID: -7388916660234539831
+      spriteID: 3bf6ef31a0c906970800000000000000
+      internalID: 8746162043452551091
       vertices: []
       indices: 
       edges: []
@@ -310,14 +260,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      RedSpaceDegraded_0: 4665857050089670837
-      RedSpaceDegraded_1: 5880074106545893995
-      RedSpaceDegraded_2: -6986106669949804878
-      RedSpaceDegraded_3: 5445333888510704360
-      RedSpaceDegraded_4: -1585158526660909841
-      RedSpaceDegraded_5: -1045001980510385421
-      RedSpaceDegraded_6: -2573016567208271035
-      RedSpaceDegraded_7: -7388916660234539831
+      N9_0: 7591706510164584939
+      N9_1: 2529848202918880898
+      N9_2: 3425284415402822337
+      N9_3: -2666389296345065994
+      N9_4: 1687971458328198278
+      N9_5: 8746162043452551091
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
