@@ -69,8 +69,12 @@ PrefabInstance:
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: 'managedReferences[8419454798216036464]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.IntVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612638396859023492].m_Value
@@ -79,6 +83,10 @@ PrefabInstance:
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612638396859023493].m_Value
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: managedReferences[8419454798216036464].m_Value
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
@@ -90,6 +98,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].name
+      value: KillToDecreaseCost
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.data[2].name
       value: ConvertLiveTime
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
@@ -102,6 +114,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].variable
+      value: 8419454798216036464
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.data[2].variable
       value: 6612638396859023493
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -151,6 +167,7 @@ MonoBehaviour:
   - {fileID: 4794591185165762808, guid: 5cd68b57b6252d94c9e7db77cc2e907b, type: 3}
   SynergingModificators: []
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 2
   ModificatorTier: 3
   IconSprite: {fileID: 21300000, guid: 54fbddb128f56c64ba6afc67e87fd662, type: 3}
@@ -162,6 +179,8 @@ MonoBehaviour:
   _localization: {fileID: 2147315170708439846}
   SpecialActionReference: {fileID: 7302821110297656998, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   ComboCost: 1
+  ExtraCostPerConverted: 1
+  RequiredComboToReduceCost: 5
   SpecialHoldableInstance: {fileID: 5861841258277054220, guid: 0f4036d2a34ec8a4c8c546753dd0d879, type: 3}
   TargetEffects:
   - {fileID: 1124524581939566734, guid: 7dd7368e6cff98a4ea96c9ecc61af068, type: 3}
@@ -174,8 +193,11 @@ MonoBehaviour:
   - {fileID: 2707210804082877257, guid: 6f68169f6d9ed0149a81a20e8718879c, type: 3}
   - {fileID: 2642663657392413741, guid: 1e125a9045c946d41863768663cbb91c, type: 3}
   - {fileID: 7915071378290817554, guid: 9f5eae592d72bc646b7240d2b9b4d028, type: 3}
+  - {fileID: -4197255158598408884, guid: 09a20adeb0d352c49acf0aca1bec3c11, type: 3}
+  - {fileID: 1233967932159160897, guid: 713d65a57aecf2848b19798c4dcb72f3, type: 3}
   TrackedTeam: 0
   MaxCharacterDistanceFromHoldable: 10
   EffectsOnTooFarFromHoldable:
   - {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}
   SlowmoOnConvert: 0.5
+  ComboMaterialOnAbleToUse: {fileID: 2100000, guid: 1708e21662d4ef648b7ed3295e9ede72, type: 2}

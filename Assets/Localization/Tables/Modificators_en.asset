@@ -1117,10 +1117,17 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 48287512308981760
-    m_Localized: "\r* You receive a sword at the start\r\n* Using an ability converts
-      the enemy closest to the sword to your side\r\n* Using an ability costs {ConvertCost}
-      combo\r\n* Converted characters cannot live longer than {ConvertLiveTime} and
-      will die if they are too far from the sword"
+    m_Localized: '* You are a sword
+
+      * Using the ability converts the dead
+      enemy nearest to the sword to your side
+
+      * Using the ability costs {ConvertCost}
+      combo; the cost increases after each use and decreases for every {KillToDecreaseCost}
+      kills
+
+      * Converted characters cannot survive longer than {ConvertLiveTime}
+      and will die if they are far from the sword'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657

@@ -19,6 +19,8 @@ public class ComboEncounter : MonoBehaviour
     private int _currentAddingScore = 0;
     private Coroutine _setBgCoroutine = null;
     private Coroutine _scoreEncountCoroutine = null;
+    private Material _defaultBgMaterial = null;
+    private Material _overrideBgMaterial = null;
 
     [SerializeField] private RectTransform _visualContainer;
     [SerializeField] private Image _comboBg;
@@ -28,6 +30,21 @@ public class ComboEncounter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _multiplierText;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private ShakableObject _comboInfoShaking;
+
+    public Material OverrideBgMaterial
+    {
+        get => _overrideBgMaterial;
+        set
+        {
+            _overrideBgMaterial = value;
+            _comboBg.material = _overrideBgMaterial ?? _defaultBgMaterial;
+        }
+    }
+
+    private void Awake()
+    {
+        _defaultBgMaterial = _comboBg.material;
+    }
 
     private IEnumerator ShowNewBg(Sprite sprite)
     {

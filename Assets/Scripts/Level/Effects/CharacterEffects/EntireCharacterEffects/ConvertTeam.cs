@@ -9,9 +9,11 @@ public class ConvertTeam : AbstractCharacterEffect, IEntireCharacterEffect
     /// Works incorrectly, fix if will be used true value
     /// </summary>
     public CharacterUITrack AddTrack = null;
+    public bool RemoveAutoDisable = false;
 
     private TeamManager.Teams _oldTeam;
     private CharacterAIManager _oldAI = null;
+    private bool _oldAutoDisable;
 
     protected override void OnApply()
     {
@@ -43,6 +45,12 @@ public class ConvertTeam : AbstractCharacterEffect, IEntireCharacterEffect
             }
             AffectedCharacter.UITrack = Instantiate(AddTrack, AffectedCharacter.transform);
         }
+
+        if (AffectedCharacter.TryGetComponent(out DisableObjectOnDistanceFromCamera disabler))
+        {
+            _oldAutoDisable = disabler;
+            disabler.AllowDisable = !RemoveAutoDisable;
+        }
     }
 
     protected override void OnRemove()
@@ -67,6 +75,11 @@ public class ConvertTeam : AbstractCharacterEffect, IEntireCharacterEffect
         }
 
         AffectedCharacter.CharacterTeam.Team = _oldTeam;
+
+        if (AffectedCharacter.TryGetComponent(out DisableObjectOnDistanceFromCamera disabler))
+        {
+            disabler.AllowDisable = _oldAutoDisable;
+        }
     }
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)

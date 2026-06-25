@@ -26,6 +26,16 @@ public class CharacterJumping : AbstractCharacterComponent
     public event EventHandler OnStartedJumping;
     public event EventHandler OnStopedJumping;
 
+    public int AirJumpsLeft
+    {
+        get => _airJumpsLeft;
+        set
+        {
+            _airJumpsLeft = value;
+            if (_airJumpsLeft < 0) _airJumpsLeft = 0;
+        }
+    }
+
     public bool IsAbleToJump
     {
         get => _isAbleToJump;

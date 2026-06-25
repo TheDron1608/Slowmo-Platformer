@@ -25,14 +25,19 @@ public abstract class AbstractGlobalSpecialModificator : AbstractModificator
             !DisabledModificator &&
             !UIManager.GamePaused() && 
             SceneList.GetCurrentSceneIsGameplay() &&
-            ScoreManager.Instance.CurrentCombo >= ComboCost
+            ScoreManager.Instance.CurrentCombo >= GetTotalComboCost()
             )
         {
             if (OnSpecialActivated())
             {
-                ScoreManager.Instance.CurrentCombo -= ComboCost;
+                ScoreManager.Instance.CurrentCombo -= GetTotalComboCost();
             }
         }
+    }
+
+    public virtual int GetTotalComboCost()
+    {
+        return ComboCost;
     }
 
     public abstract bool OnSpecialActivated();

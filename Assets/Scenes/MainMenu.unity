@@ -435,7 +435,6 @@ RectTransform:
   m_Children:
   - {fileID: 1330027019}
   - {fileID: 1331506813}
-  - {fileID: 1330216500}
   m_Father: {fileID: 973517356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1254,18 +1253,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LogoCharacter
   RandomRegularSprites:
-  - {fileID: 21300000, guid: 6d179d1e5cabdf245a96053d84801a3e, type: 3}
-  - {fileID: 21300000, guid: a4cde6e9038321b46aebc7644e1c6635, type: 3}
-  - {fileID: 21300000, guid: d07e22c042df5f74f8207ee0e05212d8, type: 3}
-  - {fileID: 21300000, guid: caadcadee65cd214b9575a887fd4ac7f, type: 3}
+  - {fileID: 21300000, guid: 0e2bec0f804ced646a18d4cfd5f37245, type: 3}
+  - {fileID: 21300000, guid: 9511ff8e63591a84488d889d8079cff8, type: 3}
+  - {fileID: 21300000, guid: d4daa319160929e40be604bd2cebaa19, type: 3}
+  - {fileID: 21300000, guid: d5b777ef5e51f32479033ef839d5541b, type: 3}
+  - {fileID: 21300000, guid: efdbaf8cf769591429c6fdfaec8b0562, type: 3}
   RandomDistortedSprites:
-  - {fileID: 21300000, guid: 80e34a1067959114e863fb59e708caa0, type: 3}
-  - {fileID: 21300000, guid: 7dd272a181c25b04ca7b2a68a8d7a961, type: 3}
-  - {fileID: 21300000, guid: 1608903960d25be4eb64c77f03b8bc2b, type: 3}
-  - {fileID: 21300000, guid: d248c5f2a6d669e41b31f21a56e7e694, type: 3}
-  - {fileID: 21300000, guid: 71337299b1359d44dab1033f7ea541de, type: 3}
-  - {fileID: 21300000, guid: bfd13655fbf54734c9c2c793b2b0ba78, type: 3}
-  - {fileID: 21300000, guid: f4ea5c52ca56beb4393eac567fae735a, type: 3}
+  - {fileID: 21300000, guid: 467b925e1dd617543a43e0ccab8117c4, type: 3}
+  - {fileID: 21300000, guid: cdad9b4d476b27549b9ef35dc8207340, type: 3}
+  - {fileID: 21300000, guid: 602e63fbbfd1fdd42b695ead29e8f48d, type: 3}
+  - {fileID: 21300000, guid: 027d10cf60c96124f9adaf6ce1eb5ca5, type: 3}
+  - {fileID: 21300000, guid: 703ca75a5a8499f448893a865cc5f932, type: 3}
+  - {fileID: 21300000, guid: f95e97901a988a642b5404621e326381, type: 3}
+  - {fileID: 21300000, guid: 888888af2c9a8f64fbfb24b081e3fabc, type: 3}
   RandomMaterials:
   - {fileID: 2100000, guid: 927736b7a3feb5a478354f067dc4c363, type: 2}
   - {fileID: 2100000, guid: 2dde9d2b5cdcb744887e53347fc1f40c, type: 2}
@@ -1293,7 +1293,7 @@ MonoBehaviour:
   StartOffset: 1.6666666
   ChangeSpriteDuration: 0.1
   MoveDuration: 2
-  MoveDistance: 25
+  MoveDistance: 10
 --- !u!1001 &523625105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1588,7 +1588,7 @@ MonoBehaviour:
   StartOffset: 0.8125
   ChangeSpriteDuration: 0.1
   MoveDuration: 2
-  MoveDistance: 25
+  MoveDistance: 10
 --- !u!1001 &570546309
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4290,19 +4290,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LogoCharacter
   RandomRegularSprites:
-  - {fileID: 21300000, guid: 0e2bec0f804ced646a18d4cfd5f37245, type: 3}
-  - {fileID: 21300000, guid: 9511ff8e63591a84488d889d8079cff8, type: 3}
-  - {fileID: 21300000, guid: d4daa319160929e40be604bd2cebaa19, type: 3}
-  - {fileID: 21300000, guid: d5b777ef5e51f32479033ef839d5541b, type: 3}
-  - {fileID: 21300000, guid: efdbaf8cf769591429c6fdfaec8b0562, type: 3}
+  - {fileID: 21300000, guid: 6d179d1e5cabdf245a96053d84801a3e, type: 3}
+  - {fileID: 21300000, guid: a4cde6e9038321b46aebc7644e1c6635, type: 3}
+  - {fileID: 21300000, guid: 8f54693a688cf6944ae480f992caf1c8, type: 3}
+  - {fileID: 21300000, guid: d07e22c042df5f74f8207ee0e05212d8, type: 3}
+  - {fileID: 21300000, guid: caadcadee65cd214b9575a887fd4ac7f, type: 3}
   RandomDistortedSprites:
-  - {fileID: 21300000, guid: 467b925e1dd617543a43e0ccab8117c4, type: 3}
-  - {fileID: 21300000, guid: cdad9b4d476b27549b9ef35dc8207340, type: 3}
-  - {fileID: 21300000, guid: 602e63fbbfd1fdd42b695ead29e8f48d, type: 3}
-  - {fileID: 21300000, guid: 027d10cf60c96124f9adaf6ce1eb5ca5, type: 3}
-  - {fileID: 21300000, guid: 703ca75a5a8499f448893a865cc5f932, type: 3}
-  - {fileID: 21300000, guid: f95e97901a988a642b5404621e326381, type: 3}
-  - {fileID: 21300000, guid: 888888af2c9a8f64fbfb24b081e3fabc, type: 3}
+  - {fileID: 21300000, guid: 80e34a1067959114e863fb59e708caa0, type: 3}
+  - {fileID: 21300000, guid: 7dd272a181c25b04ca7b2a68a8d7a961, type: 3}
+  - {fileID: 21300000, guid: 1608903960d25be4eb64c77f03b8bc2b, type: 3}
+  - {fileID: 21300000, guid: d248c5f2a6d669e41b31f21a56e7e694, type: 3}
+  - {fileID: 21300000, guid: 71337299b1359d44dab1033f7ea541de, type: 3}
+  - {fileID: 21300000, guid: bfd13655fbf54734c9c2c793b2b0ba78, type: 3}
+  - {fileID: 21300000, guid: f4ea5c52ca56beb4393eac567fae735a, type: 3}
   RandomMaterials:
   - {fileID: 2100000, guid: 927736b7a3feb5a478354f067dc4c363, type: 2}
   - {fileID: 2100000, guid: 2dde9d2b5cdcb744887e53347fc1f40c, type: 2}
@@ -4330,7 +4330,7 @@ MonoBehaviour:
   StartOffset: 1
   ChangeSpriteDuration: 0.1
   MoveDuration: 2
-  MoveDistance: 25
+  MoveDistance: 10
 --- !u!1001 &1295072168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4518,7 +4518,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 75947686}
+    m_TransformParent: {fileID: 1331506813}
     m_Modifications:
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_Pivot.x
@@ -4526,7 +4526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_Pivot.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4534,7 +4534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_AnchorMin.x
@@ -4542,7 +4542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_SizeDelta.x
@@ -4554,15 +4554,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_LocalScale.y
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_LocalScale.z
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4598,7 +4598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 1320054492860028945, guid: 255a927b417b73b49ae28cd0dfdc3b21, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4712,6 +4712,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2046481525}
+  - {fileID: 1330216500}
   m_Father: {fileID: 75947686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -5056,18 +5057,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LogoCharacter
   RandomRegularSprites:
-  - {fileID: 21300000, guid: 6d179d1e5cabdf245a96053d84801a3e, type: 3}
-  - {fileID: 21300000, guid: a4cde6e9038321b46aebc7644e1c6635, type: 3}
-  - {fileID: 21300000, guid: d07e22c042df5f74f8207ee0e05212d8, type: 3}
-  - {fileID: 21300000, guid: caadcadee65cd214b9575a887fd4ac7f, type: 3}
+  - {fileID: 21300000, guid: 0e2bec0f804ced646a18d4cfd5f37245, type: 3}
+  - {fileID: 21300000, guid: 9511ff8e63591a84488d889d8079cff8, type: 3}
+  - {fileID: 21300000, guid: d4daa319160929e40be604bd2cebaa19, type: 3}
+  - {fileID: 21300000, guid: d5b777ef5e51f32479033ef839d5541b, type: 3}
+  - {fileID: 21300000, guid: efdbaf8cf769591429c6fdfaec8b0562, type: 3}
   RandomDistortedSprites:
-  - {fileID: 21300000, guid: 80e34a1067959114e863fb59e708caa0, type: 3}
-  - {fileID: 21300000, guid: 7dd272a181c25b04ca7b2a68a8d7a961, type: 3}
-  - {fileID: 21300000, guid: 1608903960d25be4eb64c77f03b8bc2b, type: 3}
-  - {fileID: 21300000, guid: d248c5f2a6d669e41b31f21a56e7e694, type: 3}
-  - {fileID: 21300000, guid: 71337299b1359d44dab1033f7ea541de, type: 3}
-  - {fileID: 21300000, guid: bfd13655fbf54734c9c2c793b2b0ba78, type: 3}
-  - {fileID: 21300000, guid: f4ea5c52ca56beb4393eac567fae735a, type: 3}
+  - {fileID: 21300000, guid: 888888af2c9a8f64fbfb24b081e3fabc, type: 3}
+  - {fileID: 21300000, guid: 467b925e1dd617543a43e0ccab8117c4, type: 3}
+  - {fileID: 21300000, guid: cdad9b4d476b27549b9ef35dc8207340, type: 3}
+  - {fileID: 21300000, guid: 602e63fbbfd1fdd42b695ead29e8f48d, type: 3}
+  - {fileID: 21300000, guid: 027d10cf60c96124f9adaf6ce1eb5ca5, type: 3}
+  - {fileID: 21300000, guid: 703ca75a5a8499f448893a865cc5f932, type: 3}
+  - {fileID: 21300000, guid: f95e97901a988a642b5404621e326381, type: 3}
   RandomMaterials:
   - {fileID: 2100000, guid: 927736b7a3feb5a478354f067dc4c363, type: 2}
   - {fileID: 2100000, guid: 2dde9d2b5cdcb744887e53347fc1f40c, type: 2}
@@ -5095,7 +5097,7 @@ MonoBehaviour:
   StartOffset: 0.6666667
   ChangeSpriteDuration: 0.1
   MoveDuration: 2
-  MoveDistance: 25
+  MoveDistance: 10
 --- !u!224 &1465578644 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5328452825492146982, guid: 6edb746328eab074683c083b36c864be, type: 3}
@@ -5890,19 +5892,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LogoCharacter
   RandomRegularSprites:
-  - {fileID: 21300000, guid: 0e2bec0f804ced646a18d4cfd5f37245, type: 3}
-  - {fileID: 21300000, guid: 9511ff8e63591a84488d889d8079cff8, type: 3}
-  - {fileID: 21300000, guid: d4daa319160929e40be604bd2cebaa19, type: 3}
-  - {fileID: 21300000, guid: d5b777ef5e51f32479033ef839d5541b, type: 3}
-  - {fileID: 21300000, guid: efdbaf8cf769591429c6fdfaec8b0562, type: 3}
+  - {fileID: 21300000, guid: 6d179d1e5cabdf245a96053d84801a3e, type: 3}
+  - {fileID: 21300000, guid: a4cde6e9038321b46aebc7644e1c6635, type: 3}
+  - {fileID: 21300000, guid: 8f54693a688cf6944ae480f992caf1c8, type: 3}
+  - {fileID: 21300000, guid: d07e22c042df5f74f8207ee0e05212d8, type: 3}
+  - {fileID: 21300000, guid: caadcadee65cd214b9575a887fd4ac7f, type: 3}
   RandomDistortedSprites:
-  - {fileID: 21300000, guid: 467b925e1dd617543a43e0ccab8117c4, type: 3}
-  - {fileID: 21300000, guid: cdad9b4d476b27549b9ef35dc8207340, type: 3}
-  - {fileID: 21300000, guid: 602e63fbbfd1fdd42b695ead29e8f48d, type: 3}
-  - {fileID: 21300000, guid: 027d10cf60c96124f9adaf6ce1eb5ca5, type: 3}
-  - {fileID: 21300000, guid: 703ca75a5a8499f448893a865cc5f932, type: 3}
-  - {fileID: 21300000, guid: f95e97901a988a642b5404621e326381, type: 3}
-  - {fileID: 21300000, guid: 888888af2c9a8f64fbfb24b081e3fabc, type: 3}
+  - {fileID: 21300000, guid: 80e34a1067959114e863fb59e708caa0, type: 3}
+  - {fileID: 21300000, guid: 7dd272a181c25b04ca7b2a68a8d7a961, type: 3}
+  - {fileID: 21300000, guid: 1608903960d25be4eb64c77f03b8bc2b, type: 3}
+  - {fileID: 21300000, guid: d248c5f2a6d669e41b31f21a56e7e694, type: 3}
+  - {fileID: 21300000, guid: 71337299b1359d44dab1033f7ea541de, type: 3}
+  - {fileID: 21300000, guid: bfd13655fbf54734c9c2c793b2b0ba78, type: 3}
+  - {fileID: 21300000, guid: f4ea5c52ca56beb4393eac567fae735a, type: 3}
   RandomMaterials:
   - {fileID: 2100000, guid: 927736b7a3feb5a478354f067dc4c363, type: 2}
   - {fileID: 2100000, guid: 2dde9d2b5cdcb744887e53347fc1f40c, type: 2}
@@ -5930,7 +5932,7 @@ MonoBehaviour:
   StartOffset: 0
   ChangeSpriteDuration: 0.1
   MoveDuration: 2
-  MoveDistance: 25
+  MoveDistance: 10
 --- !u!224 &1674681315 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2371470531335762006, guid: 2ba85f0d03259684db56744664902224, type: 3}
@@ -6637,7 +6639,7 @@ MonoBehaviour:
   StartOffset: 0.33333334
   ChangeSpriteDuration: 0.1
   MoveDuration: 2
-  MoveDistance: 25
+  MoveDistance: 10
 --- !u!1 &2046481524
 GameObject:
   m_ObjectHideFlags: 0
@@ -6891,7 +6893,7 @@ MonoBehaviour:
   StartOffset: 1.3333334
   ChangeSpriteDuration: 0.1
   MoveDuration: 2
-  MoveDistance: 25
+  MoveDistance: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

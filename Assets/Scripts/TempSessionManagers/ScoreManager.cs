@@ -162,14 +162,6 @@ public class ScoreManager : MonoBehaviour
         _comboLastTime = CurrentCombo > MinCombo ? ResetComboDelayOnStartLevel : 0f;
     }
 
-    private void ComboEncounter_OnTeamMemberDidKill(object sender, TeamManager.TeamData.MemberKillEventArgs e)
-    {
-        if (!e.Killed.CharComponents.CharacterEffectsReceiver.WasKilledBefore)
-        {
-            AddCombo();
-        }
-    }
-
     private void Update()
     {
         if (!SceneList.GetCurrentSceneIsGameplay())

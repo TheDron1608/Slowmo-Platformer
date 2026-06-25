@@ -1,25 +1,44 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModificator
 {
+    public int ExtraCostPerConverted = 1;
+    public int RequiredComboToReduceCost = 5;
     public Holdable SpecialHoldableInstance;
     public List<AbstractEffect> TargetEffects = new();
     public TeamManager.Teams TrackedTeam = TeamManager.Teams.PLAYER;
     public float MaxCharacterDistanceFromHoldable = 10f;
     public List<AbstractEffect> EffectsOnTooFarFromHoldable = new();
     public float SlowmoOnConvert = 1f;
+    public Material ComboMaterialOnAbleToUse;
 
     private Holdable _currentSpecialHoldable = null;
     private List<CharacterComponentsManager> _convertedCharacters = new();
+    private int _currentExtraCost = 0;
+    private int _killsToReducePriceLeft = 0;
+    private Material _oldComboMaterial = null;
 
     public override void OnModificatorAdded()
     {
         base.OnModificatorAdded();
 
         SpawnManager.Instance.KeepHoldableOnFinishLevel = false;
+        ScoreManager.Instance.OnAddedCombo += Instance_OnAddedCombo;
+    }
+
+    private void Instance_OnAddedCombo(object sender, System.EventArgs e)
+    {
+        _killsToReducePriceLeft--;
+        if (_killsToReducePriceLeft <= 0)
+        {
+            _currentExtraCost = math.max(_currentExtraCost - 1, 0);
+            _killsToReducePriceLeft = RequiredComboToReduceCost;
+        }
     }
 
     public override void OnModificatorRemoved()
@@ -34,6 +53,11 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
         if (SpawnManager.Instance != null)
         {
             SpawnManager.Instance.KeepHoldableOnFinishLevel = true;
+        }
+
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.OnAddedCombo += Instance_OnAddedCombo;
         }
     }
 
@@ -51,6 +75,9 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
             _currentSpecialHoldable.OnThrown += CurrentSpecialHoldable_OnThrown;
         }
         _convertedCharacters = new() { spawnedPlayer.CharComponents };
+
+        _currentExtraCost = 0;
+        _killsToReducePriceLeft = RequiredComboToReduceCost;
     }
 
     public override bool OnSpecialActivated()
@@ -66,7 +93,8 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                     currentEnemyDistance < nearestEnemyDistance &&
                     characterTransform.TryGetComponent(out AbstractCharacterComponent character) &&
                     !character.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(TrackedTeam) &&
-                    !_convertedCharacters.Contains(character.CharComponents)
+                    !_convertedCharacters.Contains(character.CharComponents) &&
+                    character.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
                     )
                 {
                     nearestEnemy = character.CharComponents;
@@ -88,11 +116,18 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
                 TimeManager.Instance.TryTemporalSlowTime(SlowmoOnConvert);
 
+                _currentExtraCost += ExtraCostPerConverted;
+
                 return true;
             }
         }
 
         return false;
+    }
+
+    public override int GetTotalComboCost()
+    {
+        return base.GetTotalComboCost() + _currentExtraCost;
     }
 
     public override void OnLevelFinished()
@@ -177,12 +212,25 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                 }
             }
         }
+
+        ComboEncounter combo = UIManager.Instance?.GameplayScreenOverlay.GetGameplayUI()?.Combo;
+        if (combo != null)
+        {
+            if (ScoreManager.Instance.CurrentCombo >= GetTotalComboCost())
+            {
+                combo.OverrideBgMaterial = ComboMaterialOnAbleToUse;
+            }
+            else
+            {
+                combo.OverrideBgMaterial = null;
+            }
+        }
     }
 
     private bool ExtraGameOverCondition()
     {
         return 
-            ScoreManager.Instance.CurrentCombo < ComboCost || 
+            ScoreManager.Instance.CurrentCombo < GetTotalComboCost() || 
             _currentSpecialHoldable == null || 
             _currentSpecialHoldable.IsDestroyed();
     }
