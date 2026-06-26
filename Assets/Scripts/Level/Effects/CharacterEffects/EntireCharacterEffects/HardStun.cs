@@ -60,6 +60,14 @@ public class HardStun : AbstractStun, IMultiplierableEffect
         if (characterSender != null)
         {
             _totalStunSenderCharacters.Add(characterSender);
+
+            if (
+                characterSender.CharComponents.CharacterEffectsReceiver.TryGetEffect(out HardStun senderStun) &&
+                senderStun.TotalStunSenderCharacters.Count > 0
+                )
+            {
+                _totalStunSenderCharacters.AddRange(senderStun.TotalStunSenderCharacters);
+            }
         }
 
         List<AbstractCharacterComponent> oldStunSenderCharacters = _oldStun?.TotalStunSenderCharacters;

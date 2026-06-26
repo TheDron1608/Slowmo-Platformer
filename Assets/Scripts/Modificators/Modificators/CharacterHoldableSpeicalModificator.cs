@@ -13,6 +13,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
     public List<AbstractEffect> TargetEffects = new();
     public TeamManager.Teams TrackedTeam = TeamManager.Teams.PLAYER;
     public float MaxCharacterDistanceFromHoldable = 10f;
+    public float MaxCharacterDistanceFromHoldableOnUnholded = 22.5f;
     public List<AbstractEffect> EffectsOnTooFarFromHoldable = new();
     public float SlowmoOnConvert = 1f;
     public Material ComboMaterialOnAbleToUse;
@@ -21,7 +22,6 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
     private List<CharacterComponentsManager> _convertedCharacters = new();
     private int _currentExtraCost = 0;
     private int _killsToReducePriceLeft = 0;
-    private Material _oldComboMaterial = null;
 
     public override void OnModificatorAdded()
     {
@@ -85,7 +85,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
         if (_currentSpecialHoldable != null && !_currentSpecialHoldable.IsDestroyed())
         {
             CharacterComponentsManager nearestEnemy = null;
-            float nearestEnemyDistance = MaxCharacterDistanceFromHoldable;
+            float nearestEnemyDistance = _currentSpecialHoldable.CurrentHolder == null ? MaxCharacterDistanceFromHoldableOnUnholded : MaxCharacterDistanceFromHoldable;
             foreach (Transform characterTransform in LayerManager.Instance.GetZLayerOfGameObject(_currentSpecialHoldable.gameObject).CharactersContainer)
             {
                 float currentEnemyDistance = Vector2.Distance(characterTransform.position, _currentSpecialHoldable.transform.position);

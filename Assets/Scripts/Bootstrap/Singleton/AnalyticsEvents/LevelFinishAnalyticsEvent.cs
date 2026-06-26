@@ -28,9 +28,18 @@ public class LevelFinishAnalyticsEvent : Unity.Services.Analytics.Event
 
         TotalModsPrice = ModificatorsManager.Instance.GetTotalModsPrice();
 
-        AvgPlayerHealth = AnalyticsManager.Instance.TrackedPlayerHealth.Average();
-        MaxPlayerHealth = AnalyticsManager.Instance.TrackedPlayerHealth.Max();
-        MinPlayerHealth = AnalyticsManager.Instance.TrackedPlayerHealth.Min();
+        if (AnalyticsManager.Instance.TrackedPlayerHealth.Count > 0)
+        {
+            AvgPlayerHealth = AnalyticsManager.Instance.TrackedPlayerHealth.Average();
+            MaxPlayerHealth = AnalyticsManager.Instance.TrackedPlayerHealth.Max();
+            MinPlayerHealth = AnalyticsManager.Instance.TrackedPlayerHealth.Min();
+        }
+        else
+        {
+            AvgPlayerHealth = 0f;
+            MaxPlayerHealth = 0f;
+            MinPlayerHealth = 0f;
+        }
 
         AvgCombo = (float)AnalyticsManager.Instance.TrackedCombo.Average();
         MaxCombo = AnalyticsManager.Instance.TrackedCombo.Max();
