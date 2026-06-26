@@ -14,7 +14,7 @@ public class InstantStunRecover : AbstractCharacterEffect, IEntireCharacterEffec
             AffectedCharacter.CharacterVisual.CurrentBusyAnimation == CharacterVisual.CharacterPartBusyStates.MINOR_STUN
             )
         {
-            AffectedCharacter.CharacterVisual.BreakBusyAnimation();
+            AffectedCharacter.CharacterVisual.ForceResetBusyAnimation();
         }
     }
 }

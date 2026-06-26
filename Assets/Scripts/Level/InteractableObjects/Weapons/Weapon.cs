@@ -272,7 +272,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
 
     protected virtual bool AttackCondition()
     {
-        return IsAbleToAttack;
+        return IsAbleToAttack && gameObject.activeInHierarchy;
     }
 
     /// <summary>

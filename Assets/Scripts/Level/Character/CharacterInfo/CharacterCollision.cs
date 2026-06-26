@@ -8,7 +8,6 @@ using UnityEngine.Tilemaps;
 
 public class CharacterCollision : AbstractCharacterComponent
 {
-    const string ENVIROMENT_TAG_NAME = "Enviroment";
     const float COLLISION_DETECTION_THICKNESS = 0.1f;
     const float CHECK_COLLIDING_INTERACTABLE_FURNITURE_DISTANCE = 3f;
     const float FORCE_OPEN_DOOR_MAX_DISTANCE = 1f;
@@ -183,29 +182,6 @@ public class CharacterCollision : AbstractCharacterComponent
                 GetTileBehaviourTypeFromLeftWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY ||
                 GetTileBehaviourTypeFromRightWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY
             );
-    }
-
-    private GameObject RaycastHitFromCollider(Vector2 from, Vector2 align, out ForegroundRuleTile collidedTile)
-    {
-        float rayCastHitRange =
-            (CharComponents.CharacterRigidBodyCapsuleCollider.direction == CapsuleDirection2D.Vertical ?
-                CharComponents.CharacterRigidBodyCapsuleCollider.size.x * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.x) :
-                CharComponents.CharacterRigidBodyCapsuleCollider.size.y * math.abs(CharComponents.CharacterRigidBodyCapsuleCollider.transform.localScale.y)
-            ) / 2 + COLLISION_HIT_DETECION_THICKNESS;
-
-        //Debug.DrawLine(from, from + align * rayCastHitRange, Color.green);
-        Vector2 checkPosition = from + align * rayCastHitRange;
-        GameObject result = Physics2D.OverlapPoint(checkPosition, 1 << _currentZLayer.EnviromentLayer)?.gameObject;
-        if (result != null)
-        {
-            collidedTile = _currentZLayer.MultiTileMapsContainer.GetForeground().GetTile<ForegroundRuleTile>(new Vector3Int((int)math.floor(checkPosition.x), (int)math.floor(checkPosition.y), 0));
-            return result;
-        }
-        else
-        {
-            collidedTile = null;
-            return null;
-        }
     }
 
     private GameObject UpdateTileCollidingAtPoint(Vector2 pointCenter, out ForegroundRuleTile collidedTile)
@@ -452,6 +428,7 @@ public class CharacterCollision : AbstractCharacterComponent
                         CanHitWhileRolling &&
                         CharComponents.CharacterRolling.IsRolling &&
                         !CharComponents.CharacterRolling.CurrentRollHitCharacters.Contains(otherCharComponent) &&
+                        !CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(otherCharComponent.CharComponents.CharacterTeam) &&
                         !otherCharComponent.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
                     )
                     )
