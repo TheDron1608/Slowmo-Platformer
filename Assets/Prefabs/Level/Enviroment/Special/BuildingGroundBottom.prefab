@@ -13,6 +13,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6fefc9f3321001c42801173b7bde89b2, type: 2}
     - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: ExtraWidth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      propertyPath: OverrideTiles
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
       propertyPath: ColumnFillTile
       value: 
       objectReference: {fileID: 0}
@@ -80,8 +88,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingGroundBottom
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4735335935747978316, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9059842874588092670, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8099648268148075677}
   m_SourcePrefab: {fileID: 100100000, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+--- !u!1 &7133176216588642050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7840260939749765893, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+  m_PrefabInstance: {fileID: 1022337116171949063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8325771594153397497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9059842874588092670, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+  m_PrefabInstance: {fileID: 1022337116171949063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8099648268148075677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8325771594153397497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791f504d1af174b48aceba3f6146e827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingLandBottom
+  OffsetStart: {fileID: 7133176216588642050}
+  OffsetEnd: {fileID: 8732854655385699503}
+  FillTile: {fileID: 11400000, guid: 490e127d10cd1dd48b122cefb0e8ec40, type: 2}
+  OvergoundFillTile: {fileID: 11400000, guid: 91381e534b436774391a8e3adce588ac, type: 2}
+  ExtraWidth: 50
+--- !u!1 &8732854655385699503 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8575213482394374312, guid: 66891c222665aef4e985dd721d1b5a1b, type: 3}
+  m_PrefabInstance: {fileID: 1022337116171949063}
+  m_PrefabAsset: {fileID: 0}
