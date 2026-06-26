@@ -94,6 +94,10 @@ public class SpawnManager : MonoBehaviour
             }
 
             PlayerCharacterHoldable = saveHoldable;
+            if (PlayerCharacterHoldable?.gameObject.scene.name != null)
+            {
+                PlayerCharacterHoldable.gameObject.SetActive(false);
+            }
             PlayerCharacterHoldable?.transform.SetParent(transform);
         }
         else if (!KeepHoldableOnFinishLevel && PlayerCharacterHoldable != null)

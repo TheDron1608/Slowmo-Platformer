@@ -124,7 +124,7 @@ public class Shield : DamagableObject, IThrowableIteractableObj
 
     private void OnDestroy()
     {
-        if (LayerManager.Instance.GetZLayerOfGameObject(gameObject) != null)
+        if (LayerManager.Instance?.GetZLayerOfGameObject(gameObject) != null)
         {
             Raised = false;
         }

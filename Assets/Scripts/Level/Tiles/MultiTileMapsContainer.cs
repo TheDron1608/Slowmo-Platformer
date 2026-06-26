@@ -187,6 +187,7 @@ public class MultiTileMapsContainer : MonoBehaviour
                         {
                             GetBackground().SetTile(tilePos, null);
                             GetForeground().SetTile(tilePos, foregroundTile);
+                            if (!GetOverground().HasTile(tilePos)) GetOverground().SetTile(tilePos, foregroundTile);
                         }
                     }
                     else if (tile is RestrictInteriourWalls)
@@ -239,6 +240,22 @@ public class MultiTileMapsContainer : MonoBehaviour
         {
             tilemap.GetComponent<TileBehaviour>()?
                 .SetMaterialDependOnDifficulty(difficulty);
+        }
+    }
+
+    public void UpdateForegroundTilesOverBackground(BoundsInt updateArea)
+    {
+        for (int x = updateArea.xMin; x < updateArea.xMax; x++)
+        {
+            for (int y = updateArea.yMin; y < updateArea.yMax; y++)
+            {
+                Vector3Int currentTilePos = new Vector3Int(x, y);
+                TileBase foregroundTile = _foreground.GetTile(currentTilePos);
+                if (foregroundTile != null && !_background.HasTile(currentTilePos))
+                {
+                    _background.SetTile(currentTilePos, foregroundTile);
+                }
+            }
         }
     }
 
