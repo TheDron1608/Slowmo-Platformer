@@ -83,7 +83,7 @@ public class SpawnManager : MonoBehaviour
     {
         Holdable saveHoldable = finishedCharacter?.CharComponents.CharacterHolding.CurrentHoldObject;
 
-        if (KeepHoldableOnFinishLevel && saveHoldable != PlayerCharacterHoldable && saveHoldable != null)
+        if (KeepHoldableOnFinishLevel && saveHoldable != PlayerCharacterHoldable)
         {
             if (
                 PlayerCharacterHoldable != null &&
@@ -94,7 +94,7 @@ public class SpawnManager : MonoBehaviour
             }
 
             PlayerCharacterHoldable = saveHoldable;
-            PlayerCharacterHoldable.transform.SetParent(transform);
+            PlayerCharacterHoldable?.transform.SetParent(transform);
         }
         else if (!KeepHoldableOnFinishLevel && PlayerCharacterHoldable != null)
         {
