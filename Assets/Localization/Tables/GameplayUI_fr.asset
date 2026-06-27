@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GameplayUI_fr
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 49de2f53b199f964fa6cbf526c6d1470, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 57840205824
+    m_Localized: mort
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1363553899216896
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1363770899922944
+    m_Localized: Reprendre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1363818505273344
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1364207313059840
+    m_Localized: Quitter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1364247855202304
+    m_Localized: "\xCAtes-vous s\xFBr\_?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3660322389590016
+    m_Localized: "Vous \xEAtes mort"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 57112601552986112
+    m_Localized: Vous gagnez
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3660413980606464
+    m_Localized: "Temps surv\xE9cu\_:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3661153759363072
+    m_Localized: "Mal\xE9dictions obtenues\_:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3661285078827008
+    m_Localized: "Tu\xE9s\_:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3661487982477312
+    m_Localized: Appuyez sur [{ExitButton}] pour quitter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72024547951616000
+    m_Localized: "Appuyez sur [{RestartButton}] pour red\xE9marrer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48618366314979328
+    m_Localized: Points de combo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49372714548568064
+    m_Localized: Prix total des modificateurs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49722666810318848
+    m_Localized: Permanent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49722677077975040
+    m_Localized: "\xC9changeable"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63303765306089472
+    m_Localized: Artefact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49739758959828992
+    m_Localized: Prix
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63376482126503936
+    m_Localized: "G\xE2t\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54055963837308928
+    m_Localized: Ne rien choisir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54055983223382016
+    m_Localized: "\rVendez des modificateurs n\xE9gatifs"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68906890779926528
+    m_Localized: Relancez
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54062699918893056
+    m_Localized: "Vous n'avez aucun modificateur n\xE9gatif \xE9changeable \xE0 vendre"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54062700397043712
+    m_Localized: "\rPas assez de points pour acheter quoi que ce soit :("
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72162566585966592
+    m_Localized: "Cartes restantes\_:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582327916273664
+    m_Localized: Facile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582328625111040
+    m_Localized: Moyen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582329308782592
+    m_Localized: Difficile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582330005037056
+    m_Localized: Difficile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582382328979456
+    m_Localized: Survivre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59302068435001344
+    m_Localized: Fin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68522524361613312
+    m_Localized: "DIFFICULT\xC9 SECR\xC8TE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64521278454996992
+    m_Localized: "Personnage d\xE9bloqu\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163102135672832
+    m_Localized: Modificateurs de vente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163102932590592
+    m_Localized: "\xC9changez vos modificateurs n\xE9gatifs contre des positifs.\nVous
+      perdrez vos modificateurs n\xE9gatifs."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163104094412800
+    m_Localized: "Gagnez un modificateur n\xE9gatif"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163183916212224
+    m_Localized: "Recevez un modificateur n\xE9gatif qui pourra \xEAtre \xE9chang\xE9
+      contre un modificateur positif \xE0 l'avenir.\nPlus vos points de combo sont
+      \xE9lev\xE9s, plus vous pouvez prendre de modificateurs puissants, les points
+      de combo seront r\xE9initialis\xE9s apr\xE8s la prise.\nPlus vous collectez,
+      meilleure est la r\xE9compense."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163200408215552
+    m_Localized: "Difficult\xE9 augment\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163201205133312
+    m_Localized: "Vous gagnez des modificateurs n\xE9gatifs au fil du temps ; plus
+      vous progressez, plus vous en gagnez.\nCes modificateurs ne peuvent pas \xEAtre
+      \xE9chang\xE9s. "
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

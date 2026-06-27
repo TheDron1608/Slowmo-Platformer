@@ -1,0 +1,188 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GameplayUI_es
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 49de2f53b199f964fa6cbf526c6d1470, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 57840205824
+    m_Localized: muerto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1363553899216896
+    m_Localized: Pausar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1363770899922944
+    m_Localized: Reanudar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1363818505273344
+    m_Localized: Opciones
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1364207313059840
+    m_Localized: Salir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1364247855202304
+    m_Localized: "\xBFEst\xE1s seguro?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3660322389590016
+    m_Localized: "Est\xE1s muerto"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 57112601552986112
+    m_Localized: Ganas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3660413980606464
+    m_Localized: 'Tiempo de supervivencia:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3661153759363072
+    m_Localized: 'Maldiciones obtenidas:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3661285078827008
+    m_Localized: 'Muerto:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3661487982477312
+    m_Localized: Presiona [{ExitButton}] para salir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72024547951616000
+    m_Localized: Presiona [{RestartButton}] para reiniciar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48618366314979328
+    m_Localized: Puntos combinados
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49372714548568064
+    m_Localized: Precio total de modificadores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49722666810318848
+    m_Localized: Permanente
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49722677077975040
+    m_Localized: Transable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63303765306089472
+    m_Localized: Artefacto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49739758959828992
+    m_Localized: Precio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 63376482126503936
+    m_Localized: Estropeado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54055963837308928
+    m_Localized: No elegir nada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54055983223382016
+    m_Localized: "\rVender modificadores negativos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68906890779926528
+    m_Localized: Reroll
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54062699918893056
+    m_Localized: No tienes modificadores negativos negociables para vender
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54062700397043712
+    m_Localized: "\rNo hay suficientes puntos para comprar nada :("
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72162566585966592
+    m_Localized: 'Tarjetas restantes:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582327916273664
+    m_Localized: "F\xE1cil"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582328625111040
+    m_Localized: Mediano
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582329308782592
+    m_Localized: "Dif\xEDcil"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582330005037056
+    m_Localized: "Dif\xEDcil"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 56582382328979456
+    m_Localized: Sobrevivir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59302068435001344
+    m_Localized: Fin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 68522524361613312
+    m_Localized: DIFICULTAD SECRETA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64521278454996992
+    m_Localized: Personaje desbloqueado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163102135672832
+    m_Localized: Vender modificadores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163102932590592
+    m_Localized: "Cambia tus modificadores negativos por positivos.\nPerder\xE1s
+      tus modificadores negativos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163104094412800
+    m_Localized: Obtenga un modificador negativo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163183916212224
+    m_Localized: "Reciba un modificador negativo que puede canjearse por un modificador
+      positivo en el futuro.\nCuanto mayores sean tus puntos de combo, m\xE1s modificadores
+      poderosos podr\xE1s tomar, los puntos de combo se restablecer\xE1n despu\xE9s
+      de tomarlos.\nCuanto m\xE1s recolectes, mejor ser\xE1 la recompensa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163200408215552
+    m_Localized: Dificultad aumentada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72163201205133312
+    m_Localized: "Obtienes modificadores negativos con el tiempo; cuanto m\xE1s progreses,
+      m\xE1s ganar\xE1s.\nEstos modificadores no se pueden intercambiar. "
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

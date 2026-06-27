@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Characters_fr
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 7ceda435e9d75874db4627ac1b530e06, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 22641606656
+    m_Localized: "R\xE9g\xE9n\xE9ration"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 832393936896
+    m_Localized: "* R\xE9g\xE9n\xE9ration constante\n* Dilatation du temps de 10\_%\n*
+      Commence avec un pistolet avec silencieux\n* Pour les d\xE9butants"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1526823878656
+    m_Localized: Vampirisme
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1845347713024
+    m_Localized: "* Tuer gu\xE9rit\n* D\xE9c\xE8s retard\xE9\n* Commence avec une
+      tron\xE7onneuse"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48744895267184640
+    m_Localized: Sans arme
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48744896659693568
+    m_Localized: "* D\xE9truire des armes gu\xE9rit\n* Peut achever les ennemis abattus\n*
+      Pas d'armes"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61604093885652992
+    m_Localized: "\rRamassez chaque type d'arme normale au moins une fois"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59583129123528704
+    m_Localized: "\xC9p\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59583130268573696
+    m_Localized: "\r* Tu es une \xE9p\xE9e\r\n* L'\xE9p\xE9e peut convertir les ennemis
+      \xE0 vos c\xF4t\xE9s\r\n* Vous vivez tant qu'il y a au moins un personnage
+      converti vivant capable de manier une \xE9p\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61604043935686656
+    m_Localized: Tuez 100 ennemis en une seule fois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59974664512053248
+    m_Localized: Canon de verre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59974665178947584
+    m_Localized: "\r* Vous \xE9vitez les projectiles pendant que vous avez un combo\r\n*
+      Vous mourez d'un seul coup\r\n* Vous mourez si votre compteur de combo tombe
+      trop bas\n* Commencez par un magnum"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61604006723821568
+    m_Localized: "\rAtteignez le combo 10"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60875014270066688
+    m_Localized: Collectionneur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60875015016652800
+    m_Localized: "* Peut \xE9changer le combo contre des artefacts\n* Les artefacts
+      soignent le joueur mais rendent le jeu plus difficile\n* Sant\xE9 maximale
+      illimit\xE9e\n* Impossible de recevoir des modificateurs positifs\n* Commence
+      par une double faux"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61604002512740352
+    m_Localized: "Vendez des modificateurs en m\xEAme temps d'une valeur totale de
+      250 ou plus "
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

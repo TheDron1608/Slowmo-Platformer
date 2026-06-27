@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Characters_de
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: de
+  m_SharedData: {fileID: 11400000, guid: 7ceda435e9d75874db4627ac1b530e06, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 22641606656
+    m_Localized: Regeneration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 832393936896
+    m_Localized: "* St\xE4ndige Regeneration\n* 10 % Zeitdilatation\n* Beginnt mit
+      einer Pistole mit Schalld\xE4mpfer\n* F\xFCr Anf\xE4nger"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1526823878656
+    m_Localized: Vampirismus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1845347713024
+    m_Localized: "* T\xF6ten heilt\n* Verz\xF6gerter Tod\n* Beginnt mit einer Kettens\xE4ge"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48744895267184640
+    m_Localized: Unbewaffnet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48744896659693568
+    m_Localized: "* Das Zerst\xF6ren von Waffen heilt\n* Kann niedergeschlagene Gegner
+      erledigen\n* Keine Waffen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61604093885652992
+    m_Localized: "\rHeben Sie jede Art von normaler Waffe mindestens einmal auf"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59583129123528704
+    m_Localized: Schwert
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59583130268573696
+    m_Localized: "\r* Du bist ein Schwert\r\n* Das Schwert kann Feinde auf deine
+      Seite ziehen\r\n* Du lebst, solange es mindestens einen lebenden konvertierten
+      Charakter gibt, der in der Lage ist, ein Schwert zu f\xFChren."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61604043935686656
+    m_Localized: "T\xF6te 100 Feinde in einem Lauf."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59974664512053248
+    m_Localized: Glaskanone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59974665178947584
+    m_Localized: "\r* Sie weichen Projektilen aus, w\xE4hrend Sie eine Combo haben\r\n*
+      Du stirbst mit einem Schlag\r\n* Du stirbst, wenn dein Combo-Z\xE4hler zu niedrig
+      sinkt\n* Beginnen Sie mit einem Magnum"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61604006723821568
+    m_Localized: "\rErreiche Combo 10"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60875014270066688
+    m_Localized: Sammler
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60875015016652800
+    m_Localized: "* Kann Combo gegen Artefakte eintauschen\n* Artefakte heilen den
+      Spieler, machen das Spiel jedoch schwieriger\n* Unbegrenzte maximale Gesundheit\n*
+      Es k\xF6nnen keine positiven Modifikatoren empfangen werden\n* Beginnt mit
+      einer Doppelsense"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61604002512740352
+    m_Localized: 'Verkaufe gleichzeitig Modifikatoren im Gesamtwert von 250 oder
+      mehr '
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
