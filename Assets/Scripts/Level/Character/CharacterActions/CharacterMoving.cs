@@ -235,6 +235,6 @@ public class CharacterMoving : AbstractCharacterComponent
 
     public void Animator_PlayStepSound()
     {
-        StepSound.PlaySound();
+        //StepSound.PlaySound();
     }
 }
