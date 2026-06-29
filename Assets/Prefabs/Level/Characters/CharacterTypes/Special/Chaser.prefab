@@ -303,6 +303,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4686879578272675194, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: _nearestEnemyInfo
+      value: 
+      objectReference: {fileID: 7373982125524659237}
+    - target: {fileID: 4686879578272675194, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      propertyPath: _prefferedHoldable
+      value: 
+      objectReference: {fileID: 855249658446268357}
     - target: {fileID: 4914137321241699338, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       propertyPath: CharacterSpecial
       value: 
@@ -381,6 +389,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1395256404256851719, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+    - {fileID: 3329850272422377283, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+    - {fileID: 4163448085373821266, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
     m_RemovedGameObjects:
     - {fileID: 4800348485756384442, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
     - {fileID: 790916457705215206, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
@@ -400,8 +410,48 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4171936806778890806, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
       insertIndex: -1
       addedObject: {fileID: 801417182790239746}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6757135904441707285, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7373982125524659237}
+    - targetCorrespondingSourceObject: {fileID: 6757135904441707285, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 855249658446268357}
   m_SourcePrefab: {fileID: 100100000, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+--- !u!1 &1102885056119075217 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6757135904441707285, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}
+  m_PrefabInstance: {fileID: 5947028942947441284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7373982125524659237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102885056119075217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a494c45972f12b74cbffea3a53743078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NearestEnemyInfoPrefferTeam
+  MaxEnemyDetectRange: 999999
+  PrefferedTeam: 0
+--- !u!114 &855249658446268357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102885056119075217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998b0499711815b44866273b93779dd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIPrefferOnlyFirstGrabbedWeapon
+  MaxWeaponDetectRange: 50
+  MinWeaponPriority: 1
+  CanCatchDangerousHoldable: 0
 --- !u!4 &7741025014257266866 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4171936806778890806, guid: 28c88cf66bca4a341a652622dcc7ba30, type: 3}

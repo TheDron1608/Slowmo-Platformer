@@ -94,7 +94,7 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
             {
                 holdableDisabler.enabled = true;
             }
-            holdableDisabler.gameObject.SetActive(true);
+            CharComponents.gameObject.SetActive(true);
 
             _teleportingHoldable = null;
         }

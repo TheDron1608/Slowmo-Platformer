@@ -135,4 +135,9 @@ public abstract class AbstractAIPathfinding : AbstractAIInfo
     {
         return true;
     }
+
+    public bool GetHasAndAbleToReachPathTarget()
+    {
+        return PathTarget.HasValue && PathChain?.Count > 0 && GetIsAbleToReachPathTarget();
+    }
 }

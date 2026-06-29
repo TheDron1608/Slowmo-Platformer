@@ -88,7 +88,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         {
             if (!AdvancedPathinding)
             {
-                Profiler.EndSample();
                 return;
             }
 
@@ -102,7 +101,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             }
             if (validDoors.Count == 0)
             {
-                Profiler.EndSample();
                 return;
             }
 
@@ -144,7 +142,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
 
             PathChain = newPathChain;
         }
-
     }
 
     private bool TryGeneratePathChainOnSingleLayer(
@@ -167,7 +164,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
         if (startPlatform == null)
         {
             result = null;
-            Profiler.EndSample();
             return false;
         }
 
@@ -326,7 +322,6 @@ public class DefaultAIPathfinding : AbstractAIPathfinding
             result.AddLast(lastChain);
         }
 
-        Profiler.EndSample();
         return result.Last.Value.TargetPosition == to;
     }
 

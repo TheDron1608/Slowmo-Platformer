@@ -14,12 +14,7 @@ public class TeleportToTargetIfCantReach : AbstractAISpecial
             (CharComponents.CharacterSpecial?.TryGetComponent(out CharacterBleedTeleportation bleedTeleporatation) ?? false) &&
             !bleedTeleporatation.IsTeleporting &&
             _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy != null &&
-            !_selfStateBehaviourAI.Pathfinding.GetIsAbleToReachPathTarget() &&
-            Physics2D.Linecast(
-                CharComponents.Center.transform.position,
-                _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position,
-                1 << CharComponents.CharacterCollision.CurrentZLayer.EnviromentLayer
-                ).collider != null
+            !_selfStateBehaviourAI.Pathfinding.GetHasAndAbleToReachPathTarget()
             )
         {
             _cantReachTimeSpent += Time.fixedDeltaTime;
@@ -27,8 +22,8 @@ public class TeleportToTargetIfCantReach : AbstractAISpecial
             if (_cantReachTimeSpent > UnableToReachAwaitTime)
             {
                 CharacterComponentsManager closesetCharacter = null;
-                float closestCharacterDistance = MaxDistanceToTarget;
-                foreach (Transform characterTrasnform in CharComponents.CharacterCollision.CurrentZLayer.CharactersContainer)
+                float closestCharacterDistance = float.MaxValue;
+                foreach (Transform characterTrasnform in _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.CharacterCollision.CurrentZLayer.CharactersContainer)
                 {
                     if (
                         characterTrasnform.gameObject.activeSelf && 
@@ -50,6 +45,7 @@ public class TeleportToTargetIfCantReach : AbstractAISpecial
                     }
                 }
 
+                Debug.Log(closesetCharacter);
                 if (closesetCharacter != null && (CharComponents.CharacterSpecial?.TryGetComponent(out CharacterBleedTeleportation bleedTele) ?? false))
                 {
                     bleedTele.TryTeleport(closesetCharacter);
