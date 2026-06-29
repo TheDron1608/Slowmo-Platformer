@@ -23,6 +23,7 @@ public class MagReloadingWeapon : RangedWeapon
 
     public event EventHandler OnReloadedBullet;
 
+
     public int MagSize
     {
         get => _magSize;

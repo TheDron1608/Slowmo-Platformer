@@ -619,6 +619,40 @@ public class Holdable : Interactable
         CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
     }
 
+    private void OnEnable()
+    {
+        if (CurrentHolder != null)
+        {
+            if (TryGetComponent(out MagReloadingWeapon magReloadingWeapon))
+            {
+                if (magReloadingWeapon.Unloaded && magReloadingWeapon.Mags > 0)
+                {
+                    magReloadingWeapon.TryCloseMag();
+                }
+                else if (!magReloadingWeapon.BulletLoadedInChamber)
+                {
+                    magReloadingWeapon.ReloadBullet();
+                }
+            }
+
+            if (TryGetComponent(out BulletReloadingWeapon bulletReloadWeapon))
+            {
+                if (bulletReloadWeapon.Unloaded && bulletReloadWeapon.LoadedLivingAmmoLeft > 0)
+                {
+                    bulletReloadWeapon.TryCloseMag();
+                }
+            }
+
+            if (TryGetComponent(out BoltReloadingWeapon boltReloadingWeapon))
+            {
+                if (!boltReloadingWeapon.BulletLoadedInChamber)
+                {
+                    boltReloadingWeapon.UnloadBullet();
+                }
+            }
+        }
+    }
+
     private void OnDestroy()
     {
         if (CurrentHolder != null && CurrentHolder.CurrentHoldObject == this)
