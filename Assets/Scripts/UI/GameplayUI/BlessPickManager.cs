@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -173,6 +174,15 @@ public class BlessPickManager : AbstractModificatorCardsManager
             }
 
             InitSpecialCards();
+
+            if (SessionManager.Instance?.TempSession != null)
+            {
+                SessionManager.Instance.TempSession.TotalSoldCurses += _tradedPrice;
+                if (SessionManager.Instance.TempSession.MaxSoldCurses < _tradedPrice)
+                {
+                    SessionManager.Instance.TempSession.MaxSoldCurses = math.round(_tradedPrice);
+                }
+            }
         }
 
         _sellCursesCoroutine = null;

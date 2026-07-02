@@ -97,8 +97,9 @@ public class SpawnManager : MonoBehaviour
             if (PlayerCharacterHoldable?.gameObject.scene.name != null)
             {
                 PlayerCharacterHoldable.gameObject.SetActive(false);
+                PlayerCharacterHoldable.transform.SetParent(transform);
+                PlayerCharacterHoldable.transform.position = new Vector3(-999999, -999999, -999999);
             }
-            PlayerCharacterHoldable?.transform.SetParent(transform);
         }
         else if (!KeepHoldableOnFinishLevel && PlayerCharacterHoldable != null)
         {

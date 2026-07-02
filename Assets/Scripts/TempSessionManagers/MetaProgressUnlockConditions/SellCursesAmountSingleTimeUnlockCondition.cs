@@ -7,6 +7,6 @@ public class SellCursesAmountSingleTimeUnlockCondition : AbstractCharacterUnlock
 
     public override bool UnlockCondition()
     {
-        return SessionManager.Instance?.TempSession?.MaxSoldCurses > RequiedTotalSoldPrice;
+        return SessionManager.Instance?.TempSession?.MaxSoldCurses >= RequiedTotalSoldPrice;
     }
 }
