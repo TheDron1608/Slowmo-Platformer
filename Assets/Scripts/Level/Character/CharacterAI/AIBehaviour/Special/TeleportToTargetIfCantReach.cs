@@ -45,7 +45,6 @@ public class TeleportToTargetIfCantReach : AbstractAISpecial
                     }
                 }
 
-                Debug.Log(closesetCharacter);
                 if (closesetCharacter != null && (CharComponents.CharacterSpecial?.TryGetComponent(out CharacterBleedTeleportation bleedTele) ?? false))
                 {
                     bleedTele.TryTeleport(closesetCharacter);

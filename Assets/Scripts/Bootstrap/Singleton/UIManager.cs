@@ -4,13 +4,17 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Localization.Components;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
 {
+    const string GLITCH_EFFECT_RENDER_FEATURE_NAME = "GlitchEffect";
+    const string GLITCH_EFFECT_MATERIAL_INTENCITY_PROP_NAME = "_Intencity";
+    const float GLITCH_EFFECT_CHANGE_SPEED = 25f;
+
     public enum LiveTimeLeftTypes
     {
         DEFAULT,
@@ -321,12 +325,18 @@ public class UIManager : MonoBehaviour
     public ScreenOverlay SettingOverlay;
     public CharacterUnlockedMessageScreenOverlay UnlockedCharacterMessageOverlay;
 
+    [Header("Render")]
+    [SerializeField] private Renderer2DData _renderData;
+    public float TargetGlitchIntencity = 0f;
+
     public static UIManager Instance;
 
     private GameObject _screenOverlayContainer;
     private AsyncOperation _sceneLoadingProcess; //used only at LoadSceneWithEffect and LoadSceneWithEffect_OnScreenOverlayAnimationFinished functions
     private bool _showFPS = false;
     private ScreenOverlay[] _allOverlays;
+    private FullScreenPassRendererFeature _glitchRenderFeature;
+    private float _currentGlitchEffectIntencity = 0f;
 
     public bool IsLoadingScene()
     {
@@ -358,6 +368,8 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this);
+
+        _glitchRenderFeature = _renderData.rendererFeatures.Find(e => e.name == GLITCH_EFFECT_RENDER_FEATURE_NAME) as FullScreenPassRendererFeature;
 
         _allOverlays = new ScreenOverlay[]
         {
@@ -415,6 +427,12 @@ public class UIManager : MonoBehaviour
         {
             FPSCountScreenOverlay.Show();
         }
+    }
+
+    private void Update()
+    {
+        _currentGlitchEffectIntencity = Mathf.Lerp(_currentGlitchEffectIntencity, TargetGlitchIntencity, Time.deltaTime * GLITCH_EFFECT_CHANGE_SPEED);
+        _glitchRenderFeature.passMaterial.SetFloat(GLITCH_EFFECT_MATERIAL_INTENCITY_PROP_NAME, _currentGlitchEffectIntencity);
     }
 
     private void OnDestroy()

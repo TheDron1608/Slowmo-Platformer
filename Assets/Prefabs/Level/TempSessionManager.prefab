@@ -549,36 +549,43 @@ MonoBehaviour:
     BgSprite: {fileID: 21300000, guid: b737d16ebe9bbc347a63d422567a8294, type: 3}
     Multiplier: 0
     Shaking: 1
+    GlitchIntencity: 0.01
   - MinCombo: 0
     MaxCombo: 1
     BgSprite: {fileID: 21300000, guid: 242450881671b2f4cb6a150c63db07d3, type: 3}
     Multiplier: 0
     Shaking: 0
+    GlitchIntencity: 0
   - MinCombo: 1
     MaxCombo: 5
     BgSprite: {fileID: 21300000, guid: 07cdbb9ebe5f18747af8617ed35b059b, type: 3}
     Multiplier: 1
     Shaking: 0
+    GlitchIntencity: 0
   - MinCombo: 5
     MaxCombo: 10
     BgSprite: {fileID: 21300000, guid: a7e9553d3f345f942a3fd0725ad54e64, type: 3}
-    Multiplier: 1.5
+    Multiplier: 1.25
     Shaking: 0.1
+    GlitchIntencity: 0.001
   - MinCombo: 10
     MaxCombo: 20
     BgSprite: {fileID: 21300000, guid: 06905193a3ec3814e9a609e1ddaa9810, type: 3}
-    Multiplier: 2
+    Multiplier: 1.5
     Shaking: 0.25
+    GlitchIntencity: 0.002
   - MinCombo: 20
-    MaxCombo: 50
+    MaxCombo: 30
     BgSprite: {fileID: 21300000, guid: d8f467bc594af78418cd72e9c2249aa4, type: 3}
-    Multiplier: 3
+    Multiplier: 2
     Shaking: 0.5
-  - MinCombo: 50
+    GlitchIntencity: 0.003
+  - MinCombo: 30
     MaxCombo: 999999
     BgSprite: {fileID: 21300000, guid: bc8c65285a6482c4e8254a1d78bc948d, type: 3}
-    Multiplier: 5
+    Multiplier: 3
     Shaking: 1
+    GlitchIntencity: 0.005
 --- !u!114 &-7512956509481476535
 MonoBehaviour:
   m_ObjectHideFlags: 0

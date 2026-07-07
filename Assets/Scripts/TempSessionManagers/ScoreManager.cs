@@ -16,6 +16,7 @@ public class ScoreManager : MonoBehaviour
         public Sprite BgSprite;
         public float Multiplier = 1f;
         public float Shaking = 0f;
+        public float GlitchIntencity = 0f;
     }
 
     public static ScoreManager Instance;
@@ -160,6 +161,13 @@ public class ScoreManager : MonoBehaviour
     private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
     {
         _comboLastTime = CurrentCombo > MinCombo ? ResetComboDelayOnStartLevel : 0f;
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TargetGlitchIntencity =
+                SceneList.GetCurrentSceneIsGameplay() ?
+                CurrentComboState.GlitchIntencity : 0f;
+        }
     }
 
     private void Update()
@@ -179,6 +187,13 @@ public class ScoreManager : MonoBehaviour
         else
         {
             ComboLastTime = newComboLastTime;
+        }
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TargetGlitchIntencity =
+                SceneList.GetCurrentSceneIsGameplay() ? 
+                CurrentComboState.GlitchIntencity : 0f;
         }
     }
 
