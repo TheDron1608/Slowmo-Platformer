@@ -13,7 +13,6 @@ public abstract class RangedWeapon : ThrowableWeapon
     [Header("Ranged weapon")]
     public int AmmoLeft = 10;
     public int MaxAmmo = 10;
-    public float JamChance = 0f;
     public int LoadedLivingAmmoLeft = 1;
     public int LoadedSpentAmmoLeft = 0;
     public AbstractSoundPlayer SoundOnOutOfAmmo;
@@ -164,7 +163,7 @@ public abstract class RangedWeapon : ThrowableWeapon
 
     protected override bool AttackCondition()
     {
-        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded && (!RandomManager.Instance?.ProcRandomBadChance(JamChance) ?? false);
+        return base.AttackCondition() && LoadedLivingAmmoLeft > 0 && !IsReloading && !Unloaded;
     }
 
     protected virtual bool ReloadCondition()

@@ -44,6 +44,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
     public float AttackNoiseMultiplier = 1f;
     public List<AbstractEffect> ExtraProjectileEffects = new();
     public bool IsAbleToAttack = true;
+    public float JamChance = 0f;
     public Sound OverrideAttackSound = null;
 
     private bool _isInCooldown = false;
@@ -142,7 +143,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
 
     public bool TryAttack(Vector2 direction, bool ignoreCooldown = false)
     {
-        if (AttackCondition() && (ignoreCooldown || !IsInCooldown))
+        if (AttackCondition() && (ignoreCooldown || !IsInCooldown) && (!RandomManager.Instance?.ProcRandomBadChance(JamChance) ?? false))
         {
             _attackMultipleTimesCoroutine = StartCoroutine(AttackMultipleTimes());
             return true;
