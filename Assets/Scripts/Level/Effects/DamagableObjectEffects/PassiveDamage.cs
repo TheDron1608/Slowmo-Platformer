@@ -29,7 +29,7 @@ public class PassiveDamage : AbstractDamagableObjectEffect, IMultiplierableEffec
             (AllowOnDying || (!_affectedObjectEffectsReceiver?.GetHasEffect<ILethalEffect>(true) ?? true))
             )
         {
-            AffectedDamagableObject.ApplyDamage(DamagePerSecond * EffectMultiplier * Time.fixedDeltaTime, null, 0f);
+            AffectedDamagableObject.ApplyDamage(DamagePerSecond * EffectMultiplier * Time.fixedDeltaTime, null);
         }
     }
 }

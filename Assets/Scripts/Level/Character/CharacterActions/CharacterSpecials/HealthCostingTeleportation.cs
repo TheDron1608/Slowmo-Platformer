@@ -40,6 +40,8 @@ public class HealthCostingTeleportation : AbstractCharacterSpecial
         }
         _teleporationVisualEffectCoroutine = StartCoroutine(TeleporationVisualEffect(oldPosition, position, layer));
 
+        InvokeUse();
+
         return true;
     }
 

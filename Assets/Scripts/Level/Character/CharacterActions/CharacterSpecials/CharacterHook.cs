@@ -35,6 +35,8 @@ public class CharacterHook : AbstractCharacterSpecial
 
         _isHooking = true;
 
+        InvokeUse();
+
         return true;
     }
 

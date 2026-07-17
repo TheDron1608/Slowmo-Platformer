@@ -16,7 +16,7 @@ public class LifeStealOnKill : AbstractOnKillEffect, IMultiplierableEffect
     {
         if (killedObj.TryGetComponent(out AbstractCharacterComponent killedCharacter))
         {
-            AffectedDamagableObject.ApplyDamage(-killedCharacter.CharComponents.CharacterHealth.MaxHealth * LifeStealMultiplier * EffectMultiplier, killedCharacter, 0f);
+            AffectedDamagableObject.ApplyDamage(-killedCharacter.CharComponents.CharacterHealth.MaxHealth * LifeStealMultiplier * EffectMultiplier, killedCharacter);
         }
     }
 }

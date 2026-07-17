@@ -4,7 +4,6 @@ using UnityEngine;
 public class Damage : AbstractDamagableObjectEffectWithSender
 {
     public float DamageAmount = 1f;
-    public float DamageMultiplierMultiplier = 1f;
 
     /// <summary>
     /// warning: will delete itself after invoke this function
@@ -20,7 +19,7 @@ public class Damage : AbstractDamagableObjectEffectWithSender
             }
         }
 
-        AffectedDamagableObject.ApplyDamage(DamageAmount * damageMult * DamageManager.Instance?.GlobalDamageMultiplier ?? 1f, sender, DamageMultiplierMultiplier);
+        AffectedDamagableObject.ApplyDamage(DamageAmount * damageMult * DamageManager.Instance?.GlobalDamageMultiplier ?? 1f, sender);
 
         RemoveSelf();
     }

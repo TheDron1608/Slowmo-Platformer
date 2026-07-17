@@ -258,7 +258,7 @@ public class Holdable : Interactable
 
             if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) >= SpeedToHitCharacter)
             {
-                _rigidBodyComponent.includeLayers = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).CharactersLayer;
+                _rigidBodyComponent.includeLayers = 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject)?.CharactersLayer ?? 0;
             }
             else
             {

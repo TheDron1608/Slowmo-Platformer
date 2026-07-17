@@ -30,6 +30,7 @@ public class ComboEncounter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _multiplierText;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private ShakableObject _comboInfoShaking;
+    [SerializeField] private TextMeshProUGUI _extraInfo;
 
     public Material OverrideBgMaterial
     {
@@ -39,6 +40,11 @@ public class ComboEncounter : MonoBehaviour
             _overrideBgMaterial = value;
             _comboBg.material = _overrideBgMaterial ?? _defaultBgMaterial;
         }
+    }
+
+    public TextMeshProUGUI ExtraInfo
+    {
+        get => _extraInfo;
     }
 
     private void Awake()

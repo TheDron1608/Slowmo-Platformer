@@ -32,9 +32,7 @@ public class PassiveRelativeDamage : AbstractDamagableObjectEffect, IMultipliera
             )
         {
             AffectedDamagableObject.ApplyDamage( 
-                math.max(DamageFromMaxHealthAmountPerSecond * AffectedDamagableObject.MaxHealth, MinDamage) * EffectMultiplier * Time.fixedDeltaTime, 
-                null, 
-                0f
+                math.max(DamageFromMaxHealthAmountPerSecond * AffectedDamagableObject.MaxHealth, MinDamage) * EffectMultiplier * Time.fixedDeltaTime, null
                 );
         }
     }

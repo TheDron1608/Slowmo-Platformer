@@ -36,6 +36,7 @@ public class ScoreManager : MonoBehaviour
     private float _currentMultiplier = 1f;
     private ComboState _currentComboState = null;
     private float _resetScoreEncountSpeedMultiplier = 1f;
+    private int _lastCombo = 0;
 
     public event EventHandler OnAddedCombo;
     public event EventHandler OnResetCombo;
@@ -110,6 +111,11 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    public int LastCombo
+    {
+        get => _lastCombo;
+    }
+
     public void AddCombo()
     {
         CurrentCombo++;
@@ -126,6 +132,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (CurrentCombo > MinCombo)
         {
+            _lastCombo = CurrentCombo;
             OnResetCombo?.Invoke(this, EventArgs.Empty);
             AddScore((int)math.round(CurrentCombo * CurrentMultiplier));
         }

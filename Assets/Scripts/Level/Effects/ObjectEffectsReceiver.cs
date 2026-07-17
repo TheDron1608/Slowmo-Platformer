@@ -69,8 +69,8 @@ public class ObjectEffectsReceiver : MonoBehaviour
 
     private bool _wasKilledBefore = false;
 
-
     public event EventHandler<EffectAddedEventArgs> OnEffectAdded;
+    public event EventHandler<EffectAddedEventArgs> OnEffectAddedIgnoreImmunity;
     public event EventHandler<AbstractEffect> OnEffectRemoved;
 
     public List<AbstractEffect> CurrentEffects
@@ -165,42 +165,52 @@ public class ObjectEffectsReceiver : MonoBehaviour
             }
         }
 
-        if (ApplyCondition(effect, sender) && effect.ApplyCondition(this, sender))
+        if (effect.ApplyCondition(this, sender))
         {
-            effect.gameObject.SetActive(false);
-            AbstractEffect newEffect = Instantiate(effect, transform);
-            _currentEffects.Add(newEffect);
-            if (newEffect is IMultiplierableEffect multiplierableEffect)
+            if (ApplyCondition(effect, sender))
             {
-                multiplierableEffect.EffectMultiplier = effectMultiplier;
-            }
-            if (newEffect is AbstractEffectWithSender effectWithsender)
-            {
-                effectWithsender.ApplySender(sender);
-            }
-            newEffect.gameObject.SetActive(true);
-
-            if (sender != null)
-            {
-                if (sender.TryGetComponent(out IEffectApplier effectApplier))
+                effect.gameObject.SetActive(false);
+                AbstractEffect newEffect = Instantiate(effect, transform);
+                _currentEffects.Add(newEffect);
+                if (newEffect is IMultiplierableEffect multiplierableEffect)
                 {
-                    effectApplier.InvokeOnEffectApllied(effect, this);
+                    multiplierableEffect.EffectMultiplier = effectMultiplier;
                 }
-            }
+                if (newEffect is AbstractEffectWithSender effectWithsender)
+                {
+                    effectWithsender.ApplySender(sender);
+                }
+                newEffect.gameObject.SetActive(true);
 
-            if (effect.EffectMaterial != null)
+                if (sender != null)
+                {
+                    if (sender.TryGetComponent(out IEffectApplier effectApplier))
+                    {
+                        effectApplier.InvokeOnEffectApllied(effect, this);
+                    }
+                }
+
+                if (effect.EffectMaterial != null)
+                {
+                    EffectMaterial = effect.EffectMaterial;
+                }
+
+                EffectAddedEventArgs eventArgs = new(newEffect, sender);
+                OnEffectAdded?.Invoke(this, eventArgs);
+                OnEffectAddedIgnoreImmunity?.Invoke(this, eventArgs);
+
+                if (effect is ILethalEffect)
+                {
+                    _wasKilledBefore = true;
+                }
+
+                return newEffect;
+            }
+            else
             {
-                EffectMaterial = effect.EffectMaterial;
+                OnEffectAddedIgnoreImmunity?.Invoke(this, new(effect, sender));
+                return null;
             }
-
-            OnEffectAdded?.Invoke(this, new(newEffect, sender));
-
-            if (effect is ILethalEffect)
-            {
-                _wasKilledBefore = true;
-            }
-
-            return newEffect;
         }
         else if (effect.AlternativeCharacterEffectIfResisted != null && !effect.AlternativeCharacterEffectIfResisted.Equals(effect))
         {

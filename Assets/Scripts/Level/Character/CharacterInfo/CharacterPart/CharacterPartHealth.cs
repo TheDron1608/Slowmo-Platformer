@@ -23,6 +23,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     public int ParticlesAmountOnLethal = 15;
     public List<AbstractEffect> EffectsOnHit = new();
     [SerializeField] private float _damageMultiplier = 1f;
+    [SerializeField] private float _healMultiplier = 1f;
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
@@ -38,6 +39,12 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     {
         get => _damageMultiplier;
         set => _damageMultiplier = value;
+    }
+
+    public float HealMultiplier
+    {
+        get => _healMultiplier;
+        set => _healMultiplier = value;
     }
 
     public bool PiercableThrought
@@ -78,10 +85,12 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         get => CharComponents.CharacterHealth.MinHealth;
     }
 
-    public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultplier = 1f)
+    public void ApplyDamage(float damage, MonoBehaviour damager)
     {
+        float multipliedDamage = damage * (damage > 0 ? DamageMultiplier : HealMultiplier);
+
         GetComponent<CharacterPart>().CharPartEffectsReceiver.ApplyEffect(EffectsOnHit, damager);
-        CharComponents.CharacterHealth.ApplyDamage(math.lerp(damage, damage * DamageMultiplier, damageMultiplierMultplier), damager, gameObject.GetComponent<CharacterLimbPart>());
+        CharComponents.CharacterHealth.ApplyDamage(multipliedDamage, damager, gameObject.GetComponent<CharacterLimbPart>());
 
         Vector3 hitPointPosition =
             damager.transform.position +

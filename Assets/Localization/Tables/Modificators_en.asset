@@ -1356,6 +1356,116 @@ MonoBehaviour:
     m_Localized: "\rUltimatum"
     m_Metadata:
       m_Items: []
+  - m_Id: 75017302251134976
+    m_Localized: Strong spirit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75017303815610368
+    m_Localized: '* The lower your health, the higher your regeneration, up to x{MaxRegenMult}'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75018743808253952
+    m_Localized: Growth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75018744869412864
+    m_Localized: '* Upon taking damage, you also increase your maximum health by
+      {HealthConversion}% of the damage received
+
+      * The effect resets at the
+      start of the level'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75020912133398528
+    m_Localized: Voodoo doll
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75020912976453632
+    m_Localized: '* All damage and stuns dealt to the player are also applied to
+      the attacker'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75022678266732544
+    m_Localized: Cautery
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75022678992347136
+    m_Localized: '* If your ability consumes health, your regeneration increases
+      by x{RegenMult}% for {RegenDuration} seconds'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75023891905372160
+    m_Localized: Bloody prize
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75023892677124096
+    m_Localized: '* Resetting a combo increases regeneration by {RegenMult}% per
+      combo
+
+      * Regeneration decreases by {RegenReduction}% every second'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75027805191004160
+    m_Localized: '* Increasing regeneration also increases maximum health by +1 for
+      every +{HealthPerRegen}% regeneration'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75027804490555392
+    m_Localized: Strength
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75028287959588864
+    m_Localized: Strongman
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75028569208643584
+    m_Localized: Steel body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75028574938062848
+    m_Localized: Large idol
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75028289746362368
+    m_Localized: '* x{HealthUp}% health'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75028570865393664
+    m_Localized: '* x{HealthUp}% health'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75028576200548352
+    m_Localized: '* x{HealthUp}% health'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75030451406757888
+    m_Localized: '* Your maximum health increases by {HealthConversion}% of the total
+      health of all living enemies on screen'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
+  - m_Id: 75030450429485056
+    m_Localized: Health sharing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75031838689583104
+    m_Localized: Scrap metal recycling
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75031839360671744
+    m_Localized: '* Each time you break an enemy''s armor, you restore {HealthPerBreak}
+      health'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1440,3 +1550,13 @@ MonoBehaviour:
         - id: 54902327492190208
         - id: 55102672889683968
         - id: 55627910698213376
+        - id: 75017303815610368
+        - id: 75023892677124096
+        - id: 75022678992347136
+        - id: 75031839360671744
+        - id: 75028289746362368
+        - id: 75028570865393664
+        - id: 75028576200548352
+        - id: 75030451406757888
+        - id: 75018744869412864
+        - id: 75027805191004160

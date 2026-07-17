@@ -94,12 +94,7 @@ public class SpawnManager : MonoBehaviour
             }
 
             PlayerCharacterHoldable = saveHoldable;
-            if (PlayerCharacterHoldable?.gameObject.scene.name != null)
-            {
-                PlayerCharacterHoldable.gameObject.SetActive(false);
-                PlayerCharacterHoldable.transform.SetParent(transform);
-                PlayerCharacterHoldable.transform.position = new Vector3(-999999, -999999, -999999);
-            }
+            PlayerCharacterHoldable?.transform.SetParent(transform);
         }
         else if (!KeepHoldableOnFinishLevel && PlayerCharacterHoldable != null)
         {
@@ -146,6 +141,19 @@ public class SpawnManager : MonoBehaviour
         else
         {
             return null;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (PlayerCharacterHoldable != null && !PlayerCharacterHoldable.IsDestroyed())
+        {
+            PlayerCharacterHoldable.gameObject.SetActive(false);
+            PlayerCharacterHoldable.transform.SetParent(transform);
+        }
+        else
+        {
+            PlayerCharacterHoldable = null;
         }
     }
 

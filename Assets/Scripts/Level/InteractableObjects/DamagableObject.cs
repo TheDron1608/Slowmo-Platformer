@@ -16,6 +16,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     [SerializeField] private float _minHealth = 0f;
     [SerializeField] private float _currentHealth = 10f;
     [SerializeField] private float _damageMultiplier = 1f;
+    [SerializeField] private float _healMultiplier = 1f;
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
@@ -36,6 +37,13 @@ public class DamagableObject : MonoBehaviour, IDamagable
         get => _damageMultiplier;
         set => _damageMultiplier = value;
     }
+
+    public float HealMultiplier
+    {
+        get => _healMultiplier;
+        set => _healMultiplier = value;
+    }
+
     public bool PiercableThrought
     {
         get => _piercableThrought;
@@ -102,8 +110,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
         _defaultLethalEffects = EffectsOnLethal;
     }
 
-    public void ApplyDamage(float damage, MonoBehaviour damager, float damageMultiplierMultiplier = 1f)
+    public void ApplyDamage(float damage, MonoBehaviour damager)
     {
+        float multipliedDamage = damage * (damage > 0 ? DamageMultiplier : HealMultiplier);
+
         if (damager != null && !damager.IsDestroyed())
         {
             //spawning particles on hit
@@ -134,7 +144,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
             }
         }
 
-        SetHealth(CurrentHealth - damage, damager);
+        SetHealth(CurrentHealth - multipliedDamage, damager);
     }
 
     public void SetHealth(float health, MonoBehaviour setter)

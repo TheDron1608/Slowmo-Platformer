@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class AbstractCharacterSpecial : AbstractCharacterComponent
 {
@@ -7,6 +8,8 @@ public abstract class AbstractCharacterSpecial : AbstractCharacterComponent
     public float HealthCost = 0f;
     public int ComboCost = 0;
     public bool IsAbleToDoSpecial = true;
+
+    public event EventHandler OnUsed;
 
     public bool GetHasEnoughForCost()
     {
@@ -24,5 +27,10 @@ public abstract class AbstractCharacterSpecial : AbstractCharacterComponent
 
         CharComponents.CharacterHealth.ApplyDamage(HealthCost, null);
         ScoreManager.Instance.CurrentCombo -= ComboCost;
+    }
+
+    protected void InvokeUse()
+    {
+        OnUsed?.Invoke(this, EventArgs.Empty);
     }
 }

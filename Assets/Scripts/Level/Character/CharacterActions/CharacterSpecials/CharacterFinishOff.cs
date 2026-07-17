@@ -34,7 +34,7 @@ public class CharacterFinishOff : AbstractCharacterSpecial
         if (FinishOffCondition(character) && !IsFinishingOff)
         {
             StartCoroutine(FinishOffCoroutine(character));
-
+            InvokeUse();
             return true;
         }
         else

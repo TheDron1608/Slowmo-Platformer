@@ -65,6 +65,7 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
         _disableSelfAtLateUpdateThisFrame = true;
 
         SpendCost();
+        InvokeUse();
         return true;
     }
 

@@ -44,6 +44,7 @@ public class CharacterTeleportation : AbstractCharacterSpecial
         _teleporationVisualEffectCoroutine = StartCoroutine(TeleporationVisualEffect(oldPosition, position, layer));
 
         SpendCost();
+        InvokeUse();
         return true;
     }
 
