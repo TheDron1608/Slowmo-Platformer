@@ -182,7 +182,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     {
         if (
             _currentHoldObject != null &&
-            _currentHoldObject.HoldDistanceWhenIsHolded > 0.05f &&
+            _currentHoldObject.HoldDistanceWhenIsHolded + _currentHoldObject.ExtraHoldDistance > 0.05f &&
             Vector2.Distance(Camera.main.transform.position, _currentHoldObject.transform.position) < DISTANCE_TO_CAMERA_TO_DISABLE_HOLDABLE_WALL_COLLISION
             )
         {
@@ -194,7 +194,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             RaycastHit2D hit = Physics2D.Raycast(
                 CharComponents.Center.transform.position,
                 currentAim,
-                _currentHoldObject.HoldDistanceWhenIsHolded + holdableColliderLength,
+                _currentHoldObject.HoldDistanceWhenIsHolded + _currentHoldObject.ExtraHoldDistance + holdableColliderLength,
                 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
                 );
 
@@ -239,7 +239,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
         Vector2 holdObjectPositionXY = Vector2.Lerp(
             _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
-            VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded),
+            VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded  + _currentHoldObject.ExtraHoldDistance),
             CharComponents.CharacterAiming.AimSpeed * Time.fixedDeltaTime
             );
 

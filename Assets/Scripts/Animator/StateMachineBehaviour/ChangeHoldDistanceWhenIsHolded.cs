@@ -8,7 +8,7 @@ public class ChangeHoldDistanceWhenIsHolded : StateMachineBehaviour
     {
         if (animator.TryGetComponent(out Holdable holdable))
         {
-            holdable.HoldDistanceWhenIsHolded += ChangeDistanceRange;
+            holdable.ExtraHoldDistance += ChangeDistanceRange;
         }
     }
 
@@ -16,7 +16,7 @@ public class ChangeHoldDistanceWhenIsHolded : StateMachineBehaviour
     {
         if (animator.TryGetComponent(out Holdable holdable))
         {
-            holdable.HoldDistanceWhenIsHolded -= ChangeDistanceRange;
+            holdable.ExtraHoldDistance -= ChangeDistanceRange;
         }
     }
 }

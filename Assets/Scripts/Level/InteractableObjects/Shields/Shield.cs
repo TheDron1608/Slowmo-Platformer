@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 [RequireComponent(typeof(Holdable))]
 public class Shield : DamagableObject, IThrowableIteractableObj
@@ -41,8 +42,9 @@ public class Shield : DamagableObject, IThrowableIteractableObj
         if (!TryGetComponent(out _holdableComponent)) throw new UnityException("Holdable component not found at " + gameObject.name);
 
         _defaultHoldDistance = _holdableComponent.HoldDistanceWhenIsHolded;
+        _holdableComponent.HoldDistanceWhenIsHolded = Raised ? _defaultHoldDistance : 0f;
         _holdableComponent.GetComponent<Renderer>().sortingOrder -= ORDER_IN_LAYER_ON_RAISED_CHNGE;
-        _holdableComponent.HoldDistanceWhenIsHolded = 0f;
+        _holdableComponent.ExtraHoldDistance = 0f;
     }
 
     public bool Raised

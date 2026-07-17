@@ -58,6 +58,7 @@ public class Holdable : Interactable
     private CharacterComponentsManager _excludedCollideThrower;
     private string _localizedName = "";
     private List<AbstractEffect> _appliedHolderEffects = new();
+    private float _extraHoldDistance = 0f;
 
     public event EventHandler<CharacterHoldingObjects> OnGiven;
     public event EventHandler<OnThrownEventArgs> OnThrown;
@@ -204,6 +205,12 @@ public class Holdable : Interactable
     public void SetLocalizedName(string value)
     {
         _localizedName = value;
+    }
+
+    public float ExtraHoldDistance
+    {
+        get => _extraHoldDistance;
+        set => _extraHoldDistance = value;
     }
 
     public bool GetIsThrown()

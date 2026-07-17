@@ -14,18 +14,18 @@ public class ShakeHoldDistanceWhenIsHolded : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _holdableComponent.HoldDistanceWhenIsHolded -= _previousShakeDistance;
+        _holdableComponent.ExtraHoldDistance -= _previousShakeDistance;
 
         float newShakeDistance = Random.value * ChangeDistanceRange;
 
-        _holdableComponent.HoldDistanceWhenIsHolded += newShakeDistance;
+        _holdableComponent.ExtraHoldDistance += newShakeDistance;
 
         _previousShakeDistance = newShakeDistance;
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _holdableComponent.HoldDistanceWhenIsHolded -= _previousShakeDistance;
+        _holdableComponent.ExtraHoldDistance -= _previousShakeDistance;
         _previousShakeDistance = 0f;
     }
 }
