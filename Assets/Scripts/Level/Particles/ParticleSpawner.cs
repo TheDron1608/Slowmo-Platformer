@@ -76,7 +76,8 @@ public class ParticleSpawner : MonoBehaviour
         Material material,
         ZIndexLayer layer,
         int amount,
-        float accuracy = 1f
+        float accuracy = 1f,
+        bool enablePhysics = true
         )
     {
         float particleMultiplier = CalculateParticleAmountGlobalMultiplierByParticle(particles.FirstOrDefault());
@@ -92,7 +93,8 @@ public class ParticleSpawner : MonoBehaviour
                 NumberMath.PickRandomInRangeNoSeed(minSpawnVelocity, maxSpawnVelocity) * particleMultiplier * PARTICLE_VELOCITY_ON_AMOUNT_MULTIPLIER_DEPENDENCE,
                 NumberMath.PickRandomInRangeNoSeed(minSpawnAngularVelocity, maxSpawnAngularVelocity),
                 material,
-                layer
+                layer,
+                enablePhysics
                 ));
         }
 
@@ -107,7 +109,8 @@ public class ParticleSpawner : MonoBehaviour
         float spawnVelocity,
         float spawnAngularVelocity,
         Material material,
-        ZIndexLayer layer
+        ZIndexLayer layer,
+        bool enablePhysics = true
         )
     {
         AbstractParticle spawnParticle = ParticlesManager.Instance.GetUnusedParticle(particle);
@@ -120,7 +123,8 @@ public class ParticleSpawner : MonoBehaviour
             spawnVelocity,
             spawnAngularVelocity,
             material,
-            layer
+            layer,
+            enablePhysics
             );
 
         return spawnParticle;

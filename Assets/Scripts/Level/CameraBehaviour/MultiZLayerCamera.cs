@@ -1,5 +1,6 @@
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MultiZLayerCamera : MonoBehaviour
@@ -56,15 +57,21 @@ public class MultiZLayerCamera : MonoBehaviour
         if (_cameraTrackComponent.TrackTargets.Count > 0)
         {
             ZIndexLayer maxZLayer = null;
-            foreach (var trackTarget in _cameraTrackComponent.TrackTargets)
+            for (int i = 0; i < _cameraTrackComponent.TrackTargets.Count; i++)
             {
-                ZIndexLayer currentTrackTargetZLayer = LayerManager.Instance.GetZLayerOfGameObject(_cameraTrackComponent.TrackTargets[0].gameObject);
+                if (_cameraTrackComponent.TrackTargets[i].IsDestroyed()) continue;
+
+                ZIndexLayer currentTrackTargetZLayer = LayerManager.Instance.GetZLayerOfGameObject(_cameraTrackComponent.TrackTargets[i].gameObject);
                 if ((maxZLayer?.ZIndex ?? int.MinValue) < currentTrackTargetZLayer.ZIndex)
                 {
                     maxZLayer = currentTrackTargetZLayer;
                 }
             }
-            CurrentZLayer = maxZLayer;
+
+            if (maxZLayer != null)
+            {
+                CurrentZLayer = maxZLayer;
+            }
         }
     }
 }

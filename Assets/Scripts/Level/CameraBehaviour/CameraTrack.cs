@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraTrack : MonoBehaviour
@@ -51,6 +52,16 @@ public class CameraTrack : MonoBehaviour
         }
         else
         {
+            for (int i = 0; i < TrackTargets.Count; i++)
+            {
+                //clean from nulls and destroyed objects
+                if (TrackTargets[i]?.IsDestroyed() ?? true)
+                {
+                    TrackTargets.RemoveAt(i);
+                    i--;
+                }
+            }
+
             Vector3 trackTargetPosition = PickAvgTrackTargetsPosition();
             Vector2 trackTargetVelocity = PickAvgTrackTargetLinearVelocity();
 

@@ -16,15 +16,16 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     public List<GameObject> SpawnObjectsOnBreak = new();
     public float RemoveObjectOnBreakVelocity = 3.5f;
     public float RemoveObjectOnBreakMaxRandomAngularVelocity = 360f;
+    public List<AbstractEffect> SelfEffectsOnBreak = new();
 
     [SerializeField] private List<AbstractParticle> _partcilesOnBreak;
     public AbstractSoundPlayer SoundOnBreak;
 
-    private List<Holdable> _stuckedObjects = new();
+    private List<IStuckableObject> _stuckedObjects = new();
 
     public event EventHandler<MonoBehaviour> OnBroken;
 
-    public List<Holdable> StuckedObjects
+    public List<IStuckableObject> StuckedObjects
     {
         get => _stuckedObjects;
     }
@@ -35,20 +36,20 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         set => _partcilesOnBreak = value;
     }
 
-    public virtual void AddStuckedObject(Holdable obj)
+    public virtual void AddStuckedObject(IStuckableObject obj)
     {
         _stuckedObjects.Add(obj);
         StuckTrackTarget.CreateTrack(obj, transform);
     }
 
-    public virtual void RemoveStuckedObject(Holdable obj)
+    public virtual void RemoveStuckedObject(IStuckableObject obj)
     {
         _stuckedObjects.Remove(obj);
     }
 
     public virtual void BreakObject(MonoBehaviour breaker)
     {
-        ReleaseObjectsInside();
+        ReleaseObjectsInsideAndApplyEffects();
 
         BreakObjectVisualOnly(breaker);
 
@@ -63,8 +64,13 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         RemoveAllStuckedObjects();
     }
 
-    public void ReleaseObjectsInside()
+    public void ReleaseObjectsInsideAndApplyEffects()
     {
+        if (TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
+        {
+            effectsReceiver.ApplyEffect(SelfEffectsOnBreak, null);
+        }
+
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         Vector2 spawnPosition = TryGetComponent(out Collider2D collider) ? GameObjectUtility.GetCenterOfCollider(collider) : transform.position;
 
@@ -99,13 +105,16 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     {
         for (int i = 0; i < _stuckedObjects.Count; i++)
         {
-            Holdable stuckObject = _stuckedObjects[i];
+            IStuckableObject stuckObject = _stuckedObjects[i];
             if (stuckObject == null) continue;
 
             stuckObject.StuckedToCollider = null;
-            if (stuckObject.TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
+            if ((stuckObject as MonoBehaviour).TryGetComponent(out Rigidbody2D stuckObjectRigidBody))
             {
-                stuckObjectRigidBody.linearVelocity = VectorMath.GetAngleToAsNormalizedVec2(TryGetComponent(out Collider2D collider) ? GameObjectUtility.GetCenterOfCollider(collider) : transform.position, stuckObject.transform.position) * RemoveObjectOnBreakVelocity * stuckObject.ThrowForceMultiplier;
+                (stuckObject as MonoBehaviour).TryGetComponent(out Holdable stuckedHoldable);
+                stuckObjectRigidBody.linearVelocity = VectorMath.GetAngleToAsNormalizedVec2(TryGetComponent(out Collider2D collider) ? 
+                    GameObjectUtility.GetCenterOfCollider(collider) : 
+                    transform.position, (stuckObject as MonoBehaviour).transform.position) * RemoveObjectOnBreakVelocity * (stuckedHoldable?.ThrowForceMultiplier ?? 1f);
                 stuckObjectRigidBody.angularVelocity = RemoveObjectOnBreakMaxRandomAngularVelocity * (UnityEngine.Random.value * 2 - 1);
             }
         }

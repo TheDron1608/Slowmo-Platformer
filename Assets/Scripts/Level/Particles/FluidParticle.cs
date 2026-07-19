@@ -96,7 +96,8 @@ public class FluidParticle : AbstractSpriteParticle
         float velocity,
         float angularVelocity,
         Material material,
-        ZIndexLayer layer
+        ZIndexLayer layer,
+        bool enablePhysics = true
         )
     {
         base.SetParticleAttrs(original, position, direction, angle, velocity, angularVelocity, material, layer);

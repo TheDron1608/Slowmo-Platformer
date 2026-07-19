@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [DefaultExecutionOrder(1)]
 public class RangedProjectile : AbstractProjectile
@@ -14,6 +15,7 @@ public class RangedProjectile : AbstractProjectile
     const float REMOVE_PARTICLE_EFFECT_ANGULAR_VELOCITY = 960f;
     const float REMOVE_PARTICLE_EFFECT_ACCURACY = 0.8f;
     const float REMOVE_PARTICLE_EFFECT_DIRECTION_UP_OFFSET = 2f;
+    const float MIN_DISTANCE_FROM_SPAWN_POSITION_TO_CREATE_STUCK_PARTICLE = 1.5f;
     const string PROJECTILE_TIP_GAMEOBJECT_NAME = "ProjectileTip";
 
     public float BulletSpeed = 35f;
@@ -24,6 +26,7 @@ public class RangedProjectile : AbstractProjectile
     public int MaxPierces = 0; //times projectiles will not doestroy iteself if gibs or cuts off damaged character
     public List<AbstractParticle> ParticlesOnWallHit = new();
     public AbstractParticle ParticleOnFaliedPierce;
+    public PhysicsParticle ParticleOnHit;
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
@@ -31,6 +34,7 @@ public class RangedProjectile : AbstractProjectile
     private Vector3 _positionPreviousFrame;
     private ZIndexLayer _layer;
     private int _hitLayerMask;
+    private Vector2 _spawnPosition;
 
     private float _rangeMoved = 0f;
     private float _piercesLeft;
@@ -89,11 +93,13 @@ public class RangedProjectile : AbstractProjectile
         ParticlesOnWallHit = rangedOriginal.ParticlesOnWallHit;
         ParticleOnFaliedPierce = rangedOriginal.ParticleOnFaliedPierce;
         ShotNoiseDistance = rangedOriginal.ShotNoiseDistance;
+        ParticleOnHit = rangedOriginal.ParticleOnHit;
 
         _rangeMoved = 0f;
         _piercesLeft = MaxPierces;
         _timeSinceHomingTargetUpdate = 0f;
         _currentHomingTarget = null;
+        _spawnPosition = position;
 
         InitEffects(original, weapon);
 
@@ -232,12 +238,9 @@ public class RangedProjectile : AbstractProjectile
 
         GameObjectUtility.TryGetComponentInSelfOrParent(hitObject, out IDamagable damagableHitobject);
         GameObjectUtility.TryGetComponentInSelfOrParent(hitObject, out ObjectEffectsReceiver effectableHitobject);
+        hitObject.TryGetComponent(out Collider2D hitObjectCollider);
 
-        if (_piercesLeft > 0 && (damagableHitobject?.PiercableThrought ?? false))
-        {
-            _piercesLeft--;
-        }
-        else if (_failedPierceThisFrame && hitObject.TryGetComponent(out Collider2D hitObjectCollider))
+        if (_failedPierceThisFrame && hitObjectCollider != null)
         {
             /*Vector2 ricochetDirection = (hitObjectCollider.ClosestPoint(transform.position) - VectorMath.Vec3ToVec2(transform.position)).normalized;
             if (ricochetDirection != Vector2.zero && VectorMath.GetMinAngle(MoveAlignVec2, ricochetDirection) > RICOCHET_MIN_ANGLE)
@@ -248,10 +251,22 @@ public class RangedProjectile : AbstractProjectile
             {
                 RemoveProjectileWithParticleEffect(hitObjectCollider);
             }*/
-            RemoveProjectileWithParticleEffect(hitObjectCollider);
+            FailedPierceParticleEffect(hitObjectCollider);
+
+            RemoveProjectile();
+        }
+
+        if (_piercesLeft > 0 && (damagableHitobject?.PiercableThrought ?? false))
+        {
+            _piercesLeft--;
         }
         else if (!_wasDeflectedThisFrame)
         {
+            if (ParticleOnHit != null && hitObjectCollider != null)
+            {
+                StuckParticleEffect(hitObjectCollider);
+            }
+
             RemoveProjectile();
         }
     }
@@ -283,7 +298,7 @@ public class RangedProjectile : AbstractProjectile
         transform.parent = ProjectilesManager.Instance.UnusedRangedProjectilesContainer;
     }
 
-    public void RemoveProjectileWithParticleEffect(Collider2D hitTo)
+    public void FailedPierceParticleEffect(Collider2D hitTo)
     {
         ParticleSpawner.SpawnParticle(
             ParticleOnFaliedPierce,
@@ -298,7 +313,32 @@ public class RangedProjectile : AbstractProjectile
             TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : null,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject)
             );
+    }
 
-        RemoveProjectile();
+    public void StuckParticleEffect(Collider2D hitTo)
+    {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+
+        if (hitTo is TilemapCollider2D && Vector2.Distance(_spawnPosition, transform.position) < MIN_DISTANCE_FROM_SPAWN_POSITION_TO_CREATE_STUCK_PARTICLE) return;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, MoveAlignVec2, 5f, (1 << layer.EnviromentLayer) | (1 << layer.CharactersLayer) | (1 << layer.HitableHoldablesLayer));
+        if (hit.collider == null) return;
+
+        PhysicsParticle newParticle = ParticleSpawner.SpawnParticle(
+            ParticleOnHit,
+            hit.point,
+            MoveAlignVec2,
+            MoveAlign.eulerAngles.z,
+            NumberMath.PickRandomInRangeNoSeed(REMOVE_PARTICLE_EFFECT_MIN_VELOCITY_MULT, REMOVE_PARTICLE_EFFECT_MAX_VELOCITY_MULT),
+            NumberMath.PickRandomInRangeNoSeed(-REMOVE_PARTICLE_EFFECT_ANGULAR_VELOCITY, REMOVE_PARTICLE_EFFECT_ANGULAR_VELOCITY),
+            TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : null,
+            LayerManager.Instance.GetZLayerOfGameObject(gameObject),
+            false
+            ) as PhysicsParticle;
+
+        if (newParticle != null)
+        {
+            newParticle.StuckedToCollider = hit.collider;
+        }
     }
 }

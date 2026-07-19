@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class StuckTrackTarget : MonoBehaviour
 {
-    public static StuckTrackTarget CreateTrack(Holdable stuckedObject, Transform stuckTo)
+    public static StuckTrackTarget CreateTrack(IStuckableObject stuckedObject, Transform stuckTo)
     {
         GameObject newGO = new("StuckTrackTarget_" + stuckedObject);
         newGO.transform.SetParent(stuckTo);
-        newGO.transform.position = stuckedObject.transform.position;
-        newGO.transform.rotation = stuckedObject.transform.rotation;
+        newGO.transform.position = (stuckedObject as MonoBehaviour).transform.position;
+        newGO.transform.rotation = (stuckedObject as MonoBehaviour).transform.rotation;
 
         StuckTrackTarget newGOStuckTrackTarget = newGO.AddComponent<StuckTrackTarget>();
         newGOStuckTrackTarget.StuckedObject = stuckedObject;
@@ -17,7 +17,7 @@ public class StuckTrackTarget : MonoBehaviour
         return newGOStuckTrackTarget;
     }
 
-    public Holdable StuckedObject;
+    public IStuckableObject StuckedObject;
     public Transform StuckTo;
 
     private void Update()
@@ -28,8 +28,8 @@ public class StuckTrackTarget : MonoBehaviour
         }
         else
         {
-            StuckedObject.transform.position = transform.position;
-            StuckedObject.transform.rotation = transform.rotation;
+            (StuckedObject as MonoBehaviour).transform.position = transform.position;
+            (StuckedObject as MonoBehaviour).transform.rotation = transform.rotation;
         }
     }
 }

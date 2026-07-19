@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
-public class PhysicsParticle : AbstractSpriteParticle
+public class PhysicsParticle : AbstractSpriteParticle, IStuckableObject
 {
     protected Rigidbody2D _rigidBodyComponent;
     private bool _enabledPhysics = true;
+    private Collider2D _stuckedToCollider = null;
 
     public bool EnabledPhysics
     {
@@ -15,6 +16,37 @@ public class PhysicsParticle : AbstractSpriteParticle
         }
     }
 
+    public Collider2D StuckedToCollider 
+    { 
+        get => _stuckedToCollider; 
+        set
+        {
+            if (value != null)
+            {
+                if (value.TryGetComponent(out IStuckToObject stuckToObject))
+                {
+                    _stuckedToCollider = value;
+                    stuckToObject.AddStuckedObject(this);
+                }
+                else if (value.TryGetComponent(out AbstractCharacterComponent charComponent))
+                {
+                    _stuckedToCollider = charComponent.CharComponents.CharacterRigidBodyCapsuleCollider;
+                    charComponent.CharComponents.CharacterStuckedObjects.AddStuckedObject(this);
+                }
+                else
+                {
+                    _stuckedToCollider = value;
+                }
+            }
+            else
+            {
+                _stuckedToCollider = null;
+            }
+
+            EnabledPhysics = _stuckedToCollider == null;
+        }
+    }
+
     public override void SetParticleAttrs(
         AbstractParticle original,
         Vector2 position,
@@ -23,7 +55,8 @@ public class PhysicsParticle : AbstractSpriteParticle
         float velocity,
         float angularVelocity,
         Material material,
-        ZIndexLayer layer
+        ZIndexLayer layer,
+        bool enablePhysics = true
         )
     {
         base.SetParticleAttrs(original, position, direction, angle, velocity, angularVelocity, material, layer);
@@ -43,7 +76,8 @@ public class PhysicsParticle : AbstractSpriteParticle
 
         _rigidBodyComponent.linearVelocity = direction * velocity;
         _rigidBodyComponent.angularVelocity = angularVelocity;
-        EnabledPhysics = true;
+        StuckedToCollider = null;
+        EnabledPhysics = enablePhysics;
     }
 
 

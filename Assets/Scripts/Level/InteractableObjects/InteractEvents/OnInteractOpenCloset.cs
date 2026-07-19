@@ -31,7 +31,7 @@ public class OnInteractOpenCloset : Interactable
 
             if (TryGetComponent(out BreakableObject breakable))
             {
-                breakable.ReleaseObjectsInside();
+                breakable.ReleaseObjectsInsideAndApplyEffects();
             }
         }
     }

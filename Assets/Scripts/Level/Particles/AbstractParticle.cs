@@ -17,7 +17,8 @@ public abstract class AbstractParticle : MonoBehaviour
         float velocity,
         float angularVelocity,
         Material material,
-        ZIndexLayer layer
+        ZIndexLayer layer,
+        bool enablePhysics = true
         )
     {
         IsSpawned = true;

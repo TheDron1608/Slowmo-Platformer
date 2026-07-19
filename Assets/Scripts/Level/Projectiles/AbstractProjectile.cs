@@ -181,7 +181,14 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     protected virtual void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
     {
         transform.rotation = direction;
-        transform.position = weapon.ProjectileSpawnPosition.transform.position;
+        if (weapon != null)
+        {
+            transform.position = weapon.ProjectileSpawnPosition.transform.position;
+        }
+        else
+        {
+            transform.position = new Vector3(position.x, position.y, layer.transform.position.z);
+        }
 
         gameObject.SetActive(true);
 

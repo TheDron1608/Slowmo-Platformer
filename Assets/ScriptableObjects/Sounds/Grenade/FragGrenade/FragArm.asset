@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7293eb3147a4594459313393f5f33fb1, type: 3}
+  m_Name: FragArm
+  m_EditorClassIdentifier: Assembly-CSharp::Sound
+  AudioClips:
+  - {fileID: 8300000, guid: ba7f1fd34f0d48e4681146415b0afa1e, type: 3}
+  RandomPitchSpread: 0.1

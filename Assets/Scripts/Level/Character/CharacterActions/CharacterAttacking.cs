@@ -11,6 +11,7 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
     [SerializeField] private bool _isAbleToHammer = true;
     [SerializeField] private bool _isAbleToStartChainsaw = true;
     [SerializeField] private bool _isAbleToShield = true;
+    [SerializeField] private bool _isAbleToArmGrenade = true;
     public float AttackCooldownMultiplier = 1f;
     public List<AbstractEffect> ExtraProjectileEffects = new();
 
@@ -56,6 +57,11 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
             }
             _isAbleToShield = value;
         }
+    }
+    public bool IsAbleToArmGrenade
+    {
+        get => _isAbleToArmGrenade;
+        set => _isAbleToArmGrenade = value;
     }
 
     private void OnEnable()
@@ -209,6 +215,18 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
         }
     }
 
+    public bool TryArmGrenade()
+    {
+        if (IsAbleToArmGrenade && CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out OnInteractArmGrenade grenade))
+        {
+            return grenade.TryInteract(gameObject);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void CharacterVisual_OnBusyStateChanged(object sender, CharacterVisual.OnBusyStateChangedEventArgs e)
     {
         if (e.OldState == CharacterVisual.CharacterPartBusyStates.CLUMSY_MELEE_ATTACK && e.NewState == CharacterVisual.CharacterPartBusyStates.NONE && _awaitingMeleeAttackDirection.HasValue)
@@ -308,6 +326,8 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
         if (TryStartChainsaw()) return true;
 
         if (TryAttack(direction)) return true;
+
+        if (TryArmGrenade()) return true;
 
         return false;
     }

@@ -5,7 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Holdable : Interactable
+public class Holdable : Interactable, IStuckableObject
 {
     const int ON_GRAB_SORTING_ORDER_ADD = 200;
     const float STUCK_IN_WALL_STRINGHT = 40f;
