@@ -29,6 +29,12 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         get => _stuckedObjects;
     }
 
+    public List<AbstractParticle> ParticlesOnBreak
+    {
+        get => _partcilesOnBreak;
+        set => _partcilesOnBreak = value;
+    }
+
     public virtual void AddStuckedObject(Holdable obj)
     {
         _stuckedObjects.Add(obj);

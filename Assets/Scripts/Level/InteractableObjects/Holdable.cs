@@ -34,11 +34,13 @@ public class Holdable : Interactable
     public float SpeedToHitCharacter = 7.5f;
     public float SpeedToGetThrough = 15f;
     public List<AbstractEffect> EffectsOnThrowHit = new();
+    public bool BreakSelfOnCollide = false;
     //public AbstractSoundPlayer SoundOnPickedUp;
     //public AbstractSoundPlayer SoundOnThrown;
     public Sound SoundOnCollide;
     public Sound SoundOnStuck;
     [SerializeField] private bool _hitableWhenIsHolded = false;
+    [SerializeField] private bool _hitableWhenIsThrown = false;
 
     private CharacterHoldingObjects _currentHolder = null;
     private CharacterHoldingObjects _lastHolder = null;
@@ -184,7 +186,9 @@ public class Holdable : Interactable
 
     public bool GetIsHitableNow()
     {
-        return _hitableWhenIsHolded && CurrentHolder != null;
+        return
+            (_hitableWhenIsHolded && CurrentHolder != null) ||
+            (_hitableWhenIsThrown && CurrentHolder == null);
     }
 
     public ObjectEffectsReceiver EffectsReceiver
@@ -322,6 +326,11 @@ public class Holdable : Interactable
         if (_enableGravityCoroutine != null)
         {
             StopCoroutine(_enableGravityCoroutine);
+        }
+
+        if (BreakSelfOnCollide && GetIsDangerouslyFast() && TryGetComponent(out BreakableObject breakable))
+        {
+            breakable.BreakObject(CurrentOrLastHolder);
         }
     }
 
