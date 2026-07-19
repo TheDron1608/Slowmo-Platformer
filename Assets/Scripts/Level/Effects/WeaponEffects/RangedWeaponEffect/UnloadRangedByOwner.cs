@@ -22,7 +22,7 @@ public class UnloadRangedByOwner : AbstractRangedWeaponEffect
     {
         if (RangedWeapon.TryGetComponent(out Holdable holdableWeapon) && holdableWeapon.CurrentHolder != null)
         {
-            if (RangedWeapon.GetIsOutOfAmmo())
+            if (RangedWeapon.GetIsOutOfAmmo() && !RangedWeapon.IsUnloading)
             {
                 holdableWeapon.CurrentHolder.TryThrow(
                     new Vector2(holdableWeapon.CurrentHolder.CharComponents.CharacterVisual.FlippedH ? 1f : -1f, 1f),

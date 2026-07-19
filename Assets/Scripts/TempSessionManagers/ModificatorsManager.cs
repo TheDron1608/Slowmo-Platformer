@@ -266,7 +266,7 @@ public class ModificatorsManager : MonoBehaviour
             newModificator.OnModificatorAdded();
         }
 
-        if (modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE)
+        if (modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE && SessionManager.Instance != null)
         {
             SessionManager.Instance.CurrentSession.TotalObtainedCurses++;
         }

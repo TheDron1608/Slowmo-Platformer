@@ -34,7 +34,7 @@ public class HammerBulletReloadingWeapon : BulletReloadingWeapon
 
     public bool TrySetHammered(bool value)
     {
-        if (Hammered || IsReloading) return false;
+        if (Hammered || IsReloading || IsUnloading) return false;
 
         _animator.SetBool(ANIMATOR_IS_HAMMERRED_PROP_NAME, value);
 

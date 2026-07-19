@@ -276,11 +276,13 @@ MonoBehaviour:
   AccuracyMultiplier: 0.975
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  JamChance: 0
+  OverrideAttackSound: {fileID: 0}
   AmmoLeft: 60
   MaxAmmo: 120
-  JamChance: 0
   LoadedLivingAmmoLeft: 61
   LoadedSpentAmmoLeft: 0
   SoundOnOutOfAmmo: {fileID: 5888475996446338379}
@@ -289,7 +291,8 @@ MonoBehaviour:
   _magSize: 60
   GameplayUIMagSprite: {fileID: 21300000, guid: b6afee699276cce4fab88f8e692bb155, type: 3}
   ReloadBulletSound: {fileID: 9098427846171706587}
-  UnloadBulletSound: {fileID: 0}
+  UnloadBulletSound: {fileID: 8048264217860188350}
+  _bulletLoadedInChamber: 0
 --- !u!114 &5888475996446338379 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4062927577930290922, guid: 0fc57fb65423c53459fd280764125582, type: 3}
@@ -304,6 +307,17 @@ MonoBehaviour:
 --- !u!114 &7753666909955044063 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 162398254517406078, guid: 0fc57fb65423c53459fd280764125582, type: 3}
+  m_PrefabInstance: {fileID: 7627543761319721889}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559c9653b7826a246bd169f5741788bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8048264217860188350 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 462559084348855071, guid: 0fc57fb65423c53459fd280764125582, type: 3}
   m_PrefabInstance: {fileID: 7627543761319721889}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

@@ -146,14 +146,10 @@ public class SpawnManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (PlayerCharacterHoldable != null && !PlayerCharacterHoldable.IsDestroyed())
+        if (PlayerCharacterHoldable != null && !PlayerCharacterHoldable.IsDestroyed() && PlayerCharacterHoldable.gameObject.scene.name == "DontDestroyOnLoad")
         {
             PlayerCharacterHoldable.gameObject.SetActive(false);
             PlayerCharacterHoldable.transform.SetParent(transform);
-        }
-        else
-        {
-            PlayerCharacterHoldable = null;
         }
     }
 

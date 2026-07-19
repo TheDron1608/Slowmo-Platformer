@@ -71,11 +71,26 @@ public class BulletReloadingWeapon : RangedWeapon
         return LoadedLivingAmmoLeft <= 0;
     }
 
+    public virtual void OnLoadFinishNoAmmo()
+    {
+        if (_isUnloadingAllBullets)
+        {
+            if (GetIsOutOfAmmo())
+            {
+                _isUnloadingAllBullets = false;
+            }
+            else
+            {
+                TryUnload();
+            }
+        }
+    }
+
     public override void OnLoadFinish()
     {
         base.OnLoadFinish();
 
-        int loadAmount = math.min(AmmoAmountPerReload, MaxLoadedAmmo - LoadedLivingAmmoLeft - LoadedSpentAmmoLeft);
+        int loadAmount = math.min(math.min(AmmoAmountPerReload, MaxLoadedAmmo - LoadedLivingAmmoLeft - LoadedSpentAmmoLeft), AmmoLeft);
         if (loadAmount > 0)
         {
             AmmoLeft -= loadAmount;
