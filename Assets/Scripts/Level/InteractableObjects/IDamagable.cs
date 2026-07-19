@@ -7,12 +7,12 @@ public interface IDamagable
     public float MaxHealth { get; }
     public float MinHealth { get; }
     public float CurrentHealth { get; }
-    public void ApplyDamage(float damage, MonoBehaviour damager);
+    public float DamageMultiplier { get; set; }
+    public void ApplyDamage(float damage, MonoBehaviour damager, bool includeDamageMult = true);
     public void SetHealth(float health, MonoBehaviour setter);
     public bool PiercableThrought { get; set; }
     public bool HitableByMeleeProjectiles { get; set; }
     public bool HitableByRangedProjectiles { get; set; }
-    public float DamageMultiplier { get; set; }
     public float HealMultiplier { get; set; }
     public bool UnlimitedHealth { get; set; }
 

@@ -110,9 +110,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
         _defaultLethalEffects = EffectsOnLethal;
     }
 
-    public void ApplyDamage(float damage, MonoBehaviour damager)
+    public void ApplyDamage(float damage, MonoBehaviour damager, bool includeDamageMult = true)
     {
-        float multipliedDamage = damage * (damage > 0 ? DamageMultiplier : HealMultiplier);
+        float multipliedDamage = damage;
+        if (includeDamageMult) multipliedDamage *= (damage > 0 ? DamageMultiplier : HealMultiplier);
 
         if (damager != null && !damager.IsDestroyed())
         {

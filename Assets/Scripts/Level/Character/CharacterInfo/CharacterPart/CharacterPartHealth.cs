@@ -85,9 +85,10 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         get => CharComponents.CharacterHealth.MinHealth;
     }
 
-    public void ApplyDamage(float damage, MonoBehaviour damager)
+    public void ApplyDamage(float damage, MonoBehaviour damager, bool includeDamageMult = true)
     {
-        float multipliedDamage = damage * (damage > 0 ? DamageMultiplier : HealMultiplier);
+        float multipliedDamage = damage;
+        if (includeDamageMult) multipliedDamage *= (damage > 0 ? DamageMultiplier : HealMultiplier);
 
         GetComponent<CharacterPart>().CharPartEffectsReceiver.ApplyEffect(EffectsOnHit, damager);
         CharComponents.CharacterHealth.ApplyDamage(multipliedDamage, damager, gameObject.GetComponent<CharacterLimbPart>());
