@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
@@ -27,6 +28,11 @@ public class CharacterVisual : AbstractCharacterComponent
     const float POPUP_HIDE_ANIMATION_SPEED_MULT = 25f;
     const float POPUP_ANIMATION_EXTRA_HEIGHT = 0.33f;
     const float DETECTED_ENEMY_POPUP_DURATION = 1.5f;
+    const float POPUP_FRAMERATE = 5f;
+
+    const int HEARD_NOISE_POPUP_PRIORITY = 1;
+    const int DETECTED_ENEMY_POPUP_PRIORITY = 2;
+    const int STUNNED_POPUP_PRIORITY = 3;
 
     public enum CharacterPartMainStates
     {
@@ -84,9 +90,10 @@ public class CharacterVisual : AbstractCharacterComponent
     }
 
     public CharacterMultiSpritesSO MultiSpritesSO;
-    public Sprite HeardNoiseSprite;
-    public Sprite DetectedEnemySprite;
-    [SerializeField] private SpriteRenderer _popupContainer;
+    public List<Sprite> HeardNoiseSprites;
+    public List<Sprite> DetectedEnemySprites;
+    public List<Sprite> StunnedSprites;
+    [SerializeField] private SpriteRenderer _popupImage;
 
     private bool _flippedH = false;
     private CharacterPartMainStates _mainState = CharacterPartMainStates.IDLE;
@@ -100,9 +107,12 @@ public class CharacterVisual : AbstractCharacterComponent
     private bool _currentCoolFlipRotationAxisReversed = false;
     private float _stunRecoverAnimationTimeMult = 1f;
     private bool _allowMovementOnBusyAnimation = false;
-    private Sprite _targetPopupSprite = null;
     private float _currentPopupDuration = 0f;
     private float _targetPopupDuration = float.MaxValue;
+    private List<Sprite> _currentPopupSprites = new();
+    private int _currentPopupFrame = 0;
+    private float _timeSinceLastPopupFrame = 0f;
+    private int _currentPopupPriority = -1;
 
     public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
@@ -280,31 +290,36 @@ public class CharacterVisual : AbstractCharacterComponent
 
     public void PopupHeardNoise()
     {
-        PopupSprite(HeardNoiseSprite, float.MaxValue);
+        PopupSprite(HeardNoiseSprites, float.MaxValue, HEARD_NOISE_POPUP_PRIORITY);
     }
 
     public void PopupDetectedEnemy()
     {
-        PopupSprite(DetectedEnemySprite, DETECTED_ENEMY_POPUP_DURATION);
+        PopupSprite(DetectedEnemySprites, DETECTED_ENEMY_POPUP_DURATION, DETECTED_ENEMY_POPUP_PRIORITY);
     }
 
-    private void PopupSprite(Sprite sprite, float duration)
+    public void PopupStunned()
     {
-        if (_targetPopupSprite == sprite) return;
+        PopupSprite(StunnedSprites, float.MaxValue, STUNNED_POPUP_PRIORITY);
+    }
 
-        _targetPopupSprite = sprite;
+    private void PopupSprite(List<Sprite> sprites, float duration, int priority)
+    {
+        if (priority < _currentPopupPriority || _currentPopupSprites == sprites) return;
+
+        _currentPopupSprites = sprites;
         _targetPopupDuration = duration;
         _currentPopupDuration = 0f;
 
-        _popupContainer.sprite = sprite;
-        _popupContainer.transform.position = CharComponents.Center.transform.position;
-        _popupContainer.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
-        _popupContainer.color = new Color(1f, 1f, 1f, 0f);
+        _popupImage.transform.position = CharComponents.Center.transform.position;
+        _popupImage.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
+        _popupImage.color = new Color(1f, 1f, 1f, 0f);
     }
 
     public void RemovePopupMessage()
     {
-        _targetPopupSprite = null;
+        _currentPopupSprites = null;
+        _currentPopupPriority = -1;
     }
 
     public void DoACoolFlip()
@@ -473,23 +488,31 @@ public class CharacterVisual : AbstractCharacterComponent
     private void UpdatePopupMessage()
     {
         _currentPopupDuration += Time.deltaTime;
+        _timeSinceLastPopupFrame += Time.deltaTime;
 
-        _popupContainer.flipX = FlippedH;
-        _popupContainer.transform.position = math.lerp(
-            _popupContainer.transform.position,
+        _popupImage.flipX = FlippedH;
+        _popupImage.transform.position = math.lerp(
+            _popupImage.transform.position,
             CharComponents.Center.transform.position + Vector3.up * (POPUP_ANIMATION_EXTRA_HEIGHT + CharComponents.CharacterRigidBodyCapsuleCollider.size.y / 2f),
             Time.deltaTime * POPUP_ANIMATION_SPEED_MULT
             );
 
-        if (_targetPopupSprite != null && _currentPopupDuration < _targetPopupDuration)
+        if (_currentPopupSprites != null && _currentPopupSprites.Count > 0 && _currentPopupDuration < _targetPopupDuration)
         {
-            _popupContainer.color = new Color(1f, 1f, 1f, math.lerp(_popupContainer.color.a, 1f, Time.deltaTime * POPUP_ANIMATION_SPEED_MULT));
-            _popupContainer.enabled = true;
+            if (_timeSinceLastPopupFrame > 1f / POPUP_FRAMERATE)
+            {
+                _currentPopupFrame = (_currentPopupFrame + 1) % _currentPopupSprites.Count;
+                _popupImage.sprite = _currentPopupSprites[_currentPopupFrame];
+                _timeSinceLastPopupFrame = 0f;
+            }
+
+            _popupImage.color = new Color(1f, 1f, 1f, math.lerp(_popupImage.color.a, 1f, Time.deltaTime * POPUP_ANIMATION_SPEED_MULT));
+            _popupImage.enabled = true;
         }
         else
         {
-            _popupContainer.color = new Color(1f, 1f, 1f, math.lerp(_popupContainer.color.a, 0f, Time.deltaTime * POPUP_HIDE_ANIMATION_SPEED_MULT));
-            if (_popupContainer.color.a < 0.005f) _popupContainer.enabled = false;
+            _popupImage.color = new Color(1f, 1f, 1f, math.lerp(_popupImage.color.a, 0f, Time.deltaTime * POPUP_HIDE_ANIMATION_SPEED_MULT));
+            if (_popupImage.color.a < 0.005f) _popupImage.enabled = false;
         }
     }
 

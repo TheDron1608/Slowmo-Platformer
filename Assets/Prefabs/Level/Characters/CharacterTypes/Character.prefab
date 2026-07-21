@@ -217,6 +217,7 @@ MonoBehaviour:
   AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  JamChance: 0
   OverrideAttackSound: {fileID: 0}
 --- !u!1 &3563836969740914839
 GameObject:
@@ -513,6 +514,7 @@ MonoBehaviour:
   _minHealth: 0
   _currentHealth: 1
   _damageMultiplier: 1
+  _healMultiplier: 1
   _piercableThrought: 0
   _hitableByMeleeProjectiles: 1
   _hitableByRangedProjectiles: 1
@@ -611,6 +613,7 @@ MonoBehaviour:
   _isAbleToHammer: 1
   _isAbleToStartChainsaw: 1
   _isAbleToShield: 1
+  _isAbleToArmGrenade: 1
   AttackCooldownMultiplier: 1
   ExtraProjectileEffects: []
 --- !u!114 &-1858980390697622286
@@ -740,9 +743,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MultiSpritesSO: {fileID: 11400000, guid: f18c3b67c56c15e4db4b7bd1e6ed4f50, type: 2}
-  HeardNoiseSprite: {fileID: 21300000, guid: 084f7295cae02ab47bb2dc3d66fcb32c, type: 3}
-  DetectedEnemySprite: {fileID: 21300000, guid: b6192ce4bb179ba4f8058316b90cf4da, type: 3}
-  _popupContainer: {fileID: 406048711666860640}
+  HeardNoiseSprites:
+  - {fileID: 21300000, guid: b6192ce4bb179ba4f8058316b90cf4da, type: 3}
+  DetectedEnemySprites:
+  - {fileID: 21300000, guid: 084f7295cae02ab47bb2dc3d66fcb32c, type: 3}
+  StunnedSprites:
+  - {fileID: 3433750059212903350, guid: b17d0115381cdc04a8f3e5f4f8a9c828, type: 3}
+  - {fileID: -856895531316364068, guid: b17d0115381cdc04a8f3e5f4f8a9c828, type: 3}
+  - {fileID: 1324488650138286171, guid: b17d0115381cdc04a8f3e5f4f8a9c828, type: 3}
+  - {fileID: 113282033, guid: b17d0115381cdc04a8f3e5f4f8a9c828, type: 3}
+  _popupImage: {fileID: 406048711666860640}
 --- !u!114 &2002335163756146061
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -76,6 +76,22 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.031246781
       objectReference: {fileID: 0}
+    - target: {fileID: 1752297896809345709, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: _partcilesOnBreak.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752297896809345709, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: SelfEffectsOnBreak.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752297896809345709, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 3817894844019546139, guid: 19df136a8af85644f947bc3d64aff990, type: 3}
+    - target: {fileID: 1752297896809345709, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: 'SelfEffectsOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8091451049724318977, guid: c5e8c291d8e19914999776af1124aca0, type: 3}
     - target: {fileID: 3360177737336450947, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -84,6 +100,10 @@ PrefabInstance:
       propertyPath: _armedSprite
       value: 
       objectReference: {fileID: 21300000, guid: 2bf2b1baf3418ca47b91de7400c50f10, type: 3}
+    - target: {fileID: 3923344922464838026, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: c47598a4cc7cdfb4fa59b9fe0de5d27d, type: 2}
     - target: {fileID: 4550548751767294723, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
       propertyPath: m_Name
       value: StunGrenade
@@ -96,6 +116,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.03125
       objectReference: {fileID: 0}
+    - target: {fileID: 5938354857742284048, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: SoundOnStuck
+      value: 
+      objectReference: {fileID: 11400000, guid: 10ec0b87f70d9944ebae08db0b7fb9a6, type: 2}
+    - target: {fileID: 5938354857742284048, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: SoundOnCollide
+      value: 
+      objectReference: {fileID: 11400000, guid: 10ec0b87f70d9944ebae08db0b7fb9a6, type: 2}
     - target: {fileID: 7831182514441706398, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.056
@@ -104,6 +132,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.128
       objectReference: {fileID: 0}
+    - target: {fileID: 8728322205183600459, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 197c573933eb0b54188f2744572b0aa6, type: 2}
+    - target: {fileID: 9125093022458878384, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 10ec0b87f70d9944ebae08db0b7fb9a6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

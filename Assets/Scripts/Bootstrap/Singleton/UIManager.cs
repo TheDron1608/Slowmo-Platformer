@@ -308,6 +308,31 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [Serializable]
+    public class BlindScreenOverlay : ScreenOverlay
+    {
+        private BlindnessOverlay _blindScreen = null;
+
+        public BlindnessOverlay GetBlindScreen()
+        {
+            return _blindScreen;
+        }
+
+        public void Show(float constantDuration, float fadeOutDuration)
+        {
+            Show();
+            _blindScreen.ConstantDuration = constantDuration;
+            _blindScreen.FadeOutDuration = fadeOutDuration;
+        }
+
+        public override void Show()
+        {
+            base.Show();
+            _blindScreen = _currentScreenOverlay.GetComponent<BlindnessOverlay>();
+            _blindScreen.Restart();
+        }
+    }
+
     public ScreenOverlay InputBindingScreenOverlay;
     public ScreenOverlay SceneStartScreenOverlay;
     public ScreenOverlay SceneEndScreenOverlay;
@@ -324,6 +349,7 @@ public class UIManager : MonoBehaviour
     public ScreenOverlay FPSCountScreenOverlay;
     public ScreenOverlay SettingOverlay;
     public CharacterUnlockedMessageScreenOverlay UnlockedCharacterMessageOverlay;
+    public BlindScreenOverlay BlindnessOverlay;
 
     [Header("Render")]
     [SerializeField] private Renderer2DData _renderData;
@@ -388,7 +414,8 @@ public class UIManager : MonoBehaviour
             SlowmoOverlay,
             FPSCountScreenOverlay,
             SettingOverlay,
-            UnlockedCharacterMessageOverlay
+            UnlockedCharacterMessageOverlay,
+            BlindnessOverlay
         };
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of UIManager objects");
