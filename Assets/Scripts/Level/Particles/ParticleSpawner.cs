@@ -77,7 +77,8 @@ public class ParticleSpawner : MonoBehaviour
         ZIndexLayer layer,
         int amount,
         float accuracy = 1f,
-        bool enablePhysics = true
+        bool enablePhysics = true,
+        bool pickRandomly = true
         )
     {
         float particleMultiplier = CalculateParticleAmountGlobalMultiplierByParticle(particles.FirstOrDefault());
@@ -86,7 +87,7 @@ public class ParticleSpawner : MonoBehaviour
         for (int i = 0; i < multipliedAmount; i++)
         {
             result.Insert(i, SpawnParticle(
-                NumberMath.PickRandomItem(particles),
+                pickRandomly ? NumberMath.PickRandomItem(particles) : particles[i % particles.Count],
                 position,
                 VectorMath.RandomizeVec2(direction, accuracy),
                 angle,

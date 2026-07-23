@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4069412604654406731
+--- !u!1 &4021560445705751051
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2739746430311944954}
-  - component: {fileID: 8091451049724318977}
+  - component: {fileID: 9053578952985324393}
+  - component: {fileID: -2198991086850698360}
   m_Layer: 0
-  m_Name: StunExplode
+  m_Name: ExplodeKnockback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &2739746430311944954
+--- !u!4 &9053578952985324393
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069412604654406731}
+  m_GameObject: {fileID: 4021560445705751051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,21 +32,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8091451049724318977
+--- !u!114 &-2198991086850698360
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4069412604654406731}
+  m_GameObject: {fileID: 4021560445705751051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25293c99913453f4eacba7558e7c4d95, type: 3}
+  m_Script: {fileID: 11500000, guid: aede42d3e6c577e47b2fe5f77f4d617d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AffectCharactersOnRadius
-  EffectPriority: 100
+  m_EditorClassIdentifier: Assembly-CSharp::KnockOffFromSender
+  EffectPriority: 90
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}
-  Effect: {fileID: -6780352593859882400, guid: b6af49d5f8483f24faccd4a5ce11a1f7, type: 3}
-  Radius: 7.5
-  AffectThroughWalls: 0
+  KnockbackForce: 30
+  CanFlipSprites: 1

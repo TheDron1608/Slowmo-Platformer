@@ -8,6 +8,20 @@ using UnityEngine.Tilemaps;
 [DefaultExecutionOrder(-2)]
 public class MultiTileMapsContainer : MonoBehaviour
 {
+    const float SPAWN_VELOCITY = 2;
+    const float SPAWN_ANGULAR_VELOCITY = 720f;
+    const float PARTICLE_MAX_DISTANCE_FROM_TILE_TO_UPDATE = 3f;
+
+    public struct TileChangeData
+    {
+        public Vector3Int Position;
+        public bool IsAdded;
+    }
+
+    public List<AbstractParticle> ParticlesOnBreakTile = new();
+    public int ParticlesAmountOnBreakTile;
+    public BackgroundRuleTile TileOnBreakTile;
+
     [SerializeField] private Tilemap _foreground;
     [SerializeField] private Tilemap _background;
     [SerializeField] private Tilemap _backgroundDecorations;
@@ -15,7 +29,15 @@ public class MultiTileMapsContainer : MonoBehaviour
     [SerializeField] private Tilemap _overground;
     [SerializeField] private Tilemap _overgroundDecorations;
 
+    [SerializeField] private TilemapRenderer _foregroundRenderer;
+    [SerializeField] private TilemapRenderer _backgroundRenderer;
+    [SerializeField] private TilemapRenderer _backgroundDecorationsRenderer;
+    [SerializeField] private TilemapRenderer _hallucinationTilemapRenderer;
+    [SerializeField] private TilemapRenderer _overgroundRenderer;
+    [SerializeField] private TilemapRenderer _overgroundDecorationsRenderer;
+
     private bool _requestUpdateNavigationAtEndOfFrame = true;
+    private List<TileChangeData> _requestUpdateTiles = new();
     private ZIndexLayer _layer;
     private Tilemap[] _tilemaps;
 
@@ -72,13 +94,48 @@ public class MultiTileMapsContainer : MonoBehaviour
 
     private void LateUpdate()
     {
+        _layer.TileManager.Debug_DrawAINavigationPaths(Color.red, new Color(0, 1, 0, 0.5f), Time.deltaTime);
+
         if (_requestUpdateNavigationAtEndOfFrame)
         {
             _layer.TileManager.UpdateEntireTileAINavigationInfo();
-            //_layer.TileManager.Debug_DrawAINavigationPaths(Color.red, 999f, 3, 4);
             _requestUpdateNavigationAtEndOfFrame = false;
             Tilemap.tilemapTileChanged += Tilemap_tilemapTileChanged;
         }
+
+        for (int i = 0; i < _requestUpdateTiles.Count; i++)
+        {
+            Vector3 tilePos = new Vector3(
+                _requestUpdateTiles[i].Position.x + 0.5f,
+                _requestUpdateTiles[i].Position.y + 0.5f,
+                transform.position.z
+                );
+
+            foreach (Transform physicsParticleTransform in _layer.PhysicsParticlesContainer)
+            {
+                if (
+                    Vector2.Distance(physicsParticleTransform.position, tilePos) < PARTICLE_MAX_DISTANCE_FROM_TILE_TO_UPDATE &&
+                    physicsParticleTransform.TryGetComponent(out PhysicsParticle physicsParticle)
+                    )
+                {
+                    physicsParticle.EnabledPhysics = true;
+                }
+            }
+            foreach (Transform fluidParticleTransform in _layer.FluidParticlesContainer)
+            {
+                if (
+                    Vector2.Distance(fluidParticleTransform.position, tilePos) < PARTICLE_MAX_DISTANCE_FROM_TILE_TO_UPDATE &&
+                    fluidParticleTransform.TryGetComponent(out FluidParticle fluidParticle)
+                    )
+                {
+                    fluidParticle.IsFlying = true;
+                }
+            }
+        }
+
+        _layer.TileManager.UpdateTileNavigation(_requestUpdateTiles);
+
+        _requestUpdateTiles.Clear();
     }
 
     public Tilemap GetTileMapByBehaviourType(TileBehaviour.TileBehaviourType behaviourType)
@@ -232,6 +289,63 @@ public class MultiTileMapsContainer : MonoBehaviour
         _overgroundDecorations.GetComponent<OverrideRendererEnabled>().OverrideValue = value ? false : null;
 
         _hallucinationTilemap.GetComponent<OverrideRendererEnabled>().OverrideValue = value;
+    }
+
+    public void DestroyTileAt(Vector3Int position, bool includeBackground, bool includeOverground)
+    {
+        if (includeBackground)
+        {
+            _background.SetTile(position, null);
+            _backgroundDecorations.SetTile(position, null);
+        }
+        else
+        {
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    Vector3Int currentPosition = position + new Vector3Int(x, y, 0);
+                    if (
+                        !_background.HasTile(currentPosition) && 
+                        (_foreground.GetTile<ForegroundRuleTile>(currentPosition)?.ValidAsPlatform ?? false)
+                        )
+                    {
+                        _background.SetTile(currentPosition, TileOnBreakTile);
+                    }
+                }
+            }
+        }
+
+        if (includeOverground)
+        {
+            _overground.SetTile(position, null);
+            _overgroundDecorations.SetTile(position, null);
+        }
+
+        if (_foreground.HasTile(position))
+        {
+            _foreground.SetTile(position, null);
+            ParticleSpawner.SpawnInstantlyMultipleParticles(
+                ParticlesOnBreakTile,
+                Vector2.one * UnityEngine.Random.value + new Vector2(position.x, position.y),
+                Vector2.one,
+                0f,
+                -SPAWN_VELOCITY,
+                SPAWN_VELOCITY,
+                -SPAWN_ANGULAR_VELOCITY,
+                SPAWN_ANGULAR_VELOCITY,
+                _foregroundRenderer.sharedMaterial,
+                _layer,
+                ParticlesAmountOnBreakTile,
+                0f
+                );
+
+            TileChangeData newChangeData = new();
+            newChangeData.Position = position;
+            newChangeData.IsAdded = false;
+
+            _requestUpdateTiles.Add(newChangeData);
+        }
     }
 
     public void SetTilemapsMaterialDependOnDifficulty(DifficultyManager.DifficultyStage difficulty)

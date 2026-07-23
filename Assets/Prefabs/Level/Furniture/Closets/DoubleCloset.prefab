@@ -173,6 +173,22 @@ PrefabInstance:
       propertyPath: LootSpawnType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: _partcilesOnBreak.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: 8b8a234d81575c7428ba57e0691a219a, type: 3}
+    - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: 2bc4fa7af89c41d42bc987cac77f98bd, type: 3}
+    - target: {fileID: 2243993445235764697, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: eb02ffa700b350b44a83c3f75f9dab86, type: 3}
     - target: {fileID: 2793544172877190791, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: DefaultSound
       value: 
@@ -225,6 +241,30 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: _maxHealth
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: _currentHealth
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: ParticlesOnDamage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: 8b8a234d81575c7428ba57e0691a219a, type: 3}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: 2bc4fa7af89c41d42bc987cac77f98bd, type: 3}
+    - target: {fileID: 7424623992015952824, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7629983597656334640, guid: eb02ffa700b350b44a83c3f75f9dab86, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -273,6 +313,7 @@ MonoBehaviour:
   SoundOnClose: {fileID: 8796226312212854448}
 --- !u!212 &926031609225963072
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -291,6 +332,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -312,9 +355,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 70
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: e785cefbf66b2e546b33869f9cb69390, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -324,7 +369,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &8725134965738807728
 Animator:

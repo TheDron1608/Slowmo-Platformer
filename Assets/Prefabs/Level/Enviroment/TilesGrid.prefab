@@ -76,12 +76,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6322f44c8bdb7418507230f5e2ea9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParticlesOnBreakTile:
+  - {fileID: 7629983597656334640, guid: 6017291fffb76964a8fa9cea2da5c490, type: 3}
+  - {fileID: 7629983597656334640, guid: 4a4b403423a09f5419a0ad8581b8b4cd, type: 3}
+  - {fileID: 7629983597656334640, guid: addaa9f14b41aa740bb9de7d9f5948cb, type: 3}
+  - {fileID: 7629983597656334640, guid: 2da9efbecb5ddea428105641c2b0f08a, type: 3}
+  - {fileID: 5763894312763135589, guid: b969146ed1a8c664e9eccb71f97b0a76, type: 3}
+  - {fileID: 5763894312763135589, guid: b969146ed1a8c664e9eccb71f97b0a76, type: 3}
+  ParticlesAmountOnBreakTile: 1
+  TileOnBreakTile: {fileID: 11400000, guid: 399fad4371ab2ce4d8b24bdace3f5d66, type: 2}
   _foreground: {fileID: 3336606832108734766}
   _background: {fileID: 1960138267217002520}
   _backgroundDecorations: {fileID: 151657406583902979}
   _hallucinationTilemap: {fileID: 4327924858641455682}
   _overground: {fileID: 8076429692360712271}
   _overgroundDecorations: {fileID: 8240601957038050699}
+  _foregroundRenderer: {fileID: 798637571892307843}
+  _backgroundRenderer: {fileID: 4497013285728480949}
+  _backgroundDecorationsRenderer: {fileID: 2828714682157497774}
+  _hallucinationTilemapRenderer: {fileID: 1825284020028077295}
+  _overgroundRenderer: {fileID: 6146965560841440994}
+  _overgroundDecorationsRenderer: {fileID: 6271026423246627622}
 --- !u!1001 &82452989461529752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,6 +194,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c3c4455b4df12043b9350ccc785c6cf, type: 3}
+--- !u!483693784 &6146965560841440994 stripped
+TilemapRenderer:
+  m_CorrespondingSourceObject: {fileID: 6082821661118532218, guid: 1c3c4455b4df12043b9350ccc785c6cf, type: 3}
+  m_PrefabInstance: {fileID: 82452989461529752}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1839735485 &8076429692360712271 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 8156529704842945751, guid: 1c3c4455b4df12043b9350ccc785c6cf, type: 3}
@@ -286,6 +306,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c6462aa0674edf41924c308071fd7d7, type: 3}
+--- !u!483693784 &6271026423246627622 stripped
+TilemapRenderer:
+  m_CorrespondingSourceObject: {fileID: 6082821661118532218, guid: 3c6462aa0674edf41924c308071fd7d7, type: 3}
+  m_PrefabInstance: {fileID: 247046368167831900}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1839735485 &8240601957038050699 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 8156529704842945751, guid: 3c6462aa0674edf41924c308071fd7d7, type: 3}
@@ -393,6 +418,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b2b4a93463e94b41b9ff39213255b42, type: 3}
+--- !u!483693784 &1825284020028077295 stripped
+TilemapRenderer:
+  m_CorrespondingSourceObject: {fileID: 6082821661118532218, guid: 9b2b4a93463e94b41b9ff39213255b42, type: 3}
+  m_PrefabInstance: {fileID: 5565939205160173205}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4136221841940645536 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8383732105861429301, guid: 9b2b4a93463e94b41b9ff39213255b42, type: 3}
@@ -500,6 +530,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
+--- !u!483693784 &798637571892307843 stripped
+TilemapRenderer:
+  m_CorrespondingSourceObject: {fileID: 6082821661118532218, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
+  m_PrefabInstance: {fileID: 6881450415442783737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3109503954070148556 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8383732105861429301, guid: 1d9a748a14f4b9e4aa89b2b94ea488c9, type: 3}
@@ -617,6 +652,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8383732105861429301, guid: 5ab6a8b9469dae24e9e12ed83b625ba6, type: 3}
   m_PrefabInstance: {fileID: 7638702910163608783}
   m_PrefabAsset: {fileID: 0}
+--- !u!483693784 &4497013285728480949 stripped
+TilemapRenderer:
+  m_CorrespondingSourceObject: {fileID: 6082821661118532218, guid: 5ab6a8b9469dae24e9e12ed83b625ba6, type: 3}
+  m_PrefabInstance: {fileID: 7638702910163608783}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8298756522883184596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -722,5 +762,10 @@ Tilemap:
 --- !u!224 &537024537913462753 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8383732105861429301, guid: 753225ba817137a49b7b74dbef45ed31, type: 3}
+  m_PrefabInstance: {fileID: 8298756522883184596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!483693784 &2828714682157497774 stripped
+TilemapRenderer:
+  m_CorrespondingSourceObject: {fileID: 6082821661118532218, guid: 753225ba817137a49b7b74dbef45ed31, type: 3}
   m_PrefabInstance: {fileID: 8298756522883184596}
   m_PrefabAsset: {fileID: 0}

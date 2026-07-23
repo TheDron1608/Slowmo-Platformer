@@ -1,16 +1,25 @@
 using UnityEngine;
 
-public class Knockback : AbstractCharacterEffectWithSender, IEntireCharacterEffect
+[AllowEffectWithSenderReceiveNull]
+public class Knockback : AbstractCharacterEffectWithSender, IEntireCharacterEffect, IMultiplierableEffect
 {
     public float KnockbackForce = 5f;
     public bool CanFlipSprites = true;
+
+    private float _effectMultiplier = 1f;
+
+    public float EffectMultiplier
+    {
+        get => _effectMultiplier;
+        set => _effectMultiplier = value;
+    }
 
     /// <summary>
     /// warning: will delete itself after invoke this function
     /// </summary>
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
-        float totalKnockMultiplier = 1f;
+        float totalKnockMultiplier = EffectMultiplier;
         foreach (KnockResistance knockResistance in AffectedCharacter.CharacterEffectsReceiver.GetEffects<KnockResistance>())
         {
             totalKnockMultiplier *= knockResistance.KnockMultiplier;
@@ -23,11 +32,11 @@ public class Knockback : AbstractCharacterEffectWithSender, IEntireCharacterEffe
             }
         }
 
-        if (sender.TryGetComponent(out AbstractProjectile projectile))
+        if (sender?.TryGetComponent(out AbstractProjectile projectile) ?? false)
         {
             AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * VectorMath.Quartenion2DToVec2(projectile.transform.rotation) * totalKnockMultiplier;
         }
-        else if (sender.TryGetComponent(out Rigidbody2D rigidBody))
+        else if (sender?.TryGetComponent(out Rigidbody2D rigidBody) ?? false)
         {
             AffectedCharacter.CharacterRigidBody.linearVelocity += KnockbackForce * rigidBody.linearVelocity.normalized * totalKnockMultiplier;
         }

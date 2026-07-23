@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BreakableDoor : BreakableObject
+public class BreakableDoor : BreakableObject, IBreakableEntirelyObject
 {
     const string ANIMATOR_DESTROYED_PROP_NAME = "Destroyed";
 
@@ -44,5 +44,10 @@ public class BreakableDoor : BreakableObject
             damagableObject.HitableByMeleeProjectiles = false;
             damagableObject.HitableByRangedProjectiles = false;
         }
+    }
+
+    public void BreakObjectEntirely(MonoBehaviour breaker)
+    {
+        base.BreakObject(breaker);
     }
 }

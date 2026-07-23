@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Break : AbstractEffectWithSender, ILethalEffect
 {
+    public bool BreakEntirely = false;
+
     /// <summary>
     /// warning: will delete itself after invoke this function
     /// </summary>
@@ -9,9 +11,21 @@ public class Break : AbstractEffectWithSender, ILethalEffect
     {
         if (AffectedObject.TryGetComponent(out BreakableObject breakable))
         {
-            breakable.BreakObject(sender);
+            if (BreakEntirely && breakable is IBreakableEntirelyObject entireblyBreakable)
+            {
+                entireblyBreakable.BreakObjectEntirely(sender);
+            }
+            else
+            {
+                breakable.BreakObject(sender);
+            }
         }
 
         RemoveSelf();
+    }
+
+    public override bool Equals(AbstractEffect other)
+    {
+        return base.Equals(other) && BreakEntirely == (other as Break).BreakEntirely;
     }
 }

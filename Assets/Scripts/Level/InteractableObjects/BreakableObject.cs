@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BreakableObject : MonoBehaviour, IStuckToObject
 {
-    const float BREAK_PARTICLES_ACCURACY = 0.85f;
+    const float BREAK_PARTICLES_ACCURACY = 0f;
     const float BREAK_PARTICLES_MIN_SPAWN_VELOCITY = 1f;
     const float BREAK_PARTICLES_MAX_SPAWN_VELOCITY = 4f;
     const float BREAK_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY = -180f;
@@ -22,6 +22,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     public AbstractSoundPlayer SoundOnBreak;
 
     private List<IStuckableObject> _stuckedObjects = new();
+    private bool _isBreakingThisFrame = false;
 
     public event EventHandler<MonoBehaviour> OnBroken;
 
@@ -66,9 +67,12 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
 
     public void ReleaseObjectsInsideAndApplyEffects()
     {
+        if (_isBreakingThisFrame == true) return;
+        _isBreakingThisFrame = true;
+
         if (TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
         {
-            effectsReceiver.ApplyEffect(SelfEffectsOnBreak, null);
+            effectsReceiver.ApplyEffect(SelfEffectsOnBreak, this);
         }
 
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
@@ -139,7 +143,9 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
             TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : null,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject),
             _partcilesOnBreak.Count,
-            BREAK_DIRECTIVE_PARTICLES_ACCURACY
+            BREAK_DIRECTIVE_PARTICLES_ACCURACY,
+            true,
+            false
             );
     }
 }

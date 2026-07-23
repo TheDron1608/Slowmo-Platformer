@@ -73,7 +73,7 @@ public class BlindStun : AbstractStun, IMultiplierableEffect
         _stunTime += Time.deltaTime;
 
         if (
-            AffectedCharacter.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() ||
+            AffectedCharacter.CharacterHealth.Died ||
             _stunTime > (_affectedIsPlayer ? PlayerStunDuration : StunDuration) * EffectMultiplier
             )
         {

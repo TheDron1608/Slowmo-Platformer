@@ -31,10 +31,10 @@ public class FluidParticle : AbstractSpriteParticle
     private float _currentLifeTime = 0f;
     private Coroutine _flyCoroutine;
     private Coroutine _spreadCoroutine;
-    private int _currentEnviromentLayerMask;
     private int _addedExtraFlyingSortingOrder = 0;
     private SpriteRenderer _spriteRenderer;
     private ZIndexLayer _layer;
+    private bool _isFlying = true;
 
     public float LifeTime
     {
@@ -45,10 +45,40 @@ public class FluidParticle : AbstractSpriteParticle
             _currentLifeTime = math.min(_currentLifeTime, _lifeTime);
         }
     }
+
     public Vector2 Velocity
     {
         get => _velocity;
         set => _velocity = value;
+    }
+
+    public bool IsFlying
+    {
+        get => _isFlying;
+        set
+        {
+            if (value && _flyCoroutine == null)
+            {
+                _flyCoroutine = StartCoroutine(FlyCoroutine());
+            }
+            else if (!value && _isFlying)
+            {
+                if (_currentLifeTime > _lifeTime && GetIsOnBackground())
+                {
+                    DripOnBackground();
+                }
+                else if (GetIsOnForeground())
+                {
+                    DripOnForeground();
+                }
+                else
+                {
+                    RemoveParticle();
+                }
+            }
+
+            _isFlying = value;
+        }
     }
 
     private void SetAddedExtraFlyingSortingOrder(int value)
@@ -112,7 +142,6 @@ public class FluidParticle : AbstractSpriteParticle
 
         _layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
 
-        _currentEnviromentLayerMask = 1 << layer.EnviromentLayer;
         _velocity = direction * velocity;
         _lifeTime = NumberMath.PickRandomInRangeNoSeed(MinLifeTime, MaxLifeTime);
         _currentLifeTime = 0f;
@@ -125,7 +154,7 @@ public class FluidParticle : AbstractSpriteParticle
 
         StopAllCoroutines();
         _spreadCoroutine = null;
-        _flyCoroutine = StartCoroutine(FlyCoroutine());
+        IsFlying = true;
     }
 
     private IEnumerator FlyCoroutine()

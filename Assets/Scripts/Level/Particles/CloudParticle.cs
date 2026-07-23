@@ -5,6 +5,8 @@ public class CloudParticle : AbstractSpriteParticle
     const float GRAVITY_OFFSET = 0.3f;
     const string ANIMATOR_RESET_TRIGGER_NAME = "Reset";
 
+    public float SpeedMult = 1f;
+
     private Vector2 _currentVelocity;
 
     public override void SetParticleAttrs(
@@ -21,6 +23,9 @@ public class CloudParticle : AbstractSpriteParticle
     {
         base.SetParticleAttrs(original, position, direction, angle, velocity, angularVelocity, material, layer);
 
+        CloudParticle cloudOriginal = original as CloudParticle;
+        SpeedMult = cloudOriginal.SpeedMult;
+
         Animator animator = gameObject.GetComponent<Animator>();
         Animator originalAnimator = original.GetComponent<Animator>();
         animator.runtimeAnimatorController = originalAnimator.runtimeAnimatorController;
@@ -31,7 +36,7 @@ public class CloudParticle : AbstractSpriteParticle
 
     private void Update()
     {
-        transform.position += VectorMath.Vec2ToVec3(_currentVelocity * Time.deltaTime);
+        transform.position += VectorMath.Vec2ToVec3(_currentVelocity * Time.deltaTime) * SpeedMult;
         _currentVelocity += Vector2.up * GRAVITY_OFFSET * Time.deltaTime;
     }
 

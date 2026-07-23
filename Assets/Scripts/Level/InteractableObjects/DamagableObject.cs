@@ -130,7 +130,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
             {
                 ParticleSpawner.SpawnInstantlyMultipleParticles(
                     ParticlesOnDamage,
-                    hit.collider != null ? hit.point : GameObjectUtility.GetCenterOfCollider(GetComponent<Collider2D>()),
+                    hit.collider != null ? hit.point : transform.position,
                     VectorMath.Quartenion2DToVec2(damager.transform.rotation),
                     0f,
                     PARTICLES_ON_DAMAGE_MIN_VELOCITY,

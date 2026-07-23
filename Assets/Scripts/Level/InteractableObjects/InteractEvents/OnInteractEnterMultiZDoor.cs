@@ -21,11 +21,6 @@ public class OnInteractEnterMultiZDoor : AnimatedInteractable
         ZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
     }
 
-    protected override bool StartInteractCondition(GameObject interactor)
-    {
-        return interactor.GetComponent<CharacterCollision>().IsCollidingFloor();
-    }
-
     protected override void OnFinishInteract(GameObject interactor)
     {
         base.OnFinishInteract(interactor);

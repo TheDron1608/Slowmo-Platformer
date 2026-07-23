@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TileManager : MonoBehaviour
 {
@@ -517,6 +518,104 @@ public class TileManager : MonoBehaviour
         }
         //Debug_MarkArea(filteredStart, filteredEnd, Color.green, 1f);
         return false;
+    }
+
+    public void UpdateTileNavigation(List<MultiTileMapsContainer.TileChangeData> changeDatas)
+    {
+        foreach (MultiTileMapsContainer.TileChangeData changeData in changeDatas)
+        {
+            if (changeData.IsAdded)
+            {
+                UpdateTileNavigationOnRemovedValidPosition(changeData.Position);
+                if (!_multiTilesMaps.GetHasValidAsPlatformAt(changeData.Position + Vector3Int.up))
+                {
+                    UpdateTileNavigationOnAddedValidPosition(changeData.Position + Vector3Int.up);
+                }
+            }
+            else
+            {
+                UpdateTileNavigationOnRemovedValidPosition(changeData.Position + Vector3Int.up);
+            }
+        }
+    }
+
+    private void UpdateTileNavigationOnAddedValidPosition(Vector3Int point)
+    {
+        NavigationPlatformInfo navPlatformFromLeftFromPoint = null;
+        NavigationPlatformInfo navPlatformFromRightFromPoint = null;
+
+        for (int i = 0; i < _navigationPlatforms.Count; i++)
+        {
+            if (_navigationPlatforms[i].Position.y == point.y)
+            {
+                if (_navigationPlatforms[i].TailPositionX + 1 == point.x)
+                {
+                    //trying merge new platform with platform from left
+                    navPlatformFromLeftFromPoint = _navigationPlatforms[i];
+                }
+                else if (_navigationPlatforms[i].Position.x - 1 == point.x)
+                {
+                    //trying merge new platform with platform from right
+                    navPlatformFromRightFromPoint = _navigationPlatforms[i];
+                }
+            }
+        }
+
+        //trying merge new platform with near platforms, if none near platforms, creating new
+        if (navPlatformFromLeftFromPoint != null && navPlatformFromRightFromPoint != null)
+        {
+            navPlatformFromLeftFromPoint.Width += navPlatformFromRightFromPoint.Width + 1;
+            _navigationPlatforms.Remove(navPlatformFromRightFromPoint);
+        }
+        else if (navPlatformFromLeftFromPoint != null)
+        {
+            navPlatformFromLeftFromPoint.Width++;
+        }
+        else if (navPlatformFromRightFromPoint != null)
+        {
+            navPlatformFromRightFromPoint.Position.x--;
+            navPlatformFromRightFromPoint.Width += 2;
+        }
+        else
+        {
+            NavigationPlatformInfo newPlatform = new();
+            newPlatform.Position = point;
+            newPlatform.Width = 1;
+        }
+    }
+
+    private void UpdateTileNavigationOnRemovedValidPosition(Vector3Int point)
+    {
+        for (int i = 0; i < _navigationPlatforms.Count; i++)
+        {
+            if (_navigationPlatforms[i].Position.y == point.y)
+            {
+                if (_navigationPlatforms[i].Position.x <= point.x && _navigationPlatforms[i].TailPositionX >= point.x)
+                {
+                    if (_navigationPlatforms[i].Position.x == point.x)
+                    {
+                        //shorten nav platform from left
+                        _navigationPlatforms[i].Position.x++;
+                        _navigationPlatforms[i].Width--;
+                    }
+                    else if (_navigationPlatforms[i].TailPositionX == point.x)
+                    {
+                        //shorten nav platform from right
+                        _navigationPlatforms[i].Width--;
+                    }
+                    else
+                    {
+                        //slice platform into 2 shorter platforms by shorten existing platform and adding 1 new
+                        NavigationPlatformInfo newNavPlatform = new();
+                        newNavPlatform.Position = point;
+                        newNavPlatform.Width = _navigationPlatforms[i].Position.x - point.x - 1;
+                        _navigationPlatforms.Add(newNavPlatform);
+
+                        _navigationPlatforms[i].Width = point.x - _navigationPlatforms[i].Position.x;
+                    }
+                }
+            }
+        }
     }
 
     public void Debug_DrawAINavigationPaths(Color platformColor, Color reachablePlatformsColor, float duration)
