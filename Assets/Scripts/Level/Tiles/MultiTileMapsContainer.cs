@@ -105,30 +105,38 @@ public class MultiTileMapsContainer : MonoBehaviour
 
         for (int i = 0; i < _requestUpdateTiles.Count; i++)
         {
+            if (_requestUpdateTiles[i].IsAdded) continue;
+
             Vector3 tilePos = new Vector3(
                 _requestUpdateTiles[i].Position.x + 0.5f,
                 _requestUpdateTiles[i].Position.y + 0.5f,
                 transform.position.z
                 );
 
-            foreach (Transform physicsParticleTransform in _layer.PhysicsParticlesContainer)
+            if (!_foreground.HasTile(_requestUpdateTiles[i].Position))
             {
-                if (
-                    Vector2.Distance(physicsParticleTransform.position, tilePos) < PARTICLE_MAX_DISTANCE_FROM_TILE_TO_UPDATE &&
-                    physicsParticleTransform.TryGetComponent(out PhysicsParticle physicsParticle)
-                    )
+                foreach (Transform physicsParticleTransform in _layer.PhysicsParticlesContainer)
                 {
-                    physicsParticle.EnabledPhysics = true;
+                    if (
+                        Vector2.Distance(physicsParticleTransform.position, tilePos) < PARTICLE_MAX_DISTANCE_FROM_TILE_TO_UPDATE &&
+                        physicsParticleTransform.TryGetComponent(out PhysicsParticle physicsParticle)
+                        )
+                    {
+                        physicsParticle.EnabledPhysics = true;
+                    }
                 }
             }
-            foreach (Transform fluidParticleTransform in _layer.FluidParticlesContainer)
+            if (!_background.HasTile(_requestUpdateTiles[i].Position))
             {
-                if (
-                    Vector2.Distance(fluidParticleTransform.position, tilePos) < PARTICLE_MAX_DISTANCE_FROM_TILE_TO_UPDATE &&
-                    fluidParticleTransform.TryGetComponent(out FluidParticle fluidParticle)
-                    )
+                foreach (Transform fluidParticleTransform in _layer.FluidParticlesContainer)
                 {
-                    fluidParticle.IsFlying = true;
+                    if (
+                        Vector2.Distance(fluidParticleTransform.position, tilePos) < PARTICLE_MAX_DISTANCE_FROM_TILE_TO_UPDATE &&
+                        fluidParticleTransform.TryGetComponent(out FluidParticle fluidParticle)
+                        )
+                    {
+                        fluidParticle.IsFlying = true;
+                    }
                 }
             }
         }

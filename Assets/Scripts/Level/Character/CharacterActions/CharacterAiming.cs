@@ -111,11 +111,11 @@ public class CharacterAiming : AbstractCharacterComponent
                 CharComponents.CharacterVisual.FlippedH ? -1f : 1f, 
                 !(CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out FlashLightHoldable flh)) ?? true ? AIM_DOWN_Y_AXIS : AIM_DOWN_FLASHLIGHT_Y_AXIS
                 ) + VectorMath.Vec3ToVec2(CharComponents.Center.transform.position);
-            _currentAimPoint = Vector2.Lerp(_currentAimPoint, targetAim, AimSpeed * Time.deltaTime);
+            _currentAimPoint = Vector2.Lerp(_currentAimPoint, targetAim, AimSpeed * (CharComponents.CharacterHolding.CurrentHoldObject?.AimSpeedMultiplier ?? 1f) * Time.deltaTime);
         }
         else
         {
-            _currentAimPoint = Vector2.Lerp(_currentAimPoint, TargetAimPoint, AimSpeed * Time.deltaTime);
+            _currentAimPoint = Vector2.Lerp(_currentAimPoint, TargetAimPoint, AimSpeed * (CharComponents.CharacterHolding.CurrentHoldObject?.AimSpeedMultiplier ?? 1f) * Time.deltaTime);
         }
     }
 

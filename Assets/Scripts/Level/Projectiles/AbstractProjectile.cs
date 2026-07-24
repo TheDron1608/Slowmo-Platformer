@@ -219,6 +219,10 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         animator.runtimeAnimatorController = originalAnimator.runtimeAnimatorController;
         animator.SetTrigger(ANIMATOR_RESET_TRIGGER_NAME);
 
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        SpriteRenderer originalSpriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = originalSpriteRenderer.sprite;
+
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
         BoxCollider2D originalBoxCollider = original.GetComponent<BoxCollider2D>();
         boxCollider.size = originalBoxCollider.size;

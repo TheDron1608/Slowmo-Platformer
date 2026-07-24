@@ -27,6 +27,7 @@ public class RangedProjectile : AbstractProjectile
     public List<AbstractParticle> ParticlesOnWallHit = new();
     public AbstractParticle ParticleOnFaliedPierce;
     public PhysicsParticle ParticleOnHit;
+    public bool PierceWalls = false;
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
@@ -94,6 +95,7 @@ public class RangedProjectile : AbstractProjectile
         ParticleOnFaliedPierce = rangedOriginal.ParticleOnFaliedPierce;
         ShotNoiseDistance = rangedOriginal.ShotNoiseDistance;
         ParticleOnHit = rangedOriginal.ParticleOnHit;
+        PierceWalls = rangedOriginal.PierceWalls;
 
         _rangeMoved = 0f;
         _piercesLeft = MaxPierces;
@@ -256,7 +258,17 @@ public class RangedProjectile : AbstractProjectile
             RemoveProjectile();
         }
 
-        if (_piercesLeft > 0 && (damagableHitobject?.PiercableThrought ?? false))
+        if (_piercesLeft > 0 && PierceWalls)
+        {
+            if (hitObject.TryGetComponent(out Tilemap tilemap))
+            {
+                _layer.MultiTileMapsContainer.DestroyTileAt(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0), false, false);
+                _layer.MultiTileMapsContainer.DestroyTileAt(new Vector3Int((int)math.floor(_projectileTip.transform.position.x), (int)math.floor(_projectileTip.transform.position.y), 0), false, false);
+            }
+
+            _piercesLeft--;
+        }
+        else if (_piercesLeft > 0 && (damagableHitobject?.PiercableThrought ?? false))
         {
             _piercesLeft--;
         }
@@ -282,6 +294,49 @@ public class RangedProjectile : AbstractProjectile
     private void OnTriggerExit2D(Collider2D collision)
     {
         _currentHittingColliders.Remove(collision);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (PierceWalls)
+        {
+            Vector3Int targetPos1 = new Vector3Int(
+                (int)math.floor(transform.position.x), 
+                (int)math.floor(transform.position.y), 
+                0
+                );
+            Vector3Int targetPos2 = new Vector3Int(
+                (int)math.floor((_projectileTip.transform.position.x + transform.position.x) / 2f), 
+                (int)math.floor((_projectileTip.transform.position.y + transform.position.y) / 2f), 
+                0
+                );
+            Vector3Int targetPos3 = new Vector3Int(
+                (int)math.floor(_projectileTip.transform.position.x), 
+                (int)math.floor(_projectileTip.transform.position.y), 
+                0
+                );
+
+            if (_layer.MultiTileMapsContainer.GetHasValidAsPlatformAt(targetPos1))
+            {
+                _layer.MultiTileMapsContainer.DestroyTileAt(targetPos1, false, false);
+                _piercesLeft--;
+            }
+            if (_layer.MultiTileMapsContainer.GetHasValidAsPlatformAt(targetPos2))
+            {
+                _layer.MultiTileMapsContainer.DestroyTileAt(targetPos2, false, false);
+                _piercesLeft--;
+            }
+            if (_layer.MultiTileMapsContainer.GetHasValidAsPlatformAt(targetPos3))
+            {
+                _layer.MultiTileMapsContainer.DestroyTileAt(targetPos3, false, false);
+                _piercesLeft--;
+            }
+
+            if (_piercesLeft < 0)
+            {
+                RemoveProjectile();
+            }
+        }
     }
 
     protected override bool HitCondition(List<Collider2D> totalHitObjects, Collider2D currentHitObjet)

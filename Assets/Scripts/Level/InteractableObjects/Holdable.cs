@@ -8,7 +8,6 @@ using UnityEngine;
 public class Holdable : Interactable, IStuckableObject
 {
     const int ON_GRAB_SORTING_ORDER_ADD = 200;
-    const float STUCK_IN_WALL_STRINGHT = 40f;
     const float DISABLE_GRAVITY_DURATION_SECONDS = 1f;
     const float MIN_VELOCITY_TO_DISABLE_GRAVITY = 10f;
 
@@ -33,7 +32,9 @@ public class Holdable : Interactable, IStuckableObject
     public float ThrowRotationForce = 12.5f;
     public float SpeedToHitCharacter = 7.5f;
     public float SpeedToGetThrough = 15f;
+    public float AimSpeedMultiplier = 1f;
     public List<AbstractEffect> EffectsOnThrowHit = new();
+    public List<AbstractEffect> EffectOnHolded = new();
     public bool BreakSelfOnCollide = false;
     //public AbstractSoundPlayer SoundOnPickedUp;
     //public AbstractSoundPlayer SoundOnThrown;
@@ -482,6 +483,7 @@ public class Holdable : Interactable, IStuckableObject
         }
 
         _effectsReceiver.RemoveEffect(_appliedHolderEffects);
+        CurrentHolder.CharComponents.CharacterEffectsReceiver.RemoveEffect(EffectOnHolded);
         _appliedHolderEffects = new();
 
         //SoundOnThrown.PlaySound();
@@ -572,6 +574,7 @@ public class Holdable : Interactable, IStuckableObject
         ExcludedCollideThrower = newHolder.CharComponents;
 
         _appliedHolderEffects = _effectsReceiver.ApplyEffect(newHolder.EffectsOnHoldedObject, newHolder);
+        newHolder.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectOnHolded, this);
 
         //SoundOnPickedUp.PlaySound();
 
