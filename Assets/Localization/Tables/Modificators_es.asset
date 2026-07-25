@@ -20,1207 +20,1446 @@ MonoBehaviour:
     - rid: 569246017750564870
   m_TableData:
   - m_Id: 7381860352
-    m_Localized: 
+    m_Localized: Depurar
     m_Metadata:
       m_Items: []
   - m_Id: 29150298112
-    m_Localized: 
+    m_Localized: '* No hace nada'
     m_Metadata:
       m_Items: []
   - m_Id: 3073428593278976
-    m_Localized: 
+    m_Localized: "Regeneraci\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 3073568217464832
-    m_Localized: 
+    m_Localized: '* Restaura {RegenerationSpeed} salud por segundo'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 3075468056821760
-    m_Localized: 
+    m_Localized: vampirismo
     m_Metadata:
       m_Items: []
   - m_Id: 3074307899752448
-    m_Localized: 
+    m_Localized: '* Restaura el {VampirismStealPercent}% de la salud del personaje
+      asesinado'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10133043029098496
-    m_Localized: 
+    m_Localized: Muerte retrasada
     m_Metadata:
       m_Items: []
   - m_Id: 10133461012463616
-    m_Localized: 
+    m_Localized: "* El jugador no morir\xE1 despu\xE9s de recibir da\xF1o letal durante
+      {ToughLifetime} segundos"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10133612170985472
-    m_Localized: 
+    m_Localized: enemigos duros
     m_Metadata:
       m_Items: []
   - m_Id: 10133746195775488
-    m_Localized: 
+    m_Localized: "* El {AffectPrecent}% de los enemigos no morir\xE1n despu\xE9s
+      de recibir da\xF1o letal durante {ToughLifetime} segundos"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10464557839302656
-    m_Localized: 
+    m_Localized: Adrenalina
     m_Metadata:
       m_Items: []
   - m_Id: 10476504211144704
-    m_Localized: 
+    m_Localized: Drenaje de salud
     m_Metadata:
       m_Items: []
   - m_Id: 10476507059077120
-    m_Localized: 
+    m_Localized: '* Pierdes {HealthDrainSpeed} salud por segundo'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10464614605012992
-    m_Localized: 
+    m_Localized: "*Cuanto menos salud, mayor ser\xE1 la velocidad."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10899446858752000
-    m_Localized: 
+    m_Localized: "\xA1Ups! Los 6"
     m_Metadata:
       m_Items: []
   - m_Id: 10899466626506752
-    m_Localized: 
+    m_Localized: '* Multiplica la probabilidad de que todos los eventos buenos se
+      produzcan en un {RandomMultiplyPrecents}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10899483584077824
-    m_Localized: 
+    m_Localized: "\xA1Ups! los 20"
     m_Metadata:
       m_Items: []
   - m_Id: 10899504895336448
-    m_Localized: 
+    m_Localized: '* Multiplica la probabilidad de que todos los eventos buenos se
+      produzcan en un {RandomMultiplyPrecents}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10899523534823424
-    m_Localized: 
+    m_Localized: "\xA1Ups! Todos los 100"
     m_Metadata:
       m_Items: []
   - m_Id: 10899537082425344
-    m_Localized: 
+    m_Localized: '* Multiplica la probabilidad de que todos los eventos buenos se
+      produzcan en un {RandomMultiplyPrecents}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10899551712157696
-    m_Localized: 
+    m_Localized: "\xA1Ups! Todos 1..."
     m_Metadata:
       m_Items: []
   - m_Id: 10899570590720000
-    m_Localized: 
+    m_Localized: '* Multiplica la probabilidad de que ocurran todos los eventos negativos
+      en un {RandomMultiplyPrecents}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10899584603889664
-    m_Localized: 
+    m_Localized: "\xA1Ups! Todos los bordes..."
     m_Metadata:
       m_Items: []
   - m_Id: 10899604124180480
-    m_Localized: 
+    m_Localized: '* Multiplica la probabilidad de que ocurran todos los eventos negativos
+      en un {RandomMultiplyPrecents}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 10899622289711104
-    m_Localized: 
+    m_Localized: lo imposible es posible
     m_Metadata:
       m_Items: []
   - m_Id: 10899646130135040
-    m_Localized: 
+    m_Localized: '* Multiplica la probabilidad de TODOS los eventos en un {RandomMultiplyPrecents}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 11025033094995968
-    m_Localized: 
+    m_Localized: Alucinaciones
     m_Metadata:
       m_Items: []
   - m_Id: 11025036056174592
-    m_Localized: 
+    m_Localized: "* La percepci\xF3n del nivel est\xE1 distorsionada."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 11025056717316096
-    m_Localized: 
+    m_Localized: "Da\xF1o cerebral"
     m_Metadata:
       m_Items: []
   - m_Id: 11025058315345920
-    m_Localized: 
+    m_Localized: "* La orientaci\xF3n por nivel es casi imposible."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 11711268503396352
-    m_Localized: 
+    m_Localized: Armadura incompleta
     m_Metadata:
       m_Items: []
   - m_Id: 11711535139495936
-    m_Localized: 
+    m_Localized: '* El {AffectPrecent}% de los enemigos usan casco o chaleco antibalas'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 11711556018741248
-    m_Localized: 
+    m_Localized: Armadura
     m_Metadata:
       m_Items: []
   - m_Id: 11711823313346560
-    m_Localized: 
+    m_Localized: '* El {AffectPrecent}% de los enemigos usan un conjunto completo
+      de armadura ligera.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 11711990871597056
-    m_Localized: 
+    m_Localized: armadura pesada
     m_Metadata:
       m_Items: []
   - m_Id: 11712265636257792
-    m_Localized: 
+    m_Localized: '* El {AffectPrecent}% de los enemigos usan un conjunto completo
+      de armadura pesada.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12297136171270144
-    m_Localized: 
+    m_Localized: Grandes niveles
     m_Metadata:
       m_Items: []
   - m_Id: 12297139316998144
-    m_Localized: 
+    m_Localized: "* Tama\xF1o del nivel x{LevelSizeMultPrecent}%"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12326294859431936
-    m_Localized: 
+    m_Localized: "giro de c\xE1mara"
     m_Metadata:
       m_Items: []
   - m_Id: 12326296491016192
-    m_Localized: 
+    m_Localized: "* C\xE1mara girada 180 grados"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12331990384525312
-    m_Localized: 
+    m_Localized: Mareo
     m_Metadata:
       m_Items: []
   - m_Id: 12331991982555136
-    m_Localized: 
+    m_Localized: "* La c\xE1mara gira al moverse."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12332400709091328
-    m_Localized: 
+    m_Localized: "Disfunci\xF3n vestibular"
     m_Metadata:
       m_Items: []
   - m_Id: 12332402487476224
-    m_Localized: 
+    m_Localized: "* La c\xE1mara gira mucho al moverse."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12650826824564736
-    m_Localized: 
+    m_Localized: Defecto de arma
     m_Metadata:
       m_Items: []
   - m_Id: 12650847825444864
-    m_Localized: 
+    m_Localized: '* El arma tiene un {JamChancePrecent} % de posibilidades de fallar'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12650866347491328
-    m_Localized: 
+    m_Localized: Arma oxidada
     m_Metadata:
       m_Items: []
   - m_Id: 12650891043553280
-    m_Localized: 
+    m_Localized: '* El arma tiene un {JamChancePrecent} % de posibilidades de fallar'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12650959863693312
-    m_Localized: 
+    m_Localized: arma podrida
     m_Metadata:
       m_Items: []
   - m_Id: 12651398617251840
-    m_Localized: 
+    m_Localized: '* El arma tiene un {JamChancePrecent} % de posibilidades de fallar'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12671274299834368
-    m_Localized: 
+    m_Localized: "Doble munici\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 12671276782862336
-    m_Localized: 
+    m_Localized: "* Cantidad de munici\xF3n x{AmmoMultiplierPrecent}%\n\r* No afecta
+      el tama\xF1o de la revista."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12671773786914816
-    m_Localized: 
+    m_Localized: "Media munici\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 12671776035061760
-    m_Localized: 
+    m_Localized: "* La cantidad de munici\xF3n para armas disminuye un {AmmoMultiplierPrecent}%
+      cuando la recoge el jugador\n* No afecta a la munici\xF3n cargada."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12672292941086720
-    m_Localized: 
+    m_Localized: "Munici\xF3n infinita"
     m_Metadata:
       m_Items: []
   - m_Id: 12672297739370496
-    m_Localized: 
+    m_Localized: "* {AffectChance}% de las armas tienen munici\xF3n infinita\n* No
+      afecta el tama\xF1o de la revista."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 12683894071377920
-    m_Localized: 
+    m_Localized: revista resbaladiza
     m_Metadata:
       m_Items: []
   - m_Id: 12683896051089408
-    m_Localized: 
+    m_Localized: '* El jugador siempre toma el arma descargada.
+
+      *Permanecen
+      balas descargadas'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 13013170536726528
-    m_Localized: 
+    m_Localized: Medianoche
     m_Metadata:
       m_Items: []
   - m_Id: 13013171404947456
-    m_Localized: 
+    m_Localized: "* Sin luz solar\n* Luz tenue de las l\xE1mparas.\n* Linterna de
+      armas a distancia habilitada"
     m_Metadata:
       m_Items: []
   - m_Id: 13013254284394496
-    m_Localized: 
+    m_Localized: Oscuridad total
     m_Metadata:
       m_Items: []
   - m_Id: 13013258482892800
-    m_Localized: 
+    m_Localized: "* Sin luz solar ni l\xE1mparas.\n* Linterna de armas a distancia
+      habilitada"
     m_Metadata:
       m_Items: []
   - m_Id: 13031570667356160
-    m_Localized: 
+    m_Localized: "ba\xF1o de sangre"
     m_Metadata:
       m_Items: []
   - m_Id: 13031572605124608
-    m_Localized: 
+    m_Localized: "* M\xE1s sangre"
     m_Metadata:
       m_Items: []
   - m_Id: 13031622836109312
-    m_Localized: 
+    m_Localized: jones
     m_Metadata:
       m_Items: []
   - m_Id: 13031624207646720
-    m_Localized: 
+    m_Localized: '* 500% sangre'
     m_Metadata:
       m_Items: []
   - m_Id: 13031824158507008
-    m_Localized: 
+    m_Localized: Modo transmisor
     m_Metadata:
       m_Items: []
   - m_Id: 13031826008195072
-    m_Localized: 
+    m_Localized: '* Sin sangre'
     m_Metadata:
       m_Items: []
   - m_Id: 13048572165373952
-    m_Localized: 
+    m_Localized: Sin cuerpo a cuerpo
     m_Metadata:
       m_Items: []
   - m_Id: 13048574451269632
-    m_Localized: 
+    m_Localized: '* El arma se rompe cuando el jugador la recoge.'
     m_Metadata:
       m_Items: []
   - m_Id: 13135874124652544
-    m_Localized: 
+    m_Localized: Sin armas de fuego
     m_Metadata:
       m_Items: []
   - m_Id: 13135875512967168
-    m_Localized: 
+    m_Localized: '* El personaje descarga un arma de fuego cuando la recoge.'
     m_Metadata:
       m_Items: []
   - m_Id: 13587534982651904
-    m_Localized: 
+    m_Localized: pergamino misterioso
     m_Metadata:
       m_Items: []
   - m_Id: 13587536186417152
-    m_Localized: 
+    m_Localized: '* El jugador refleja las balas sin tener nada en sus manos.'
     m_Metadata:
       m_Items: []
   - m_Id: 14153455493160960
-    m_Localized: 
+    m_Localized: "solo un rasgu\xF1o"
     m_Metadata:
       m_Items: []
   - m_Id: 14153457086996480
-    m_Localized: 
+    m_Localized: "* Perder la cabeza no es letal para los enemigos.\n* Sin bonificaci\xF3n
+      de da\xF1o al disparar a la cabeza"
     m_Metadata:
       m_Items: []
   - m_Id: 14244098722734080
-    m_Localized: 
+    m_Localized: Segundo respiro
     m_Metadata:
       m_Items: []
   - m_Id: 14244100413038592
-    m_Localized: 
+    m_Localized: '* Un enemigo muerto tiene una probabilidad de resucitar con un
+      {ResurrectionChance}% de probabilidad.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 14290238881112064
-    m_Localized: 
+    m_Localized: Morir duro
     m_Metadata:
       m_Items: []
   - m_Id: 14290240634331136
-    m_Localized: 
+    m_Localized: '* Un enemigo muerto tiene una probabilidad de resucitar con un
+      {ResurrectionChance}% de probabilidad.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 14290301229441024
-    m_Localized: 
+    m_Localized: Renacido
     m_Metadata:
       m_Items: []
   - m_Id: 14290302751973376
-    m_Localized: 
+    m_Localized: '* Un enemigo muerto tiene una probabilidad de resucitar con un
+      {ResurrectionChance}% de probabilidad.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15215903196987392
-    m_Localized: 
+    m_Localized: Emergencia
     m_Metadata:
       m_Items: []
   - m_Id: 15215904996343808
-    m_Localized: 
+    m_Localized: '* Cantidad enemiga x{EnemyAmountPrecent}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15215909161287680
-    m_Localized: 
+    m_Localized: Reforzamiento
     m_Metadata:
       m_Items: []
   - m_Id: 15215911573012480
-    m_Localized: 
+    m_Localized: '* Cantidad enemiga x{EnemyAmountPrecent}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15215913087156224
-    m_Localized: 
+    m_Localized: Enjambre
     m_Metadata:
       m_Items: []
   - m_Id: 15215914156703744
-    m_Localized: 
+    m_Localized: '* Cantidad enemiga x{EnemyAmountPrecent}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15378124950970368
-    m_Localized: 
+    m_Localized: Mitosis
     m_Metadata:
       m_Items: []
   - m_Id: 15378126653857792
-    m_Localized: 
+    m_Localized: '* Los enemigos tienen un {MitosisChance}% de probabilidad de dividirse
+      en dos cuando mueren.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15564735306940416
-    m_Localized: 
+    m_Localized: Fusible complicado
     m_Metadata:
       m_Items: []
   - m_Id: 15564736313573376
-    m_Localized: 
+    m_Localized: '* Las armas arrojadizas a veces se disparan solas.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15570870122463232
-    m_Localized: 
+    m_Localized: Caos de armas
     m_Metadata:
       m_Items: []
   - m_Id: 15570871095541760
-    m_Localized: 
+    m_Localized: '* Las armas arrojadizas atacan constantemente.'
     m_Metadata:
       m_Items: []
   - m_Id: 15577566102306816
-    m_Localized: 
+    m_Localized: "Analg\xE9sicos"
     m_Metadata:
       m_Items: []
   - m_Id: 15577568048463872
-    m_Localized: 
+    m_Localized: "* Los enemigos ya no reciben aturdimiento al recibir da\xF1o."
     m_Metadata:
       m_Items: []
   - m_Id: 15578027106648064
-    m_Localized: 
+    m_Localized: "C\xF3ctel de combate"
     m_Metadata:
       m_Items: []
   - m_Id: 15578090155425792
-    m_Localized: 
+    m_Localized: '* Los enemigos no pueden ser aturdidos ni derribados.'
     m_Metadata:
       m_Items: []
   - m_Id: 15907612188884992
-    m_Localized: 
+    m_Localized: supercaliente
     m_Metadata:
       m_Items: []
   - m_Id: 15907613690445824
-    m_Localized: 
+    m_Localized: "* El tiempo se ralentiza mientras no te mueves.\n* La desaceleraci\xF3n
+      dura hasta {SlowmoMaxTime} segundos"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15914363638398976
-    m_Localized: 
+    m_Localized: "c\xE1mara lenta"
     m_Metadata:
       m_Items: []
   - m_Id: 15914365710385152
-    m_Localized: 
+    m_Localized: '* Velocidad del juego x{TimeScale}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15914409465364480
-    m_Localized: 
+    m_Localized: "Aceleraci\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 15914411642208256
-    m_Localized: 
+    m_Localized: '* Velocidad del juego x{TimeScale}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 15914472514142208
-    m_Localized: 
+    m_Localized: overclock
     m_Metadata:
       m_Items: []
   - m_Id: 15914474024091648
-    m_Localized: 
+    m_Localized: '* Velocidad del juego x{TimeScale}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 16099489102405632
-    m_Localized: 
+    m_Localized: Caja negra
     m_Metadata:
       m_Items: []
   - m_Id: 16099490754961408
-    m_Localized: 
+    m_Localized: '* ???'
     m_Metadata:
       m_Items: []
   - m_Id: 16285574641893376
-    m_Localized: 
+    m_Localized: "Amplia elecci\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 16285576483192832
-    m_Localized: 
+    m_Localized: '* {ExtraModificators} modificadores disponibles al seleccionar'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 16285625975980032
-    m_Localized: 
+    m_Localized: Escasez
     m_Metadata:
       m_Items: []
   - m_Id: 16285645974421504
-    m_Localized: 
+    m_Localized: '* -{ExtraModificators} modificadores disponibles al seleccionar'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 16293380728176640
-    m_Localized: 
+    m_Localized: x2
     m_Metadata:
       m_Items: []
   - m_Id: 16293382275874816
-    m_Localized: 
+    m_Localized: "* TODO causa el doble de da\xF1o."
     m_Metadata:
       m_Items: []
   - m_Id: 16443312756203520
-    m_Localized: 
+    m_Localized: Telequinesia
     m_Metadata:
       m_Items: []
   - m_Id: 16443313494401024
-    m_Localized: 
+    m_Localized: "* Si no hay art\xEDculos cerca para recoger, los atraes y los recoges"
     m_Metadata:
       m_Items: []
   - m_Id: 16695929751183360
-    m_Localized: 
+    m_Localized: Cerrar
     m_Metadata:
       m_Items: []
   - m_Id: 16695931198218240
-    m_Localized: 
+    m_Localized: '* Desactiva {DisableAmount} modificador positivo aleatorio
+
+      *
+      Los modificadores deshabilitados cambian aleatoriamente antes del comienzo
+      de un nuevo nivel.
+
+      * No se pueden desactivar los modificadores de inicio.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 16711392518447104
-    m_Localized: 
+    m_Localized: "Apag\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 16711393193730048
-    m_Localized: 
+    m_Localized: '* Desactiva {DisableAmount} modificadores positivos aleatorios
+
+      *
+      Los modificadores deshabilitados cambian aleatoriamente antes del comienzo
+      de un nuevo nivel.
+
+      * No se pueden desactivar los modificadores de inicio.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 17907522451251200
-    m_Localized: 
+    m_Localized: francotiradores
     m_Metadata:
       m_Items: []
   - m_Id: 17907524384825344
-    m_Localized: 
+    m_Localized: "* En el nivel aparecen enemigos r\xE1pidos con un rifle de francotirador."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 17907561521192960
-    m_Localized: 
+    m_Localized: "Francotiradores de \xE9lite"
     m_Metadata:
       m_Items: []
   - m_Id: 17907562393608192
-    m_Localized: 
+    m_Localized: "* En el nivel aparecen enemigos muy r\xE1pidos con un rifle de
+      francotirador."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 17907563475738624
-    m_Localized: 
+    m_Localized: "S\xFAper francotiradores"
     m_Metadata:
       m_Items: []
   - m_Id: 17907564318793728
-    m_Localized: 
+    m_Localized: "* En el nivel aparecen enemigos extremadamente r\xE1pidos con un
+      rifle de francotirador y reacciones instant\xE1neas."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 18997754630217728
-    m_Localized: 
+    m_Localized: Tanque
     m_Metadata:
       m_Items: []
   - m_Id: 18997756358270976
-    m_Localized: 
+    m_Localized: '* En el nivel aparecen enemigos duros con escudos.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 18999282434809856
-    m_Localized: 
+    m_Localized: "Tanque de \xE9lite"
     m_Metadata:
       m_Items: []
   - m_Id: 18999284037033984
-    m_Localized: 
+    m_Localized: '* En el nivel aparecen enemigos muy duros con escudos.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 19290659039191040
-    m_Localized: 
+    m_Localized: Soporte blindado
     m_Metadata:
       m_Items: []
   - m_Id: 19290660477837312
-    m_Localized: 
+    m_Localized: "* En el nivel aparecen enemigos blindados con armas semiautom\xE1ticas."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 19293160438210560
-    m_Localized: 
+    m_Localized: Apoyo blindado pesado
     m_Metadata:
       m_Items: []
   - m_Id: 19293161377734656
-    m_Localized: 
+    m_Localized: "* En el nivel aparecen enemigos fuertemente blindados y con armas
+      de fuego r\xE1pido."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 19999622395305984
-    m_Localized: 
+    m_Localized: Luchadores blindados
     m_Metadata:
       m_Items: []
   - m_Id: 19999623603265536
-    m_Localized: 
+    m_Localized: '* En el nivel aparecen enemigos blindados con armas cuerpo a cuerpo.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 19999628212805632
-    m_Localized: 
+    m_Localized: Luchadores blindados pesados
     m_Metadata:
       m_Items: []
   - m_Id: 19999628858728448
-    m_Localized: 
+    m_Localized: '* En el nivel aparecen enemigos fuertemente armados con armas cuerpo
+      a cuerpo.'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 20588908743901184
-    m_Localized: 
+    m_Localized: espadachines
     m_Metadata:
       m_Items: []
   - m_Id: 20588910715224064
-    m_Localized: 
+    m_Localized: "* En el nivel aparecen enemigos r\xE1pidos con armas cuerpo a cuerpo."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 20588912594272256
-    m_Localized: 
+    m_Localized: "Espadachines de \xE9lite"
     m_Metadata:
       m_Items: []
   - m_Id: 20588914070667264
-    m_Localized: 
+    m_Localized: "* En el nivel aparecen enemigos muy r\xE1pidos con armas cuerpo
+      a cuerpo.\n* Los espadachines a veces pueden bloquear proyectiles."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 20588915647725568
-    m_Localized: 
+    m_Localized: "S\xFAper espadachines"
     m_Metadata:
       m_Items: []
   - m_Id: 20588916587249664
-    m_Localized: 
+    m_Localized: "* El nivel presenta enemigos extremadamente r\xE1pidos con poderosas
+      armas cuerpo a cuerpo.\r\n* Los espadachines suelen bloquear los proyectiles."
     m_Metadata:
       m_Items: []
   - m_Id: 21193372761038848
-    m_Localized: 
+    m_Localized: enemigo desarmado
     m_Metadata:
       m_Items: []
   - m_Id: 21193374149353472
-    m_Localized: 
+    m_Localized: "* Aparecen enemigos r\xE1pidos y desarmados en el nivel."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 21756669394657280
-    m_Localized: 
+    m_Localized: cazador
     m_Metadata:
       m_Items: []
   - m_Id: 21756670900412416
-    m_Localized: 
+    m_Localized: "* Aparece un enemigo inmortal en el nivel.\r\n* El enemigo siempre
+      sabe tu ubicaci\xF3n.\r\n* El enemigo es hostil con todos, pero solo te ataca
+      a ti."
     m_Metadata:
       m_Items: []
   - m_Id: 22093576976703488
-    m_Localized: 
+    m_Localized: "Teletransportaci\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 22093579119992832
-    m_Localized: 
+    m_Localized: '* Puedes teletransportarte
+
+      * Teletransportarse cuesta {HealthCost}
+      de salud'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 22093587466657792
-    m_Localized: 
+    m_Localized: "Teletransportaci\xF3n mortal"
     m_Metadata:
       m_Items: []
   - m_Id: 22093589144379392
-    m_Localized: 
+    m_Localized: "* Puedes teletransportarte a los enemigos y matarlos instant\xE1neamente.\n\r*
+      Teletransportarse cuesta {ComboCost} combo y {HealthCost} de salud"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 24054089340133376
-    m_Localized: 
+    m_Localized: Arma de bolsillo de perdigones
     m_Metadata:
       m_Items: []
   - m_Id: 24054090220937216
-    m_Localized: 
+    m_Localized: '* Todas las armas de bolsillo disparan perdigones.'
     m_Metadata:
       m_Items: []
   - m_Id: 24054158000889856
-    m_Localized: 
+    m_Localized: Arma de bolsillo perforadora
     m_Metadata:
       m_Items: []
   - m_Id: 24054158814584832
-    m_Localized: 
+    m_Localized: '* Todas las armas de bolsillo disparan rondas perforantes.'
     m_Metadata:
       m_Items: []
   - m_Id: 24063745018011648
-    m_Localized: 
+    m_Localized: Arma de bolsillo inteligente
     m_Metadata:
       m_Items: []
   - m_Id: 24063746167250944
-    m_Localized: 
+    m_Localized: '* Todas las armas de bolsillo disparan rondas de seguimiento.'
     m_Metadata:
       m_Items: []
   - m_Id: 24063835027775488
-    m_Localized: 
+    m_Localized: Arma de asalto de perdigones
     m_Metadata:
       m_Items: []
   - m_Id: 24063836567085056
-    m_Localized: 
+    m_Localized: "* Todas las armas de tama\xF1o mediano disparan perdigones."
     m_Metadata:
       m_Items: []
   - m_Id: 24063837250756608
-    m_Localized: 
+    m_Localized: Arma de asalto penetrante
     m_Metadata:
       m_Items: []
   - m_Id: 24063840107077632
-    m_Localized: 
+    m_Localized: "* Todas las armas de tama\xF1o mediano disparan rondas perforantes."
     m_Metadata:
       m_Items: []
   - m_Id: 24063840803332096
-    m_Localized: 
+    m_Localized: Arma de asalto inteligente
     m_Metadata:
       m_Items: []
   - m_Id: 24063841487003648
-    m_Localized: 
+    m_Localized: "* Todas las armas de tama\xF1o mediano disparan rondas guiadoras."
     m_Metadata:
       m_Items: []
   - m_Id: 24063842174869504
-    m_Localized: 
+    m_Localized: Arma pesada de perdigones
     m_Metadata:
       m_Items: []
   - m_Id: 24063842787237888
-    m_Localized: 
+    m_Localized: "* Todas las armas de gran tama\xF1o disparan perdigones."
     m_Metadata:
       m_Items: []
   - m_Id: 24063846436282368
-    m_Localized: 
+    m_Localized: Arma pesada perforadora
     m_Metadata:
       m_Items: []
   - m_Id: 24064413762035712
-    m_Localized: 
+    m_Localized: "* Todas las armas de gran tama\xF1o disparan rondas perforantes."
     m_Metadata:
       m_Items: []
   - m_Id: 24064415464923136
-    m_Localized: 
+    m_Localized: Arma pesada inteligente
     m_Metadata:
       m_Items: []
   - m_Id: 24064663721582592
-    m_Localized: 
+    m_Localized: "* Todas las armas de gran tama\xF1o disparan rondas guiadoras."
     m_Metadata:
       m_Items: []
   - m_Id: 24323621510160384
-    m_Localized: 
+    m_Localized: "Munici\xF3n aleatoria"
     m_Metadata:
       m_Items: []
   - m_Id: 24323622126723072
-    m_Localized: 
+    m_Localized: "* Todas las armas a distancia est\xE1n cargadas con munici\xF3n
+      aleatoria."
     m_Metadata:
       m_Items: []
   - m_Id: 24335004465340416
-    m_Localized: 
+    m_Localized: cuerpo a cuerpo con arma de fuego
     m_Metadata:
       m_Items: []
   - m_Id: 24335005354532864
-    m_Localized: 
+    m_Localized: '* Las armas cuerpo a cuerpo disparan balas aleatorias'
     m_Metadata:
       m_Items: []
   - m_Id: 24335870777860096
-    m_Localized: 
+    m_Localized: arma de fuego cuerpo a cuerpo
     m_Metadata:
       m_Items: []
   - m_Id: 24335872010985472
-    m_Localized: 
+    m_Localized: '* Ataque con armas de fuego con ataques cuerpo a cuerpo aleatorios.'
     m_Metadata:
       m_Items: []
   - m_Id: 24336960512565248
-    m_Localized: 
+    m_Localized: "Munici\xF3n del caos"
     m_Metadata:
       m_Items: []
   - m_Id: 24336963117228032
-    m_Localized: 
+    m_Localized: '* Todas las armas atacan con proyectiles aleatorios.'
     m_Metadata:
       m_Items: []
   - m_Id: 24460306264858624
-    m_Localized: 
+    m_Localized: Rango aleatorio
     m_Metadata:
       m_Items: []
   - m_Id: 24460307254714368
-    m_Localized: 
+    m_Localized: "* Las armas de fuego est\xE1n cargadas con munici\xF3n aleatoria."
     m_Metadata:
       m_Items: []
   - m_Id: 24460362007158784
-    m_Localized: 
+    m_Localized: cuerpo a cuerpo aleatorio
     m_Metadata:
       m_Items: []
   - m_Id: 24460363051540480
-    m_Localized: 
+    m_Localized: '* Ataque con armas cuerpo a cuerpo con ataques cuerpo a cuerpo
+      aleatorios'
     m_Metadata:
       m_Items: []
   - m_Id: 25665323839406080
-    m_Localized: 
+    m_Localized: "M\xE1s bot\xEDn"
     m_Metadata:
       m_Items: []
   - m_Id: 25665325080920064
-    m_Localized: 
+    m_Localized: "* Las cajas contienen bot\xEDn en su interior.\r\n* Los casilleros
+      contienen m\xE1s art\xEDculos."
     m_Metadata:
       m_Items: []
   - m_Id: 25665484967788544
-    m_Localized: 
+    m_Localized: Arsenal
     m_Metadata:
       m_Items: []
   - m_Id: 25665485739540480
-    m_Localized: 
+    m_Localized: "* Las cajas contienen bot\xEDn en su interior.\n* Los casilleros
+      y cajas contienen m\xE1s art\xEDculos.\r\n* Los casilleros y cajas pueden contener
+      armas m\xE1s fuertes."
     m_Metadata:
       m_Items: []
   - m_Id: 25665525669314560
-    m_Localized: 
+    m_Localized: "Almac\xE9n de armas"
     m_Metadata:
       m_Items: []
   - m_Id: 25665526340403200
-    m_Localized: 
+    m_Localized: "* Cualquier mueble puede contener bot\xEDn en su interior.\r\n*
+      Los muebles pueden contener armas significativamente m\xE1s poderosas."
     m_Metadata:
       m_Items: []
   - m_Id: 27742279511023616
-    m_Localized: 
+    m_Localized: Velocidad combinada
     m_Metadata:
       m_Items: []
   - m_Id: 27742280165335040
-    m_Localized: 
+    m_Localized: '* Cuanto mayor sea el combo, mayor velocidad'
     m_Metadata:
       m_Items: []
   - m_Id: 27909262747607040
-    m_Localized: 
+    m_Localized: "Adicci\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 27909263364169728
-    m_Localized: 
+    m_Localized: '* Los aumentos combinados restauran {ComboRegen} de salud
+
+      *
+      El reinicio combinado otorga {ComboDamage} de salud por muerte'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 28086521643114496
-    m_Localized: 
+    m_Localized: "Da\xF1o combinado"
     m_Metadata:
       m_Items: []
   - m_Id: 28086525128581120
-    m_Localized: 
+    m_Localized: "* Cuanto mayor sea el combo, mayor da\xF1o"
     m_Metadata:
       m_Items: []
   - m_Id: 28092185329246208
-    m_Localized: 
+    m_Localized: Condenado
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: 
+    m_Localized: "* Morir\xE1s en 5 minutos."
     m_Metadata:
       m_Items: []
   - m_Id: 29070670252187648
-    m_Localized: 
+    m_Localized: Sobredosis de adrenalina
     m_Metadata:
       m_Items: []
   - m_Id: 29070670940053504
-    m_Localized: 
+    m_Localized: "*Cuanto menos salud, mayor ser\xE1 la velocidad.\n\r* El tiempo
+      se ralentiza a medida que aumenta la velocidad."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 29086115118161920
-    m_Localized: 
+    m_Localized: "Cargador r\xE1pido"
     m_Metadata:
       m_Items: []
   - m_Id: 29086117039153152
-    m_Localized: 
+    m_Localized: "* Todas las armas que no son cargadores se recargan significativamente
+      m\xE1s r\xE1pido"
     m_Metadata:
       m_Items: []
   - m_Id: 29157579976581120
-    m_Localized: 
+    m_Localized: racha de muertes
     m_Metadata:
       m_Items: []
   - m_Id: 29157582866456576
-    m_Localized: 
+    m_Localized: '* El retraso del ataque con arma se reinicia al matar'
     m_Metadata:
       m_Items: []
   - m_Id: 29158216529321984
-    m_Localized: 
+    m_Localized: Contraataque
     m_Metadata:
       m_Items: []
   - m_Id: 29158217246547968
-    m_Localized: 
+    m_Localized: '* El retraso del ataque con arma se reinicia al bloquear un proyectil.'
     m_Metadata:
       m_Items: []
   - m_Id: 29179763398778880
-    m_Localized: 
+    m_Localized: piernas rotas
     m_Metadata:
       m_Items: []
   - m_Id: 29179764682235904
-    m_Localized: 
+    m_Localized: "* Te mueves y saltas con retraso.\r\n* Est\xE1s estacionario mientras
+      inicias un salto."
     m_Metadata:
       m_Items: []
   - m_Id: 29179766724861952
-    m_Localized: 
+    m_Localized: manos rotas
     m_Metadata:
       m_Items: []
   - m_Id: 29179767429505024
-    m_Localized: 
+    m_Localized: "* Atacas con retraso.\r\n* Debes permanecer inm\xF3vil mientras
+      atacas."
     m_Metadata:
       m_Items: []
   - m_Id: 29179768280948736
-    m_Localized: 
+    m_Localized: Lesiones graves
     m_Metadata:
       m_Items: []
   - m_Id: 29179769136586752
-    m_Localized: 
+    m_Localized: "* Realizas cualquier acci\xF3n con retraso.\r\n* Debes estar estacionario
+      para realizar una acci\xF3n."
     m_Metadata:
       m_Items: []
   - m_Id: 29405274624466944
-    m_Localized: 
+    m_Localized: fractura de brazo
     m_Metadata:
       m_Items: []
   - m_Id: 29405276113444864
-    m_Localized: 
+    m_Localized: "* Est\xE1s inm\xF3vil mientras recargas"
     m_Metadata:
       m_Items: []
   - m_Id: 32071464828248064
-    m_Localized: 
+    m_Localized: Casas correctas
     m_Metadata:
       m_Items: []
   - m_Id: 32071465750994944
-    m_Localized: 
+    m_Localized: "* Los niveles son m\xE1s t\xFAnel."
     m_Metadata:
       m_Items: []
   - m_Id: 32071527616978944
-    m_Localized: 
+    m_Localized: "Construcci\xF3n sin terminar"
     m_Metadata:
       m_Items: []
   - m_Id: 32071529198231552
-    m_Localized: 
+    m_Localized: "* La generaci\xF3n de niveles tiene significativamente m\xE1s espacios
+      abiertos y abismos."
     m_Metadata:
       m_Items: []
   - m_Id: 32071586312069120
-    m_Localized: 
+    m_Localized: "Mundo extra\xF1o"
     m_Metadata:
       m_Items: []
   - m_Id: 32071587054460928
-    m_Localized: 
+    m_Localized: "* La generaci\xF3n mundial ha cambiado significativamente."
     m_Metadata:
       m_Items: []
   - m_Id: 32641406954872832
-    m_Localized: 
+    m_Localized: "Desurbanizaci\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 32641407600795648
-    m_Localized: 
+    m_Localized: "* La generaci\xF3n mundial se compone de peque\xF1as casas en la
+      superficie."
     m_Metadata:
       m_Items: []
   - m_Id: 34414353809907712
-    m_Localized: 
+    m_Localized: Salud arriba
     m_Metadata:
       m_Items: []
   - m_Id: 34414355374383104
-    m_Localized: 
+    m_Localized: '* Salud del enemigo x{HealthUp}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 34414358390087680
-    m_Localized: 
+    m_Localized: Tanque
     m_Metadata:
       m_Items: []
   - m_Id: 34414359396720640
-    m_Localized: 
+    m_Localized: '* Salud del enemigo x{HealthUp}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 34414360814395392
-    m_Localized: 
+    m_Localized: gigante
     m_Metadata:
       m_Items: []
   - m_Id: 34414475566358528
-    m_Localized: 
+    m_Localized: '* Salud del enemigo x{HealthUp}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 37026845560119296
-    m_Localized: 
+    m_Localized: Pacificador
     m_Metadata:
       m_Items: []
   - m_Id: 37026846214430720
-    m_Localized: 
+    m_Localized: '* Romper o descargar un arma cura {HealAmount} de salud'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 37496867369754624
-    m_Localized: 
+    m_Localized: sin piedad
     m_Metadata:
       m_Items: []
   - m_Id: 37496868418330624
-    m_Localized: 
+    m_Localized: "* Usando una habilidad especial remata al enemigo derribado m\xE1s
+      cercano."
     m_Metadata:
       m_Items: []
   - m_Id: 37496869680816128
-    m_Localized: 
+    m_Localized: "T\xE9cnicas de esgrima no convencionales"
     m_Metadata:
       m_Items: []
   - m_Id: 37496870809083904
-    m_Localized: 
+    m_Localized: "* Usando una habilidad especial remata al enemigo derribado m\xE1s
+      cercano.\n* Rematar mata a cualquier enemigo, ignorando la armadura y la inmortalidad."
     m_Metadata:
       m_Items: []
   - m_Id: 38580359654514688
-    m_Localized: 
+    m_Localized: "Enemigos r\xE1pidos"
     m_Metadata:
       m_Items: []
   - m_Id: 38580360967331840
-    m_Localized: 
+    m_Localized: '* Velocidad del enemigo x{SpeedUpPrecent}%
+
+      * Altura de
+      salto del enemigo x{JumpForcePrecent}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 38580362003324928
-    m_Localized: 
+    m_Localized: velocistas
     m_Metadata:
       m_Items: []
   - m_Id: 38580374561071104
-    m_Localized: 
+    m_Localized: '* Velocidad del enemigo x{SpeedUpPrecent}%
+
+      * Altura de
+      salto del enemigo x{JumpForcePrecent}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 38580375433486336
-    m_Localized: 
+    m_Localized: Erizo malvado
     m_Metadata:
       m_Items: []
   - m_Id: 38580377199288320
-    m_Localized: 
+    m_Localized: '* Velocidad del enemigo x{SpeedUpPrecent}%
+
+      * Altura de
+      salto del enemigo x{JumpForcePrecent}%'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 47608481125212160
-    m_Localized: 
+    m_Localized: kickboxing
     m_Metadata:
       m_Items: []
   - m_Id: 47608482991677440
-    m_Localized: 
+    m_Localized: '* El jugador puede patear al enemigo cuando no sostiene un arma.'
     m_Metadata:
       m_Items: []
   - m_Id: 48287511650476032
-    m_Localized: 
+    m_Localized: Culto a la espada
     m_Metadata:
       m_Items: []
   - m_Id: 48287512308981760
-    m_Localized: 
+    m_Localized: "* Eres una espada\n* Usar la habilidad convierte al enemigo muerto
+      m\xE1s cercano a la espada a tu lado\n* Usar la habilidad cuesta {ConvertCost}
+      combo; el costo aumenta despu\xE9s de cada uso y disminuye por cada {KillToDecreaseCost}
+      muertes\n* Los personajes convertidos no pueden sobrevivir m\xE1s de {ConvertLiveTime}
+      y morir\xE1n si est\xE1n lejos de la espada."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 48719723764097024
-    m_Localized: 
+    m_Localized: Vigor
     m_Metadata:
       m_Items: []
   - m_Id: 48719724397436928
-    m_Localized: 
+    m_Localized: '* Combo mitades en lugar de reinicio (disminuye en 1 si es menos
+      de 0)
+
+      * Velocidad de reinicio combinada x{ResetComboMultiplier}
+
+      *
+      Mueres si tu combo baja a {MinCombo}'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 48728468984406016
-    m_Localized: 
+    m_Localized: Maestro de esquiva
     m_Metadata:
       m_Items: []
   - m_Id: 48728469554831360
-    m_Localized: 
+    m_Localized: "* Reflejas cualquier proyectil siempre que tu combo est\xE9 por
+      encima de 0\n* Reflejar un proyectil cuesta un {DodgeComboCostPercent}% del
+      combo"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 48730691038584832
-    m_Localized: 
+    m_Localized: Vaso
     m_Metadata:
       m_Items: []
   - m_Id: 48730691650953216
-    m_Localized: 
+    m_Localized: "* Un golpe y est\xE1s muerto"
     m_Metadata:
       m_Items: []
   - m_Id: 49010918759309312
-    m_Localized: 
+    m_Localized: Absolutamente nada
     m_Metadata:
       m_Items: []
   - m_Id: 49010920923570176
-    m_Localized: 
+    m_Localized: "* No puedes obtener ni vender modificadores.\r\n* A\xFAn recibes
+      modificadores permanentes con el tiempo"
     m_Metadata:
       m_Items: []
   - m_Id: 49275710807973888
-    m_Localized: 
+    m_Localized: Coleccionista
     m_Metadata:
       m_Items: []
   - m_Id: 49275715270713344
-    m_Localized: 
+    m_Localized: "* Usar la habilidad intercambia tu combo actual por un artefacto\n*
+      Cuanto mayor sea el combo, m\xE1s poderoso ser\xE1 el artefacto.\n* Los artefactos
+      te curan; la curaci\xF3n depende de la fuerza del artefacto y disminuye con
+      el tiempo\n* Puedes recolectar hasta {ModificatorCapacity} artefactos; exceder
+      el l\xEDmite reemplaza el \xFAltimo artefacto con el nuevo"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 49627624955420672
-    m_Localized: 
+    m_Localized: Decadencia
     m_Metadata:
       m_Items: []
   - m_Id: 49627625479708672
-    m_Localized: 
+    m_Localized: "* La salud m\xE1xima es ilimitada\n* Pierdes el {HealthLossPrecent}%
+      de tu salud actual por segundo"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 53781888334274560
-    m_Localized: 
+    m_Localized: Paciencia
     m_Metadata:
       m_Items: []
   - m_Id: 53781889047306240
-    m_Localized: 
+    m_Localized: '* No puedes vender modificadores hasta que aumentes la dificultad.'
     m_Metadata:
       m_Items: []
   - m_Id: 53788989446135808
-    m_Localized: 
+    m_Localized: Barajar
     m_Metadata:
       m_Items: []
   - m_Id: 53788989945257984
-    m_Localized: 
+    m_Localized: '* Todos los modificadores se reemplazan por otros aleatorios con
+      el mismo precio.'
     m_Metadata:
       m_Items: []
   - m_Id: 54179387003871232
-    m_Localized: 
+    m_Localized: "Evoluci\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 54179387779817472
-    m_Localized: 
+    m_Localized: "* Todos los modificadores se reemplazan con su versi\xF3n m\xE1s
+      dif\xEDcil si tienen una."
     m_Metadata:
       m_Items: []
   - m_Id: 54347527729946624
-    m_Localized: 
+    m_Localized: a la luna
     m_Metadata:
       m_Items: []
   - m_Id: 54347528380063744
-    m_Localized: 
+    m_Localized: "* Recibes modificadores negativos negociables significativamente
+      m\xE1s fuertes"
     m_Metadata:
       m_Items: []
   - m_Id: 54358641960263680
-    m_Localized: 
+    m_Localized: Estancamiento
     m_Metadata:
       m_Items: []
   - m_Id: 54358642643935232
-    m_Localized: 
+    m_Localized: "* Vender modificadores negativos es un {ProfitMult} % m\xE1s rentable.\n*
+      Despu\xE9s de vender modificadores negativos, se vuelven permanentes."
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 54416059155062784
-    m_Localized: 
+    m_Localized: Retcon
     m_Metadata:
       m_Items: []
   - m_Id: 54416059800985600
-    m_Localized: 
+    m_Localized: "* Pasas instant\xE1neamente a la siguiente dificultad."
     m_Metadata:
       m_Items: []
   - m_Id: 54531334339551232
-    m_Localized: 
+    m_Localized: Nuevo juego
     m_Metadata:
       m_Items: []
   - m_Id: 54531335073554432
-    m_Localized: 
+    m_Localized: '* Comienzas el juego de nuevo, manteniendo todos los modificadores.'
     m_Metadata:
       m_Items: []
   - m_Id: 54700080565035008
-    m_Localized: 
+    m_Localized: carta caos
     m_Metadata:
       m_Items: []
   - m_Id: 54700081269678080
-    m_Localized: 
+    m_Localized: "* Al final del nivel, 1 modificador se reemplaza por uno aleatorio
+      con un precio id\xE9ntico"
     m_Metadata:
       m_Items: []
   - m_Id: 54751870618673152
-    m_Localized: 
+    m_Localized: "carrera r\xE1pida"
     m_Metadata:
       m_Items: []
   - m_Id: 54751871461728256
-    m_Localized: 
+    m_Localized: "* El juego se vuelve m\xE1s dif\xEDcil al doble de velocidad."
     m_Metadata:
       m_Items: []
   - m_Id: 54902326812712960
-    m_Localized: 
+    m_Localized: Segunda oportunidad
     m_Metadata:
       m_Items: []
   - m_Id: 54902327492190208
-    m_Localized: 
+    m_Localized: '* Puedes repetir los modificadores {AddRerolls} veces al elegirlos'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 55067746236604416
-    m_Localized: 
+    m_Localized: "Maldici\xF3n del dios del azar"
     m_Metadata:
       m_Items: []
   - m_Id: 55067746991579136
-    m_Localized: 
+    m_Localized: "* No puedes saltarte la selecci\xF3n de modificadores negativos
+      negociables."
     m_Metadata:
       m_Items: []
   - m_Id: 55102522020569088
-    m_Localized: 
+    m_Localized: "Hipercompensaci\xF3n"
     m_Metadata:
       m_Items: []
   - m_Id: 55102522700046336
-    m_Localized: 
+    m_Localized: "* Obtienes el doble de modificadores negativos vendidos, pero tambi\xE9n
+      obtienes un modificador positivo equivalente a la mitad del precio total"
     m_Metadata:
       m_Items: []
   - m_Id: 55102630434938880
-    m_Localized: 
+    m_Localized: "Hipercompensaci\xF3n permanente"
     m_Metadata:
       m_Items: []
   - m_Id: 55102631420600320
-    m_Localized: 
+    m_Localized: "* Al vender, recibes 2 veces m\xE1s modificadores positivos permanentes,
+      pero tambi\xE9n recibes un modificador negativo equivalente a la mitad del
+      precio total."
     m_Metadata:
       m_Items: []
   - m_Id: 55102672239566848
-    m_Localized: 
+    m_Localized: Cambiador de juego
     m_Metadata:
       m_Items: []
   - m_Id: 55102672889683968
-    m_Localized: 
+    m_Localized: "* Obtienes un {AddModsPercent}% m\xE1s de modificadores, pero tambi\xE9n
+      obtienes modificadores del tipo opuesto equivalentes a la mitad del costo total"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 55615535613976576
-    m_Localized: 
+    m_Localized: duplicar la apuesta
     m_Metadata:
       m_Items: []
   - m_Id: 55615536234733568
-    m_Localized: 
+    m_Localized: '* Duplica todos los modificadores intercambiables si se pueden
+      duplicar.'
     m_Metadata:
       m_Items: []
   - m_Id: 55627909834186752
-    m_Localized: 
+    m_Localized: Caos
     m_Metadata:
       m_Items: []
   - m_Id: 55627910698213376
-    m_Localized: 
+    m_Localized: '* Gana {GainAmount} modificadores neutrales aleatorios'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 55795128253784064
-    m_Localized: 
+    m_Localized: "Ultim\xE1tum"
     m_Metadata:
       m_Items: []
   - m_Id: 55795128861958144
-    m_Localized: 
+    m_Localized: "* Si eliges no tomar nada al elegir un modificador, un modificador
+      intercambiable aleatorio se reemplaza con su versi\xF3n m\xE1s cara si tienes
+      al menos uno."
     m_Metadata:
       m_Items: []
   - m_Id: 75017303815610368
-    m_Localized: 
+    m_Localized: "* Cuanto menor sea tu salud, mayor ser\xE1 tu regeneraci\xF3n,
+      hasta x{MaxRegenMult}"
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75023892677124096
-    m_Localized: 
+    m_Localized: "* Restablecer un combo aumenta la regeneraci\xF3n en un {RegenMult}%
+      por combo\n* La regeneraci\xF3n disminuye un {RegenReduction}% cada segundo"
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75022678992347136
-    m_Localized: 
+    m_Localized: "* Si tu habilidad consume salud, tu regeneraci\xF3n aumenta un
+      x{RegenMult}% durante {RegenDuration} segundos"
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75031839360671744
-    m_Localized: 
+    m_Localized: '* Cada vez que rompes la armadura de un enemigo, restauras {HealthPerBreak}
+      de salud'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75028289746362368
-    m_Localized: 
+    m_Localized: '* x{HealthUp}% de salud'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75028570865393664
-    m_Localized: 
+    m_Localized: '* x{HealthUp}% de salud'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75028576200548352
-    m_Localized: 
+    m_Localized: '* x{HealthUp}% de salud'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75030451406757888
-    m_Localized: 
+    m_Localized: "* Tu salud m\xE1xima aumenta en un {HealthConversion} % de la salud
+      total de todos los enemigos vivos en la pantalla."
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75018744869412864
-    m_Localized: 
+    m_Localized: "* Al recibir da\xF1o, tambi\xE9n aumentas tu salud m\xE1xima en
+      un {HealthConversion}% del da\xF1o recibido\n* El efecto se reinicia al inicio
+      del nivel."
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 75027805191004160
-    m_Localized: 
+    m_Localized: "* Aumentar la regeneraci\xF3n tambi\xE9n aumenta la salud m\xE1xima
+      en 1 por cada {HealthPerRegen}% de regeneraci\xF3n"
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
+  - m_Id: 75017302251134976
+    m_Localized: "esp\xEDritu fuerte"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75018743808253952
+    m_Localized: Crecimiento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75020912133398528
+    m_Localized: "mu\xF1eco vud\xFA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75020912976453632
+    m_Localized: "* Todo el da\xF1o y los aturdimientos causados \u200B\u200Bal jugador
+      tambi\xE9n se aplican al atacante."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75022678266732544
+    m_Localized: "Cauterizaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75023891905372160
+    m_Localized: premio sangriento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75027804490555392
+    m_Localized: Fortaleza
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75028287959588864
+    m_Localized: Forzudo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75028569208643584
+    m_Localized: Cuerpo de acero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75028574938062848
+    m_Localized: "Gran \xEDdolo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75030450429485056
+    m_Localized: compartir salud
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75031838689583104
+    m_Localized: Reciclaje de chatarra
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
@@ -1239,3 +1478,79 @@ MonoBehaviour:
         - id: 75030451406757888
         - id: 75018744869412864
         - id: 75027805191004160
+        - id: 3073568217464832
+        - id: 3074307899752448
+        - id: 10133461012463616
+        - id: 10133746195775488
+        - id: 10476507059077120
+        - id: 10464614605012992
+        - id: 10899466626506752
+        - id: 10899504895336448
+        - id: 10899537082425344
+        - id: 10899570590720000
+        - id: 10899604124180480
+        - id: 10899646130135040
+        - id: 11025036056174592
+        - id: 11025058315345920
+        - id: 11711535139495936
+        - id: 11711823313346560
+        - id: 11712265636257792
+        - id: 12297139316998144
+        - id: 12326296491016192
+        - id: 12331991982555136
+        - id: 12332402487476224
+        - id: 12650847825444864
+        - id: 12650891043553280
+        - id: 12651398617251840
+        - id: 12671276782862336
+        - id: 12671776035061760
+        - id: 12672297739370496
+        - id: 12683896051089408
+        - id: 14244100413038592
+        - id: 14290240634331136
+        - id: 14290302751973376
+        - id: 15215904996343808
+        - id: 15215911573012480
+        - id: 15215914156703744
+        - id: 15378126653857792
+        - id: 15564736313573376
+        - id: 15907613690445824
+        - id: 15914365710385152
+        - id: 15914411642208256
+        - id: 15914474024091648
+        - id: 16285576483192832
+        - id: 16285645974421504
+        - id: 16695931198218240
+        - id: 16711393193730048
+        - id: 17907524384825344
+        - id: 17907562393608192
+        - id: 17907564318793728
+        - id: 18997756358270976
+        - id: 18999284037033984
+        - id: 19290660477837312
+        - id: 19293161377734656
+        - id: 19999623603265536
+        - id: 19999628858728448
+        - id: 20588910715224064
+        - id: 20588914070667264
+        - id: 21193374149353472
+        - id: 22093579119992832
+        - id: 22093589144379392
+        - id: 27909263364169728
+        - id: 29070670940053504
+        - id: 34414355374383104
+        - id: 34414359396720640
+        - id: 34414475566358528
+        - id: 37026846214430720
+        - id: 38580360967331840
+        - id: 38580374561071104
+        - id: 38580377199288320
+        - id: 48287512308981760
+        - id: 48719724397436928
+        - id: 48728469554831360
+        - id: 49275715270713344
+        - id: 49627625479708672
+        - id: 54358642643935232
+        - id: 54902327492190208
+        - id: 55102672889683968
+        - id: 55627910698213376
