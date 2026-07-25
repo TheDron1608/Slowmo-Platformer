@@ -8,5 +8,9 @@
         {
             blessContainer.SellCurses();
         }
+        else if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out TutorialBlessPickManager tutorialBlessContainer))
+        {
+            tutorialBlessContainer.SellCurses();
+        }
     }
 }

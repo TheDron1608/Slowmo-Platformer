@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 69f3fce1446a5364bbf685dc7d1258a9, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 569246335167889514
   m_TableData:
   - m_Id: 5406695424
     m_Localized: Move
@@ -42,6 +43,83 @@ MonoBehaviour:
     m_Localized: Roll
     m_Metadata:
       m_Items: []
+  - m_Id: 21693710516346880
+    m_Localized: 'Hold to jump higher
+
+
+      Press twice to double jump'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21719977978486784
+    m_Localized: 'You cannot attack without a weapon
+
+      
+
+      Pick up the
+      pistol and kill the enemy to continue'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21722062933450752
+    m_Localized: Throw the key into the door to continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21722205636255744
+    m_Localized: Knock the enemy down with a roll to continue
+    m_Metadata:
+      m_Items:
+      - rid: 569246335167889514
+  - m_Id: 21722610667610112
+    m_Localized: 'Kill enemies to earn combo points
+
+      
+
+      Later on, combo
+      points can be exchanged for modifiers
+
+      
+
+      Reach the red door while
+      killing as many enemies as possible along the way'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21763017808011264
+    m_Localized: You have received a negative modifier; to exchange it for a beneficial
+      one, carry it to the green door
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21763598907858944
+    m_Localized: 'The game will get harder every 3 minutes, forcing you to choose
+      modifiers that cannot be swapped.
+
+      You need to survive for 15 minutes.
+      You can track your progress in the left corner. Time is frozen during the tutorial.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21764450431262720
+    m_Localized: 'You can view information about current modifiers by pausing the
+      game
+
+      
+
+      Open the pause menu and hover over the modifier icon
+      to continue'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21765088586227712
+    m_Localized: 'Training complete
+
+      
+
+      Pick up the teleporter grenade
+      and activate it to teleport into the game'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 569246335167889514
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 21722205636255744

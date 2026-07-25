@@ -305,11 +305,12 @@ public class CharacterVisual : AbstractCharacterComponent
 
     private void PopupSprite(List<Sprite> sprites, float duration, int priority)
     {
-        if (priority < _currentPopupPriority || _currentPopupSprites == sprites) return;
+        if (priority <= _currentPopupPriority) return;
 
         _currentPopupSprites = sprites;
         _targetPopupDuration = duration;
         _currentPopupDuration = 0f;
+        _currentPopupPriority = priority;
 
         _popupImage.transform.position = CharComponents.Center.transform.position;
         _popupImage.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;

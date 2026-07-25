@@ -285,6 +285,11 @@ public class Holdable : Interactable, IStuckableObject
         }
     }
 
+    private void OnDisable()
+    {
+        _rigidBodyComponent.includeLayers = 0;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (
@@ -316,6 +321,10 @@ public class Holdable : Interactable, IStuckableObject
             }
 
             charComponent.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnThrowHit, this, closestPart);
+        }
+        else if (GetIsDangerouslyFast() && GameObjectUtility.TryGetComponentInSelfOrParent(collision.gameObject, out ObjectEffectsReceiver effectsReceiver))
+        {
+            effectsReceiver.ApplyEffect(EffectsOnThrowHit, this);
         }
         
         if (VectorMath.Vec2ToDistance(_velocitySpeedPreviousFrame) >= SpeedToGetThrough)
