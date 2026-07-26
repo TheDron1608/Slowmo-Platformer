@@ -16,6 +16,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         SHOTGUN = 12,
         RIFLE = 13,
         MACHINE_GUN = 14,
+        EXPLOSIVE = 15,
 
         BROKEN = 20,
         POCKET = 21,

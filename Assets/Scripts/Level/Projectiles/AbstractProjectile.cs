@@ -14,6 +14,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public int HitAmountOnSingleTargetForExtraEffects = 1;
     public float Accuracy = 1f;
     public List<AbstractEffect> HitEffects = new();
+    public List<AbstractEffect> SelfEffectsOnHit = new();
     public List<AbstractEffect> SelfEffects = new();
     public List<AbstractEffect> SelfEffectsOnWeapon = new();
     public List<AbstractEffect> ExtraEffectsOnAllProjectilesHitSingleTarget = new();
@@ -22,6 +23,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public Sprite GameplayUISprite;
     public AbstractSoundPlayer SoundOnAttack;
     public AbstractSoundPlayer SoundOnBlocked;
+    public AbstractSoundPlayer SoundOnHit;
     public CharacterVisual.CharacterPartBusyStates UnarmedAttackAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
 
     private Weapon _weapon = null;
@@ -208,6 +210,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         Accuracy = original.Accuracy;
         HitEffects = original.HitEffects;
         SelfEffects = original.SelfEffects;
+        SelfEffectsOnHit = original.SelfEffectsOnHit;
         ExtraEffectsOnAllProjectilesHitSingleTarget = original.ExtraEffectsOnAllProjectilesHitSingleTarget;
         FriendlyFire = original.FriendlyFire;
         IsAbleToHit = original.IsAbleToHit;
@@ -235,6 +238,10 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         SoundOnBlocked.DefaultSound = original.SoundOnBlocked.DefaultSound;
         SoundOnBlocked.Volume = original.SoundOnBlocked.Volume;
         SoundOnBlocked.Pitch = original.SoundOnBlocked.Pitch;
+
+        SoundOnHit.DefaultSound = original.SoundOnHit.DefaultSound;
+        SoundOnHit.Volume = original.SoundOnHit.Volume;
+        SoundOnHit.Pitch = original.SoundOnHit.Pitch;
 
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
     }
@@ -337,6 +344,11 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         if (hitObject.TryGetComponent(out MeleeProjectile meleeProjectile) && meleeProjectile.DeflectCondition(this))
         {
             meleeProjectile.OnDeflect(this);
+        }
+        else
+        {
+            _effectsReceiver.ApplyEffect(SelfEffectsOnHit, this, 1f, true);
+            SoundOnHit.PlaySound(false, transform.position);
         }
 
         if (GameObjectUtility.TryGetComponentInSelfOrParent(hitObject.gameObject, out ObjectEffectsReceiver hitObjectEffectsReceiver))

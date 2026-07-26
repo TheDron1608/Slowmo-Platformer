@@ -127,6 +127,17 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 2736943633329786330}
   m_SourcePrefab: {fileID: 100100000, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+--- !u!114 &1418674378338920173 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6243633685045939378, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
+  m_PrefabInstance: {fileID: 4978152234715277919}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559c9653b7826a246bd169f5741788bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6055842515521288623 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1233810082997720048, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}
@@ -159,6 +170,7 @@ MonoBehaviour:
   HitAmountOnSingleTargetForExtraEffects: 1
   Accuracy: 1
   HitEffects: []
+  SelfEffectsOnHit: []
   SelfEffects: []
   SelfEffectsOnWeapon:
   - {fileID: 2912774929501019236, guid: f819dc49b9668dd41a4e9438bb6af0bb, type: 3}
@@ -168,17 +180,22 @@ MonoBehaviour:
   GameplayUISprite: {fileID: 0}
   SoundOnAttack: {fileID: 6055842515521288623}
   SoundOnBlocked: {fileID: 8068227092574537273}
+  SoundOnHit: {fileID: 1418674378338920173}
   UnarmedAttackAnimation: 0
   BulletSpeed: 35
   MaxRange: 350
   Homing: 0
+  ShotNoiseDistance: 7.5
   BulletCasingParticle: {fileID: 0}
   MaxPierces: 0
   ParticlesOnWallHit:
   - {fileID: 5763894312763135589, guid: 3882dab32888c32419b6cbacb6d7fa96, type: 3}
   - {fileID: 5763894312763135589, guid: b969146ed1a8c664e9eccb71f97b0a76, type: 3}
   - {fileID: 5763894312763135589, guid: f46907b29ec794d40971d3e2e400ad9f, type: 3}
+  InstantParticlesOnAnyHit: []
   ParticleOnFaliedPierce: {fileID: 7268535348328610924, guid: 58f11d960479e29409a7afc3ef213e59, type: 3}
+  ParticleOnHit: {fileID: 0}
+  PierceWalls: 0
 --- !u!4 &6144806725262324000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1176369955813481343, guid: 031e0f7a06c05ec4b8db5c3e7811218a, type: 3}

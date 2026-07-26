@@ -18,6 +18,11 @@ public class RangedProjectile : AbstractProjectile
     const float MIN_DISTANCE_FROM_SPAWN_POSITION_TO_CREATE_STUCK_PARTICLE = 1.5f;
     const string PROJECTILE_TIP_GAMEOBJECT_NAME = "ProjectileTip";
 
+    const float HIT_PARTICLES_MIN_SPAWN_VELOCITY = 1f;
+    const float HIT_PARTICLES_MAX_SPAWN_VELOCITY = 4f;
+    const float HIT_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY = -180f;
+    const float HIT_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY = 180f;
+
     public float BulletSpeed = 35f;
     public float MaxRange = 350f;
     public float Homing = 0f;
@@ -25,6 +30,7 @@ public class RangedProjectile : AbstractProjectile
     public PhysicsParticle BulletCasingParticle;
     public int MaxPierces = 0; //times projectiles will not doestroy iteself if gibs or cuts off damaged character
     public List<AbstractParticle> ParticlesOnWallHit = new();
+    public List<AbstractParticle> InstantParticlesOnAnyHit = new();
     public AbstractParticle ParticleOnFaliedPierce;
     public PhysicsParticle ParticleOnHit;
     public bool PierceWalls = false;
@@ -92,6 +98,7 @@ public class RangedProjectile : AbstractProjectile
         BulletCasingParticle = rangedOriginal.BulletCasingParticle;
         MaxPierces = rangedOriginal.MaxPierces;
         ParticlesOnWallHit = rangedOriginal.ParticlesOnWallHit;
+        InstantParticlesOnAnyHit = rangedOriginal.InstantParticlesOnAnyHit;
         ParticleOnFaliedPierce = rangedOriginal.ParticleOnFaliedPierce;
         ShotNoiseDistance = rangedOriginal.ShotNoiseDistance;
         ParticleOnHit = rangedOriginal.ParticleOnHit;
@@ -182,6 +189,26 @@ public class RangedProjectile : AbstractProjectile
                         NumberMath.PickRandomInRangeNoSeed(-PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY, PARTICLES_ON_WALL_HIT_ANGULAR_VELOCITY),
                         hitColliders[i].TryGetComponent(out Renderer renderer) ? renderer.sharedMaterial : GetComponent<Renderer>().sharedMaterial,
                         _layer
+                        );
+                }
+
+                if (InstantParticlesOnAnyHit.Count > 0)
+                {
+                    ParticleSpawner.SpawnInstantlyMultipleParticles(
+                        InstantParticlesOnAnyHit,
+                        hits[i].point,
+                        -VectorMath.Quartenion2DToVec2(transform.rotation),
+                        0f,
+                        HIT_PARTICLES_MIN_SPAWN_VELOCITY,
+                        HIT_PARTICLES_MAX_SPAWN_VELOCITY,
+                        HIT_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
+                        HIT_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
+                        hitColliders[i].TryGetComponent(out Renderer renderer2) ? renderer2.sharedMaterial : GetComponent<Renderer>().sharedMaterial,
+                        _layer,
+                        InstantParticlesOnAnyHit.Count - 1,
+                        0f,
+                        true,
+                        false
                         );
                 }
 
