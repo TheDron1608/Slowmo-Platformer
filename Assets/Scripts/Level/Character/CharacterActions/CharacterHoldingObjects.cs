@@ -198,7 +198,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
                 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
                 );
 
-            _overrideHoldObjectDistance = hit.collider != null ? hit.distance - holdableCollider.size.x / 2 : null;
+            _overrideHoldObjectDistance = hit.collider != null ? hit.distance - holdableCollider.size.x / 2 - holdableCollider.offset.x : null;
 
         }
         else
