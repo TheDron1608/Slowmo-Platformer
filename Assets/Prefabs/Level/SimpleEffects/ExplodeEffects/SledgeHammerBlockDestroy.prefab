@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8755029022497350428}
   - component: {fileID: -6771884720173540337}
   m_Layer: 0
-  m_Name: WallBreakingExplode
+  m_Name: SledgeHammerBlockDestroy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9129825925668340778}
+  - {fileID: 8039442910430589741}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-6771884720173540337
@@ -48,8 +48,8 @@ MonoBehaviour:
   EffectPriority: 20
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}
-  Radius: 4
---- !u!1001 &8266209497765510456
+  Radius: 2
+--- !u!1001 &7175649588142377535
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -110,8 +110,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
---- !u!4 &9129825925668340778 stripped
+--- !u!4 &8039442910430589741 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
-  m_PrefabInstance: {fileID: 8266209497765510456}
+  m_PrefabInstance: {fileID: 7175649588142377535}
   m_PrefabAsset: {fileID: 0}

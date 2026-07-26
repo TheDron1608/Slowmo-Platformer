@@ -8,6 +8,7 @@ public class DestroyBlocksOnRadius : AbstractEffect
 
     protected override void OnApply()
     {
+        bool brokeAnything = false;
         int bgRadius = Radius - DESTROY_BACKGROUND_MARGIN;
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(AffectedObject.gameObject);
         Vector2Int centerPosition;
@@ -31,9 +32,14 @@ public class DestroyBlocksOnRadius : AbstractEffect
                         centerPosition.y + y,
                         0
                         );
-                    layer.MultiTileMapsContainer.DestroyTileAt(tilePos, x * x + y * y < bgRadius * bgRadius, true);
+                    brokeAnything |= layer.MultiTileMapsContainer.DestroyTileAt(tilePos, x * x + y * y < bgRadius * bgRadius, true);
                 }
             }
+        }
+
+        if (brokeAnything)
+        {
+            GetComponentInChildren<AbstractSoundPlayer>().PlaySound(false, centerPosition);
         }
 
         base.OnApply();
@@ -41,6 +47,8 @@ public class DestroyBlocksOnRadius : AbstractEffect
 
     public override bool Equals(AbstractEffect other)
     {
-        return base.Equals(other) && Radius == (other as DestroyBlocksOnRadius).Radius;
+        return
+            base.Equals(other) &&
+            Radius == (other as DestroyBlocksOnRadius).Radius;
     }
 }

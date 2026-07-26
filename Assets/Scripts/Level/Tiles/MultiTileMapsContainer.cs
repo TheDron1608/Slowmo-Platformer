@@ -299,7 +299,7 @@ public class MultiTileMapsContainer : MonoBehaviour
         _hallucinationTilemap.GetComponent<OverrideRendererEnabled>().OverrideValue = value;
     }
 
-    public void DestroyTileAt(Vector3Int position, bool includeBackground, bool includeOverground)
+    public bool DestroyTileAt(Vector3Int position, bool includeBackground, bool includeOverground)
     {
         if (includeBackground)
         {
@@ -353,6 +353,12 @@ public class MultiTileMapsContainer : MonoBehaviour
             newChangeData.IsAdded = false;
 
             _requestUpdateTiles.Add(newChangeData);
+
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
