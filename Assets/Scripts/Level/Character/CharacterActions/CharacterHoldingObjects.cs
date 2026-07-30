@@ -223,6 +223,10 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         {
             LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), _currentHoldObject.gameObject);
         }
+        if (_currentHolsteredHoldObject != null)
+        {
+            LayerManager.Instance.ChangeZIndexForGameObject(LayerManager.Instance.GetZLayerOfGameObject(gameObject), _currentHolsteredHoldObject.gameObject);
+        }
     }
 
     private void FixedUpdate()

@@ -16,6 +16,7 @@ public class SpawnManager : MonoBehaviour
     public List<EnemySpawnInfo> EnemyPoolInstance = new();
     public CharacterComponentsManager PlayerCharacter;
     public Holdable PlayerCharacterHoldable = null;
+    public Holdable PlayerCharacterHolsteredHoldable = null;
 
     [SerializeField] private float _enemyAmountPerSpawner = 1f;
     private float _actualEnemyAmountPerSpawner = 1f;
@@ -82,8 +83,9 @@ public class SpawnManager : MonoBehaviour
     public void FinishGameplay(AbstractCharacterComponent finishedCharacter, string loadScene)
     {
         Holdable saveHoldable = finishedCharacter?.CharComponents.CharacterHolding.CurrentHoldObject;
+        Holdable saveHolsteredHoldable = finishedCharacter?.CharComponents.CharacterHolding.CurrentHolsteredHoldObject;
 
-        if (KeepHoldableOnFinishLevel && saveHoldable != PlayerCharacterHoldable)
+        if (KeepHoldableOnFinishLevel)
         {
             if (
                 PlayerCharacterHoldable != null &&
@@ -95,14 +97,31 @@ public class SpawnManager : MonoBehaviour
 
             PlayerCharacterHoldable = saveHoldable;
             PlayerCharacterHoldable?.transform.SetParent(transform);
+
+            if (
+                PlayerCharacterHolsteredHoldable != null &&
+                PlayerCharacterHolsteredHoldable.gameObject.scene.name != null
+                )
+            {
+                Destroy(PlayerCharacterHolsteredHoldable.gameObject);
+            }
+
+            PlayerCharacterHolsteredHoldable = saveHolsteredHoldable;
+            PlayerCharacterHolsteredHoldable?.transform.SetParent(transform);
         }
-        else if (!KeepHoldableOnFinishLevel && PlayerCharacterHoldable != null)
+        else if (!KeepHoldableOnFinishLevel)
         {
             if (PlayerCharacterHoldable.gameObject.scene.name != null)
             {
                 Destroy(PlayerCharacterHoldable.gameObject);
             }
             PlayerCharacterHoldable = null;
+
+            if (PlayerCharacterHolsteredHoldable.gameObject.scene.name != null)
+            {
+                Destroy(PlayerCharacterHolsteredHoldable.gameObject);
+            }
+            PlayerCharacterHolsteredHoldable = null;
         }
 
         AnalyticsManager.Instance.RecordEvent(new LevelFinishAnalyticsEvent());
@@ -134,6 +153,7 @@ public class SpawnManager : MonoBehaviour
             {
                 PlayerCharacterHoldable?.gameObject.SetActive(true);
                 newPlayer.CharacterHolding.GiveNewHoldable(PlayerCharacterHoldable);
+                //newPlayer.CharacterHolding.HolsterNewHoldable(PlayerCharacterHolsteredHoldable);
             }
 
             return newPlayer;
