@@ -600,6 +600,7 @@ public class Holdable : Interactable, IStuckableObject
             if (!newHolder.TryThrow(new Vector2((newHolder.CharComponents.CharacterVisual.FlippedH ? -1f : 1f), 0.5f), 0.1f)) return;
         }
 
+        Selected = false;
         newHolder.CurrentHoldObject = this;
         _isStuck = false;
         _isHolstered = false;
@@ -733,6 +734,23 @@ public class Holdable : Interactable, IStuckableObject
                 }
             }
         }
+    }
+
+    protected override string GetSelectInfoText()
+    {
+        string result = "<size=80%>" + GetLocalizedName() + "</size>";
+
+        if (TryGetComponent(out ThrowableWeapon weapon))
+        {
+            result += "\n" + weapon.GetAmmoInfoOnSelect();
+        }
+
+        return result;
+    }
+
+    protected override bool SelectInfoAppearCondition()
+    {
+        return base.SelectInfoAppearCondition() && !GetIsDangerouslyFast();
     }
 
     private void OnDestroy()

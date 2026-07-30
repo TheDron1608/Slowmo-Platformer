@@ -19,6 +19,8 @@ public abstract class ThrowableWeapon : Weapon, IThrowableIteractableObj
         }
     }
 
+    public abstract string GetAmmoInfoOnSelect();
+
     protected override void VirtualOnEnable()
     {
         base.VirtualOnEnable();

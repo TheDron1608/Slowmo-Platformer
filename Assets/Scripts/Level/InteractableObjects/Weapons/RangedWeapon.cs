@@ -81,6 +81,18 @@ public abstract class RangedWeapon : ThrowableWeapon
         return base.GetIsAbleToAttack() && !GetIsOutOfAmmo();
     }
 
+    public override string GetAmmoInfoOnSelect()
+    {
+        if (GetIsOutOfAmmo())
+        {
+            return "<color=red>" + LoadedLivingAmmoLeft + " / " + AmmoLeft + "</color>";
+        }
+        else
+        {
+            return LoadedLivingAmmoLeft + " / " + AmmoLeft;
+        }
+    }
+
     public virtual void SpendAmmo(int spendAmount = 1)
     {
         LoadedLivingAmmoLeft -= spendAmount;

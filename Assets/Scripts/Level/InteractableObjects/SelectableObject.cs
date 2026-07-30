@@ -1,10 +1,12 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class SelectableObject : MonoBehaviour
 {
     const float SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER = 5f;
     const float SELECTED_COLOR_DARKNESS = 0.64f;
+    const float EXTRA_INFO_POS_Z = -1;
 
     [Header("Selectable")]
     /// <summary>
@@ -12,12 +14,13 @@ public class SelectableObject : MonoBehaviour
     /// </summary>
 
     public float SelectMaxRangeMultiplier = 1f; //value between 0 and 1
+    public float SelectInfoTextOffset = 0.5f;
+
+    [SerializeField] private GameObject _selectInfoContainer;
+    [SerializeField] private SpriteRenderer _selectOutlineSprite;
+    [SerializeField] private TextMeshProUGUI _selectText;
 
     protected SpriteRenderer _spriteRendererComponent;
-
-    private Coroutine SelectProcessCoroutine = null;
-    private float _currentDarknessProgress = 0f;
-
 
     private bool _selected = false;
     public bool Selected
@@ -27,50 +30,51 @@ public class SelectableObject : MonoBehaviour
         {
             if (!gameObject.activeInHierarchy) return;
 
-            if (value)
-            {
-                if (!_selected)
-                {
-                    if (SelectProcessCoroutine != null)
-                    {
-                        StopCoroutine(SelectProcessCoroutine);
-                    }
-                    SelectProcessCoroutine = StartCoroutine(SelectProcess(true));
-                }
-            }
-            else
-            {
-                if (_selected)
-                {
-                    if (SelectProcessCoroutine != null)
-                    {
-                        StopCoroutine(SelectProcessCoroutine);
-                    }
-                    SelectProcessCoroutine = StartCoroutine(SelectProcess(false));
-                }
-            }
+            if (value && _selectText != null) _selectText.text = GetSelectInfoText();
+
+            if (_selectInfoContainer != null && SelectInfoAppearCondition()) _selectInfoContainer.SetActive(value);
             _selected = value;
         }
     }
 
-    private IEnumerator SelectProcess(bool selected)
+    protected virtual string GetSelectInfoText()
     {
-        float StepMultiplier = (selected ? 1f : -1f) * SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER;
-
-        while (selected ? _currentDarknessProgress < SELECTED_COLOR_DARKNESS : _currentDarknessProgress > 0f)
-        {
-            _currentDarknessProgress += Time.deltaTime * StepMultiplier;
-            _spriteRendererComponent.color = new Color(
-                _spriteRendererComponent.color.r - Time.deltaTime * StepMultiplier,
-                _spriteRendererComponent.color.g - Time.deltaTime * StepMultiplier,
-                _spriteRendererComponent.color.b - Time.deltaTime * StepMultiplier
-            );
-            yield return new WaitForEndOfFrame();
-        }
+        return "";
     }
+
+    protected virtual bool SelectInfoAppearCondition()
+    {
+        return true;
+    }
+
     private void Awake()
     {
         OnAwake();
+    }
+
+    private void Update()
+    {
+        if (Selected)
+        {
+            if (_selectOutlineSprite != null)
+            {
+                _selectOutlineSprite.sprite = _spriteRendererComponent.sprite;
+                _selectOutlineSprite.sortingOrder = _spriteRendererComponent.sortingOrder - 1;
+                _selectOutlineSprite.flipX = _spriteRendererComponent.flipX;
+                _selectOutlineSprite.flipY = _spriteRendererComponent.flipY;
+            }
+
+            if (_selectText != null)
+            {
+                _selectText.text = GetSelectInfoText();
+                _selectText.transform.position = new Vector3(
+                    transform.position.x,
+                    transform.position.y + SelectInfoTextOffset,
+                    transform.position.z + EXTRA_INFO_POS_Z
+                    );
+                _selectText.transform.rotation = VectorMath.Vec2ToQuaternion2DNoMirroring(Vector2.right);
+            }
+        }
     }
 
     protected virtual void OnAwake()

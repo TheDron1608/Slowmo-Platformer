@@ -48,6 +48,18 @@ public class Chainsaw : MeleeWeapon
         _cloudsParticleSpawner = transform.Find(CLOUDS_PARTICLE_SPAWNER_GAMEOBJECT_NAME).GetComponent<ParticleSpawner>();
     }
 
+    public override string GetAmmoInfoOnSelect()
+    {
+        if (FuelLeft > 0)
+        {
+            return FuelLeft.ToString("0.0") + " / " + MaxFuel;
+        }
+        else
+        {
+            return "<color=red>" + FuelLeft.ToString("0.0") + " / " + MaxFuel + "</color>";
+        }
+    }
+
     protected override void VirtualOnEnable()
     {
         base.VirtualOnEnable();

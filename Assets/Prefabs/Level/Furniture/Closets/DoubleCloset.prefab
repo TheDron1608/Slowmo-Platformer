@@ -1,5 +1,77 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &469528950661941848
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4227745189653719366}
+    m_Modifications:
+    - target: {fileID: 5213006003048086489, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_Name
+      value: SelectInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+--- !u!212 &4773579598602340255 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4952608624020622791, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+  m_PrefabInstance: {fileID: 469528950661941848}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5682499571379302785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5213006003048086489, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+  m_PrefabInstance: {fileID: 469528950661941848}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6473782353024048935 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+  m_PrefabInstance: {fileID: 469528950661941848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2799933714940539152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -274,6 +346,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 53351414323084833, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3089342978929674242}
+    - targetCorrespondingSourceObject: {fileID: 53351414323084833, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6473782353024048935}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       insertIndex: 1
@@ -308,6 +383,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 1
+  SelectInfoTextOffset: 0.5
+  _selectInfoContainer: {fileID: 5682499571379302785}
+  _selectOutlineSprite: {fileID: 4773579598602340255}
+  _selectText: {fileID: 0}
   EffectsOnStartInteract: []
   SoundOnOpen: {fileID: 749243021459088283}
   SoundOnClose: {fileID: 8796226312212854448}

@@ -1,5 +1,77 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5471963576101899845
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6134987982174914457}
+    m_Modifications:
+    - target: {fileID: 5213006003048086489, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_Name
+      value: SelectInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.63091
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.11739
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+--- !u!1 &263461361877972380 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5213006003048086489, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+  m_PrefabInstance: {fileID: 5471963576101899845}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1102083028104446850 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4952608624020622791, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+  m_PrefabInstance: {fileID: 5471963576101899845}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1487090810484251450 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6868944735189816703, guid: ea920e6f544183140be9c8c267030d58, type: 3}
+  m_PrefabInstance: {fileID: 5471963576101899845}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6169458444218563000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -123,7 +195,10 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 607890000445840662, guid: 0ac6a0f944891984da52962c63e377e2, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 53351414323084833, guid: 0ac6a0f944891984da52962c63e377e2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1487090810484251450}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: 0ac6a0f944891984da52962c63e377e2, type: 3}
       insertIndex: 1
@@ -150,6 +225,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectMaxRangeMultiplier: 1
+  SelectInfoTextOffset: 0.5
+  _selectInfoContainer: {fileID: 263461361877972380}
+  _selectOutlineSprite: {fileID: 1102083028104446850}
+  _selectText: {fileID: 0}
   EffectsOnStartInteract:
   - {fileID: 6689704956347576190, guid: 98af01dc9e154674ab8c66d53b52d67b, type: 3}
   AnimationOnStartInteract: 2
@@ -158,8 +237,6 @@ MonoBehaviour:
   SelfAnimatorOnFinishIntreactTriggerName: 
   EffectsWhileInteracting: []
   EffectsOnFinishInteract: []
-  GameplaySceneName: Gameplay
-  ModificatorChoiseSceneName: ModificatorChoise
 --- !u!95 &-6381463362978636752
 Animator:
   serializedVersion: 7
@@ -182,3 +259,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!224 &6134987982174914457 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 53351414323084833, guid: 0ac6a0f944891984da52962c63e377e2, type: 3}
+  m_PrefabInstance: {fileID: 6169458444218563000}
+  m_PrefabAsset: {fileID: 0}
