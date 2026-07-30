@@ -12,6 +12,7 @@ public class TutorialInitializer : MonoBehaviour
     public OnInteractToggleOpenDoor AttackTutorialDoor;
     public AbstractCharacterComponent RollTutorialCharacter;
     public OnInteractToggleOpenDoor RollTutorialDoor;
+    public OnInteractToggleOpenDoor AbilityTutorialDoor;
     public InputActionReference PauseButton;
     public OnInteractToggleOpenDoor PauseTutorialDoor;
 
@@ -60,6 +61,11 @@ public class TutorialInitializer : MonoBehaviour
         if (RollTutorialCharacter?.CharComponents.CharacterEffectsReceiver.GetHasEffect<HardStun>() ?? false)
         {
             RollTutorialDoor?.Open();
+        }
+
+        if (RollTutorialDoor.IsOpen && _spawnedPlayer?.CharacterHolding.CurrentHolsteredHoldObject != null)
+        {
+            AbilityTutorialDoor?.Open();
         }
     }
 
