@@ -1,6 +1,9 @@
 using System.Collections;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SelectableObject : MonoBehaviour
 {
@@ -23,6 +26,7 @@ public class SelectableObject : MonoBehaviour
     protected SpriteRenderer _spriteRendererComponent;
 
     private bool _selected = false;
+
     public bool Selected
     {
         get => _selected;
@@ -30,9 +34,6 @@ public class SelectableObject : MonoBehaviour
         {
             if (!gameObject.activeInHierarchy) return;
 
-            if (value && _selectText != null) _selectText.text = GetSelectInfoText();
-
-            if (_selectInfoContainer != null && SelectInfoAppearCondition()) _selectInfoContainer.SetActive(value);
             _selected = value;
         }
     }
@@ -54,7 +55,7 @@ public class SelectableObject : MonoBehaviour
 
     private void Update()
     {
-        if (Selected)
+        if (Selected && SelectInfoAppearCondition())
         {
             if (_selectOutlineSprite != null)
             {
@@ -74,6 +75,12 @@ public class SelectableObject : MonoBehaviour
                     );
                 _selectText.transform.rotation = VectorMath.Vec2ToQuaternion2DNoMirroring(Vector2.right);
             }
+
+            if (_selectInfoContainer != null) _selectInfoContainer.SetActive(true);
+        }
+        else if (_selectInfoContainer != null)
+        {
+            _selectInfoContainer.SetActive(false);
         }
     }
 

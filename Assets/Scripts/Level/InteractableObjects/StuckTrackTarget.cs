@@ -22,7 +22,7 @@ public class StuckTrackTarget : MonoBehaviour
 
     private void Update()
     {
-        if (StuckedObject.StuckedToCollider?.transform != StuckTo || StuckedObject.StuckedToCollider.IsDestroyed())
+        if (StuckedObject.StuckedToCollider?.transform != StuckTo || StuckedObject.StuckedToCollider.IsDestroyed() || (StuckedObject as MonoBehaviour).IsDestroyed())
         {
             Destroy(gameObject);
         }
