@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 22093587466657792
+      value: 80944613715845120
       objectReference: {fileID: 0}
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: PlayerAbiblityBloodTeleportationModificator
+      value: PlayerAbiblityHolsterWeapon
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,48 +61,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: 'managedReferences[6612637787658387462]'
-      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: 'managedReferences[6612637787658387463]'
-      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: managedReferences[6612637787658387462].m_Value
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: managedReferences[6612637787658387463].m_Value
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 22093589144379392
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: ComboCost
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[1].name
-      value: HealthCost
+      value: 80944614634397696
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
       value: GUID:1ce5cf9b0c5f73d48a27e80327fac816
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
-      value: 6612637787658387462
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[1].variable
-      value: 6612637787658387463
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -110,7 +74,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4794591185165762808}
+      addedObject: {fileID: 5417582868638941547}
   m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
 --- !u!114 &2147315170708439846 stripped
 MonoBehaviour:
@@ -128,7 +92,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
   m_PrefabInstance: {fileID: 8179689514373086561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4794591185165762808
+--- !u!114 &5417582868638941547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,25 +106,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stackable: 0
   AllowPermanent: 1
-  OverrideModificators:
-  - {fileID: 4794591185165762808, guid: 5cd68b57b6252d94c9e7db77cc2e907b, type: 3}
+  OverrideModificators: []
   RestrictModificators:
+  - {fileID: 4794591185165762808, guid: 292168c8e305bbd45954b8629d54fb0d, type: 3}
+  - {fileID: 4794591185165762808, guid: 5cd68b57b6252d94c9e7db77cc2e907b, type: 3}
   - {fileID: 5417582868638941547, guid: 95fa7c17969a47741ac696cda3c21d62, type: 3}
-  - {fileID: 5417582868638941547, guid: 09bbb2973988c684ea7649c72230542f, type: 3}
-  - {fileID: 5417582868638941547, guid: 28bbd3525a78cb340b09bac5b9faa44e, type: 3}
   SynergingModificators: []
   UnsynergingModificators: []
   HarderVersion: {fileID: 0}
   ModificatorType: 0
-  ModificatorTier: 2
-  IconSprite: {fileID: 21300000, guid: 7461473e11b0cad4d830734e0babcc5c, type: 3}
-  CardSprite: {fileID: 21300000, guid: 9c340c9975b5e864c8c53e18fb44ad25, type: 3}
+  ModificatorTier: 0
+  IconSprite: {fileID: 21300000, guid: 80bff5cb1aa38954fbe68089abf537ac, type: 3}
+  CardSprite: {fileID: 21300000, guid: aee369864893fae4e9bd4411955f6603, type: 3}
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 125
+  _modificatorPrice: 25
   _localization: {fileID: 2147315170708439846}
   Team: 0
   AffectChance: 1
   ChanceType: 0
-  Special: {fileID: 8624820008897076866, guid: 0ccb31282dc325145ad4f1344541f368, type: 3}
+  Special: {fileID: 2901708382981399092, guid: 2b244489fc975484798282ebd1f76f4d, type: 3}

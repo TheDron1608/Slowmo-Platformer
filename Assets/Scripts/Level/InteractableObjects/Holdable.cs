@@ -11,6 +11,14 @@ public class Holdable : Interactable, IStuckableObject
     const float DISABLE_GRAVITY_DURATION_SECONDS = 1f;
     const float MIN_VELOCITY_TO_DISABLE_GRAVITY = 10f;
 
+    public enum HolsteredFlippingModes
+    {
+        DONT_FLIP,
+        FLIP_CONTANTLY,
+        FLIP_ON_CHARACTER_FLIPPED,
+        FLIP_ON_CHARACTER_FLIPPED_REVERSED
+    }
+
     public class OnThrownEventArgs
     {
         public OnThrownEventArgs(CharacterHoldingObjects thrower, Vector2 direction)
@@ -36,6 +44,9 @@ public class Holdable : Interactable, IStuckableObject
     public List<AbstractEffect> EffectsOnThrowHit = new();
     public List<AbstractEffect> EffectOnHolded = new();
     public bool BreakSelfOnCollide = false;
+    public float AngleOnHolstered = 0f;
+    public HolsteredFlippingModes FlipXOnHolstered;
+    public HolsteredFlippingModes FlipYOnHolstered;
     //public AbstractSoundPlayer SoundOnPickedUp;
     //public AbstractSoundPlayer SoundOnThrown;
     public Sound SoundOnCollide;
@@ -57,6 +68,7 @@ public class Holdable : Interactable, IStuckableObject
     private Quaternion _rotationPrevFrame = Quaternion.identity;
     private Vector2 _velocitySpeedPreviousFrame = Vector2.zero;
     private bool _isStuck = false;
+    private bool _isHolstered = false;
     private Coroutine _enableGravityCoroutine;
     private CharacterComponentsManager _excludedCollideThrower;
     private string _localizedName = "";
@@ -181,6 +193,25 @@ public class Holdable : Interactable, IStuckableObject
                 _rigidBodyComponent.simulated = true;
                 _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
                 gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+            }
+        }
+    }
+
+    public bool IsHolstered
+    {
+        get => _isHolstered;
+        set
+        {
+            if (_isHolstered == value || _currentHolder == null) return;
+            _isHolstered = value;
+
+            if (value)
+            {
+                OnThrowOrHolstered();
+            }
+            else
+            {
+                OnPickedUpOrUnholstetered(_currentHolder);
             }
         }
     }
@@ -354,6 +385,7 @@ public class Holdable : Interactable, IStuckableObject
                 _lastHolder = _currentHolder;
                 _telekinesisAffector = null;
             }
+
             _currentHolder = value;
         }
     }
@@ -459,8 +491,8 @@ public class Holdable : Interactable, IStuckableObject
         if (CurrentHolder == null) return;
 
         _isStuck = false;
+        _isHolstered = false;
         transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesContainer.transform;
-        _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
 
         Quaternion newRotation = new();
         newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
@@ -496,8 +528,16 @@ public class Holdable : Interactable, IStuckableObject
         _appliedHolderEffects = new();
 
         //SoundOnThrown.PlaySound();
+        OnThrowOrHolstered();
 
-        //logic for weapon component and weapon class children classes
+        CurrentHolder.CurrentHoldObject = null;
+        CurrentHolder = null;
+    }
+
+    private void OnThrowOrHolstered()
+    {
+        _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
+
         if (TryGetComponent(out Weapon weapon))
         {
             for (int i = 0; i < weapon.Projectiles.Count; i++)
@@ -508,6 +548,7 @@ public class Holdable : Interactable, IStuckableObject
                 }
             }
         }
+
         if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
         {
             throwableWeapon.IsThrown = true;
@@ -529,10 +570,16 @@ public class Holdable : Interactable, IStuckableObject
         {
             chainsaw.Started = false;
         }
-
-        CurrentHolder.CurrentHoldObject = null;
-        CurrentHolder = null;
+        if (TryGetComponent(out HolsterableMeleeWeapon holsterableMeleeWeapon))
+        {
+            Debug.Log(IsHolstered);
+            if (IsHolstered)
+            {
+                holsterableMeleeWeapon.IsHolstered = true;
+            }
+        }
     }
+
     private IEnumerator EnableGravityAfterDelay()
     {
         yield return new WaitForSeconds(DISABLE_GRAVITY_DURATION_SECONDS);
@@ -555,6 +602,7 @@ public class Holdable : Interactable, IStuckableObject
 
         newHolder.CurrentHoldObject = this;
         _isStuck = false;
+        _isHolstered = false;
 
         if (HitableWhenIsHolded)
         {
@@ -577,7 +625,7 @@ public class Holdable : Interactable, IStuckableObject
             baseRotation.eulerAngles = Vector3.zero;
             transform.rotation = baseRotation;
         }
-        _spriteRendererComponent.sortingOrder += ON_GRAB_SORTING_ORDER_ADD;
+        
         StuckedToCollider = null;
 
         ExcludedCollideThrower = newHolder.CharComponents;
@@ -587,7 +635,13 @@ public class Holdable : Interactable, IStuckableObject
 
         //SoundOnPickedUp.PlaySound();
 
-        //logic for weapon component and weapon class children classes
+        OnPickedUpOrUnholstetered(newHolder);
+    }
+
+    private void OnPickedUpOrUnholstetered(CharacterHoldingObjects newHolder)
+    {
+        _spriteRendererComponent.sortingOrder += ON_GRAB_SORTING_ORDER_ADD;
+
         if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
         {
             throwableWeapon.IsThrown = false;

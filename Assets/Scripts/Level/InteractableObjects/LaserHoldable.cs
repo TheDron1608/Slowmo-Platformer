@@ -43,6 +43,7 @@ public class LaserHoldable : MonoBehaviour
     {
         LaserEnabled =
             ((!_holdableComponent.CurrentHolder?.CharComponents.CharacterAiming.AimWeaponDown) ?? false) &&
+            !_holdableComponent.IsHolstered &&
             (
                 !TryGetComponent(out RangedWeapon rangedWeapon) ||
                 (!rangedWeapon.IsReloading && !rangedWeapon.IsUnloading)
@@ -92,14 +93,5 @@ public class LaserHoldable : MonoBehaviour
 
             yield return new WaitForSeconds(1f / LASER_UPDATE_FRAMERATE);
         }
-    }
-
-    private void FlashLightHoldable_OnGiven(object sender, CharacterHoldingObjects e)
-    {
-        LaserEnabled = true;
-    }
-    private void FlashLightHoldable_OnThrown(object sender, Holdable.OnThrownEventArgs e)
-    {
-        LaserEnabled = false;
     }
 }

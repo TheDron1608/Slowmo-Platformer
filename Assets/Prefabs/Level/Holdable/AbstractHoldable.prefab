@@ -67,12 +67,19 @@ MonoBehaviour:
   ThrowRotationForce: 12.5
   SpeedToHitCharacter: 5
   SpeedToGetThrough: 15
+  AimSpeedMultiplier: 1
   EffectsOnThrowHit:
   - {fileID: 977385987182254359, guid: 6baa1e4b2c7fa8f4695975faeda8a133, type: 3}
   - {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
+  EffectOnHolded: []
+  BreakSelfOnCollide: 0
+  AngleOnHolstered: 0
+  FlipXOnHolstered: 0
+  FlipYOnHolstered: 2
   SoundOnCollide: {fileID: 0}
   SoundOnStuck: {fileID: 0}
   _hitableWhenIsHolded: 0
+  _hitableWhenIsThrown: 0
 --- !u!114 &4590741514344514613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +96,7 @@ MonoBehaviour:
   SpawnObjectsOnBreak: []
   RemoveObjectOnBreakVelocity: 0
   RemoveObjectOnBreakMaxRandomAngularVelocity: 0
+  SelfEffectsOnBreak: []
   _partcilesOnBreak: []
   SoundOnBreak: {fileID: 1267336517609690898}
   _maxUses: 10

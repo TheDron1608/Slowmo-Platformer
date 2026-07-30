@@ -21,6 +21,10 @@ PrefabInstance:
       value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: FlipXOnHolstered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: ThrowRotationForce
       value: 180
       objectReference: {fileID: 0}
@@ -263,6 +267,7 @@ MonoBehaviour:
   AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  JamChance: 0
   OverrideAttackSound: {fileID: 0}
   AttackRangeMultiplier: 1
 --- !u!114 &4762163007558113190
@@ -281,5 +286,6 @@ MonoBehaviour:
   SpawnObjectsOnBreak: []
   RemoveObjectOnBreakVelocity: 3.5
   RemoveObjectOnBreakMaxRandomAngularVelocity: 360
+  SelfEffectsOnBreak: []
   _partcilesOnBreak: []
   SoundOnBreak: {fileID: 0}

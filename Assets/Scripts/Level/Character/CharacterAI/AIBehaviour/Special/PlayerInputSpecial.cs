@@ -176,6 +176,22 @@ public class PlayerInputSpecial : AbstractAISpecial
                 finishoff.TryFinishOff(closesetCharacter);
             }
         }
+
+        //HOLSTERING
+        else if (
+            CharComponents.CharacterSpecial.TryGetComponent(out CharacterHolstering holstering) &&
+            holstering.GetHasEnoughForCost()
+            )
+        {
+            if (CharComponents.CharacterHolding.CurrentHoldObject != null)
+            {
+                holstering.TryHolsterCurrentHoldWeapon();
+            }
+            else
+            {
+                holstering.TryUnholsterHoldWeapon();
+            }
+        }
     }
 
     private void HandleStopSpecial()

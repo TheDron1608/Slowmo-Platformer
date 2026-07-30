@@ -21,6 +21,10 @@ PrefabInstance:
       value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
+      propertyPath: FlipXOnHolstered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 735115823552081543, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: SpeedToGetThrough
       value: 7.5
       objectReference: {fileID: 0}
@@ -66,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 344805414714566387, guid: c1b826fff00b7544199bbe3028ef23ab, type: 3}
     - target: {fileID: 1663424072248119919, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Offset.y
-      value: -0.215
+      value: -0.03125
       objectReference: {fileID: 0}
     - target: {fileID: 2012372175929787586, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: DefaultSound
@@ -126,19 +130,19 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 631fb02c7da4dd546b0981468eb4d438, type: 2}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.x
-      value: 0.64162576
+      value: 0.78068644
       objectReference: {fileID: 0}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Size.y
-      value: 0.051326096
+      value: 0.059380606
       objectReference: {fileID: 0}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Offset.x
-      value: -0.0665552
+      value: 0.002975136
       objectReference: {fileID: 0}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_Offset.y
-      value: -0.21863183
+      value: -0.030693121
       objectReference: {fileID: 0}
     - target: {fileID: 5249897126671865352, guid: 4682469a77ca3344ba56f8d3e152e7d8, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -267,6 +271,7 @@ MonoBehaviour:
   AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  JamChance: 0
   OverrideAttackSound: {fileID: 0}
   AttackRangeMultiplier: 1
   TimeToHolsterBackSeconds: 6.5

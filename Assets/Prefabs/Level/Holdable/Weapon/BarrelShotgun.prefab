@@ -53,6 +53,10 @@ PrefabInstance:
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: FlipXOnHolstered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: FindingUniqueCodeName
       value: BShotgun
       objectReference: {fileID: 0}
@@ -262,11 +266,13 @@ MonoBehaviour:
   AccuracyMultiplier: 0.95
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  JamChance: 0
+  OverrideAttackSound: {fileID: 0}
   AmmoLeft: 4
   MaxAmmo: 8
-  JamChance: 0
   LoadedLivingAmmoLeft: 2
   LoadedSpentAmmoLeft: 0
   SoundOnOutOfAmmo: {fileID: 1563363978269945235}

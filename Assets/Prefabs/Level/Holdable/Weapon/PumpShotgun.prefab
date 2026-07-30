@@ -134,6 +134,10 @@ PrefabInstance:
       value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: FlipXOnHolstered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: FindingUniqueCodeName
       value: PShotgun
       objectReference: {fileID: 0}
@@ -346,10 +350,10 @@ MonoBehaviour:
   AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  JamChance: 0
   OverrideAttackSound: {fileID: 0}
   AmmoLeft: 10
   MaxAmmo: 20
-  JamChance: 0
   LoadedLivingAmmoLeft: 5
   LoadedSpentAmmoLeft: 0
   SoundOnOutOfAmmo: {fileID: 423563441612213404}
@@ -359,3 +363,4 @@ MonoBehaviour:
   AmmoAmountPerUnload: 1
   MaxLoadedAmmo: 5
   SoundOnLoadBullet: {fileID: 6608095337629400989}
+  _bulletLoadedInChamberOnStart: 0

@@ -104,8 +104,10 @@ MonoBehaviour:
   - {fileID: 1920751193, guid: 30228da3254d34840aedd97ec6850bcb, type: 3}
   - {fileID: 467909469, guid: 30228da3254d34840aedd97ec6850bcb, type: 3}
   - {fileID: -554654545, guid: 30228da3254d34840aedd97ec6850bcb, type: 3}
+  BeltHolsteredSprite: {fileID: 21300000, guid: 9bedbe562ac50024d999440467e5748e, type: 3}
   _spriteRenderer: {fileID: 2181146549663911395}
   _weaponSpriteRenderer: {fileID: 1312572893343879047}
+  _holdableComponent: {fileID: 7998335253519095060}
 --- !u!212 &2181146549663911395
 SpriteRenderer:
   serializedVersion: 2
@@ -297,6 +299,10 @@ PrefabInstance:
     - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: AIPickUpPriority
       value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: FlipXOnHolstered
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: FindingUniqueCodeName
@@ -515,6 +521,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 559c9653b7826a246bd169f5741788bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7998335253519095060 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+  m_PrefabInstance: {fileID: 4853154782395859319}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265789567765000967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4807c6aa6f463064faf004e105dbf088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8282963579609676083 stripped

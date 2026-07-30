@@ -6,30 +6,17 @@ public class FlashLightHoldable : MonoBehaviour
 {
     [SerializeField] private LightManagerManagedLightSource _lightComponent;
 
+    private Holdable _holdbleComponent;
+
+    
+
+    private void Update()
+    {
+        _lightComponent.ForceDisableLight = _holdbleComponent.CurrentHolder == null || _holdbleComponent.IsHolstered;
+    }
+
     private void Awake()
     {
-        if (TryGetComponent(out Holdable holdable) && !holdable.IsDestroyed())
-        {
-            holdable.OnGiven += FlashLightHoldable_OnGiven;
-            holdable.OnThrown += FlashLightHoldable_OnThrown;
-        }
-    }
-
-    private void FlashLightHoldable_OnGiven(object sender, CharacterHoldingObjects e)
-    {
-        _lightComponent.ForceDisableLight = false;
-    }
-    private void FlashLightHoldable_OnThrown(object sender, Holdable.OnThrownEventArgs e)
-    {
-        _lightComponent.ForceDisableLight = true;
-    }
-
-    private void OnDestroy()
-    {
-        if (TryGetComponent(out Holdable holdable) && !holdable.IsDestroyed())
-        {
-            holdable.OnGiven -= FlashLightHoldable_OnGiven;
-            holdable.OnThrown -= FlashLightHoldable_OnThrown;
-        }
+        if (!TryGetComponent(out _holdbleComponent)) throw new UnityException("Holdable component not found");
     }
 }

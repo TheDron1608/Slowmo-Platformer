@@ -122,6 +122,14 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: FlipXOnHolstered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
+      propertyPath: FlipYOnHolstered
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3289339695515620451, guid: 8810b808aea404b48b93c819fe62761a, type: 3}
       propertyPath: FindingUniqueCodeName
       value: Sniper
       objectReference: {fileID: 0}
@@ -318,11 +326,13 @@ MonoBehaviour:
   AccuracyMultiplier: 1
   RepeatAttacksTimes: 1
   DurationBetweenRepeatAttacks: 0.0667
+  AttackNoiseMultiplier: 1
   ExtraProjectileEffects: []
   IsAbleToAttack: 1
+  JamChance: 0
+  OverrideAttackSound: {fileID: 0}
   AmmoLeft: 6
   MaxAmmo: 12
-  JamChance: 0
   LoadedLivingAmmoLeft: 3
   LoadedSpentAmmoLeft: 0
   SoundOnOutOfAmmo: {fileID: 6425773080814151775}
@@ -332,6 +342,7 @@ MonoBehaviour:
   AmmoAmountPerUnload: 1
   MaxLoadedAmmo: 3
   SoundOnLoadBullet: {fileID: 4598193667464612647}
+  _bulletLoadedInChamberOnStart: 0
 --- !u!114 &6425773080814151775 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3578991652788795460, guid: 8810b808aea404b48b93c819fe62761a, type: 3}

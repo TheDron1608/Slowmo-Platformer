@@ -10,7 +10,9 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 {
     const float DISARM_DROP_VELOCITY_MULTIPLIER = 0.1f;
     const float DISTANCE_TO_CAMERA_TO_DISABLE_HOLDABLE_WALL_COLLISION = 50f;
-    const float PICKUP_SPEED_MULTIPLIER = 15f;
+    const float HOLSTERED_OBJECT_MOVE_SPEED_MULT = 50f;
+    const float HOLSTERED_OBJECT_ROTATE_SPEED_MULT = 10f;
+    const float TIME_SINCE_HOLSTERING_TO_INSTANT_MOVEMENT = 0.1f;
 
     public class OnThewEventArgs
     {
@@ -30,6 +32,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     [SerializeField] private bool _throwObjectsOnStun = true;
     [SerializeField] private bool _throwObjectsOnDeath = true;
     [SerializeField] private Holdable _currentHoldObject = null;
+    [SerializeField] private Holdable _currentHolsteredHoldObject = null;
     public float ThrowForce = 10f;
     public float MaxGrabRangeMultiplier = 1f;
     public List<AbstractEffect> EffectsOnHoldedObject = new();
@@ -37,10 +40,14 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     public float TelekinesisDistance = 8f;
     public float TelekinesisForce = 5f;
     public float TelekinesisDurationSeconds = 1f;
+    [SerializeField] private Transform _holsteredHoldObjectPosition;
 
     private Holdable _lastHoldObject = null;
+    private Holdable _lastHolsteredHoldObject = null;
     private float? _overrideHoldObjectDistance = null;
     private Coroutine _telekinesisCoroutine = null;
+    private float _timeSinceHoldingHoldable = 0f;
+    private float _timeSinceHolsteringHoldable = 0f;
 
     public event EventHandler<OnThewEventArgs> OnThrewHoldable;
     public event EventHandler<Holdable> OnPickedUpHoldable;
@@ -50,11 +57,51 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         get => _currentHoldObject;
         set
         {
+            if (_currentHoldObject == value) return;
+
             if (_currentHoldObject != null)
             {
                 _lastHoldObject = _currentHoldObject;
             }
+            _timeSinceHoldingHoldable = 0f;
             _currentHoldObject = value;
+        }
+    }
+
+    public Holdable CurrentHolsteredHoldObject
+    {
+        get => _currentHolsteredHoldObject;
+        set
+        {
+            if (_currentHolsteredHoldObject == value) return;
+
+            if (_currentHolsteredHoldObject != null)
+            {
+                _currentHolsteredHoldObject.IsHolstered = false;
+                _lastHolsteredHoldObject = _currentHolsteredHoldObject;
+                if (_currentHolsteredHoldObject.TryGetComponent(out SpriteRenderer sr))
+                {
+                    sr.flipX = false;
+                    sr.flipY = false;
+                }
+            }
+            if (value != null)
+            {
+                value.IsHolstered = true;
+                if (value.TryGetComponent(out SpriteRenderer sr))
+                {
+                    if (value.FlipXOnHolstered == Holdable.HolsteredFlippingModes.FLIP_CONTANTLY)
+                    {
+                        sr.flipX = true;
+                    }
+                    if (value.FlipYOnHolstered == Holdable.HolsteredFlippingModes.FLIP_CONTANTLY)
+                    {
+                        sr.flipY = true;
+                    }
+                }
+            }
+            _timeSinceHolsteringHoldable = 0f;
+            _currentHolsteredHoldObject = value;
         }
     }
 
@@ -205,49 +252,105 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         {
             _overrideHoldObjectDistance = null;
         }
+
+        if (_currentHoldObject != null) _timeSinceHoldingHoldable += Time.deltaTime;
+        if (_currentHolsteredHoldObject != null) _timeSinceHolsteringHoldable += Time.deltaTime;
     }
 
     private void Update()
     {
-        if (_currentHoldObject == null) return;
-
-        Vector2 currentAim =
-            _currentHoldObject.RotatableWhenIsHolded ?
-            CharComponents.CharacterAiming.GetCurrentAimNormalized() :
-            new Vector2(CharComponents.CharacterVisual.FlippedH ? -1f : 1f, 0f);
-
-        Vector3 targetRotation = VectorMath.Vec2ToQuarterninon2D(currentAim).eulerAngles;
-
-        if (CharComponents.CharacterAiming != null && CharComponents.CharacterAiming.IsAbleToAim)
+        if (_currentHoldObject != null)
         {
-            //setting current holded object's rotation
-            Quaternion targetAngle = VectorMath.Vec2ToQuarterninon2D(currentAim);
+            Vector2 currentAim =
+                _currentHoldObject.RotatableWhenIsHolded ?
+                CharComponents.CharacterAiming.GetCurrentAimNormalized() :
+                new Vector2(CharComponents.CharacterVisual.FlippedH ? -1f : 1f, 0f);
+
+            Vector3 targetRotation = VectorMath.Vec2ToQuarterninon2D(currentAim).eulerAngles;
+
+            if (CharComponents.CharacterAiming != null && CharComponents.CharacterAiming.IsAbleToAim)
+            {
+                //setting current holded object's rotation
+                Quaternion targetAngle = VectorMath.Vec2ToQuarterninon2D(currentAim);
+                Vector3 targetEulerAngle = targetAngle.eulerAngles;
+
+                targetAngle.eulerAngles = new Vector3(
+                    targetEulerAngle.x,
+                    math.lerp(
+                        _currentHoldObject.transform.rotation.eulerAngles.y,
+                        currentAim.x < 0f ? 180f : 0f,
+                        CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
+                        ),
+                    targetEulerAngle.z
+                    );
+
+                _currentHoldObject.transform.rotation = targetAngle;
+            }
+
+            Vector2 holdObjectPositionXY = Vector2.Lerp(
+                _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
+                VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded  + _currentHoldObject.ExtraHoldDistance),
+                CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
+                );
+
+            _currentHoldObject.transform.position = new Vector3(
+                holdObjectPositionXY.x,
+                holdObjectPositionXY.y,
+                CharComponents.Center.transform.position.z
+                );
+        }
+
+        if (_currentHolsteredHoldObject != null)
+        {
+            _currentHolsteredHoldObject.transform.position =
+                _timeSinceHolsteringHoldable < TIME_SINCE_HOLSTERING_TO_INSTANT_MOVEMENT ?
+                    math.lerp(
+                        _currentHolsteredHoldObject.transform.position,
+                        _holsteredHoldObjectPosition.position,
+                        HOLSTERED_OBJECT_MOVE_SPEED_MULT * Time.deltaTime
+                    ) :
+                    _holsteredHoldObjectPosition.position;
+
+            Quaternion targetAngle = _holsteredHoldObjectPosition.rotation;
             Vector3 targetEulerAngle = targetAngle.eulerAngles;
+            targetEulerAngle.z += CharComponents.CharacterVisual.FlippedH ? 180f - _currentHolsteredHoldObject.AngleOnHolstered : _currentHolsteredHoldObject.AngleOnHolstered;
+            targetEulerAngle.z = targetEulerAngle.z % 360f;
+
+            if (_currentHolsteredHoldObject.TryGetComponent(out SpriteRenderer sr))
+            {
+                switch (_currentHolsteredHoldObject.FlipXOnHolstered)
+                {
+                    case Holdable.HolsteredFlippingModes.FLIP_ON_CHARACTER_FLIPPED:
+                        sr.flipX = CharComponents.CharacterVisual.FlippedH;
+                        break;
+                    case Holdable.HolsteredFlippingModes.FLIP_ON_CHARACTER_FLIPPED_REVERSED:
+                        sr.flipX = !CharComponents.CharacterVisual.FlippedH;
+                        break;
+                }
+
+                switch (_currentHolsteredHoldObject.FlipYOnHolstered)
+                {
+                    case Holdable.HolsteredFlippingModes.FLIP_ON_CHARACTER_FLIPPED:
+                        sr.flipY = CharComponents.CharacterVisual.FlippedH;
+                        break;
+                    case Holdable.HolsteredFlippingModes.FLIP_ON_CHARACTER_FLIPPED_REVERSED:
+                        sr.flipY = !CharComponents.CharacterVisual.FlippedH;
+                        break;
+                }
+            }
 
             targetAngle.eulerAngles = new Vector3(
                 targetEulerAngle.x,
+                targetEulerAngle.y,
                 math.lerp(
-                    _currentHoldObject.transform.rotation.eulerAngles.y,
-                    currentAim.x < 0f ? 180f : 0f,
-                    CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
-                    ),
-                targetEulerAngle.z
+                    _currentHolsteredHoldObject.transform.rotation.eulerAngles.z,
+                    targetEulerAngle.z,
+                    HOLSTERED_OBJECT_ROTATE_SPEED_MULT * Time.deltaTime
+                    )
                 );
 
-            _currentHoldObject.transform.rotation = targetAngle;
+            _currentHolsteredHoldObject.transform.rotation = targetAngle;
         }
-
-        Vector2 holdObjectPositionXY = Vector2.Lerp(
-            _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
-            VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded  + _currentHoldObject.ExtraHoldDistance),
-            CharComponents.CharacterAiming.AimSpeed * Time.fixedDeltaTime
-            );
-
-        _currentHoldObject.transform.position = new Vector3(
-            holdObjectPositionXY.x,
-            holdObjectPositionXY.y,
-            CharComponents.Center.transform.position.z
-            );
     }
 
     public bool TryThrow(Vector2 align, float throwForceMultiplier = 1f)

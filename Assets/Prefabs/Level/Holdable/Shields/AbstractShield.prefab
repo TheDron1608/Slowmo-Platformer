@@ -73,6 +73,18 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: AngleOnHolstered
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: FlipXOnHolstered
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: FlipYOnHolstered
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: SpeedToGetThrough
       value: 25
       objectReference: {fileID: 0}
@@ -156,6 +168,7 @@ MonoBehaviour:
   _minHealth: 0
   _currentHealth: 10
   _damageMultiplier: 1
+  _healMultiplier: 1
   _piercableThrought: 0
   _hitableByMeleeProjectiles: 1
   _hitableByRangedProjectiles: 1
