@@ -200,20 +200,6 @@ public class Holdable : Interactable, IStuckableObject
     public bool IsHolstered
     {
         get => _isHolstered;
-        set
-        {
-            if (_isHolstered == value || _currentHolder == null) return;
-            _isHolstered = value;
-
-            if (value)
-            {
-                OnThrowOrHolstered();
-            }
-            else
-            {
-                OnPickedUpOrUnholstetered(_currentHolder);
-            }
-        }
     }
 
     public bool GetIsHitableNow()
@@ -409,185 +395,6 @@ public class Holdable : Interactable, IStuckableObject
 
     public void Give(CharacterHoldingObjects newHolder)
     {
-        OnPickedUp(newHolder);
-        OnGiven?.Invoke(this, newHolder);
-    }
-
-    public void Throw(Vector2 direction, float throwForceMultiplier = 1f)
-    {
-        OnThrown?.Invoke(this, new OnThrownEventArgs(CurrentHolder, direction));
-        OnThrow(direction, throwForceMultiplier);
-    }
-
-    public bool GetIsDangerouslyFast()
-    {
-        return !_isStuck && _velocitySpeedPreviousFrame.magnitude >= SpeedToHitCharacter && _rigidBodyComponent.simulated;
-    }
-
-    public void TransformToAnotherObject(Holdable anotherObject)
-    {
-        Holdable newHoldable = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
-            anotherObject.gameObject,
-            transform.position,
-            null,
-            null
-            )?.FirstOrDefault()?.GetComponent<Holdable>();
-
-        newHoldable?.TranformSelfToAnotherObject(this);
-    }
-
-    public void TranformSelfToAnotherObject(Holdable anotherObject)
-    {
-        if (gameObject.TryGetComponent(out IThrowableIteractableObj selfWeapon) && anotherObject.TryGetComponent(out IThrowableIteractableObj anotherWeapon))
-        {
-            selfWeapon.IsThrown = anotherWeapon.IsThrown;
-        }
-        if (gameObject.TryGetComponent(out RangedWeapon selfRangedWeapon) && anotherObject.TryGetComponent(out RangedWeapon anotherRangedWeapon))
-        {
-            selfRangedWeapon.LoadedLivingAmmoLeft = anotherRangedWeapon.LoadedLivingAmmoLeft;
-            selfRangedWeapon.LoadedSpentAmmoLeft = anotherRangedWeapon.LoadedSpentAmmoLeft;
-            selfRangedWeapon.AmmoLeft = anotherRangedWeapon.AmmoLeft;
-            selfRangedWeapon.Unloaded = anotherRangedWeapon.Unloaded;
-        }
-
-        LayerManager.Instance.ChangeZIndexForGameObject(
-            LayerManager.Instance.GetZLayerOfGameObject(anotherObject.gameObject),
-            gameObject,
-            anotherObject.gameObject
-            );
-
-        CharacterHoldingObjects newHolder = anotherObject.CurrentHolder;
-        Destroy(anotherObject.gameObject);
-        if (newHolder != null)
-        {
-            OnPickedUp(newHolder);
-        }
-    }
-
-    protected override bool StartInteractCondition(GameObject interactor)
-    {
-        return
-            base.StartInteractCondition(interactor) &&
-            (
-                CurrentHolder == null ||
-                (
-                    interactor.TryGetComponent(out CharacterHoldingObjects holder) &&
-                    holder.CanDisarm &&
-                    CurrentHolder != holder
-                )
-            );
-    }
-
-    protected override void OnStartInteact(GameObject interactor)
-    {
-        if (interactor.TryGetComponent(out CharacterHoldingObjects charHoldingObjects))
-        {
-            charHoldingObjects.TryGrab(this);
-        }
-    }
-
-    protected virtual void OnThrow(Vector2 direction, float throwForceMultiplier = 1f)
-    {
-        if (CurrentHolder == null) return;
-
-        _isStuck = false;
-        _isHolstered = false;
-        transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesContainer.transform;
-
-        Quaternion newRotation = new();
-        newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
-        transform.rotation = newRotation;
-
-        _rigidBodyComponent.simulated = true;
-        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
-        _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
-        if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))
-        {
-            _rigidBodyComponent.angularVelocity = ThrowRotationForce * (characterVisual.FlippedH ? -1f : 1f);
-        }
-        else
-        {
-            _rigidBodyComponent.angularVelocity = ThrowRotationForce;
-        }
-
-        if (HitableWhenIsHolded)
-        {
-            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
-        }
-
-        UpdateStuckStatus();
-
-        if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) >= MIN_VELOCITY_TO_DISABLE_GRAVITY)
-        {
-            _rigidBodyComponent.gravityScale = 0f;
-            _enableGravityCoroutine = StartCoroutine(EnableGravityAfterDelay());
-        }
-
-        _effectsReceiver.RemoveEffect(_appliedHolderEffects);
-        CurrentHolder.CharComponents.CharacterEffectsReceiver.RemoveEffect(EffectOnHolded);
-        _appliedHolderEffects = new();
-
-        //SoundOnThrown.PlaySound();
-        OnThrowOrHolstered();
-
-        CurrentHolder.CurrentHoldObject = null;
-        CurrentHolder = null;
-    }
-
-    private void OnThrowOrHolstered()
-    {
-        _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
-
-        if (TryGetComponent(out Weapon weapon))
-        {
-            for (int i = 0; i < weapon.Projectiles.Count; i++)
-            {
-                if (weapon.Projectiles[i] is MeleeProjectile)
-                {
-                    weapon.Projectiles[i].RemoveProjectile();
-                }
-            }
-        }
-
-        if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
-        {
-            throwableWeapon.IsThrown = true;
-        }
-        if (TryGetComponent(out RangedWeapon rangedWeapon))
-        {
-            rangedWeapon.SetReloadSpeed(1f);
-            rangedWeapon.AttackCooldownMultiplier *= CurrentHolder.CharComponents.CharacterAttacking.AttackCooldownMultiplier;
-        }
-        if (TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon))
-        {
-            if (hammerWeapon.IsHammerring)
-            {
-                hammerWeapon.TrySetHammered(false);
-                hammerWeapon.SoundOnHammer.BreakAllSounds();
-            }
-        }
-        if (TryGetComponent(out Chainsaw chainsaw))
-        {
-            chainsaw.Started = false;
-        }
-        if (TryGetComponent(out HolsterableMeleeWeapon holsterableMeleeWeapon))
-        {
-            Debug.Log(IsHolstered);
-            if (IsHolstered)
-            {
-                holsterableMeleeWeapon.IsHolstered = true;
-            }
-        }
-    }
-
-    private IEnumerator EnableGravityAfterDelay()
-    {
-        yield return new WaitForSeconds(DISABLE_GRAVITY_DURATION_SECONDS);
-        _rigidBodyComponent.gravityScale = 1f;
-    }
-
-    protected virtual void OnPickedUp(CharacterHoldingObjects newHolder)
-    {
         if (newHolder == null) throw new UnityException("Holdable.OnPickedUP newHolder argument can not be null, use Throw if you want to unsed holder instead");
         if (CurrentHolder == newHolder) return;
 
@@ -626,7 +433,7 @@ public class Holdable : Interactable, IStuckableObject
             baseRotation.eulerAngles = Vector3.zero;
             transform.rotation = baseRotation;
         }
-        
+
         StuckedToCollider = null;
 
         ExcludedCollideThrower = newHolder.CharComponents;
@@ -636,11 +443,6 @@ public class Holdable : Interactable, IStuckableObject
 
         //SoundOnPickedUp.PlaySound();
 
-        OnPickedUpOrUnholstetered(newHolder);
-    }
-
-    private void OnPickedUpOrUnholstetered(CharacterHoldingObjects newHolder)
-    {
         _spriteRendererComponent.sortingOrder += ON_GRAB_SORTING_ORDER_ADD;
 
         if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
@@ -694,6 +496,324 @@ public class Holdable : Interactable, IStuckableObject
                 holsterableMeleeWeapon.IsHolstered = !holsterableMeleeWeapon.IsHolstered;
             }
         }
+
+        OnGiven?.Invoke(this, newHolder);
+    }
+
+    public void Throw(Vector2 direction, float throwForceMultiplier = 1f)
+    {
+        OnThrown?.Invoke(this, new OnThrownEventArgs(CurrentHolder, direction));
+
+        if (CurrentHolder == null) return;
+
+        _isStuck = false;
+        _isHolstered = false;
+        transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesContainer.transform;
+
+        Quaternion newRotation = new();
+        newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
+        transform.rotation = newRotation;
+
+        _rigidBodyComponent.simulated = true;
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+        _rigidBodyComponent.linearVelocity = direction * CurrentHolder.ThrowForce * throwForceMultiplier * ThrowForceMultiplier;
+        if (CurrentHolder.TryGetComponent(out CharacterVisual characterVisual))
+        {
+            _rigidBodyComponent.angularVelocity = ThrowRotationForce * (characterVisual.FlippedH ? -1f : 1f);
+        }
+        else
+        {
+            _rigidBodyComponent.angularVelocity = ThrowRotationForce;
+        }
+
+        if (HitableWhenIsHolded)
+        {
+            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+        }
+
+        UpdateStuckStatus();
+
+        if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) >= MIN_VELOCITY_TO_DISABLE_GRAVITY)
+        {
+            _rigidBodyComponent.gravityScale = 0f;
+            _enableGravityCoroutine = StartCoroutine(EnableGravityAfterDelay());
+        }
+
+        _effectsReceiver.RemoveEffect(_appliedHolderEffects);
+        CurrentHolder.CharComponents.CharacterEffectsReceiver.RemoveEffect(EffectOnHolded);
+        _appliedHolderEffects = new();
+
+        //SoundOnThrown.PlaySound();
+        _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
+
+        if (TryGetComponent(out Weapon weapon))
+        {
+            for (int i = 0; i < weapon.Projectiles.Count; i++)
+            {
+                if (weapon.Projectiles[i] is MeleeProjectile)
+                {
+                    weapon.Projectiles[i].RemoveProjectile();
+                }
+            }
+        }
+
+        if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
+        {
+            throwableWeapon.IsThrown = true;
+        }
+        if (TryGetComponent(out RangedWeapon rangedWeapon))
+        {
+            rangedWeapon.SetReloadSpeed(1f);
+            rangedWeapon.AttackCooldownMultiplier *= CurrentHolder.CharComponents.CharacterAttacking.AttackCooldownMultiplier;
+        }
+        if (TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon))
+        {
+            if (hammerWeapon.IsHammerring)
+            {
+                hammerWeapon.TrySetHammered(false);
+                hammerWeapon.SoundOnHammer.BreakAllSounds();
+            }
+        }
+        if (TryGetComponent(out Chainsaw chainsaw))
+        {
+            chainsaw.Started = false;
+        }
+        if (TryGetComponent(out HolsterableMeleeWeapon holsterableMeleeWeapon))
+        {
+            Debug.Log(IsHolstered);
+            if (IsHolstered)
+            {
+                holsterableMeleeWeapon.IsHolstered = true;
+            }
+        }
+
+        CurrentHolder.CurrentHoldObject = null;
+        CurrentHolder = null;
+    }
+
+    public void Holster(CharacterHoldingObjects holsterer)
+    {
+        if (holsterer == null) throw new UnityException("Holdable.OnPickedUP newHolder argument can not be null, use Unholster if you want to unsed holder instead");
+        CurrentHolder = holsterer;
+
+        if (CurrentHolder.CurrentHolsteredHoldObject == this) return;
+
+        if (CurrentHolder.CurrentHolsteredHoldObject == this)
+        {
+            if (!CurrentHolder.TryUnholster()) return;
+        }
+        else if (CurrentHolder.CurrentHoldObject == this)
+        {
+            if (!CurrentHolder.TryThrow(Vector2.zero)) return;
+        }
+
+        if (holsterer.CurrentHolsteredHoldObject != null)
+        {
+            if (!holsterer.TryUnholster()) return;
+        }
+
+        Selected = false;
+        holsterer.CurrentHolsteredHoldObject = this;
+        _isStuck = false;
+        _isHolstered = true;
+
+        if (HitableWhenIsHolded)
+        {
+            _rigidBodyComponent.simulated = true;
+            _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HitableHoldablesLayer;
+        }
+        else
+        {
+            _rigidBodyComponent.simulated = false;
+            _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+        }
+
+        CurrentHolder = holsterer;
+        //transform.parent = newHolder.transform;
+        if (ResetRotationWhenIsHolded)
+        {
+            Quaternion baseRotation = new();
+            baseRotation.eulerAngles = Vector3.zero;
+            transform.rotation = baseRotation;
+        }
+
+        StuckedToCollider = null;
+
+        ExcludedCollideThrower = CurrentHolder.CharComponents;
+
+        _appliedHolderEffects = _effectsReceiver.ApplyEffect(holsterer.EffectsOnHoldedObject, holsterer);
+        CurrentHolder.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectOnHolded, this);
+
+        //SoundOnPickedUp.PlaySound();
+
+        _spriteRendererComponent.sortingOrder += ON_GRAB_SORTING_ORDER_ADD;
+
+        if (TryGetComponent(out HolsterableMeleeWeapon holsterableMeleeWeapon))
+        {
+            holsterableMeleeWeapon.IsHolstered = true;
+        }
+
+        if (TryGetComponent(out Shield shield))
+        {
+            shield.TryRaiseUp();
+        }
+
+        if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
+        {
+            throwableWeapon.IsThrown = true;
+        }
+    }
+
+    public void Unholster()
+    {
+        if (CurrentHolder == null) return;
+
+        _isStuck = false;
+        _isHolstered = false;
+        transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesContainer.transform;
+
+        _rigidBodyComponent.simulated = true;
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+        _rigidBodyComponent.linearVelocity = Vector2.zero;
+
+        if (HitableWhenIsHolded)
+        {
+            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+        }
+
+        UpdateStuckStatus();
+
+        if (VectorMath.Vec2ToDistance(_rigidBodyComponent.linearVelocity) >= MIN_VELOCITY_TO_DISABLE_GRAVITY)
+        {
+            _rigidBodyComponent.gravityScale = 0f;
+            _enableGravityCoroutine = StartCoroutine(EnableGravityAfterDelay());
+        }
+
+        _effectsReceiver.RemoveEffect(_appliedHolderEffects);
+        CurrentHolder.CharComponents.CharacterEffectsReceiver.RemoveEffect(EffectOnHolded);
+        _appliedHolderEffects = new();
+
+        //SoundOnThrown.PlaySound();
+        _spriteRendererComponent.sortingOrder -= ON_GRAB_SORTING_ORDER_ADD;
+
+        if (TryGetComponent(out Weapon weapon))
+        {
+            for (int i = 0; i < weapon.Projectiles.Count; i++)
+            {
+                if (weapon.Projectiles[i] is MeleeProjectile)
+                {
+                    weapon.Projectiles[i].RemoveProjectile();
+                }
+            }
+        }
+
+        if (TryGetComponent(out IThrowableIteractableObj throwableWeapon))
+        {
+            throwableWeapon.IsThrown = true;
+        }
+        if (TryGetComponent(out RangedWeapon rangedWeapon))
+        {
+            rangedWeapon.SetReloadSpeed(1f);
+            rangedWeapon.AttackCooldownMultiplier *= CurrentHolder.CharComponents.CharacterAttacking.AttackCooldownMultiplier;
+        }
+        if (TryGetComponent(out HammerBulletReloadingWeapon hammerWeapon))
+        {
+            if (hammerWeapon.IsHammerring)
+            {
+                hammerWeapon.TrySetHammered(false);
+                hammerWeapon.SoundOnHammer.BreakAllSounds();
+            }
+        }
+        if (TryGetComponent(out Chainsaw chainsaw))
+        {
+            chainsaw.Started = false;
+        }
+        if (TryGetComponent(out HolsterableMeleeWeapon holsterableMeleeWeapon))
+        {
+            Debug.Log(IsHolstered);
+            if (IsHolstered)
+            {
+                holsterableMeleeWeapon.IsHolstered = true;
+            }
+        }
+
+        CurrentHolder.CurrentHolsteredHoldObject = null;
+        CurrentHolder = null;
+    }
+
+    public bool GetIsDangerouslyFast()
+    {
+        return !_isStuck && _velocitySpeedPreviousFrame.magnitude >= SpeedToHitCharacter && _rigidBodyComponent.simulated;
+    }
+
+    public void TransformToAnotherObject(Holdable anotherObject)
+    {
+        Holdable newHoldable = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
+            anotherObject.gameObject,
+            transform.position,
+            null,
+            null
+            )?.FirstOrDefault()?.GetComponent<Holdable>();
+
+        newHoldable?.TranformSelfToAnotherObject(this);
+    }
+
+    public void TranformSelfToAnotherObject(Holdable anotherObject)
+    {
+        if (gameObject.TryGetComponent(out IThrowableIteractableObj selfWeapon) && anotherObject.TryGetComponent(out IThrowableIteractableObj anotherWeapon))
+        {
+            selfWeapon.IsThrown = anotherWeapon.IsThrown;
+        }
+        if (gameObject.TryGetComponent(out RangedWeapon selfRangedWeapon) && anotherObject.TryGetComponent(out RangedWeapon anotherRangedWeapon))
+        {
+            selfRangedWeapon.LoadedLivingAmmoLeft = anotherRangedWeapon.LoadedLivingAmmoLeft;
+            selfRangedWeapon.LoadedSpentAmmoLeft = anotherRangedWeapon.LoadedSpentAmmoLeft;
+            selfRangedWeapon.AmmoLeft = anotherRangedWeapon.AmmoLeft;
+            selfRangedWeapon.Unloaded = anotherRangedWeapon.Unloaded;
+        }
+
+        LayerManager.Instance.ChangeZIndexForGameObject(
+            LayerManager.Instance.GetZLayerOfGameObject(anotherObject.gameObject),
+            gameObject,
+            anotherObject.gameObject
+            );
+
+        CharacterHoldingObjects newHolder = anotherObject.CurrentHolder;
+        Destroy(anotherObject.gameObject);
+        if (newHolder != null)
+        {
+            Give(newHolder);
+        }
+    }
+
+    protected override bool StartInteractCondition(GameObject interactor)
+    {
+        return
+            base.StartInteractCondition(interactor) &&
+            (
+                CurrentHolder == null ||
+                (
+                    interactor.TryGetComponent(out CharacterHoldingObjects holder) &&
+                    holder.CanDisarm &&
+                    CurrentHolder != holder
+                )
+            );
+    }
+
+    protected override void OnStartInteact(GameObject interactor)
+    {
+        if (interactor.TryGetComponent(out CharacterHoldingObjects charHoldingObjects))
+        {
+            charHoldingObjects.TryGrab(this);
+        }
+    }
+
+    private IEnumerator EnableGravityAfterDelay()
+    {
+        yield return new WaitForSeconds(DISABLE_GRAVITY_DURATION_SECONDS);
+        _rigidBodyComponent.gravityScale = 1f;
     }
 
     public override void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)

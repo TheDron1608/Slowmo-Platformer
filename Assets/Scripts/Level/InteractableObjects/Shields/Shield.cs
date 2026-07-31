@@ -29,6 +29,7 @@ public class Shield : DamagableObject, IThrowableIteractableObj
             if (_isThrown == value) return;
 
             _isThrown = value;
+
             _animatorComponent.SetBool(ANIMATOR_RAISED_PROP_NAME, false);
             _animatorComponent.SetBool(ANIMATOR_IS_THROWN_PROP_NAME, value);
         }

@@ -77,7 +77,6 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
             if (_currentHolsteredHoldObject != null)
             {
-                _currentHolsteredHoldObject.IsHolstered = false;
                 _lastHolsteredHoldObject = _currentHolsteredHoldObject;
                 if (_currentHolsteredHoldObject.TryGetComponent(out SpriteRenderer sr))
                 {
@@ -87,7 +86,6 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             }
             if (value != null)
             {
-                value.IsHolstered = true;
                 if (value.TryGetComponent(out SpriteRenderer sr))
                 {
                     if (value.FlipXOnHolstered == Holdable.HolsteredFlippingModes.FLIP_CONTANTLY)
@@ -488,10 +486,28 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     public bool ForceGrab(Holdable holdable)
     {
+        if (holdable == null) return false;
+
         holdable.Give(this);
 
         OnPickedUpHoldable?.Invoke(this, holdable);
 
+        return true;
+    }
+
+    public bool TryHolster(Holdable holdable)
+    {
+        if (CurrentHolsteredHoldObject != null) return false;
+
+        holdable.Holster(this);
+        return true;
+    }
+
+    public bool TryUnholster()
+    {
+        if (CurrentHolsteredHoldObject == null) return false;
+
+        CurrentHolsteredHoldObject.Unholster();
         return true;
     }
 
@@ -510,6 +526,26 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
         if (newHoldable != null)
         {
             ForceGrab(newHoldable);
+        }
+
+        return newHoldable;
+    }
+
+    public Holdable HolsterNewHoldable(Holdable holdable)
+    {
+        if (holdable == null) return null;
+
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(CharComponents.gameObject);
+        Holdable newHoldable = layer.TrySpawnObject(
+            holdable.gameObject,
+            CharComponents.Center.transform.position,
+            null,
+            null
+            ).FirstOrDefault()?.GetComponent<Holdable>();
+
+        if (newHoldable != null)
+        {
+            TryHolster(newHoldable);
         }
 
         return newHoldable;

@@ -469,6 +469,7 @@ public class ZIndexLayer : MonoBehaviour
         else if (!spawnObject.TryGetComponent(out NonGeneratableObject ngo))
         {
             GameObject newObject = Instantiate(spawnObject, position + spawnObject.transform.position, spawnObject.transform.rotation, transform);
+            newObject.gameObject.SetActive(true);
             LayerManager.Instance.ChangeZIndexForGameObject(this, newObject);
             LayerManager.Instance.TrySetLevelBottom(newObject.transform.position.y);
             UpdateLayerForGameObject(newObject);

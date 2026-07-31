@@ -8,18 +8,11 @@ public class CharacterHolstering : AbstractCharacterSpecial
 
         Holdable oldHolsteredWeapon = CharComponents.CharacterHolding.CurrentHolsteredHoldObject;
 
-        CharComponents.CharacterHolding.CurrentHolsteredHoldObject = CharComponents.CharacterHolding.CurrentHoldObject;
+        CharComponents.CharacterHolding.TryUnholster();
+        bool result = CharComponents.CharacterHolding.TryHolster(CharComponents.CharacterHolding.CurrentHoldObject);
+        CharComponents.CharacterHolding.ForceGrab(oldHolsteredWeapon);
 
-        if (oldHolsteredWeapon != null)
-        {
-            CharComponents.CharacterHolding.CurrentHoldObject = oldHolsteredWeapon;
-        }
-        else
-        {
-            CharComponents.CharacterHolding.CurrentHoldObject = null;
-        }
-
-        return true;
+        return result;
     }
 
     public bool TryUnholsterHoldWeapon()
@@ -29,9 +22,10 @@ public class CharacterHolstering : AbstractCharacterSpecial
             CharComponents.CharacterHolding.CurrentHolsteredHoldObject == null
             ) return false;
 
-        CharComponents.CharacterHolding.CurrentHoldObject = CharComponents.CharacterHolding.CurrentHolsteredHoldObject;
-        CharComponents.CharacterHolding.CurrentHolsteredHoldObject = null;
+        Holdable holsteredWeapon = CharComponents.CharacterHolding.CurrentHolsteredHoldObject;
 
-        return true;
+        return
+            CharComponents.CharacterHolding.TryUnholster() &&
+            CharComponents.CharacterHolding.ForceGrab(holsteredWeapon);
     }
 }

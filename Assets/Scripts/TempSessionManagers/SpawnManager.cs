@@ -153,7 +153,7 @@ public class SpawnManager : MonoBehaviour
             {
                 PlayerCharacterHoldable?.gameObject.SetActive(true);
                 newPlayer.CharacterHolding.GiveNewHoldable(PlayerCharacterHoldable);
-                //newPlayer.CharacterHolding.HolsterNewHoldable(PlayerCharacterHolsteredHoldable);
+                newPlayer.CharacterHolding.HolsterNewHoldable(PlayerCharacterHolsteredHoldable);
             }
 
             return newPlayer;
