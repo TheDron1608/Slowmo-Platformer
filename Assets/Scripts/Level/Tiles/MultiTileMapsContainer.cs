@@ -94,7 +94,7 @@ public class MultiTileMapsContainer : MonoBehaviour
 
     private void LateUpdate()
     {
-        _layer.TileManager.Debug_DrawAINavigationPaths(Color.red, new Color(0, 1, 0, 0.5f), Time.deltaTime);
+        //_layer.TileManager.Debug_DrawAINavigationPaths(Color.red, new Color(0, 1, 0, 0.5f), Time.deltaTime);
 
         if (_requestUpdateNavigationAtEndOfFrame)
         {

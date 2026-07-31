@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements.InputSystem;
 
 public class GameplayInitializer : MonoBehaviour
 {
@@ -18,6 +16,7 @@ public class GameplayInitializer : MonoBehaviour
         UIManager.Instance.ModificatorsScreenOverlay.Show();
         UIManager.Instance.ArtifactModificatorsScreenOverlay.Show();
         UIManager.Instance.DifficultyScreenOverlay.Show();
+        UIManager.Instance.NavPointersScreenOverlay.Show();
 
         WorldGenerationManager.Instance?.GenerateLevel();
 

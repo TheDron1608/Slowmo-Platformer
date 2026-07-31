@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEngine.Rendering.DebugUI;
 
 
 [DefaultExecutionOrder(-1)]
@@ -55,7 +54,7 @@ public class ZIndexLayer : MonoBehaviour
     public int ObjectsSortingLayer { get; private set; }
     public int EnviromentSortingLayer { get; private set; }
     public int OvergroundSortingLayer { get; private set; }
-    public int OtherSortingLayer { get; private set; }  
+    public int OtherSortingLayer { get; private set; }
     public int FogSortingLayer { get; private set; }
 
     public Transform CharactersContainer { get => _charactersContainer; }
@@ -148,13 +147,13 @@ public class ZIndexLayer : MonoBehaviour
         OtherSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{OTHER_SORTING_LAYER_NAME}");
         FogSortingLayer = SortingLayer.NameToID($"Z{ZIndex}{FOG_SORTING_LAYER_NAME}");
 
-        EntireLayerMask = 
+        EntireLayerMask =
             (1 << EnviromentLayer) | (1 << CharactersLayer) | (1 << HoldablesLayer) | (1 << HitableHoldablesLayer) | (1 << FurnituresLayer) | (1 << ProjectilesLayer);
     }
 
     private void SetAlphaForAllChildren(
-        LayerAlphaMode layerAlpha, 
-        Transform t, 
+        LayerAlphaMode layerAlpha,
+        Transform t,
         LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes inheritType = LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes.DEFAULT
         )
     {
@@ -172,8 +171,8 @@ public class ZIndexLayer : MonoBehaviour
     }
 
     private void SetAlphaForGameObject(
-        LayerAlphaMode layerAlpha, 
-        Transform t, 
+        LayerAlphaMode layerAlpha,
+        Transform t,
         LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes type = LayerSpriteCustomVisibility.LayerSpriteCustomVisibilityTypes.DEFAULT
         )
     {

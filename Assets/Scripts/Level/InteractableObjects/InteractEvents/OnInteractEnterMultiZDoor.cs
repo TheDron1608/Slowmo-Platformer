@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public class OnInteractEnterMultiZDoor : AnimatedInteractable
+public class OnInteractEnterMultiZDoor : AnimatedInteractable, INavPointersScreenOverlayTrackableObject
 {
-    private MultiZLayerCamera _multiZLayerCameraComponent;
+    [SerializeField] private float _offsetForPointerPosition;
+
+    private bool _isLastExitForCharacter = false;
     private ZIndexLayer _zLayer;
+
+    private static OnInteractEnterMultiZDoor LastPlayerExitDoor = null; //this static property and will not reset on reboot game, cuz no need in it
 
     public ZIndexLayer ZLayer
     {
@@ -17,7 +21,6 @@ public class OnInteractEnterMultiZDoor : AnimatedInteractable
     {
         base.OnAwake();
 
-        if (!Camera.main.TryGetComponent(out _multiZLayerCameraComponent)) throw new UnityException("MainCamera does not has MultiZLayerCamera component");
         ZLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
     }
 
@@ -25,5 +28,20 @@ public class OnInteractEnterMultiZDoor : AnimatedInteractable
     {
         base.OnFinishInteract(interactor);
         LayerManager.Instance.ChangeZIndexForGameObject(Exit.ZLayer, interactor, Exit.gameObject);
+
+        if (interactor.TryGetComponent(out AbstractCharacterComponent character) && character.CharComponents.CharacterTeam.Team == TeamManager.Teams.PLAYER)
+        {
+            LastPlayerExitDoor = Exit;
+        }
+    }
+
+    public float GetOffsetForPointerPosition()
+    {
+        return _offsetForPointerPosition;
+    }
+
+    public bool PointingCondition()
+    {
+        return LastPlayerExitDoor != this;
     }
 }

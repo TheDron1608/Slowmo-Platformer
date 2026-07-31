@@ -1,6 +1,9 @@
 using UnityEngine;
-public class AbstractLevelFinishDoor : AnimatedInteractable
+
+public class AbstractLevelFinishDoor : AnimatedInteractable, INavPointersScreenOverlayTrackableObject
 {
+    [SerializeField] private float _offsetForPointerPosition;
+
     protected override void OnStartInteact(GameObject interactor)
     {
         base.OnStartInteact(interactor);
@@ -16,5 +19,15 @@ public class AbstractLevelFinishDoor : AnimatedInteractable
         {
             ModificatorsManager.Instance.CurrentModificators[i].OnLevelFinished();
         }
+    }
+
+    public float GetOffsetForPointerPosition()
+    {
+        return _offsetForPointerPosition;
+    }
+
+    public bool PointingCondition()
+    {
+        return true;
     }
 }
