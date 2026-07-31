@@ -580,7 +580,6 @@ public class Holdable : Interactable, IStuckableObject
         }
         if (TryGetComponent(out HolsterableMeleeWeapon holsterableMeleeWeapon))
         {
-            Debug.Log(IsHolstered);
             if (IsHolstered)
             {
                 holsterableMeleeWeapon.IsHolstered = true;
@@ -732,7 +731,6 @@ public class Holdable : Interactable, IStuckableObject
         }
         if (TryGetComponent(out HolsterableMeleeWeapon holsterableMeleeWeapon))
         {
-            Debug.Log(IsHolstered);
             if (IsHolstered)
             {
                 holsterableMeleeWeapon.IsHolstered = true;

@@ -3,6 +3,7 @@ using System.Linq;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraTrack : MonoBehaviour
 {
@@ -13,9 +14,12 @@ public class CameraTrack : MonoBehaviour
     public float TrackMouseVelocity = 0.1625f;
     public float CameraTrackRotatingDeg = 0f;
     public float DefaultCameraAngle = 0f;
+    public float CameraMoveOnCursorPosition = 0f;
 
     public float? LockPositionX = null;
     public float? LockPositionY = null;
+
+    [SerializeField] private InputActionReference _gamepadAimInput;
 
     private Rigidbody _rigidBodyComponent;
     private MultiZLayerCamera _multiZLayerCameraComponent;
@@ -47,7 +51,7 @@ public class CameraTrack : MonoBehaviour
     {
         if (TrackTargets == null)
         {
-            _rigidBodyComponent.linearVelocity = 
+            _rigidBodyComponent.linearVelocity =
                 VectorMath.Vec3ToVec2(_lastTrackPosition - transform.position);
         }
         else
@@ -62,7 +66,12 @@ public class CameraTrack : MonoBehaviour
                 }
             }
 
-            Vector3 trackTargetPosition = PickAvgTrackTargetsPosition();
+            Vector2 inputDirection = 
+                CurrentDeviceTracker.GetGamepadIsConnected() ? 
+                _gamepadAimInput.action.ReadValue<Vector2>() : 
+                new Vector2(Mouse.current.position.ReadValue().x / Screen.width - 0.5f, Mouse.current.position.ReadValue().y / Screen.height - 0.5f) * 2f;
+
+            Vector3 trackTargetPosition = PickAvgTrackTargetsPosition() + VectorMath.Vec2ToVec3(inputDirection * CameraMoveOnCursorPosition);
             Vector2 trackTargetVelocity = PickAvgTrackTargetLinearVelocity();
 
             _rigidBodyComponent.linearVelocity =

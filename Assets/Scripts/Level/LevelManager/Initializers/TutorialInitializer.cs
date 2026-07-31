@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -63,7 +61,7 @@ public class TutorialInitializer : MonoBehaviour
             RollTutorialDoor?.Open();
         }
 
-        if (RollTutorialDoor.IsOpen && _spawnedPlayer?.CharacterHolding.CurrentHolsteredHoldObject != null)
+        if ((RollTutorialDoor?.IsOpen ?? false) && _spawnedPlayer?.CharacterHolding.CurrentHolsteredHoldObject != null)
         {
             AbilityTutorialDoor?.Open();
         }
