@@ -9,6 +9,7 @@ public class ShakableObject : MonoBehaviour
     public float DecayingShakingForce = 0f;
     public float ShakingAmplitude = 10f;
     public float ShakingDecayingMultiplier = 5f;
+    public bool FixPositionOnShakeBreak = true;
 
     private Vector2 _currentShakeDirection;
     private Vector2 _currentOffset;
@@ -32,8 +33,11 @@ public class ShakableObject : MonoBehaviour
         if (math.sin(Time.unscaledTime * math.PI) > 0f ^ math.sin((Time.unscaledTime - Time.deltaTime) * math.PI) > 0f)
         {
             _currentShakeDirection = VectorMath.RandomizeVec2(_currentShakeDirection, RANDOMIZE_DIRECTION_ACCURACY);
-            transform.position -= VectorMath.Vec2ToVec3(_currentOffset);
-            _currentOffset = Vector2.zero;
+            if (FixPositionOnShakeBreak)
+            {
+                transform.position -= VectorMath.Vec2ToVec3(_currentOffset);
+                _currentOffset = Vector2.zero;
+            }
         }
 
         DecayingShakingForce = math.lerp(DecayingShakingForce, 0f, ShakingDecayingMultiplier * Time.deltaTime);

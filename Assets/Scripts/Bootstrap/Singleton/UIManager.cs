@@ -12,8 +12,10 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     const string GLITCH_EFFECT_RENDER_FEATURE_NAME = "GlitchEffect";
+    const string GLITCH_EFFECT_MATERIAL_FISH_EYE_INTENCITY_PROP_NAME = "_FishEyeIntencity";
     const string GLITCH_EFFECT_MATERIAL_INTENCITY_PROP_NAME = "_Intencity";
     const float GLITCH_EFFECT_CHANGE_SPEED = 25f;
+    const float TEMPORAL_GLITCH_EFFECT_REMOVAL_SPEED_MULT = 5f;
 
     public enum LiveTimeLeftTypes
     {
@@ -363,7 +365,16 @@ public class UIManager : MonoBehaviour
     private bool _showFPS = false;
     private ScreenOverlay[] _allOverlays;
     private FullScreenPassRendererFeature _glitchRenderFeature;
-    private float _currentGlitchEffectIntencity = 0f;
+    private float _currentConstantGlitchEffectIntencity = 0f;
+    private float _currentTemporalGlitchEffectIntencity = 0f;
+
+    public void RaiseTemporalGlitchEffectIntencity(float intencity)
+    {
+        if (_currentTemporalGlitchEffectIntencity < intencity)
+        {
+            _currentTemporalGlitchEffectIntencity = intencity;
+        }
+    }
 
     public bool IsLoadingScene()
     {
@@ -460,8 +471,14 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        _currentGlitchEffectIntencity = Mathf.Lerp(_currentGlitchEffectIntencity, TargetGlitchIntencity, Time.deltaTime * GLITCH_EFFECT_CHANGE_SPEED);
-        _glitchRenderFeature.passMaterial.SetFloat(GLITCH_EFFECT_MATERIAL_INTENCITY_PROP_NAME, _currentGlitchEffectIntencity);
+        _currentConstantGlitchEffectIntencity = Mathf.Lerp(_currentConstantGlitchEffectIntencity, TargetGlitchIntencity, Time.deltaTime * GLITCH_EFFECT_CHANGE_SPEED);
+        _currentTemporalGlitchEffectIntencity = Mathf.Lerp(
+            _currentTemporalGlitchEffectIntencity,
+            0f,
+            Time.deltaTime * TEMPORAL_GLITCH_EFFECT_REMOVAL_SPEED_MULT
+            );
+        _glitchRenderFeature.passMaterial.SetFloat(GLITCH_EFFECT_MATERIAL_FISH_EYE_INTENCITY_PROP_NAME, _currentConstantGlitchEffectIntencity);
+        _glitchRenderFeature.passMaterial.SetFloat(GLITCH_EFFECT_MATERIAL_INTENCITY_PROP_NAME, _currentTemporalGlitchEffectIntencity);
     }
 
     private void OnDestroy()

@@ -14,6 +14,7 @@ public class Healthbar : MonoBehaviour
     public bool ShowHealthNumber = false;
     public float CameraShakeOnDamageForce = 0.1f;
     public float DamagedScreenOverlayFillOnDamage = 0.5f;
+    public float GlitchEffectIntencityOnDamage = 0.1f;
     public Color DefaultTextColor = Color.white;
     public Color DyingTextColor = Color.red;
 
@@ -54,6 +55,7 @@ public class Healthbar : MonoBehaviour
     private void HealthTrackedCharacter_OnHitByProjectile(object sender, AbstractProjectile e)
     {
         Camera.main?.GetComponent<ShakableObject>().Shake(CameraShakeOnDamageForce);
+        UIManager.Instance.RaiseTemporalGlitchEffectIntencity(GlitchEffectIntencityOnDamage);
         UIManager.Instance.DamagedScreenOverlay.FillAmount += DamagedScreenOverlayFillOnDamage;
     }
 
