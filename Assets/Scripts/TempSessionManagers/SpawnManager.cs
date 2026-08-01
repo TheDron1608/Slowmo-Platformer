@@ -89,7 +89,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (
                 PlayerCharacterHoldable != null &&
-                PlayerCharacterHoldable.gameObject.scene.name != null
+                PlayerCharacterHoldable?.gameObject.scene.name != null
                 )
             {
                 Destroy(PlayerCharacterHoldable.gameObject);
@@ -100,7 +100,7 @@ public class SpawnManager : MonoBehaviour
 
             if (
                 PlayerCharacterHolsteredHoldable != null &&
-                PlayerCharacterHolsteredHoldable.gameObject.scene.name != null
+                PlayerCharacterHolsteredHoldable?.gameObject.scene.name != null
                 )
             {
                 Destroy(PlayerCharacterHolsteredHoldable.gameObject);
@@ -111,13 +111,13 @@ public class SpawnManager : MonoBehaviour
         }
         else if (!KeepHoldableOnFinishLevel)
         {
-            if (PlayerCharacterHoldable.gameObject.scene.name != null)
+            if (PlayerCharacterHoldable?.gameObject.scene.name != null)
             {
                 Destroy(PlayerCharacterHoldable.gameObject);
             }
             PlayerCharacterHoldable = null;
 
-            if (PlayerCharacterHolsteredHoldable.gameObject.scene.name != null)
+            if (PlayerCharacterHolsteredHoldable?.gameObject.scene.name != null)
             {
                 Destroy(PlayerCharacterHolsteredHoldable.gameObject);
             }
