@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2262340712177032849}
-  - component: {fileID: 344805414714566387}
+  - component: {fileID: 6558062187654580545}
   m_Layer: 0
-  m_Name: ExplodeGrenadeDamage
+  m_Name: ExplodeDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &344805414714566387
+--- !u!114 &6558062187654580545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,9 +41,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9005100975863942898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68743002804ac3f4486e089edc1f4b9d, type: 3}
+  m_Script: {fileID: 11500000, guid: ac33e173eee921f4fbf204736535c1d2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplodeDamage
   EffectPriority: 40
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}

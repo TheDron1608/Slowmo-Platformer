@@ -126,7 +126,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
                 );
 
             //chance to not spawn particle if damage is less than 1
-            if (ParticlesOnDamage.Count > 0 && UnityEngine.Random.value < damage)
+            if (ParticlesOnDamage.Count > 0 && UnityEngine.Random.value < damage && TryGetComponent(out Renderer renderer))
             {
                 ParticleSpawner.SpawnInstantlyMultipleParticles(
                     ParticlesOnDamage,
@@ -137,7 +137,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
                     PARTICLES_ON_DAMAGE_MAX_VELOCITY,
                     PARTICLES_ON_DAMAGE_MIN_ANGULAR_VELOCITY,
                     PARTICLES_ON_DAMAGE_MAX_ANGULAR_VELOCITY,
-                    TryGetComponent(out Renderer renderer) ? renderer.material : null,
+                    renderer.material,
                     LayerManager.Instance.GetZLayerOfGameObject(gameObject),
                     Math.Max((int)damage, 1),
                     PARTICLES_ON_DAMAGE_ACCURACY

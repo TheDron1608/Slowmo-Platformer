@@ -81,6 +81,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 968238499590038864, guid: c9887a994c5f9d54cbf9354743206703, type: 3}
+      propertyPath: _stunRecoverAnimationTimeMult
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2813197976548211066, guid: c9887a994c5f9d54cbf9354743206703, type: 3}
       propertyPath: JumpForce
       value: 13.5

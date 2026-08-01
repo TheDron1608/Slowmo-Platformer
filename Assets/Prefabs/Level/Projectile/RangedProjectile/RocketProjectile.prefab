@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 977385987182254359, guid: f5e89590c7150c64a9b12a39f2d93611, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: SelfEffectsOnHit.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'SelfEffectsOnHit.Array.data[0]'
@@ -83,15 +83,19 @@ PrefabInstance:
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'SelfEffectsOnHit.Array.data[4]'
       value: 
-      objectReference: {fileID: 8091451049724318977, guid: af8174106d839f8468fbd13977e1a271, type: 3}
+      objectReference: {fileID: 8091451049724318977, guid: a961dd11e018f3448ade4800feedfc20, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'SelfEffectsOnHit.Array.data[5]'
       value: 
-      objectReference: {fileID: 8091451049724318977, guid: a961dd11e018f3448ade4800feedfc20, type: 3}
+      objectReference: {fileID: 8091451049724318977, guid: 55d7d68c2148c7b44aeceb1d297f52e7, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'SelfEffectsOnHit.Array.data[6]'
       value: 
-      objectReference: {fileID: 8091451049724318977, guid: 55d7d68c2148c7b44aeceb1d297f52e7, type: 3}
+      objectReference: {fileID: 8091451049724318977, guid: af8174106d839f8468fbd13977e1a271, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'SelfEffectsOnHit.Array.data[7]'
+      value: 
+      objectReference: {fileID: 5200996752089410397, guid: 0e0ed015c8584894f98e8f14ab8b6b0c, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: InstantParticlesOnAnyHit.Array.size
       value: 13

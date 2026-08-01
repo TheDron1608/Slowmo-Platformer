@@ -94,6 +94,7 @@ public class CharacterVisual : AbstractCharacterComponent
     public List<Sprite> DetectedEnemySprites;
     public List<Sprite> StunnedSprites;
     [SerializeField] private SpriteRenderer _popupImage;
+    [SerializeField] private float _stunRecoverAnimationTimeMult = 1f;
 
     private bool _flippedH = false;
     private CharacterPartMainStates _mainState = CharacterPartMainStates.IDLE;
@@ -105,7 +106,6 @@ public class CharacterVisual : AbstractCharacterComponent
     private int _randomizedExtraSpriteSortingOrder;
     private Coroutine _coolFlipCoroutine = null;
     private bool _currentCoolFlipRotationAxisReversed = false;
-    private float _stunRecoverAnimationTimeMult = 1f;
     private bool _allowMovementOnBusyAnimation = false;
     private float _currentPopupDuration = 0f;
     private float _targetPopupDuration = float.MaxValue;
@@ -128,6 +128,7 @@ public class CharacterVisual : AbstractCharacterComponent
         CharComponents.CharacterJumping.OnStartedJumping += CharacterJumping_OnStartedJumping;
         CharComponents.CharacterAttacking.OnAttack += CharacterAttacking_OnAttack;
         CharComponents.CharacterReloading.OnReload += CharacterReloading_OnReload;
+        CharComponents.Animator.SetFloat(ANIMATOR_STUN_RECOVER_ANIMATION_TIME_MULTIPLIER_PARAM_NAME, _stunRecoverAnimationTimeMult);
     }
 
     private void OnEnable()
