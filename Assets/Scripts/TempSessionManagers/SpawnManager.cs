@@ -138,7 +138,7 @@ public class SpawnManager : MonoBehaviour
             );
     }
 
-    public CharacterComponentsManager SpawnPlayerCharacterAt(Vector3 position, ZIndexLayer layer)
+    public CharacterComponentsManager SpawnPlayerCharacterAt(Vector3 position, ZIndexLayer layer, bool giveSavedHoldables = true)
     {
         if (PlayerCharacter != null)
         {
@@ -149,9 +149,10 @@ public class SpawnManager : MonoBehaviour
                 null
                 ).First().GetComponent<AbstractCharacterComponent>().CharComponents;
 
-            if (KeepHoldableOnFinishLevel)
+            if (KeepHoldableOnFinishLevel && giveSavedHoldables)
             {
                 PlayerCharacterHoldable?.gameObject.SetActive(true);
+                PlayerCharacterHolsteredHoldable?.gameObject.SetActive(true);
                 newPlayer.CharacterHolding.GiveNewHoldable(PlayerCharacterHoldable);
                 newPlayer.CharacterHolding.HolsterNewHoldable(PlayerCharacterHolsteredHoldable);
             }

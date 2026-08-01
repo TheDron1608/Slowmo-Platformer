@@ -151,11 +151,11 @@ public class CharacterJumping : AbstractCharacterComponent
 
             if (CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY)
             {
-                CharComponents.CharacterRigidBody.linearVelocityX += JumpOffWallForce;
+                CharComponents.CharacterRigidBody.linearVelocityX += JumpOffWallForce + math.abs(CharComponents.CharacterCollision.VelocityPrevFrame.x);
             }
             else if (CharComponents.CharacterCollision.GetTileBehaviourTypeFromRightWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY)
             {
-                CharComponents.CharacterRigidBody.linearVelocityX -= JumpOffWallForce;
+                CharComponents.CharacterRigidBody.linearVelocityX -= JumpOffWallForce + math.abs(CharComponents.CharacterCollision.VelocityPrevFrame.x);
             }
 
             SoundOnJump?.PlaySound();

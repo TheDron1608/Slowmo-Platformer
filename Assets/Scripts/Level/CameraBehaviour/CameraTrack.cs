@@ -71,7 +71,7 @@ public class CameraTrack : MonoBehaviour
                 _gamepadAimInput.action.ReadValue<Vector2>() : 
                 new Vector2(Mouse.current.position.ReadValue().x / Screen.width - 0.5f, Mouse.current.position.ReadValue().y / Screen.height - 0.5f) * 2f;
 
-            Vector3 trackTargetPosition = PickAvgTrackTargetsPosition() + VectorMath.Vec2ToVec3(inputDirection * CameraMoveOnCursorPosition);
+            Vector3 trackTargetPosition = PickAvgTrackTargetsPosition() + (TrackTargets.Count > 0 ? VectorMath.Vec2ToVec3(inputDirection * CameraMoveOnCursorPosition) : Vector2.zero);
             Vector2 trackTargetVelocity = PickAvgTrackTargetLinearVelocity();
 
             _rigidBodyComponent.linearVelocity =

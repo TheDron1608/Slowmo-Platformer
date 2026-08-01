@@ -30,7 +30,8 @@ public class TutorialInitializer : MonoBehaviour
 
         _spawnedPlayer = SpawnManager.Instance?.SpawnPlayerCharacterAt(
             PlayerSpawnPosition.transform.position,
-            PlayerSpawnLayer
+            PlayerSpawnLayer,
+            false
             );
 
         MetaProgressManager.Instance.enabled = false;
