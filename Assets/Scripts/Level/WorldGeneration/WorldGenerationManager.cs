@@ -21,7 +21,6 @@ public class WorldGenerationManager : MonoBehaviour
     public List<Chunk> Chunks = new();
     public List<BuildingEnterChunk> EnterBuildingChunks = new();
     public List<Chunk> UnclosedConnectionsChunks = new();
-    public BuildingEnterChunk TutorialChunk;
     public int ParallelRooms = 3;
     public float UnlosedConnectionChunkGenerationChance = 0.33f;
     public bool RegularExitsOnly = false;
@@ -162,12 +161,7 @@ public class WorldGenerationManager : MonoBehaviour
         newBuildingInfoResult.Layer = layer;
 
         //creating first room with enter door, if failed generation or could not spawn any enter doors return false
-        if (!(
-                _totalGenerations == 0 && _generatedBuildings.Count == 0 ?
-                TutorialChunk :
-                NumberMath.PickRandomItem(EnterBuildingChunks)
-            ).TryGenerateChunkWithEnterAt(layer, position, newBuildingInfoResult, out ChunkInfo firstChunk)
-            )
+        if (!NumberMath.PickRandomItem(EnterBuildingChunks).TryGenerateChunkWithEnterAt(layer, position, newBuildingInfoResult, out ChunkInfo firstChunk))
         {
             return false;
         }

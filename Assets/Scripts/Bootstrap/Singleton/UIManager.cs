@@ -475,7 +475,7 @@ public class UIManager : MonoBehaviour
         _currentTemporalGlitchEffectIntencity = Mathf.Lerp(
             _currentTemporalGlitchEffectIntencity,
             0f,
-            Time.deltaTime * TEMPORAL_GLITCH_EFFECT_REMOVAL_SPEED_MULT
+            Time.unscaledDeltaTime * TEMPORAL_GLITCH_EFFECT_REMOVAL_SPEED_MULT
             );
         _glitchRenderFeature.passMaterial.SetFloat(GLITCH_EFFECT_MATERIAL_FISH_EYE_INTENCITY_PROP_NAME, _currentConstantGlitchEffectIntencity);
         _glitchRenderFeature.passMaterial.SetFloat(GLITCH_EFFECT_MATERIAL_INTENCITY_PROP_NAME, _currentTemporalGlitchEffectIntencity);
