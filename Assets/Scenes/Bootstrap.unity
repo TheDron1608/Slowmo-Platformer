@@ -1102,6 +1102,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1624869614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1624869616}
+  - component: {fileID: 1624869615}
+  m_Layer: 0
+  m_Name: CursorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1624869615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624869614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b72b9411688d934ea093a50ffe0627c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorManager
+  PointRotationSpeed: 720
+  DefaultCursor: {fileID: 2800000, guid: 4fc860ee69f4f4745a5e23917052f370, type: 3}
+  EmptyCursor: {fileID: 2800000, guid: 9baca14bf1e2b7141b70855667297d31, type: 3}
+  RestrictCursor: {fileID: 2800000, guid: bf43c4ac9ba0f7e4ebfdc11b906d1fe1, type: 3}
+  DotCursorPoint: {fileID: 2800000, guid: 3384229aa1ad3e34187bbf0e15ad8772, type: 3}
+  CrossCursorPoint: {fileID: 2800000, guid: 5b3e6d7288d4c704f8993853a9e6cb68, type: 3}
+  KillCursorPoint: {fileID: 2800000, guid: adc08767b8383734787ffc39452e3502, type: 3}
+  ReloadPoint: {fileID: 2800000, guid: 2b4b4fbd11334e64a8c7a871d92b8ea3, type: 3}
+--- !u!4 &1624869616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624869614}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.04805, y: 19.36384, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1683083103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,3 +1347,4 @@ SceneRoots:
   - {fileID: 490176639}
   - {fileID: 376242234}
   - {fileID: 373361773}
+  - {fileID: 1624869616}

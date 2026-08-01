@@ -37,6 +37,7 @@ public class ScoreManager : MonoBehaviour
     private ComboState _currentComboState = null;
     private float _resetScoreEncountSpeedMultiplier = 1f;
     private int _lastCombo = 0;
+    private float _timeSinceLastCombo = 0f;
 
     public event EventHandler OnAddedCombo;
     public event EventHandler OnResetCombo;
@@ -116,9 +117,15 @@ public class ScoreManager : MonoBehaviour
         get => _lastCombo;
     }
 
+    public float TimeSinceLastCombo
+    {
+        get => _timeSinceLastCombo;
+    }
+
     public void AddCombo()
     {
         CurrentCombo++;
+        _timeSinceLastCombo = 0;
         RestoreComboLastTime();
         OnAddedCombo?.Invoke(this, EventArgs.Empty);
     }
@@ -202,6 +209,8 @@ public class ScoreManager : MonoBehaviour
                 SceneList.GetCurrentSceneIsGameplay() ? 
                 CurrentComboState.GlitchIntencity : 0f;
         }
+
+        _timeSinceLastCombo += Time.unscaledDeltaTime;
     }
 
     private void OnDestroy()

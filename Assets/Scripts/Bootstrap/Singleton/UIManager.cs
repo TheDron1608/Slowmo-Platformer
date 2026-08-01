@@ -361,6 +361,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     private GameObject _screenOverlayContainer;
+    private Canvas _mainCanvas;
     private AsyncOperation _sceneLoadingProcess; //used only at LoadSceneWithEffect and LoadSceneWithEffect_OnScreenOverlayAnimationFinished functions
     private bool _showFPS = false;
     private ScreenOverlay[] _allOverlays;
@@ -389,6 +390,11 @@ public class UIManager : MonoBehaviour
                 Instance.GameplayScreenOverlay.GetGameplayUI().Pause.gameObject.activeSelf ||
                 Instance.GameOverScreenOverlay.GetCurrentScreenOverlay() != null
             );
+    }
+
+    public Canvas GetMainCanvas()
+    {
+        return _mainCanvas;
     }
 
     public TextableScreenOverlay GetLiveTimeLeftScreenOverlayByType(LiveTimeLeftTypes type)
@@ -435,6 +441,7 @@ public class UIManager : MonoBehaviour
         Instance = this;
 
         _screenOverlayContainer = GameObject.FindGameObjectWithTag("ScreenOverlayContainer");
+        _mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas")?.GetComponent<Canvas>();
 
         SceneManager.activeSceneChanged += SceneManager_OnActiveSceneChanged;
     }
@@ -455,6 +462,7 @@ public class UIManager : MonoBehaviour
     private void SceneManager_OnActiveSceneChanged(Scene arg0, Scene arg1)
     {
         _screenOverlayContainer = GameObject.FindGameObjectWithTag("ScreenOverlayContainer");
+        _mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas")?.GetComponent<Canvas>();
 
         foreach (ScreenOverlay overlay in _allOverlays)
         {
