@@ -3,14 +3,22 @@ using UnityEngine;
 public class PierceArmor : AbstractCharacterLimbEffectWithSender
 {
     public Armor.ArmorPierceResistantLevels PierceLevel;
+    public float ArmorDamage = 0;
 
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
         foreach (CharacterEquipmentPart equipment in AffectedPart.CharComponents.CharacterPartsManager.GetCharacterPartEquipment(AffectedPart as CharacterLimbPart))
         {
-            if (equipment.CharPartEffectsReceiver.TryGetEffect(out Armor armor) && PierceLevel >= armor.ArmorPierceResistantLevel)
+            if (equipment.CharPartEffectsReceiver.TryGetEffect(out Armor armor))
             {
-                equipment.BreakPart();
+                if (PierceLevel >= armor.ArmorPierceResistantLevel && equipment.TryGetComponent(out BreakableObject breakableObject))
+                {
+                    breakableObject.BreakObject(sender);
+                }
+                else if (equipment.TryGetComponent(out DamagableObject damagableObject))
+                {
+                    damagableObject.ApplyDamage(ArmorDamage, sender);
+                }
             }
         }
 
@@ -24,10 +32,9 @@ public class PierceArmor : AbstractCharacterLimbEffectWithSender
 
     private bool GetHasArmorOnPart(CharacterLimbPart affectedPart)
     {
-
         foreach (CharacterEquipmentPart equipment in affectedPart.CharComponents.CharacterPartsManager.GetCharacterPartEquipment(affectedPart as CharacterLimbPart))
         {
-            if (equipment.CharPartEffectsReceiver.TryGetEffect(out Armor armor) && PierceLevel >= armor.ArmorPierceResistantLevel)
+            if (equipment.CharPartEffectsReceiver.TryGetEffect(out Armor armor))
             {
                 return true;
             }

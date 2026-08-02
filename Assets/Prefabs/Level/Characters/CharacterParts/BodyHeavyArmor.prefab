@@ -8,6 +8,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2091936611614438845, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: _maxHealth
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2091936611614438845, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: _currentHealth
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2091936611614438845, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: ParticlesOnDamage.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2091936611614438845, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: f7a0982651367d740a819795fa90f10c, type: 3}
+    - target: {fileID: 2091936611614438845, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 017a591a3aac2854f8fa8d1ff827d9a3, type: 3}
+    - target: {fileID: 2091936611614438845, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 017a591a3aac2854f8fa8d1ff827d9a3, type: 3}
+    - target: {fileID: 2091936611614438845, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[3]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 95a91c92f3f35dd45ba52589df2be3ea, type: 3}
+    - target: {fileID: 2091936611614438845, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: 'ParticlesOnDamage.Array.data[4]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 95a91c92f3f35dd45ba52589df2be3ea, type: 3}
     - target: {fileID: 3776782412534019233, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: PartType
       value: 3
@@ -146,6 +178,10 @@ PrefabInstance:
       objectReference: {fileID: 3229202520501327691, guid: d27c968c74887e64b9be06f9edf435b0, type: 3}
     - target: {fileID: 5700690854049518460, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
       propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641951005733767708, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}
+      propertyPath: RemoveObjectOnBreakVelocity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7707756931381641858, guid: 57ddd76a61d693a47830f2017f6e0cf1, type: 3}

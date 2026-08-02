@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,7 +16,6 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public List<AbstractEffect> SelfEffectsOnHit = new();
     public List<AbstractEffect> SelfEffects = new();
     public List<AbstractEffect> SelfEffectsOnWeapon = new();
-    public List<AbstractEffect> ExtraEffectsOnAllProjectilesHitSingleTarget = new();
     public bool FriendlyFire = false;
     public bool IsAbleToHit = true;
     public Sprite GameplayUISprite;
@@ -211,7 +209,6 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         HitEffects = original.HitEffects;
         SelfEffects = original.SelfEffects;
         SelfEffectsOnHit = original.SelfEffectsOnHit;
-        ExtraEffectsOnAllProjectilesHitSingleTarget = original.ExtraEffectsOnAllProjectilesHitSingleTarget;
         FriendlyFire = original.FriendlyFire;
         IsAbleToHit = original.IsAbleToHit;
         HitAmountOnSingleTargetForExtraEffects = original.HitAmountOnSingleTargetForExtraEffects;
@@ -355,14 +352,9 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         {
             List<AbstractEffect> appliedEffects = hitObjectEffectsReceiver.ApplyEffect(HitEffects, this);
 
-            if (HitEffects.Any(e => e is Damage) && !appliedEffects.Any(e => e is Damage))
+            if (!HitEffects.TrueForAll(e => !(e is Damage)) && appliedEffects.TrueForAll(e => !(e is Damage)))
             {
                 _failedPierceThisFrame = true;
-            }
-
-            if (_multitSpawnProjectiles.Count(e => e.HitObjects.Contains(hitObject)) == HitAmountOnSingleTargetForExtraEffects)
-            {
-                hitObjectEffectsReceiver.ApplyEffect(ExtraEffectsOnAllProjectilesHitSingleTarget, this, 1f, true);
             }
 
             if (!WasDeflectedThisFrame)

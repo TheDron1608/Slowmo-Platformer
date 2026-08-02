@@ -100,6 +100,7 @@ public class CharacterPartsManager : AbstractCharacterComponent
 
     public List<CharacterEquipmentPart> GetCharacterPartEquipment(CharacterPart part)
     {
+        if (part == null) return new() { };
         List<CharacterEquipmentPart> result = new();
         for (int i = 0; i < _characterParts.Count; i++)
         {
@@ -143,7 +144,7 @@ public class CharacterPartsManager : AbstractCharacterComponent
             return null;
         }
 
-        foreach (CharacterEquipmentPart limbEquipment in GetCharacterPartEquipment(GetCharacterPart(equipment.EquipAtType)))
+        foreach (CharacterEquipmentPart limbEquipment in GetCharacterPartEquipment(GetCharacterPart(equipment.PartType)))
         {
             limbEquipment.DestroyPart();
         }

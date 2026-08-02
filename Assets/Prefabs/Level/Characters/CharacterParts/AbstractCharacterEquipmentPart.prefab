@@ -102,6 +102,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
       insertIndex: 1
       addedObject: {fileID: 3776782412534019233}
+    - targetCorrespondingSourceObject: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2091936611614438845}
+    - targetCorrespondingSourceObject: {fileID: 7806379692574833265, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6641951005733767708}
   m_SourcePrefab: {fileID: 100100000, guid: bb74b1ba77be2ce49b07c9a13ef965d8, type: 3}
 --- !u!114 &3676697690227380556 stripped
 MonoBehaviour:
@@ -153,6 +159,58 @@ MonoBehaviour:
   EquipAtType: 0
   EffectsOnEquip: []
   CanUnequip: 1
+--- !u!114 &2091936611614438845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8731442471156041321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2292f70c19605f459de84ac6ee5f8fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamagableObject
+  _maxHealth: 5
+  _minHealth: 0
+  _currentHealth: 5
+  _damageMultiplier: 1
+  _healMultiplier: 1
+  _piercableThrought: 0
+  _hitableByMeleeProjectiles: 1
+  _hitableByRangedProjectiles: 1
+  _unlimitedHealth: 0
+  LivingWithDeadlyHealthSeconds: 0
+  CanHaveHealthOverMax: 0
+  EffectsOnLethal:
+  - {fileID: 10706912552637279, guid: 4deff24a0ab02ca498af308e8f39099e, type: 3}
+  ParticlesOnDamage:
+  - {fileID: 7786668160132991169, guid: 95a91c92f3f35dd45ba52589df2be3ea, type: 3}
+  - {fileID: 7786668160132991169, guid: 017a591a3aac2854f8fa8d1ff827d9a3, type: 3}
+  - {fileID: 7786668160132991169, guid: f7a0982651367d740a819795fa90f10c, type: 3}
+  SoundOnDamage: {fileID: 0}
+--- !u!114 &6641951005733767708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8731442471156041321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e24010a77fbf0747b9c6ed05c41a697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableEquipment
+  LootSpawnType: 7
+  SpawnObjectsOnBreak: []
+  RemoveObjectOnBreakVelocity: 3.5
+  RemoveObjectOnBreakMaxRandomAngularVelocity: 360
+  SelfEffectsOnBreak:
+  - {fileID: 10706912552637279, guid: 4deff24a0ab02ca498af308e8f39099e, type: 3}
+  _partcilesOnBreak:
+  - {fileID: 7786668160132991169, guid: 95a91c92f3f35dd45ba52589df2be3ea, type: 3}
+  - {fileID: 7786668160132991169, guid: 017a591a3aac2854f8fa8d1ff827d9a3, type: 3}
+  - {fileID: 7786668160132991169, guid: f7a0982651367d740a819795fa90f10c, type: 3}
   SoundOnBreak: {fileID: 4255758642317913866}
 --- !u!1001 &7477761225009916074
 PrefabInstance:
@@ -206,6 +264,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnBreak
       objectReference: {fileID: 0}
+    - target: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: DefaultSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 906683cec76600143b28187541a94956, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

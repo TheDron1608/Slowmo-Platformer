@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 7268535348328610924, guid: 9374cf061e0d4b24b8f38260ec25ef47, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: HitEffects.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: SelfEffects.Array.size
@@ -61,6 +61,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 977385987182254359, guid: 65d00997910925a44ab79101e66355b5, type: 3}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'HitEffects.Array.data[4]'
+      value: 
+      objectReference: {fileID: -4082839253099350160, guid: 83073f05c022c06418d4683feaf52f10, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'SelfEffects.Array.data[0]'
       value: 
       objectReference: {fileID: 977385987182254359, guid: 64f7aa3db24e2014b8f8a916f594dffe, type: 3}
@@ -68,6 +72,10 @@ PrefabInstance:
       propertyPath: 'SelfEffects.Array.data[1]'
       value: 
       objectReference: {fileID: -8942352111545459656, guid: 30b837569d5704e4e8641bae66fbfd1e, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'SelfEffects.Array.data[2]'
+      value: 
+      objectReference: {fileID: -4082839253099350160, guid: 83073f05c022c06418d4683feaf52f10, type: 3}
     - target: {fileID: 6055842515521288623, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: DefaultSound
       value: 
