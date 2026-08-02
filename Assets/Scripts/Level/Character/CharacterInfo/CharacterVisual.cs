@@ -25,14 +25,16 @@ public class CharacterVisual : AbstractCharacterComponent
     const float COOL_FLIP_SPEED_MUTLIPLIER = 5f;
     const float COOL_FLIP_DEGREES = 360f * 2f;
     const float POPUP_ANIMATION_SPEED_MULT = 10f;
-    const float POPUP_HIDE_ANIMATION_SPEED_MULT = 25f;
-    const float POPUP_ANIMATION_EXTRA_HEIGHT = 0.33f;
+    const float POPUP_HIDE_ANIMATION_SPEED_MULT = 30f;
+    const float POPUP_ANIMATION_DEFAULT_HEIGHT = 0.33f;
     const float DETECTED_ENEMY_POPUP_DURATION = 1.5f;
+    const float DEATH_POPUP_DURATION = 0.25f;
     const float POPUP_FRAMERATE = 5f;
 
     const int HEARD_NOISE_POPUP_PRIORITY = 1;
     const int DETECTED_ENEMY_POPUP_PRIORITY = 2;
     const int STUNNED_POPUP_PRIORITY = 3;
+    const int DEATH_POPUP_PRIORITY = 4;
 
     public enum CharacterPartMainStates
     {
@@ -93,6 +95,7 @@ public class CharacterVisual : AbstractCharacterComponent
     public List<Sprite> HeardNoiseSprites;
     public List<Sprite> DetectedEnemySprites;
     public List<Sprite> StunnedSprites;
+    public List<Sprite> DeathSprites;
     [SerializeField] private SpriteRenderer _popupImage;
     [SerializeField] private float _stunRecoverAnimationTimeMult = 1f;
 
@@ -109,6 +112,7 @@ public class CharacterVisual : AbstractCharacterComponent
     private bool _allowMovementOnBusyAnimation = false;
     private float _currentPopupDuration = 0f;
     private float _targetPopupDuration = float.MaxValue;
+    private float _targetPopupHeight = 0f;
     private List<Sprite> _currentPopupSprites = new();
     private int _currentPopupFrame = 0;
     private float _timeSinceLastPopupFrame = 0f;
@@ -291,7 +295,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
     public void PopupHeardNoise()
     {
-        PopupSprite(HeardNoiseSprites, float.MaxValue, HEARD_NOISE_POPUP_PRIORITY);
+        AddPopupMessage(HeardNoiseSprites, float.MaxValue, HEARD_NOISE_POPUP_PRIORITY);
     }
     public void RemovePopupHeardNoise()
     {
@@ -300,7 +304,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
     public void PopupDetectedEnemy()
     {
-        PopupSprite(DetectedEnemySprites, DETECTED_ENEMY_POPUP_DURATION, DETECTED_ENEMY_POPUP_PRIORITY);
+        AddPopupMessage(DetectedEnemySprites, DETECTED_ENEMY_POPUP_DURATION, DETECTED_ENEMY_POPUP_PRIORITY);
     }
     public void RemoveDetectedEnemy()
     {
@@ -309,21 +313,32 @@ public class CharacterVisual : AbstractCharacterComponent
 
     public void PopupStunned()
     {
-        PopupSprite(StunnedSprites, float.MaxValue, STUNNED_POPUP_PRIORITY);
+        AddPopupMessage(StunnedSprites, float.MaxValue, STUNNED_POPUP_PRIORITY);
     }
     public void RemovePopupStunned()
     {
         RemovePopupMessage(STUNNED_POPUP_PRIORITY);
     }
 
-    private void PopupSprite(List<Sprite> sprites, float duration, int priority)
+    public void PopupDeath()
+    {
+        AddPopupMessage(DeathSprites, DEATH_POPUP_DURATION, DEATH_POPUP_PRIORITY, 0f);
+    }
+    public void RemovePopupDeath()
+    {
+        RemovePopupMessage(DEATH_POPUP_PRIORITY);
+    }
+
+    private void AddPopupMessage(List<Sprite> sprites, float duration, int priority, float popupHeight = POPUP_ANIMATION_DEFAULT_HEIGHT)
     {
         if (priority <= _currentPopupPriority) return;
 
         _currentPopupSprites = sprites;
         _targetPopupDuration = duration;
+        _targetPopupHeight = popupHeight;
         _currentPopupDuration = 0f;
         _currentPopupPriority = priority;
+        _timeSinceLastPopupFrame = 999f;
 
         _popupImage.transform.position = CharComponents.Center.transform.position;
         _popupImage.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
@@ -509,7 +524,7 @@ public class CharacterVisual : AbstractCharacterComponent
         _popupImage.flipX = FlippedH;
         _popupImage.transform.position = math.lerp(
             _popupImage.transform.position,
-            CharComponents.Center.transform.position + Vector3.up * (POPUP_ANIMATION_EXTRA_HEIGHT + CharComponents.CharacterRigidBodyCapsuleCollider.size.y / 2f),
+            CharComponents.Center.transform.position + Vector3.up * (_targetPopupHeight + CharComponents.CharacterRigidBodyCapsuleCollider.size.y / 2f),
             Time.deltaTime * POPUP_ANIMATION_SPEED_MULT
             );
 

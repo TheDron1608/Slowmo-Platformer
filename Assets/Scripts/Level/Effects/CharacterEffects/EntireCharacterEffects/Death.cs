@@ -37,6 +37,8 @@ public class Death : AbstractStun, ILethalEffect
         {
             AffectedCharacter.CharacterHolding.ForceStunThrow();
         }
+
+        AffectedCharacter.CharacterVisual.PopupDeath();
     }
 
     protected override void OnRemove()
