@@ -82,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 6d31db8218aa2824bb2db0eea969aecf, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: HitEffects.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: SelfEffects.Array.size
@@ -103,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[3]'
       value: 
-      objectReference: {fileID: 344805414714566387, guid: af496485d30bb2a41af020433225a2c3, type: 3}
+      objectReference: {fileID: 344805414714566387, guid: cc8757934507dc14ba251f691202178c, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[4]'
       value: 
@@ -112,6 +112,10 @@ PrefabInstance:
       propertyPath: 'HitEffects.Array.data[5]'
       value: 
       objectReference: {fileID: 10706912552637279, guid: b925a87801c91d6429509e267fb58a1b, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'HitEffects.Array.data[6]'
+      value: 
+      objectReference: {fileID: -4082839253099350160, guid: 955b827657bb6d74db0dc8228226dfa3, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'SelfEffects.Array.data[0]'
       value: 

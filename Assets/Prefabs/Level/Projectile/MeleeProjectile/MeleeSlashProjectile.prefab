@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 6d31db8218aa2824bb2db0eea969aecf, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: HitEffects.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: SelfEffects.Array.size
@@ -87,11 +87,11 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[0]'
       value: 
-      objectReference: {fileID: 977385987182254359, guid: 613a342179d70234bb4bbd19fe33e19e, type: 3}
+      objectReference: {fileID: -4082839253099350160, guid: 356a4a5448836a3489c3605d0abf3805, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[1]'
       value: 
-      objectReference: {fileID: -4082839253099350160, guid: 356a4a5448836a3489c3605d0abf3805, type: 3}
+      objectReference: {fileID: 977385987182254359, guid: 613a342179d70234bb4bbd19fe33e19e, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[2]'
       value: 
@@ -99,7 +99,7 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[3]'
       value: 
-      objectReference: {fileID: -9038473542840591547, guid: 770c95ca49d8fd84597ed59c426cf55b, type: 3}
+      objectReference: {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[4]'
       value: 
@@ -119,11 +119,11 @@ PrefabInstance:
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'EffectsOnDeflect.Array.data[0]'
       value: 
-      objectReference: {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
+      objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'EffectsOnDeflect.Array.data[1]'
       value: 
-      objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
+      objectReference: {fileID: -2499747598777064777, guid: 80624508270a0294a89157cab1c5a6a6, type: 3}
     - target: {fileID: 8924111866432691412, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: m_Size.x
       value: 1.5087446
