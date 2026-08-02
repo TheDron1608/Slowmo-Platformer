@@ -293,15 +293,27 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         PopupSprite(HeardNoiseSprites, float.MaxValue, HEARD_NOISE_POPUP_PRIORITY);
     }
+    public void RemovePopupHeardNoise()
+    {
+        RemovePopupMessage(HEARD_NOISE_POPUP_PRIORITY);
+    }
 
     public void PopupDetectedEnemy()
     {
         PopupSprite(DetectedEnemySprites, DETECTED_ENEMY_POPUP_DURATION, DETECTED_ENEMY_POPUP_PRIORITY);
     }
+    public void RemoveDetectedEnemy()
+    {
+        RemovePopupMessage(DETECTED_ENEMY_POPUP_PRIORITY);
+    }
 
     public void PopupStunned()
     {
         PopupSprite(StunnedSprites, float.MaxValue, STUNNED_POPUP_PRIORITY);
+    }
+    public void RemovePopupStunned()
+    {
+        RemovePopupMessage(STUNNED_POPUP_PRIORITY);
     }
 
     private void PopupSprite(List<Sprite> sprites, float duration, int priority)
@@ -318,8 +330,10 @@ public class CharacterVisual : AbstractCharacterComponent
         _popupImage.color = new Color(1f, 1f, 1f, 0f);
     }
 
-    public void RemovePopupMessage()
+    private void RemovePopupMessage(int priority)
     {
+        if (priority != _currentPopupPriority) return;
+
         _currentPopupSprites = null;
         _currentPopupPriority = -1;
     }

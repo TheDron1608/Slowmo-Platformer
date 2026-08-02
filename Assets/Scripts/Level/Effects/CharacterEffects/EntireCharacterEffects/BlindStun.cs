@@ -65,7 +65,7 @@ public class BlindStun : AbstractStun, IMultiplierableEffect
             UIManager.Instance.BlindnessOverlay.Hide();
         }
        
-        if (!_affectedIsPlayer) AffectedCharacter.CharacterVisual.RemovePopupMessage();
+        if (!_affectedIsPlayer) AffectedCharacter.CharacterVisual.RemovePopupStunned();
     }
 
     private void FixedUpdate()

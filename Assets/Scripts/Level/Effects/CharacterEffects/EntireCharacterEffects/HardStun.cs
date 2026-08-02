@@ -51,6 +51,10 @@ public class HardStun : AbstractStun, IMultiplierableEffect
         {
             AffectedCharacter.CharacterHolding.ForceStunThrow();
         }
+        if (!AffectedCharacter.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
+        {
+            AffectedCharacter.CharacterVisual.PopupStunned();
+        }
     }
 
     protected override void OnReceivedSender(MonoBehaviour sender)
@@ -89,5 +93,6 @@ public class HardStun : AbstractStun, IMultiplierableEffect
     {
         base.OnRemove();
         AffectedCharacter.CharacterVisual.StunRecoverAnimationTimeMult *= EffectMultiplier;
+        AffectedCharacter.CharacterVisual.RemovePopupStunned();
     }
 }

@@ -18,13 +18,13 @@ public class HeardNoiseAIPopupMessaging : AbstractAIPopupMessaging
         }
         else
         {
-            CharComponents.CharacterVisual.RemovePopupMessage();
+            CharComponents.CharacterVisual.RemovePopupHeardNoise();
         }
     }
 
     private void OnDisable()
     {
         _detectedEnemyOnce = false;
-        CharComponents.CharacterVisual.RemovePopupMessage();
+        CharComponents.CharacterVisual.RemovePopupHeardNoise();
     }
 }
