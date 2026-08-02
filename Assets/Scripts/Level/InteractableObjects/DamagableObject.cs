@@ -194,7 +194,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public virtual void Die(MonoBehaviour killer)
     {
-        if (!_died && TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
+        if (TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
         {
             _died = true;
             effectsReceiver.ApplyEffect(EffectsOnLethal, killer);
@@ -203,7 +203,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public virtual void Ressurect()
     {
-        if (_died && TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
+        if (TryGetComponent(out ObjectEffectsReceiver effectsReceiver))
         {
             _died = false;
             effectsReceiver.RemoveEffect(EffectsOnLethal);
