@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: es
   m_SharedData: {fileID: 11400000, guid: 0c113091aed424e4c85008b01e1b596c, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 8850581576120795271
   m_TableData:
   - m_Id: 42011758592
     m_Localized: Salir
@@ -57,19 +58,16 @@ MonoBehaviour:
 
       Desbloquea
 
-      {Desbloqueado}/{Todos
-      los desbloqueados}
+      {Unlocked}/{AllUnlocks}
 
 
-      tiempo de juego
+      tiempo
+      de juego
 
-      {Tiempo de juego}
-
-
-
-'
+      {Playtime}'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 8850581576120795271
   - m_Id: 179382119125196800
     m_Localized: "F\xE1cil"
     m_Metadata:
@@ -94,6 +92,16 @@ MonoBehaviour:
     m_Localized: "* Informes de errores\n* Localizaci\xF3n\n*Ideas"
     m_Metadata:
       m_Items: []
+  - m_Id: 221797523280355328
+    m_Localized: Tutorial
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8850581576120795271
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 649097244975104

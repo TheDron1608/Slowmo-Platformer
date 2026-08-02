@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: ko
   m_SharedData: {fileID: 11400000, guid: 0c113091aed424e4c85008b01e1b596c, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 8850581576120795269
   m_TableData:
   - m_Id: 42011758592
     m_Localized: "\uADF8\uB9CC\uB46C"
@@ -51,10 +52,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 649097244975104
-    m_Localized: "\uC800\uC7A5 {SaveId}\n\n\n\uC7A0\uAE08 \uD574\uC81C\n{\uC7A0\uAE08
-      \uD574\uC81C\uB428}/{AllUnlocks}\n\n\uD50C\uB808\uC774\uD0C0\uC784\n{\uD50C\uB808\uC774\uD0C0\uC784}\n\n\n"
+    m_Localized: "{SaveId} \uC800\uC7A5\n\n\n\uC7A0\uAE08 \uD574\uC81C\n{Unlocked}/{AllUnlocks}\n\n\uD50C\uB808\uC774\uD0C0\uC784\n{Playtime}"
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 8850581576120795269
   - m_Id: 179382119125196800
     m_Localized: "\uC26C\uC6C0"
     m_Metadata:
@@ -79,6 +80,16 @@ MonoBehaviour:
     m_Localized: "* \uBC84\uADF8 \uBCF4\uACE0\uC11C\n* \uD604\uC9C0\uD654\n* \uC544\uC774\uB514\uC5B4"
     m_Metadata:
       m_Items: []
+  - m_Id: 221797523280355328
+    m_Localized: "\uC9C0\uB3C4 \uC2DC\uAC04"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8850581576120795269
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 649097244975104
