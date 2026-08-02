@@ -3359,7 +3359,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'EARLY ACCESS
 
-        build 1.0.2
+        build 1.0.3
 
 '
       objectReference: {fileID: 0}
@@ -5824,7 +5824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2598784854834923142, guid: a4fb9a647f3008c4bbb8389393571bd5, type: 3}
       propertyPath: m_text
-      value: 'Released: 28.06.2026'
+      value: 'Released: 02.08.2026'
       objectReference: {fileID: 0}
     - target: {fileID: 2598784854834923142, guid: a4fb9a647f3008c4bbb8389393571bd5, type: 3}
       propertyPath: m_fontSize
@@ -7996,6 +7996,7 @@ MonoBehaviour:
   DecayingShakingForce: 0
   ShakingAmplitude: 10
   ShakingDecayingMultiplier: 5
+  FixPositionOnShakeBreak: 1
 --- !u!1 &2025731472
 GameObject:
   m_ObjectHideFlags: 0
