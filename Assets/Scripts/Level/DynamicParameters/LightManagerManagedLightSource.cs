@@ -21,7 +21,6 @@ public class LightManagerManagedLightSource : MonoBehaviour
         set
         {
             _forceDisableLight = value;
-            _lightComponent.enabled = _lightComponent.intensity > 0 && !ForceDisableLight;
         }
     }
 
@@ -59,7 +58,10 @@ public class LightManagerManagedLightSource : MonoBehaviour
 
         if (targetIntensity <= 0f)
         {
-            if (_lightComponent.enabled) _lightComponent.enabled = false;
+            if (_lightComponent.enabled)
+            {
+                _lightComponent.enabled = false;
+            }
         }
         else
         {
