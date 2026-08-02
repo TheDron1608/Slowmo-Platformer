@@ -85,6 +85,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: SelfEffects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: 'HitEffects.Array.data[0]'
       value: 
       objectReference: {fileID: 484576719013597578, guid: 69713a4334def064e9b325428379aae9, type: 3}
@@ -108,6 +112,10 @@ PrefabInstance:
       propertyPath: 'HitEffects.Array.data[5]'
       value: 
       objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
+    - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
+      propertyPath: 'SelfEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: -8942352111545459656, guid: 9c878b9203e62df4895d771d913f4bc4, type: 3}
     - target: {fileID: 6677512809597469345, guid: 05fc39a2f3ebec94da912baf8bb77b5f, type: 3}
       propertyPath: EffectsOnDeflect.Array.size
       value: 0

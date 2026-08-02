@@ -25,6 +25,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: CameraShakeOnAttack
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: BulletCasingParticle
       value: 
       objectReference: {fileID: 4905632556298053785, guid: ab452d2dd031b4f409eff6da5945dc39, type: 3}
@@ -34,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: SelfEffects.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: 'HitEffects.Array.data[0]'
@@ -64,6 +68,10 @@ PrefabInstance:
       propertyPath: 'SelfEffects.Array.data[0]'
       value: 
       objectReference: {fileID: 977385987182254359, guid: f5e89590c7150c64a9b12a39f2d93611, type: 3}
+    - target: {fileID: 2736943633329786330, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
+      propertyPath: 'SelfEffects.Array.data[1]'
+      value: 
+      objectReference: {fileID: -8942352111545459656, guid: 1769a7625f36d5a4cbb2a6d32233f3ca, type: 3}
     - target: {fileID: 6055842515521288623, guid: f8437cc25ddc59e40ab4d41c614e624d, type: 3}
       propertyPath: DefaultSound
       value: 

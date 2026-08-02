@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1752297896809345709, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
       propertyPath: SelfEffectsOnBreak.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1752297896809345709, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
       propertyPath: 'SelfEffectsOnBreak.Array.data[0]'
@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: 'SelfEffectsOnBreak.Array.data[1]'
       value: 
       objectReference: {fileID: 513269585867639442, guid: 748528dd672c08d44b64154cbd8f4a95, type: 3}
+    - target: {fileID: 1752297896809345709, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
+      propertyPath: 'SelfEffectsOnBreak.Array.data[2]'
+      value: 
+      objectReference: {fileID: 233642351458879772, guid: f8ba1b082bfcfd54485d761fe38df9b2, type: 3}
     - target: {fileID: 3360177737336450947, guid: c832a6b4507e72a48ae8de14d7fd52f1, type: 3}
       propertyPath: m_Sprite
       value: 
