@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -63,7 +64,12 @@ public class DefaultNearestEnemyInfo : AbstractAINearestEnemyInfo
         _nearestEnemy = result;
         _nearestEnemyDistance = minDistance;
 
-        if (_nearestEnemy == null && (_lastEnemy?.CharComponents.CharacterInteract.LastInteractObject?.TryGetComponent(out OnInteractEnterMultiZDoor zDoor) ?? false))
+        if (
+            _nearestEnemy == null &&
+            _lastEnemy != null &&
+            !_lastEnemy.CharComponents.CharacterInteract.LastInteractObject.IsDestroyed() &&
+            (_lastEnemy?.CharComponents.CharacterInteract.LastInteractObject?.TryGetComponent(out OnInteractEnterMultiZDoor zDoor) ?? false)
+            )
         {
             _lastEnemyPosition = zDoor.Exit.transform.position;
             _lastEnemyLayer = zDoor.Exit.ZLayer;

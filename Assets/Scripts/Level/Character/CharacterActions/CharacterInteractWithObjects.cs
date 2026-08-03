@@ -25,7 +25,7 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
     {
         get
         {
-            if (_lastInteractObject != null && _lastInteractObject.IsDestroyed()) _lastInteractObject = null;
+            if (_lastInteractObject != null && _lastInteractObject.gameObject.IsDestroyed()) _lastInteractObject = null;
             return _lastInteractObject;
         }
     }

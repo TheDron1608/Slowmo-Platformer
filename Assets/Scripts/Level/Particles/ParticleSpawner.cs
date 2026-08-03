@@ -86,7 +86,7 @@ public class ParticleSpawner : MonoBehaviour
         List<AbstractParticle> result = new(multipliedAmount);
         for (int i = 0; i < multipliedAmount; i++)
         {
-            result.Insert(i, SpawnParticle(
+            AbstractParticle newParticle = SpawnParticle(
                 pickRandomly ? NumberMath.PickRandomItem(particles) : particles[i % particles.Count],
                 position,
                 VectorMath.RandomizeVec2(direction, accuracy),
@@ -96,7 +96,9 @@ public class ParticleSpawner : MonoBehaviour
                 material,
                 layer,
                 enablePhysics
-                ));
+                );
+
+            if (newParticle != null) result.Insert(i, newParticle);
         }
 
         return result;
@@ -114,6 +116,8 @@ public class ParticleSpawner : MonoBehaviour
         bool enablePhysics = true
         )
     {
+        if (particle == null) return null;
+
         AbstractParticle spawnParticle = ParticlesManager.Instance.GetUnusedParticle(particle);
 
         spawnParticle.SetParticleAttrs(
