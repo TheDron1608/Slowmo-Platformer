@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(6)]
@@ -205,7 +206,7 @@ public class CharacterEffectsReceiver : ObjectEffectsReceiver
         {
             foreach (var charPart in _charComponents.CharacterPartsManager.CharacterParts)
             {
-                if (charPart.TryGetComponent(out CharacterLimbPart clp) && charPart.TryGetComponent(out DynamicMaterial dynamicMaterial))
+                if (!charPart.IsDestroyed() && charPart.TryGetComponent(out CharacterLimbPart clp) && charPart.TryGetComponent(out DynamicMaterial dynamicMaterial))
                 {
                     dynamicMaterial.OverrideMaterial = value;
                 }

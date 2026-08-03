@@ -19,7 +19,7 @@ public class WeaponBelt : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_holdableComponent?.IsHolstered ?? false)
+        if ((_holdableComponent?.IsHolstered) ?? false && _holdableComponent.CurrentHolder != null)
         {
             transform.position = _holdableComponent.CurrentHolder.CharComponents.Center.transform.position;
             transform.rotation = _holdableComponent.CurrentHolder.transform.rotation;

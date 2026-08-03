@@ -16,18 +16,6 @@ public class LaserHoldable : MonoBehaviour
     private Holdable _holdableComponent;
     private Coroutine _laserDistanceUpdateCoroutine = null;
 
-    public bool LaserEnabled
-    {
-        get => _laserEnabled;
-        set
-        {
-            if (_laserEnabled == value) return;
-
-            _laserEnabled = value;
-            UpdateLaserEnabled();
-        }
-    }
-
     public Material LaserMaterial
     {
         get => _laserSprite.sharedMaterial;
@@ -39,30 +27,46 @@ public class LaserHoldable : MonoBehaviour
         if (!TryGetComponent(out _holdableComponent)) throw new UnityException("not found Holdable component at " + gameObject.name);
     }
 
+    private void OnDisable()
+    {
+        _laserDistanceUpdateCoroutine = null;
+    }
+
+    private void OnEnable()
+    {
+        UpdateLaserEnabled();
+    }
+
     private void FixedUpdate()
     {
-        LaserEnabled =
+        if (
             ((!_holdableComponent.CurrentHolder?.CharComponents.CharacterAiming.AimWeaponDown) ?? false) &&
             !_holdableComponent.IsHolstered &&
             (
                 !TryGetComponent(out RangedWeapon rangedWeapon) ||
                 (!rangedWeapon.IsReloading && !rangedWeapon.IsUnloading)
-            );
+            )
+        )
+        {
+            _laserSprite.enabled = true;
+            if (_laserDistanceUpdateCoroutine == null)
+            {
+                _laserDistanceUpdateCoroutine = StartCoroutine(LaserDistanceUpdate());
+            }
+        }
+        else
+        {
+            _laserSprite.enabled = false;
+            if (_laserDistanceUpdateCoroutine != null)
+            {
+                StopCoroutine(_laserDistanceUpdateCoroutine);
+                _laserDistanceUpdateCoroutine = null;
+            }
+        }
     }
 
     private void UpdateLaserEnabled()
     {
-        if (_laserEnabled && _laserDistanceUpdateCoroutine == null)
-        {
-            _laserSprite.enabled = true;
-            _laserDistanceUpdateCoroutine = StartCoroutine(LaserDistanceUpdate());
-        }
-        else if (!_laserEnabled && _laserDistanceUpdateCoroutine != null)
-        {
-            _laserSprite.enabled = false;
-            StopCoroutine(_laserDistanceUpdateCoroutine);
-            _laserDistanceUpdateCoroutine = null;
-        }
     }
 
     private IEnumerator LaserDistanceUpdate()
