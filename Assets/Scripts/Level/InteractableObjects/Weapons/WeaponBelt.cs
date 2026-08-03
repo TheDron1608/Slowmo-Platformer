@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponBelt : MonoBehaviour
@@ -19,7 +17,7 @@ public class WeaponBelt : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if ((_holdableComponent?.IsHolstered) ?? false && _holdableComponent.CurrentHolder != null)
+        if ((_holdableComponent?.IsHolstered ?? false) && _holdableComponent.CurrentHolder != null)
         {
             transform.position = _holdableComponent.CurrentHolder.CharComponents.Center.transform.position;
             transform.rotation = _holdableComponent.CurrentHolder.transform.rotation;

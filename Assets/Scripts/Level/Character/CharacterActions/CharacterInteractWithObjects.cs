@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterInteractWithObjects : AbstractCharacterComponent
@@ -22,7 +23,11 @@ public class CharacterInteractWithObjects : AbstractCharacterComponent
 
     public Interactable LastInteractObject
     {
-        get => _lastInteractObject;
+        get
+        {
+            if (_lastInteractObject != null && _lastInteractObject.IsDestroyed()) _lastInteractObject = null;
+            return _lastInteractObject;
+        }
     }
 
     /// <summary>

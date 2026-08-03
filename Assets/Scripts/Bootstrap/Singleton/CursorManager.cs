@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CursorManager : MonoBehaviour
 {
     const float EXTRA_MIN_DISTANCE_FOR_RANGED_WEAPON = 0.15f;
-    const float CURSOR_POINT_SCALE_FOR_FULL_HD = 2.3f;
+    const float CURSOR_POINT_SCALE_FOR_FULL_HD = 3f;
     public static readonly Vector2 CURSOR_HOTSPOT = new(16f, 16f);
 
     public static CursorManager Instance;

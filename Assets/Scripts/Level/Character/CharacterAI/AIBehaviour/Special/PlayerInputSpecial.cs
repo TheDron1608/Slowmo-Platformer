@@ -192,6 +192,15 @@ public class PlayerInputSpecial : AbstractAISpecial
                 holstering.TryUnholsterHoldWeapon();
             }
         }
+
+        //APPLY SELF EFFECT
+        else if (
+            CharComponents.CharacterSpecial.TryGetComponent(out ApplySelfEffects suicide) &&
+            suicide.GetHasEnoughForCost()
+            )
+        {
+            suicide.TryApplySelfEffects();
+        }
     }
 
     private void HandleStopSpecial()

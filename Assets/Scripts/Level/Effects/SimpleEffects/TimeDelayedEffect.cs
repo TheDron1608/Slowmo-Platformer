@@ -5,11 +5,12 @@ using UnityEngine;
 public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect, IMultiplierableEffect
 {
     public float Delay = 1f;
-    public AbstractEffect EffectOnFinishDelay;
-    public AbstractEffect EffectOnBreakDelay;
+    public List<AbstractEffect> EffectsOnFinishDelay;
+    public List<AbstractEffect> EffectsOnBreakDelay;
 
-    private float _timeSpent = 0f;
     private float _effectMultiplier = 1f;
+
+    protected float _timeSpent = 0f;
 
     public float TimeLeft
     {
@@ -30,11 +31,16 @@ public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect, IMult
 
     private void FixedUpdate()
     {
+        OnFixedUpdate();
+    }
+
+    protected virtual void OnFixedUpdate()
+    {
         _timeSpent += Time.deltaTime;
 
         if (_timeSpent >= Delay)
         {
-            AffectedObject.ApplyEffect(EffectOnFinishDelay, Sender, EffectMultiplier);
+            AffectedObject.ApplyEffect(EffectsOnFinishDelay, Sender, EffectMultiplier);
             RemoveSelf();
         }
     }
@@ -43,7 +49,7 @@ public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect, IMult
     {
         if (_timeSpent < Delay)
         {
-            AffectedObject.ApplyEffect(EffectOnBreakDelay, Sender, EffectMultiplier);
+            AffectedObject.ApplyEffect(EffectsOnBreakDelay, Sender, EffectMultiplier);
         }
         base.OnRemove();
     }
@@ -53,13 +59,23 @@ public class TimeDelayedEffect : AbstractEffectWithSender, IDelayedEffect, IMult
         return
             base.Equals(other) &&
             Delay == (other as TimeDelayedEffect).Delay &&
-            (EffectOnFinishDelay?.Equals((other as TimeDelayedEffect).EffectOnFinishDelay) ?? (other as TimeDelayedEffect).EffectOnFinishDelay == EffectOnFinishDelay) &&
-            (EffectOnBreakDelay?.Equals((other as TimeDelayedEffect).EffectOnBreakDelay) ?? (other as TimeDelayedEffect).EffectOnBreakDelay == EffectOnBreakDelay);
+            EffectsOnFinishDelay.TrueForAll(effect => (other as TimeDelayedEffect).EffectsOnFinishDelay.Contains(effect)) &&
+            EffectsOnBreakDelay.TrueForAll(effect => (other as TimeDelayedEffect).EffectsOnBreakDelay.Contains(effect));
     }
 
     public override List<AbstractEffect> GetSelfIncludeIncomingEffects()
     {
-        return NumberMath.MergeLists(base.GetSelfIncludeIncomingEffects(), EffectOnFinishDelay.GetSelfIncludeIncomingEffects());
+        List<AbstractEffect> result = base.GetSelfIncludeIncomingEffects();
+        foreach (var effectOnFinish in EffectsOnFinishDelay)
+        {
+            result.AddRange(effectOnFinish.GetSelfIncludeIncomingEffects());
+        }
+        foreach (var effectOnBreak in EffectsOnBreakDelay)
+        {
+            result.AddRange(effectOnBreak.GetSelfIncludeIncomingEffects());
+        }
+
+        return result;
     }
 
     protected override void OnReceivedSender(MonoBehaviour sender)

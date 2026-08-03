@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [AllowEffectWithSenderReceiveNull]
@@ -38,6 +37,6 @@ public class RandomListEffect : AbstractEffectWithSender, IDelayedEffect, IMulti
     {
         return
             base.Equals(other) &&
-            EffectsList.All(effect => EffectsList.Contains(effect));
+            EffectsList.TrueForAll(effect => EffectsList.Contains(effect));
     }
 }

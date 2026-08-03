@@ -48,5 +48,6 @@ MonoBehaviour:
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}
   Delay: 5
-  EffectOnFinishDelay: {fileID: 1074026954555704250, guid: 8e96c3e8defe41c44872040ee864a28d, type: 3}
-  EffectOnBreakDelay: {fileID: 0}
+  EffectsOnFinishDelay:
+  - {fileID: 1074026954555704250, guid: 8e96c3e8defe41c44872040ee864a28d, type: 3}
+  EffectsOnBreakDelay: []

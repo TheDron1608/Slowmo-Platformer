@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterHealth : DamagableObject
@@ -65,7 +66,14 @@ public class CharacterHealth : DamagableObject
         }
         else if (!_died)
         {
-            CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
+            if (lethallyDamagedPart?.IsDestroyed() ?? true)
+            {
+                CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnLethal, killer, lethallyDamagedPart);
+            }
+            else
+            {
+                CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnLethal, killer);
+            }
             _lethallyAffectedCharacterPart = lethallyDamagedPart;
             _died = true;
         }
