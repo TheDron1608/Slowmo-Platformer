@@ -16,6 +16,7 @@ public class OnInteractToggleOpenDoor : Interactable
     private DamagableObject _damagableObject;
 
     private bool _isOpen = false;
+    private bool _wasOpenedOnce = false;
 
     protected override void OnAwake()
     {
@@ -49,6 +50,11 @@ public class OnInteractToggleOpenDoor : Interactable
             {
                 stuckToObj.RemoveAllStuckedObjects();
             }
+            if (value && !_wasOpenedOnce && TryGetComponent(out BreakableDoor breakableDoor))
+            {
+                breakableDoor.ReleaseObjectInside();
+            }
+            _wasOpenedOnce = true;
         }
     }
 

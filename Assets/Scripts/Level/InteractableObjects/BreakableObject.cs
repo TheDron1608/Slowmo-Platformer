@@ -75,17 +75,22 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
             effectsReceiver.ApplyEffect(SelfEffectsOnBreak, this);
         }
 
+        ReleaseObjectInside();
+    }
+
+    public void ReleaseObjectInside()
+    {
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         Vector2 spawnPosition = TryGetComponent(out Collider2D collider) ? GameObjectUtility.GetCenterOfCollider(collider) : transform.position;
 
         foreach (GameObject objectInside in SpawnObjectsOnBreak)
         {
-           GameObject particleGO = layer.TrySpawnObject(
-                objectInside.gameObject,
-                spawnPosition,
-                null,
-                null
-                ).FirstOrDefault();
+            GameObject particleGO = layer.TrySpawnObject(
+                 objectInside.gameObject,
+                 spawnPosition,
+                 null,
+                 null
+                 ).FirstOrDefault();
 
             if (TryGetComponent(out Renderer renderer) && particleGO != null && particleGO.TryGetComponent(out Renderer particleRenderer))
             {
@@ -98,7 +103,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         {
             layer.TrySpawnObject(
                 objectInsideGlobal.gameObject,
-                NumberMath.Vec3ToVec3Int(spawnPosition),
+                spawnPosition,
                 null,
                 null
                 );

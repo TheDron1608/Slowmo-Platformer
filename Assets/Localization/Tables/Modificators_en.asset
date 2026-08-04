@@ -1472,7 +1472,8 @@ MonoBehaviour:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 80903637051875328
-    m_Localized: 
+    m_Localized: '* Doors have a {AffectChance}% chance to release a random grenade
+      when opened'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -1539,6 +1540,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 80902875437572096
     m_Localized: Suicide belt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80903570626682880
+    m_Localized: Tripwire
     m_Metadata:
       m_Items: []
   references:

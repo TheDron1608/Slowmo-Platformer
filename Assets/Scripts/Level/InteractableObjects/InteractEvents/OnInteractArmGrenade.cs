@@ -4,6 +4,7 @@ using UnityEngine;
 public class OnInteractArmGrenade : Interactable
 {
     public float ExplodeDelay = 3f;
+    public bool ArmOnStart = false;
 
     [SerializeField] private Sprite _armedSprite;
     [SerializeField] private Material _armedMaterial;
@@ -15,6 +16,10 @@ public class OnInteractArmGrenade : Interactable
     private void OnEnable()
     {
         _explodeCoroutine = null;
+        if (ArmOnStart)
+        {
+            TryInteract(gameObject);
+        }
     }
 
     protected override bool StartInteractCondition(GameObject interactor)
