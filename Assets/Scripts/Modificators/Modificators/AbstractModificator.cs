@@ -272,14 +272,6 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         _modificatorLivetime += Time.fixedDeltaTime;
     }
 
-    private void OnDestroy()
-    {
-        if (!DisabledModificator)
-        {
-            OnModificatorRemoved();
-        }
-    }
-
 #if UNITY_EDITOR
     private void OnValidate()
     {

@@ -289,6 +289,10 @@ public class ModificatorsManager : MonoBehaviour
 
     public void RemoveModificatorAt(int at)
     {
+        if (!_currentModificators[at].DisabledModificator)
+        {
+            _currentModificators[at].OnModificatorRemoved();
+        }
         UIManager.Instance?.ModificatorsScreenOverlay?.GetModificatorsUI()?.RemoveModificatorIcon(_currentModificators[at]);
         UIManager.Instance?.ArtifactModificatorsScreenOverlay?.GetModificatorsUI()?.RemoveModificatorIcon(_currentModificators[at]);
         Destroy(_currentModificators[at].gameObject);

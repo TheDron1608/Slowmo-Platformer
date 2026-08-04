@@ -1547,13 +1547,22 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 80904077810311168
-    m_Localized: Supply
+    m_Localized: Full supply
     m_Metadata:
       m_Items: []
   - m_Id: 80904078594646016
-    m_Localized: '* Enemies carry an additional weapon'
+    m_Localized: '* All enemies carry an additional weapon'
     m_Metadata:
       m_Items: []
+  - m_Id: 83817011477716992
+    m_Localized: Supply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83817012203331584
+    m_Localized: '* {AffectChance}% of enemies carry an additional weapon'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1656,3 +1665,4 @@ MonoBehaviour:
         - id: 80957514757414912
         - id: 81550511709347840
         - id: 81550659080413184
+        - id: 83817012203331584

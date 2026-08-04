@@ -11,7 +11,7 @@ public class HolsterWeaponDependOnEnemyDistance : AbstractAIGrabbingAndThrowing
             {
                 if (
                     ((!CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out RangedWeapon rw)) ?? true) &&
-                    CharComponents.CharacterHolding.CurrentHolsteredHoldObject.TryGetComponent(out RangedWeapon hrw)
+                    (CharComponents.CharacterHolding.CurrentHolsteredHoldObject?.TryGetComponent(out RangedWeapon hrw) ?? false)
                     )
                 {
                     CharComponents.CharacterHolding.TrySwapHolsteredWeaponWithCurrent();
@@ -21,7 +21,7 @@ public class HolsterWeaponDependOnEnemyDistance : AbstractAIGrabbingAndThrowing
             {
                 if (
                     ((!CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out MeleeWeapon mw)) ?? true) &&
-                    CharComponents.CharacterHolding.CurrentHolsteredHoldObject.TryGetComponent(out MeleeWeapon hmw)
+                    (CharComponents.CharacterHolding.CurrentHolsteredHoldObject?.TryGetComponent(out MeleeWeapon hmw) ?? false)
                     )
                 {
                     CharComponents.CharacterHolding.TrySwapHolsteredWeaponWithCurrent();

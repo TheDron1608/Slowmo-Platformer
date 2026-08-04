@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 80904077810311168
+      value: 83817011477716992
       objectReference: {fileID: 0}
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: EnemyExtraHoldableModificator
+      value: EnemyExtraHoldableMinorModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,20 +65,28 @@ PrefabInstance:
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: 'managedReferences[8850581628444475475]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637791294062595].m_Value
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: managedReferences[8850581628444475475].m_Value
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 80904078594646016
+      value: 83817012203331584
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: RandomMultiplyPrecents
+      value: AffectChance
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -86,7 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
-      value: 6612637791294062595
+      value: 8850581628444475475
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -126,19 +134,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SetEnemyExtraHoldableChanceModificator
   Stackable: 0
   AllowPermanent: 1
-  OverrideModificators:
-  - {fileID: -2828283920632094933, guid: 40e8466b8d88550479b576d85b0e4646, type: 3}
+  OverrideModificators: []
   RestrictModificators: []
   SynergingModificators: []
   UnsynergingModificators: []
-  HarderVersion: {fileID: 0}
+  HarderVersion: {fileID: -2828283920632094933, guid: 9f19c7c55ce27e54b95b8c05a525f737, type: 3}
   ModificatorType: 1
-  ModificatorTier: 2
+  ModificatorTier: 1
   IconSprite: {fileID: 21300000, guid: 80bff5cb1aa38954fbe68089abf537ac, type: 3}
   CardSprite: {fileID: 21300000, guid: aee369864893fae4e9bd4411955f6603, type: 3}
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 100
+  _modificatorPrice: 50
   _localization: {fileID: 2147315170708439846}
-  ExtraHoldableChance: 1
+  ExtraHoldableChance: 0.5

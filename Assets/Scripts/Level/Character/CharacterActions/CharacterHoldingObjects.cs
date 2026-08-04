@@ -500,7 +500,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     public bool TryHolster(Holdable holdable)
     {
-        if (CurrentHolsteredHoldObject != null) return false;
+        if (CurrentHolsteredHoldObject != null || holdable == null) return false;
 
         holdable.Holster(this);
         return true;
