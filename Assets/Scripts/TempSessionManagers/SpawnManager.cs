@@ -14,6 +14,7 @@ public class SpawnManager : MonoBehaviour
     public bool KeepHoldableOnFinishLevel = true;
     public List<LootDropChanceInfo> LootDropsInstance = new();
     public List<EnemySpawnInfo> EnemyPoolInstance = new();
+    public float ChanceToGiveCharacterExtraHoldable = 0f;
     public CharacterComponentsManager PlayerCharacter;
     public Holdable PlayerCharacterHoldable = null;
     public Holdable PlayerCharacterHolsteredHoldable = null;

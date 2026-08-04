@@ -409,10 +409,13 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
     public bool TryGrab(Holdable holdable, bool throwOldItem = false)
     {
-        if (
-            _isAbleToGrabObjects &&
-            (throwOldItem || _currentHoldObject == null)
-            )
+        if (!_isAbleToGrabObjects) return false;
+
+        if (CurrentHolsteredHoldObject == holdable)
+        {
+            return TryUnholster();
+        }
+        else if ((throwOldItem || _currentHoldObject == null))
         {
             if (holdable != null && Vector3.Distance(holdable.transform.position, transform.position) <= CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier)
             {
@@ -501,6 +504,17 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
 
         holdable.Holster(this);
         return true;
+    }
+
+    public bool TrySwapHolsteredWeaponWithCurrent()
+    {
+        Holdable oldHolsteredWeapon = CharComponents.CharacterHolding.CurrentHolsteredHoldObject;
+
+        TryUnholster();
+        bool result = TryHolster(CharComponents.CharacterHolding.CurrentHoldObject);
+        ForceGrab(oldHolsteredWeapon);
+
+        return result;
     }
 
     public bool TryUnholster()

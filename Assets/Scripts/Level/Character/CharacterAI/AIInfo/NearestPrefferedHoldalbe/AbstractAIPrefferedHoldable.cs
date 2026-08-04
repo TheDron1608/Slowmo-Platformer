@@ -19,31 +19,41 @@ public abstract class AbstractAIPrefferedHoldable : AbstractAIInfo
 
     protected override void OnUpdateInfo()
     {
-        Holdable bestHoldable = null;
-        ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
-
-        Transform holdablesContainer = currentLayer.HoldablesContainer.transform;
-        foreach (Holdable holdable in holdablesContainer.GetComponentsInChildren<Holdable>())
+        if (
+            CharComponents.CharacterHolding.CurrentHolsteredHoldObject != null && 
+            PickUpCondition(CharComponents.CharacterHolding.CurrentHolsteredHoldObject)
+            )
         {
-            if (PickUpCondition(holdable))
+            _nearestPrefferedHoldable = CharComponents.CharacterHolding.CurrentHolsteredHoldObject;
+        }
+        else
+        {
+            Holdable bestHoldable = null;
+            ZIndexLayer currentLayer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+            Transform holdablesContainer = currentLayer.HoldablesContainer.transform;
+
+            foreach (Holdable holdable in holdablesContainer.GetComponentsInChildren<Holdable>())
             {
-                if (
-                    bestHoldable == null ||
-                    OrderByPattern(bestHoldable, holdable)
-                    )
+                if (PickUpCondition(holdable))
                 {
-                    bestHoldable = holdable;
+                    if (
+                        bestHoldable == null ||
+                        OrderByPattern(bestHoldable, holdable)
+                        )
+                    {
+                        bestHoldable = holdable;
+                    }
                 }
             }
-        }
 
-        _nearestPrefferedHoldable = bestHoldable;
+            _nearestPrefferedHoldable = bestHoldable;
+        }
     }
 
     protected virtual bool PickUpCondition(Holdable holdable)
     {
         return
-            (CharComponents.CharacterHolding.CanDisarm || holdable.CurrentHolder == null) &&
+            (CharComponents.CharacterHolding.CanDisarm || holdable.CurrentHolder == null || holdable.CurrentHolder == CharComponents.CharacterHolding) &&
             holdable.AIPickUpPriority >= MinWeaponPriority &&
             Vector2.Distance(CharComponents.Center.transform.position, holdable.transform.position) <= MaxWeaponDetectRange &&
             (CanCatchDangerousHoldable || !holdable.GetIsDangerouslyFast()) &&
@@ -54,7 +64,7 @@ public abstract class AbstractAIPrefferedHoldable : AbstractAIInfo
                 holdable.TryGetComponent(out Collider2D col) ? GameObjectUtility.GetCenterOfCollider(col) : holdable.transform.position,
                 1 << LayerManager.Instance.GetZLayerOfGameObject(gameObject).EnviromentLayer
                 ).collider == null;*/ 
-            //too low perfomance for cpu
+            //my cpu asked me to comment this or else it will explode
     }
 
     protected abstract bool OrderByPattern(Holdable oldHoldable, Holdable newHoldable);

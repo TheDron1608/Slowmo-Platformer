@@ -36,6 +36,7 @@ public class Death : AbstractStun, ILethalEffect
         if (AffectedCharacter.CharacterHolding.ThrowObjectsOnDeath)
         {
             AffectedCharacter.CharacterHolding.ForceStunThrow();
+            AffectedCharacter.CharacterHolding.TryUnholster();
         }
 
         AffectedCharacter.CharacterVisual.PopupDeath();

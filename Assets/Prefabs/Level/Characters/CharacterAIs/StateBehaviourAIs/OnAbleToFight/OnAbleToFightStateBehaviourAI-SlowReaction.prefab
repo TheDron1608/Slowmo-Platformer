@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: MovingAndJumping
       value: 
       objectReference: {fileID: 699679711382692708}
+    - target: {fileID: 1488753647174292275, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
+      propertyPath: GrabbingAndThrowing
+      value: 
+      objectReference: {fileID: 3560413118615093517}
     - target: {fileID: 4808391566758070795, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -81,6 +85,9 @@ PrefabInstance:
       addedObject: {fileID: 6914806298507099077}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 3560413118615093517}
+    - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1303693616419640889}
     - targetCorrespondingSourceObject: {fileID: 8944420313931336481, guid: 9979fbabfbdd191489d7a50b9d78b570, type: 3}
       insertIndex: -1
@@ -117,6 +124,19 @@ MonoBehaviour:
   AllowArms: 1
   AllowUnarmed: 1
   AutoWeaponAttackDurationSeconds: 0.667
+--- !u!114 &3560413118615093517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5393485392465938888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61daacb17bf769246a11d733890a6015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HolsterWeaponDependOnEnemyDistance
+  EnemyDistanceToGrabMelee: 3.5
 --- !u!114 &1303693616419640889
 MonoBehaviour:
   m_ObjectHideFlags: 0

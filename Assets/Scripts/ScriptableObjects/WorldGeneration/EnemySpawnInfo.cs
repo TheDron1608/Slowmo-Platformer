@@ -22,7 +22,34 @@ public class EnemySpawnInfo : ScriptableObject
         if (newCharacter != null)
         {
             //give weapon
-            newCharacter.CharComponents.CharacterHolding.GiveNewHoldable(Weapon?.PickRandomWeapon());
+            Holdable giveHoldable = Weapon?.PickRandomWeapon();
+            newCharacter.CharComponents.CharacterHolding.GiveNewHoldable(giveHoldable);
+
+            //give holstered weapon
+            if (RandomManager.Instance.ProcRandomBadChance(SpawnManager.Instance.ChanceToGiveCharacterExtraHoldable))
+            {
+                Holdable filteredWeapon = null;
+
+                //try give melee weapon if main weapon is ranged or ranged weapon if main weapon is melee
+                if (giveHoldable.TryGetComponent(out Weapon mainWeapon))
+                {
+                    if (mainWeapon is RangedWeapon)
+                    {
+                        filteredWeapon = Weapon?.PickRandomWeapon<MeleeWeapon>();
+                    }
+                    else if (mainWeapon is MeleeWeapon)
+                    {
+                        filteredWeapon = Weapon?.PickRandomWeapon<RangedWeapon>();
+                    }
+                }
+
+                if (filteredWeapon == null)
+                {
+                    filteredWeapon = Weapon?.PickRandomWeapon();
+                }
+
+                newCharacter.CharComponents.CharacterHolding.HolsterNewHoldable(filteredWeapon);
+            }
 
             //give equipment
             foreach (CharacterEquipmentPart randomEquipment in Equipment?.PickRandomEquipment() ?? new List<CharacterEquipmentPart>())
