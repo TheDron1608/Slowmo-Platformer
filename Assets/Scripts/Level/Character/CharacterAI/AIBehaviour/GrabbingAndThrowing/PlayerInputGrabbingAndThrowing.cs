@@ -70,6 +70,8 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 
     private void UpdateSelectedGrabObject()
     {
+        if (!CharComponents.CharacterHolding.IsAbleToGrabObjects) return;
+
         var holdables = CharComponents.CharacterHolding.GetAvaibleHoldables();
 
         if (CharComponents.CharacterHolding.CurrentHoldObject == null && holdables.Count > 0)
