@@ -308,7 +308,8 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
             if (
                 weapon.TryGetComponent(out Holdable holdableWeapon) &&
                 holdableWeapon?.CurrentHolder != null &&
-                holdableWeapon.CurrentHolder.TryGetComponent(out CharacterComponentsManager holderCharComponents)
+                holdableWeapon.CurrentHolder.TryGetComponent(out CharacterComponentsManager holderCharComponents) &&
+                holderCharComponents.CharacterHolding.CurrentHoldObject == holdableWeapon
                 )
             {
                 for (int i = 0; i < projectiles.Count; i++)

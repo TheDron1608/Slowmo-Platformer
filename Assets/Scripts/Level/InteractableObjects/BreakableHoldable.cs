@@ -93,4 +93,33 @@ public class BreakableHoldable : BreakableObject
             base.BreakObject(breaker);
         }
     }
+
+    public void BreakObjectWithoutConvertToBroken(MonoBehaviour breaker)
+    {
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        Vector2 spawnPosition = transform.position;
+        if (TryGetComponent(out Collider2D collider))
+        {
+            spawnPosition += GameObjectUtility.GetCenterOfCollider(collider);
+        }
+
+        foreach (GameObject objectOnBreak in SpawnObjectsOnBreak)
+        {
+            if (objectOnBreak.TryGetComponent(out Holdable h)) continue;
+
+            GameObject newObjectOnBreak = LayerManager.Instance.GetZLayerOfGameObject(gameObject).TrySpawnObject(
+                objectOnBreak,
+                VectorMath.Vec3ToVec3Int(transform.position),
+                null,
+                null
+                )?.FirstOrDefault();
+
+            if (newObjectOnBreak != null)
+            {
+                newObjectOnBreak.transform.position = spawnPosition;
+            }
+        }
+
+        base.BreakObject(breaker);
+    }
 }

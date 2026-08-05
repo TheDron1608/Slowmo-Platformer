@@ -42,7 +42,7 @@ public class BulletReloadingWeapon : RangedWeapon
         _isUnloadingAllBullets = false;
     }
 
-    protected override bool AttackCondition()
+    public override bool AttackCondition()
     {
         return !_isUnloadingAllBullets && base.AttackCondition();
     }

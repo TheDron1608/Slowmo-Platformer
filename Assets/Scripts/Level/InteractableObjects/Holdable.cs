@@ -393,22 +393,27 @@ public class Holdable : Interactable, IStuckableObject
         return thrower.ThrowForce * ThrowForceMultiplier >= SpeedToHitCharacter;
     }
 
-    public void Give(CharacterHoldingObjects newHolder)
+    public void Give(CharacterHoldingObjects newHolder, bool includeApplyHoldableToCharacter = true)
     {
         if (newHolder == null) throw new UnityException("Holdable.OnPickedUP newHolder argument can not be null, use Throw if you want to unsed holder instead");
         if (CurrentHolder == newHolder) return;
 
-        if (CurrentHolder != null && CurrentHolder.CurrentHoldObject != null)
+        if (includeApplyHoldableToCharacter)
         {
-            if (!CurrentHolder.TryThrow(Vector2.zero)) return;
-        }
-        if (newHolder.CurrentHoldObject != null)
-        {
-            if (!newHolder.TryThrow(new Vector2((newHolder.CharComponents.CharacterVisual.FlippedH ? -1f : 1f), 0.5f), 0.1f)) return;
+            if (CurrentHolder != null && CurrentHolder.CurrentHoldObject != null)
+            {
+                if (!CurrentHolder.TryThrow(Vector2.zero)) return;
+            }
+            if (newHolder.CurrentHoldObject != null)
+            {
+                if (!newHolder.TryThrow(new Vector2((newHolder.CharComponents.CharacterVisual.FlippedH ? -1f : 1f), 0.5f), 0.1f)) return;
+            }
+
+            newHolder.CurrentHoldObject = this;
+            newHolder.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectOnHolded, this);
         }
 
         Selected = false;
-        newHolder.CurrentHoldObject = this;
         _isStuck = false;
         _isHolstered = false;
 
@@ -439,7 +444,6 @@ public class Holdable : Interactable, IStuckableObject
         ExcludedCollideThrower = newHolder.CharComponents;
 
         _appliedHolderEffects = _effectsReceiver.ApplyEffect(newHolder.EffectsOnHoldedObject, newHolder);
-        newHolder.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectOnHolded, this);
 
         //SoundOnPickedUp.PlaySound();
 
@@ -780,7 +784,7 @@ public class Holdable : Interactable, IStuckableObject
 
         CharacterHoldingObjects newHolder = anotherObject.CurrentHolder;
         Destroy(anotherObject.gameObject);
-        if (newHolder != null)
+        if (newHolder != null && newHolder.CurrentHoldObject == anotherObject)
         {
             Give(newHolder);
         }

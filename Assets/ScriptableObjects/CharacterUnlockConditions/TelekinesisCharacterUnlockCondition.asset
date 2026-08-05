@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57b0cc94b698df48a69397cad12120b, type: 3}
+  m_Name: TelekinesisCharacterUnlockCondition
+  m_EditorClassIdentifier: Assembly-CSharp::SurviveTimeUnlockCondition
+  UnlockCharacter: {fileID: 11400000, guid: b67bb5541c4693847b0bab94c8225b16, type: 2}
+  SurviveTimeSeconds: 360

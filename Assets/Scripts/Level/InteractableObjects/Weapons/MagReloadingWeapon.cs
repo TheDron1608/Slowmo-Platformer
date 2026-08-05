@@ -105,7 +105,7 @@ public class MagReloadingWeapon : RangedWeapon
         _magsPraticleSpawner.SpawnParticle();
     }
 
-    protected override bool AttackCondition()
+    public override bool AttackCondition()
     {
         return base.AttackCondition() && BulletLoadedInChamber;
     }

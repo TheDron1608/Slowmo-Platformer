@@ -7,7 +7,6 @@ public class BlindStun : AbstractStun, IMultiplierableEffect
     public float StunDuration = 5f;
     public float PlayerStunDuration = 5f;
 
-    private Texture2D viewportLastSeenTexture = null;
     private float _stunTime = 0f;
     private float _effectMultiplier = 1f;
     private bool _affectedIsPlayer;

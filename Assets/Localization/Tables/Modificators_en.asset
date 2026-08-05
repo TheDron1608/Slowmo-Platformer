@@ -1563,6 +1563,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 84064991510241280
+    m_Localized: Six shooter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 84064992210690048
+    m_Localized: '* You attract up to {MaxWeapons} guns
+
+      * Attracted weapons
+      have only one magazine or break after {MaxMeleeUses} hits
+
+      * Attracted
+      weapons break on their own over time
+
+      * When wounded, you drop all your
+      weapons but take no damage; this does not apply if you have no weapons
+
+      *
+      You die after {MaxLiveTimeWithoutWeapons} seconds if you have no weapons'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1666,3 +1687,4 @@ MonoBehaviour:
         - id: 81550511709347840
         - id: 81550659080413184
         - id: 83817012203331584
+        - id: 84064992210690048

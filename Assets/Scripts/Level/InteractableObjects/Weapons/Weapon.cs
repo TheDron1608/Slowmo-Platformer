@@ -272,7 +272,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         _attackMultipleTimesCoroutine = null;
     }
 
-    protected virtual bool AttackCondition()
+    public virtual bool AttackCondition()
     {
         return IsAbleToAttack && gameObject.activeInHierarchy;
     }

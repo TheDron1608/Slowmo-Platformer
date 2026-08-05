@@ -4,7 +4,6 @@ public class OnInteractEnterMultiZDoor : AnimatedInteractable, INavPointersScree
 {
     [SerializeField] private float _offsetForPointerPosition;
 
-    private bool _isLastExitForCharacter = false;
     private ZIndexLayer _zLayer;
 
     private static OnInteractEnterMultiZDoor LastPlayerExitDoor = null; //this static property and will not reset on reboot game, cuz no need in it

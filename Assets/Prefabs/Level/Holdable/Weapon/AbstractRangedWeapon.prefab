@@ -492,6 +492,22 @@ PrefabInstance:
       propertyPath: LootSpawnType
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4590741514344514613, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: _partcilesOnBreak.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590741514344514613, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 95a91c92f3f35dd45ba52589df2be3ea, type: 3}
+    - target: {fileID: 4590741514344514613, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: 017a591a3aac2854f8fa8d1ff827d9a3, type: 3}
+    - target: {fileID: 4590741514344514613, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: '_partcilesOnBreak.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7786668160132991169, guid: f7a0982651367d740a819795fa90f10c, type: 3}
     - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: ObjectType
       value: 4
