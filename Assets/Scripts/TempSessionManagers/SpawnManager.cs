@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour
 
     public bool KeepHoldableOnFinishLevel = true;
     public List<LootDropChanceInfo> LootDropsInstance = new();
+    public List<LootDropChanceInfo> LyingLootDropsInstance = new();
     public List<EnemySpawnInfo> EnemyPoolInstance = new();
     public float ChanceToGiveCharacterExtraHoldable = 0f;
     public CharacterComponentsManager PlayerCharacter;
@@ -22,6 +23,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _enemyAmountPerSpawner = 1f;
     private float _actualEnemyAmountPerSpawner = 1f;
     private List<LootDropChanceInfo> _lootDrops;
+    private List<LootDropChanceInfo> _lyingLootDrops;
     private List<EnemySpawnInfo> _enemyPool;
 
     public float EnemyAmountPerSpawner
@@ -37,6 +39,11 @@ public class SpawnManager : MonoBehaviour
     {
         get => _lootDrops;
         set => _lootDrops = value;
+    }
+    public List<LootDropChanceInfo> LyingLootDrops
+    {
+        get => _lyingLootDrops;
+        set => _lyingLootDrops = value;
     }
     public List<EnemySpawnInfo> EnemyPool
     {
@@ -63,6 +70,11 @@ public class SpawnManager : MonoBehaviour
             }
         }
         return result;
+    }
+
+    public GameObject GetRandomLyingLootDrop()
+    {
+        return NumberMath.PickRandomItem(LyingLootDrops)?.GetRandomLoot();
     }
 
     public EnemySpawnInfo PickRandomEnemy()
@@ -182,6 +194,7 @@ public class SpawnManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         LootDrops = NumberMath.CreateCopyOfListOfInstantiatableObjs(LootDropsInstance);
+        LyingLootDrops = NumberMath.CreateCopyOfListOfInstantiatableObjs(LyingLootDropsInstance);
         EnemyPool = NumberMath.CreateCopyOfListOfInstantiatableObjs(EnemyPoolInstance);
 
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;

@@ -153,7 +153,10 @@ public class Holdable : Interactable, IStuckableObject
                 {
                     charComponent.CharComponents.CharacterStuckedObjects.RemoveStuckedObject(this);
                 }
-                _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+                if (!_rigidBodyComponent.IsDestroyed())
+                {
+                    _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
+                }
 
                 _stuckedToCollider = value;
             }
@@ -417,16 +420,15 @@ public class Holdable : Interactable, IStuckableObject
         _isStuck = false;
         _isHolstered = false;
 
+        _rigidBodyComponent.simulated = false;
+        _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
+
         if (HitableWhenIsHolded)
         {
-            _rigidBodyComponent.simulated = true;
-            _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
             gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HitableHoldablesLayer;
         }
         else
         {
-            _rigidBodyComponent.simulated = false;
-            _rigidBodyComponent.bodyType = RigidbodyType2D.Static;
             gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
         }
 

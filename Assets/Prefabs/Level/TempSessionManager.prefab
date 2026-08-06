@@ -442,10 +442,14 @@ MonoBehaviour:
   KeepHoldableOnFinishLevel: 1
   LootDropsInstance:
   - {fileID: 11400000, guid: d64d4da4755787a4d8ef6c98df83b8c0, type: 2}
+  LyingLootDropsInstance:
+  - {fileID: 11400000, guid: ed64bdf6357a37d4f9134eb0d261899b, type: 2}
   EnemyPoolInstance:
   - {fileID: 11400000, guid: e242a38beae302149b8fc51e8e231cb0, type: 2}
+  ChanceToGiveCharacterExtraHoldable: 0
   PlayerCharacter: {fileID: 2886192054720589260, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
   PlayerCharacterHoldable: {fileID: 0}
+  PlayerCharacterHolsteredHoldable: {fileID: 0}
   _enemyAmountPerSpawner: 1
 --- !u!114 &6844463855313677196
 MonoBehaviour:
@@ -501,7 +505,6 @@ MonoBehaviour:
   - {fileID: 3180400563243364640, guid: eef148fbcbc687a45af03a182f182db4, type: 3}
   - {fileID: 3180400563243364640, guid: e4559f095d3e5df4e8b5d24db726becd, type: 3}
   - {fileID: 3180400563243364640, guid: a0bd9e15f65f3e748b3e5d8d0e4de7f9, type: 3}
-  TutorialChunk: {fileID: 8065733010842206466, guid: 091bd60712bebc24a836d5cf17dc6aeb, type: 3}
   ParallelRooms: 2
   UnlosedConnectionChunkGenerationChance: 0.33
   RegularExitsOnly: 0

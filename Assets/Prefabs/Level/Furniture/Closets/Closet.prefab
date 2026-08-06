@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3213237836421328392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5185601343987507508}
+  m_Layer: 0
+  m_Name: LyingDropSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5185601343987507508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3213237836421328392}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.625, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4227745189653719366}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3788403722191808546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -226,7 +257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6907205539332635544, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
@@ -264,6 +295,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 53351414323084833, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 5185601343987507508}
+    - targetCorrespondingSourceObject: {fileID: 53351414323084833, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7994799178485579550}
     - targetCorrespondingSourceObject: {fileID: 53351414323084833, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
@@ -282,6 +316,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3250567281642747025}
+    - targetCorrespondingSourceObject: {fileID: 6620306514570167723, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5883812199825142298}
   m_SourcePrefab: {fileID: 100100000, guid: ad3e2db1799f0884ba27f981b3ca834f, type: 3}
 --- !u!224 &4227745189653719366 stripped
 RectTransform:
@@ -394,6 +431,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5883812199825142298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7058953433435869900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733fe631363df9246be997e8a11fdc3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnLyingDropOnStart
+  _spawnPositions:
+  - {fileID: 5185601343987507508}
 --- !u!1001 &7131350946439062154
 PrefabInstance:
   m_ObjectHideFlags: 0

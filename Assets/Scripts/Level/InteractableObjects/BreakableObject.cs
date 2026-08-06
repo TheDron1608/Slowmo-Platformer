@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BreakableObject : MonoBehaviour, IStuckToObject
 {
-    const float BREAK_PARTICLES_ACCURACY = 0f;
     const float BREAK_PARTICLES_MIN_SPAWN_VELOCITY = 1f;
     const float BREAK_PARTICLES_MAX_SPAWN_VELOCITY = 4f;
     const float BREAK_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY = -180f;
