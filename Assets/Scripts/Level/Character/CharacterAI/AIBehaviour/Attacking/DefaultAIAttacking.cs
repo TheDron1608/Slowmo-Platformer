@@ -15,7 +15,7 @@ public class DefaultAIAttacking : AbstractDelayedAttacking
             {
                 if (!CharComponents.CharacterReloading.GetIsReloading())
                 {
-                    CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+                    AttackOrThrowGrenadeAtEnemy();
                 }
             }
             else
@@ -55,7 +55,7 @@ public class DefaultAIAttacking : AbstractDelayedAttacking
         
         if (!CharComponents.CharacterReloading.GetIsReloading())
         {
-            CharComponents.CharacterAttacking.TryAttack(CharComponents.CharacterAiming.GetCurrentAimNormalized());
+            AttackOrThrowGrenadeAtEnemy();
         }
         _attackDelayingCoroutine = null;
     }

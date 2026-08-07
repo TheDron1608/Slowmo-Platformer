@@ -9,8 +9,8 @@ public class SetEnemyExtraHoldableChanceModificator : AbstractModificator
     {
         base.OnModificatorAdded();
 
-        _oldExtraHoldableChance = SpawnManager.Instance.ChanceToGiveCharacterExtraHoldable;
-        SpawnManager.Instance.ChanceToGiveCharacterExtraHoldable = ExtraHoldableChance;
+        _oldExtraHoldableChance = SpawnManager.Instance.ChanceToGiveCharacterAnyExtraHoldable;
+        SpawnManager.Instance.ChanceToGiveCharacterAnyExtraHoldable = ExtraHoldableChance;
     }
 
     public override void OnModificatorRemoved()
@@ -19,7 +19,7 @@ public class SetEnemyExtraHoldableChanceModificator : AbstractModificator
 
         if (SpawnManager.Instance != null)
         {
-            SpawnManager.Instance.ChanceToGiveCharacterExtraHoldable = _oldExtraHoldableChance;
+            SpawnManager.Instance.ChanceToGiveCharacterAnyExtraHoldable = _oldExtraHoldableChance;
         }
     }
 }

@@ -11,7 +11,7 @@ public class SpawnLyingDropOnStart : MonoBehaviour
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         foreach (Transform spawnPosition in _spawnPositions)
         {
-            GameObject randomDrop = SpawnManager.Instance.GetRandomLyingLootDrop();
+            GameObject randomDrop = SpawnManager.Instance.PickRandomLyingLootDrop();
             if (randomDrop == null) continue;
 
             List<GameObject> result = layer.TrySpawnObject(

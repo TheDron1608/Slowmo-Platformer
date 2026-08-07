@@ -59,15 +59,28 @@ public abstract class AbstractDelayedAttacking : AbstractAIAttacking
 
             //trying attack if no need to hammer weapon or start chainsaw
             else if (
-                CharComponents.CharacterAttacking.IsAbleToAttack &&
-                currentWeapon.Projectile != null &&
-                currentWeapon.GetIsAbleToAttack() &&
                 (
-                    currentWeapon.Projectile is RangedProjectile
+                    CharComponents.CharacterAttacking.IsAbleToAttack &&
+                    currentWeapon.Projectile != null &&
+                    currentWeapon.GetIsAbleToAttack() &&
+                    (
+                        currentWeapon.Projectile is RangedProjectile
+                    ) ||
+                    (
+                         currentWeapon.Projectile is MeleeProjectile meleeProjectile &&
+                        _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance.Value <= meleeProjectile.ProjectileSize
+                    )
                 ) ||
                 (
-                     currentWeapon.Projectile is MeleeProjectile meleeProjectile &&
-                    _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance.Value <= meleeProjectile.ProjectileSize
+                    CharComponents.CharacterAttacking.IsAbleToAttack &&
+                    CharComponents.CharacterHolding.IsAbleToThrowObjects &&
+                    (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out OnInteractArmGrenade grenade) ?? false) &&
+                    ((Physics2D.Linecast(
+                        CharComponents.CharacterHolding.CurrentHoldObject.transform.position,
+                        _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents.Center.transform.position,
+                        1 << CharComponents.CharacterCollision.CurrentZLayer.CharactersLayer
+                        ).collider?.TryGetComponent(out AbstractCharacterComponent character) ?? false) ? 
+                        character.CharComponents == _selfStateBehaviourAI.NearestEnemyInfo.NearestEnemy.CharComponents : false)
                 )
                 )
             {

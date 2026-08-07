@@ -7,22 +7,27 @@ public class HolsterWeaponDependOnEnemyDistance : AbstractAIGrabbingAndThrowing
     {
         if (CharComponents.CharacterHolding.CurrentHolsteredHoldObject != null)
         {
-            if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance > EnemyDistanceToGrabMelee)
+            bool isHoldingRanged = CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out RangedWeapon rw) ?? false;
+            bool isHoldingGrenade = CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out OnInteractArmGrenade rg) ?? false;
+            bool isHolsteringRanged = CharComponents.CharacterHolding.CurrentHolsteredHoldObject?.TryGetComponent(out RangedWeapon hrw) ?? false;
+            bool isHolsteringGrenade = CharComponents.CharacterHolding.CurrentHolsteredHoldObject?.TryGetComponent(out OnInteractArmGrenade hrg) ?? false;
+            bool isHoldingMelee = CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out MeleeWeapon mw) ?? false;
+            bool isHolsteringMelee = CharComponents.CharacterHolding.CurrentHolsteredHoldObject?.TryGetComponent(out MeleeWeapon hmw) ?? false;
+
+            if (isHolsteringGrenade && !isHoldingGrenade)
             {
-                if (
-                    ((!CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out RangedWeapon rw)) ?? true) &&
-                    (CharComponents.CharacterHolding.CurrentHolsteredHoldObject?.TryGetComponent(out RangedWeapon hrw) ?? false)
-                    )
+                CharComponents.CharacterHolding.TrySwapHolsteredWeaponWithCurrent();
+            }
+            else if (_selfStateBehaviourAI.NearestEnemyInfo.NearestEnemyDistance > EnemyDistanceToGrabMelee)
+            {
+                if (isHolsteringRanged && !isHoldingRanged && !isHoldingGrenade)
                 {
                     CharComponents.CharacterHolding.TrySwapHolsteredWeaponWithCurrent();
                 }
             }
             else
             {
-                if (
-                    ((!CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out MeleeWeapon mw)) ?? true) &&
-                    (CharComponents.CharacterHolding.CurrentHolsteredHoldObject?.TryGetComponent(out MeleeWeapon hmw) ?? false)
-                    )
+                if (isHolsteringMelee && !isHoldingMelee && !isHoldingGrenade)
                 {
                     CharComponents.CharacterHolding.TrySwapHolsteredWeaponWithCurrent();
                 }

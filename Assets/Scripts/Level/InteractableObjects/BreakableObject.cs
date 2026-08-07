@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BreakableObject : MonoBehaviour, IStuckToObject
@@ -98,7 +99,7 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         }
         SpawnObjectsOnBreak.Clear();
 
-        foreach (GameObject objectInsideGlobal in SpawnManager.Instance.GetLootDropsByType(LootSpawnType))
+        foreach (GameObject objectInsideGlobal in SpawnManager.Instance.PickRandomLootDropsByType(LootSpawnType))
         {
             layer.TrySpawnObject(
                 objectInsideGlobal.gameObject,
@@ -113,6 +114,8 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     {
         for (int i = 0; i < _stuckedObjects.Count; i++)
         {
+            if ((_stuckedObjects[i] as MonoBehaviour).IsDestroyed()) continue;
+
             IStuckableObject stuckObject = _stuckedObjects[i];
             if (stuckObject == null) continue;
 

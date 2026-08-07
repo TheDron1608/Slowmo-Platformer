@@ -47,28 +47,8 @@ public class SlowReactionAIAttacking : AbstractDelayedAttacking
         
         if (!CharComponents.CharacterReloading.GetIsReloading())
         {
-            if (
-                ((CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out Weapon w) ?? false) && w.AutoAttack) || 
-                (CharComponents.UnarmedAttacking?.AutoAttack ?? false)
-                )
-            {
-                yield return AttackAutoWeaponSomeTime(targetAim);
-            }
-            else
-            {
-                CharComponents.CharacterAttacking.TryAttack(targetAim);
-            }
+            AttackOrThrowGrenadeAtEnemy();
         }
         _attackDelayingCoroutine = null;
-    }
-
-    private IEnumerator AttackAutoWeaponSomeTime(Vector2 targetAim)
-    {
-        for (float t = 0f; t < AutoWeaponAttackDurationSeconds; t += Time.deltaTime)
-        {
-            CharComponents.CharacterAttacking.TryAttack(targetAim);
-
-            yield return new WaitForEndOfFrame();
-        }
     }
 }

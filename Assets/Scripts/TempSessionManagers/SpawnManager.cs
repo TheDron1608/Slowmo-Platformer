@@ -15,7 +15,7 @@ public class SpawnManager : MonoBehaviour
     public List<LootDropChanceInfo> LootDropsInstance = new();
     public List<LootDropChanceInfo> LyingLootDropsInstance = new();
     public List<EnemySpawnInfo> EnemyPoolInstance = new();
-    public float ChanceToGiveCharacterExtraHoldable = 0f;
+    public float ChanceToGiveCharacterAnyExtraHoldable = 0f;
     public CharacterComponentsManager PlayerCharacter;
     public Holdable PlayerCharacterHoldable = null;
     public Holdable PlayerCharacterHolsteredHoldable = null;
@@ -25,6 +25,7 @@ public class SpawnManager : MonoBehaviour
     private List<LootDropChanceInfo> _lootDrops;
     private List<LootDropChanceInfo> _lyingLootDrops;
     private List<EnemySpawnInfo> _enemyPool;
+    private List<EnemyWeaponInfo> _extraHoldablePool = new();
 
     public float EnemyAmountPerSpawner
     {
@@ -45,6 +46,11 @@ public class SpawnManager : MonoBehaviour
         get => _lyingLootDrops;
         set => _lyingLootDrops = value;
     }
+    public List<EnemyWeaponInfo> ExtraWeaponPool
+    {
+        get => _extraHoldablePool;
+        set => _extraHoldablePool = value;
+    }
     public List<EnemySpawnInfo> EnemyPool
     {
         get => _enemyPool;
@@ -55,7 +61,7 @@ public class SpawnManager : MonoBehaviour
         get => _actualEnemyAmountPerSpawner;
     }
 
-    public List<GameObject> GetLootDropsByType(LootDropChanceInfo.LootSpawnerTypes type)
+    public List<GameObject> PickRandomLootDropsByType(LootDropChanceInfo.LootSpawnerTypes type)
     {
         List<GameObject> result = new();
         foreach (LootDropChanceInfo lootDrop in LootDrops)
@@ -72,9 +78,14 @@ public class SpawnManager : MonoBehaviour
         return result;
     }
 
-    public GameObject GetRandomLyingLootDrop()
+    public GameObject PickRandomLyingLootDrop()
     {
         return NumberMath.PickRandomItem(LyingLootDrops)?.GetRandomLoot();
+    }
+
+    public Holdable PickRandomExtraHoldable()
+    {
+        return NumberMath.PickRandomItem(ExtraWeaponPool)?.PickRandomWeapon();
     }
 
     public EnemySpawnInfo PickRandomEnemy()

@@ -26,7 +26,12 @@ public class EnemySpawnInfo : ScriptableObject
             newCharacter.CharComponents.CharacterHolding.GiveNewHoldable(giveHoldable);
 
             //give holstered weapon
-            if (RandomManager.Instance.ProcRandomBadChance(SpawnManager.Instance.ChanceToGiveCharacterExtraHoldable))
+            Holdable extraHoldable = SpawnManager.Instance.PickRandomExtraHoldable();
+            if (extraHoldable != null)
+            {
+                newCharacter.CharComponents.CharacterHolding.HolsterNewHoldable(extraHoldable);
+            }
+            else if (RandomManager.Instance.ProcRandomBadChance(SpawnManager.Instance.ChanceToGiveCharacterAnyExtraHoldable))
             {
                 Holdable filteredWeapon = null;
 
