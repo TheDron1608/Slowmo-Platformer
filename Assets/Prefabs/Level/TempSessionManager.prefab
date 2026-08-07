@@ -442,11 +442,12 @@ MonoBehaviour:
   KeepHoldableOnFinishLevel: 1
   LootDropsInstance:
   - {fileID: 11400000, guid: d64d4da4755787a4d8ef6c98df83b8c0, type: 2}
+  - {fileID: 11400000, guid: ed64bdf6357a37d4f9134eb0d261899b, type: 2}
   LyingLootDropsInstance:
   - {fileID: 11400000, guid: ed64bdf6357a37d4f9134eb0d261899b, type: 2}
   EnemyPoolInstance:
   - {fileID: 11400000, guid: e242a38beae302149b8fc51e8e231cb0, type: 2}
-  ChanceToGiveCharacterExtraHoldable: 0
+  ChanceToGiveCharacterAnyExtraHoldable: 0
   PlayerCharacter: {fileID: 2886192054720589260, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
   PlayerCharacterHoldable: {fileID: 0}
   PlayerCharacterHolsteredHoldable: {fileID: 0}

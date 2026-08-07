@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SpawnLyingDropOnStart : MonoBehaviour
@@ -11,7 +12,7 @@ public class SpawnLyingDropOnStart : MonoBehaviour
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         foreach (Transform spawnPosition in _spawnPositions)
         {
-            GameObject randomDrop = SpawnManager.Instance.PickRandomLyingLootDrop();
+            GameObject randomDrop = SpawnManager.Instance.PickRandomLootDropsByType(LootDropChanceInfo.LootSpawnerTypes.LYING_DROP).FirstOrDefault();
             if (randomDrop == null) continue;
 
             List<GameObject> result = layer.TrySpawnObject(
