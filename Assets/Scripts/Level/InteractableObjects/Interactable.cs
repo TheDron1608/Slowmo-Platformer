@@ -28,9 +28,10 @@ public abstract class Interactable : SelectableObject, IEffectApplier
         return true;
     }
 
-    public virtual void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    public virtual void InvokeOnEffectApllied(AbstractEffect effect, ObjectEffectsReceiver receiver, List<IEffectApplier> appliers)
     {
-        OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
+        appliers.Add(this);
+        OnEffectApplied?.Invoke(this, new(this, effect, receiver, appliers));
     }
 
     /// <summary>

@@ -5,7 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Holdable : Interactable, IStuckableObject
+public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 {
     const int ON_GRAB_SORTING_ORDER_ADD = 200;
     const float DISABLE_GRAVITY_DURATION_SECONDS = 1f;
@@ -390,6 +390,7 @@ public class Holdable : Interactable, IStuckableObject
         get => _telekinesisAffector;
         set => _telekinesisAffector = value;
     }
+    public GameObject OriginalPrefab { get; set; }
 
     public bool GetIsDangerousAsThrowable(CharacterHoldingObjects thrower)
     {
@@ -820,10 +821,10 @@ public class Holdable : Interactable, IStuckableObject
         _rigidBodyComponent.gravityScale = 1f;
     }
 
-    public override void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    public override void InvokeOnEffectApllied(AbstractEffect effect, ObjectEffectsReceiver receiver, List<IEffectApplier> appliers)
     {
-        base.InvokeOnEffectApllied(Effect, Receiver);
-        CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+        base.InvokeOnEffectApllied(effect, receiver, appliers);
+        CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(effect, receiver, appliers);
     }
 
     private void OnEnable()

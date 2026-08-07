@@ -12,11 +12,11 @@ public class LifeStealOnKill : AbstractOnKillEffect, IMultiplierableEffect
         set => _effectMultiplier = value;
     }
 
-    protected override void OnKill(DamagableObject killedObj)
+    protected override void OnKill(IEffectApplier.OnEffectAppliedEventArgs killInfo)
     {
-        if (killedObj.TryGetComponent(out AbstractCharacterComponent killedCharacter))
+        if (killInfo.Receiver.TryGetComponent(out AbstractCharacterComponent killedCharacter))
         {
-            AffectedDamagableObject.ApplyDamage(-killedCharacter.CharComponents.CharacterHealth.MaxHealth * LifeStealMultiplier * EffectMultiplier, killedCharacter);
+            AffectedCharacter.CharacterHealth.ApplyDamage(-killedCharacter.CharComponents.CharacterHealth.MaxHealth * LifeStealMultiplier * EffectMultiplier, killedCharacter);
         }
     }
 }

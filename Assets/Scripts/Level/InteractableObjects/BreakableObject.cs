@@ -24,11 +24,18 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
     private List<IStuckableObject> _stuckedObjects = new();
     private bool _isBreakingThisFrame = false;
 
+    protected MonoBehaviour _breaker;
+
     public event EventHandler<MonoBehaviour> OnBroken;
 
     public List<IStuckableObject> StuckedObjects
     {
         get => _stuckedObjects;
+    }
+
+    public MonoBehaviour Breaker
+    {
+        get => _breaker;
     }
 
     public List<AbstractParticle> ParticlesOnBreak
@@ -50,6 +57,8 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
 
     public virtual void BreakObject(MonoBehaviour breaker)
     {
+        _breaker = breaker;
+
         ReleaseObjectsInsideAndApplyEffects();
 
         BreakObjectVisualOnly(breaker);

@@ -53,7 +53,7 @@ public class AffectObjectsOnRadius : AbstractEffectWithSender, IMultiplierableEf
             distance < Radius &&
             obj.gameObject.activeSelf &&
             obj != AffectedObject.transform &&
-            obj != sender.transform &&
+            obj != sender?.transform &&
             obj.TryGetComponent(out ObjectEffectsReceiver effectReceiver) &&
             (AffectThroughWalls || forceAffectThroughWalls || Physics2D.Linecast(
                 centerPosition,

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class AbstractOnKillEffect : AbstractDamagableObjectEffect, ITriggerableEffect
+public abstract class AbstractOnKillEffect : AbstractCharacterEffect, IEntireCharacterEffect, ITriggerableEffect
 {
     public event EventHandler OnTriggered;
 
@@ -30,12 +30,12 @@ public abstract class AbstractOnKillEffect : AbstractDamagableObjectEffect, ITri
 
     private void EffectApplier_OnEffectApplied(object sender, IEffectApplier.OnEffectAppliedEventArgs e)
     {
-        if (e.Effect is ILethalEffect && e.Receiver.TryGetComponent(out DamagableObject killedObj))
+        if (e.Effect is Death)
         {
             OnTriggered?.Invoke(this, EventArgs.Empty);
-            OnKill(killedObj);
+            OnKill(e);
         }
     }
 
-    protected abstract void OnKill(DamagableObject killedObj);
+    protected abstract void OnKill(IEffectApplier.OnEffectAppliedEventArgs killInfo);
 }

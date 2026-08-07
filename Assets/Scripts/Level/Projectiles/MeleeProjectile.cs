@@ -23,7 +23,7 @@ public class MeleeProjectile : AbstractProjectile
     private AbstractParticle _currentSpawnedParticle = null;
     private AbstractProjectile _lastDeflectedProjectile = null;
 
-    public override Weapon Weapon
+    public override MonoBehaviour Weapon
     {
         get => base.Weapon;
         protected set
@@ -43,7 +43,7 @@ public class MeleeProjectile : AbstractProjectile
         if (!TryGetComponent(out _rigidBody)) throw new UnityException("RigidBody2D component not found");
     }
 
-    protected override void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
+    protected override void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, MonoBehaviour weapon)
     {
         base.SetAttrs(original, direction, position, layer, weapon);
 
@@ -100,9 +100,9 @@ public class MeleeProjectile : AbstractProjectile
     {
         base.OnUpdate();
 
-        if (!Weapon.IsDestroyed())
+        if (Weapon != null && !Weapon.IsDestroyed() && Weapon.TryGetComponent(out Weapon weaponComponent))
         {
-            transform.position = Weapon.ProjectileSpawnPosition.transform.position;
+            transform.position = weaponComponent.ProjectileSpawnPosition.transform.position;
         }
     }
 

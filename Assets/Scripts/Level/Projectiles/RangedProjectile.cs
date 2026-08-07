@@ -82,7 +82,7 @@ public class RangedProjectile : AbstractProjectile
         _projectileTip = transform.Find(PROJECTILE_TIP_GAMEOBJECT_NAME);
     }
 
-    protected override void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
+    protected override void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, MonoBehaviour weapon)
     {
         base.SetAttrs(original, direction, position, layer, weapon);
 
@@ -255,7 +255,7 @@ public class RangedProjectile : AbstractProjectile
         NoiseManager.Instance.CommitNoise(
             transform.position,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject),
-            ShotNoiseDistance * (Weapon?.AttackNoiseMultiplier ?? 1f),
+            ShotNoiseDistance * ((Weapon?.TryGetComponent(out Weapon weaponComponent) ?? false) ? weaponComponent.AttackNoiseMultiplier : 1f),
             gameObject,
             (Deflector ?? Owner)?.CharComponents.CharacterTeam
             );

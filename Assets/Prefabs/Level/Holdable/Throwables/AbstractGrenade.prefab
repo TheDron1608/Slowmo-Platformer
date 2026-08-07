@@ -174,6 +174,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4590741514344514613, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: LootSpawnType
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: AIPickUpPriority
       value: -1
@@ -243,9 +247,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnInteractArmGrenade
   SelectMaxRangeMultiplier: 1
+  SelectInfoTextOffset: 0.5
+  _selectInfoContainer: {fileID: 0}
+  _selectOutlineSprite: {fileID: 0}
+  _selectText: {fileID: 0}
   EffectsOnStartInteract: []
   ExplodeDelay: 2
+  ArmOnStart: 0
+  _idleSprite: {fileID: 0}
   _armedSprite: {fileID: 0}
+  _idleMaterial: {fileID: 2100000, guid: 33399073aee655a43a7a062267e36116, type: 2}
   _armedMaterial: {fileID: 2100000, guid: 36aa5e124a13aaa4b9d61512873e8667, type: 2}
   _pinParticleSpawner: {fileID: 965574380202674184}
   _soundOnArm: {fileID: 8728322205183600459}

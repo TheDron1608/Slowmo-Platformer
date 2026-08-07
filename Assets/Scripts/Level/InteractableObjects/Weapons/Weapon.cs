@@ -211,7 +211,7 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
 
         List<AbstractProjectile> newProjectiles = Projectile.SpawnProjectile(
             direction,
-            transform.position,
+            ProjectileSpawnPosition.transform.position,
             LayerManager.Instance.GetZLayerOfGameObject(gameObject),
             this,
             AccuracyMultiplier
@@ -292,12 +292,14 @@ public abstract class Weapon : MonoBehaviour, IEffectApplier
         _awaitAttackCooldownCoroutine = null;
     }
 
-    public virtual void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    public virtual void InvokeOnEffectApllied(AbstractEffect effect, ObjectEffectsReceiver receiver, List<IEffectApplier> appliers)
     {
-        OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
+        appliers.Add(this);
+        OnEffectApplied?.Invoke(this, new(this, effect, receiver, appliers));
+
         if (!gameObject.IsDestroyed() && TryGetComponent(out Holdable holdable))
         {
-            holdable.CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+            holdable.CurrentOrLastHolder?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(effect, receiver, appliers);
         }
     }
 }

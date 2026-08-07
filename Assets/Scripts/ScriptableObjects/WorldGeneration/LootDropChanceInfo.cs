@@ -15,7 +15,9 @@ public class LootDropChanceInfo : ScriptableObject
         RANGED_WEAPON,
         SHIELD,
         ARMOR,
-        LYING_DROP
+        LYING_DROP,
+        SIMPLE_HOLDABLE,
+        GRENADE
     }
 
     public float AnyDropChance = 1f;

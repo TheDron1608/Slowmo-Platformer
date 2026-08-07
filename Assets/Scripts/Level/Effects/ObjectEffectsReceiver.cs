@@ -186,7 +186,7 @@ public class ObjectEffectsReceiver : MonoBehaviour
                 {
                     if (sender.TryGetComponent(out IEffectApplier effectApplier))
                     {
-                        effectApplier.InvokeOnEffectApllied(effect, this);
+                        effectApplier.InvokeOnEffectApllied(effect, this, new(0));
                     }
                 }
 

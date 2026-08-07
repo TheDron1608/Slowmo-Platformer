@@ -25,7 +25,7 @@ public class SpawnProjectilesFromCenter : AbstractEffect
                 Vector2.up,
                 centerPosition,
                 LayerManager.Instance.GetZLayerOfGameObject(gameObject),
-                null,
+                AffectedObject.TryGetComponent(out IEffectApplier effectApplier) ? effectApplier as MonoBehaviour : AffectedObject,
                 0f
                 );
         }

@@ -341,8 +341,9 @@ public class CharacterAttacking : AbstractCharacterComponent, IEffectApplier
         return false;
     }
 
-    public void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    public void InvokeOnEffectApllied(AbstractEffect effect, ObjectEffectsReceiver receiver, List<IEffectApplier> appliers)
     {
-        OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
+        appliers.Add(this);
+        OnEffectApplied?.Invoke(this, new(this, effect, receiver, appliers));
     }
 }

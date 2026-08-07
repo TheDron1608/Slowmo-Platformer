@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnarmedWeapon : Weapon
@@ -42,9 +43,9 @@ public class UnarmedWeapon : Weapon
         transform.rotation = VectorMath.Vec2ToQuarterninon2D(CharComponents.CharacterAiming.GetCurrentAimNormalized());
     }
 
-    public override void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    public override void InvokeOnEffectApllied(AbstractEffect effect, ObjectEffectsReceiver receiver, List<IEffectApplier> appliers)
     {
-        base.InvokeOnEffectApllied(Effect, Receiver);
-        CharComponents.CharacterAttacking.InvokeOnEffectApllied(Effect, Receiver);
+        base.InvokeOnEffectApllied(effect, receiver, appliers);
+        CharComponents.CharacterAttacking.InvokeOnEffectApllied(effect, receiver, appliers);
     }
 }

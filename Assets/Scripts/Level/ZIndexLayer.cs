@@ -473,6 +473,22 @@ public class ZIndexLayer : MonoBehaviour
             LayerManager.Instance.TrySetLevelBottom(newObject.transform.position.y);
             UpdateLayerForGameObject(newObject);
 
+            if (newObject.TryGetComponent(out IRememberPrefab rememberPrefab))
+            {
+                if (spawnObject.scene.name == null)
+                {
+                    rememberPrefab.OriginalPrefab = spawnObject;
+                }
+                else if (spawnObject.TryGetComponent(out IRememberPrefab spawnObjectRememberPrefab) && spawnObjectRememberPrefab.OriginalPrefab != null)
+                {
+                    rememberPrefab.OriginalPrefab = spawnObjectRememberPrefab.OriginalPrefab;
+                }
+                else
+                {
+                    Debug.LogWarning("Failed extract original prefab from " + spawnObject + " for " + newObject);
+                }
+            }
+
             chunk?.AddObjectInside(newObject);
 
             LayerManager.Instance.InvokeOnObjectSpawned(newObject);

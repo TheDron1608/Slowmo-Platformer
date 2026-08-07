@@ -53,6 +53,8 @@ public class BreakableHoldable : BreakableObject
 
     public override void BreakObject(MonoBehaviour breaker)
     {
+        _breaker = breaker;
+
         Holdable replaceHoldable = null;
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         Vector2 spawnPosition = transform.position;

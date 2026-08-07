@@ -24,7 +24,8 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
     public AbstractSoundPlayer SoundOnHit;
     public CharacterVisual.CharacterPartBusyStates UnarmedAttackAnimation = CharacterVisual.CharacterPartBusyStates.NONE;
 
-    private Weapon _weapon = null;
+    private MonoBehaviour _weapon = null;
+    private GameObject _rememberWeapon = null;
     private CharacterHoldingObjects _deflector = null;
     private CharacterHoldingObjects _owner = null;
     protected List<Collider2D> _currentHittingColliders = new();
@@ -61,6 +62,14 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         get => _hitObjects;
     }
 
+    /// <summary>
+    /// allow to access original prefab of weapon when weapon destroys itself after attack, like grenades
+    /// </summary>
+    public GameObject RememberWeapon
+    {
+        get => _rememberWeapon;
+    }
+
     private void Awake()
     {
         OnAwake();
@@ -72,7 +81,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         if (!TryGetComponent(out _colliderComponent)) throw new UnityException("BoxCollider2D component not found at " + gameObject.name);
     }
 
-    public virtual Weapon Weapon
+    public virtual MonoBehaviour Weapon
     {
         get => _weapon;
         protected set
@@ -80,10 +89,15 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
             if (_weapon == value) return;
             _weapon = value;
 
-            _effectsReceiver.RemoveEffect(_extraEffectsFromWeapon);
-            if (_weapon != null)
+            if (_weapon?.TryGetComponent(out IRememberPrefab rememberPrefab) ?? false)
             {
-                _extraEffectsFromWeapon = _effectsReceiver.ApplyEffect(_weapon.ExtraProjectileEffects, _weapon);
+                _rememberWeapon = rememberPrefab.OriginalPrefab;
+            }
+
+            _effectsReceiver.RemoveEffect(_extraEffectsFromWeapon);
+            if (_weapon?.TryGetComponent(out Weapon weaponComponent) ?? false)
+            {
+                _extraEffectsFromWeapon = _effectsReceiver.ApplyEffect(weaponComponent.ExtraProjectileEffects, weaponComponent);
             }
         }
     }
@@ -134,12 +148,12 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         get => _effectsReceiver;
     }
 
-    public List<AbstractProjectile> SpawnProjectile(Vector2 direction, Vector2 position, ZIndexLayer layer, Weapon weapon = null, float accuracityMultiplier = 1f)
+    public List<AbstractProjectile> SpawnProjectile(Vector2 direction, Vector2 position, ZIndexLayer layer, MonoBehaviour weapon = null, float accuracityMultiplier = 1f)
     {
         return SpawnProjectile(VectorMath.Vec2ToQuarterninon2D(direction), position, layer, weapon, accuracityMultiplier);
     }
 
-    public List<AbstractProjectile> SpawnProjectile(Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon = null, float accuracityMultiplier = 1f)
+    public List<AbstractProjectile> SpawnProjectile(Quaternion direction, Vector2 position, ZIndexLayer layer, MonoBehaviour weapon = null, float accuracityMultiplier = 1f)
     {
         List<AbstractProjectile> result = new(AmountOnSpawn);
 
@@ -153,7 +167,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
         if (weapon != null && result.Count > 0)
         {
-            if (weapon is RangedWeapon rangedWeapon)
+            if (weapon.TryGetComponent(out RangedWeapon rangedWeapon))
             {
                 result[0].SoundOnAttack.Pitch = math.lerp(
                     1f, 
@@ -166,10 +180,11 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
                 result[0].SoundOnAttack.Pitch = 1f;
             }
 
+            weapon.TryGetComponent(out Weapon weaponComponent);
             result[0].SoundOnAttack.PlaySound(
-                weapon.OverrideAttackSound ?? result[0].SoundOnAttack.DefaultSound,
-                false, 
-                weapon.ProjectileSpawnPosition.transform.position
+                weaponComponent?.OverrideAttackSound ?? result[0].SoundOnAttack.DefaultSound,
+                false,
+                weaponComponent?.ProjectileSpawnPosition.transform.position ?? weapon.transform.position
                 );
         }
 
@@ -178,17 +193,10 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         return result;
     }
 
-    protected virtual void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, Weapon weapon)
+    protected virtual void SetAttrs(AbstractProjectile original, Quaternion direction, Vector2 position, ZIndexLayer layer, MonoBehaviour weapon)
     {
         transform.rotation = direction;
-        if (weapon != null)
-        {
-            transform.position = weapon.ProjectileSpawnPosition.transform.position;
-        }
-        else
-        {
-            transform.position = new Vector3(position.x, position.y, layer.transform.position.z);
-        }
+        transform.position = new Vector3(position.x, position.y, layer.transform.position.z);
 
         gameObject.SetActive(true);
 
@@ -243,7 +251,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         LayerManager.Instance.ChangeZIndexForGameObject(layer, gameObject);
     }
 
-    protected void InitEffects(AbstractProjectile original, Weapon weapon)
+    protected void InitEffects(AbstractProjectile original, MonoBehaviour weapon)
     {
         _effectsReceiver.ApplyEffect(original.GetComponent<ObjectEffectsReceiver>().CurrentEffects, null);
         Weapon = weapon;
@@ -301,7 +309,7 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
         _wasDeflectedThisFrame = true;
     }
 
-    private void ApplySelfEffectOnWeaponUserOrWeapon(List<AbstractProjectile> projectiles, Weapon weapon)
+    private void ApplySelfEffectOnWeaponUserOrWeapon(List<AbstractProjectile> projectiles, MonoBehaviour weapon)
     {
         if (weapon != null)
         {
@@ -440,27 +448,28 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
 
     public virtual void RemoveProjectile()
     {
-        if (Weapon != null)
+        if (Weapon != null && !Weapon.IsDestroyed() && Weapon.TryGetComponent(out Weapon weaponComponent))
         {
-            Weapon.Projectiles.Remove(this);
+            weaponComponent.Projectiles.Remove(this);
         }
         gameObject.SetActive(false);
     }
 
-    public void InvokeOnEffectApllied(AbstractEffect Effect, ObjectEffectsReceiver Receiver)
+    public void InvokeOnEffectApllied(AbstractEffect effect, ObjectEffectsReceiver receiver, List<IEffectApplier> appliers)
     {
-        OnEffectApplied?.Invoke(this, new(this, Effect, Receiver));
+        appliers.Add(this);
+        OnEffectApplied?.Invoke(this, new(this, effect, receiver, appliers));
         if (Deflector != null)
         {
-            Deflector?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+            Deflector?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(effect, receiver, appliers);
         }
-        else if (Weapon != null && !Weapon.IsDestroyed())
+        else if (Weapon != null && Weapon.TryGetComponent(out IEffectApplier effectApplier))
         {
-            Weapon?.InvokeOnEffectApllied(Effect, Receiver);
+            effectApplier.InvokeOnEffectApllied(effect, receiver, appliers);
         }
         else if (Owner != null)
         {
-            Owner?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(Effect, Receiver);
+            Owner?.CharComponents.CharacterAttacking?.InvokeOnEffectApllied(effect, receiver, appliers);
         }
     }
 }
