@@ -3,20 +3,23 @@ using UnityEngine;
 
 public class GiveGrenadeBackOnGrenadeKill : AbstractOnKillEffect
 {
+    private Holdable _lastGrenadeCheckResult;
     protected override void OnKill(IEffectApplier.OnEffectAppliedEventArgs killInfo)
     {
-        if (
-            AffectedCharacter.CharacterHolding.CurrentHoldObject == null &&
-            TryGetGrenadeFromAppliers(killInfo.Appliers, out Holdable holdable)
-            )
-        {
-            Holdable newH = AffectedCharacter.CharacterHolding.GiveNewHoldable(holdable);
+        Holdable newH = AffectedCharacter.CharacterHolding.GiveNewHoldable(_lastGrenadeCheckResult);
 
-            if (newH.TryGetComponent(out OnInteractArmGrenade newGreande))
-            {
-                newGreande.Armed = false;
-            }
+        if (newH.TryGetComponent(out OnInteractArmGrenade newGreande))
+        {
+            newGreande.Armed = false;
         }
+    }
+
+    protected override bool KillCondition(IEffectApplier.OnEffectAppliedEventArgs e)
+    {
+        return 
+            base.KillCondition(e) &&
+            AffectedCharacter.CharacterHolding.CurrentHoldObject == null &&
+            TryGetGrenadeFromAppliers(e.Appliers, out _lastGrenadeCheckResult);
     }
 
     private bool TryGetGrenadeFromAppliers(List<IEffectApplier> appliers, out Holdable holdable)

@@ -30,7 +30,7 @@ public abstract class AbstractOnKillEffect : AbstractCharacterEffect, IEntireCha
 
     private void EffectApplier_OnEffectApplied(object sender, IEffectApplier.OnEffectAppliedEventArgs e)
     {
-        if (e.Effect is Death)
+        if (KillCondition(e))
         {
             OnTriggered?.Invoke(this, EventArgs.Empty);
             OnKill(e);
@@ -38,4 +38,9 @@ public abstract class AbstractOnKillEffect : AbstractCharacterEffect, IEntireCha
     }
 
     protected abstract void OnKill(IEffectApplier.OnEffectAppliedEventArgs killInfo);
+
+    protected virtual bool KillCondition(IEffectApplier.OnEffectAppliedEventArgs e)
+    {
+        return e.Effect is Death;
+    }
 }
