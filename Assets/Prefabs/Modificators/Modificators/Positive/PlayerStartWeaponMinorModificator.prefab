@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 48287511650476032
+      value: 80946796943351808
       objectReference: {fileID: 0}
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: PlayerSwordConvertModificator
+      value: PlayerStartWeaponMinorModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,48 +61,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: 'managedReferences[6612638396859023492]'
-      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.IntVariable
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: 'managedReferences[6612638396859023493]'
+      propertyPath: 'managedReferences[6612637787658387461]'
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: 'managedReferences[8419454798216036464]'
+      propertyPath: 'managedReferences[8172495490686124117]'
       value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.IntVariable
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: managedReferences[6612637787658387461].m_Value
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: managedReferences[6612638396859023492].m_Value
+      propertyPath: managedReferences[8172495490686124117].m_Value
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: managedReferences[6612638396859023493].m_Value
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: managedReferences[8419454798216036464].m_Value
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 48287512308981760
+      value: 80946798201643008
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
-      value: ConvertCost
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[1].name
-      value: KillToDecreaseCost
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[2].name
-      value: ConvertLiveTime
+      value: AddRerolls
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -110,15 +94,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
-      value: 6612638396859023492
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[1].variable
-      value: 8419454798216036464
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
-      propertyPath: m_StringReference.m_LocalVariables.Array.data[2].variable
-      value: 6612638396859023493
+      value: 8172495490686124117
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -126,7 +102,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1593677176810561494}
+      addedObject: {fileID: 2328648629646537428}
   m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
 --- !u!114 &2147315170708439846 stripped
 MonoBehaviour:
@@ -144,7 +120,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
   m_PrefabInstance: {fileID: 8179689514373086561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1593677176810561494
+--- !u!114 &2328648629646537428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,56 +129,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 4804066781530051355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78e0b35966847d34a960b43d2842075b, type: 3}
+  m_Script: {fileID: 11500000, guid: c9dc34a9b4d72eb4898ba732679235b1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::GivePlayerHoldableIfUnarmed
   Stackable: 0
   AllowPermanent: 1
   OverrideModificators: []
   RestrictModificators:
   - {fileID: 3654533815261886692, guid: 2da0ce2cfceabd64286c02382b4a9e49, type: 3}
-  - {fileID: 4794591185165762808, guid: 292168c8e305bbd45954b8629d54fb0d, type: 3}
-  - {fileID: 5417582868638941547, guid: 95fa7c17969a47741ac696cda3c21d62, type: 3}
-  - {fileID: 5417582868638941547, guid: 09bbb2973988c684ea7649c72230542f, type: 3}
-  - {fileID: 4794591185165762808, guid: 5cd68b57b6252d94c9e7db77cc2e907b, type: 3}
-  - {fileID: 2328648629646537428, guid: a5f1f4e641264264f9ce0b6145d5113e, type: 3}
-  - {fileID: 2328648629646537428, guid: ec5380da2ebd345408212f39ed0950cf, type: 3}
-  - {fileID: 2328648629646537428, guid: 7417c97ea86a49046898c89f047f4eee, type: 3}
+  - {fileID: 3654533815261886692, guid: 51a374a61cd98304ebce4480673d010d, type: 3}
   SynergingModificators: []
   UnsynergingModificators: []
-  HarderVersion: {fileID: 0}
-  ModificatorType: 2
-  ModificatorTier: 3
-  IconSprite: {fileID: 21300000, guid: 54fbddb128f56c64ba6afc67e87fd662, type: 3}
-  CardSprite: {fileID: 21300000, guid: de7ba16710e68b64e8972e9c18b74a4f, type: 3}
+  HarderVersion: {fileID: 2328648629646537428, guid: a5f1f4e641264264f9ce0b6145d5113e, type: 3}
+  ModificatorType: 0
+  ModificatorTier: 0
+  IconSprite: {fileID: 21300000, guid: 432069c81e1194e44808616f990fa370, type: 3}
+  CardSprite: {fileID: 21300000, guid: 523e9a02bdb8b1e4caee393b9e961eec, type: 3}
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 500
+  _modificatorPrice: 10
   _localization: {fileID: 2147315170708439846}
-  SpecialActionReference: {fileID: 7302821110297656998, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  ComboCost: 1
-  ExtraCostPerConverted: 1
-  RequiredComboToReduceCost: 5
-  SpecialHoldableInstance: {fileID: 5861841258277054220, guid: 0f4036d2a34ec8a4c8c546753dd0d879, type: 3}
-  TargetEffects:
-  - {fileID: 1124524581939566734, guid: 7dd7368e6cff98a4ea96c9ecc61af068, type: 3}
-  - {fileID: 1074026954555704250, guid: 8e96c3e8defe41c44872040ee864a28d, type: 3}
-  - {fileID: 5372439054436479793, guid: faec299506aaf3749a7dceb803556f1b, type: 3}
-  - {fileID: -7911747240444091549, guid: 18769cb9b6e47f047ab728cf1c8b152a, type: 3}
-  - {fileID: -7634859150528065023, guid: 2e2d115315c05734f817964c9ef32ad1, type: 3}
-  - {fileID: 3835787520392331423, guid: 5ebe75e4c5f8f054fb4e5d53602e888e, type: 3}
-  - {fileID: -7777104659795064821, guid: b969aefcf7fa0434091f59bc519dcf2b, type: 3}
-  - {fileID: 2707210804082877257, guid: 6f68169f6d9ed0149a81a20e8718879c, type: 3}
-  - {fileID: 2642663657392413741, guid: 1e125a9045c946d41863768663cbb91c, type: 3}
-  - {fileID: 7915071378290817554, guid: 9f5eae592d72bc646b7240d2b9b4d028, type: 3}
-  - {fileID: -4197255158598408884, guid: 09a20adeb0d352c49acf0aca1bec3c11, type: 3}
-  - {fileID: 1233967932159160897, guid: 713d65a57aecf2848b19798c4dcb72f3, type: 3}
-  - {fileID: -8095545692975642676, guid: 0d2319e9fc2eed94e94984f75dd6f0e8, type: 3}
-  TrackedTeam: 0
-  MaxCharacterDistanceFromHoldable: 10
-  MaxCharacterDistanceFromHoldableOnUnholded: 22.5
-  EffectsOnTooFarFromHoldable:
-  - {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}
-  SlowmoOnConvert: 1
-  ComboMaterialOnAbleToUse: {fileID: 2100000, guid: 1708e21662d4ef648b7ed3295e9ede72, type: 2}
+  PossibleHoldables:
+  - {fileID: 3360346731098841122, guid: fa73c908e1d0eef439303f765c9c16ac, type: 3}
+  - {fileID: 3643010154676718343, guid: 20d172edf5c04874a918cf0deb9f5f70, type: 3}
+  - {fileID: 7998335253519095060, guid: e04b742bc187b68428165e177f51b742, type: 3}
+  - {fileID: 974232141757345711, guid: ec6ab0a4e1193a549ab237d99b28bb5d, type: 3}
+  - {fileID: 702310535210156468, guid: dc3803cbf8735ec4390cb477a909c2ee, type: 3}
