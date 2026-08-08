@@ -1,14 +1,8 @@
-using System.Collections;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 public class SelectableObject : MonoBehaviour
 {
-    const float SELECTED_COLOR_CHANGE_SPEED_MULTIPLIER = 5f;
-    const float SELECTED_COLOR_DARKNESS = 0.64f;
     const float EXTRA_INFO_POS_Z = -1;
 
     [Header("Selectable")]
@@ -32,9 +26,10 @@ public class SelectableObject : MonoBehaviour
         get => _selected;
         set
         {
-            if (!gameObject.activeInHierarchy) return;
+            if (!gameObject.activeInHierarchy || _selected == value) return;
 
             _selected = value;
+            UpdateSelectInfo();
         }
     }
 
@@ -48,12 +43,22 @@ public class SelectableObject : MonoBehaviour
         return true;
     }
 
+    private void OnDisable()
+    {
+        Selected = false;
+    }
+
     private void Awake()
     {
         OnAwake();
     }
 
     private void Update()
+    {
+        UpdateSelectInfo();
+    }
+
+    private void UpdateSelectInfo()
     {
         if (Selected && SelectInfoAppearCondition())
         {

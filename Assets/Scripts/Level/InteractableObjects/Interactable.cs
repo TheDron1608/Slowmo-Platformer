@@ -4,9 +4,6 @@ using UnityEngine;
 
 public abstract class Interactable : SelectableObject, IEffectApplier
 {
-
-    const string INTERACTABLE_TAG_NAME = "Interactable";
-
     [Header("Interactalbe")]
     public List<AbstractEffect> EffectsOnStartInteract = new();
 
