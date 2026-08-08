@@ -1501,7 +1501,7 @@ MonoBehaviour:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 81550511709347840
-    m_Localized: '* The weapon in the player''s hands changes every {ChangeDuration}
+    m_Localized: '* Weapon in the player''s hands changes every {ChangeDuration}
       seconds'
     m_Metadata:
       m_Items:
@@ -1696,6 +1696,16 @@ MonoBehaviour:
     m_Localized: Polymorphic chaos
     m_Metadata:
       m_Items: []
+  - m_Id: 85317122112331776
+    m_Localized: Butcher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85317122900860928
+    m_Localized: '* Player''s weapon can tear the enemy to pieces with a {GibChance}%
+      chance'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1801,3 +1811,4 @@ MonoBehaviour:
         - id: 83817012203331584
         - id: 84064992210690048
         - id: 80905253314338816
+        - id: 85317122900860928
