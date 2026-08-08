@@ -1484,17 +1484,19 @@ MonoBehaviour:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 80958258327822336
-    m_Localized: 
+    m_Localized: '* Upon death, the enemy always throws a grenade at their killer'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 80957874720972800
-    m_Localized: 
+    m_Localized: '* Upon death, the enemy has a {AffectChance}% chance to throw a
+      grenade at the killer'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 80957514757414912
-    m_Localized: 
+    m_Localized: '* Upon death, the enemy has a {AffectChance}% chance to throw a
+      grenade at the killer'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -1671,6 +1673,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 80949392001179648
     m_Localized: Flechette
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80957513255854080
+    m_Localized: Revenge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80957873928249344
+    m_Localized: Last chance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80958257363132416
+    m_Localized: Take with one
     m_Metadata:
       m_Items: []
   references:

@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 80902875437572096
+      value: 80958257363132416
       objectReference: {fileID: 0}
     - target: {fileID: 472805991836701500, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: ExplodingEnemysAllModificator
+      value: EnemyGrenadeOnDeathServe
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637791294062632].m_Value
@@ -82,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 80902876368707584
+      value: 80958258327822336
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
@@ -145,19 +145,20 @@ MonoBehaviour:
   OverrideModificators: []
   RestrictModificators: []
   SynergingModificators: []
-  UnsynergingModificators: []
+  UnsynergingModificators:
+  - {fileID: 1758936495694907342, guid: df991f96ee781d24ebd8fdcb611ab168, type: 3}
   HarderVersion: {fileID: 0}
   ModificatorType: 1
   ModificatorTier: 3
-  IconSprite: {fileID: 21300000, guid: b458aeb3a3911794ca3794e132d31985, type: 3}
-  CardSprite: {fileID: 21300000, guid: 6f8652a58ec835a4a872b20cde34c193, type: 3}
+  IconSprite: {fileID: 21300000, guid: e7c7b6f566fe89744a1987653a743b02, type: 3}
+  CardSprite: {fileID: 21300000, guid: a909b284338707048bc5b2a2e8e5cdc8, type: 3}
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 200
+  _modificatorPrice: 300
   _localization: {fileID: 2147315170708439846}
   Team: 1
   AffectChance: 1
   ChanceType: 1
   CharacterEffectsOnDeath:
-  - {fileID: -946322861368451808, guid: 57b88905d45608f4abf411d61a119372, type: 3}
+  - {fileID: 5817165951425631916, guid: b75ff45c0022ef343a80dbe2cc1246e7, type: 3}
