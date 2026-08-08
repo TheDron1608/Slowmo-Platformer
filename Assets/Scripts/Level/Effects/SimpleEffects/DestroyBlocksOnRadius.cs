@@ -9,7 +9,7 @@ public class DestroyBlocksOnRadius : AbstractEffect
     protected override void OnApply()
     {
         bool brokeAnything = false;
-        int bgRadius = Radius - DESTROY_BACKGROUND_MARGIN;
+        int bgRadius = Mathf.Max(Radius - DESTROY_BACKGROUND_MARGIN, 0);
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(AffectedObject.gameObject);
         Vector2Int centerPosition;
         if (AffectedObject.TryGetComponent(out Collider2D collider))
@@ -25,7 +25,7 @@ public class DestroyBlocksOnRadius : AbstractEffect
         {
             for (int y = -Radius; y < Radius; y++)
             {
-                if (x * x + y * y < Radius * Radius)
+                if (x * x + y * y <= Radius * Radius)
                 {
                     Vector3Int tilePos = new(
                         centerPosition.x + x,

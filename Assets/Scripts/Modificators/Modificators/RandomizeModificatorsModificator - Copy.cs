@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class RandomizeModificatorAtLevelFinish: AbstractModificator
+public class RandomizeModificatorAtLevelFinish : AbstractModificator
 {
     const float MAX_MODIFICATOR_PRICE_CHANGE = 1.1f;
     const int MAX_REPLACE_ATTEMPTS = 10;

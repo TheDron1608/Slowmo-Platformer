@@ -34,6 +34,7 @@ public class RangedProjectile : AbstractProjectile
     public AbstractParticle ParticleOnFaliedPierce;
     public PhysicsParticle ParticleOnHit;
     public bool PierceWalls = false;
+    public bool PierceObjects = true;
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
@@ -103,6 +104,7 @@ public class RangedProjectile : AbstractProjectile
         ShotNoiseDistance = rangedOriginal.ShotNoiseDistance;
         ParticleOnHit = rangedOriginal.ParticleOnHit;
         PierceWalls = rangedOriginal.PierceWalls;
+        PierceObjects = rangedOriginal.PierceObjects;
 
         _rangeMoved = 0f;
         _piercesLeft = MaxPierces;
@@ -285,17 +287,20 @@ public class RangedProjectile : AbstractProjectile
             RemoveProjectile();
         }
 
-        if (_piercesLeft > 0 && PierceWalls)
+        if (_piercesLeft > 0 && PierceWalls && hitObject.TryGetComponent(out Tilemap tilemap))
         {
-            if (hitObject.TryGetComponent(out Tilemap tilemap))
+            if (_piercesLeft > 0)
             {
                 _layer.MultiTileMapsContainer.DestroyTileAt(new Vector3Int((int)math.floor(transform.position.x), (int)math.floor(transform.position.y), 0), false, false);
-                _layer.MultiTileMapsContainer.DestroyTileAt(new Vector3Int((int)math.floor(_projectileTip.transform.position.x), (int)math.floor(_projectileTip.transform.position.y), 0), false, false);
+                _piercesLeft--;
             }
-
-            _piercesLeft--;
+            if (_piercesLeft > 0)
+            {
+                _layer.MultiTileMapsContainer.DestroyTileAt(new Vector3Int((int)math.floor(_projectileTip.transform.position.x), (int)math.floor(_projectileTip.transform.position.y), 0), false, false);
+                _piercesLeft--;
+            }
         }
-        else if (_piercesLeft > 0 && (damagableHitobject?.PiercableThrought ?? false))
+        else if (_piercesLeft > 0 && (damagableHitobject?.PiercableThrought ?? false) && PierceObjects)
         {
             _piercesLeft--;
         }

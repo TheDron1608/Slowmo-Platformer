@@ -23,4 +23,9 @@ public class SetProjectile : AbstractWeaponEffect
 
         Weapon.Projectile = _oldProjectile;
     }
+
+    public override bool Equals(AbstractEffect other)
+    {
+        return base.Equals(other) && Projectiles == (other as SetProjectile).Projectiles;
+    }
 }
