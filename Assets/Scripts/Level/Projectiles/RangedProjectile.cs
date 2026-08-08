@@ -17,6 +17,7 @@ public class RangedProjectile : AbstractProjectile
     const float REMOVE_PARTICLE_EFFECT_DIRECTION_UP_OFFSET = 2f;
     const float MIN_DISTANCE_FROM_SPAWN_POSITION_TO_CREATE_STUCK_PARTICLE = 1.5f;
     const string PROJECTILE_TIP_GAMEOBJECT_NAME = "ProjectileTip";
+    const float DISTANCE_TO_PLAYER_WHOOSH_SOUND = 4.5f;
 
     const float HIT_PARTICLES_MIN_SPAWN_VELOCITY = 1f;
     const float HIT_PARTICLES_MAX_SPAWN_VELOCITY = 4f;
@@ -35,6 +36,7 @@ public class RangedProjectile : AbstractProjectile
     public PhysicsParticle ParticleOnHit;
     public bool PierceWalls = false;
     public bool PierceObjects = true;
+    public SoundPlayer WhooshSoundPlayer;
 
     private Quaternion _moveAlign;
     private Vector2 _moveAlignVec2;
@@ -105,6 +107,10 @@ public class RangedProjectile : AbstractProjectile
         ParticleOnHit = rangedOriginal.ParticleOnHit;
         PierceWalls = rangedOriginal.PierceWalls;
         PierceObjects = rangedOriginal.PierceObjects;
+
+        WhooshSoundPlayer.DefaultSound = rangedOriginal.WhooshSoundPlayer.DefaultSound;
+        WhooshSoundPlayer.Volume = rangedOriginal.WhooshSoundPlayer.Volume;
+        WhooshSoundPlayer.Pitch = rangedOriginal.WhooshSoundPlayer.Pitch;
 
         _rangeMoved = 0f;
         _piercesLeft = MaxPierces;
@@ -216,6 +222,15 @@ public class RangedProjectile : AbstractProjectile
 
                 OnHit(hitColliders[i].gameObject);
             }
+        }
+
+        if (
+            !WhooshSoundPlayer.GetIsPlaying() &&
+            Vector2.Distance(Camera.main.transform.position, ProjectileTip.transform.position) < DISTANCE_TO_PLAYER_WHOOSH_SOUND &&
+            !Camera.main.GetComponent<CameraTrack>().TrackTargets.Contains(Owner?.transform)
+            )
+        {
+            WhooshSoundPlayer.PlaySound();
         }
 
         _positionPreviousFrame = transform.position;

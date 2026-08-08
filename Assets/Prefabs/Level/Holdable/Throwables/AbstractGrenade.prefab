@@ -101,6 +101,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundPlayerOnArm
       objectReference: {fileID: 0}
+    - target: {fileID: 8022301484877698249, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: Priority
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -133,6 +137,46 @@ PrefabInstance:
     - target: {fileID: 1784046987221869979, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_Name
       value: AbstractGrenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: Priority
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 0.6400121
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0.74696684
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].inSlope
+      value: -1.3162382
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].outSlope
+      value: -1.3162382
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[2].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2453246508656968827, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[2].outWeight
+      value: 0.33333334
       objectReference: {fileID: 0}
     - target: {fileID: 2550394482252657094, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: m_LocalPosition.x
@@ -177,6 +221,10 @@ PrefabInstance:
     - target: {fileID: 4590741514344514613, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: LootSpawnType
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700025176085281857, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
+      propertyPath: Priority
+      value: 84
       objectReference: {fileID: 0}
     - target: {fileID: 8470629837770933128, guid: 34ea231df7e776b4ca2e951bcaa44b25, type: 3}
       propertyPath: AIPickUpPriority
