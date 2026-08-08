@@ -1501,7 +1501,8 @@ MonoBehaviour:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 81550511709347840
-    m_Localized: 
+    m_Localized: '* The weapon in the player''s hands changes every {ChangeDuration}
+      seconds'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -1510,7 +1511,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 81550659080413184
-    m_Localized: 
+    m_Localized: '* All weapons change every {ChangeDuration} seconds'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -1685,6 +1686,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 80958257363132416
     m_Localized: Take with one
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81550510513971200
+    m_Localized: Gun game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81550657650155520
+    m_Localized: Polymorphic chaos
     m_Metadata:
       m_Items: []
   references:

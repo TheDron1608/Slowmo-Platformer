@@ -773,10 +773,19 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
         }
         if (gameObject.TryGetComponent(out RangedWeapon selfRangedWeapon) && anotherObject.TryGetComponent(out RangedWeapon anotherRangedWeapon))
         {
-            selfRangedWeapon.LoadedLivingAmmoLeft = anotherRangedWeapon.LoadedLivingAmmoLeft;
-            selfRangedWeapon.LoadedSpentAmmoLeft = anotherRangedWeapon.LoadedSpentAmmoLeft;
-            selfRangedWeapon.AmmoLeft = anotherRangedWeapon.AmmoLeft;
-            selfRangedWeapon.Unloaded = anotherRangedWeapon.Unloaded;
+            if (anotherRangedWeapon.IsReloading)
+            {
+                selfRangedWeapon.LoadedSpentAmmoLeft = anotherRangedWeapon.LoadedSpentAmmoLeft;
+                selfRangedWeapon.LoadedLivingAmmoLeft = anotherRangedWeapon.LoadedLivingAmmoLeft;
+                selfRangedWeapon.AmmoLeft = anotherRangedWeapon.AmmoLeft - anotherRangedWeapon.LoadedLivingAmmoLeft;
+            }
+            else
+            {
+                selfRangedWeapon.LoadedLivingAmmoLeft = anotherRangedWeapon.LoadedLivingAmmoLeft;
+                selfRangedWeapon.LoadedSpentAmmoLeft = anotherRangedWeapon.LoadedSpentAmmoLeft;
+                selfRangedWeapon.AmmoLeft = anotherRangedWeapon.AmmoLeft;
+                selfRangedWeapon.Unloaded = anotherRangedWeapon.Unloaded;
+            }
         }
 
         LayerManager.Instance.ChangeZIndexForGameObject(
@@ -787,9 +796,16 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
         CharacterHoldingObjects newHolder = anotherObject.CurrentHolder;
         Destroy(anotherObject.gameObject);
-        if (newHolder != null && newHolder.CurrentHoldObject == anotherObject)
+        if (newHolder != null)
         {
-            Give(newHolder);
+            if (newHolder.CurrentHoldObject == anotherObject)
+            {
+                Give(newHolder);
+            }
+            else if (newHolder.CurrentHolsteredHoldObject == anotherObject)
+            {
+                Holster(newHolder);
+            }
         }
     }
 
