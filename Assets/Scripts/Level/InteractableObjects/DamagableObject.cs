@@ -21,6 +21,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
     [SerializeField] private bool _unlimitedHealth = false;
+    [SerializeField] private bool _alwaysPierce = false;
     public float LivingWithDeadlyHealthSeconds = 0f;
     public bool CanHaveHealthOverMax = false;
     public List<AbstractEffect> EffectsOnLethal = new();
@@ -99,6 +100,12 @@ public class DamagableObject : MonoBehaviour, IDamagable
     public bool Died
     {
         get => _died;
+    }
+
+    public bool AlwaysPierce
+    {
+        get => _alwaysPierce;
+        set => _alwaysPierce = value;
     }
 
     private void Awake()

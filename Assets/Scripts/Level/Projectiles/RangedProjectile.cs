@@ -302,7 +302,11 @@ public class RangedProjectile : AbstractProjectile
             RemoveProjectile();
         }
 
-        if (_piercesLeft > 0 && PierceWalls && hitObject.TryGetComponent(out Tilemap tilemap))
+        if (damagableHitobject?.AlwaysPierce ?? false)
+        {
+
+        }
+        else if (_piercesLeft > 0 && PierceWalls && hitObject.TryGetComponent(out Tilemap tilemap))
         {
             if (_piercesLeft > 0)
             {

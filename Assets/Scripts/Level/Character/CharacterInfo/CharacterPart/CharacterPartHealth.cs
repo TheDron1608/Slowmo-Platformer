@@ -27,6 +27,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
+    [SerializeField] private bool _alwaysPierce = false;
     public AbstractSoundPlayer SoundOnGib;
     public AbstractSoundPlayer SoundOnCutOff;
     public AbstractSoundPlayer SoundOnLethalDamage;
@@ -83,6 +84,12 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     public float MinHealth
     {
         get => CharComponents.CharacterHealth.MinHealth;
+    }
+
+    public bool AlwaysPierce
+    {
+        get => _alwaysPierce;
+        set => _alwaysPierce = value;
     }
 
     public void ApplyDamage(float damage, MonoBehaviour damager, bool includeDamageMult = true)

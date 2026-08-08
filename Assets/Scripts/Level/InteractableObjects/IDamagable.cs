@@ -15,6 +15,7 @@ public interface IDamagable
     public bool HitableByRangedProjectiles { get; set; }
     public float HealMultiplier { get; set; }
     public bool UnlimitedHealth { get; set; }
+    public bool AlwaysPierce { get; set; }
 
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
