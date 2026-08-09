@@ -16,6 +16,14 @@ PrefabInstance:
       propertyPath: 'CounterEffectsOnApplier.Array.data[1]'
       value: 
       objectReference: {fileID: 8058686352147706580, guid: f3a3a26a9113586409aa11c38b5d8bdd, type: 3}
+    - target: {fileID: 5259808460736075835, guid: 68a4d4738615e254d9695b988a52f68f, type: 3}
+      propertyPath: _maxUses
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5259808460736075835, guid: 68a4d4738615e254d9695b988a52f68f, type: 3}
+      propertyPath: _usesLeft
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6066298928342068680, guid: 68a4d4738615e254d9695b988a52f68f, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.25

@@ -324,6 +324,8 @@ public class MultiTileMapsContainer : MonoBehaviour
             }
         }
 
+        _hallucinationTilemap.SetTile(position, null);
+
         if (includeOverground)
         {
             _overground.SetTile(position, null);

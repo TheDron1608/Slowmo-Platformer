@@ -1575,16 +1575,13 @@ MonoBehaviour:
     m_Localized: '* You attract up to {MaxWeapons} guns
 
       * Attracted weapons
-      have only one magazine or break after {MaxMeleeUses} hits
+      break on their own over time
 
-      * Attracted
-      weapons break on their own over time
+      * When wounded, you drop all your weapons
+      but take no damage; this does not apply if you have no weapons
 
-      * When wounded, you drop all your
-      weapons but take no damage; this does not apply if you have no weapons
-
-      *
-      You die after {MaxLiveTimeWithoutWeapons} seconds if you have no weapons'
+      * You
+      die after {MaxLiveTimeWithoutWeapons} seconds if you have no weapons'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657

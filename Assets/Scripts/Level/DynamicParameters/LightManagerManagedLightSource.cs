@@ -56,7 +56,7 @@ public class LightManagerManagedLightSource : MonoBehaviour
 
         float targetIntensity = _defaultIntensity * _furnitureDynamicIntensityMult * _lightIntensityMult;
 
-        if (targetIntensity <= 0f)
+        if (targetIntensity <= 0f || _forceDisableLight)
         {
             if (_lightComponent.enabled)
             {

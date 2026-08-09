@@ -48,7 +48,7 @@ MonoBehaviour:
   EffectPriority: 100
   AlternativeCharacterEffectIfResisted: {fileID: 0}
   EffectMaterial: {fileID: 0}
-  MaxTelekinesisWeapons: 6
+  MaxTelekinesisWeapons: 4
   AffectDistance: 3.5
   TeleThrowForce: 1
   TeleMoveSpeed: 7.5
@@ -57,7 +57,7 @@ MonoBehaviour:
   MinLiveTime: 3
   MaxLiveTime: 6
   UnableToTeleWeaponAfterHitTime: 2.5
-  WeaponsOnStart: 3
+  WeaponsOnStart: 4
   EffectOnNoHoldables: {fileID: 7915071378290817554, guid: 9f5eae592d72bc646b7240d2b9b4d028, type: 3}
   EffectsOnHoldables:
   - {fileID: 691854463895134758, guid: 89653a14c7b2edc4c88fd8c04932241a, type: 3}

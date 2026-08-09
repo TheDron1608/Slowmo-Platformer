@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 569685813101658179, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: _maxUses
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 569685813101658179, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
+      propertyPath: _usesLeft
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 569685813101658179, guid: 1d08a894e75e25743a09bbcf843f85e7, type: 3}
       propertyPath: _partcilesOnBreak.Array.size
       value: 5
       objectReference: {fileID: 0}

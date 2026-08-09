@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Holdable))]
@@ -8,7 +7,7 @@ public class FlashLightHoldable : MonoBehaviour
 
     private Holdable _holdbleComponent;
 
-    
+
 
     private void Update()
     {

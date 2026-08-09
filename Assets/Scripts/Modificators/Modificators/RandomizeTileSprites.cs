@@ -4,8 +4,6 @@ using UnityEngine.Tilemaps;
 
 public class RandomizeTileSprites : AbstractModificator
 {
-    const int RANDOM_VALS_LENGTH = 100;
-    const int REMBER_SPRITES_LENGTH = 10;
     const int DRAW_OVER_EMPTY_TILES_BORDER_WIDTH = 50;
 
     public float RandomizeAmount = 0.5f;
@@ -68,7 +66,7 @@ public class RandomizeTileSprites : AbstractModificator
                         layer.MultiTileMapsContainer.GetBackground().GetSprite(currentTilePos) ??
                         layer.MultiTileMapsContainer.GetBackgroundDecorations().GetSprite(currentTilePos);
 
-                    if (currentSprite != null)
+                    if (currentSprite != null || DrawOverEmptyTiles)
                     {
                         layer.MultiTileMapsContainer.GetHallucinationTilemap().SetTile(
                             currentTilePos,
@@ -79,13 +77,6 @@ public class RandomizeTileSprites : AbstractModificator
                                     layer.MultiTileMapsContainer.GetBackground().GetTile(currentTilePos) ??
                                     layer.MultiTileMapsContainer.GetBackgroundDecorations().GetTile(currentTilePos)
                                 )
-                            );
-                    }
-                    else if (DrawOverEmptyTiles)
-                    {
-                        layer.MultiTileMapsContainer.GetHallucinationTilemap().SetTile(
-                            currentTilePos,
-                            NumberMath.PickRandomItem(RandomTilesScriptableObjs)
                             );
                     }
                 }

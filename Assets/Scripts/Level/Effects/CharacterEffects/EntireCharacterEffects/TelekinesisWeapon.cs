@@ -23,7 +23,6 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
     public float TeleThrowForce = 0.5f;
     public float TeleMoveSpeed = 7.5f;
     public float TeleDistance = 2f;
-    public int OverrideUsesLeftForWeapon = 1;
     public float MinLiveTime = 15f;
     public float MaxLiveTime = 3.5f;
     public float UnableToTeleWeaponAfterHitTime = 1f;
@@ -82,6 +81,8 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
 
     private void FixedUpdate()
     {
+        AffectedCharacter.CharacterHolding.IsAbleToHoldObjects = false;
+
         _timeSinceLastHit += Time.deltaTime;
 
         for (int i = 0; i < _currentTeleWeapons.Count; i++)
@@ -115,6 +116,10 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
                     RemoveTeleHoldableTrack(i);
                     i--;
                 }
+            }
+            else if (_currentTeleWeapons[i].Weapon is RangedWeapon rw && rw.GetIsNeedReload())
+            {
+                rw.TryReload();
             }
         }
 
@@ -237,14 +242,9 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
         newTrack.Velocity = Vector2.zero;
 
         holdable.Give(AffectedCharacter.CharacterHolding, false);
-        if (weapon is RangedWeapon rw)
-        {
-            rw.AmmoLeft = 0;
-        }
         if (weapon is MeleeWeapon && weapon.TryGetComponent(out BreakableHoldable bh))
         {
             bh.UnlimitedUses = false;
-            bh.UsesLeft = math.min(bh.UsesLeft, OverrideUsesLeftForWeapon);
         }
 
         int? nearestHoldableIndex = null;
@@ -272,6 +272,8 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
     protected override void OnRemove()
     {
         base.OnRemove();
+
+        AffectedCharacter.CharacterHolding.IsAbleToHoldObjects = true;
 
         while (_currentTeleWeapons.Count > 0)
         {
