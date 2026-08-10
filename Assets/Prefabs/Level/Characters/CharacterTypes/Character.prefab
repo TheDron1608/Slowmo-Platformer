@@ -551,6 +551,7 @@ MonoBehaviour:
   _hitableByMeleeProjectiles: 1
   _hitableByRangedProjectiles: 1
   _unlimitedHealth: 0
+  _alwaysPierce: 0
   LivingWithDeadlyHealthSeconds: 0
   CanHaveHealthOverMax: 0
   EffectsOnLethal:
@@ -809,6 +810,8 @@ MonoBehaviour:
   EffectsOnHitOtherCharacters:
   - {fileID: -6088583620533839068, guid: b99799b0f41e09f4d971f23b1c85bf30, type: 3}
   SelfEffectsOnHitOtherCharacters: []
+  SelfEffectsOnOutOfMap:
+  - {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}
   DefaultPhyscsMaterial: {fileID: 6200000, guid: 6ea8ed45c8d6cfc4ead16600d2e6cb76, type: 2}
   OnFallenPhysicsMaterial: {fileID: 6200000, guid: cb20329ccc5d64040ab5fae70305b5c1, type: 2}
   OnNotOnFloorPhysicsMaterial: {fileID: 6200000, guid: 0c6aa3a6732b419468844aa51c5545dd, type: 2}

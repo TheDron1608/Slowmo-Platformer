@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class CameraTrack : MonoBehaviour
 {
     const float VELOCITY_FOR_MAX_CAMERA_ROTATION = 5f;
+    const float TEMP_CAMERA_SPEED_DECREASE_PER_SECOND = 10f;
 
     public List<Transform> TrackTargets;
     public float TrackSpeed = 5f;
@@ -25,6 +26,7 @@ public class CameraTrack : MonoBehaviour
     private MultiZLayerCamera _multiZLayerCameraComponent;
     private Vector3 _lastTrackPosition = Vector3.zero;
     private Vector3 _lastTrackAngle = Vector3.zero;
+    private float _tempCameraTrackSpeedMult = 1f;
 
     public void InstantMoveToTrackObject()
     {
@@ -45,6 +47,11 @@ public class CameraTrack : MonoBehaviour
     public bool GetCameraFlipped()
     {
         return DefaultCameraAngle > 150f && DefaultCameraAngle < 210f;
+    }
+
+    public void SpeedUpTrackSpeedTemporaly(float speedMult)
+    {
+        _tempCameraTrackSpeedMult = math.max(_tempCameraTrackSpeedMult, speedMult);
     }
 
     private void Update()
@@ -75,7 +82,7 @@ public class CameraTrack : MonoBehaviour
             Vector2 trackTargetVelocity = PickAvgTrackTargetLinearVelocity();
 
             _rigidBodyComponent.linearVelocity =
-                (trackTargetPosition - transform.position) * TrackSpeed;
+                (trackTargetPosition - transform.position) * TrackSpeed * _tempCameraTrackSpeedMult;
             _lastTrackPosition = trackTargetPosition;
 
             Quaternion newAngle = new();
@@ -85,13 +92,16 @@ public class CameraTrack : MonoBehaviour
                 math.lerp(
                     _lastTrackAngle.z,
                     DefaultCameraAngle + (CameraTrackRotatingDeg * NumberMath.LimitFloatBetweenMinusOneAndOne(trackTargetVelocity.x / VELOCITY_FOR_MAX_CAMERA_ROTATION)),
-                    Time.deltaTime
+                    Time.unscaledDeltaTime
                     )
                 );
             newAngle.eulerAngles = targetAngleVec3;
             transform.rotation = newAngle;
             _lastTrackAngle = targetAngleVec3;
         }
+
+        _tempCameraTrackSpeedMult -= Time.unscaledDeltaTime * TEMP_CAMERA_SPEED_DECREASE_PER_SECOND;
+        if (_tempCameraTrackSpeedMult < 1f) _tempCameraTrackSpeedMult = 1f;
     }
 
     private Vector3 PickAvgTrackTargetsPosition()

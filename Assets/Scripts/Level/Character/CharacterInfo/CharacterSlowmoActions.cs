@@ -6,6 +6,7 @@ public class CharacterSlowmoActions : AbstractCharacterComponent
     public float SlowmoOnKill = 0.6f;
     public float SlowmoOnEnterZDoor = 1f;
     public float SlowmoOnSpawn = 2f;
+    public float SlowmoOnTeleGib = 2f;
 
     private void Start()
     {

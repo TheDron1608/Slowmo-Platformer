@@ -35,11 +35,10 @@ public class CharacterCollision : AbstractCharacterComponent
     public bool CanHitWhileRolling = false;
     public List<AbstractEffect> EffectsOnHitOtherCharacters = new();
     public List<AbstractEffect> SelfEffectsOnHitOtherCharacters = new();
+    public List<AbstractEffect> SelfEffectsOnOutOfMap = new();
     public PhysicsMaterial2D DefaultPhyscsMaterial;
     public PhysicsMaterial2D OnFallenPhysicsMaterial;
     public PhysicsMaterial2D OnNotOnFloorPhysicsMaterial;
-
-    const float COLLISION_HIT_DETECION_THICKNESS = 0.05f;
 
     public event EventHandler<OnCollisionChangedEventArgs> OnCollisionChanged;
     public event EventHandler<AbstractCharacterComponent> OnHitOtherCharacters;
@@ -392,8 +391,7 @@ public class CharacterCollision : AbstractCharacterComponent
                 ScoreManager.Instance.AddCombo();
             }
 
-            CharComponents.CharacterHealth.Die(_encountKillOnOutOfMapCharacter, null);
-            Destroy(CharComponents.gameObject);
+            CharComponents.CharacterEffectsReceiver.ApplyEffect(SelfEffectsOnOutOfMap, _encountKillOnOutOfMapCharacter);
         }
     }
 

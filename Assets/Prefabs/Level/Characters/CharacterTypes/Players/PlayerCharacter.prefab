@@ -330,6 +330,18 @@ PrefabInstance:
       propertyPath: CanHitWhileRolling
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2002335163756146061, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: SelfEffectsOnOutOfMap.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002335163756146061, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: 'SelfEffectsOnOutOfMap.Array.data[0]'
+      value: 
+      objectReference: {fileID: -3930949073243198900, guid: 7b696f8a3b30aaa40a96c8b68b4cc145, type: 3}
+    - target: {fileID: 2002335163756146061, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
+      propertyPath: 'SelfEffectsOnOutOfMap.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4718411002957516393, guid: dbc1ff381f547a248b66b6d5a92d1325, type: 3}
     - target: {fileID: 3060050546533286939, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -610,6 +622,7 @@ MonoBehaviour:
   SlowmoOnKill: 0.667
   SlowmoOnEnterZDoor: 1
   SlowmoOnSpawn: 0
+  SlowmoOnTeleGib: 2.5
 --- !u!4 &8257523656018270913 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6738417014831093395, guid: 2bf89e51dd2ef6743a6501cd90401c22, type: 3}
