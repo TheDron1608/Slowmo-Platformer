@@ -32,7 +32,7 @@ public class BreakableDoor : BreakableObject, IBreakableEntirelyObject
 
         SpawnBrokenParticlesAndPlaySound(breaker);
 
-        GetComponent<SpriteRenderer>().flipX = transform.position.x < breaker.transform.position.x;
+        GetComponent<SpriteRenderer>().flipX = breaker != null ? transform.position.x < breaker.transform.position.x : NumberMath.RandomCoinflip();
         GetComponent<OnInteractToggleOpenDoor>().IsOpen = true;
         GetComponent<OnInteractToggleOpenDoor>().enabled = false;
         if (TryGetComponent(out Animator anim))

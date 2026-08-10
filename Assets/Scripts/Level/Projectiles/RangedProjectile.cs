@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -225,9 +226,11 @@ public class RangedProjectile : AbstractProjectile
         }
 
         if (
+            Owner != null &&
+            !Owner.IsDestroyed() &&
             !WhooshSoundPlayer.GetIsPlaying() &&
             Vector2.Distance(Camera.main.transform.position, ProjectileTip.transform.position) < DISTANCE_TO_PLAYER_WHOOSH_SOUND &&
-            !Camera.main.GetComponent<CameraTrack>().TrackTargets.Contains(Owner?.transform)
+            !Camera.main.GetComponent<CameraTrack>().TrackTargets.Contains(Owner.transform)
             )
         {
             WhooshSoundPlayer.PlaySound();

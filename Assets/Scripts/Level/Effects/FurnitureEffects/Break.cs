@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[AllowEffectWithSenderReceiveNull]
 public class Break : AbstractEffectWithSender, ILethalEffect
 {
     public bool BreakEntirely = false;
