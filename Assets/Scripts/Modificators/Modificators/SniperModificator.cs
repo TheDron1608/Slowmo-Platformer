@@ -113,7 +113,8 @@ public class SniperModificator : AbstractModificator
                         (
                             character.CharComponents.CharacterTeam.Team == PrimalTargetTeam ||
                             (distance < TRIGGER_ON_EXTRA_TEAM_DISTANCE && ExtraTargetTeams.Contains(character.CharComponents.CharacterTeam.Team))
-                        )
+                        ) &&
+                        !character.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>(true)
                         )
                     {
                         nearestCharacterDistance = distance;
