@@ -917,7 +917,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: 
+    m_Localized: '* Vous mourrez dans {KillMinutes} minutes'
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
@@ -1469,65 +1469,254 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 80902876368707584
-    m_Localized: 
+    m_Localized: "* L'ennemi explose \xE0 sa mort avec {AffectChance}\_% de chances"
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 80903637051875328
-    m_Localized: 
+    m_Localized: "* Les portes ont {AffectChance}\_% de chances de lib\xE9rer une
+      grenade al\xE9atoire lorsqu'elles sont ouvertes"
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 80949393628569600
-    m_Localized: 
+    m_Localized: "* Toutes les chevrotines deviennent perforantes, infligent plus
+      de d\xE9g\xE2ts et peuvent sectionner des membres."
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 80958258327822336
-    m_Localized: 
+    m_Localized: "* \xC0 la mort, l'ennemi lance toujours une grenade sur son assassin"
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 80957874720972800
-    m_Localized: 
+    m_Localized: "* \xC0 la mort, l'ennemi a {AffectChance}\_% de chances de lancer
+      une grenade sur le tueur."
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 80957514757414912
-    m_Localized: 
+    m_Localized: "* \xC0 la mort, l'ennemi a {AffectChance}\_% de chances de lancer
+      une grenade sur le tueur."
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 81550511709347840
-    m_Localized: 
+    m_Localized: '* L''arme dans les mains du joueur change toutes les {ChangeDuration}
+      secondes'
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 81550659080413184
-    m_Localized: 
+    m_Localized: '* Toutes les armes changent toutes les {ChangeDuration} secondes'
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 83817012203331584
-    m_Localized: 
+    m_Localized: "*\_{AffectChance}\_% des ennemis portent une arme suppl\xE9mentaire"
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 84064992210690048
-    m_Localized: 
+    m_Localized: "* Vous attirez jusqu'\xE0 {MaxWeapons} armes\n* Les armes attir\xE9es
+      se brisent d'elles-m\xEAmes avec le temps\n* Lorsque vous \xEAtes bless\xE9,
+      vous l\xE2chez toutes vos armes mais ne subissez aucun d\xE9g\xE2t\_; cela
+      ne s'applique pas si vous n'avez pas d'armes\n* Vous mourez apr\xE8s {MaxLiveTimeWithoutWeapons}
+      secondes si vous n'avez pas d'armes"
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 80905253314338816
-    m_Localized: 
+    m_Localized: "*\_{AffectChance}\_% des ennemis portent des grenades"
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
   - m_Id: 85317122900860928
-    m_Localized: 
+    m_Localized: "* L'arme du joueur peut mettre l'ennemi en pi\xE8ces avec {GibChance}\_%
+      de chances"
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
+  - m_Id: 80902875437572096
+    m_Localized: Ceinture anti-suicide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80903570626682880
+    m_Localized: "Fil-pi\xE8ge"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80904077810311168
+    m_Localized: Approvisionnement complet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80904078594646016
+    m_Localized: "* Tous les ennemis portent une arme suppl\xE9mentaire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80905252626472960
+    m_Localized: "\xC9quipement tactique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906722901991424
+    m_Localized: Attentat suicide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906724726513664
+    m_Localized: "* Des ennemis explosifs non arm\xE9s apparaissent dans le niveau"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906910697758720
+    m_Localized: "Attentat suicide d'\xE9lite"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906913692491776
+    m_Localized: "* Des ennemis explosifs non arm\xE9s apparaissent dans le niveau\n*
+      Un kamikaze d'\xE9lite est rapide et peut survivre \xE0 des blessures mortelles"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80909638161375232
+    m_Localized: Bombardier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80909639100899328
+    m_Localized: "* Des ennemis \xE9quip\xE9s de lance-roquettes apparaissent dans
+      le niveau"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80940730641784832
+    m_Localized: "D\xE9p\xF4t d'explosifs"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80940733619740672
+    m_Localized: '* Beaucoup plus de grenades au niveau'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80942709212422144
+    m_Localized: Prince des grenades
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80942709938036736
+    m_Localized: '* Si une grenade tue au moins un ennemi, vous en recevez un nouveau'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80943204412923904
+    m_Localized: Sapeur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80943205209841664
+    m_Localized: "* Le joueur ne subit aucun d\xE9g\xE2t des explosions ou des effets
+      aveuglants\n* N'offre aucune protection contre les \xE9clats d'obus perforants"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80946796943351808
+    m_Localized: Mieux que rien
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80946798201643008
+    m_Localized: "* Si vous terminez un niveau sans arme, vous recevez une arme l\xE9g\xE8re
+      al\xE9atoire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947035259510784
+    m_Localized: "Bonne pr\xE9paration"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947036580716544
+    m_Localized: "* Si vous terminez un niveau sans arme, vous recevez une arme moyenne
+      al\xE9atoire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947068839108608
+    m_Localized: "Excellente pr\xE9paration"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947069971570688
+    m_Localized: "* Si vous terminez le niveau sans arme, vous recevez une arme lourde
+      al\xE9atoire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80949392001179648
+    m_Localized: "Fl\xE9chette"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80950482507636736
+    m_Localized: 7.6251 uranium appauvri
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80950484747395072
+    m_Localized: "* Les obus de gros calibre peuvent p\xE9n\xE9trer les murs et infliger
+      plus de d\xE9g\xE2ts"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80951769802448896
+    m_Localized: Projectile expansif
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80951770871996416
+    m_Localized: "* Les obus d'assaut infligent plus de d\xE9g\xE2ts et explosent,
+      mais ne peuvent pas p\xE9n\xE9trer l'armure."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80952874796032000
+    m_Localized: Projectile radicalement invasif
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80952876549251072
+    m_Localized: "* Les obus de petit calibre infligent plus de d\xE9g\xE2ts et peuvent
+      d\xE9chirer un ennemi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80957513255854080
+    m_Localized: Vengeance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80957873928249344
+    m_Localized: "Derni\xE8re chance"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80958257363132416
+    m_Localized: Prendre avec un
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81550510513971200
+    m_Localized: "Jeu d'armes \xE0 feu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81550657650155520
+    m_Localized: Chaos polymorphe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83817011477716992
+    m_Localized: Fournir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 84064991510241280
+    m_Localized: Six tireurs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85317122112331776
+    m_Localized: Boucher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660228561117184
+    m_Localized: "Tireur isol\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660230054289408
+    m_Localized: "* Le joueur est dans le collimateur du tireur d'\xE9lite"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660541946929152
+    m_Localized: "Tireur d'\xE9lite fou"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660542609629184
+    m_Localized: "* Le joueur est constamment dans le collimateur du tireur d'\xE9lite\n*
+      Le tireur d'\xE9lite tue tout le monde\n* La vitesse de r\xE9action du tireur
+      d'\xE9lite est nettement plus rapide"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -916,7 +916,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: 
+    m_Localized: "* Morir\xE1s en {KillMinutes} minutos"
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
@@ -1459,65 +1459,250 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 80902876368707584
-    m_Localized: 
+    m_Localized: '* El enemigo explota al morir con un {AffectChance}% de probabilidad'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 80903637051875328
-    m_Localized: 
+    m_Localized: '* Las puertas tienen un {AffectChance}% de probabilidad de liberar
+      una granada aleatoria cuando se abren'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 80949393628569600
-    m_Localized: 
+    m_Localized: "* Todos los perdigones se vuelven perforantes, causan m\xE1s da\xF1o
+      y pueden cortar extremidades."
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 80958258327822336
-    m_Localized: 
+    m_Localized: '* Al morir, el enemigo siempre lanza una granada a su asesino.'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 80957874720972800
-    m_Localized: 
+    m_Localized: '* Al morir, el enemigo tiene un {AffectChance}% de posibilidades
+      de lanzar una granada al asesino.'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 80957514757414912
-    m_Localized: 
+    m_Localized: '* Al morir, el enemigo tiene un {AffectChance}% de posibilidades
+      de lanzar una granada al asesino.'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 81550511709347840
-    m_Localized: 
+    m_Localized: '* El arma en las manos del jugador cambia cada {ChangeDuration}
+      segundos'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 81550659080413184
-    m_Localized: 
+    m_Localized: '* Todas las armas cambian cada {ChangeDuration} segundos'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 83817012203331584
-    m_Localized: 
+    m_Localized: '* El {AffectChance}% de los enemigos lleva un arma adicional'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 84064992210690048
-    m_Localized: 
+    m_Localized: "* Atraes hasta {MaxWeapons} armas\n* Las armas atra\xEDdas se rompen
+      solas con el tiempo.\n* Cuando est\xE1s herido, sueltas todas tus armas pero
+      no sufres da\xF1o; esto no aplica si no tienes armas\n* Mueres despu\xE9s de
+      {MaxLiveTimeWithoutWeapons} segundos si no tienes armas"
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 80905253314338816
-    m_Localized: 
+    m_Localized: '* {AffectChance}% de los enemigos llevan granadas'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
   - m_Id: 85317122900860928
-    m_Localized: 
+    m_Localized: '* El arma del jugador puede destrozar al enemigo con un {GibChance}%
+      de probabilidad'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
+  - m_Id: 80902875437572096
+    m_Localized: "cintur\xF3n suicida"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80903570626682880
+    m_Localized: Cable trampa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80904077810311168
+    m_Localized: Suministro completo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80904078594646016
+    m_Localized: '* Todos los enemigos llevan un arma adicional.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80905252626472960
+    m_Localized: "equipo t\xE1ctico"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906722901991424
+    m_Localized: Bombardeo suicida
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906724726513664
+    m_Localized: '* En el nivel aparecen enemigos explosivos desarmados.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906910697758720
+    m_Localized: "Bombardero suicida de \xE9lite"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906913692491776
+    m_Localized: "* En el nivel aparecen enemigos explosivos desarmados.\n* Un terrorista
+      suicida de \xE9lite es r\xE1pido y puede sobrevivir a heridas mortales."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80909638161375232
+    m_Localized: Bombardeo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80909639100899328
+    m_Localized: '* En el nivel aparecen enemigos con lanzacohetes.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80940730641784832
+    m_Localized: "Dep\xF3sito de explosivos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80940733619740672
+    m_Localized: "* Significativamente m\xE1s granadas en el nivel."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80942709212422144
+    m_Localized: "pr\xEDncipe granada"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80942709938036736
+    m_Localized: '* Si una granada mata al menos a un enemigo, recibes una nueva'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80943204412923904
+    m_Localized: Zapador
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80943205209841664
+    m_Localized: "* El jugador no sufre da\xF1os por explosiones o efectos cegadores.\n*
+      No ofrece protecci\xF3n contra la metralla perforante."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80946796943351808
+    m_Localized: Mejor que nada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80946798201643008
+    m_Localized: "* Si completas un nivel sin arma, recibir\xE1s un arma ligera aleatoria"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947035259510784
+    m_Localized: buena preparacion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947036580716544
+    m_Localized: "* Si completas un nivel sin arma, recibir\xE1s un arma mediana
+      aleatoria"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947068839108608
+    m_Localized: "Excelente preparaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947069971570688
+    m_Localized: "* Si completas el nivel sin arma, recibir\xE1s un arma pesada aleatoria"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80949392001179648
+    m_Localized: Flechette
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80950482507636736
+    m_Localized: 7.6251 uranio empobrecido
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80950484747395072
+    m_Localized: "* Las balas de alto calibre pueden atravesar las paredes y causar
+      m\xE1s da\xF1o."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80951769802448896
+    m_Localized: proyectil expansivo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80951770871996416
+    m_Localized: "* Las balas de asalto causan m\xE1s da\xF1o y explotan, pero no
+      pueden penetrar la armadura."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80952874796032000
+    m_Localized: Proyectil radicalmente invasivo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80952876549251072
+    m_Localized: "* Las balas de peque\xF1o calibre causan m\xE1s da\xF1o y pueden
+      destrozar al enemigo."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80957513255854080
+    m_Localized: Venganza
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80957873928249344
+    m_Localized: "\xDAltima oportunidad"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80958257363132416
+    m_Localized: tomar con uno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81550510513971200
+    m_Localized: juego de armas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81550657650155520
+    m_Localized: "Caos polim\xF3rfico"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83817011477716992
+    m_Localized: Suministrar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 84064991510241280
+    m_Localized: Seis tiradores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85317122112331776
+    m_Localized: Carnicero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660228561117184
+    m_Localized: Francotirador
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660230054289408
+    m_Localized: "* El jugador est\xE1 en la mira del francotirador."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660541946929152
+    m_Localized: francotirador loco
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660542609629184
+    m_Localized: "* El jugador est\xE1 constantemente en la mira del francotirador.\n*
+      El francotirador mata a todos.\n* La velocidad de reacci\xF3n del francotirador
+      es significativamente m\xE1s r\xE1pida."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

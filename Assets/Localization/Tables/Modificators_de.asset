@@ -912,7 +912,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: 
+    m_Localized: '* Du wirst in {KillMinutes} Minuten sterben'
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
@@ -1457,65 +1457,257 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 80902876368707584
-    m_Localized: 
+    m_Localized: '* Der Feind explodiert beim Tod mit einer Wahrscheinlichkeit von
+      {AffectChance} %'
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 80903637051875328
-    m_Localized: 
+    m_Localized: "* Bei T\xFCren besteht eine Chance von {AffectChance} %, dass beim
+      \xD6ffnen eine zuf\xE4llige Granate abgefeuert wird"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 80949393628569600
-    m_Localized: 
+    m_Localized: "* Alle Sch\xFCsse werden panzerbrechend, verursachen mehr Schaden
+      und k\xF6nnen Gliedma\xDFen durchtrennen"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 80958258327822336
-    m_Localized: 
+    m_Localized: "* Beim Tod wirft der Feind immer eine Granate auf seinen M\xF6rder"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 80957874720972800
-    m_Localized: 
+    m_Localized: "* Beim Tod hat der Feind eine Chance von {AffectChance} %, eine
+      Granate auf den M\xF6rder zu werfen"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 80957514757414912
-    m_Localized: 
+    m_Localized: "* Beim Tod hat der Feind eine Chance von {AffectChance} %, eine
+      Granate auf den M\xF6rder zu werfen"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 81550511709347840
-    m_Localized: 
+    m_Localized: "* Die Waffe in den H\xE4nden des Spielers wechselt alle {ChangeDuration}
+      Sekunden"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 81550659080413184
-    m_Localized: 
+    m_Localized: '* Alle Waffen wechseln alle {ChangeDuration} Sekunden'
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 83817012203331584
-    m_Localized: 
+    m_Localized: "* {AffectChance} % der Feinde tragen eine zus\xE4tzliche Waffe"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 84064992210690048
-    m_Localized: 
+    m_Localized: "* Du ziehst bis zu {MaxWeapons} Waffen an\n* Angezogene Waffen
+      gehen mit der Zeit von selbst kaputt\n* Wenn du verwundet wirst, l\xE4sst du
+      alle deine Waffen fallen, erleidest aber keinen Schaden. Dies gilt nicht, wenn
+      Sie keine Waffen haben\n* Du stirbst nach {MaxLiveTimeWithoutWeapons} Sekunden,
+      wenn du keine Waffen hast"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 80905253314338816
-    m_Localized: 
+    m_Localized: '* {AffectChance} % der Feinde tragen Granaten'
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 85317122900860928
-    m_Localized: 
+    m_Localized: "* Die Waffe des Spielers kann den Feind mit einer Chance von {GibChance}
+      % in St\xFCcke rei\xDFen"
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
+  - m_Id: 80902875437572096
+    m_Localized: "Selbstmordg\xFCrtel"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80903570626682880
+    m_Localized: Stolperdraht
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80904077810311168
+    m_Localized: Volle Versorgung
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80904078594646016
+    m_Localized: "* Alle Feinde tragen eine zus\xE4tzliche Waffe"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80905252626472960
+    m_Localized: "Taktische Ausr\xFCstung"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906722901991424
+    m_Localized: "Selbstmordattent\xE4ter"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906724726513664
+    m_Localized: '* Im Level erscheinen unbewaffnete explodierende Feinde'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906910697758720
+    m_Localized: "Elite-Selbstmordattent\xE4ter"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80906913692491776
+    m_Localized: "* Im Level erscheinen unbewaffnete explodierende Feinde\n* Ein
+      Elite-Selbstmordattent\xE4ter ist schnell und kann t\xF6dliche Wunden \xFCberleben"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80909638161375232
+    m_Localized: Bomber
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80909639100899328
+    m_Localized: '* Im Level erscheinen Feinde mit Raketenwerfern'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80940730641784832
+    m_Localized: Sprengstoffdepot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80940733619740672
+    m_Localized: '* Deutlich mehr Granaten im Level'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80942709212422144
+    m_Localized: Granatenprinz
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80942709938036736
+    m_Localized: "* Wenn eine Granate mindestens einen Feind t\xF6tet, erh\xE4ltst
+      du einen neuen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80943204412923904
+    m_Localized: Pionier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80943205209841664
+    m_Localized: '* Der Spieler erleidet keinen Schaden durch Explosionen oder Blendeffekte
+
+      *
+      Bietet keinen Schutz gegen panzerbrechende Granatsplitter'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80946796943351808
+    m_Localized: Besser als nichts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80946798201643008
+    m_Localized: "* Wenn Sie ein Level ohne Waffe abschlie\xDFen, erhalten Sie eine
+      zuf\xE4llige leichte Waffe"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947035259510784
+    m_Localized: Gute Vorbereitung
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947036580716544
+    m_Localized: "* Wenn Sie ein Level ohne Waffe abschlie\xDFen, erhalten Sie eine
+      zuf\xE4llige mittlere Waffe"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947068839108608
+    m_Localized: Hervorragende Vorbereitung
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80947069971570688
+    m_Localized: "* Wenn Sie das Level ohne Waffe abschlie\xDFen, erhalten Sie eine
+      zuf\xE4llige schwere Waffe"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80949392001179648
+    m_Localized: Flechette
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80950482507636736
+    m_Localized: 7,6251 abgereichertes Uran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80950484747395072
+    m_Localized: "* Gro\xDFkalibergeschosse k\xF6nnen W\xE4nde durchdringen und mehr
+      Schaden anrichten"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80951769802448896
+    m_Localized: Expansives Projektil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80951770871996416
+    m_Localized: "* Angriffsgeschosse verursachen mehr Schaden und explodieren, k\xF6nnen
+      aber keine R\xFCstung durchdringen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80952874796032000
+    m_Localized: Radikal invasives Projektil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80952876549251072
+    m_Localized: "* Geschosse mit kleinem Kaliber verursachen mehr Schaden und k\xF6nnen
+      einen Feind in St\xFCcke rei\xDFen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80957513255854080
+    m_Localized: Rache
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80957873928249344
+    m_Localized: Letzte Chance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80958257363132416
+    m_Localized: Mitnehmen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81550510513971200
+    m_Localized: Waffenspiel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81550657650155520
+    m_Localized: Polymorphes Chaos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83817011477716992
+    m_Localized: Liefern
+    m_Metadata:
+      m_Items: []
+  - m_Id: 84064991510241280
+    m_Localized: "Sechs Sch\xFCtze"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85317122112331776
+    m_Localized: Metzger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660228561117184
+    m_Localized: "Scharfsch\xFCtze"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660230054289408
+    m_Localized: "* Der Spieler ist im Visier des Scharfsch\xFCtzen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660541946929152
+    m_Localized: "Verr\xFCckter Scharfsch\xFCtze"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85660542609629184
+    m_Localized: "* Der Spieler ist st\xE4ndig im Visier des Scharfsch\xFCtzen\n*
+      Der Scharfsch\xFCtze t\xF6tet alle\n* Die Reaktionsgeschwindigkeit des Scharfsch\xFCtzen
+      ist deutlich schneller"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
