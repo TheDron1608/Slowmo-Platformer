@@ -61,12 +61,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: 'managedReferences[8850581756671688802]'
+      value: Unity.Localization UnityEngine.Localization.SmartFormat.PersistentVariables.FloatVariable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: managedReferences[8850581756671688802].m_Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 28092185828368384
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].name
+      value: KillMinutes
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
       value: GUID:1ce5cf9b0c5f73d48a27e80327fac816
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
+      propertyPath: m_StringReference.m_LocalVariables.Array.data[0].variable
+      value: 8850581756671688802
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -113,6 +133,7 @@ MonoBehaviour:
   - {fileID: 1998567090488563821, guid: 172ebfd33c6f19c4e9f5b0edaa82233f, type: 3}
   - {fileID: 3171170911623102692, guid: 7256fad7d78b59844a91df5c43974bc8, type: 3}
   - {fileID: 3166078807317539368, guid: ac40386a4133cfa40bac79223e91a9c3, type: 3}
+  HarderVersion: {fileID: 0}
   ModificatorType: 1
   ModificatorTier: 3
   IconSprite: {fileID: 0}
@@ -120,6 +141,6 @@ MonoBehaviour:
   CustomIconContent: {fileID: 1689820523114868198, guid: 0e85097d3dce28e40b4fda458c07a874, type: 3}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 250
+  _modificatorPrice: 150
   _localization: {fileID: 2147315170708439846}
-  TimeSeconds: 300
+  TimeSeconds: 180

@@ -917,9 +917,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: '* Vous mourrez dans 5 minutes'
+    m_Localized: 
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564864
   - m_Id: 29070670252187648
     m_Localized: "Surdose d'adr\xE9naline"
     m_Metadata:
@@ -1088,8 +1089,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 38580360967331840
-    m_Localized: "* Vitesse de l'ennemi x{SpeedUpPrecent}\_%\r\n* Hauteur de saut
-      ennemi x{JumpForcePrecent}\_%"
+    m_Localized: "* Vitesse de l'ennemi x{SpeedUpPrecent}\_%"
     m_Metadata:
       m_Items:
       - rid: 569246017750564864
@@ -1634,3 +1634,4 @@ MonoBehaviour:
         - id: 84064992210690048
         - id: 80905253314338816
         - id: 85317122900860928
+        - id: 28092185828368384

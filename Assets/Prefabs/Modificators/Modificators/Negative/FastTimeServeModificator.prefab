@@ -131,6 +131,7 @@ MonoBehaviour:
   RestrictModificators: []
   SynergingModificators: []
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 1
   ModificatorTier: 3
   IconSprite: {fileID: 21300000, guid: 4b8d2dcfb73f90c4db900c1a4eff0831, type: 3}
@@ -138,6 +139,6 @@ MonoBehaviour:
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 300
+  _modificatorPrice: 250
   _localization: {fileID: 2147315170708439846}
-  TimeScaleMultiplier: 2
+  TimeScaleMultiplier: 1.25

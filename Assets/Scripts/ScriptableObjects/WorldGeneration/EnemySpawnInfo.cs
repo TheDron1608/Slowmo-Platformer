@@ -36,7 +36,7 @@ public class EnemySpawnInfo : ScriptableObject
                 Holdable filteredWeapon = null;
 
                 //try give melee weapon if main weapon is ranged or ranged weapon if main weapon is melee
-                if (giveHoldable.TryGetComponent(out Weapon mainWeapon))
+                if (giveHoldable?.TryGetComponent(out Weapon mainWeapon) ?? false)
                 {
                     if (mainWeapon is RangedWeapon)
                     {

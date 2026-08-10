@@ -6,13 +6,12 @@ using UnityEngine;
 [DefaultExecutionOrder(-1)]
 public class ModificatorsManager : MonoBehaviour
 {
-    const int MULTIPLE_MODIFICATORS_ORDER_LIMIT = 10;
     const int MULTIPLE_MODIFICATORS_MAX_AMOUNT = 5;
-    const float MIN_SINGLE_MODIFICATOR_REQUIRED_PRICE = 0.75f;
 
     public static ModificatorsManager Instance;
 
     public List<AbstractModificator> ModificatorsPool = new();
+    public float ForceGiveSynergingModificatorChance = 0.25f;
     public int MaxModificatorOptions = 3;
     public int ModifiactorsPickAmount = 1;
     public int BlessPickRerolls = 0;
@@ -325,7 +324,7 @@ public class ModificatorsManager : MonoBehaviour
     public List<AbstractModificator> PickRandomModificators(
         AbstractModificator.ModificatorTypes type,
         float minPrice,
-        float maxPrice,
+        float targetPrice,
         bool allowPermanentIncapable = true,
         bool allowOverridePermanent = false,
         bool includeNeutral = true,
@@ -334,13 +333,16 @@ public class ModificatorsManager : MonoBehaviour
         float counterModificatorsRelativePrice = 0f
         )
     {
+        bool forceSynergingModificators = RandomManager.Instance.ProcRandomGoodChance(ForceGiveSynergingModificatorChance);
         float counterPriceMult = type == AbstractModificator.ModificatorTypes.NEUTRAL ? 1f : (1f + counterModificatorsRelativePrice);
         List<AbstractModificator> result = new();
-        IEnumerable<AbstractModificator> filteredModificators = AvaibleValidModificators.Where(e =>
-            e.ModificatorType == type &&
-            (allowPermanentIncapable || e.AllowPermanent) &&
-            (excludeModificators == null || !excludeModificators.Contains(e)) &&
-            !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2))
+        IEnumerable<AbstractModificator> filteredModificators = 
+            (forceSynergingModificators && AvaibleSynergingValidModificators.Count > 0 ? AvaibleSynergingValidModificators : AvaibleValidModificators)
+            .Where(e =>
+                e.ModificatorType == type &&
+                (allowPermanentIncapable || e.AllowPermanent) &&
+                (excludeModificators == null || !excludeModificators.Contains(e)) &&
+                !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2))
             );
 
         AbstractModificator singleModificatorResult =
@@ -348,7 +350,7 @@ public class ModificatorsManager : MonoBehaviour
                 e =>
                 {
                     float overrideDependedPrice = e.GetPriceDependedOnOverrides(CurrentModificators);
-                    return overrideDependedPrice >= minPrice * counterPriceMult && overrideDependedPrice <= maxPrice * counterPriceMult;
+                    return overrideDependedPrice >= minPrice * counterPriceMult && overrideDependedPrice <= targetPrice * counterPriceMult;
                 }
             ).ToList());
 
@@ -361,13 +363,10 @@ public class ModificatorsManager : MonoBehaviour
             float totalModificatorsPrice = 0f;
             while (totalModificatorsPrice < minPrice * counterPriceMult && result.Count < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
             {
-                filteredModificators = filteredModificators.Where(e =>
-                    result.All(e2 => e != e2 && !e.GetIsRestrictedWith(e2) && !e.GetIsOverriding(e2)) &&
-                    e.ModificatorPrice <= maxPrice * counterPriceMult - totalModificatorsPrice
-                    );
-
+                filteredModificators = filteredModificators.Where(e => result.All(e2 => e != e2 && !e.GetIsRestrictedWith(e2) && !e.GetIsOverriding(e2)));
                 if (filteredModificators.Count() == 0) break;
-                AbstractModificator addModificator = filteredModificators.OrderBy(e => e.ModificatorPrice).Last();
+
+                AbstractModificator addModificator = filteredModificators.OrderBy(e => Mathf.Abs(targetPrice - e.ModificatorPrice)).First();
                 result.Add(addModificator);
                 totalModificatorsPrice += addModificator.GetPriceDependedOnOverrides(CurrentModificators);
             }
@@ -380,7 +379,7 @@ public class ModificatorsManager : MonoBehaviour
                     AbstractModificator.ModificatorTypes.NEGATIVE :
                     AbstractModificator.ModificatorTypes.POSITIVE,
                 minPrice / counterPriceMult,
-                maxPrice / counterPriceMult,
+                targetPrice / counterPriceMult,
                 allowPermanentIncapable,
                 allowOverridePermanent,
                 false,
@@ -392,7 +391,7 @@ public class ModificatorsManager : MonoBehaviour
 
         if (result.Count > 0 && includeNeutral)
         {
-            TryAddNeutralModificator(result, maxPrice);
+            TryAddNeutralModificator(result, targetPrice);
         }
 
         return result;

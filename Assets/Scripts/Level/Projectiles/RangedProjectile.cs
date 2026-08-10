@@ -427,6 +427,7 @@ public class RangedProjectile : AbstractProjectile
     public void StuckParticleEffect(Collider2D hitTo)
     {
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        if (layer == null) return;
 
         if (hitTo is TilemapCollider2D && Vector2.Distance(_spawnPosition, transform.position) < MIN_DISTANCE_FROM_SPAWN_POSITION_TO_CREATE_STUCK_PARTICLE) return;
 

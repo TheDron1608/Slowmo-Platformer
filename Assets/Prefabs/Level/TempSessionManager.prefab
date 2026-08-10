@@ -217,6 +217,8 @@ MonoBehaviour:
   - {fileID: 452363227680443197, guid: b6789264c89fa3d47b8a355e6bc3fed0, type: 3}
   - {fileID: 8236051860887833911, guid: 7191db20e57299f46a160deec1348734, type: 3}
   - {fileID: 8236051860887833911, guid: 32a01330d2705c04385a05e7f5d91b46, type: 3}
+  - {fileID: 2847578808508176670, guid: 4692771c4a731ad4b9e9f96a6135efa2, type: 3}
+  ForceGiveSynergingModificatorChance: 0.333
   MaxModificatorOptions: 3
   ModifiactorsPickAmount: 1
   BlessPickRerolls: 0
@@ -601,25 +603,25 @@ MonoBehaviour:
   - MinCombo: 5
     MaxCombo: 10
     BgSprite: {fileID: 21300000, guid: a7e9553d3f345f942a3fd0725ad54e64, type: 3}
-    Multiplier: 1.25
+    Multiplier: 2
     Shaking: 0.1
     GlitchIntencity: 0.001
   - MinCombo: 10
     MaxCombo: 20
     BgSprite: {fileID: 21300000, guid: 06905193a3ec3814e9a609e1ddaa9810, type: 3}
-    Multiplier: 1.5
+    Multiplier: 3
     Shaking: 0.25
     GlitchIntencity: 0.002
   - MinCombo: 20
     MaxCombo: 30
     BgSprite: {fileID: 21300000, guid: d8f467bc594af78418cd72e9c2249aa4, type: 3}
-    Multiplier: 2
+    Multiplier: 4
     Shaking: 0.5
     GlitchIntencity: 0.003
   - MinCombo: 30
     MaxCombo: 999999
     BgSprite: {fileID: 21300000, guid: bc8c65285a6482c4e8254a1d78bc948d, type: 3}
-    Multiplier: 3
+    Multiplier: 5
     Shaking: 1
     GlitchIntencity: 0.005
 --- !u!114 &-7512956509481476535

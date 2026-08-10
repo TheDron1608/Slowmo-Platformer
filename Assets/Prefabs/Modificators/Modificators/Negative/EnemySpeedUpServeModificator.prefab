@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637791294062615].m_Value
-      value: 200
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637791294062616].m_Value
@@ -161,5 +161,5 @@ MonoBehaviour:
   Team: 1
   AffectChance: 1
   ChanceType: 1
-  SpeedMultiplier: 2
+  SpeedMultiplier: 1.5
   JumpMultiplier: 1.25

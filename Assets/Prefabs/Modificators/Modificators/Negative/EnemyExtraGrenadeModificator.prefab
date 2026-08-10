@@ -128,7 +128,9 @@ MonoBehaviour:
   AllowPermanent: 1
   OverrideModificators: []
   RestrictModificators: []
-  SynergingModificators: []
+  SynergingModificators:
+  - {fileID: 1758936495694907342, guid: df991f96ee781d24ebd8fdcb611ab168, type: 3}
+  - {fileID: 5904905796877478195, guid: dcb87098318d1fc44b4480335405d926, type: 3}
   UnsynergingModificators: []
   HarderVersion: {fileID: 0}
   ModificatorType: 1

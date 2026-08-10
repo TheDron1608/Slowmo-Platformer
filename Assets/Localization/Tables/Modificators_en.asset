@@ -918,9 +918,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: '* You will die in 5 minutes'
+    m_Localized: '* You will die in {KillMinutes} minutes'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 8344437339716845657
   - m_Id: 29070670252187648
     m_Localized: Adrenaline overdose
     m_Metadata:
@@ -1079,8 +1080,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 38580360967331840
-    m_Localized: "* Enemy speed \u200B\u200Bx{SpeedUpPrecent}%\r\n* Enemy jump height
-      x{JumpForcePrecent}%"
+    m_Localized: "* Enemy speed \u200B\u200Bx{SpeedUpPrecent}%"
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -1831,3 +1831,4 @@ MonoBehaviour:
         - id: 84064992210690048
         - id: 80905253314338816
         - id: 85317122900860928
+        - id: 28092185828368384

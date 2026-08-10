@@ -70,11 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637791294062613].m_Value
-      value: 125
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637791294062614].m_Value
@@ -159,5 +159,5 @@ MonoBehaviour:
   Team: 1
   AffectChance: 1
   ChanceType: 1
-  SpeedMultiplier: 1.25
-  JumpMultiplier: 1.1
+  SpeedMultiplier: 1.1
+  JumpMultiplier: 1

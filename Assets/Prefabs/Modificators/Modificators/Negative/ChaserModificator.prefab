@@ -108,8 +108,10 @@ MonoBehaviour:
   AllowPermanent: 1
   OverrideModificators: []
   RestrictModificators: []
-  SynergingModificators: []
+  SynergingModificators:
+  - {fileID: 8236051860887833911, guid: 32a01330d2705c04385a05e7f5d91b46, type: 3}
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 1
   ModificatorTier: 2
   IconSprite: {fileID: 21300000, guid: 64372388b99ffb84ba406eba2927a271, type: 3}

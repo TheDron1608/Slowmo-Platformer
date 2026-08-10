@@ -128,9 +128,13 @@ MonoBehaviour:
   AllowPermanent: 1
   OverrideModificators: []
   RestrictModificators: []
-  SynergingModificators: []
+  SynergingModificators:
+  - {fileID: 3235146437312553186, guid: bad1d2f51a4da824fae427bdff1bbb6f, type: 3}
+  - {fileID: 3235146437312553186, guid: 927d81a6c4171484b92e62a7b6f0db73, type: 3}
+  - {fileID: 3235146437312553186, guid: 433df26bbd14c6c4c990e5843f33b0e2, type: 3}
+  - {fileID: 5904905796877478195, guid: 946f3359b6320a741a60d58f4879ba22, type: 3}
   UnsynergingModificators:
-  - {fileID: 7652302316364406318, guid: ce81f22af5c7fab4f8a0d5ed49db717b, type: 3}
+  - {fileID: 5904905796877478195, guid: dcb87098318d1fc44b4480335405d926, type: 3}
   HarderVersion: {fileID: 342585775720865671, guid: 844fa51836d04084aac5ec198ed37a79, type: 3}
   ModificatorType: 1
   ModificatorTier: 0

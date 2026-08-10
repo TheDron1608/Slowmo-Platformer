@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612637791294062595].m_Value
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
@@ -128,7 +128,12 @@ MonoBehaviour:
   AllowPermanent: 1
   OverrideModificators: []
   RestrictModificators: []
-  SynergingModificators: []
+  SynergingModificators:
+  - {fileID: 3235146437312553186, guid: 742408413c4bb614e8b64e5431f02269, type: 3}
+  - {fileID: 3235146437312553186, guid: 90d3a513aad27a146b26391330b09fea, type: 3}
+  - {fileID: 3235146437312553186, guid: 5587ebe4d1aa4274aa5bdf617bb03cab, type: 3}
+  - {fileID: 3235146437312553186, guid: 75dc69f3a3f3e684e93709115289e611, type: 3}
+  - {fileID: 3235146437312553186, guid: 75dc69f3a3f3e684e93709115289e611, type: 3}
   UnsynergingModificators: []
   HarderVersion: {fileID: 0}
   ModificatorType: 1
@@ -140,5 +145,5 @@ MonoBehaviour:
   _multiplierable: 1
   _modificatorPrice: 50
   _localization: {fileID: 2147315170708439846}
-  DelayBetweenRandomization: 5
+  DelayBetweenRandomization: 10
   AffectTeams: 00000000

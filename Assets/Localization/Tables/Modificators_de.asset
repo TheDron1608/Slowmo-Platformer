@@ -912,9 +912,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: '* Du wirst in 5 Minuten sterben'
+    m_Localized: 
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564865
   - m_Id: 29070670252187648
     m_Localized: "\xDCberdosis Adrenalin"
     m_Metadata:
@@ -1079,8 +1080,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 38580360967331840
-    m_Localized: "* Gegnergeschwindigkeit x{SpeedUpPrecent}%\r\n* Sprungh\xF6he des
-      Gegners x{JumpForcePrecent} %"
+    m_Localized: '* Gegnergeschwindigkeit x{SpeedUpPrecent}%'
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
@@ -1622,3 +1622,4 @@ MonoBehaviour:
         - id: 84064992210690048
         - id: 80905253314338816
         - id: 85317122900860928
+        - id: 28092185828368384

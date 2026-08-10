@@ -128,7 +128,8 @@ MonoBehaviour:
   AllowPermanent: 1
   OverrideModificators: []
   RestrictModificators: []
-  SynergingModificators: []
+  SynergingModificators:
+  - {fileID: 8064284820647502306, guid: 3a565681b18479b4cb427f81bf197309, type: 3}
   UnsynergingModificators: []
   HarderVersion: {fileID: 0}
   ModificatorType: 1
@@ -138,5 +139,5 @@ MonoBehaviour:
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 350
+  _modificatorPrice: 200
   _localization: {fileID: 2147315170708439846}

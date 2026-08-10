@@ -82,7 +82,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8404671221642640916}
+      addedObject: {fileID: 2847578808508176670}
   m_SourcePrefab: {fileID: 100100000, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
 --- !u!114 &2147315170708439846 stripped
 MonoBehaviour:
@@ -100,7 +100,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
   m_PrefabInstance: {fileID: 8179689514373086561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8404671221642640916
+--- !u!114 &2847578808508176670
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,9 +109,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4804066781530051355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8176f827a6621924884c7a963c63d637, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e55ad20320426a45a75ad3bccd0b3fa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomizeModificatorAtLevelFinish
   Stackable: 0
   AllowPermanent: 1
   OverrideModificators: []
@@ -126,5 +126,5 @@ MonoBehaviour:
   CustomIconContent: {fileID: 1689820523114868198, guid: 9a6b97e417cd6d6479eb5a040d8611f4, type: 3}
   CustomCardContent: {fileID: 3917497354415684865, guid: d5f6ee28198fce749a4eced37fd767cb, type: 3}
   _multiplierable: 0
-  _modificatorPrice: 100
+  _modificatorPrice: 150
   _localization: {fileID: 2147315170708439846}

@@ -1088,8 +1088,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName: Curse
   StartCharacter: {fileID: 2886192054720589260, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
-  StartModificators: []
-  StartScore: 300
+  StartModificators:
+  - {fileID: 2834338375577101956, guid: 7e7136ca142621741931c6c9d5a41063, type: 3}
+  - {fileID: 4275088403563012476, guid: 9de1dbeb020c27d499626fa814d76dfa, type: 3}
+  StartScore: 150
 --- !u!4 &2088602313
 Transform:
   m_ObjectHideFlags: 0

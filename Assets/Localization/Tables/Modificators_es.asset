@@ -916,9 +916,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: "* Morir\xE1s en 5 minutos."
+    m_Localized: 
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 569246017750564870
   - m_Id: 29070670252187648
     m_Localized: Sobredosis de adrenalina
     m_Metadata:
@@ -1082,10 +1083,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 38580360967331840
-    m_Localized: '* Velocidad del enemigo x{SpeedUpPrecent}%
-
-      * Altura de salto
-      del enemigo x{JumpForcePrecent}%'
+    m_Localized: '* Velocidad del enemigo x{SpeedUpPrecent}%'
     m_Metadata:
       m_Items:
       - rid: 569246017750564870
@@ -1626,3 +1624,4 @@ MonoBehaviour:
         - id: 84064992210690048
         - id: 80905253314338816
         - id: 85317122900860928
+        - id: 28092185828368384
