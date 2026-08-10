@@ -23,7 +23,6 @@ public class DifficultyManager : MonoBehaviour
         public float CursesMaxPrice = 0f;
         public int CursesAmount = 1;
         public int OptionsAmount = 3;
-        public int TotalCursesOptions = 3;
         public LocalizedString LocalizedName;
         public Material PrimaryEnviromentMaterial = null;
         public Material SecondaryEnviromentMaterial = null;
@@ -60,7 +59,6 @@ public class DifficultyManager : MonoBehaviour
     private float _currentDifficultyTime = 0f;
     private float _currentDifficultyMidCurseTime = 0f;
     private int _currentDifficultyAddedMidCurses = 0;
-    private float _currentCursesAmountMult = 1f;
     private int _loops = 0;
 
     public event EventHandler<DifficultyStage> OnDifficultyIncreased;
@@ -128,12 +126,6 @@ public class DifficultyManager : MonoBehaviour
     {
         get => _timeSpeedMultiplier;
         set => _timeSpeedMultiplier = value;
-    }
-
-    public float CursesPickAmountMultiplier
-    {
-        get => _currentCursesAmountMult;
-        set => _currentCursesAmountMult = value;
     }
 
     public void UpdateDifficultyEnviromentMaterial()
@@ -237,8 +229,8 @@ public class DifficultyManager : MonoBehaviour
             UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
                 CurrentDifficulty.Value.CursesMinPrice,
                 CurrentDifficulty.Value.CursesMaxPrice,
-                (int)math.ceil(CurrentDifficulty.Value.CursesAmount * CursesPickAmountMultiplier),
-                (int)math.ceil(CurrentDifficulty.Value.OptionsAmount * CursesPickAmountMultiplier)
+                CurrentDifficulty.Value.CursesAmount,
+                CurrentDifficulty.Value.OptionsAmount
                 );
         }
         else
@@ -257,7 +249,6 @@ public class DifficultyManager : MonoBehaviour
     private void RaiseUpLoop()
     {
         _loops++;
-        _currentCursesAmountMult *= CursesAmountPerLoopMult;
         _currentLoopDifficultyTime = 0f;
     }
 

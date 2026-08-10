@@ -312,9 +312,8 @@ MonoBehaviour:
     MidstageCursesAmount: 0
     CursesMinPrice: 25
     CursesMaxPrice: 75
-    CursesAmount: 1
+    CursesAmount: 0
     OptionsAmount: 3
-    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -336,9 +335,8 @@ MonoBehaviour:
     MidstageCursesAmount: 0
     CursesMinPrice: 25
     CursesMaxPrice: 75
-    CursesAmount: 2
-    OptionsAmount: 5
-    TotalCursesOptions: 3
+    CursesAmount: 1
+    OptionsAmount: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -358,11 +356,10 @@ MonoBehaviour:
     Duration: 180
     Music: {fileID: 11400000, guid: 67d90d89d0b35374589bb0316bfc32cd, type: 2}
     MidstageCursesAmount: 0
-    CursesMinPrice: 100
-    CursesMaxPrice: 175
+    CursesMinPrice: 50
+    CursesMaxPrice: 125
     CursesAmount: 2
     OptionsAmount: 5
-    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -381,12 +378,11 @@ MonoBehaviour:
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
     Duration: 180
     Music: {fileID: 11400000, guid: dcb9ea50c1805aa479aa0d1bb588ad9b, type: 2}
-    MidstageCursesAmount: 1
-    CursesMinPrice: 125
-    CursesMaxPrice: 200
+    MidstageCursesAmount: 0
+    CursesMinPrice: 75
+    CursesMaxPrice: 175
     CursesAmount: 3
     OptionsAmount: 7
-    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -405,12 +401,11 @@ MonoBehaviour:
     MidCurseIcon: {fileID: 21300000, guid: 9aa2ce7f6b8466c448bfeded89ac612b, type: 3}
     Duration: 180
     Music: {fileID: 11400000, guid: 0fd9aaef33e83f2458e6ab24eceffc5c, type: 2}
-    MidstageCursesAmount: 3
-    CursesMinPrice: 100
+    MidstageCursesAmount: 2
+    CursesMinPrice: 125
     CursesMaxPrice: 250
-    CursesAmount: 5
+    CursesAmount: 4
     OptionsAmount: 9
-    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
@@ -434,7 +429,6 @@ MonoBehaviour:
     CursesMaxPrice: 0
     CursesAmount: 1
     OptionsAmount: 3
-    TotalCursesOptions: 3
     LocalizedName:
       m_TableReference:
         m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470

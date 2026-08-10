@@ -82,7 +82,8 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
                 true,
                 addedModificators,
                 false,
-                ModificatorsManager.Instance.DifficultyCursePickCounterMods
+                ModificatorsManager.Instance.DifficultyCursePickCounterMods,
+                addedModificators
                 );
 
             ModificatorCardsCluster newCluster = Instantiate(_clusterInstance);

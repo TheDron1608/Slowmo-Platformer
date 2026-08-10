@@ -330,7 +330,8 @@ public class ModificatorsManager : MonoBehaviour
         bool includeNeutral = true,
         List<AbstractModificator> excludeModificators = null,
         bool singleOnly = false,
-        float counterModificatorsRelativePrice = 0f
+        float counterModificatorsRelativePrice = 0f,
+        List<AbstractModificator> restrictOverrideModificators = null
         )
     {
         bool forceSynergingModificators = RandomManager.Instance.ProcRandomGoodChance(ForceGiveSynergingModificatorChance);
@@ -342,7 +343,8 @@ public class ModificatorsManager : MonoBehaviour
                 e.ModificatorType == type &&
                 (allowPermanentIncapable || e.AllowPermanent) &&
                 (excludeModificators == null || !excludeModificators.Contains(e)) &&
-                !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2))
+                !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2)) &&
+                (restrictOverrideModificators == null || restrictOverrideModificators.All(e2 => !e.GetIsOverriding(e2) && !e2.GetIsOverriding(e) && !e.GetIsRestrictedWith(e2)))
             );
 
         AbstractModificator singleModificatorResult =
