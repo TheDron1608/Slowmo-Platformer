@@ -87,7 +87,6 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
     {
         if (UIManager.GamePaused()) return;
         UpdateMoveInput();
-        UpdateJumpInput();
     }
 
     //MOVE INPUT
@@ -113,20 +112,6 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
 
         BreakAimIfMoving(currentInputAxis);
         CharComponents.CharacterMoving.TryMove(currentInputAxis);
-    }
-
-    //WALL JUMP INPUT
-    public void UpdateJumpInput()
-    {
-        if (
-            JumpActionReference.action.IsPressed() && 
-            !CharComponents.CharacterJumping.GetIsJumping() &&
-            !CharComponents.CharacterCollision.IsCollidingFloor() &&
-            (CharComponents.CharacterCollision.IsCollidingLeftWall() || CharComponents.CharacterCollision.IsCollidingRightWall())
-            )
-        {
-            CharComponents.CharacterJumping.TryStartJump();
-        }
     }
 
     private void BreakAimIfMoving(float moveDirection)
