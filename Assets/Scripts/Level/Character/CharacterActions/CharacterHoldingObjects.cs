@@ -411,11 +411,11 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
     {
         if (!_isAbleToGrabObjects) return false;
 
-        if (CurrentHolsteredHoldObject == holdable)
+        if (CurrentHolsteredHoldObject == holdable && holdable != null)
         {
             return TryUnholster();
         }
-        else if ((throwOldItem || _currentHoldObject == null))
+        else if (throwOldItem || _currentHoldObject == null)
         {
             if (holdable != null && Vector3.Distance(holdable.transform.position, transform.position) <= CharComponents.CharacterInteract.InteractRange * MaxGrabRangeMultiplier)
             {

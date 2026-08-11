@@ -31,9 +31,9 @@ public class SetCameraDefaultAngle : AbstractModificator
     {
         base.OnModificatorRemoved();
 
-        if (Camera.main != null)
+        if (Camera.main != null && Camera.main.TryGetComponent(out CameraTrack ct))
         {
-            Camera.main.GetComponent<CameraTrack>().DefaultCameraAngle = _defaultCameraAngle;
+            ct.DefaultCameraAngle = _defaultCameraAngle;
         }
     }
 }

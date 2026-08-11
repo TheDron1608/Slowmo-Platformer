@@ -6,6 +6,12 @@ public class GameplayInitializer : MonoBehaviour
     {
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
+            //re-enable modificators with errors
+            modificator.enabled = true;
+        }
+
+        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+        {
             if (!modificator.DisabledModificator)
             {
                 modificator.OnLevelPreGenerated();
@@ -20,7 +26,13 @@ public class GameplayInitializer : MonoBehaviour
 
         WorldGenerationManager.Instance?.GenerateLevel();
 
-        SpawnManager.Instance?.SpawnPlayerCharacterAtStartPosition();
+        //spawn player failed, restart level
+        if (!SpawnManager.Instance?.SpawnPlayerCharacterAtStartPosition())
+        {
+            UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
+            return;
+        }
+
 
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
