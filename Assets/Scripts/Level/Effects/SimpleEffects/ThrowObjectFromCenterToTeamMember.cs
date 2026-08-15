@@ -50,8 +50,11 @@ public class ThrowObjectFromCenterToTeamMember : AbstractEffect
                 rb.linearVelocity += throwDirection * ThrowForceMult * nearestCharacterDistance;
             }
         }
+    }
 
-        RemoveSelf();
+    public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
+    {
+        return base.ApplyCondition(affectWho, sender) && !affectWho.GetHasEffect<ThrowObjectFromCenterToTeamMember>();
     }
 
     public override bool Equals(AbstractEffect other)
