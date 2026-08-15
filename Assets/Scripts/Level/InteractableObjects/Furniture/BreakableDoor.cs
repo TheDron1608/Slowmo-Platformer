@@ -4,7 +4,7 @@ public class BreakableDoor : BreakableObject, IBreakableEntirelyObject
 {
     const string ANIMATOR_DESTROYED_PROP_NAME = "Destroyed";
 
-    public override void BreakObject(MonoBehaviour breaker)
+    protected override void OnBreakObject(MonoBehaviour breaker)
     {
         {
             ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
@@ -48,6 +48,6 @@ public class BreakableDoor : BreakableObject, IBreakableEntirelyObject
 
     public void BreakObjectEntirely(MonoBehaviour breaker)
     {
-        base.BreakObject(breaker);
+        base.OnBreakObject(breaker);
     }
 }

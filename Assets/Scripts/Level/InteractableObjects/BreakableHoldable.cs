@@ -51,7 +51,7 @@ public class BreakableHoldable : BreakableObject
         UsesLeft--;
     }
 
-    public override void BreakObject(MonoBehaviour breaker)
+    protected override void OnBreakObject(MonoBehaviour breaker)
     {
         _breaker = breaker;
 
@@ -92,7 +92,7 @@ public class BreakableHoldable : BreakableObject
         }
         else
         {
-            base.BreakObject(breaker);
+            base.OnBreakObject(breaker);
         }
     }
 
@@ -122,6 +122,6 @@ public class BreakableHoldable : BreakableObject
             }
         }
 
-        base.BreakObject(breaker);
+        base.OnBreakObject(breaker);
     }
 }

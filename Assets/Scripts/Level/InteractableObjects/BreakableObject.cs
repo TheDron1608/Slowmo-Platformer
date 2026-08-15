@@ -55,7 +55,17 @@ public class BreakableObject : MonoBehaviour, IStuckToObject
         _stuckedObjects.Remove(obj);
     }
 
-    public virtual void BreakObject(MonoBehaviour breaker)
+    public void BreakObject(MonoBehaviour breaker)
+    {
+        if (BreakCondition()) OnBreakObject(breaker);
+    }
+
+    protected virtual bool BreakCondition()
+    {
+        return !gameObject.IsDestroyed();
+    }
+
+    protected virtual void OnBreakObject(MonoBehaviour breaker)
     {
         _breaker = breaker;
 

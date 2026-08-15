@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class BreakableEquipment : BreakableObject
 {
-    public override void BreakObject(MonoBehaviour breaker)
+    protected override void OnBreakObject(MonoBehaviour breaker)
     {
-        base.BreakObject(breaker);
+        base.OnBreakObject(breaker);
         GetComponent<CharacterEquipmentPart>().TryUnequipPart();
     }
 }
