@@ -1342,7 +1342,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 55627909834186752
-    m_Localized: Chaos
+    m_Localized: 
     m_Metadata:
       m_Items: []
   - m_Id: 55627910698213376
@@ -1712,11 +1712,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 85660542609629184
-    m_Localized: "* Le joueur est constamment dans le collimateur du tireur d'\xE9lite\n*
-      Le tireur d'\xE9lite tue tout le monde\n* La vitesse de r\xE9action du tireur
-      d'\xE9lite est nettement plus rapide"
+    m_Localized: 
     m_Metadata:
       m_Items: []
+  - m_Id: 87118785731076096
+    m_Localized: 
+    m_Metadata:
+      m_Items:
+      - rid: 569246017750564864
+  - m_Id: 87119730904899584
+    m_Localized: 
+    m_Metadata:
+      m_Items:
+      - rid: 569246017750564864
   references:
     version: 2
     RefIds:
@@ -1824,3 +1832,5 @@ MonoBehaviour:
         - id: 80905253314338816
         - id: 85317122900860928
         - id: 28092185828368384
+        - id: 87118785731076096
+        - id: 87119730904899584
