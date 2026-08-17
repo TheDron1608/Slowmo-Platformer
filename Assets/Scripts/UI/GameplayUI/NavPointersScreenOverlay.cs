@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class NavPointersScreenOverlay : MonoBehaviour
 {
+    public static NavPointersScreenOverlay Instance = null;
+
     public float PointerMoveSpeed = 10f;
     public float FixedPointerPositionMargin = 100f;
 
@@ -22,6 +24,8 @@ public class NavPointersScreenOverlay : MonoBehaviour
         {
             LayerManager.Instance.OnObjectSpawned += Instance_OnObjectSpawned;
         }
+
+        Instance = this;
     }
 
     private void Instance_OnObjectSpawned(object sender, GameObject e)
@@ -36,22 +40,36 @@ public class NavPointersScreenOverlay : MonoBehaviour
         }
     }
 
+    public void UpdateNavTargets()
+    {
+        if (Camera.main == null || !Camera.main.TryGetComponent(out MultiZLayerCamera layerCamera) || layerCamera.CurrentZLayer == null) return;
+
+        _currentTrackedLayer = layerCamera.CurrentZLayer;
+        _trackedObjects.Clear();
+
+        foreach (Transform furniture in _currentTrackedLayer.FurnitureContainer)
+        {
+            if (furniture.TryGetComponent(out INavPointersScreenOverlayTrackableObject navTrackedObj))
+            {
+                if (navTrackedObj.PointingCondition())
+                {
+                    _trackedObjects.Add(navTrackedObj);
+                }
+                else
+                {
+                    _trackedObjects.Remove(navTrackedObj);
+                }
+            }
+        }
+    }
+
     private void Update()
     {
         if (Camera.main == null || !Camera.main.TryGetComponent(out MultiZLayerCamera layerCamera) || layerCamera.CurrentZLayer == null) return;
 
         if (layerCamera.CurrentZLayer != _currentTrackedLayer)
         {
-            _currentTrackedLayer = layerCamera.CurrentZLayer;
-            _trackedObjects.Clear();
-
-            foreach (Transform furniture in _currentTrackedLayer.FurnitureContainer)
-            {
-                if (furniture.TryGetComponent(out INavPointersScreenOverlayTrackableObject navTrackedObj) && navTrackedObj.PointingCondition())
-                {
-                    _trackedObjects.Add(navTrackedObj);
-                }
-            }
+            UpdateNavTargets();
 
             foreach (Image pointer in _currentPointers)
             {
@@ -61,9 +79,12 @@ public class NavPointersScreenOverlay : MonoBehaviour
 
         for (int i = 0; i < MathF.Max(_trackedObjects.Count, _currentPointers.Count); i++)
         {
-            if (_trackedObjects.Count - 1 < i)
+            if (_trackedObjects.Count <= i)
             {
-                _currentPointers[i].gameObject.SetActive(false);
+                if (_currentPointers.Count > i)
+                {
+                    _currentPointers[i].gameObject.SetActive(false);
+                }
             }
             else
             {
@@ -126,5 +147,6 @@ public class NavPointersScreenOverlay : MonoBehaviour
         {
             LayerManager.Instance.OnObjectSpawned -= Instance_OnObjectSpawned;
         }
+        Instance = null;
     }
 }

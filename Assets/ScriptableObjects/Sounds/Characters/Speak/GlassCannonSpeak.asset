@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7293eb3147a4594459313393f5f33fb1, type: 3}
+  m_Name: GlassCannonSpeak
+  m_EditorClassIdentifier: Assembly-CSharp::Sound
+  AudioClips:
+  - {fileID: 8300000, guid: 7152e93d2d952ed4590c3a317ded93a1, type: 3}
+  - {fileID: 8300000, guid: d65a8fb53f0495644bb4655d3bc1322f, type: 3}
+  - {fileID: 8300000, guid: 7ad4b1cdd0c134c439d1a212061b067a, type: 3}
+  - {fileID: 8300000, guid: 56c1cfb9088b81341abdea5f8d4f89b6, type: 3}
+  - {fileID: 8300000, guid: fadb6955b3db3d34c81ebfcc6250cf6b, type: 3}
+  - {fileID: 8300000, guid: fadb6955b3db3d34c81ebfcc6250cf6b, type: 3}
+  - {fileID: 8300000, guid: fadb6955b3db3d34c81ebfcc6250cf6b, type: 3}
+  - {fileID: 8300000, guid: fadb6955b3db3d34c81ebfcc6250cf6b, type: 3}
+  RandomPitchSpread: 0.2

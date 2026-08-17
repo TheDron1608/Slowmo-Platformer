@@ -33,7 +33,7 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         GrabActionReference.action.started += GrabActionReference_OnActionStarted;
     }
@@ -109,7 +109,7 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
             weapon.Tags.Contains(Weapon.WEAPON_TAGS.BROKEN);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         GrabActionReference.action.started -= GrabActionReference_OnActionStarted;
     }

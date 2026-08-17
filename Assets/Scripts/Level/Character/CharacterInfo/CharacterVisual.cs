@@ -2,14 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Profiling;
-using UnityEngine.U2D;
 
 [DefaultExecutionOrder(2)]
 public class CharacterVisual : AbstractCharacterComponent
 {
+    private static readonly char[] EXCLUDE_TEXT_SOUND_CHARACTER = { ' ', '.', ',', '?', '!' };
+
     const string CHARACTER_PARTS_GAMEOBJECT_NAME = "CharacterParts";
     const string ANIMATOR_MAIN_STATE_PARAM_NAME = "MainState";
     const string ANIMATOR_MOVE_SPEED_PARAM_NAME = "MoveSpeed";
@@ -30,11 +32,14 @@ public class CharacterVisual : AbstractCharacterComponent
     const float DETECTED_ENEMY_POPUP_DURATION = 1.5f;
     const float DEATH_POPUP_DURATION = 0.25f;
     const float POPUP_FRAMERATE = 5f;
+    const float POPUP_TEXT_APPEAR_DURATION = 0.05f;
+    const float POPUP_TEXT_REMOVE_DELAY = 2f;
 
     const int HEARD_NOISE_POPUP_PRIORITY = 1;
     const int DETECTED_ENEMY_POPUP_PRIORITY = 2;
     const int STUNNED_POPUP_PRIORITY = 3;
     const int DEATH_POPUP_PRIORITY = 4;
+    const int TEXT_POPUP_PRIORITY = 5;
 
     public enum CharacterPartMainStates
     {
@@ -65,7 +70,8 @@ public class CharacterVisual : AbstractCharacterComponent
         FINISH_OFF = 15,
         BREAK_NECK = 16,
         BROKE_NECK = 17,
-        KICK = 18
+        KICK = 18,
+        SIT = 19
     }
 
     public class OnBusyStateChangedEventArgs
@@ -97,7 +103,9 @@ public class CharacterVisual : AbstractCharacterComponent
     public List<Sprite> StunnedSprites;
     public List<Sprite> DeathSprites;
     [SerializeField] private SpriteRenderer _popupImage;
+    [SerializeField] private TextMeshProUGUI _popupText;
     [SerializeField] private float _stunRecoverAnimationTimeMult = 1f;
+    [SerializeField] private StaticSoundPlayer _textSoundPlayer;
 
     private bool _flippedH = false;
     private CharacterPartMainStates _mainState = CharacterPartMainStates.IDLE;
@@ -116,7 +124,9 @@ public class CharacterVisual : AbstractCharacterComponent
     private List<Sprite> _currentPopupSprites = new();
     private int _currentPopupFrame = 0;
     private float _timeSinceLastPopupFrame = 0f;
+    private float _timeSinceLastPopupTextAppear = 0f;
     private int _currentPopupPriority = -1;
+    private string _targetPopupText = null;
 
     public event EventHandler<OnMainStateChangedEventArgs> OnMainStateChanged;
     public event EventHandler<OnBusyStateChangedEventArgs> OnBusyStateChanged;
@@ -293,6 +303,16 @@ public class CharacterVisual : AbstractCharacterComponent
         return CharComponents.CharacterPartsManager.CharacterParts.First()?.CharPartVisual.IsVisible() ?? false;
     }
 
+    public bool GetHasPopup()
+    {
+        return (_currentPopupSprites?.Count > 0 || _targetPopupText != null) && _currentPopupDuration < _targetPopupDuration;
+    }
+
+    public StaticSoundPlayer GetSpeakSoundPlayer()
+    {
+        return _textSoundPlayer;
+    }
+
     public void PopupHeardNoise()
     {
         AddPopupMessage(HeardNoiseSprites, float.MaxValue, HEARD_NOISE_POPUP_PRIORITY);
@@ -329,7 +349,17 @@ public class CharacterVisual : AbstractCharacterComponent
         RemovePopupMessage(DEATH_POPUP_PRIORITY);
     }
 
-    private void AddPopupMessage(List<Sprite> sprites, float duration, int priority, float popupHeight = POPUP_ANIMATION_DEFAULT_HEIGHT)
+    public void PopupText(string text)
+    {
+        if (_targetPopupText != text) RemovePopupText();
+        AddPopupMessage(null, text.Length * POPUP_TEXT_APPEAR_DURATION + POPUP_TEXT_REMOVE_DELAY, TEXT_POPUP_PRIORITY, POPUP_ANIMATION_DEFAULT_HEIGHT, text);
+    }
+    public void RemovePopupText()
+    {
+        RemovePopupMessage(TEXT_POPUP_PRIORITY);
+    }
+
+    private void AddPopupMessage(List<Sprite> sprites, float duration, int priority, float popupHeight = POPUP_ANIMATION_DEFAULT_HEIGHT, string popupText = null)
     {
         if (priority <= _currentPopupPriority) return;
 
@@ -339,6 +369,9 @@ public class CharacterVisual : AbstractCharacterComponent
         _currentPopupDuration = 0f;
         _currentPopupPriority = priority;
         _timeSinceLastPopupFrame = 999f;
+        _timeSinceLastPopupTextAppear = 0f;
+        _targetPopupText = popupText;
+        _popupText.text = "";
 
         _popupImage.transform.position = CharComponents.Center.transform.position;
         _popupImage.sharedMaterial = DifficultyManager.Instance.CurrentDifficulty.Value.PrimaryEnviromentMaterial;
@@ -351,6 +384,7 @@ public class CharacterVisual : AbstractCharacterComponent
 
         _currentPopupSprites = null;
         _currentPopupPriority = -1;
+        _targetPopupText = null;
     }
 
     public void DoACoolFlip()
@@ -520,6 +554,7 @@ public class CharacterVisual : AbstractCharacterComponent
     {
         _currentPopupDuration += Time.deltaTime;
         _timeSinceLastPopupFrame += Time.deltaTime;
+        _timeSinceLastPopupTextAppear += Time.deltaTime;
 
         _popupImage.flipX = FlippedH;
         _popupImage.transform.position = math.lerp(
@@ -528,9 +563,9 @@ public class CharacterVisual : AbstractCharacterComponent
             Time.deltaTime * POPUP_ANIMATION_SPEED_MULT
             );
 
-        if (_currentPopupSprites != null && _currentPopupSprites.Count > 0 && _currentPopupDuration < _targetPopupDuration)
+        if (GetHasPopup())
         {
-            if (_timeSinceLastPopupFrame > 1f / POPUP_FRAMERATE)
+            if (_timeSinceLastPopupFrame > 1f / POPUP_FRAMERATE && (_currentPopupSprites?.Count > 0))
             {
                 _currentPopupFrame = (_currentPopupFrame + 1) % _currentPopupSprites.Count;
                 _popupImage.sprite = _currentPopupSprites[_currentPopupFrame];
@@ -538,13 +573,24 @@ public class CharacterVisual : AbstractCharacterComponent
             }
 
             _popupImage.color = new Color(1f, 1f, 1f, math.lerp(_popupImage.color.a, 1f, Time.deltaTime * POPUP_ANIMATION_SPEED_MULT));
-            _popupImage.enabled = true;
+            _popupImage.enabled = _currentPopupSprites != null;
+            _popupText.enabled = _popupText.text != null;
+            _popupText.transform.localScale = new Vector3(FlippedH ? -1f : 1f, 1f, 1f);
+            _popupImage.gameObject.SetActive(true);
+
+            if (_timeSinceLastPopupTextAppear > POPUP_TEXT_APPEAR_DURATION && _popupText.text?.Length < _targetPopupText?.Length)
+            {
+                if (!EXCLUDE_TEXT_SOUND_CHARACTER.Contains(_targetPopupText[_popupText.text.Length])) _textSoundPlayer.PlaySound();
+                _popupText.text += _targetPopupText[_popupText.text.Length];
+                _timeSinceLastPopupTextAppear = 0f;
+            }
         }
         else
         {
             _popupImage.color = new Color(1f, 1f, 1f, math.lerp(_popupImage.color.a, 0f, Time.deltaTime * POPUP_HIDE_ANIMATION_SPEED_MULT));
-            if (_popupImage.color.a < 0.005f) _popupImage.enabled = false;
+            if (_popupImage.color.a < 0.005f) _popupImage.gameObject.SetActive(false);
         }
+
     }
 
     public void Animator_FinishFinishingOff()

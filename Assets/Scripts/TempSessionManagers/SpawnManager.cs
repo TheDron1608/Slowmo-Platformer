@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 [DefaultExecutionOrder(-1)]
 public class SpawnManager : MonoBehaviour
@@ -136,8 +137,11 @@ public class SpawnManager : MonoBehaviour
             PlayerCharacterHolsteredHoldable = null;
         }
 
-        AnalyticsManager.Instance.RecordEvent(new LevelFinishAnalyticsEvent());
-        AnalyticsManager.Instance.ResetTrackedInfo();
+        if (AnalyticsManager.Instance?.TrackedPlayerHealth != null)
+        {
+            AnalyticsManager.Instance.RecordEvent(new LevelFinishAnalyticsEvent());
+            AnalyticsManager.Instance.ResetTrackedInfo();
+        }
 
         UIManager.Instance.LoadSceneWithEffect(loadScene);
     }

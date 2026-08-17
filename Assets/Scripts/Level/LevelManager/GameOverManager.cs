@@ -57,7 +57,8 @@ public class GameOverManager : MonoBehaviour
 
             if (!_gameWasFinishedBefore)
             {
-                AnalyticsManager.Instance.RecordEvent(new GameOverAnalyticsEvent());
+                AnalyticsManager.Instance?.RecordEvent(new GameOverAnalyticsEvent());
+                BossInitializer.Instance?.BossWinQuote();
             }
             _gameWasFinishedBefore = true;
         }

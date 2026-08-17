@@ -41,6 +41,6 @@ public class OnInteractEnterMultiZDoor : AnimatedInteractable, INavPointersScree
 
     public bool PointingCondition()
     {
-        return LastPlayerExitDoor != this;
+        return LastPlayerExitDoor != this && enabled;
     }
 }

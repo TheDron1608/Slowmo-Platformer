@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
@@ -273,9 +274,23 @@ public class UIManager : MonoBehaviour
             DifficultyCurseChoiseUI.InitDebugCurseOptions();
         }
 
+        public void Show(List<AbstractCardItem> cards, int pickAmount, bool showDesc, bool includeEffectsOnFinish)
+        {
+            Show();
+            DifficultyCurseChoiseUI.ShowDefaultDesc = showDesc;
+            DifficultyCurseChoiseUI.IncludeEffectsOnFinish = includeEffectsOnFinish;
+            foreach (AbstractCardItem card in cards)
+            {
+                DifficultyCurseChoiseUI.AddCard(Instantiate(card));
+            }
+            DifficultyCurseChoiseUI.PicksLeft = pickAmount;
+        }
+
         public void Show(float curseMinPrice, float curseMaxPrice, int pickAmount, int optionsAmount)
         {
             Show();
+            DifficultyCurseChoiseUI.ShowDefaultDesc = true;
+            DifficultyCurseChoiseUI.IncludeEffectsOnFinish = true;
             DifficultyCurseChoiseUI.InitCurseOptions(curseMinPrice, curseMaxPrice, pickAmount, optionsAmount);
         }
 

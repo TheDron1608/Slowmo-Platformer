@@ -89,7 +89,7 @@ public class GameplayUIManager : MonoBehaviour
             UIManager.Instance.DamagedScreenOverlay.Show();
             UIManager.Instance.DamagedScreenOverlay.FillAmount = math.lerp(
                 UIManager.Instance.DamagedScreenOverlay.FillAmount,
-                1f - math.sin(PickAvgHealthRelative() * math.PI / 2),
+                1f - math.sin(PickAvgPlayersHealthRelative() * math.PI / 2),
                 Time.deltaTime * DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER
                 );
 
@@ -113,11 +113,14 @@ public class GameplayUIManager : MonoBehaviour
         }
     }
 
-    private float PickAvgHealthRelative()
+    private float PickAvgPlayersHealthRelative()
     {
         float result = 0;
+        int playersCount = 0;
         foreach (CharacterUITrack character in _trackedCharacters)
         {
+            if (character.CharComponents.CharacterTeam.Team != TeamManager.Teams.PLAYER) continue;
+
             CharacterHealth characterHealth = character.CharComponents.CharacterHealth;
             result +=
                 characterHealth.CurrentHealth / 
@@ -126,8 +129,9 @@ public class GameplayUIManager : MonoBehaviour
                     math.max(UNLIMITED_HEALTH_DAMAGE_OVERLAY_FAKE_MAX_HEALTH, characterHealth.CurrentHealth):
                     characterHealth.MaxHealth
                 );
+            playersCount++;
         }
-        result /= _trackedCharacters.Count;
+        result /= math.max(playersCount, .001f);
         return result;
     }
 

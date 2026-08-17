@@ -19,7 +19,7 @@ public class SessionManager : MonoBehaviour
         public int TotalPlayTime = 0;
         public float TotalSoldCurses = 0f;
         public List<string> FoundUniqueHoldables = new();
-
+        public string CurrentBossName = null;
         public List<string> UnlockedCharacters = new();
     }
 
@@ -36,6 +36,7 @@ public class SessionManager : MonoBehaviour
 
     public List<SessionData> Sessions;
     public List<PlayerCharacterInfo> DefaultUnlockedCharacters = new();
+    public List<PlayerCharacterInfo> TotalCharacters = new();
 
     [SerializeField] private GameObject _tempSessionManagersPrefab;
     private GameObject _tempSessionManagersInstance = null;
@@ -96,7 +97,7 @@ public class SessionManager : MonoBehaviour
         }
         SpawnManager.Instance.PlayerCharacterHoldable = CurrentSelectedPlayer.StartHoldable;
 
-        AnalyticsManager.Instance.RecordEvent(new StartGameAnalyticsEvent(CurrentSelectedPlayer.PlayerCharacter.gameObject.name));
+        AnalyticsManager.Instance?.RecordEvent(new StartGameAnalyticsEvent(CurrentSelectedPlayer.PlayerCharacter.gameObject.name));
     }
 
     public bool GetCharacterIsUnlocked(PlayerCharacterInfo character)

@@ -16,7 +16,7 @@ public class PlayerInputRolling : AbstractAIRolling
     private float _currentGamepadRollInputDelay = 0f;
     private float? _awaitTooEarlyRollInput = null;
 
-    private void Start()
+    private void OnEnable()
     {
         RollActionReference.action.started += RollActionReference_OnActionStarted;
     }
@@ -84,7 +84,7 @@ public class PlayerInputRolling : AbstractAIRolling
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         RollActionReference.action.started -= RollActionReference_OnActionStarted;
     }

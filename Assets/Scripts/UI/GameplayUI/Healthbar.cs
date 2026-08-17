@@ -54,9 +54,12 @@ public class Healthbar : MonoBehaviour
 
     private void HealthTrackedCharacter_OnHitByProjectile(object sender, AbstractProjectile e)
     {
-        Camera.main?.GetComponent<ShakableObject>().Shake(CameraShakeOnDamageForce);
-        UIManager.Instance.RaiseTemporalGlitchEffectIntencity(GlitchEffectIntencityOnDamage);
-        UIManager.Instance.DamagedScreenOverlay.FillAmount += DamagedScreenOverlayFillOnDamage;
+        if (UITrackSource.CharComponents.CharacterTeam.Team == TeamManager.Teams.PLAYER)
+        {
+            Camera.main?.GetComponent<ShakableObject>().Shake(CameraShakeOnDamageForce);
+            UIManager.Instance.RaiseTemporalGlitchEffectIntencity(GlitchEffectIntencityOnDamage);
+            UIManager.Instance.DamagedScreenOverlay.FillAmount += DamagedScreenOverlayFillOnDamage;
+        }
     }
 
     private void Awake()

@@ -7,6 +7,7 @@ public static class SceneList
     public const string GAMEPLAY = "Gameplay";
     public const string SHOP = "Shop";
     public const string CURSE = "Curse";
+    public const string BOSS = "Boss";
     public const string MODIFICATOR_DEBUG = "ModificatorDebug";
     public const string GAME_FINISHED = "GameFinished";
     public const string TUTORIAL_1 = "Tutorial1";
@@ -20,7 +21,8 @@ public static class SceneList
         GAME_FINISHED,
         TUTORIAL_1,
         TUTORIAL_2,
-        TUTORIAL_3
+        TUTORIAL_3,
+        BOSS
     };
 
     private static readonly string[] MODIFICATOR_SCENES = { 

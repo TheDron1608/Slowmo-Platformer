@@ -56,7 +56,7 @@ public class PlayerInputSpecial : AbstractAISpecial
         return null;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         SpecialActionReference.action.started += SpecialActionRereference_OnActionStarted;
         SpecialActionReference.action.canceled += SpecialActionReference_OnActionCanceled;
@@ -360,11 +360,14 @@ public class PlayerInputSpecial : AbstractAISpecial
         }
     }
 
+    private void OnDisable()
+    {
+        SpecialActionReference.action.started -= SpecialActionRereference_OnActionStarted;
+        SpecialActionReference.action.canceled -= SpecialActionReference_OnActionCanceled;
+    }
+
     private void OnDestroy()
     {
-        SpecialActionReference.action.started += SpecialActionRereference_OnActionStarted;
-        SpecialActionReference.action.canceled += SpecialActionReference_OnActionCanceled;
-
         if (CharComponents != null && !CharComponents.IsDestroyed() && CharComponents.CharacterSpecial == this)
         {
             CharComponents.CharacterSpecial = null;

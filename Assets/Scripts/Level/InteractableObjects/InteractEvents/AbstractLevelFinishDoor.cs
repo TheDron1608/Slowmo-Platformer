@@ -28,6 +28,6 @@ public class AbstractLevelFinishDoor : AnimatedInteractable, INavPointersScreenO
 
     public bool PointingCondition()
     {
-        return true;
+        return enabled;
     }
 }

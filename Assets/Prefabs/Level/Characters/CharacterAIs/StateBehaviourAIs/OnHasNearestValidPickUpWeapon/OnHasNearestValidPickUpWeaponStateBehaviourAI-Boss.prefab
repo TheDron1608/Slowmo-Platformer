@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2977260207457792678
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -7985139794605286243, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: Rolling
+      value: 
+      objectReference: {fileID: 6153920329487008368}
+    - target: {fileID: -7985139794605286243, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: Interacting
+      value: 
+      objectReference: {fileID: 5584113617660534597}
+    - target: {fileID: -7985139794605286243, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: MovingAndJumping
+      value: 
+      objectReference: {fileID: -8386575135145503439}
+    - target: {fileID: -7985139794605286243, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: GrabbingAndThrowing
+      value: 
+      objectReference: {fileID: 687492623736961000}
+    - target: {fileID: 4925550690283799045, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_Name
+      value: OnHasNearestValidPickUpWeaponStateBehaviourAI-Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845406136727814959, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4925550690283799045, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8386575135145503439}
+    - targetCorrespondingSourceObject: {fileID: 4925550690283799045, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 687492623736961000}
+    - targetCorrespondingSourceObject: {fileID: 4925550690283799045, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5584113617660534597}
+    - targetCorrespondingSourceObject: {fileID: 4925550690283799045, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6153920329487008368}
+  m_SourcePrefab: {fileID: 100100000, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+--- !u!1 &7857171819305283747 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4925550690283799045, guid: d2d7d012ab8f34246beb3cf51f42b722, type: 3}
+  m_PrefabInstance: {fileID: 2977260207457792678}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8386575135145503439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857171819305283747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9cd13c6c0f773749b41a82a45e72b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanConflictPosition: 0
+  DontMoveIfHeardEnemyOnlyAndCantReach: 1
+--- !u!114 &687492623736961000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857171819305283747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f25bd44ef933124f91d70b1650fa41e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5584113617660534597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857171819305283747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069db541d5abbd24bba04edc75f235e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OpenDoorDelaySeconds: 0
+--- !u!114 &6153920329487008368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857171819305283747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55e738b4eb0a996449b2850f41cf34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RollOnDistanceAI
+  DistanceToRoll: 3
+  DistanceToPrepareRollAgain: 5
+  MaxRollsCombo: 2
+  InvertRollDirection: 0

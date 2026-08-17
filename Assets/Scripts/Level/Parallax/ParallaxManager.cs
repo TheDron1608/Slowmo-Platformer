@@ -37,6 +37,7 @@ public class ParallaxManager : MonoBehaviour
 
     public void SetParallaxMaterial(Material value)
     {
+        if (_currentParallaxes == null) return;
         foreach (var parallax in _currentParallaxes)
         {
             parallax.ParallaxMaterial = value;

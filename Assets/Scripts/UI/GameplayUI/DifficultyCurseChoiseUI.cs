@@ -18,6 +18,8 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
     private int _initOptionsAmount = 0;
     private bool _isDebug = false;
 
+    public bool IncludeEffectsOnFinish { get; set; } = false;
+
     public override string GetAnalyticsChoiseTypeName()
     {
         return _isDebug ? null : "DifficultyNegativePick";
@@ -187,11 +189,14 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
         TimeManager.Instance.TryTemporalSlowTime(FINISH_TRADE_TEMP_SLOWMO);
         TimeManager.Instance.Paused = false;
 
-        DifficultyManager.Instance.UpdateDifficultyEnviromentMaterial();
+        DifficultyManager.Instance?.UpdateDifficultyEnviromentMaterial();
 
         UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Hide();
 
-        ApplyFinishEffects();
+        if (IncludeEffectsOnFinish)
+        {
+            ApplyFinishEffects();
+        }
 
         if (_requestSceneChangeOnFinish != null)
         {

@@ -15,7 +15,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
         set => _autoAttack = value;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         AttackActionReference.action.started += AttackActionRereference_OnActionStarted;
         AttackActionReference.action.canceled += AttackActionReference_OnActionCanceled;
@@ -119,7 +119,7 @@ public class PlayerInputAttacking : AbstractAIAttacking
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         AttackActionReference.action.started -= AttackActionRereference_OnActionStarted;
         AttackActionReference.action.canceled -= AttackActionReference_OnActionCanceled;

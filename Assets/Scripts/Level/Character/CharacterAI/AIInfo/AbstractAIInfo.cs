@@ -7,6 +7,8 @@ public abstract class AbstractAIInfo : AbstractCharacterComponent
     protected const float UPDATE_AI_DELAY_SECONDS = 0.25f;
     protected bool _requireUpdateInfo = true;
 
+    public float UpdateInfoDelayMultiplier = 1f;
+
     private void OnEnable()
     {
         StartCoroutine(UpdateRequireInfoLoop());
@@ -17,7 +19,7 @@ public abstract class AbstractAIInfo : AbstractCharacterComponent
         while (true)
         {
             _requireUpdateInfo = true;
-            yield return new WaitForSeconds(UPDATE_AI_DELAY_SECONDS);
+            yield return new WaitForSeconds(UPDATE_AI_DELAY_SECONDS * UpdateInfoDelayMultiplier);
         }
     }
 

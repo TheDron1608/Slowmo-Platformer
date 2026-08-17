@@ -15,7 +15,7 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
     private float _coyoteJumpTooEarlyTimeLeft = 0f;
     private Coroutine _coyoteJumpTooEarlyHandler;
 
-    private void Start()
+    private void OnEnable()
     {
         JumpActionReference.action.started += JumpActionReference_OnActionStarted;
         JumpActionReference.action.canceled += JumpActionReference_OnActionCanceled;
@@ -126,7 +126,7 @@ public class PlayerInputMovingAndJumping : AbstractAIMovingAndJumping
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         JumpActionReference.action.started -= JumpActionReference_OnActionStarted;
         JumpActionReference.action.canceled -= JumpActionReference_OnActionCanceled;

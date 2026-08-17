@@ -31,11 +31,31 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     private int _rerollsLeft = 0;
     private Dictionary<AbstractCardItem, bool> _cardPickInfo = new();
     private int _picksLeft;
+    private bool _showDefaultDesc = true;
 
     public event EventHandler<AbstractCardItem> OnAddedItem;
     public event EventHandler<AbstractCardItem> OnRemovedItem;
 
     public abstract string GetAnalyticsChoiseTypeName();
+
+    public bool ShowDefaultDesc
+    {
+        get => _showDefaultDesc;
+        set
+        {
+            if (_showDefaultDesc == value) return;
+            _showDefaultDesc = value;
+
+            if (_showDefaultDesc)
+            {
+                SetDefaultDisplayedInfo();
+            }
+            else
+            {
+                SetDisplayedInfo(null);
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -133,15 +153,22 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
 
     public void SetDefaultDisplayedInfo()
     {
-        foreach (Transform child in CardsInfoContainer)
+        if (_showDefaultDesc)
         {
-            Destroy(child.gameObject);
-        }
+            foreach (Transform child in CardsInfoContainer)
+            {
+                Destroy(child.gameObject);
+            }
 
-        ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
-        newInfo.GetComponent<RectTransform>().sizeDelta *= Vector3.right * DEFAULT_INFO_WIDTH_MULT;
-        newInfo.Title.text = StartTitle?.GetLocalizedString() ?? "";
-        newInfo.Description.text = StartDesc?.GetLocalizedString() ?? "";
+            ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
+            newInfo.GetComponent<RectTransform>().sizeDelta *= Vector3.right * DEFAULT_INFO_WIDTH_MULT;
+            newInfo.Title.text = StartTitle?.GetLocalizedString() ?? "";
+            newInfo.Description.text = StartDesc?.GetLocalizedString() ?? "";
+        }
+        else
+        {
+            SetDisplayedInfo(null);
+        }
     }
 
     public void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)
@@ -160,6 +187,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         {
             foreach (IModificatorInfo info in infos)
             {
+                if (info.Localization == null) continue;
                 ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
                 newInfo.transform.SetAsFirstSibling();
                 newInfo.TargetInfo = info;

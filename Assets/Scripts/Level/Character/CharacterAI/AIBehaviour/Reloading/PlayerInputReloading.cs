@@ -5,7 +5,7 @@ public class PlayerInputReloading : AbstractAIReloading
     public InputActionReference ReloadActionReference;
 
 
-    private void Start()
+    private void OnEnable()
     {
         ReloadActionReference.action.started += ReloadActionReference_OnActionStarted;
     }
@@ -40,7 +40,7 @@ public class PlayerInputReloading : AbstractAIReloading
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         ReloadActionReference.action.started -= ReloadActionReference_OnActionStarted;
     }
