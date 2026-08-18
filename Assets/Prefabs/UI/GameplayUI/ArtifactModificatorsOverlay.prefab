@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ea62f38ad120d459a6cac7cb6a7383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllowContainStatus: 06000000
+  AllowContainStatus: 0600000007000000
   _modificatorsContainer: {fileID: 4644895483328262041}
   _modificatorTrackTargetsContainer: {fileID: 4013194646070264319}
   _modificatorOnPauseTrackTargetsContainer: {fileID: 4168286233692969495}
@@ -832,7 +832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3038888281564961598, guid: 766f7d28eff8a1d4dbb6d54c057ed046, type: 3}
       propertyPath: m_fontSize
-      value: 16.65
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7411822254876558232, guid: 766f7d28eff8a1d4dbb6d54c057ed046, type: 3}
       propertyPath: m_SizeDelta.x

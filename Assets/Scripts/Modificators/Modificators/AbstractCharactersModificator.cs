@@ -2,13 +2,29 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractCharactersModificator : AbstractModificator
+public abstract class AbstractCharactersModificator : AbstractModificator, IInvertableTeamModificator
 {
     public TeamManager.Teams Team = TeamManager.Teams.PLAYER;
     public float AffectChance = 1f;
     public RandomManager.ProcChanceTypes ChanceType;
 
     private List<CharacterComponentsManager> _affectedCharacters = new();
+    private bool _invertTeam = false;
+    public bool InvertTeam 
+    { 
+        get => _invertTeam; 
+        set
+        {
+            if (_invertTeam == value) return;
+            _invertTeam = value;
+
+            if (!DisabledModificator)
+            {
+                OnModificatorRemoved();
+                OnModificatorAdded();
+            }
+        } 
+    }
 
     protected override void OnObjectSpawned(object sender, GameObject e)
     {
@@ -16,7 +32,7 @@ public abstract class AbstractCharactersModificator : AbstractModificator
 
         if (
             e.TryGetComponent(out AbstractCharacterComponent character) && 
-            character.CharComponents.CharacterTeam.Team == Team && 
+            character.CharComponents.CharacterTeam.Team == (InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team) && 
             RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
             )
         {
@@ -31,13 +47,14 @@ public abstract class AbstractCharactersModificator : AbstractModificator
 
         if (LayerManager.Instance != null)
         {
+            TeamManager.Teams targetTeam = InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team;
             foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
             {
                 foreach (Transform characterT in layer.CharactersContainer)
                 {
                     if (
                         characterT.TryGetComponent(out AbstractCharacterComponent character) &&
-                        character.CharComponents.CharacterTeam.Team == Team &&
+                        character.CharComponents.CharacterTeam.Team == targetTeam &&
                         RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
                         )
                     {
@@ -76,11 +93,13 @@ public abstract class AbstractCharactersModificator : AbstractModificator
 
     private void Instance_OnTeamChanged(object sender, TeamManager.OnTeamChangedEventArgs e)
     {
-        if (e.OldTeam == Team)
+        TeamManager.Teams targetTeam = InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team;
+
+        if (e.OldTeam == targetTeam)
         {
             OnCharacterRemovedAffect(e.Character.CharComponents);
         }
-        if (e.NewTeam == Team)
+        if (e.NewTeam == targetTeam)
         {
             OnCharacterAffected(e.Character.CharComponents);
         }

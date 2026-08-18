@@ -20,6 +20,8 @@ public class SessionManager : MonoBehaviour
         public float TotalSoldCurses = 0f;
         public List<string> FoundUniqueHoldables = new();
         public string CurrentBossName = null;
+        public List<string> CurrentBossModificators = new();
+        public string CurrentBossWeapon = null;
         public List<string> UnlockedCharacters = new();
     }
 
@@ -37,6 +39,7 @@ public class SessionManager : MonoBehaviour
     public List<SessionData> Sessions;
     public List<PlayerCharacterInfo> DefaultUnlockedCharacters = new();
     public List<PlayerCharacterInfo> TotalCharacters = new();
+    public List<Holdable> TotalHoldables = new();
 
     [SerializeField] private GameObject _tempSessionManagersPrefab;
     private GameObject _tempSessionManagersInstance = null;
@@ -86,6 +89,15 @@ public class SessionManager : MonoBehaviour
             _currentSelectedPlayer = value;
             InitSelectedPlayer();
         }
+    }
+
+    public Holdable GetHoldableByUniqueCode(string holdableCode)
+    {
+        foreach (Holdable h in TotalHoldables)
+        {
+            if (h.FindingUniqueCodeName == holdableCode) return h;
+        }
+        return null;
     }
 
     public void InitSelectedPlayer()

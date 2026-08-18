@@ -49,6 +49,8 @@ public class ModificatorsUI : MonoBehaviour
                 _modificatorsIcons[i].CurrentModificator.OriginalModificator == modificator
                 )
             {
+                if (_modificatorsIcons[i].IsDestroyed()) continue;
+
                 modificator.CurrentIcon = null;
                 Destroy(_modificatorsIcons[i].gameObject);
                 _modificatorsIcons.RemoveAt(i);

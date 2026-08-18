@@ -1,14 +1,31 @@
 ﻿using System.Collections.Generic;
 using Unity.Mathematics;
 
-public class ComboIsLiveTimeModificator : AbstractModificator
+public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamModificator
 {
+    public TeamManager.Teams AffectTeam = TeamManager.Teams.PLAYER;
     public float ResetScoreEncountSpeedMultiplierMultiplier = 1f;
     public float ComboMultiplierOnReset = 0.5f;
     public int MinCombo = -10;
     public List<AbstractEffect> PlayerCharacterKillEffectsOnReachMinCombo = new();
 
     private int _oldMinComboValue;
+    private bool _invertTeam = false;
+    public bool InvertTeam
+    {
+        get => _invertTeam;
+        set
+        {
+            if (_invertTeam == value) return;
+            _invertTeam = value;
+
+            if (!DisabledModificator)
+            {
+                OnModificatorRemoved();
+                OnModificatorAdded();
+            }
+        }
+    }
 
     public override void OnModificatorAdded()
     {
@@ -48,7 +65,7 @@ public class ComboIsLiveTimeModificator : AbstractModificator
         {
             foreach (
                 AbstractCharacterComponent playerCharacter in 
-                TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).GetTeamMembers()
+                TeamManager.Instance.GetTeamDataByTeam(InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(AffectTeam) : AffectTeam).GetTeamMembers()
                 )
             {
                 playerCharacter.CharComponents.CharacterEffectsReceiver.ApplyEffect(PlayerCharacterKillEffectsOnReachMinCombo, null, 1f, true);

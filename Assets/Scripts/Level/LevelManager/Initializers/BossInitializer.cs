@@ -26,9 +26,12 @@ public class BossInitializer : MonoBehaviour
     private CharacterComponentsManager _playerCharacter;
     private CharacterComponentsManager _boss;
     private List<CharacterComponentsManager> _minions = new();
+    private bool _bossSpawned = false;
     private bool _bossTriggered = false;
     private bool _bossSkipped = false;
+    private bool _wonGame = false;
     private Coroutine _bossDialogueCoroutine = null;
+    private Holdable _lastBossKillHoldable = null;
 
     private void Start()
     {
@@ -36,8 +39,8 @@ public class BossInitializer : MonoBehaviour
 
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
-            //re-enable modificators with errors
             modificator.enabled = true;
+            modificator.DisabledModificator = modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE;
         }
 
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
@@ -65,12 +68,15 @@ public class BossInitializer : MonoBehaviour
             }
         }
 
-        NextLevelDoor.enabled = false;
+        _lastBossKillHoldable = _playerCharacter.CharacterHolding.CurrentHoldObject ?? _playerCharacter.CharacterHolding.CurrentHolsteredHoldObject;
+
 
         PlayerCharacterInfo currentBoss = SessionManager.Instance.TotalCharacters.Find(e => e.name == SessionManager.Instance.CurrentSession.CurrentBossName);
         ZIndexLayer throneLayer = LayerManager.Instance.GetZLayerOfGameObject(Throne.gameObject);
         if (currentBoss != null)
         {
+            _bossSpawned = true;
+
             _boss = throneLayer.TrySpawnObject(
                 currentBoss.PlayerCharacter.gameObject,
                 Throne.transform.position,
@@ -83,7 +89,7 @@ public class BossInitializer : MonoBehaviour
             _boss.CharacterAIManager = Instantiate(BossAI, _boss.transform);
             _boss.CharacterAIManager.SetAIDisabled(true);
             _boss.CharacterInteract.TryInteract(Throne);
-            _boss.CharacterHolding.HolsterNewHoldable(currentBoss.StartHoldable);
+            _boss.CharacterHolding.HolsterNewHoldable(SessionManager.Instance.GetHoldableByUniqueCode(SessionManager.Instance.CurrentSession.CurrentBossWeapon));
             if (GameObjectUtility.TryGetComponentInSelfOrChild(_boss.gameObject, out CharacterUITrack uiTrack))
             {
                 uiTrack.TrackHealth = false;
@@ -100,15 +106,36 @@ public class BossInitializer : MonoBehaviour
                 _minions.Add(minion);
                 minion.CharacterAIManager.SetAIDisabled(true);
                 minion.CharacterVisual.FlippedH = _boss.transform.position.x > minion.transform.position.x;
-
-                minion.CharacterHealth.OnHitByProjectile += Minion_OnHitByProjectile;
             }
+
+            List<AbstractModificator> mods = NumberMath.MergeLists(
+                currentBoss.StartModificators,
+                ModificatorsManager.Instance.ModificatorsPool.Where(e => SessionManager.Instance.CurrentSession.CurrentBossModificators.Contains(e.name)).ToList()
+                );
+            foreach (var bossStartMod in mods)
+            {
+                if (
+                    (bossStartMod is IInvertableTeamModificator && bossStartMod.ModificatorType == AbstractModificator.ModificatorTypes.POSITIVE) ||
+                    bossStartMod.ModificatorType == AbstractModificator.ModificatorTypes.NEUTRAL
+                    )
+                {
+                    ModificatorsManager.Instance.AddModificator(bossStartMod, AbstractModificator.ModificatorStatuses.BOSS, true);
+                }
+            }
+
+            _playerCharacter.CharacterAttacking.OnEffectApplied += PlayerCharacter_OnEffectApplied;
+            _boss.CharacterHealth.OnHitByProjectile += Boss_OnHitByProjectile;
         }
     }
 
-    private void Minion_OnHitByProjectile(object sender, AbstractProjectile e)
+    private void Boss_OnHitByProjectile(object sender, AbstractProjectile e)
     {
-        if (e.Owner.CharComponents == _playerCharacter)
+        if (e.Weapon?.TryGetComponent(out Holdable holdable) ?? false) _lastBossKillHoldable = holdable;
+    }
+
+    private void PlayerCharacter_OnEffectApplied(object sender, IEffectApplier.OnEffectAppliedEventArgs e)
+    {
+        if (e.Receiver.TryGetComponent(out AbstractCharacterComponent character) && _minions.Contains(character.CharComponents))
         {
             TriggerBoss();
         }
@@ -124,6 +151,8 @@ public class BossInitializer : MonoBehaviour
             ct.TrackTargets.Add(_playerCharacter.transform);
         }
         _playerCharacter.CharacterAIManager.SetAIDisabled(false);
+
+        NextLevelDoor.enabled = true;
     }
 
     public void SkipFight()
@@ -148,7 +177,15 @@ public class BossInitializer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_bossTriggered || _bossDialogueCoroutine != null)
+        if (!_bossSpawned)
+        {
+            if (Throne.GetCurrentSitter()?.CharComponents == _playerCharacter && !_wonGame)
+            {
+                Win();
+                _wonGame = true;
+            }
+        }
+        else if (!_bossTriggered || _bossDialogueCoroutine != null)
         {
             if (
                 Vector2.Distance(_playerCharacter.transform.position, _boss.transform.position) < BossTriggerDistance && 
@@ -161,21 +198,21 @@ public class BossInitializer : MonoBehaviour
         }
         else
         {
-            bool targetEnable = _boss.IsDestroyed() || _boss.CharacterHealth.Died;
-            foreach (var minion in _minions) targetEnable &= minion.IsDestroyed() || minion.CharacterHealth.Died;
+            bool targetEnable = _boss.IsDestroyed() || _boss.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
+            foreach (var minion in _minions) targetEnable &= minion.IsDestroyed() || minion.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
             if (targetEnable != Throne.enabled)
             {
+                NextLevelDoor.enabled = !targetEnable;
                 Throne.enabled = targetEnable;
                 NavPointersScreenOverlay.Instance.UpdateNavTargets();
             }
-            _boss.CharacterAIManager.SetAIDisabled(false);
 
-            if (Throne.GetCurrentSitter()?.CharComponents == _playerCharacter)
+            if (!_boss.IsDestroyed()) _boss.CharacterAIManager.SetAIDisabled(false);
+
+            if (Throne.GetCurrentSitter()?.CharComponents == _playerCharacter && !_wonGame)
             {
-                GameOverManager.Instance.ForceFinishGame(GameOverUIManager.GameOverReasons.FINISHED_GAME);
-                _playerCharacter.CharacterHolding.TryHolster(_playerCharacter.CharacterHolding.CurrentHoldObject);
-                _playerCharacter.CharacterHolding.ForceDisarm();
-                _playerCharacter.CharacterAIManager.SetAIDisabled(false);
+                Win();
+                _wonGame = true;
             }
         }
     }
@@ -234,18 +271,52 @@ public class BossInitializer : MonoBehaviour
             uiTrack.TrackHealth = true;
             uiTrack.RefreshAllTracks();
         }
+    }
 
-        NextLevelDoor.enabled = false;
+    private void Win()
+    {
+        GameOverManager.Instance.ForceFinishGame(GameOverUIManager.GameOverReasons.FINISHED_GAME);
+        _playerCharacter.CharacterHolding.TryHolster(_playerCharacter.CharacterHolding.CurrentHoldObject);
+        _playerCharacter.CharacterHolding.ForceDisarm();
+        _playerCharacter.CharacterAIManager.SetAIDisabled(false);
+
+        SessionManager.Instance.CurrentSession.CurrentBossName = SessionManager.Instance.CurrentSelectedPlayer.name;
+        SessionManager.Instance.CurrentSession.CurrentBossWeapon = _lastBossKillHoldable?.FindingUniqueCodeName;
+        SessionManager.Instance.CurrentSession.CurrentBossModificators.Clear();
+        foreach (var mod in ModificatorsManager.Instance.CurrentModificators)
+        {
+            if (
+                mod.Status != AbstractModificator.ModificatorStatuses.BOSS &&
+                (
+                    (mod is IInvertableTeamModificator && mod.ModificatorType != AbstractModificator.ModificatorTypes.NEGATIVE) ||
+                    mod.ModificatorType == AbstractModificator.ModificatorTypes.NEUTRAL
+                )
+                )
+            {
+                SessionManager.Instance.CurrentSession.CurrentBossModificators.Add(mod.OriginalModificator.name);
+            }
+        }
+
+        SessionManager.Instance.SaveCurrentSession();
     }
 
     private void OnDestroy()
     {
         Instance = null;
 
-        foreach (CharacterComponentsManager minion in _minions)
+        if (ModificatorsManager.Instance != null)
         {
-            if (minion.IsDestroyed()) continue;
-            minion.CharacterHealth.OnHitByProjectile -= Minion_OnHitByProjectile;
+            for (int i = 0; i < ModificatorsManager.Instance.CurrentModificators.Count; i++)
+            {
+                if (ModificatorsManager.Instance.CurrentModificators[i].Status == AbstractModificator.ModificatorStatuses.BOSS)
+                {
+                    ModificatorsManager.Instance.RemoveModificatorAt(i);
+                    i--;
+                }
+            }
         }
+
+        if (_playerCharacter != null && !_playerCharacter.IsDestroyed()) _playerCharacter.CharacterAttacking.OnEffectApplied -= PlayerCharacter_OnEffectApplied;
+        if (_boss != null && !_boss.IsDestroyed()) _boss.CharacterHealth.OnHitByProjectile -= Boss_OnHitByProjectile;
     }
 }

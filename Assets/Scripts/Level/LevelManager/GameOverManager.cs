@@ -58,7 +58,7 @@ public class GameOverManager : MonoBehaviour
             if (!_gameWasFinishedBefore)
             {
                 AnalyticsManager.Instance?.RecordEvent(new GameOverAnalyticsEvent());
-                BossInitializer.Instance?.BossWinQuote();
+                if (_forceFinishGame == null) BossInitializer.Instance?.BossWinQuote();
             }
             _gameWasFinishedBefore = true;
         }
@@ -87,6 +87,7 @@ public class GameOverManager : MonoBehaviour
     {
         UIManager.Instance.GameplayScreenOverlay.SetShown(value);
         UIManager.Instance.ModificatorsScreenOverlay.SetShown(value);
+        UIManager.Instance.ArtifactModificatorsScreenOverlay.SetShown(value);
     }
 
     private void OnDestroy()

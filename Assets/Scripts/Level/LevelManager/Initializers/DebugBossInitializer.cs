@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class DebugBossInitializer : MonoBehaviour
 {
+    public bool UseRealSave = false;
+    public int RealSaveId;
     public PlayerCharacterInfo PlayerCharacter;
     public PlayerCharacterInfo BossCharacter;
     public List<AbstractModificator> StartModificators;
@@ -10,9 +12,18 @@ public class DebugBossInitializer : MonoBehaviour
 
     private void Start()
     {
-        SessionManager.Instance.CurrentSession = new();
+        if (UseRealSave)
+        {
+            SessionManager.Instance.CurrentSession = SessionManager.Instance.Sessions[RealSaveId];
+            Debug.Log("load session #" + SessionManager.Instance.CurrentSession.Id);
+        }
+        else
+        {
+            SessionManager.Instance.CurrentSession = new();
+            SessionManager.Instance.CurrentSession.CurrentBossName = BossCharacter.name;
+        }
+
         SessionManager.Instance.CurrentSelectedPlayer = PlayerCharacter;
-        SessionManager.Instance.CurrentSession.CurrentBossName = BossCharacter.name;
 
         foreach (var mod in StartModificators)
         {

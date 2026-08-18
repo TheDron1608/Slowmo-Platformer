@@ -8,6 +8,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     const string LOCALIZATION_PERMANENT_KEY = "ModificatorStatusPermanent";
     const string LOCALIZATION_TRADABLE_KEY = "ModificatorStatusTradable";
     const string LOCALIZATION_ARTIFACT_KEY = "ModificatorStatusArtifact";
+    const string LOCALIZATION_BOSS_KEY = "ModificatorStatusBoss";
     const string LOCALIZATION_PRICE_KEY = "ModificatorPrice";
     const string LOCALIZATION_SPOILED_KEY = "ModificatorSpoilProgress";
 
@@ -34,7 +35,8 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         CURSE,
         TRADED,
         NONE,
-        ARTIFACT
+        ARTIFACT,
+        BOSS
     }
 
     public static string GetLocalizedStatus(ModificatorStatuses status, float price, float? spoilProgress)
@@ -56,6 +58,8 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
                 return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_ARTIFACT_KEY) + "\n" +
                     LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + price.ToString("0") +
                     (spoilProgress != null ? "\n" + LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_SPOILED_KEY) + (spoilProgress.Value * 100f).ToString("F0") + "%" : "");
+            case ModificatorStatuses.BOSS:
+                return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_BOSS_KEY);
             default:
                 return "";
         }
@@ -83,7 +87,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     private ModificatorStatuses _status;
     private ModificatorIcon _currentIcon;
     private AbstractModificator _originalModificator = null;
-    private bool _disabledModificator = false;
+    private bool _disabledModificator = true;
     private float _modificatorLivetime = 0f;
 
     public bool Multiplierable

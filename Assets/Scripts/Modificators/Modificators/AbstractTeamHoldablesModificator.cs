@@ -2,13 +2,29 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractTeamHoldablesModificator : AbstractModificator
+public abstract class AbstractTeamHoldablesModificator : AbstractModificator, IInvertableTeamModificator
 {
     public TeamManager.Teams Team = TeamManager.Teams.PLAYER;
     public float AffectChance = 1f;
     public RandomManager.ProcChanceTypes ChanceType;
 
     private List<Holdable> _affectedHoldables = new();
+    private bool _invertTeam = false;
+    public bool InvertTeam
+    {
+        get => _invertTeam;
+        set
+        {
+            if (_invertTeam == value) return;
+            _invertTeam = value;
+
+            if (!DisabledModificator)
+            {
+                OnModificatorRemoved();
+                OnModificatorAdded();
+            }
+        }
+    }
 
     protected override void OnObjectSpawned(object sender, GameObject e)
     {
@@ -28,14 +44,14 @@ public abstract class AbstractTeamHoldablesModificator : AbstractModificator
 
     private void AffectedHoldable_OnGiven(object sender, CharacterHoldingObjects e)
     {
-        if (e.CharComponents.CharacterTeam.Team == Team)
+        if (e.CharComponents.CharacterTeam.Team == (InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team))
         {
             OnAffectedHoldablePickedUp((Holdable)sender, e);
         }
     }
     private void AffectedHoldable_OnThrown(object sender, Holdable.OnThrownEventArgs e)
     {
-        if (e.Thrower.CharComponents.CharacterTeam.Team == Team)
+        if (e.Thrower.CharComponents.CharacterTeam.Team == (InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team))
         {
             OnAffectedHoldableThrown((Holdable)sender, e.Thrower);
         }

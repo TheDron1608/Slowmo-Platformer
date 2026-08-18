@@ -165,13 +165,14 @@ public class ModificatorsManager : MonoBehaviour
             result.TitleImage.gameObject.SetActive(false);
         }
 
+        bool modInverted = modificator is IInvertableTeamModificator invertableMod && invertableMod.InvertTeam;
         switch (modificator.ModificatorType)
         {
             case AbstractModificator.ModificatorTypes.POSITIVE:
-                result.BgImage.material = _positiveCardTierMaterials[(int)modificator.ModificatorTier];
+                result.BgImage.material = (modInverted ? _negativeCardTierMaterials : _positiveCardTierMaterials)[(int)modificator.ModificatorTier];
                 break;
             case AbstractModificator.ModificatorTypes.NEGATIVE:
-                result.BgImage.material = _negativeCardTierMaterials[(int)modificator.ModificatorTier];
+                result.BgImage.material = (modInverted ? _positiveCardTierMaterials : _negativeCardTierMaterials)[(int)modificator.ModificatorTier];
                 break;
             case AbstractModificator.ModificatorTypes.NEUTRAL:
                 result.BgImage.material = _neutralCardTierMaterials[(int)modificator.ModificatorTier];
@@ -185,6 +186,7 @@ public class ModificatorsManager : MonoBehaviour
                 break;
             case AbstractModificator.ModificatorStatuses.PERMANENT:
             case AbstractModificator.ModificatorStatuses.TRADED:
+            case AbstractModificator.ModificatorStatuses.BOSS:
                 result.BgImage.sprite = NumberMath.PickRandomItem(_permanentIconBg);
                 break;
             case AbstractModificator.ModificatorStatuses.CURSE:
@@ -237,34 +239,38 @@ public class ModificatorsManager : MonoBehaviour
         return result;
     }
 
-    public AbstractModificator AddModificator(AbstractModificator modificator, AbstractModificator.ModificatorStatuses modificatorStatus)
+    public AbstractModificator AddModificator(AbstractModificator modificator, AbstractModificator.ModificatorStatuses modificatorStatus, bool invertTeam = false)
     {
         for (int i = 0; i < CurrentModificators.Count; i++)
         {
-            if (CurrentModificators[i].GetIsOverriding(modificator))
+            if (
+                !(
+                    modificator is IInvertableTeamModificator &&
+                    CurrentModificators[i] is IInvertableTeamModificator currentInvertableMod &&
+                    currentInvertableMod.InvertTeam != invertTeam
+                ) && 
+                (
+                    CurrentModificators[i].GetIsOverriding(modificator) || 
+                    CurrentModificators[i].GetIsRestrictedWith(modificator)
+                )
+                )
             {
                 return null;
-            }
-            else if (CurrentModificators[i].GetIsRestrictedWith(modificator))
-            {
-                RemoveModificatorAt(i);
-                i--;
             }
         }
 
         AbstractModificator newModificator = Instantiate(modificator, transform);
         newModificator.OriginalModificator = modificator;
         newModificator.Status = modificatorStatus;
+        if (newModificator is IInvertableTeamModificator invertableMod) invertableMod.InvertTeam = invertTeam;
+        newModificator.DisabledModificator = false;
+
         _currentModificators.Add(newModificator);
 
         ModificatorIcon newIcon =
             UIManager.Instance.ModificatorsScreenOverlay.GetModificatorsUI()?.AddModificatorIcon(newModificator) ??
             UIManager.Instance.ArtifactModificatorsScreenOverlay.GetModificatorsUI()?.AddModificatorIcon(newModificator);
 
-        if (!newModificator.DisabledModificator)
-        {
-            newModificator.OnModificatorAdded();
-        }
 
         if (modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE && SessionManager.Instance != null)
         {
