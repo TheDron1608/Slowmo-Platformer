@@ -4,10 +4,12 @@ using UnityEngine;
 public class PlayerCharacterMultiplierableEffectsOnStartModificator : AbstractCharactersModificator
 {
     public List<AbstractEffect> PlayerCharacterEffectsOnStart;
+    public List<AbstractEffect> AltEffectsOnInverTeam;
 
     protected override void OnCharacterAffected(CharacterComponentsManager character)
     {
-        foreach (AbstractEffect effect in character.CharacterEffectsReceiver.ApplyEffect(PlayerCharacterEffectsOnStart, null, ModificatorMultiplier, true))
+        List<AbstractEffect> targetEffects = InvertTeam && AltEffectsOnInverTeam.Count > 0 ? AltEffectsOnInverTeam : PlayerCharacterEffectsOnStart;
+        foreach (AbstractEffect effect in character.CharacterEffectsReceiver.ApplyEffect(targetEffects, null, ModificatorMultiplier, true))
         {
             if (effect is ITriggerableEffect triggerableEffect)
             {
@@ -18,15 +20,16 @@ public class PlayerCharacterMultiplierableEffectsOnStartModificator : AbstractCh
 
     protected override void OnCharacterRemovedAffect(CharacterComponentsManager character)
     {
+        List<AbstractEffect> targetEffects = InvertTeam && AltEffectsOnInverTeam.Count > 0 ? AltEffectsOnInverTeam : PlayerCharacterEffectsOnStart;
         foreach (AbstractEffect effect in character.CharacterEffectsReceiver.CurrentEffects)
         {
-            if (effect is ITriggerableEffect triggerableEffect && PlayerCharacterEffectsOnStart.Contains(effect))
+            if (effect is ITriggerableEffect triggerableEffect && targetEffects.Contains(effect))
             {
                 triggerableEffect.OnTriggered -= TriggerableEffect_OnTriggered;
             }
         }
 
-        character.CharacterEffectsReceiver.RemoveEffect(PlayerCharacterEffectsOnStart);
+        character.CharacterEffectsReceiver.RemoveEffect(targetEffects);
     }
 
     private void TriggerableEffect_OnTriggered(object sender, System.EventArgs e)

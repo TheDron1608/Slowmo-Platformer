@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5684327248137374976}
   - component: {fileID: -5976666825341997855}
   m_Layer: 0
-  m_Name: DeflectMeleeProjectileComboCost
+  m_Name: DeflectMeleeProjectileComboCostAllowNegative
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,4 +52,4 @@ MonoBehaviour:
   - {fileID: 8663022925198683700, guid: 36af44fb37c70994fa0dac63c2d5f1f7, type: 3}
   KnockoutVelocity: 30
   KnockoutDirection: {x: -4, y: 1}
-  AllowDeflectOnNegativeCombo: 0
+  AllowDeflectOnNegativeCombo: 1

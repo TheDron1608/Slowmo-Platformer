@@ -4,10 +4,16 @@ using UnityEngine;
 public class CharacterEffectOnSpawnModificator : AbstractCharactersModificator
 {
     public List<AbstractEffect> Effects;
+    public List<AbstractEffect> AltEffectsOnInvertTeam;
 
     protected override void OnCharacterAffected(CharacterComponentsManager character)
     {
-        List<AbstractEffect> addedEffects = character.CharacterEffectsReceiver.ApplyEffect(Effects, null, ModificatorMultiplier, true);
+        List<AbstractEffect> addedEffects = character.CharacterEffectsReceiver.ApplyEffect(
+            InvertTeam && AltEffectsOnInvertTeam.Count > 0 ? AltEffectsOnInvertTeam : Effects, 
+            null, 
+            ModificatorMultiplier, 
+            true
+            );
 
         foreach (AbstractEffect effect in addedEffects)
         {
@@ -27,7 +33,7 @@ public class CharacterEffectOnSpawnModificator : AbstractCharactersModificator
                 triggerableEffect.OnTriggered -= TriggerableEffect_OnTriggered;
             }
         }
-        foreach (AbstractEffect effect in Effects)
+        foreach (AbstractEffect effect in InvertTeam && AltEffectsOnInvertTeam.Count > 0 ? AltEffectsOnInvertTeam : Effects)
         {
             character.CharacterEffectsReceiver.RemoveEffect(effect);
         }

@@ -138,6 +138,7 @@ MonoBehaviour:
   RestrictModificators: []
   SynergingModificators: []
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 0
   ModificatorTier: 1
   IconSprite: {fileID: 21300000, guid: 8a51dbf8853dff04c997c7ed31f8b4bd, type: 3}
@@ -155,3 +156,5 @@ MonoBehaviour:
   HealAmountPerArtifactPrice: 0.01
   HealTeam: 0
   StartArtifactPriceIfIsCharacterModificator: 50
+  StartArtifactPriceIfInverted: 50
+  StartArtifactsIfInverted: 3

@@ -7,10 +7,6 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
     const float EXTRA_CHARACTER_VELOCITY_WEAPON_POSITION_AFFECTION_MULT = 0.1f;
     const float TELE_HOLDABLE_COLLIDE_OFFSET = 0.25f;
 
-    const float RANGED_ATTACK_MAX_DISTANCE = 10f;
-    const float MELEE_ATTACK_MAX_DISTANCE = 2f;
-    const float INVINCIBLE_TIME = 0.25f;
-
     private class TeleHoldableTrack
     {
         public Weapon Weapon;
@@ -27,6 +23,9 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
     public float MaxLiveTime = 3.5f;
     public float UnableToTeleWeaponAfterHitTime = 1f;
     public int WeaponsOnStart = 1;
+    public float RangedAttackMaxDistance = 10f;
+    public float MeleeAttackMaxDistance = 2f;
+    public float InvincibleTime = 0.25f;
     public AbstractEffect EffectOnNoHoldables;
     public List<AbstractEffect> EffectsOnHoldables = new();
 
@@ -59,6 +58,16 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
 
     private void CharacterHealth_OnHitByProjectile(object sender, AbstractProjectile e)
     {
+        if (_currentTeleWeapons.Count > 0 && AffectedCharacter.CharacterTeam.Team == TeamManager.Teams.PLAYER)
+        {
+            SoundOnLoseWeapons.PlaySound();
+        }
+
+        DropAllWeapons();
+    }
+
+    private void DropAllWeapons()
+    {
         if (_currentTeleWeapons.Count > 0)
         {
             _lastHitLostHoldables.Clear();
@@ -67,12 +76,11 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
                 _lastHitLostHoldables.Add(_currentTeleWeapons[0].Holdable);
                 RemoveTeleHoldableTrack(0, false);
             }
-            SoundOnLoseWeapons.PlaySound();
             _timeSinceLastHit = 0f;
             AffectedCharacter.CharacterHealth.SetHealth(AffectedCharacter.CharacterHealth.MaxHealth, null);
             AffectedCharacter.CharacterHealth.Ressurect();
         }
-        else if (_timeSinceLastHit < INVINCIBLE_TIME)
+        else if (_timeSinceLastHit < InvincibleTime)
         {
             AffectedCharacter.CharacterHealth.SetHealth(AffectedCharacter.CharacterHealth.MaxHealth, null);
             AffectedCharacter.CharacterHealth.Ressurect();
@@ -81,6 +89,8 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
 
     private void FixedUpdate()
     {
+        if (AffectedCharacter.CharacterEffectsReceiver.GetHasEffect<AbstractStun>()) return;
+
         AffectedCharacter.CharacterHolding.IsAbleToHoldObjects = false;
 
         _timeSinceLastHit += Time.deltaTime;
@@ -173,8 +183,8 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
                     if (
                         nearestTargetDistance > distance &&
                         (
-                            (_currentTeleWeapons[i].Weapon.Projectile is RangedProjectile && distance < RANGED_ATTACK_MAX_DISTANCE) ||
-                            (_currentTeleWeapons[i].Weapon.Projectile is MeleeProjectile && distance < MELEE_ATTACK_MAX_DISTANCE)
+                            (_currentTeleWeapons[i].Weapon.Projectile is RangedProjectile && distance < RangedAttackMaxDistance) ||
+                            (_currentTeleWeapons[i].Weapon.Projectile is MeleeProjectile && distance < MeleeAttackMaxDistance)
                         ) &&
                         characterTransform.TryGetComponent(out AbstractCharacterComponent character) &&
                         !AffectedCharacter.CharacterTeam.GetIsAllyToAnotherTeam(character.CharComponents.CharacterTeam) &&
@@ -191,7 +201,7 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
                     }
                 }
 
-                if (nearestTarget != null)
+                if (nearestTarget != null && (BossInitializer.Instance?.BossIsTriggered() ?? true))
                 {
                     Vector2 attackDir = nearestTarget.CharComponents.Center.transform.position - _currentTeleWeapons[i].Weapon.transform.position;
                     _currentTeleWeapons[i].Weapon.transform.rotation = VectorMath.Vec2ToQuaternion2DNoMirroring(attackDir);
@@ -275,11 +285,21 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
 
         AffectedCharacter.CharacterHolding.IsAbleToHoldObjects = true;
 
-        while (_currentTeleWeapons.Count > 0)
-        {
-            RemoveTeleHoldableTrack(0, false);
-        }
+        DropAllWeapons();
 
         AffectedCharacter.CharacterHealth.OnHitByProjectile -= CharacterHealth_OnHitByProjectile;
+    }
+
+    public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
+    {
+        return
+            base.ApplyCondition(affectWho, sender) &&
+            //affect only on boss, not boss's minions if applied for boss fight
+            (BossInitializer.Instance == null || BossInitializer.Instance.Boss == affectWho.GetComponent<AbstractCharacterComponent>().CharComponents);
+    }
+
+    private void OnDestroy()
+    {
+        DropAllWeapons();
     }
 }

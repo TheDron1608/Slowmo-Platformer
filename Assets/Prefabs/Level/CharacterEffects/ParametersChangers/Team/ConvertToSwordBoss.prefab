@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3724359782854957962
+--- !u!1 &3893936142916308182
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5684327248137374976}
-  - component: {fileID: -5976666825341997855}
+  - component: {fileID: 9116702802519926835}
+  - component: {fileID: 1124524581939566734}
   m_Layer: 0
-  m_Name: DeflectMeleeProjectileComboCost
+  m_Name: ConvertToSwordBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &5684327248137374976
+--- !u!4 &9116702802519926835
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3724359782854957962}
+  m_GameObject: {fileID: 3893936142916308182}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,24 +32,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5976666825341997855
+--- !u!114 &1124524581939566734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3724359782854957962}
+  m_GameObject: {fileID: 3893936142916308182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5b3a349c2ff2104b8ff3c4944104a8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 840d8cd8342f1d0418624e555bbc4d58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectPriority: 30
+  EffectPriority: 1
   AlternativeCharacterEffectIfResisted: {fileID: 0}
-  EffectMaterial: {fileID: 0}
-  ComboMultOnDeflect: 0.5
-  ExtraKnockoutEffects:
-  - {fileID: 8663022925198683700, guid: 36af44fb37c70994fa0dac63c2d5f1f7, type: 3}
-  KnockoutVelocity: 30
-  KnockoutDirection: {x: -4, y: 1}
-  AllowDeflectOnNegativeCombo: 0
+  EffectMaterial: {fileID: 2100000, guid: 2dde9d2b5cdcb744887e53347fc1f40c, type: 2}
+  OverrideTeam: 1
+  OverrideAI: {fileID: 7406505081802859726, guid: 1823427b74ccf7c4bb154932a4cdb784, type: 3}
+  AddTrack: {fileID: 0}
+  RemoveAutoDisable: 1

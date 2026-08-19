@@ -172,8 +172,10 @@ MonoBehaviour:
   _multiplierable: 0
   _modificatorPrice: 150
   _localization: {fileID: 2147315170708439846}
+  AffectTeam: 0
   ResetScoreEncountSpeedMultiplierMultiplier: 1.5
   ComboMultiplierOnReset: 0.5
   MinCombo: -5
+  SetComboInInvertedTeam: 10
   PlayerCharacterKillEffectsOnReachMinCombo:
   - {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}

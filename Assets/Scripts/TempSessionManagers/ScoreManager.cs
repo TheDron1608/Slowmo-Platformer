@@ -8,6 +8,13 @@ public class ScoreManager : MonoBehaviour
 {
     public const TeamManager.Teams TRACKED_TEAM = TeamManager.Teams.PLAYER;
 
+    public enum ResetComboReasons
+    {
+        TIME_OUT,
+        PROJECTILE_HIT,
+        USED_ABILITY
+    }
+
     [Serializable]
     public class ComboState
     {
@@ -25,9 +32,9 @@ public class ScoreManager : MonoBehaviour
     public float ResetComboDelay = 5f;
     public float ResetComboDelayOnStartLevel = 10f;
     public List<ComboState> ComboStates = new();
-    public Action<ScoreManager> OverrideResetComboEvent = null;
+    public Func<ScoreManager, ResetComboReasons, bool> OverrideResetComboEvent = null;
 
-    private Action<ScoreManager> DefaultResetComboEvent = (e) => { e.CurrentCombo = 0; };
+    private Func<ScoreManager, ResetComboReasons, bool> DefaultResetComboEvent = (e1, e2) => { e1.CurrentCombo = 0; return true; };
 
     private int _totalScore = 0;
     private int _tradableScore = 0;
@@ -124,7 +131,7 @@ public class ScoreManager : MonoBehaviour
 
     public void AddCombo()
     {
-        CurrentCombo++;
+        CurrentCombo = math.max(CurrentCombo + 1, 0);
         _timeSinceLastCombo = 0;
         RestoreComboLastTime();
         OnAddedCombo?.Invoke(this, EventArgs.Empty);
@@ -135,16 +142,17 @@ public class ScoreManager : MonoBehaviour
         ComboLastTime = ResetComboDelay;
     }
 
-    public void ResetCombo()
+    public void ResetCombo(ResetComboReasons reason)
     {
-        if (CurrentCombo > MinCombo)
+        if ((OverrideResetComboEvent ?? DefaultResetComboEvent).Invoke(this, reason))
         {
-            _lastCombo = CurrentCombo;
-            OnResetCombo?.Invoke(this, EventArgs.Empty);
-            AddScore((int)math.round(CurrentCombo * CurrentMultiplier));
+            if (CurrentCombo > MinCombo)
+            {
+                _lastCombo = CurrentCombo;
+                OnResetCombo?.Invoke(this, EventArgs.Empty);
+                AddScore((int)math.round(CurrentCombo * CurrentMultiplier));
+            }
         }
-        
-        (OverrideResetComboEvent ?? DefaultResetComboEvent)?.Invoke(this);
     }
 
     private void Awake()
@@ -196,7 +204,7 @@ public class ScoreManager : MonoBehaviour
         {
             newComboLastTime = 0f;
             ComboLastTime = newComboLastTime;
-            if (CurrentCombo > MinCombo) ResetCombo();
+            if (CurrentCombo > MinCombo) ResetCombo(ResetComboReasons.TIME_OUT);
         }
         else
         {

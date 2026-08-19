@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization;
 
+[DefaultExecutionOrder(10)]
 public class BossInitializer : MonoBehaviour
 {
     public static BossInitializer Instance;
@@ -32,6 +33,24 @@ public class BossInitializer : MonoBehaviour
     private bool _wonGame = false;
     private Coroutine _bossDialogueCoroutine = null;
     private Holdable _lastBossKillHoldable = null;
+    private bool _gibMinionsOnBossDeath = true;
+
+    public bool BossIsTriggered()
+    {
+        return _bossTriggered;
+    }
+
+    public CharacterComponentsManager Boss
+    {
+        get => _boss;
+        set => _boss = value;
+    }
+
+    public bool GibMinionsOnBossDeath
+    {
+        get => _gibMinionsOnBossDeath;
+        set => _gibMinionsOnBossDeath = value;
+    }
 
     private void Start()
     {
@@ -59,17 +78,7 @@ public class BossInitializer : MonoBehaviour
 
         //spawn player failed, restart level
         _playerCharacter = SpawnManager.Instance.SpawnPlayerCharacterAt(PlayerSpawnPosition.position, PlayerSpawnLayer);
-
-        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
-        {
-            if (!modificator.DisabledModificator)
-            {
-                modificator.OnLevelGenerated();
-            }
-        }
-
         _lastBossKillHoldable = _playerCharacter.CharacterHolding.CurrentHoldObject ?? _playerCharacter.CharacterHolding.CurrentHolsteredHoldObject;
-
 
         PlayerCharacterInfo currentBoss = SessionManager.Instance.TotalCharacters.Find(e => e.name == SessionManager.Instance.CurrentSession.CurrentBossName);
         ZIndexLayer throneLayer = LayerManager.Instance.GetZLayerOfGameObject(Throne.gameObject);
@@ -124,13 +133,15 @@ public class BossInitializer : MonoBehaviour
             }
 
             _playerCharacter.CharacterAttacking.OnEffectApplied += PlayerCharacter_OnEffectApplied;
-            _boss.CharacterHealth.OnHitByProjectile += Boss_OnHitByProjectile;
         }
-    }
 
-    private void Boss_OnHitByProjectile(object sender, AbstractProjectile e)
-    {
-        if (e.Weapon?.TryGetComponent(out Holdable holdable) ?? false) _lastBossKillHoldable = holdable;
+        foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
+        {
+            if (!modificator.DisabledModificator)
+            {
+                modificator.OnLevelGenerated();
+            }
+        }
     }
 
     private void PlayerCharacter_OnEffectApplied(object sender, IEffectApplier.OnEffectAppliedEventArgs e)
@@ -179,6 +190,7 @@ public class BossInitializer : MonoBehaviour
     {
         if (!_bossSpawned)
         {
+            Throne.enabled = true;
             if (Throne.GetCurrentSitter()?.CharComponents == _playerCharacter && !_wonGame)
             {
                 Win();
@@ -198,16 +210,34 @@ public class BossInitializer : MonoBehaviour
         }
         else
         {
-            bool targetEnable = _boss.IsDestroyed() || _boss.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
-            foreach (var minion in _minions) targetEnable &= minion.IsDestroyed() || minion.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>();
-            if (targetEnable != Throne.enabled)
+            if (_boss == null || _boss.IsDestroyed() || _boss.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>())
             {
-                NextLevelDoor.enabled = !targetEnable;
-                Throne.enabled = targetEnable;
-                NavPointersScreenOverlay.Instance.UpdateNavTargets();
+                if (!Throne.enabled)
+                {
+                    NextLevelDoor.enabled = false;
+                    Throne.enabled = true;
+                    NavPointersScreenOverlay.Instance.UpdateNavTargets();
+                }
+
+                if (GibMinionsOnBossDeath)
+                {
+                    foreach (var minion in _minions)
+                    {
+                        if (minion.IsDestroyed() || minion.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()) continue;
+                        minion.CharacterHealth.Gib(null);
+                    }
+                }
+            }
+            else
+            {
+                if (Throne.enabled)
+                {
+                    Throne.enabled = false;
+                    NavPointersScreenOverlay.Instance.UpdateNavTargets();
+                }
             }
 
-            if (!_boss.IsDestroyed()) _boss.CharacterAIManager.SetAIDisabled(false);
+            if (_boss != null && !_boss.IsDestroyed()) _boss.CharacterAIManager.SetAIDisabled(false);
 
             if (Throne.GetCurrentSitter()?.CharComponents == _playerCharacter && !_wonGame)
             {
@@ -317,6 +347,5 @@ public class BossInitializer : MonoBehaviour
         }
 
         if (_playerCharacter != null && !_playerCharacter.IsDestroyed()) _playerCharacter.CharacterAttacking.OnEffectApplied -= PlayerCharacter_OnEffectApplied;
-        if (_boss != null && !_boss.IsDestroyed()) _boss.CharacterHealth.OnHitByProjectile -= Boss_OnHitByProjectile;
     }
 }

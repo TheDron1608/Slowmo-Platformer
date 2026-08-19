@@ -5,12 +5,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModificator
+public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModificator, IInvertableTeamModificator
 {
     public int ExtraCostPerConverted = 1;
     public int RequiredComboToReduceCost = 5;
     public Holdable SpecialHoldableInstance;
     public List<AbstractEffect> TargetEffects = new();
+    public List<AbstractEffect> InvertTargetEffects = new();
     public TeamManager.Teams TrackedTeam = TeamManager.Teams.PLAYER;
     public float MaxCharacterDistanceFromHoldable = 10f;
     public float MaxCharacterDistanceFromHoldableOnUnholded = 22.5f;
@@ -22,6 +23,22 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
     private List<CharacterComponentsManager> _convertedCharacters = new();
     private int _currentExtraCost = 0;
     private int _killsToReducePriceLeft = 0;
+    private bool _invertTeam = false;
+    public bool InvertTeam
+    {
+        get => _invertTeam;
+        set
+        {
+            if (_invertTeam == value) return;
+            _invertTeam = value;
+
+            if (!DisabledModificator)
+            {
+                OnModificatorRemoved();
+                OnModificatorAdded();
+            }
+        }
+    }
 
     public override void OnModificatorAdded()
     {
@@ -67,14 +84,20 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
         GameOverManager.Instance.ExtraAllDeadGameOverConditions.Add(ExtraGameOverCondition);
 
-        CharacterTeam spawnedPlayer = TeamManager.Instance.GetTeamDataByTeam(TrackedTeam).GetTeamMembers().FirstOrDefault();
-        if (spawnedPlayer != null)
+        CharacterTeam targetCharacter = TeamManager.Instance.GetTeamDataByTeam(InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(TrackedTeam) : TrackedTeam).GetTeamMembers().FirstOrDefault();
+        if (InvertTeam && BossInitializer.Instance?.Boss != null)
         {
-            _currentSpecialHoldable = spawnedPlayer.CharComponents.CharacterHolding.GiveNewHoldable(SpecialHoldableInstance);
+            targetCharacter = BossInitializer.Instance.Boss.CharacterTeam;
+            BossInitializer.Instance.GibMinionsOnBossDeath = false;
+        }
+        if (targetCharacter != null)
+        {
+            _currentSpecialHoldable = targetCharacter.CharComponents.CharacterHolding.GiveNewHoldable(SpecialHoldableInstance);
             _currentSpecialHoldable.OnGiven += CurrentSpecialHoldable_OnGiven;
             _currentSpecialHoldable.OnThrown += CurrentSpecialHoldable_OnThrown;
+            if (_currentSpecialHoldable.TryGetComponent(out CameraTrackObject track)) track.enabled = !InvertTeam;
         }
-        _convertedCharacters = new() { spawnedPlayer.CharComponents };
+        _convertedCharacters = new() { targetCharacter.CharComponents };
 
         _currentExtraCost = 0;
         _killsToReducePriceLeft = RequiredComboToReduceCost;
@@ -82,6 +105,8 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
     public override bool OnSpecialActivated()
     {
+        if (InvertTeam) return false;
+
         if (_currentSpecialHoldable != null && !_currentSpecialHoldable.IsDestroyed())
         {
             CharacterComponentsManager nearestEnemy = null;
@@ -105,7 +130,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
             
             if (nearestEnemy != null )
             {
-                nearestEnemy.CharacterEffectsReceiver.ApplyEffect(TargetEffects, _currentSpecialHoldable);
+                nearestEnemy.CharacterEffectsReceiver.ApplyEffect(InvertTeam ? InvertTargetEffects : TargetEffects, _currentSpecialHoldable);
 
                 if (_currentSpecialHoldable.CurrentHolder == null)
                 {
@@ -114,7 +139,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
                 _convertedCharacters.Add(nearestEnemy);
 
-                TimeManager.Instance.TryTemporalSlowTime(SlowmoOnConvert);
+                if (!InvertTeam) TimeManager.Instance.TryTemporalSlowTime(SlowmoOnConvert);
 
                 _currentExtraCost += ExtraCostPerConverted;
 
@@ -143,7 +168,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
     private void CurrentSpecialHoldable_OnGiven(object sender, CharacterHoldingObjects e)
     {
-        if (e.CharComponents.UITrack != null)
+        if (e.CharComponents.UITrack != null && !InvertTeam)
         {
             e.CharComponents.UITrack.TrackIsDying = true;
         }
@@ -151,7 +176,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
     private void CurrentSpecialHoldable_OnThrown(object sender, Holdable.OnThrownEventArgs e)
     {
-        if (e.Thrower.CharComponents.UITrack != null)
+        if (e.Thrower.CharComponents.UITrack != null && !InvertTeam)
         {
             e.Thrower.CharComponents.UITrack.TrackIsDying = false;
         }
@@ -159,6 +184,53 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
     private void FixedUpdate()
     {
+        if (InvertTeam)
+        {
+            if (
+                _currentSpecialHoldable.CurrentOrLastHolder == null ||
+                _currentSpecialHoldable.CurrentOrLastHolder.IsDestroyed() ||
+                _currentSpecialHoldable.CurrentOrLastHolder.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
+                )
+            {
+                CharacterComponentsManager nearestEnemy = null;
+                float nearestEnemyDistance = float.MaxValue;
+                foreach (Transform characterTransform in LayerManager.Instance.GetZLayerOfGameObject(_currentSpecialHoldable.gameObject).CharactersContainer)
+                {
+                    float currentEnemyDistance = Vector2.Distance(characterTransform.position, _currentSpecialHoldable.transform.position);
+                    if (
+                        currentEnemyDistance < nearestEnemyDistance &&
+                        characterTransform.TryGetComponent(out AbstractCharacterComponent character) &&
+                        !character.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(TrackedTeam) &&
+                        character.CharComponents != _currentSpecialHoldable.CurrentHolder?.CharComponents &&
+                        !_convertedCharacters.Contains(character.CharComponents)
+                        )
+                    {
+                        nearestEnemy = character.CharComponents;
+                        nearestEnemyDistance = currentEnemyDistance;
+                    }
+
+                }
+
+                if (nearestEnemy != null)
+                {
+                    nearestEnemy.CharacterEffectsReceiver.ApplyEffect(InvertTeam ? InvertTargetEffects : TargetEffects, _currentSpecialHoldable);
+
+                    if (_currentSpecialHoldable.CurrentHolder == null)
+                    {
+                        nearestEnemy.CharacterHolding.ForceGrab(_currentSpecialHoldable);
+                    }
+
+                    _convertedCharacters.Add(nearestEnemy);
+
+                    TimeManager.Instance.TryTemporalSlowTime(SlowmoOnConvert);
+
+                    _currentExtraCost += ExtraCostPerConverted;
+                }
+
+                if (BossInitializer.Instance != null) BossInitializer.Instance.Boss = nearestEnemy;
+            }
+        }
+
         if (
             SceneList.GetCurrentSceneIsGameplay() && 
             _currentSpecialHoldable != null && 

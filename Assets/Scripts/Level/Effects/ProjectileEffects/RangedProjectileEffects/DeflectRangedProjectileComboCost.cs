@@ -5,6 +5,7 @@ public class DeflectRangedProjectileComboCost : AbstractRangedProjectileDeflecti
 {
     public float ComboMultOnDeflect = 0.5f;
     public float DeflectionAccuracy = 0.25f;
+    public bool AllowDeflectOnNegativeCombo = false;
 
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
@@ -21,7 +22,7 @@ public class DeflectRangedProjectileComboCost : AbstractRangedProjectileDeflecti
 
             RangedProjectile.MoveAlignVec2 = newAlign;
 
-            ScoreManager.Instance.CurrentCombo = (int)math.floor(ScoreManager.Instance.CurrentCombo * ComboMultOnDeflect);
+            ScoreManager.Instance.ResetCombo(ScoreManager.ResetComboReasons.PROJECTILE_HIT);
         }
 
         RemoveSelf();
@@ -29,7 +30,10 @@ public class DeflectRangedProjectileComboCost : AbstractRangedProjectileDeflecti
 
     public override bool ApplyCondition(ObjectEffectsReceiver affectWho, MonoBehaviour sender)
     {
-        return base.ApplyCondition(affectWho, sender) && ScoreManager.Instance?.CurrentCombo > 0;
+        return 
+            base.ApplyCondition(affectWho, sender) &&
+            ScoreManager.Instance != null &&
+            (AllowDeflectOnNegativeCombo ? ScoreManager.Instance.CurrentCombo > ScoreManager.Instance.MinCombo : ScoreManager.Instance.CurrentCombo > 0);
     }
 
     public override bool Equals(AbstractEffect other)

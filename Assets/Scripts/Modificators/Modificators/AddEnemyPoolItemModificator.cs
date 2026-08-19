@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AddEnemyPoolItemModificator : AbstractModificator
 {
@@ -10,7 +11,7 @@ public class AddEnemyPoolItemModificator : AbstractModificator
     {
         base.OnModificatorAdded();
 
-        if (LayerManager.Instance != null)
+        if (LayerManager.Instance != null && SceneManager.GetActiveScene().name != SceneList.BOSS)
         {
             foreach (ZIndexLayer layer in LayerManager.Instance.ZLayers)
             {

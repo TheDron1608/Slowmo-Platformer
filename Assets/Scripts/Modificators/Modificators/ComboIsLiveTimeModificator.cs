@@ -7,6 +7,7 @@ public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamMo
     public float ResetScoreEncountSpeedMultiplierMultiplier = 1f;
     public float ComboMultiplierOnReset = 0.5f;
     public int MinCombo = -10;
+    public int SetComboInInvertedTeam = 0;
     public List<AbstractEffect> PlayerCharacterKillEffectsOnReachMinCombo = new();
 
     private int _oldMinComboValue;
@@ -36,6 +37,8 @@ public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamMo
 
         ScoreManager.Instance.ResetScoreEncountSpeedMultiplier *= ResetScoreEncountSpeedMultiplierMultiplier;
         ScoreManager.Instance.OverrideResetComboEvent = OverrideScoreEncounterResetComboEvent;
+
+        if (InvertTeam && ScoreManager.Instance.CurrentCombo < SetComboInInvertedTeam) ScoreManager.Instance.CurrentCombo = SetComboInInvertedTeam;
     }
 
     public override void OnModificatorRemoved()
@@ -50,8 +53,10 @@ public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamMo
         }
     }
 
-    public void OverrideScoreEncounterResetComboEvent(ScoreManager scoreManager)
+    public bool OverrideScoreEncounterResetComboEvent(ScoreManager scoreManager, ScoreManager.ResetComboReasons reason)
     {
+        if (InvertTeam && reason == ScoreManager.ResetComboReasons.TIME_OUT) return false;
+
         if (scoreManager.CurrentCombo > 0)
         {
             scoreManager.CurrentCombo = (int)math.floor(scoreManager.CurrentCombo * ComboMultiplierOnReset);
@@ -61,7 +66,7 @@ public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamMo
             scoreManager.CurrentCombo--;
         }
 
-        if (scoreManager.CurrentCombo == scoreManager.MinCombo)
+        if (scoreManager.CurrentCombo == scoreManager.MinCombo && !InvertTeam)
         {
             foreach (
                 AbstractCharacterComponent playerCharacter in 
@@ -75,5 +80,7 @@ public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamMo
         {
             scoreManager.RestoreComboLastTime();
         }
+
+        return true;
     }
 }

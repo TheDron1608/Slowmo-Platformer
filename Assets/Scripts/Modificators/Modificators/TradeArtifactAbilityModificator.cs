@@ -2,16 +2,36 @@
 using System.Linq;
 using UnityEngine;
 
-public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator
+public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator, IInvertableTeamModificator
 {
+    const int MAX_ADD_MODS_ATTERMPS = 30;
+
     public int ArtifactsCapacity = 5;
     public float ArtifactPricePerCombo = 1.5f;
     public float SlowTimeOnGainArtifact = 2f;
     public float HealAmountPerArtifactPrice = 0.01f;
     public TeamManager.Teams HealTeam = TeamManager.Teams.PLAYER;
     public float StartArtifactPriceIfIsCharacterModificator = 100f;
+    public float StartArtifactPriceIfInverted = 250f;
+    public int StartArtifactsIfInverted = 3;
 
     private List<AbstractModificator> _currentArtifacts = new();
+    private bool _invertTeam = false;
+    public bool InvertTeam
+    {
+        get => _invertTeam;
+        set
+        {
+            if (_invertTeam == value) return;
+            _invertTeam = value;
+
+            if (!DisabledModificator)
+            {
+                OnModificatorRemoved();
+                OnModificatorAdded();
+            }
+        }
+    }
 
     public override void OnModificatorAdded()
     {
@@ -21,13 +41,22 @@ public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator
         {
             TryAddArtifact(StartArtifactPriceIfIsCharacterModificator);
         }
+
+        if (InvertTeam)
+        {
+            for (int i = 0; i < MAX_ADD_MODS_ATTERMPS; i++)
+            {
+                TryAddArtifact(StartArtifactPriceIfInverted);
+                if (_currentArtifacts.Count >= StartArtifactsIfInverted) break;
+            }
+        }
     }
 
     public override bool OnSpecialActivated()
     {
         if (TryAddArtifact(ScoreManager.Instance.CurrentCombo * ScoreManager.Instance.CurrentMultiplier * ArtifactPricePerCombo))
         {
-            ScoreManager.Instance.ResetCombo();
+            ScoreManager.Instance.ResetCombo(ScoreManager.ResetComboReasons.USED_ABILITY);
             return true;
         }
         else
@@ -67,6 +96,17 @@ public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator
         return false;
     }
 
+    public override void OnModificatorRemoved()
+    {
+        base.OnModificatorRemoved();
+
+        while (_currentArtifacts.Count > 0)
+        {
+            ModificatorsManager.Instance.RemoveModificator(_currentArtifacts[0]);
+            _currentArtifacts.RemoveAt(0);
+        }
+    }
+
     private void FixedUpdate()
     {
         float charactersHealAmountThisFrame = 
@@ -74,7 +114,10 @@ public class TradeArtifactAbilityModificator : AbstractGlobalSpecialModificator
 
         if (TeamManager.Instance != null)
         {
-            foreach (CharacterTeam playerTeamMember in TeamManager.Instance.GetTeamDataByTeam(HealTeam).GetTeamMembers())
+            foreach (
+                CharacterTeam playerTeamMember in 
+                TeamManager.Instance.GetTeamDataByTeam(InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(HealTeam) : HealTeam).GetTeamMembers()
+                )
             {
                 playerTeamMember.CharComponents.CharacterHealth.ApplyDamage(charactersHealAmountThisFrame, null);
             }

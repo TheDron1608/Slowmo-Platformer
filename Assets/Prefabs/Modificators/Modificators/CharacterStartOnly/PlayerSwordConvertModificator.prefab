@@ -171,7 +171,7 @@ MonoBehaviour:
   SynergingModificators: []
   UnsynergingModificators: []
   HarderVersion: {fileID: 0}
-  ModificatorType: 2
+  ModificatorType: 0
   ModificatorTier: 3
   IconSprite: {fileID: 21300000, guid: 54fbddb128f56c64ba6afc67e87fd662, type: 3}
   CardSprite: {fileID: 21300000, guid: de7ba16710e68b64e8972e9c18b74a4f, type: 3}
@@ -199,6 +199,16 @@ MonoBehaviour:
   - {fileID: -4197255158598408884, guid: 09a20adeb0d352c49acf0aca1bec3c11, type: 3}
   - {fileID: 1233967932159160897, guid: 713d65a57aecf2848b19798c4dcb72f3, type: 3}
   - {fileID: -8095545692975642676, guid: 0d2319e9fc2eed94e94984f75dd6f0e8, type: 3}
+  InvertTargetEffects:
+  - {fileID: 1124524581939566734, guid: 51ce00ef7b0826947b0d9ce2cc398b66, type: 3}
+  - {fileID: 1074026954555704250, guid: 8e96c3e8defe41c44872040ee864a28d, type: 3}
+  - {fileID: 5372439054436479793, guid: faec299506aaf3749a7dceb803556f1b, type: 3}
+  - {fileID: -7911747240444091549, guid: 18769cb9b6e47f047ab728cf1c8b152a, type: 3}
+  - {fileID: -7634859150528065023, guid: 2e2d115315c05734f817964c9ef32ad1, type: 3}
+  - {fileID: 3835787520392331423, guid: 5ebe75e4c5f8f054fb4e5d53602e888e, type: 3}
+  - {fileID: 2707210804082877257, guid: 6f68169f6d9ed0149a81a20e8718879c, type: 3}
+  - {fileID: 2642663657392413741, guid: 1e125a9045c946d41863768663cbb91c, type: 3}
+  - {fileID: 1233967932159160897, guid: 713d65a57aecf2848b19798c4dcb72f3, type: 3}
   TrackedTeam: 0
   MaxCharacterDistanceFromHoldable: 10
   MaxCharacterDistanceFromHoldableOnUnholded: 22.5

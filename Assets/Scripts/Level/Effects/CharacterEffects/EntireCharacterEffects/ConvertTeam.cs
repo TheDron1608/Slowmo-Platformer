@@ -23,7 +23,7 @@ public class ConvertTeam : AbstractCharacterEffect, IEntireCharacterEffect
         {
             disableObject.AllowDisable = OverrideTeam != TeamManager.Teams.PLAYER;
         }
-        
+
         if (OverrideAI != null)
         {
             if (AffectedCharacter.CharacterAIManager != null)
@@ -86,7 +86,6 @@ public class ConvertTeam : AbstractCharacterEffect, IEntireCharacterEffect
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            affectWho.GetComponent<AbstractCharacterComponent>().CharComponents.CharacterTeam.Team != OverrideTeam &&
             !affectWho.GetHasEffect<ConvertTeam>();
     }
 }

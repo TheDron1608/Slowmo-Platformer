@@ -32,7 +32,7 @@ public class CharacterVisual : AbstractCharacterComponent
     const float DETECTED_ENEMY_POPUP_DURATION = 1.5f;
     const float DEATH_POPUP_DURATION = 0.25f;
     const float POPUP_FRAMERATE = 5f;
-    const float POPUP_TEXT_APPEAR_DURATION = 0.05f;
+    const float POPUP_TEXT_APPEAR_DURATION = 0.0667f;
     const float POPUP_TEXT_REMOVE_DELAY = 2f;
 
     const int HEARD_NOISE_POPUP_PRIORITY = 1;

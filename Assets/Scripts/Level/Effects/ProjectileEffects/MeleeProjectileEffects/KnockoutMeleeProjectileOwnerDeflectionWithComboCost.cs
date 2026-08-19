@@ -9,6 +9,7 @@ public class KnockoutMeleeProjectileOwnerDeflectionWithComboCost : AbstractMelee
     public List<AbstractEffect> ExtraKnockoutEffects = new();
     public float KnockoutVelocity = 40f;
     public Vector2 KnockoutDirection = Vector2.one;
+    public bool AllowDeflectOnNegativeCombo = false;
 
     protected override void OnReceivedSender(MonoBehaviour sender)
     {
@@ -28,7 +29,7 @@ public class KnockoutMeleeProjectileOwnerDeflectionWithComboCost : AbstractMelee
 
             MeleeProjectile.Owner.CharComponents.CharacterEffectsReceiver.ApplyEffect(ExtraKnockoutEffects, Sender);
 
-            ScoreManager.Instance.CurrentCombo = (int)math.floor(ScoreManager.Instance.CurrentCombo * ComboMultOnDeflect);
+            ScoreManager.Instance.ResetCombo(ScoreManager.ResetComboReasons.PROJECTILE_HIT);
         }
 
         RemoveSelf();
@@ -38,7 +39,8 @@ public class KnockoutMeleeProjectileOwnerDeflectionWithComboCost : AbstractMelee
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            ScoreManager.Instance?.CurrentCombo > 0 &&
+            ScoreManager.Instance != null &&
+            (AllowDeflectOnNegativeCombo ? ScoreManager.Instance.CurrentCombo > ScoreManager.Instance.MinCombo : ScoreManager.Instance.CurrentCombo > 0) &&
             ((!affectWho.GetComponent<MeleeProjectile>().Owner?.gameObject.IsDestroyed()) ?? false);
     }
 
