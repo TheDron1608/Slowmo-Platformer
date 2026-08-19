@@ -199,6 +199,7 @@ MonoBehaviour:
   - {fileID: -4197255158598408884, guid: 09a20adeb0d352c49acf0aca1bec3c11, type: 3}
   - {fileID: 1233967932159160897, guid: 713d65a57aecf2848b19798c4dcb72f3, type: 3}
   - {fileID: -8095545692975642676, guid: 0d2319e9fc2eed94e94984f75dd6f0e8, type: 3}
+  - {fileID: 7408680817082727320, guid: 421c5b06574d91a409f2988645233f64, type: 3}
   InvertTargetEffects:
   - {fileID: 1124524581939566734, guid: 51ce00ef7b0826947b0d9ce2cc398b66, type: 3}
   - {fileID: 1074026954555704250, guid: 8e96c3e8defe41c44872040ee864a28d, type: 3}
@@ -209,10 +210,13 @@ MonoBehaviour:
   - {fileID: 2707210804082877257, guid: 6f68169f6d9ed0149a81a20e8718879c, type: 3}
   - {fileID: 2642663657392413741, guid: 1e125a9045c946d41863768663cbb91c, type: 3}
   - {fileID: 1233967932159160897, guid: 713d65a57aecf2848b19798c4dcb72f3, type: 3}
+  - {fileID: 7408680817082727320, guid: 421c5b06574d91a409f2988645233f64, type: 3}
   TrackedTeam: 0
   MaxCharacterDistanceFromHoldable: 10
   MaxCharacterDistanceFromHoldableOnUnholded: 22.5
   EffectsOnTooFarFromHoldable:
   - {fileID: 3863728385532063716, guid: 6596be9c5f9755b4eba711faa3423920, type: 3}
+  EffectsOnEnemyHoldingSpecialHoldable:
+  - {fileID: 8663022925198683700, guid: 36af44fb37c70994fa0dac63c2d5f1f7, type: 3}
   SlowmoOnConvert: 1
   ComboMaterialOnAbleToUse: {fileID: 2100000, guid: 1708e21662d4ef648b7ed3295e9ede72, type: 2}

@@ -16,6 +16,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
     public float MaxCharacterDistanceFromHoldable = 10f;
     public float MaxCharacterDistanceFromHoldableOnUnholded = 22.5f;
     public List<AbstractEffect> EffectsOnTooFarFromHoldable = new();
+    public List<AbstractEffect> EffectsOnEnemyHoldingSpecialHoldable = new();
     public float SlowmoOnConvert = 1f;
     public Material ComboMaterialOnAbleToUse;
 
@@ -136,6 +137,11 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                 {
                     nearestEnemy.CharacterHolding.ForceGrab(_currentSpecialHoldable);
                 }
+                else if (_currentSpecialHoldable.CurrentHolder.CharComponents.CharacterTeam.Team != TrackedTeam)
+                {
+                    _currentSpecialHoldable.CurrentHolder.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnEnemyHoldingSpecialHoldable, nearestEnemy);
+                    nearestEnemy.CharacterHolding.ForceGrab(_currentSpecialHoldable);
+                }
 
                 _convertedCharacters.Add(nearestEnemy);
 
@@ -189,7 +195,8 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
             if (
                 _currentSpecialHoldable.CurrentOrLastHolder == null ||
                 _currentSpecialHoldable.CurrentOrLastHolder.IsDestroyed() ||
-                _currentSpecialHoldable.CurrentOrLastHolder.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
+                _currentSpecialHoldable.CurrentOrLastHolder.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() ||
+                _currentSpecialHoldable.CurrentHolder?.CharComponents.CharacterTeam.Team == TrackedTeam
                 )
             {
                 CharacterComponentsManager nearestEnemy = null;
@@ -215,10 +222,12 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                 {
                     nearestEnemy.CharacterEffectsReceiver.ApplyEffect(InvertTeam ? InvertTargetEffects : TargetEffects, _currentSpecialHoldable);
 
-                    if (_currentSpecialHoldable.CurrentHolder == null)
+                    if (_currentSpecialHoldable.CurrentHolder?.CharComponents.CharacterTeam.Team == TrackedTeam)
                     {
-                        nearestEnemy.CharacterHolding.ForceGrab(_currentSpecialHoldable);
+                        _currentSpecialHoldable.CurrentHolder.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectsOnEnemyHoldingSpecialHoldable, nearestEnemy);
                     }
+
+                    nearestEnemy.CharacterHolding.ForceGrab(_currentSpecialHoldable);
 
                     _convertedCharacters.Add(nearestEnemy);
 

@@ -5,6 +5,7 @@ public class RollOnCloseProjectiles : AbstractAIRolling
     public float RollCooldown = 1f;
     public float MeleeProjectileDistanceToRoll = 2.5f;
     public float RangedProjectileDistanceToRoll = 10f;
+    public bool DontRollIfAbleToDeflect = false;
 
     private float _cooldown = 0f;
 
@@ -17,10 +18,22 @@ public class RollOnCloseProjectiles : AbstractAIRolling
             return;
         }
 
+        MeleeProjectile currentProjectile = null;
+        if (CharComponents.CharacterHolding.CurrentHoldObject != null && CharComponents.CharacterHolding.CurrentHoldObject.TryGetComponent(out Weapon w) && w.Projectile is MeleeProjectile mp)
+        {
+            currentProjectile = mp;
+        }
+        else if (CharComponents.UnarmedAttacking != null && CharComponents.UnarmedAttacking.Projectile is MeleeProjectile ump)
+        {
+            currentProjectile = ump;
+        }
+
         AbstractProjectile closestProjectile = null;
         float closestProjectileDistance = RangedProjectileDistanceToRoll;
         foreach (AbstractProjectile projectile in LayerManager.Instance.GetZLayerOfGameObject(gameObject).ProjectilesContainer.GetComponentsInChildren<AbstractProjectile>())
         {
+            if (DontRollIfAbleToDeflect && currentProjectile != null && GetProjectileIsValidToDeflect(currentProjectile, projectile)) return;
+
             if ((!projectile.Owner?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(CharComponents.CharacterTeam)) ?? true)
             {
                 float projectileDistance = Vector2.Distance(
@@ -76,5 +89,18 @@ public class RollOnCloseProjectiles : AbstractAIRolling
         {
             return false;
         }
+    }
+
+    private bool GetProjectileIsValidToDeflect(MeleeProjectile deflector, AbstractProjectile deflected)
+    {
+        return
+            (
+                deflected.TryGetComponent(out RangedProjectile rp) &&
+                NumberMath.GetListContainsComponent<AbstractRangedProjectileDeflection, AbstractEffect>(deflector.EffectsOnDeflect)
+            ) ||
+            (
+                deflected.TryGetComponent(out MeleeProjectile mp) &&
+                NumberMath.GetListContainsComponent<AbstractMeleeProjectileDeflection, AbstractEffect>(deflector.EffectsOnDeflect)
+            );
     }
 }

@@ -23,6 +23,7 @@ public class BossInitializer : MonoBehaviour
     public List<LocalizedString> BossQuotes;
     public List<LocalizedString> BossWinQuotes;
     public List<LocalizedString> BossLoopQuotes;
+    public EnemySpawnInfo MinionSpawnInfo;
 
     private CharacterComponentsManager _playerCharacter;
     private CharacterComponentsManager _boss;
@@ -111,7 +112,7 @@ public class BossInitializer : MonoBehaviour
 
             foreach (Transform minionSpawnPosition in BossMinionsSpawnPositions)
             {
-                CharacterComponentsManager minion = NumberMath.PickRandomItem(SpawnManager.Instance.EnemyPool).SpawnAt(minionSpawnPosition.position, throneLayer);
+                CharacterComponentsManager minion = MinionSpawnInfo.SpawnAt(minionSpawnPosition.position, throneLayer);
                 _minions.Add(minion);
                 minion.CharacterAIManager.SetAIDisabled(true);
                 minion.CharacterVisual.FlippedH = _boss.transform.position.x > minion.transform.position.x;
