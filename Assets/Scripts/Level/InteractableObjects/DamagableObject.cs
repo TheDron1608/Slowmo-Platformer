@@ -91,12 +91,6 @@ public class DamagableObject : MonoBehaviour, IDamagable
         protected set => _minHealth = value;
     }
 
-    public List<AbstractEffect> DefaultEffectsOnLethal
-    {
-        get => _defaultLethalEffects;
-        set => _defaultLethalEffects = value;  
-    }
-
     public bool Died
     {
         get => _died;

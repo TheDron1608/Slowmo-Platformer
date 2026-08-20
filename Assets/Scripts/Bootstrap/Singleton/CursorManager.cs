@@ -44,7 +44,7 @@ public class CursorManager : MonoBehaviour
         }
 
 
-        if (SceneList.GetCurrentSceneIsGameplay() && !TimeManager.Instance.Paused)
+        if (SceneList.GetCurrentSceneIsGameplay() && (!(TimeManager.Instance?.Paused) ?? false))
         {
             if (TeamManager.Instance?.GetTeamDataByTeam(TeamManager.Teams.PLAYER).GetTeamMembers().Count == 1)
             {

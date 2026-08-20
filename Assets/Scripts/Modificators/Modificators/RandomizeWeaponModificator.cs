@@ -11,6 +11,8 @@ public class RandomizeWeaponModificator : AbstractModificator
 
     private void FixedUpdate()
     {
+        if (DisabledModificator) return;
+
         _timeSinceLastrandomization += Time.deltaTime;
 
         if (_timeSinceLastrandomization > DelayBetweenRandomization / ModificatorMultiplier)

@@ -201,6 +201,7 @@ public class BossInitializer : MonoBehaviour
         else if (!_bossTriggered || _bossDialogueCoroutine != null)
         {
             if (
+                !_boss.IsDestroyed() &&
                 Vector2.Distance(_playerCharacter.transform.position, _boss.transform.position) < BossTriggerDistance && 
                 _bossDialogueCoroutine == null && 
                 !_bossSkipped
@@ -240,7 +241,7 @@ public class BossInitializer : MonoBehaviour
 
             if (_boss != null && !_boss.IsDestroyed()) _boss.CharacterAIManager.SetAIDisabled(false);
 
-            if (Throne.GetCurrentSitter()?.CharComponents == _playerCharacter && !_wonGame)
+            if (_playerCharacter != null && Throne.GetCurrentSitter()?.CharComponents == _playerCharacter && !_wonGame)
             {
                 Win();
                 _wonGame = true;
@@ -311,24 +312,27 @@ public class BossInitializer : MonoBehaviour
         _playerCharacter.CharacterHolding.ForceDisarm();
         _playerCharacter.CharacterAIManager.SetAIDisabled(false);
 
-        SessionManager.Instance.CurrentSession.CurrentBossName = SessionManager.Instance.CurrentSelectedPlayer.name;
-        SessionManager.Instance.CurrentSession.CurrentBossWeapon = _lastBossKillHoldable?.FindingUniqueCodeName;
-        SessionManager.Instance.CurrentSession.CurrentBossModificators.Clear();
-        foreach (var mod in ModificatorsManager.Instance.CurrentModificators)
+        if (SessionManager.Instance?.CurrentSession != null)
         {
-            if (
-                mod.Status != AbstractModificator.ModificatorStatuses.BOSS &&
-                (
-                    (mod is IInvertableTeamModificator && mod.ModificatorType != AbstractModificator.ModificatorTypes.NEGATIVE) ||
-                    mod.ModificatorType == AbstractModificator.ModificatorTypes.NEUTRAL
-                )
-                )
+            SessionManager.Instance.CurrentSession.CurrentBossName = SessionManager.Instance.CurrentSelectedPlayer.name;
+            SessionManager.Instance.CurrentSession.CurrentBossWeapon = _lastBossKillHoldable?.FindingUniqueCodeName;
+            SessionManager.Instance.CurrentSession.CurrentBossModificators.Clear();
+            foreach (var mod in ModificatorsManager.Instance.CurrentModificators)
             {
-                SessionManager.Instance.CurrentSession.CurrentBossModificators.Add(mod.OriginalModificator.name);
+                if (
+                    mod.Status != AbstractModificator.ModificatorStatuses.BOSS &&
+                    (
+                        (mod is IInvertableTeamModificator && mod.ModificatorType != AbstractModificator.ModificatorTypes.NEGATIVE) ||
+                        mod.ModificatorType == AbstractModificator.ModificatorTypes.NEUTRAL
+                    )
+                    )
+                {
+                    SessionManager.Instance.CurrentSession.CurrentBossModificators.Add(mod.OriginalModificator.name);
+                }
             }
-        }
 
-        SessionManager.Instance.SaveCurrentSession();
+            SessionManager.Instance.SaveCurrentSession();
+        }
     }
 
     private void OnDestroy()
@@ -344,6 +348,11 @@ public class BossInitializer : MonoBehaviour
                     ModificatorsManager.Instance.RemoveModificatorAt(i);
                     i--;
                 }
+                else
+                {
+                    ModificatorsManager.Instance.CurrentModificators[i].DisabledModificator = false;
+                }
+
             }
         }
 

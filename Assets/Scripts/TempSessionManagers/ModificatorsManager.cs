@@ -6,8 +6,6 @@ using UnityEngine;
 [DefaultExecutionOrder(-1)]
 public class ModificatorsManager : MonoBehaviour
 {
-    const int MULTIPLE_MODIFICATORS_MAX_AMOUNT = 5;
-
     public static ModificatorsManager Instance;
 
     public List<AbstractModificator> ModificatorsPool = new();
@@ -32,6 +30,8 @@ public class ModificatorsManager : MonoBehaviour
     public float TradeCurseProfitMult = 1f;
     public float TradeBlessProfitMult = 1f;
     public float ArtifactSpoilDurationSeconds = 60 * 5f;
+    public int MultipleModificatorsMaxAmount = 5;
+    public float MaxSynergingModificatorTargetPriceDifferece = 100f;
 
     [Header("Instances")]
     [SerializeField] private ModificatorCardsCluster _clusterInstance;
@@ -346,15 +346,34 @@ public class ModificatorsManager : MonoBehaviour
         bool forceSynergingModificators = RandomManager.Instance.ProcRandomGoodChance(ForceGiveSynergingModificatorChance);
         float counterPriceMult = type == AbstractModificator.ModificatorTypes.NEUTRAL ? 1f : (1f + counterModificatorsRelativePrice);
         List<AbstractModificator> result = new();
-        IEnumerable<AbstractModificator> filteredModificators = 
-            (forceSynergingModificators && AvaibleSynergingValidModificators.Count > 0 ? AvaibleSynergingValidModificators : AvaibleValidModificators)
-            .Where(e =>
-                e.ModificatorType == type &&
-                (allowPermanentIncapable || e.AllowPermanent) &&
-                (excludeModificators == null || !excludeModificators.Contains(e)) &&
-                !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2)) &&
-                (restrictOverrideModificators == null || restrictOverrideModificators.All(e2 => !e.GetIsOverriding(e2) && !e2.GetIsOverriding(e) && !e.GetIsRestrictedWith(e2)))
-            );
+        IEnumerable<AbstractModificator> filteredModificators = null;
+
+        if (forceSynergingModificators)
+        {
+            filteredModificators = 
+                AvaibleSynergingValidModificators
+                .Where(e =>
+                    e.ModificatorType == type &&
+                    (allowPermanentIncapable || e.AllowPermanent) &&
+                    (excludeModificators == null || !excludeModificators.Contains(e)) &&
+                    Mathf.Abs(targetPrice - e.ModificatorPrice) < MaxSynergingModificatorTargetPriceDifferece &&
+                    !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2)) &&
+                    (restrictOverrideModificators == null || restrictOverrideModificators.All(e2 => !e.GetIsOverriding(e2) && !e2.GetIsOverriding(e) && !e.GetIsRestrictedWith(e2)))
+                );
+        }
+
+        if (!forceSynergingModificators || (filteredModificators?.Count() ?? 0) == 0)
+        {
+            filteredModificators =
+                AvaibleValidModificators
+                .Where(e =>
+                    e.ModificatorType == type &&
+                    (allowPermanentIncapable || e.AllowPermanent) &&
+                    (excludeModificators == null || !excludeModificators.Contains(e)) &&
+                    !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2)) &&
+                    (restrictOverrideModificators == null || restrictOverrideModificators.All(e2 => !e.GetIsOverriding(e2) && !e2.GetIsOverriding(e) && !e.GetIsRestrictedWith(e2)))
+                );
+        }
 
         AbstractModificator singleModificatorResult =
             NumberMath.PickRandomItem(filteredModificators.Where(
@@ -372,7 +391,7 @@ public class ModificatorsManager : MonoBehaviour
         else if (!singleOnly)
         {
             float totalModificatorsPrice = 0f;
-            while (totalModificatorsPrice < minPrice * counterPriceMult && result.Count < MULTIPLE_MODIFICATORS_MAX_AMOUNT)
+            while (totalModificatorsPrice < minPrice * counterPriceMult && result.Count < MultipleModificatorsMaxAmount)
             {
                 filteredModificators = filteredModificators.Where(e => result.All(e2 => e != e2 && !e.GetIsRestrictedWith(e2) && !e.GetIsOverriding(e2)));
                 if (filteredModificators.Count() == 0) break;

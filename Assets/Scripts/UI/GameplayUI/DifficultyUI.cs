@@ -54,10 +54,17 @@ public class DifficultyUI : MonoBehaviour
         Profiler.EndSample();
 
         Profiler.BeginSample("Setting time text");
-        TimeSpan time = new(0, 0, (int)math.floor(DifficultyManager.Instance.CurrentLoopDifficultyTime));
-        _bottomInfoText.text =
-            time.ToString(@"mm\:ss") + " | " +
-            DifficultyManager.Instance.CurrentDifficulty.Value.GetLocalizedName();
+        if (DifficultyManager.Instance.CurrentDifficulty.Next != null)
+        {
+            TimeSpan time = new(0, 0, (int)math.floor(DifficultyManager.Instance.CurrentLoopDifficultyTime));
+            _bottomInfoText.text =
+                time.ToString(@"mm\:ss") + " | " +
+                DifficultyManager.Instance.CurrentDifficulty.Value.GetLocalizedName();
+        }
+        else
+        {
+            _bottomInfoText.text = DifficultyManager.Instance.CurrentDifficulty.Value.GetLocalizedName();
+        }
         Profiler.EndSample();
     }
 

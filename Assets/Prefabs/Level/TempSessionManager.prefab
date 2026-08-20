@@ -239,6 +239,8 @@ MonoBehaviour:
   TradeCurseProfitMult: 1
   TradeBlessProfitMult: 1
   ArtifactSpoilDurationSeconds: 300
+  MultipleModificatorsMaxAmount: 5
+  MaxSynergingModificatorTargetPriceDifferece: 100
   _clusterInstance: {fileID: 4234988079192789645, guid: 968f668076676f24682bd838d8859a3f, type: 3}
   _emptyIconIstance: {fileID: 7416449499025929707, guid: 0852f916f4d704b41870ed602c0251ba, type: 3}
   _emptyCardIstance: {fileID: 1963028509116006672, guid: acb58db19940dd64a9b998530ae97a28, type: 3}
@@ -442,8 +444,8 @@ MonoBehaviour:
     SecondaryEnviromentMaterial: {fileID: 2100000, guid: 4c47773dfe103fe46b58598877be6618, type: 2}
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
     SkyMaterial: {fileID: 0}
-    ChangeSceneOnStart: GameFinished
-  _timeSpeedMultiplier: 1
+    ChangeSceneOnStart: Boss
+  _timeSpeedMultiplier: 50
   references:
     version: 2
     RefIds: []

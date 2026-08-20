@@ -25,6 +25,8 @@ public class StaticSoundPlayer : AbstractSoundPlayer
         _audioSource.clip = randomClip;
         if (startTime.HasValue)
         {
+            if (startTime >= 1f) return;
+            if (startTime < 0f) startTime = 0f;
             _audioSource.time = startTime.Value * randomClip.length;
         }
         _audioSource.Play();

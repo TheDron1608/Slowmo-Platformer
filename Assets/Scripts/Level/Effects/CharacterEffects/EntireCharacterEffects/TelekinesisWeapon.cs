@@ -40,6 +40,9 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
     {
         base.OnApply();
 
+        if (AffectedCharacter.CharacterHolding.CurrentHoldObject != null) Destroy(AffectedCharacter.CharacterHolding.CurrentHoldObject.gameObject);
+        if (AffectedCharacter.CharacterHolding.CurrentHolsteredHoldObject != null) Destroy(AffectedCharacter.CharacterHolding.CurrentHolsteredHoldObject.gameObject);
+
         AffectedCharacter.CharacterHealth.OnHitByProjectile += CharacterHealth_OnHitByProjectile;
 
         if (SpawnManager.Instance.EnemyPoolInstance.Count > 0)
@@ -294,8 +297,13 @@ public class TelekinesisWeapon : AbstractCharacterEffect, IEntireCharacterEffect
     {
         return
             base.ApplyCondition(affectWho, sender) &&
-            //affect only on boss, not boss's minions if applied for boss fight
-            (BossInitializer.Instance == null || BossInitializer.Instance.Boss == affectWho.GetComponent<AbstractCharacterComponent>().CharComponents);
+            affectWho.TryGetComponent(out AbstractCharacterComponent character) &&
+            //affect only on boss, not boss's minions if applied for boss fight or is not enemy
+            (
+                BossInitializer.Instance == null || 
+                character.CharComponents.CharacterTeam.Team != TeamManager.Teams.DEFAULT_ENEMY || 
+                BossInitializer.Instance.Boss == character.CharComponents
+            );
     }
 
     private void OnDestroy()

@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class CharacterMultiplierableEffectsOnDeathReplaceDefaultModificator : CharacterMultiplierableEffectsOnDeathModificator
 {
+    private AbstractEffect oldEffect = null;
+
     protected override void OnCharacterAffected(CharacterComponentsManager character)
     {
-        for (int i = 0; i < character.CharacterHealth.DefaultEffectsOnLethal.Count; i++)
-        {   
-            character.CharacterHealth.EffectsOnLethal.Remove(character.CharacterHealth.DefaultEffectsOnLethal[i]);
+        if (character.CharacterHealth.EffectsOnLethal.Count > 0)
+        {
+            oldEffect = character.CharacterHealth.EffectsOnLethal[0];
+            character.CharacterHealth.EffectsOnLethal.Remove(character.CharacterHealth.EffectsOnLethal[0]);
         }
 
         base.OnCharacterAffected(character);
@@ -15,13 +18,7 @@ public class CharacterMultiplierableEffectsOnDeathReplaceDefaultModificator : Ch
 
     protected override void OnCharacterRemovedAffect(CharacterComponentsManager character)
     {
-        foreach (AbstractEffect defaultEffect in character.CharacterHealth.DefaultEffectsOnLethal)
-        {
-            if (!character.CharacterHealth.EffectsOnLethal.Contains(defaultEffect))
-            {
-                character.CharacterHealth.EffectsOnLethal.Add(defaultEffect);
-            }
-        }
+        character.CharacterHealth.EffectsOnLethal.Insert(0, oldEffect);
 
         base.OnCharacterRemovedAffect(character);
     }

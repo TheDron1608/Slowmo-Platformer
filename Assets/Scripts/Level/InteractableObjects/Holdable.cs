@@ -509,6 +509,8 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
     public void Throw(Vector2 direction, float throwForceMultiplier = 1f)
     {
+        if (gameObject.IsDestroyed()) return;
+
         OnThrown?.Invoke(this, new OnThrownEventArgs(CurrentHolder, direction));
 
         if (CurrentHolder == null) return;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(1)]
@@ -25,6 +26,7 @@ public class Parallax : MonoBehaviour
         {
             foreach (SpriteRenderer parallaxSprite in _currentParallaxSprites)
             {
+                if (parallaxSprite.IsDestroyed()) continue;
                 parallaxSprite.sharedMaterial = value;
             }
             _parallaxMaterial = value;

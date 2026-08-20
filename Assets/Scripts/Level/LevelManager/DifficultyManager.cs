@@ -186,7 +186,8 @@ public class DifficultyManager : MonoBehaviour
             SceneManager.GetActiveScene().name != SceneList.GAME_FINISHED &&
             !TimeManager.Instance.Paused &&
             !UIManager.Instance.GameOverScreenOverlay.IsShown() &&
-            !UIManager.Instance.IsLoadingScene()
+            !UIManager.Instance.IsLoadingScene() &&
+            CurrentDifficulty.Next != null
             )
         {
             _realtimeTotalDifficultyTime += Time.unscaledDeltaTime;
@@ -240,7 +241,15 @@ public class DifficultyManager : MonoBehaviour
 
         if (CurrentDifficulty.Value.ChangeSceneOnStart != "")
         {
-            UIManager.Instance.LoadSceneWithEffect(CurrentDifficulty.Value.ChangeSceneOnStart);
+            if (SpawnManager.Instance != null && SceneList.GetCurrentSceneIsGameplay())
+            {
+                List<CharacterTeam> finishedCharacters = TeamManager.Instance.GetTeamDataByTeam(TeamManager.Teams.PLAYER).GetTeamMembers();
+                SpawnManager.Instance.FinishGameplay(finishedCharacters.Count > 0 ? finishedCharacters[0] : null, CurrentDifficulty.Value.ChangeSceneOnStart);
+            }
+            else
+            {
+                UIManager.Instance.LoadSceneWithEffect(CurrentDifficulty.Value.ChangeSceneOnStart);
+            }
         }
 
         OnDifficultyIncreased?.Invoke(this, CurrentDifficulty.Value);
