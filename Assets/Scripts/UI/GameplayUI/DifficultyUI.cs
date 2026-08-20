@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.Profiling;
 
 public class DifficultyUI : MonoBehaviour
@@ -13,6 +14,7 @@ public class DifficultyUI : MonoBehaviour
     [SerializeField] private RectTransform _timeLineSizeContainer;
     [SerializeField] private DifficultyUIItem _itemInstance;
     [SerializeField] private TextMeshProUGUI _bottomInfoText;
+    [SerializeField] private LocalizedString _localizedLoopName;
 
     private List<DifficultyUIItem> _items = new();
     private int _currentItemIter = 0;
@@ -57,9 +59,19 @@ public class DifficultyUI : MonoBehaviour
         if (DifficultyManager.Instance.CurrentDifficulty.Next != null)
         {
             TimeSpan time = new(0, 0, (int)math.floor(DifficultyManager.Instance.CurrentLoopDifficultyTime));
-            _bottomInfoText.text =
-                time.ToString(@"mm\:ss") + " | " +
-                DifficultyManager.Instance.CurrentDifficulty.Value.GetLocalizedName();
+            if (DifficultyManager.Instance.Loop > 1)
+            {
+                _bottomInfoText.text =
+                    time.ToString(@"mm\:ss") + " | " +
+                    DifficultyManager.Instance.CurrentDifficulty.Value.GetLocalizedName() + " | " +
+                    _localizedLoopName.GetLocalizedString() + " " + DifficultyManager.Instance.Loop;
+            }
+            else
+            {
+                _bottomInfoText.text =
+                    time.ToString(@"mm\:ss") + " | " +
+                    DifficultyManager.Instance.CurrentDifficulty.Value.GetLocalizedName();
+            }
         }
         else
         {

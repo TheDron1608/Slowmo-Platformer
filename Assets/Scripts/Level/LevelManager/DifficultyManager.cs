@@ -59,7 +59,7 @@ public class DifficultyManager : MonoBehaviour
     private float _currentDifficultyTime = 0f;
     private float _currentDifficultyMidCurseTime = 0f;
     private int _currentDifficultyAddedMidCurses = 0;
-    private int _loops = 0;
+    private int _loop = 1;
 
     public event EventHandler<DifficultyStage> OnDifficultyIncreased;
 
@@ -117,9 +117,19 @@ public class DifficultyManager : MonoBehaviour
         get => _currentDifficulty;
     }
 
-    public int Loops
+    public int Loop
     {
-        get => _loops;
+        get => _loop;
+        set
+        {
+            _loop = value;
+            _currentLoopDifficultyTime = 0f;
+            _currentDifficultyTime = 0f;
+            _currentDifficultyMidCurseTime = 0f;
+            _currentDifficultyAddedMidCurses = 0;
+
+            _currentDifficulty = Difficulties.First;
+        }
     }
 
     public float TimeSpeedMultiplier
@@ -192,7 +202,7 @@ public class DifficultyManager : MonoBehaviour
         {
             _realtimeTotalDifficultyTime += Time.unscaledDeltaTime;
 
-            float multiplierTime = Time.unscaledDeltaTime * TimeSpeedMultiplier;
+            float multiplierTime = Time.deltaTime * TimeSpeedMultiplier;
             _totalDifficultyTime += multiplierTime;
             _currentLoopDifficultyTime += multiplierTime;
             _currentDifficultyTime += multiplierTime;
@@ -253,12 +263,6 @@ public class DifficultyManager : MonoBehaviour
         }
 
         OnDifficultyIncreased?.Invoke(this, CurrentDifficulty.Value);
-    }
-
-    private void RaiseUpLoop()
-    {
-        _loops++;
-        _currentLoopDifficultyTime = 0f;
     }
 
     private void AddMidCurse()

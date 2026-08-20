@@ -19,6 +19,8 @@ public class AbstractLevelFinishDoor : AnimatedInteractable, INavPointersScreenO
         {
             ModificatorsManager.Instance.CurrentModificators[i].OnLevelFinished();
         }
+
+        BossInitializer.Instance?.EnableDisabledModsBack();
     }
 
     public float GetOffsetForPointerPosition()

@@ -295,6 +295,18 @@ MonoBehaviour:
   _timeLineSizeContainer: {fileID: 0}
   _itemInstance: {fileID: 928548870603443718}
   _bottomInfoText: {fileID: 4934859930865380256}
+  _localizedLoopName:
+    m_TableReference:
+      m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
+    m_TableEntryReference:
+      m_KeyId: 103543018010943488
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &5118301469459025279
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,7 +789,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1659721416749737223, guid: a4fb9a647f3008c4bbb8389393571bd5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 150
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 1659721416749737223, guid: a4fb9a647f3008c4bbb8389393571bd5, type: 3}
       propertyPath: m_SizeDelta.y

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Localization;
 
-[DefaultExecutionOrder(10)]
+[DefaultExecutionOrder(-1)]
 public class BossInitializer : MonoBehaviour
 {
     public static BossInitializer Instance;
@@ -261,7 +261,7 @@ public class BossInitializer : MonoBehaviour
 
         yield return new WaitForSeconds(BossDialogueDelay);
 
-        BossQuote(DifficultyManager.Instance.Loops <= 1 ? BossQuotes : BossLoopQuotes);
+        BossQuote(DifficultyManager.Instance.Loop <= 1 ? BossQuotes : BossLoopQuotes);
 
         while (_boss.CharacterVisual.GetHasPopup())
         {
@@ -335,10 +335,8 @@ public class BossInitializer : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    public void EnableDisabledModsBack()
     {
-        Instance = null;
-
         if (ModificatorsManager.Instance != null)
         {
             for (int i = 0; i < ModificatorsManager.Instance.CurrentModificators.Count; i++)
@@ -352,9 +350,13 @@ public class BossInitializer : MonoBehaviour
                 {
                     ModificatorsManager.Instance.CurrentModificators[i].DisabledModificator = false;
                 }
-
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
 
         if (_playerCharacter != null && !_playerCharacter.IsDestroyed()) _playerCharacter.CharacterAttacking.OnEffectApplied -= PlayerCharacter_OnEffectApplied;
     }
