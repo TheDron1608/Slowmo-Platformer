@@ -1728,15 +1728,25 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 87118785731076096
-    m_Localized: 
+    m_Localized: '* Every {ChangeDuration} seconds, one modifier changes to a random
+      one'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
   - m_Id: 87119730904899584
-    m_Localized: 
+    m_Localized: '* You receive {ModAmountMult} times fewer modifiers when increasing
+      the difficulty, but the modifiers are {ModPriceMult} times more expensive'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
+  - m_Id: 87118784690888704
+    m_Localized: Chaos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87119729990541312
+    m_Localized: Combine
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

@@ -46,7 +46,8 @@ public class DifficultyManager : MonoBehaviour
 
     public static DifficultyManager Instance = null;
 
-    public float CursesAmountPerLoopMult = 2;
+    public float ModificatorsAmountMult = 1f;
+    public float ModificatorsPriceMult = 1f;
 
     [SerializeField] private DifficultyStage[] _initDifficulties = new DifficultyStage[0];
     [SerializeField] private float _timeSpeedMultiplier = 1f;
@@ -238,10 +239,10 @@ public class DifficultyManager : MonoBehaviour
         if (CurrentDifficulty.Value.CursesAmount > 0)
         {
             UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
-                CurrentDifficulty.Value.CursesMinPrice,
-                CurrentDifficulty.Value.CursesMaxPrice,
-                CurrentDifficulty.Value.CursesAmount,
-                CurrentDifficulty.Value.OptionsAmount
+                CurrentDifficulty.Value.CursesMinPrice * ModificatorsPriceMult,
+                CurrentDifficulty.Value.CursesMaxPrice * ModificatorsPriceMult,
+                math.max((int)math.round(CurrentDifficulty.Value.CursesAmount * ModificatorsAmountMult), 1),
+                (int)math.round(CurrentDifficulty.Value.OptionsAmount * math.max(ModificatorsAmountMult, 1f))
                 );
         }
         else

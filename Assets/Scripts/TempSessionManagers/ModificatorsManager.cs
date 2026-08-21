@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
@@ -92,15 +91,15 @@ public class ModificatorsManager : MonoBehaviour
     }
     public List<Sound> CardTierPickSounds
     {
-        get => _cardTierPickSounds; 
+        get => _cardTierPickSounds;
     }
 
     public float GetTotalModsPrice()
     {
         float result = 0f;
-        foreach (AbstractModificator mod in  CurrentModificators)
+        foreach (AbstractModificator mod in CurrentModificators)
         {
-            switch(mod.ModificatorType)
+            switch (mod.ModificatorType)
             {
                 case AbstractModificator.ModificatorTypes.NEGATIVE:
                     result += mod.ModificatorPrice * mod.ModificatorMultiplier;
@@ -248,9 +247,9 @@ public class ModificatorsManager : MonoBehaviour
                     modificator is IInvertableTeamModificator &&
                     CurrentModificators[i] is IInvertableTeamModificator currentInvertableMod &&
                     currentInvertableMod.InvertTeam != invertTeam
-                ) && 
+                ) &&
                 (
-                    CurrentModificators[i].GetIsOverriding(modificator) || 
+                    CurrentModificators[i].GetIsOverriding(modificator) ||
                     CurrentModificators[i].GetIsRestrictedWith(modificator)
                 )
                 )
@@ -296,7 +295,7 @@ public class ModificatorsManager : MonoBehaviour
     public void RemoveModificatorAt(int at)
     {
         AbstractModificator removeMod = _currentModificators[at];
-        
+
         UIManager.Instance?.ModificatorsScreenOverlay?.GetModificatorsUI()?.RemoveModificatorIcon(_currentModificators[at]);
         UIManager.Instance?.ArtifactModificatorsScreenOverlay?.GetModificatorsUI()?.RemoveModificatorIcon(_currentModificators[at]);
         _currentModificators.RemoveAt(at);
@@ -350,7 +349,7 @@ public class ModificatorsManager : MonoBehaviour
 
         if (forceSynergingModificators)
         {
-            filteredModificators = 
+            filteredModificators =
                 AvaibleSynergingValidModificators
                 .Where(e =>
                     e.ModificatorType == type &&
