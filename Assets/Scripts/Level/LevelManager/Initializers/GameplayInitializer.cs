@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameplayInitializer : MonoBehaviour
@@ -7,7 +8,10 @@ public class GameplayInitializer : MonoBehaviour
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
             //re-enable modificators with errors
-            modificator.enabled = true;
+            if (!modificator.IsDestroyed())
+            {
+                modificator.enabled = true;
+            }
         }
 
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)

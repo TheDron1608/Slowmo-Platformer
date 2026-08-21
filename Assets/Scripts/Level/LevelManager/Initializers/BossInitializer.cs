@@ -59,8 +59,11 @@ public class BossInitializer : MonoBehaviour
 
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)
         {
-            modificator.enabled = true;
-            modificator.DisabledModificator = modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE;
+            if (!modificator.IsDestroyed())
+            {
+                modificator.enabled = true;
+                modificator.DisabledModificator = modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE;
+            }
         }
 
         foreach (AbstractModificator modificator in ModificatorsManager.Instance.CurrentModificators)

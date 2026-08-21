@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AddEnemyPoolItemModificator : AbstractModificator
+public class RemoveDefaultEnemyPoolModificator : AbstractModificator
 {
-    public EnemySpawnInfo AddedEnemyItem;
-
-    private EnemySpawnInfo _addedEnemyItem;
+    private EnemySpawnInfo _removedPool = null;
 
     public override void OnModificatorAdded()
     {
         base.OnModificatorAdded();
+
+        if (SpawnManager.Instance.EnemyPool.Count <= 1) return;
+
+        _removedPool = SpawnManager.Instance.EnemyPool[0];
+        SpawnManager.Instance.EnemyPool.RemoveAt(0);
 
         if (LayerManager.Instance != null && SceneManager.GetActiveScene().name != SceneList.BOSS)
         {
@@ -19,10 +22,9 @@ public class AddEnemyPoolItemModificator : AbstractModificator
                 for (int i = 0; i < layer.CharactersContainer.childCount - spawnedAmount; i++)
                 {
                     if (
-                        UnityEngine.Random.value < AddedEnemyItem.Rarity &&
                         layer.CharactersContainer.GetChild(i).TryGetComponent(out AbstractCharacterComponent character) &&
                         character.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(TeamManager.Teams.DEFAULT_ENEMY)
-                        ) 
+                        )
                     {
                         Vector2 oldCharacterPosition = layer.CharactersContainer.GetChild(i).position;
                         if (character.CharComponents != null)
@@ -34,26 +36,32 @@ public class AddEnemyPoolItemModificator : AbstractModificator
                             Destroy(character.gameObject);
                         }
 
+                        SpawnManager.Instance.PickRandomEnemy().SpawnAt(oldCharacterPosition, layer);
                         spawnedAmount++;
-                        AddedEnemyItem.SpawnAt(oldCharacterPosition, layer);
                     }
                 }
             }
         }
+    }
 
-        _addedEnemyItem = Instantiate(AddedEnemyItem);
-        _addedEnemyItem.Rarity *= ModificatorMultiplier;
+    public override void OnLevelPreGenerated()
+    {
+        base.OnLevelPreGenerated();
 
-        SpawnManager.Instance.EnemyPool.Add(_addedEnemyItem);
+        if (_removedPool == null && SpawnManager.Instance.EnemyPool.Count > 1)
+        {
+            _removedPool = SpawnManager.Instance.EnemyPool[0];
+            SpawnManager.Instance.EnemyPool.RemoveAt(0);
+        }
     }
 
     public override void OnModificatorRemoved()
     {
         base.OnModificatorRemoved();
 
-        if (SpawnManager.Instance != null)
+        if (SpawnManager.Instance != null && _removedPool != null)
         {
-            SpawnManager.Instance.EnemyPool.Remove(_addedEnemyItem);
+            SpawnManager.Instance.EnemyPool.Insert(0, _removedPool);
         }
     }
 }
