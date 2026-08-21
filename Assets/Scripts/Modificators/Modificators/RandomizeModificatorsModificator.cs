@@ -17,7 +17,7 @@ public class RandomizeModificatorsModificator : AbstractModificator
         for (int i = 0; i < ModificatorsManager.Instance.CurrentModificators.Count; i++)
         {
             AbstractModificator mod = ModificatorsManager.Instance.CurrentModificators[i];
-            if (mod != this && mod.Status != ModificatorStatuses.CHARACTER_DEFAULT)
+            if (mod != this && mod.Status != ModificatorStatuses.CHARACTER_DEFAULT && mod.ModificatorTier != ModificatorTiers.TIER_ULTRA)
             {
                 oldModOriginals.Add(mod.OriginalModificator);
                 oldModStatuses.Add(mod.Status);

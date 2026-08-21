@@ -14,7 +14,7 @@ public class RandomizeModificatorAtLevelFinish : AbstractModificator
         {
             AbstractModificator randomModificator = NumberMath.PickRandomItem(
                 ModificatorsManager.Instance.CurrentModificators
-                .Where(e => e.Status != ModificatorStatuses.CHARACTER_DEFAULT)
+                .Where(e => e != this && e.Status != ModificatorStatuses.CHARACTER_DEFAULT && e.ModificatorTier != ModificatorTiers.TIER_ULTRA)
                 .ToList()
                 );
             AbstractModificator replaceRandomModificator = ModificatorsManager.Instance.PickRandomModificators(

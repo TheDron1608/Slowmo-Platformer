@@ -263,35 +263,42 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7979cf2e0b8d50e4a8aeb8933aadf2a2, type: 2}
   - {fileID: 2100000, guid: cc4a4df2e1842d640b91d47df9beba56, type: 2}
   - {fileID: 2100000, guid: 0137a86b654645c4a9e11a3a9917bbc8, type: 2}
+  - {fileID: 2100000, guid: 1708e21662d4ef648b7ed3295e9ede72, type: 2}
   _negativeCardTierMaterials:
   - {fileID: 2100000, guid: ae1f22195f236594ab6536abba1626f0, type: 2}
   - {fileID: 2100000, guid: 396ac49075c8b13498a7f1642f269317, type: 2}
   - {fileID: 2100000, guid: c58a0d21359ad1b44bbb0f9ceb213301, type: 2}
   - {fileID: 2100000, guid: 36aa5e124a13aaa4b9d61512873e8667, type: 2}
+  - {fileID: 2100000, guid: 1708e21662d4ef648b7ed3295e9ede72, type: 2}
   _neutralCardTierMaterials:
   - {fileID: 2100000, guid: 4c47773dfe103fe46b58598877be6618, type: 2}
   - {fileID: 2100000, guid: af17d33f2b0d69e42ab61168632990cd, type: 2}
   - {fileID: 2100000, guid: fa4364d56bbeb4b44bdcc6b39cddcacf, type: 2}
   - {fileID: 2100000, guid: 3a95655de9f77e44481dc3df2767d84c, type: 2}
+  - {fileID: 2100000, guid: 1708e21662d4ef648b7ed3295e9ede72, type: 2}
   _cardTierBgs:
   - {fileID: 21300000, guid: a56936217e9939841890af3c1c8488b5, type: 3}
   - {fileID: 21300000, guid: a56936217e9939841890af3c1c8488b5, type: 3}
   - {fileID: 21300000, guid: a56936217e9939841890af3c1c8488b5, type: 3}
   - {fileID: 21300000, guid: 9e67dc4c5d8a7c9488dcab1ad37a8bd1, type: 3}
+  - {fileID: 21300000, guid: 6483fcd5aa1fc5b43b58a27bc0b0f94d, type: 3}
   _cardTierShakeness:
   - 0
   - 0
   - 0.05
   - 0.05
+  - 0
   _cardTierSelectSounds:
   - {fileID: 11400000, guid: d28f9c915534d104c86632777632e4f8, type: 2}
   - {fileID: 11400000, guid: d28f9c915534d104c86632777632e4f8, type: 2}
   - {fileID: 11400000, guid: 55810ab24ce5d6a49a19a22006fa2ac5, type: 2}
   - {fileID: 11400000, guid: 0c38446a8a8ecb545a86cf9f90ae780c, type: 2}
+  - {fileID: 11400000, guid: 0c38446a8a8ecb545a86cf9f90ae780c, type: 2}
   _cardTierPickSounds:
   - {fileID: 11400000, guid: 580b5bcc7fe2ba54e94cf818888d5e38, type: 2}
   - {fileID: 11400000, guid: 580b5bcc7fe2ba54e94cf818888d5e38, type: 2}
   - {fileID: 11400000, guid: 6fd5718408e330e4c91bd56b7a09c1f7, type: 2}
+  - {fileID: 11400000, guid: 217eb2f6bc4e0f74a8b89b580a73d0e9, type: 2}
   - {fileID: 11400000, guid: 217eb2f6bc4e0f74a8b89b580a73d0e9, type: 2}
 --- !u!114 &-7059257760100694701
 MonoBehaviour:
@@ -445,7 +452,7 @@ MonoBehaviour:
     BackgroundEnviromentMaterial: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
     SkyMaterial: {fileID: 0}
     ChangeSceneOnStart: Boss
-  _timeSpeedMultiplier: 50
+  _timeSpeedMultiplier: 1
   references:
     version: 2
     RefIds: []
