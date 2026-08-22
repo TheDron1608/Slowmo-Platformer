@@ -18,7 +18,6 @@ public class DifficultyManager : MonoBehaviour
         public Sprite MidCurseIcon;
         public float Duration = 60 * 3; //3 minets
         public Sound Music = null;
-        public int MidstageCursesAmount = 0;
         public float CursesMinPrice = 0f;
         public float CursesMaxPrice = 0f;
         public int CursesAmount = 1;
@@ -32,11 +31,6 @@ public class DifficultyManager : MonoBehaviour
 
         private string _localizedName = null;
 
-        public float GetDelayBetweenMidCurses()
-        {
-            return Duration / (MidstageCursesAmount + 1);
-        }
-
         public string GetLocalizedName()
         {
             if (_localizedName == null) _localizedName = LocalizedName.GetLocalizedString();
@@ -48,6 +42,7 @@ public class DifficultyManager : MonoBehaviour
 
     public float ModificatorsAmountMult = 1f;
     public float ModificatorsPriceMult = 1f;
+    public bool MidCursesOnly = false;
 
     [SerializeField] private DifficultyStage[] _initDifficulties = new DifficultyStage[0];
     [SerializeField] private float _timeSpeedMultiplier = 1f;
@@ -209,14 +204,17 @@ public class DifficultyManager : MonoBehaviour
             _currentDifficultyTime += multiplierTime;
             _currentDifficultyMidCurseTime += multiplierTime;
 
-            while (
-                CurrentDifficulty.Value.MidstageCursesAmount > _currentDifficultyAddedMidCurses &&
-                _currentDifficultyMidCurseTime > CurrentDifficulty.Value.GetDelayBetweenMidCurses()
-                )
+            if (MidCursesOnly)
             {
-                AddMidCurse();
-                _currentDifficultyMidCurseTime -= CurrentDifficulty.Value.GetDelayBetweenMidCurses();
-                _currentDifficultyAddedMidCurses++;
+                while (
+                    CurrentDifficulty.Value.CursesAmount > _currentDifficultyAddedMidCurses &&
+                    _currentDifficultyMidCurseTime > CurrentDifficulty.Value.Duration / CurrentDifficulty.Value.CursesAmount
+                    )
+                {
+                    AddMidCurse();
+                    _currentDifficultyMidCurseTime -= CurrentDifficulty.Value.Duration / CurrentDifficulty.Value.CursesAmount;
+                    _currentDifficultyAddedMidCurses++;
+                }
             }
 
             if (_currentDifficultyTime > CurrentDifficulty.Value.Duration && CurrentDifficulty.Value.Duration >= 0f)
@@ -238,12 +236,20 @@ public class DifficultyManager : MonoBehaviour
 
         if (CurrentDifficulty.Value.CursesAmount > 0)
         {
-            UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
-                CurrentDifficulty.Value.CursesMinPrice * ModificatorsPriceMult,
-                CurrentDifficulty.Value.CursesMaxPrice * ModificatorsPriceMult,
-                math.max((int)math.round(CurrentDifficulty.Value.CursesAmount * ModificatorsAmountMult), 1),
-                (int)math.round(CurrentDifficulty.Value.OptionsAmount * math.max(ModificatorsAmountMult, 1f))
-                );
+            if (MidCursesOnly)
+            {
+                AddMidCurse();
+                UpdateDifficultyEnviromentMaterial();
+            }
+            else
+            {
+                UIManager.Instance.DifficultyCurseChoiseScreenOverlay.Show(
+                    CurrentDifficulty.Value.CursesMinPrice * ModificatorsPriceMult,
+                    CurrentDifficulty.Value.CursesMaxPrice * ModificatorsPriceMult,
+                    math.max((int)math.round(CurrentDifficulty.Value.CursesAmount * ModificatorsAmountMult), 1),
+                    (int)math.round(CurrentDifficulty.Value.OptionsAmount * math.max(ModificatorsAmountMult, 1f))
+                    );
+            }
         }
         else
         {

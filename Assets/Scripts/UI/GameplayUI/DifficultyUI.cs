@@ -31,13 +31,16 @@ public class DifficultyUI : MonoBehaviour
         float currentStageTime = 0;
         foreach (DifficultyManager.DifficultyStage stage in DifficultyManager.Instance.Difficulties)
         {
-            for (int i = 1; i <= stage.MidstageCursesAmount; i++)
+            if (DifficultyManager.Instance.MidCursesOnly)
             {
-                TryAddTimelineItem(
-                    currentStageTime + i * (stage.Duration / (stage.MidstageCursesAmount + 1)),
-                    stage.MidCurseIcon,
-                    ""
-                    );
+                for (int i = 1; i < stage.CursesAmount; i++)
+                {
+                    TryAddTimelineItem(
+                        currentStageTime + i * (stage.Duration / stage.CursesAmount),
+                        stage.MidCurseIcon,
+                        ""
+                        );
+                }
             }
 
             TryAddTimelineItem(currentStageTime, stage.DifficultyIcon, stage.GetLocalizedName());

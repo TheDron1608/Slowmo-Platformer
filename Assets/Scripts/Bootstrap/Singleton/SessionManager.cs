@@ -100,6 +100,16 @@ public class SessionManager : MonoBehaviour
         return null;
     }
 
+    public List<PlayerCharacterInfo> GetUnlockedCharacters()
+    {
+        List<PlayerCharacterInfo> result = new();
+        foreach (var playerCharacter in TotalCharacters)
+        {
+            if (GetCharacterIsUnlocked(playerCharacter)) result.Add(playerCharacter);
+        }
+        return result;
+    }
+
     public void InitSelectedPlayer()
     {
         SpawnManager.Instance.PlayerCharacter = CurrentSelectedPlayer.PlayerCharacter;
