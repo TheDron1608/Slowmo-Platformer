@@ -140,6 +140,7 @@ public class ModificatorsManager : MonoBehaviour
     {
         if (Instance != null) throw new UnityException("maximum of 1 ModificatorsManager instance");
         Instance = this;
+        UpdateAvaibleModificatorsInfo();
         DontDestroyOnLoad(gameObject);
     }
 

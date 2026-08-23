@@ -7,5 +7,6 @@ public class ButtonOnClickSelectDebugSession : MonoBehaviour
     {
         AnalyticsManager.Instance.CollectData = false;
         SessionManager.Instance.CurrentSession = new();
+        SessionManager.Instance.CurrentSession.IsDebug = true;
     }
 }

@@ -82,7 +82,14 @@ public class GameOverUIManager : MonoBehaviour
 
     private void RestartActionReference_started(InputAction.CallbackContext obj)
     {
-        if (_saveAndQuitCoroutine == null) _saveAndQuitCoroutine = StartCoroutine(RestartCoroutine());
+        if (!SessionManager.Instance.CurrentSession.IsDebug)
+        {
+            if (_saveAndQuitCoroutine == null) _saveAndQuitCoroutine = StartCoroutine(RestartCoroutine());
+        }
+        else
+        {
+            if (_saveAndQuitCoroutine == null) _saveAndQuitCoroutine = StartCoroutine(Exit());
+        }
     }
 
     private IEnumerator RestartCoroutine()

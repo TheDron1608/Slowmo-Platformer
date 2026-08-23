@@ -23,6 +23,7 @@ public class SessionManager : MonoBehaviour
         public List<string> CurrentBossModificators = new();
         public string CurrentBossWeapon = null;
         public List<string> UnlockedCharacters = new();
+        public bool IsDebug = false;
     }
 
     public class TempSessionData
