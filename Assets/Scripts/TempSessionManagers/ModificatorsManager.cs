@@ -8,6 +8,7 @@ public class ModificatorsManager : MonoBehaviour
     public static ModificatorsManager Instance;
 
     public List<AbstractModificator> ModificatorsPool = new();
+    public List<AbstractModificator> LoopModificatorsPool = new();
     public float ForceGiveSynergingModificatorChance = 0.25f;
     public int MaxModificatorOptions = 3;
     public int ModifiactorsPickAmount = 1;
@@ -199,7 +200,7 @@ public class ModificatorsManager : MonoBehaviour
         return result;
     }
 
-    public ModificatorCard CreateModificatorCard(AbstractModificator modificator, Transform parent)
+    public ModificatorCard CreateModificatorCard(AbstractModificator modificator, Transform parent, Sprite overrideCardBg = null)
     {
         ModificatorCard result = Instantiate(_emptyCardIstance, parent);
         result.name = modificator.name + "Card";
@@ -218,7 +219,14 @@ public class ModificatorsManager : MonoBehaviour
                 break;
         }
 
-        result.BgImage.sprite = _cardTierBgs[(int)modificator.ModificatorTier];
+        if (overrideCardBg == null)
+        {
+            result.BgImage.sprite = _cardTierBgs[(int)modificator.ModificatorTier];
+        }
+        else
+        {
+            result.BgImage.sprite = overrideCardBg;
+        }
 
         result.ShakableObject.ContantShakingForce = _cardTierShakeness[(int)modificator.ModificatorTier];
 

@@ -76,9 +76,9 @@ public class ModificatorCardsCluster : AbstractCardItem
         }
     }
 
-    public void AddModificator(AbstractModificator modificator)
+    public void AddModificator(AbstractModificator modificator, Sprite overrideCardsBg = null)
     {
-        ModificatorCard newCard = ModificatorsManager.Instance.CreateModificatorCard(modificator, transform);
+        ModificatorCard newCard = ModificatorsManager.Instance.CreateModificatorCard(modificator, transform, overrideCardsBg);
         newCard.CurrentCluster = this;
         Cards.Add(newCard);
         Cards.Sort((a, b) => a.ModificatorInstance.ModificatorPrice.CompareTo(b.ModificatorInstance.ModificatorPrice));

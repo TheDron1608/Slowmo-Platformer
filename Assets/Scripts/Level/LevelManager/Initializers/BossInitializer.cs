@@ -14,7 +14,7 @@ public class BossInitializer : MonoBehaviour
     public float BossDialogueDelay = 1f;
     public CharacterAIManager BossAI;
     public List<Transform> BossMinionsSpawnPositions = new();
-    public OnInteractEnterNextLevelDoor NextLevelDoor;
+    public OnInteractEnterLoopDoor LoopDoor;
     public Transform PlayerSpawnPosition;
     public ZIndexLayer PlayerSpawnLayer;
     public OnInteractSit Throne;
@@ -167,14 +167,14 @@ public class BossInitializer : MonoBehaviour
         }
         _playerCharacter.CharacterAIManager.SetAIDisabled(false);
 
-        NextLevelDoor.enabled = true;
+        LoopDoor.enabled = true;
     }
 
     public void SkipFight()
     {
         _bossSkipped = true;
 
-        NextLevelDoor.enabled = true;
+        LoopDoor.enabled = true;
         NavPointersScreenOverlay.Instance?.UpdateNavTargets();
 
         if (Camera.main.TryGetComponent(out CameraTrack ct))
@@ -219,7 +219,7 @@ public class BossInitializer : MonoBehaviour
             {
                 if (!Throne.enabled)
                 {
-                    NextLevelDoor.enabled = false;
+                    LoopDoor.enabled = false;
                     Throne.enabled = true;
                     NavPointersScreenOverlay.Instance.UpdateNavTargets();
                 }

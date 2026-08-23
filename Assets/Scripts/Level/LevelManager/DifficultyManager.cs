@@ -125,8 +125,12 @@ public class DifficultyManager : MonoBehaviour
             _currentDifficultyAddedMidCurses = 0;
 
             _currentDifficulty = Difficulties.First;
+
+            RequestInitLoopCurse = true;
         }
     }
+
+    public bool RequestInitLoopCurse { get; set; } = false;
 
     public float TimeSpeedMultiplier
     {
