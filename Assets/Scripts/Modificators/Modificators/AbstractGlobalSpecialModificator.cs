@@ -41,4 +41,9 @@ public abstract class AbstractGlobalSpecialModificator : AbstractModificator
     }
 
     public abstract bool OnSpecialActivated();
+
+    private void OnDestroy()
+    {
+        SpecialActionReference.action.started -= SpecialActionRereference_OnActionStarted;
+    }
 }
