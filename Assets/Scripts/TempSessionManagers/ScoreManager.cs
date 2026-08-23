@@ -144,13 +144,15 @@ public class ScoreManager : MonoBehaviour
 
     public void ResetCombo(ResetComboReasons reason)
     {
+        int oldCombo = CurrentCombo;
+        float oldMult = CurrentMultiplier;
         if ((OverrideResetComboEvent ?? DefaultResetComboEvent).Invoke(this, reason))
         {
-            if (CurrentCombo > MinCombo)
+            if (oldCombo > MinCombo)
             {
-                _lastCombo = CurrentCombo;
+                _lastCombo = oldCombo;
                 OnResetCombo?.Invoke(this, EventArgs.Empty);
-                AddScore((int)math.round(CurrentCombo * CurrentMultiplier));
+                AddScore((int)math.round((oldCombo - CurrentCombo) * oldMult));
             }
         }
     }
