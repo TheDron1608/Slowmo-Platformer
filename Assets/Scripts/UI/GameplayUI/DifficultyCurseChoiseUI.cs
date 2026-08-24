@@ -182,9 +182,9 @@ public class DifficultyCurseChoiseUI : AbstractModificatorCardsManager
         }
     }
 
-    public override void FinishTrade()
+    public override void FinishTrade(bool pickNothing = false)
     {
-        base.FinishTrade();
+        base.FinishTrade(pickNothing);
 
         TimeManager.Instance.TryTemporalSlowTime(FINISH_TRADE_TEMP_SLOWMO);
         TimeManager.Instance.Paused = false;

@@ -6,7 +6,7 @@
 
         if (GameObjectUtility.TryGetComponentInParentRecursive(transform, out AbstractModificatorCardsManager container))
         {
-            container.FinishTrade();
+            container.FinishTrade(true);
         }
     }
 }

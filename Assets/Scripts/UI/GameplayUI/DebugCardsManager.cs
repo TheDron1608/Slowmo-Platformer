@@ -19,9 +19,9 @@ public class DebugCardsManager : AbstractModificatorCardsManager
         AddDebugCards(ModificatorDebugManager.Instance.DebugModificators);
     }
 
-    public override void FinishTrade()
+    public override void FinishTrade(bool pickNothing = false)
     {
-        base.FinishTrade();
+        base.FinishTrade(pickNothing);
 
         UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
     }

@@ -219,7 +219,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
 
     public abstract void SpendPicksLeft(int amount = 1);
 
-    public virtual void FinishTrade()
+    public virtual void FinishTrade(bool pickNothing = false)
     {
         if (GetAnalyticsChoiseTypeName() != null)
         {

@@ -1,26 +1,27 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class ComboEncounter : MonoBehaviour
 {
     const float CHANGE_COMBO_BG_SPEED = 25f;
     const float SCORE_ENCOUNT_DELAY_SECONDS = 1f;
-    const float SCORE_ENCOUNT_SPEED_PER_SECOND = 100f;
+    const float SCORE_ENCOUNT_SPEED_PER_SECOND = 30f;
+    const float SCORE_ENCOUNT_PITCH_INCREASE_PER_SECOND = 1f;
+    const float SCORE_ENCOUNT_MAX_PITCH = 3f;
 
-    private int _currentDisplayedScore = 0;
-    private int _currentAddingScore = 0;
+    private float _currentDisplayedScore = 0;
+    private float _currentAddingScore = 0;
     private Coroutine _setBgCoroutine = null;
     private Coroutine _scoreEncountCoroutine = null;
     private Material _defaultBgMaterial = null;
     private Material _overrideBgMaterial = null;
+
+    public Sound StartEncoundSound;
+    public Sound EncoundSound;
+    public Sound FinishEncoundSound;
 
     [SerializeField] private RectTransform _visualContainer;
     [SerializeField] private Image _comboBg;
@@ -31,6 +32,7 @@ public class ComboEncounter : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private ShakableObject _comboInfoShaking;
     [SerializeField] private TextMeshProUGUI _extraInfo;
+    [SerializeField] private StaticSoundPlayer _encountSoundPlayer;
 
     public Material OverrideBgMaterial
     {
@@ -130,11 +132,14 @@ public class ComboEncounter : MonoBehaviour
                 _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
             }
 
+            _encountSoundPlayer.PlaySound(StartEncoundSound);
+
             yield return new WaitForSeconds(SCORE_ENCOUNT_DELAY_SECONDS);
 
+            _encountSoundPlayer.PlaySound(EncoundSound, true);
             while (_currentAddingScore > 0)
             {
-                int scoreChange = (int)math.ceil(Time.deltaTime * SCORE_ENCOUNT_SPEED_PER_SECOND);
+                float scoreChange = Time.deltaTime * SCORE_ENCOUNT_SPEED_PER_SECOND;
                 if (_currentAddingScore < scoreChange) scoreChange = _currentAddingScore;
 
                 _currentAddingScore -= scoreChange;
@@ -142,16 +147,24 @@ public class ComboEncounter : MonoBehaviour
 
                 if (!_scoreText.IsDestroyed())
                 {
-                    _scoreText.text = _currentAddingScore.ToString() + "+" + _currentDisplayedScore.ToString("00000");
+                    _scoreText.text = _currentAddingScore.ToString("0") + "+" + _currentDisplayedScore.ToString("00000");
+                }
+
+                if (_encountSoundPlayer.Pitch < SCORE_ENCOUNT_MAX_PITCH)
+                {
+                    _encountSoundPlayer.Pitch += SCORE_ENCOUNT_PITCH_INCREASE_PER_SECOND * Time.deltaTime;
                 }
 
                 yield return new WaitForEndOfFrame();
             }
+            _encountSoundPlayer.BreakAllSounds();
+            _encountSoundPlayer.Pitch = 1f;
 
             if (!_scoreText.IsDestroyed())
             {
                 _scoreText.text = _currentDisplayedScore.ToString("00000");
             }
+            _encountSoundPlayer.PlaySound(FinishEncoundSound);
         }
     }
 

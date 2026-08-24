@@ -11,7 +11,6 @@ public class CursePickManager : AbstractModificatorCardsManager
     const float TRADE_DELAY = 0.75f;
     const float SCORE_ENCOUNT_PER_SECOND = 100f;
     const float MAX_SCORE_ENCOUNT_DURATION = 3f;
-    const float MAX_MODIFICATOR_APPEAR_DELAY = 1f;
 
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private UIElementTrackTarget _scoreTrackTarget;
@@ -57,9 +56,16 @@ public class CursePickManager : AbstractModificatorCardsManager
     }
 
 
-    public override void FinishTrade()
+    public override void FinishTrade(bool pickNothing = false)
     {
-        base.FinishTrade();
+        base.FinishTrade(pickNothing);
+
+        if (ModificatorsManager.Instance.ResetScoreOnSell && !pickNothing)
+        {
+            ScoreManager.Instance.TradableScore = 0;
+            ScoreManager.Instance.CurrentCombo = 0;
+        }
+
         UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
     }
 
@@ -137,11 +143,6 @@ public class CursePickManager : AbstractModificatorCardsManager
             }
             else
             {
-                if (ModificatorsManager.Instance.ResetScoreOnSell)
-                {
-                    ScoreManager.Instance.TradableScore = 0;
-                }
-
                 if (RerollsLeft > 0)
                 {
                     AddCard(Instantiate(_rerollCardInstace));

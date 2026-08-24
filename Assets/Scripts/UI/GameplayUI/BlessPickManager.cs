@@ -71,9 +71,9 @@ public class BlessPickManager : AbstractModificatorCardsManager
     }
 
 
-    public override void FinishTrade()
+    public override void FinishTrade(bool pickNothing = false)
     {
-        base.FinishTrade();
+        base.FinishTrade(pickNothing);
         UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);
     }
 
