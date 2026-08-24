@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 [DefaultExecutionOrder(-10)]
 public class TutorialInitializer : MonoBehaviour
 {
+    public Sound TutorialMusic;
     public Transform PlayerSpawnPosition;
     public ZIndexLayer PlayerSpawnLayer;
     public AbstractCharacterComponent AttackTutorialCharacter;

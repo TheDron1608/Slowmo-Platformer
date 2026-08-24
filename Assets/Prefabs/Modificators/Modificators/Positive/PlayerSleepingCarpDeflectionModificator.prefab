@@ -107,7 +107,8 @@ MonoBehaviour:
   Stackable: 0
   AllowPermanent: 1
   OverrideModificators: []
-  RestrictModificators: []
+  RestrictModificators:
+  - {fileID: 1998567090488563821, guid: 53a2445b35ce78540a8123854d43bf24, type: 3}
   SynergingModificators:
   - {fileID: 8782483865950000017, guid: 45c9bf0057f8400438936dbca41e6235, type: 3}
   - {fileID: 1998567090488563821, guid: f9d3bcbd44ca27f439d10d50d417237a, type: 3}
@@ -116,6 +117,7 @@ MonoBehaviour:
   - {fileID: 5417582868638941547, guid: 09bbb2973988c684ea7649c72230542f, type: 3}
   - {fileID: 5417582868638941547, guid: 95fa7c17969a47741ac696cda3c21d62, type: 3}
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 0
   ModificatorTier: 3
   IconSprite: {fileID: 21300000, guid: edf1ba7a34a907646b82c17be99404e9, type: 3}
@@ -123,10 +125,11 @@ MonoBehaviour:
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 300
+  _modificatorPrice: 350
   _localization: {fileID: 2147315170708439846}
   Team: 0
   AffectChance: 1
   ChanceType: 0
   CounterEffectsOnApplier:
   - {fileID: 7325471915889766740, guid: a937428e18cf1dc4685c32b38f509a2f, type: 3}
+  AltCountEffectOnApplierOnInvertTeam: []
