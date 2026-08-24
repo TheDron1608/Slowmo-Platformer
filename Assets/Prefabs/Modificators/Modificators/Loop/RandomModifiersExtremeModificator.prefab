@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688273334265163386, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_Name
-      value: RandomModifiersExtreme
+      value: RandomModifiersExtremeModificator
       objectReference: {fileID: 0}
     - target: {fileID: 4019251079592219522, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_LocalPosition.x
@@ -141,12 +141,11 @@ MonoBehaviour:
   HarderVersion: {fileID: 0}
   ModificatorType: 1
   ModificatorTier: 4
-  IconSprite: {fileID: 0}
-  CardSprite: {fileID: 0}
+  IconSprite: {fileID: 21300000, guid: 19991abe792366842930649e13fa8b57, type: 3}
+  CardSprite: {fileID: 21300000, guid: 8ffe2be8a521d04469dddfc9728e6789, type: 3}
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
   _modificatorPrice: 400
   _localization: {fileID: 2147315170708439846}
   RandomizationDelay: 10
-  MaxRandomizationPriceReduction: 25
