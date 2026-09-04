@@ -3,6 +3,12 @@
 public class StaticSoundPlayer : AbstractSoundPlayer
 {
     private float _currentVolumeMult = 1f;
+    private Sound _lastPlayedSound = null;
+
+    public Sound LastPlayedSound
+    {
+        get => _lastPlayedSound;
+    }
 
     private void Start()
     {
@@ -25,12 +31,14 @@ public class StaticSoundPlayer : AbstractSoundPlayer
         _audioSource.clip = randomClip;
         if (startTime.HasValue)
         {
-            if (startTime >= 1f) return;
+            Debug.Log(startTime);
+            if (startTime >= 1f) startTime = 0.99f;
             if (startTime < 0f) startTime = 0f;
             _audioSource.time = startTime.Value * randomClip.length;
         }
         _audioSource.Play();
 
+        _lastPlayedSound = sound;
     }
 
     protected override float CalculateVolume()

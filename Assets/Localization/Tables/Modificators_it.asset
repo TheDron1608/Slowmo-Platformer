@@ -918,7 +918,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 28092185828368384
-    m_Localized: 
+    m_Localized: '* Morirai tra {KillMinutes} minuti'
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
@@ -1334,7 +1334,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 55627909834186752
-    m_Localized: 
+    m_Localized: Il grande nulla
     m_Metadata:
       m_Items: []
   - m_Id: 55627910698213376
@@ -1464,62 +1464,72 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 80902876368707584
-    m_Localized: 
+    m_Localized: "* Il nemico esplode alla morte con una probabilit\xE0 del {AffectChance}%."
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 80903637051875328
-    m_Localized: 
+    m_Localized: "* Le porte hanno una probabilit\xE0 del {AffectChance}% di rilasciare
+      una granata casuale quando vengono aperte."
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 80949393628569600
-    m_Localized: 
+    m_Localized: "* Toutes les chevrotines deviennent perforantes, infligent plus
+      de d\xE9g\xE2ts et peuventsectionner des membres."
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 80958258327822336
-    m_Localized: 
+    m_Localized: '* Alla morte, il nemico lancia sempre una granata contro chi lo
+      ha ucciso.'
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 80957874720972800
-    m_Localized: 
+    m_Localized: "* Alla morte, il nemico ha una probabilit\xE0 del {AffectChance}%
+      di lanciare una granata contro chi lo ha ucciso."
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 80957514757414912
-    m_Localized: 
+    m_Localized: "* Alla morte, il nemico ha una probabilit\xE0 del {AffectChance}%
+      di lanciare una granata contro chi lo ha ucciso."
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 81550511709347840
-    m_Localized: 
+    m_Localized: '* L''arma nelle mani del giocatore cambia ogni {ChangeDuration}
+      secondi'
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 81550659080413184
-    m_Localized: 
+    m_Localized: '* Tutte le armi cambiano ogni {ChangeDuration} secondi'
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 83817012203331584
-    m_Localized: 
+    m_Localized: '* {AffectChance}% dei nemici porta un''arma aggiuntiva'
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 84064992210690048
-    m_Localized: 
+    m_Localized: "* Attiri fino a {MaxWeapons} armi\r\n* Le armi attirate si rompono
+      da sole col passare del tempo\r\n* Quando vieni ferito, lasci cadere tutte
+      le armi ma non subisci danni; ci\xF2 non si applica se non hai armi\r\n* Muori
+      dopo {MaxLiveTimeWithoutWeapons} secondi se non hai armi"
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 80905253314338816
-    m_Localized: 
+    m_Localized: '* {AffectChance}% dei nemici trasporta granate'
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 85317122900860928
-    m_Localized: 
+    m_Localized: "* L'arma del giocatore pu\xF2 fare a pezzi il nemico con una probabilit\xE0
+      del {GibChance}%."
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
@@ -1698,19 +1708,57 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 85660542609629184
-    m_Localized: 
+    m_Localized: "* Il giocatore \xE8 costantemente nel mirino del cecchino\r\n*
+      Il cecchino uccide chiunque\r\n* La velocit\xE0 di reazione del cecchino \xE8
+      notevolmente superiore\r\n* Un colpo del cecchino infligge molti pi\xF9 danni"
     m_Metadata:
       m_Items: []
   - m_Id: 87118785731076096
-    m_Localized: 
+    m_Localized: '* Ogni {ChangeDuration} secondi, un modificatore cambia in uno
+      casuale.'
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
   - m_Id: 87119730904899584
-    m_Localized: 
+    m_Localized: "* Ricevi {ModAmountMult} volte meno modificatori aumentando la
+      difficolt\xE0, ma i modificatori sono {ModPriceMult} volte pi\xF9 costosi."
     m_Metadata:
       m_Items:
       - rid: 569246017750564866
+  - m_Id: 87118784690888704
+    m_Localized: Caos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87119729990541312
+    m_Localized: Unisci
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87121176723431424
+    m_Localized: Legione
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87121177788784640
+    m_Localized: "* I nemici standard non compaiono pi\xF9. Tutti i nemici sono dotati
+      di modificatori."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87123017494405120
+    m_Localized: Trasforma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87123018974994432
+    m_Localized: "* Quando la difficolt\xE0 aumenta, il personaggio cambia in modo
+      casuale."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89537224276697088
+    m_Localized: Grande scommessa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89537254869950464
+    m_Localized: '* Non si scelgono modificatori'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

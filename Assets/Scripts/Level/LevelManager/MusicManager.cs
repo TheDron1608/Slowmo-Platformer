@@ -19,13 +19,18 @@ public class MusicManager : MonoBehaviour
     private DifficultyManager.DifficultyStage _currentTrackedMusicStage = null;
     private Sound _requestChangeMusic = null;
     private bool _requestChanceMusicLoop = false;
+    private bool _requestKeepMusicTime = false;
     private float _lastDifficultyTime = 0f;
     private bool _wasPausedPrevUpdate = false;
 
     public float CurrentMusicVolume
     {
         get => _currentMusicVolume;
-        set => _currentMusicVolume = value;
+        set
+        {
+            _currentMusicVolume = value;
+            MusicPlayer.DynamicVolumeMultiplier = _currentMusicVolume;
+        }
     }
 
     private void Awake()
@@ -74,7 +79,16 @@ public class MusicManager : MonoBehaviour
             }
 
             if (
-                ForcePlayMusic == null && 
+                ForcePlayMusic != null &&
+                ForcePlayMusic != MusicPlayer.LastPlayedSound
+                )
+            {
+                _requestChangeMusic = ForcePlayMusic;
+                _requestChanceMusicLoop = true;
+                _requestKeepMusicTime = true;
+            }
+            else if (
+                ForcePlayMusic == null &&
                 DifficultyManager.Instance != null &&
                 _currentTrackedMusicStage != DifficultyManager.Instance.CurrentDifficulty.Value
                 )
@@ -84,6 +98,7 @@ public class MusicManager : MonoBehaviour
                     _currentTrackedMusicStage = DifficultyManager.Instance.CurrentDifficulty.Value;
                     _requestChangeMusic = DifficultyManager.Instance.CurrentDifficulty.Value.Music;
                     _requestChanceMusicLoop = DifficultyManager.Instance.CurrentDifficulty.Next == null;
+                    _requestKeepMusicTime = false;
                 }
             }
             else
@@ -93,7 +108,7 @@ public class MusicManager : MonoBehaviour
 
             if (_requestChangeMusic != null && CurrentMusicVolume <= 0.05f)
             {
-                SetMusic(_requestChangeMusic, _requestChanceMusicLoop);
+                SetMusic(_requestChangeMusic, _requestChanceMusicLoop, _requestKeepMusicTime);
                 _requestChangeMusic = null;
             }
 
@@ -128,19 +143,20 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    private void SetMusic(Sound music, bool loop)
+    private void SetMusic(Sound music, bool loop, bool keepTime = false)
     {
         if (SoundManager.Instance == null) return;
 
-        MusicPlayer.BreakAllSounds();
         _timeSinceStartMusic = 0f;
         DifficultyManager.DifficultyStage currentStage = DifficultyManager.Instance.CurrentDifficulty.Value;
         SoundManager.Instance.GameplayMusicVolume = 0f;
         MusicPlayer.PlaySound(
-            currentStage.Music,
+            music,
             loop,
             null,
-            DifficultyManager.Instance.CurrentDifficultyTime / currentStage.Duration
+                keepTime ? 
+                MusicPlayer.PlayTime / MusicPlayer.CurrentClipDuration : 
+                DifficultyManager.Instance.CurrentDifficultyTime / currentStage.Duration
             );
     }
 

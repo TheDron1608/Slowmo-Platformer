@@ -10,6 +10,9 @@ public class BossInitializer : MonoBehaviour
 {
     public static BossInitializer Instance;
 
+    public Sound StartMusic;
+    public Sound FightMusic;
+    public float MusicVolumeOnWin = 0.1f;
     public float BossTriggerDistance = 15f;
     public float BossDialogueDelay = 1f;
     public CharacterAIManager BossAI;
@@ -295,6 +298,8 @@ public class BossInitializer : MonoBehaviour
     {
         if (_bossTriggered) return;
 
+        MusicManager.Instance.ForcePlayMusic = FightMusic;
+
         _bossTriggered = true;
         foreach (var minion in _minions)
         {
@@ -336,6 +341,8 @@ public class BossInitializer : MonoBehaviour
 
             SessionManager.Instance.SaveCurrentSession();
         }
+
+        MusicManager.Instance.CurrentMusicVolume = MusicVolumeOnWin; 
     }
 
     public void EnableDisabledModsBack()
@@ -361,6 +368,7 @@ public class BossInitializer : MonoBehaviour
     {
         Instance = null;
 
+        if (MusicManager.Instance != null) MusicManager.Instance.ForcePlayMusic = null;
         if (_playerCharacter != null && !_playerCharacter.IsDestroyed()) _playerCharacter.CharacterAttacking.OnEffectApplied -= PlayerCharacter_OnEffectApplied;
     }
 }

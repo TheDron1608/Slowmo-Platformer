@@ -1330,7 +1330,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 55627909834186752
-    m_Localized: 
+    m_Localized: "Das gro\xDFe Nichts"
     m_Metadata:
       m_Items: []
   - m_Id: 55627910698213376
@@ -1703,19 +1703,58 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 85660542609629184
-    m_Localized: 
+    m_Localized: "* Der Spieler befindet sich st\xE4ndig im Visier des Scharfsch\xFCtzen\r\n*
+      Der Scharfsch\xFCtze t\xF6tet jeden\r\n* Die Reaktionsgeschwindigkeit des Scharfsch\xFCtzen
+      ist deutlich h\xF6her\r\n* Ein Treffer des Scharfsch\xFCtzen verursacht deutlich
+      mehr Schaden"
     m_Metadata:
       m_Items: []
   - m_Id: 87118785731076096
-    m_Localized: 
+    m_Localized: "* Alle {ChangeDuration} Sekunden wechselt ein Modifikator zu einem
+      zuf\xE4lligen."
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
   - m_Id: 87119730904899584
-    m_Localized: 
+    m_Localized: "* Du erh\xE4ltst {ModAmountMult}-mal weniger Modifikatoren, wenn
+      du den Schwierigkeitsgrad erh\xF6hst, aber die Modifikatoren sind {ModPriceMult}-mal
+      teurer."
     m_Metadata:
       m_Items:
       - rid: 569246017750564865
+  - m_Id: 87118784690888704
+    m_Localized: Chaos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87119729990541312
+    m_Localized: Kombinieren
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87121176723431424
+    m_Localized: Legion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87121177788784640
+    m_Localized: '* Standardgegner erscheinen nicht mehr. Alle Gegner sind Modifikator-Gegner.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87123017494405120
+    m_Localized: Morph
+    m_Metadata:
+      m_Items: []
+  - m_Id: 87123018974994432
+    m_Localized: '* Wenn der Schwierigkeitsgrad steigt, wechselt der Charakter nach
+      dem Zufallsprinzip.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89537224276697088
+    m_Localized: "Gro\xDFer Einsatz"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89537254869950464
+    m_Localized: "* Sie w\xE4hlen keine Modifikatoren aus."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
