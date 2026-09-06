@@ -29,14 +29,14 @@ public class StaticSoundPlayer : AbstractSoundPlayer
         _audioSource.transform.SetParent(AudioListenerInstance.Instance.transform);
         _audioSource.transform.localPosition = Vector3.zero;
         _audioSource.clip = randomClip;
+
+        _audioSource.Play();
         if (startTime.HasValue)
         {
-            Debug.Log(startTime);
             if (startTime >= 1f) startTime = 0.99f;
             if (startTime < 0f) startTime = 0f;
             _audioSource.time = startTime.Value * randomClip.length;
         }
-        _audioSource.Play();
 
         _lastPlayedSound = sound;
     }
