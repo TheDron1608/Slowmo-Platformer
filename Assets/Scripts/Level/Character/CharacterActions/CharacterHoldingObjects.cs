@@ -281,7 +281,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
                     math.lerp(
                         _currentHoldObject.transform.rotation.eulerAngles.y,
                         currentAim.x < 0f ? 180f : 0f,
-                        CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
+                        math.min(CharComponents.CharacterAiming.AimSpeed * Time.deltaTime, 1f)
                         ),
                     targetEulerAngle.z
                     );
@@ -292,7 +292,7 @@ public class CharacterHoldingObjects : AbstractCharacterComponent
             Vector2 holdObjectPositionXY = Vector2.Lerp(
                 _currentHoldObject.transform.position + (transform.position - CharComponents.CharacterCollision.PositionPrevFrame),
                 VectorMath.Vec3ToVec2(CharComponents.Center.transform.position) + currentAim * _overrideHoldObjectDistance.GetValueOrDefault(_currentHoldObject.HoldDistanceWhenIsHolded  + _currentHoldObject.ExtraHoldDistance),
-                CharComponents.CharacterAiming.AimSpeed * Time.deltaTime
+                math.min(CharComponents.CharacterAiming.AimSpeed * Time.deltaTime, 1f)
                 );
 
             _currentHoldObject.transform.position = new Vector3(

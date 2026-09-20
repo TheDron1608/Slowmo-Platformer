@@ -6,9 +6,13 @@ public class WeaponDebugInitializer : MonoBehaviour
     public List<AbstractModificator> StartModificators;
     public CharacterComponentsManager TrackedCharacter;
     public int StartCombo = 0;
+    public bool LimitFPS = false;
+    public int MaxFPS = 999;
 
     private void Start()
     {
+        if (LimitFPS) Application.targetFrameRate = MaxFPS;
+
         ScoreManager.Instance.CurrentCombo = StartCombo;
 
         UIManager.Instance.GameplayScreenOverlay.Show();
