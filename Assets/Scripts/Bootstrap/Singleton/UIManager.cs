@@ -368,6 +368,7 @@ public class UIManager : MonoBehaviour
     public CharacterUnlockedMessageScreenOverlay UnlockedCharacterMessageOverlay;
     public BlindScreenOverlay BlindnessOverlay;
     public ScreenOverlay NavPointersScreenOverlay;
+    public TextableScreenOverlay FastMessageScreenOverlay;
 
     [Header("Render")]
     [SerializeField] private Renderer2DData _renderData;
@@ -449,7 +450,8 @@ public class UIManager : MonoBehaviour
             SettingOverlay,
             UnlockedCharacterMessageOverlay,
             BlindnessOverlay,
-            NavPointersScreenOverlay
+            NavPointersScreenOverlay,
+            FastMessageScreenOverlay
         };
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of UIManager objects");

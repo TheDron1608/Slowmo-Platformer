@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 5806794469943578940}
   - component: {fileID: 1340688470173396758}
   - component: {fileID: 1127353575625196146}
+  - component: {fileID: 4213031002807611180}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -260,6 +261,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 296c106bfbadc1648945125a187803b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoiseManager
+  GlobalNoiseMult: 1
+--- !u!114 &4213031002807611180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360252234397813454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4e9c44489aa7540b1d6aebdc79a8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurryUpManager
+  SniperSpawnDelay: 120
+  SniperMoveSpeedUpPerSecond: 0.16666667
+  SniperMaxMoveSpeedUpPerSecond: 0.16666667
+  SniperAttackDelayDownPerSecond: 0.016666668
+  SniperInstance: {fileID: 8310099058742819246, guid: 883e31edc51b0d84f8983f8e2af979c3, type: 3}
+  HurryUpText:
+    m_TableReference:
+      m_TableCollectionName: GUID:49de2f53b199f964fa6cbf526c6d1470
+    m_TableEntryReference:
+      m_KeyId: 125428622079025152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &4829675721774256220
 GameObject:
   m_ObjectHideFlags: 0
