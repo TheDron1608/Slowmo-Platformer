@@ -109,6 +109,11 @@ public class ModificatorIcon : Selectable, IModificatorInfo
         get => _svEffects;
     }
 
+    public AbstractModificator.ModificatorTypes? Type
+    {
+        get => CurrentModificator.Type;
+    }
+
     public float? GetSpoilProgress()
     {
         return CurrentModificator?.GetSpoilProgress();

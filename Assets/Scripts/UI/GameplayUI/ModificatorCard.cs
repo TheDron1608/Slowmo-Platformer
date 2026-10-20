@@ -74,6 +74,11 @@ public class ModificatorCard : MonoBehaviour, IModificatorInfo
         get => ModificatorInstance.Multiplierable;
     }
 
+    public AbstractModificator.ModificatorTypes? Type 
+    {
+        get => ModificatorInstance.Type;
+    }
+
     public float? GetSpoilProgress()
     {
         return null;

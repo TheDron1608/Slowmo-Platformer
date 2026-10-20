@@ -40,7 +40,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         BOSS
     }
 
-    public static string GetLocalizedStatus(ModificatorStatuses status, float price, float? spoilProgress)
+    public static string GetLocalizedStatus(ModificatorTypes? type, ModificatorStatuses status, float price, float? spoilProgress)
     {
         switch (status)
         {
@@ -51,13 +51,13 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
             case ModificatorStatuses.CURSE:
                 return
                     LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_TRADABLE_KEY) + "\n" +
-                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + price.ToString("0");
+                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + (type == ModificatorTypes.NEUTRAL ? "0" : price.ToString("0"));
             case ModificatorStatuses.TRADED:
                 return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PERMANENT_KEY) + "\n" +
-                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + price.ToString("0");
+                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + (type == ModificatorTypes.NEUTRAL ? "0" : price.ToString("0"));
             case ModificatorStatuses.ARTIFACT:
                 return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_ARTIFACT_KEY) + "\n" +
-                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + price.ToString("0") +
+                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + (type == ModificatorTypes.NEUTRAL ? "0" : price.ToString("0")) +
                     (spoilProgress != null ? "\n" + LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_SPOILED_KEY) + (spoilProgress.Value * 100f).ToString("F0") + "%" : "");
             case ModificatorStatuses.BOSS:
                 return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_BOSS_KEY);
@@ -159,6 +159,11 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     public AbstractModificator OriginalOrSelf
     {
         get => OriginalModificator ?? this;
+    }
+
+    public ModificatorTypes? Type
+    {
+        get => ModificatorType;
     }
 
     /// <summary>

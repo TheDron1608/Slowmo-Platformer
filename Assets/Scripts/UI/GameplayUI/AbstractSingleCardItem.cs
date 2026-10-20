@@ -21,6 +21,11 @@ public abstract class AbstractSingleCardItem : AbstractCardItem, IModificatorInf
 
     public float ModificatorMultiplier => 1f;
 
+    public AbstractModificator.ModificatorTypes? Type
+    {
+        get => null;
+    }
+
     public float? GetSpoilProgress()
     {
         return null;
