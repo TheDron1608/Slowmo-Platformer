@@ -509,7 +509,9 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
     public void Throw(Vector2 direction, float throwForceMultiplier = 1f)
     {
-        if (gameObject.IsDestroyed()) return;
+        if (gameObject.IsDestroyed() || LayerManager.Instance.IsDestroyed()) return;
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        if (layer == null) return;
 
         OnThrown?.Invoke(this, new OnThrownEventArgs(CurrentHolder, direction));
 
@@ -517,7 +519,7 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
         _isStuck = false;
         _isHolstered = false;
-        transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesContainer.transform;
+        transform.parent = layer.HoldablesContainer.transform;
 
         Quaternion newRotation = new();
         newRotation.eulerAngles = new Vector3(0f, direction.x < 0f ? 180f : 0f, direction.y * 90f);
@@ -537,7 +539,7 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
         if (HitableWhenIsHolded)
         {
-            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+            gameObject.layer = layer.HoldablesLayer;
         }
 
         UpdateStuckStatus();
@@ -676,11 +678,13 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
     public void Unholster()
     {
-        if (CurrentHolder == null) return;
+        if (CurrentHolder == null || LayerManager.Instance.IsDestroyed()) return;
+        ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
+        if (layer == null) return;
 
         _isStuck = false;
         _isHolstered = false;
-        transform.parent = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesContainer.transform;
+        transform.parent = layer.HoldablesContainer.transform;
 
         _rigidBodyComponent.simulated = true;
         _rigidBodyComponent.bodyType = RigidbodyType2D.Dynamic;
@@ -688,7 +692,7 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
         if (HitableWhenIsHolded)
         {
-            gameObject.layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject).HoldablesLayer;
+            gameObject.layer = layer.HoldablesLayer;
         }
 
         UpdateStuckStatus();
