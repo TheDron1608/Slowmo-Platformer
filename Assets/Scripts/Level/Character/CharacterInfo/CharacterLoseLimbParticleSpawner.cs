@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterLoseLimbParticleSpawner : AbstractCharacterComponent
 {
@@ -35,24 +34,28 @@ public class CharacterLoseLimbParticleSpawner : AbstractCharacterComponent
 
     private void FixedUpdate()
     {
-        if (!_lastRemovedPart.HasValue) return;
+
+        if (!_lastRemovedPart.HasValue || _spawnParticles.Count > 0) return;
+        float globalMult = ParticleSpawner.CalculateParticleAmountGlobalMultiplierByParticle(_spawnParticles[0]);
+        if (globalMult <= 0f) return;
 
         _timeSinceLastLostLimb += Time.deltaTime;
         _timeSinceLastParticleSpawn += Time.deltaTime;
 
+
         if (
             _timeSinceLastLostLimb < SPAWNING_DURATION &&
-            _timeSinceLastParticleSpawn * SPAWNING_FREQ > _timeSinceLastLostLimb
+            _timeSinceLastParticleSpawn * SPAWNING_FREQ / globalMult > _timeSinceLastLostLimb
             )
         {
             SpawnParticle(false);
             _timeSinceLastParticleSpawn = 0f;
         }
-        else if 
+        else if
             (
             _timeSinceLastLostLimb > SPAWNING_DURATION &&
             CharComponents.CharacterPartsManager.GetCharacterPart(_lastRemovedPart.Value) == null &&
-            _timeSinceLastParticleSpawn > 1f / SPAWNING_FREQ_ON_ALIVE &&
+            _timeSinceLastParticleSpawn > 1f / SPAWNING_FREQ_ON_ALIVE * globalMult &&
             !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
             )
         {

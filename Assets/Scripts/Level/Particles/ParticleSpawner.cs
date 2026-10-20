@@ -135,7 +135,7 @@ public class ParticleSpawner : MonoBehaviour
         return spawnParticle;
     }
 
-    private static float CalculateParticleAmountGlobalMultiplierByParticle( AbstractParticle particle)
+    public static float CalculateParticleAmountGlobalMultiplierByParticle( AbstractParticle particle)
     {
         if (particle is PhysicsParticle)
         {
