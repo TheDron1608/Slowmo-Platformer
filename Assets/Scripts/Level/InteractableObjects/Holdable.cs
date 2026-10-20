@@ -900,7 +900,7 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
     {
         if (CurrentHolder != null && CurrentHolder.CurrentHoldObject == this)
         {
-            CurrentHolder.CurrentHoldObject = null;
+            CurrentHolder.ForceThrow(Vector2.zero);
         }
     }
 }
