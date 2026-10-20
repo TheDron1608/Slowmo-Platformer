@@ -1,4 +1,3 @@
-using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -25,13 +24,14 @@ public class CharacterInteractionWithTiles : AbstractCharacterComponent
     private void UpdateStickyTileInteractionProcess()
     {
         if (
-            IsCurrentAbleToStickOnWalls && 
-            IsAbleToStickOnWalls && 
-            CharComponents.CharacterRigidBody.linearVelocityY < 0f && 
+            IsCurrentAbleToStickOnWalls &&
+            IsAbleToStickOnWalls &&
+            CharComponents.CharacterRigidBody.linearVelocityY < 0f &&
             CharComponents.CharacterCollision.GetIsStickingOnWall()
             )
         {
             CharComponents.CharacterRigidBody.linearVelocityY = math.lerp(CharComponents.CharacterRigidBody.linearVelocityY, 0f, Time.fixedDeltaTime * BASE_STICK_ON_WALL_STRINGHT_MULTIPLIER * StickOnWallStringhtMultiplier);
+            CharComponents.CharacterVisual.FlippedH = CharComponents.CharacterCollision.GetTileBehaviourTypeFromLeftWall() == ForegroundRuleTile.ForegroundBehaviourType.STICKY;
         }
     }
 }

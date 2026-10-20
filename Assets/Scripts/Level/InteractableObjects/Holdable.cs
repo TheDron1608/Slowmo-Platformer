@@ -509,7 +509,7 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
     public void Throw(Vector2 direction, float throwForceMultiplier = 1f)
     {
-        if (gameObject.IsDestroyed() || LayerManager.Instance.IsDestroyed()) return;
+        if (gameObject.IsDestroyed() || LayerManager.Instance == null) return;
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         if (layer == null) return;
 
@@ -678,7 +678,7 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
     public void Unholster()
     {
-        if (CurrentHolder == null || LayerManager.Instance.IsDestroyed()) return;
+        if (CurrentHolder == null || LayerManager.Instance == null) return;
         ZIndexLayer layer = LayerManager.Instance.GetZLayerOfGameObject(gameObject);
         if (layer == null) return;
 
