@@ -64,6 +64,8 @@ public class CharacterBleedTeleportation : AbstractCharacterSpecial
 
         _disableSelfAtLateUpdateThisFrame = true;
 
+        CharComponents.CharacterHolding.TryUnholster();
+
         SpendCost();
         InvokeUse();
         return true;

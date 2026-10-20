@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class CharacterHolstering : AbstractCharacterSpecial
+﻿public class CharacterHolstering : AbstractCharacterSpecial
 {
     public bool TryHolsterCurrentHoldWeapon()
     {
@@ -18,7 +16,7 @@ public class CharacterHolstering : AbstractCharacterSpecial
     public bool TryUnholsterHoldWeapon()
     {
         if (
-            CharComponents.CharacterHolding.CurrentHoldObject != null || 
+            CharComponents.CharacterHolding.CurrentHoldObject != null ||
             CharComponents.CharacterHolding.CurrentHolsteredHoldObject == null
             ) return false;
 
@@ -27,5 +25,10 @@ public class CharacterHolstering : AbstractCharacterSpecial
         return
             CharComponents.CharacterHolding.TryUnholster() &&
             CharComponents.CharacterHolding.ForceGrab(holsteredWeapon);
+    }
+
+    private void OnDestroy()
+    {
+        CharComponents.CharacterHolding.TryUnholster();
     }
 }

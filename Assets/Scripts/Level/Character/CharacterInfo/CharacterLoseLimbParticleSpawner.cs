@@ -35,7 +35,7 @@ public class CharacterLoseLimbParticleSpawner : AbstractCharacterComponent
     private void FixedUpdate()
     {
 
-        if (!_lastRemovedPart.HasValue || _spawnParticles.Count > 0) return;
+        if (!_lastRemovedPart.HasValue || _spawnParticles.Count == 0) return;
         float globalMult = ParticleSpawner.CalculateParticleAmountGlobalMultiplierByParticle(_spawnParticles[0]);
         if (globalMult <= 0f) return;
 
@@ -45,26 +45,26 @@ public class CharacterLoseLimbParticleSpawner : AbstractCharacterComponent
 
         if (
             _timeSinceLastLostLimb < SPAWNING_DURATION &&
-            _timeSinceLastParticleSpawn * SPAWNING_FREQ / globalMult > _timeSinceLastLostLimb
+            _timeSinceLastParticleSpawn * SPAWNING_FREQ * globalMult > _timeSinceLastLostLimb
             )
         {
-            SpawnParticle(false);
+            SpawnParticle(false, math.max(1f, globalMult));
             _timeSinceLastParticleSpawn = 0f;
         }
         else if
             (
             _timeSinceLastLostLimb > SPAWNING_DURATION &&
             CharComponents.CharacterPartsManager.GetCharacterPart(_lastRemovedPart.Value) == null &&
-            _timeSinceLastParticleSpawn > 1f / SPAWNING_FREQ_ON_ALIVE * globalMult &&
+            _timeSinceLastParticleSpawn * globalMult > 1f / SPAWNING_FREQ_ON_ALIVE &&
             !CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
             )
         {
-            SpawnParticle(true);
+            SpawnParticle(true, math.max(1f, globalMult));
             _timeSinceLastParticleSpawn = 0f;
         }
     }
 
-    private void SpawnParticle(bool ignoreTime)
+    private void SpawnParticle(bool ignoreTime, float speedMult)
     {
         ParticleSpawner.SpawnParticle(
             NumberMath.PickRandomItem(_spawnParticles),
@@ -72,7 +72,7 @@ public class CharacterLoseLimbParticleSpawner : AbstractCharacterComponent
             VectorMath.RandomizeVec2(_lastLostLimbPosition.transform.position - transform.position, SPAWNING_ACCURACY)
                 * new Vector2(CharComponents.CharacterVisual.FlippedH ? -1f : 1f, 1f),
             0f,
-            math.lerp(SPAWNING_MIN_VELOCITY, SPAWNING_MAX_VELOCITY, ignoreTime ? 0.5f : 1f - _timeSinceLastLostLimb / SPAWNING_DURATION)
+            math.lerp(SPAWNING_MIN_VELOCITY, SPAWNING_MAX_VELOCITY * speedMult, ignoreTime ? 0.5f : 1f - _timeSinceLastLostLimb / SPAWNING_DURATION)
                 * NumberMath.PickRandomInRangeNoSeed(SPAWNING_ACCURACY, 2f - SPAWNING_ACCURACY),
             0f,
             CharComponents.CharacterEffectsReceiver.EffectMaterial,

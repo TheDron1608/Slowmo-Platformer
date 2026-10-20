@@ -151,7 +151,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
 
     public void SetHealth(float health, MonoBehaviour setter)
     {
-        if (gameObject.IsDestroyed()) return;
+        if (this.IsDestroyed() || gameObject.IsDestroyed()) return;
 
         CurrentHealth = health;
         if (UnlimitedHealth)
