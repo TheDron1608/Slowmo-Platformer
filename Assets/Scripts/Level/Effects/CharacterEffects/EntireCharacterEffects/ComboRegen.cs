@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class ComboRegen : AbstractCharacterEffect, IEntireCharacterEffect, ITriggerableEffect
 {
@@ -23,7 +24,7 @@ public class ComboRegen : AbstractCharacterEffect, IEntireCharacterEffect, ITrig
 
     private void Instance_OnResetCombo(object sender, System.EventArgs e)
     {
-        AffectedCharacter.CharacterHealth.ApplyDamage(-HealOnResetCombo * ScoreManager.Instance.CurrentCombo, AffectedCharacter.CharacterAttacking);
+        AffectedCharacter.CharacterHealth.ApplyDamage(HealOnResetCombo * ScoreManager.Instance.LastCombo, null);
         OnTriggered?.Invoke(this, new EventArgs());
     }
 
