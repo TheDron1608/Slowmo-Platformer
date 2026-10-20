@@ -349,6 +349,14 @@ public class ZIndexLayer : MonoBehaviour
                     new int[] { }
                 );
                 break;
+            case LayerManager.SUN_TAG_NAME:
+                SetLightRendererLayer(
+                    gameObject,
+                    ObjectsSortingLayer,
+                    new int[] { BackgroundSortingLayer, ObjectsSortingLayer },
+                    new int[] { }
+                );
+                break;
         }
 
         switch (gameObject.tag)

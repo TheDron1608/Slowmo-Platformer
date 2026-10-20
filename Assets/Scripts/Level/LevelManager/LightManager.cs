@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class LightManager : MonoBehaviour
 {
@@ -10,7 +9,8 @@ public class LightManager : MonoBehaviour
         FURNITURE,
         CHARACTER,
         GLOBAL,
-        WEAPON
+        WEAPON,
+        SUN
     }
 
     public static LightManager Instance;
@@ -22,11 +22,13 @@ public class LightManager : MonoBehaviour
     private List<LightManagerManagedLightSource> _characterLightSources = new();
     private List<LightManagerManagedLightSource> _globalLightSources = new();
     private List<LightManagerManagedLightSource> _weaponLightSources = new();
+    private List<LightManagerManagedLightSource> _sunLightSources = new();
 
     [SerializeField] private float _furnitureLightIntensityMultiplier = 1f;
     [SerializeField] private float _characterLightIntensityMultiplier = 0f;
     [SerializeField] private float _globalLightIntensityMultiplier = 1f;
     [SerializeField] private float _weaponLightIntensityMultiplier = 0f;
+    [SerializeField] private float _sunLightIntensityMultiplier = 0f;
 
     public void AddLightSource(LightManagerManagedLightSource lightSource, LightManagedType type)
     {
@@ -48,6 +50,10 @@ public class LightManager : MonoBehaviour
                 _weaponLightSources.Add(lightSource);
                 lightSource.SetLightIntensityMultiplier(_weaponLightIntensityMultiplier);
                 break;
+            case LightManagedType.SUN:
+                _sunLightSources.Add(lightSource);
+                lightSource.SetLightIntensityMultiplier(_sunLightIntensityMultiplier);
+                break;
         }
     }
     public void RemoveLightSource(LightManagerManagedLightSource lightSource, LightManagedType type)
@@ -65,6 +71,9 @@ public class LightManager : MonoBehaviour
                 break;
             case LightManagedType.WEAPON:
                 _weaponLightSources.Remove(lightSource);
+                break;
+            case LightManagedType.SUN:
+                _sunLightSources.Remove(lightSource);
                 break;
         }
     }
@@ -122,6 +131,20 @@ public class LightManager : MonoBehaviour
                 light.SetLightIntensityMultiplier(value);
             }
             _weaponLightIntensityMultiplier = value;
+        }
+    }
+
+    public float SunLightIntensityMultiplier
+    {
+        get => _sunLightIntensityMultiplier;
+        set
+        {
+            if (_sunLightIntensityMultiplier == value) return;
+            foreach (LightManagerManagedLightSource light in _sunLightSources)
+            {
+                light.SetLightIntensityMultiplier(value);
+            }
+            _sunLightIntensityMultiplier = value;
         }
     }
 
