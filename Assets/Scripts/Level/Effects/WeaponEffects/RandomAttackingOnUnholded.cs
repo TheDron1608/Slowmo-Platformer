@@ -3,10 +3,12 @@ using UnityEngine;
 public class RandomAttackingOnUnholded : AbstractWeaponEffect, IMultiplierableEffect
 {
     public float ChancePerSecond = 0.125f;
+    public float StartAttackDelaySeconds = 2f;
     public RandomManager.ProcChanceTypes ChanceType = RandomManager.ProcChanceTypes.BAD;
 
     private Holdable _affectedWeaponHoldableComponent;
     private float _effectMultiplier = 1f;
+    private float _timeSinceUnholded = 0f;
 
     public float EffectMultiplier
     {
@@ -23,8 +25,18 @@ public class RandomAttackingOnUnholded : AbstractWeaponEffect, IMultiplierableEf
 
     private void FixedUpdate()
     {
+        if (_affectedWeaponHoldableComponent.CurrentHolder == null)
+        {
+            _timeSinceUnholded += Time.deltaTime;
+        }
+        else
+        {
+            _timeSinceUnholded = 0f;
+        }
+
         if (
-            _affectedWeaponHoldableComponent.CurrentHolder == null && 
+            _timeSinceUnholded > StartAttackDelaySeconds &&
+            _affectedWeaponHoldableComponent.CurrentHolder == null &&
             RandomManager.Instance.ProcRandomChance(ChancePerSecond * EffectMultiplier * Time.fixedDeltaTime, ChanceType)
             )
         {
