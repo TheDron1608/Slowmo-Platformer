@@ -20,6 +20,7 @@ public class DamagableObject : MonoBehaviour, IDamagable
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
+    [SerializeField] private bool _hitableByHoldables = true;
     [SerializeField] private bool _unlimitedHealth = false;
     [SerializeField] private bool _alwaysPierce = false;
     public float LivingWithDeadlyHealthSeconds = 0f;
@@ -61,6 +62,12 @@ public class DamagableObject : MonoBehaviour, IDamagable
     {
         get => _hitableByRangedProjectiles;
         set => _hitableByRangedProjectiles = value;
+    }
+
+    public bool HitableByHoldables
+    {
+        get => _hitableByHoldables;
+        set => _hitableByHoldables = value;
     }
 
     public bool UnlimitedHealth

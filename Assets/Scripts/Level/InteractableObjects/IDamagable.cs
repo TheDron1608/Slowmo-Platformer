@@ -13,6 +13,7 @@ public interface IDamagable
     public bool PiercableThrought { get; set; }
     public bool HitableByMeleeProjectiles { get; set; }
     public bool HitableByRangedProjectiles { get; set; }
+    public bool HitableByHoldables { get; set; }
     public float HealMultiplier { get; set; }
     public bool UnlimitedHealth { get; set; }
     public bool AlwaysPierce { get; set; }

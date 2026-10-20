@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
@@ -27,6 +26,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
     [SerializeField] private bool _piercableThrought = false;
     [SerializeField] private bool _hitableByMeleeProjectiles = true;
     [SerializeField] private bool _hitableByRangedProjectiles = true;
+    [SerializeField] private bool _hitableByHoldables = true;
     [SerializeField] private bool _alwaysPierce = false;
     public AbstractSoundPlayer SoundOnGib;
     public AbstractSoundPlayer SoundOnCutOff;
@@ -66,8 +66,15 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         set => _hitableByRangedProjectiles = value;
     }
 
-    public bool UnlimitedHealth { 
-        get => CharComponents.CharacterHealth.UnlimitedHealth; 
+    public bool HitableByHoldables
+    {
+        get => _hitableByHoldables;
+        set => _hitableByHoldables = value;
+    }
+
+    public bool UnlimitedHealth
+    {
+        get => CharComponents.CharacterHealth.UnlimitedHealth;
         set => CharComponents.CharacterHealth.UnlimitedHealth = value;
     }
 
@@ -242,8 +249,8 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
             AbstractParticle limbParticle = limbParticleSpawner.SpawnParticle();
 
             if (
-                limbParticle.TryGetComponent(out BoxCollider2D particleCollider) && 
-                TryGetComponent(out CharacterLimbPart limbPart) && 
+                limbParticle.TryGetComponent(out BoxCollider2D particleCollider) &&
+                TryGetComponent(out CharacterLimbPart limbPart) &&
                 limbPart.CharPartHitbox.TryGetComponent(out Collider2D limbCollider)
                 )
             {

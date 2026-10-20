@@ -323,6 +323,8 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
         if (charComponent != null && GetIsDangerouslyFast())
         {
+            if (!charComponent.CharComponents.CharacterHealth.HitableByHoldables) return;
+
             CharacterLimbPart closestPart = null;
             float closestPartDistance = float.MaxValue;
             foreach (CharacterPart part in charComponent.CharComponents.CharacterPartsManager.CharacterParts)
@@ -335,6 +337,8 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
                         closestPartDistance = distance;
                         closestPart = limbpart;
                     }
+
+                    if (!limbpart.CharPartHealth.HitableByHoldables) return;
 
                     limbpart.CharPartHealth.ApplyThrowHit(this);
                 }
