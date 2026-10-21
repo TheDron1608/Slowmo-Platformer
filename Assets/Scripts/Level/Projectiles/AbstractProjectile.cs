@@ -404,13 +404,15 @@ public abstract class AbstractProjectile : MonoBehaviour, IEffectApplier
             ) &&
             (
                 !currentHitObjet.TryGetComponent(out Shield shield) ||
-                FriendlyFire || (!shield.GetComponent<Holdable>().CurrentHolder?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam((Deflector ?? Owner)?.CharComponents.CharacterTeam) ?? true)
+                FriendlyFire || 
+                (!shield.GetComponent<Holdable>().CurrentHolder?.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam((Deflector ?? Owner)?.CharComponents.CharacterTeam) ?? true)
             ) &&
             (
                 !currentHitObjet.TryGetComponent(out AbstractCharacterComponent charComponent) ||
+                FriendlyFire || 
                 (
                     charComponent.CharComponents.CharacterHolding != (Deflector ?? Owner) &&
-                    (FriendlyFire || !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam((Deflector ?? Owner)?.CharComponents.CharacterTeam))
+                    !charComponent.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam((Deflector ?? Owner)?.CharComponents.CharacterTeam)
                 )
             ) &&
             (
