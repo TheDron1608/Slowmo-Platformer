@@ -8,7 +8,8 @@ public class UnloadRangedByOwner : AbstractRangedWeaponEffect
     {
         base.OnApply();
 
-        RangedWeapon.TryUnloadAllBullets();
+        RangedWeapon.ForceUnloadAllBullets();
+
         if (RangedWeapon.TryGetComponent(out Holdable holdableWeapon))
         {
             if (holdableWeapon.CurrentHolder == null)

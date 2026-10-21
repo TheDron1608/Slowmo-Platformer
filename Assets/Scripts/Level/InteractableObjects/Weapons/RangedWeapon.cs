@@ -146,9 +146,18 @@ public abstract class RangedWeapon : ThrowableWeapon
         IsUnloading = true; 
     }
 
-    public virtual void TryUnloadAllBullets()
+    public virtual bool TryUnloadAllBullets()
     {
         AmmoLeft = 0;
+        return true;
+    }
+
+    public void ForceUnloadAllBullets()
+    {
+        Unloaded = false;
+        OnReloadFinish();
+        _animator.ResetControllerState(false);
+        TryUnloadAllBullets();
     }
 
     public void SpawnBulletParticles(int amount)

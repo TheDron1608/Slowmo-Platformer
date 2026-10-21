@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -153,11 +152,18 @@ public class MagReloadingWeapon : RangedWeapon
         }
     }
 
-    public override void TryUnloadAllBullets()
+    public override bool TryUnloadAllBullets()
     {
-        base.TryUnloadAllBullets();
+        if (TryUnload())
+        {
+            base.TryUnloadAllBullets();
 
-        TryUnload();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     protected override bool OnTryAttackSuccess(Vector2 direction)

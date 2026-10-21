@@ -57,13 +57,19 @@ public class BulletReloadingWeapon : RangedWeapon
         return (LoadedLivingAmmoLeft <= 0 && LoadedSpentAmmoLeft > 0) || (_isUnloadingAllBullets && !Unloaded);
     }
 
-    public override void TryUnloadAllBullets()
+    public override bool TryUnloadAllBullets()
     {
-        base.TryUnloadAllBullets();
+        if (TryUnload())
+        {
+            base.TryUnloadAllBullets();
+            _isUnloadingAllBullets = true;
 
-        _isUnloadingAllBullets = true;
-
-        TryUnload();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public override bool GetIsNeedReload()
