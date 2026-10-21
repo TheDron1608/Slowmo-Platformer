@@ -7,6 +7,7 @@ public class CharacterEquipmentPart : CharacterPart
     public PartTypes EquipAtType;
     public List<AbstractEffect> EffectsOnEquip;
     public bool CanUnequip = true;
+    public int EquipPriority = 0;
 
     private CharacterLimbPart _currentLimbEquip;
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CharacterPartsManager : AbstractCharacterComponent
@@ -112,6 +113,7 @@ public class CharacterPartsManager : AbstractCharacterComponent
         return result;
     }
 
+
     public void GiveNewEquipment(CharacterEquipmentPart equipment)
     {
         if (gameObject.activeInHierarchy)
@@ -126,6 +128,8 @@ public class CharacterPartsManager : AbstractCharacterComponent
 
     public void RemoveEquipment(CharacterEquipmentPart equipment)
     {
+        if (equipment == null) return;
+
         for (int i = 0; i < _characterParts.Count; i++)
         {
             if (_characterParts[i] is CharacterEquipmentPart equipmentPart && equipmentPart == equipment)
@@ -139,15 +143,14 @@ public class CharacterPartsManager : AbstractCharacterComponent
 
     private CharacterEquipmentPart ForceAddPart(CharacterEquipmentPart equipment)
     {
-        if (equipment == null || GetCharacterPart(equipment.EquipAtType) == null)
+        CharacterEquipmentPart oldEquipment = GetCharacterPart(equipment.PartType) as CharacterEquipmentPart;
+
+        if (equipment == null || GetCharacterPart(equipment.EquipAtType) == null || (oldEquipment?.EquipPriority ?? int.MinValue) > equipment.EquipPriority)
         {
             return null;
         }
 
-        foreach (CharacterEquipmentPart limbEquipment in GetCharacterPartEquipment(GetCharacterPart(equipment.PartType)))
-        {
-            limbEquipment.DestroyPart();
-        }
+        oldEquipment?.DestroyPart();
 
         CharacterEquipmentPart newEquipment = Instantiate(equipment, CharComponents.CharacterPartsContainer.transform);
         CharComponents.CharacterCollision.CurrentZLayer.UpdateLayerForAllChildren(newEquipment.transform);
