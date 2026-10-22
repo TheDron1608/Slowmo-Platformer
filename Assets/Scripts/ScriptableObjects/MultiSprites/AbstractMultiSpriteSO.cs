@@ -34,6 +34,12 @@ public abstract class AbstractMultiSpriteSO : ScriptableObject
 
     //unity 6.0.026f1 not supports serialized dictionaries
     [SerializeField] private List<SerializableSampleSpritesDictionaryItem> _serializedSampleSprites = new();
+
+    public List<SerializableSampleSpritesDictionaryItem> SampleSprites
+    {
+        get => _serializedSampleSprites;
+    }
+
 #if UNITY_EDITOR
     public void UpdateCharacterTextures()
     {

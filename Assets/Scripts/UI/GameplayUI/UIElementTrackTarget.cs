@@ -31,7 +31,7 @@ public class UIElementTrackTarget : MonoBehaviour
         }
     }
 
-    public static UIElementTrackTarget CreateTrackTarget(Transform parent, MonoBehaviour trackingUIElement)
+    public static UIElementTrackTarget CreateTrackTarget(Transform parent, Transform trackingUIElement)
     {
         GameObject newGO = new("TrackTarget_" + trackingUIElement.gameObject.name);
 

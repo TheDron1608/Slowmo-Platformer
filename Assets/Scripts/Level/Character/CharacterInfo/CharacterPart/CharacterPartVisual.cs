@@ -23,12 +23,6 @@ public class CharacterPartVisual : AbstractCharacterComponent
         }
     }
 
-    public Material SharedMaterial
-    {
-        get => _spriteRenderer.sharedMaterial;
-        set => _spriteRenderer.sharedMaterial = value;
-    }
-
     public bool IsVisible()
     {
         return _spriteRenderer.isVisible;

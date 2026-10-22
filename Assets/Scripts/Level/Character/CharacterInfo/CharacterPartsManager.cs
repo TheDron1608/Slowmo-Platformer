@@ -99,6 +99,16 @@ public class CharacterPartsManager : AbstractCharacterComponent
         return null;
     }
 
+    public List<CharacterLimbPart> GetAllLimbs()
+    {
+        List<CharacterLimbPart> result = new();
+        foreach (CharacterPart part in CharacterParts)
+        {
+            if (part is CharacterLimbPart limbPart) result.Add(limbPart);
+        }
+        return result;
+    }
+
     public List<CharacterEquipmentPart> GetCharacterPartEquipment(CharacterPart part)
     {
         if (part == null) return new() { };

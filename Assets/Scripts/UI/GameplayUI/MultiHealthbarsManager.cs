@@ -22,7 +22,7 @@ public class MultiHealthbarsManager : MonoBehaviour
         Healthbar newHealthbar = Instantiate(_spawnHealthbar, _healthbarsSpawnPosition);
         newHealthbar.UITrackSource = healthbarOwner;
         _currentHealthbars.Add(newHealthbar);
-        UIElementTrackTarget.CreateTrackTarget(_healthbarsTrackTargetsContainer, newHealthbar);
+        UIElementTrackTarget.CreateTrackTarget(_healthbarsTrackTargetsContainer, newHealthbar.transform);
 
 
         return newHealthbar;
@@ -48,6 +48,15 @@ public class MultiHealthbarsManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public Healthbar FindHealthbarByCharacter(CharacterComponentsManager character)
+    {
+        foreach (Healthbar hb in _currentHealthbars)
+        {
+            if (hb.HealthTrackedCharacter == character.CharacterHealth) return hb;
+        }
+        return null;
     }
 
     private bool TryRemoveDeadHealthbar()

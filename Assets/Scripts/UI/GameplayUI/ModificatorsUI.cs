@@ -28,12 +28,12 @@ public class ModificatorsUI : MonoBehaviour
 
         if (instantly)
         {
-            newIcon.transform.position = UIElementTrackTarget.CreateTrackTarget(_modificatorTrackTargetsContainer, newIcon).transform.position;
+            newIcon.transform.position = UIElementTrackTarget.CreateTrackTarget(_modificatorTrackTargetsContainer, newIcon.transform).transform.position;
         }
         else
         {
             newIcon.transform.position = _modificatorsSpawnPosition.position;
-            UIElementTrackTarget.CreateTrackTarget(_modificatorTrackTargetsContainer, newIcon);
+            UIElementTrackTarget.CreateTrackTarget(_modificatorTrackTargetsContainer, newIcon.transform);
         }
 
         _modificatorsIcons.Add(newIcon);

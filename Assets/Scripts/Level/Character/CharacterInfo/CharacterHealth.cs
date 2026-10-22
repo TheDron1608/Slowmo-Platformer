@@ -12,6 +12,7 @@ public class CharacterHealth : DamagableObject
     public List<AbstractParticle> ParticlesOnGib = new();
     public int ParticlesAmountOnGib = 24;
     public AbstractSoundPlayer SoundOnGib;
+    public int Bites = 0; //used for CannibalRegen
 
     private CharacterComponentsManager _charComponents;
     private CharacterLimbPart _lethallyAffectedCharacterPart = null;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 {
@@ -114,28 +115,33 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
         if (ParticlesOnHit.Count > 0)
         {
-            ParticleSpawner.SpawnInstantlyMultipleParticles(
+            DamageVisualEffect(
                 ParticlesOnHit,
-                hitPointPosition,
-                VectorMath.Quartenion2DToVec2(damager.transform.rotation),
-                0f,
-                BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
-                BLEED_PARTICLES_MAX_SPAWN_VELOCITY,
-                BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
-                BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
-                CharComponents.CharacterEffectsReceiver.EffectMaterial,
-                CharComponents.CharacterCollision.CurrentZLayer,
-                math.max(1, (int)math.floor(damage * ParticlesPerDamage)),
-                BLEED_PARTICLES_ACCURACY
+                hitPointPosition, 
+                VectorMath.Quartenion2DToVec2(damager.transform.rotation), 
+                math.max(1, (int)math.floor(damage * ParticlesPerDamage))
                 );
         }
 
         if (CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>() && ParticlesOnLethalHit.Count > 0)
         {
-            ParticleSpawner.SpawnInstantlyMultipleParticles(
+            DamageVisualEffect(
                 ParticlesOnLethalHit,
                 hitPointPosition,
                 VectorMath.Quartenion2DToVec2(damager.transform.rotation),
+                ParticlesAmountOnLethal
+                );
+        }
+    }
+
+    public void DamageVisualEffect(List<AbstractParticle> particles, Vector2 position, Vector2 direction, int amount)
+    {
+        if (ParticlesOnHit.Count > 0)
+        {
+            ParticleSpawner.SpawnInstantlyMultipleParticles(
+                particles,
+                position,
+                direction,
                 0f,
                 BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
                 BLEED_PARTICLES_MAX_SPAWN_VELOCITY,
@@ -143,7 +149,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
                 CharComponents.CharacterEffectsReceiver.EffectMaterial,
                 CharComponents.CharacterCollision.CurrentZLayer,
-                ParticlesAmountOnLethal,
+                amount,
                 BLEED_PARTICLES_ACCURACY
                 );
         }
@@ -213,19 +219,12 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
                 cutter.gameObject.transform.position +
                 VectorMath.Quartenion2DToVec3(cutter.transform.rotation) *
                 Vector2.Distance(cutter.gameObject.transform.position, transform.position);
-            ParticleSpawner.SpawnInstantlyMultipleParticles(
+
+            DamageVisualEffect(
                 ParticlesOnCutOff,
                 cutPointPosition,
                 VectorMath.Quartenion2DToVec2(cutter.transform.rotation),
-                0f,
-                BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
-                BLEED_PARTICLES_MAX_SPAWN_VELOCITY,
-                BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
-                BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
-                CharComponents.CharacterEffectsReceiver.EffectMaterial,
-                CharComponents.CharacterCollision.CurrentZLayer,
-                ParticlesAmountOnLethal,
-                BLEED_PARTICLES_ACCURACY
+                ParticlesAmountOnLethal
                 );
         }
 
@@ -314,20 +313,13 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 
         if (ParticlesOnGib.Count > 0 && gameObject.activeSelf)
         {
-            GameObjectUtility.TryGetComponentInSelfOrChild<Collider2D>(gameObject, out Collider2D collider);
-            ParticleSpawner.SpawnInstantlyMultipleParticles(
+            GameObjectUtility.TryGetComponentInSelfOrChild(gameObject, out Collider2D collider);
+
+            DamageVisualEffect(
                 ParticlesOnGib,
                 GameObjectUtility.GetCenterOfCollider(collider),
                 Vector2.zero,
-                0f,
-                BLEED_PARTICLES_MIN_SPAWN_VELOCITY,
-                BLEED_PARTICLES_MAX_SPAWN_VELOCITY,
-                BLEED_PARTICLES_MIN_SPAWN_ANGULAR_VELOCITY,
-                BLEED_PARTICLES_MAX_SPAWN_ANGULAR_VELOCITY,
-                CharComponents.CharacterEffectsReceiver.EffectMaterial,
-                CharComponents.CharacterCollision.CurrentZLayer,
-                ParticlesAmountOnLethal,
-                0f
+                ParticlesAmountOnLethal
                 );
         }
 
@@ -341,7 +333,7 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
             limbPart.UnequipAllEquipments();
         }
 
-        GameObject.Destroy(gameObject);
+        Destroy(gameObject);
     }
 
     public void ApplyThrowHit(Holdable holdable)

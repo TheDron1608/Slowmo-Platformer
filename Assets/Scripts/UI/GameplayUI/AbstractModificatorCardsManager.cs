@@ -103,7 +103,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         card.transform.localScale = Vector3.one * 2f;
         card.transform.position = CardSpawnPosition.transform.position;
 
-        UIElementTrackTarget.CreateTrackTarget(CardTrackTargetsContainer, card);
+        UIElementTrackTarget.CreateTrackTarget(CardTrackTargetsContainer, card.transform);
 
         _cards.Add(card);
         _cardPickInfo.Add(card, false);

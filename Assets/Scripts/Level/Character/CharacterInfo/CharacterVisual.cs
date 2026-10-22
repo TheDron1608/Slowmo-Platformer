@@ -71,7 +71,8 @@ public class CharacterVisual : AbstractCharacterComponent
         BREAK_NECK = 16,
         BROKE_NECK = 17,
         KICK = 18,
-        SIT = 19
+        SIT = 19,
+        BITE = 20
     }
 
     public class OnBusyStateChangedEventArgs

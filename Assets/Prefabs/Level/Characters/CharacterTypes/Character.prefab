@@ -785,6 +785,7 @@ MonoBehaviour:
   - {fileID: 7918486479222219331, guid: f85dbca7a440c534885c4bc5659944ac, type: 3}
   ParticlesAmountOnGib: 34
   SoundOnGib: {fileID: 860735038382619512}
+  Bites: 0
 --- !u!114 &4517750751436233566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1004,6 +1005,12 @@ MonoBehaviour:
   - {fileID: 113282033, guid: b17d0115381cdc04a8f3e5f4f8a9c828, type: 3}
   DeathSprites:
   - {fileID: 21300000, guid: 88f980c6c81d86c4693e0433a3dc1119, type: 3}
+  BiteSprites:
+  - {fileID: -3504630673186957658, guid: 3697b569495a9ca4abecd72bcc3e29cb, type: 3}
+  - {fileID: 1443071497, guid: 3697b569495a9ca4abecd72bcc3e29cb, type: 3}
+  - {fileID: 609208225, guid: 3697b569495a9ca4abecd72bcc3e29cb, type: 3}
+  - {fileID: -354527974, guid: 3697b569495a9ca4abecd72bcc3e29cb, type: 3}
+  - {fileID: -1198531288, guid: 3697b569495a9ca4abecd72bcc3e29cb, type: 3}
   _popupImage: {fileID: 406048711666860640}
   _popupText: {fileID: 3231638023608954960}
   _stunRecoverAnimationTimeMult: 1
