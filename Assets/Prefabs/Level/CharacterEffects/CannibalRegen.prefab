@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7645159802801549864}
+  - {fileID: 2204001000084362066}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6352886424876546766
@@ -56,7 +57,103 @@ MonoBehaviour:
   MaxBitesPerCharacterScale: 0.35
   CameraShakeOnBite: 0.05
   CorpseAttractForce: 50
+  Organs:
+  - {fileID: 11400000, guid: 8cddcdf5ae9634043952ae66b687fb83, type: 2}
+  - {fileID: 11400000, guid: 4454b8b23b9093e4197806eb46380df2, type: 2}
+  - {fileID: 11400000, guid: b6f0cee874b37724b9d3c721b08d2b09, type: 2}
+  - {fileID: 11400000, guid: ca5b49fc13ebe7c4b925d08700d9ff71, type: 2}
+  - {fileID: 11400000, guid: 2b5fe1d36ff148144a212907f969f51e, type: 2}
+  - {fileID: 11400000, guid: a5bcdffe35da8db43ba484af7264cca3, type: 2}
+  - {fileID: 11400000, guid: fb88459c6e8bfca48b0421650c38f11a, type: 2}
+  - {fileID: 11400000, guid: 894121d0188465f49982295de26afe1a, type: 2}
+  - {fileID: 11400000, guid: ecbdac9dbf4165749bf82501707a540a, type: 2}
+  - {fileID: 11400000, guid: 98fc6f1e969b1aa4d9e7d673b96f8550, type: 2}
+  - {fileID: 11400000, guid: b5178e6fded477646b4ccc1d4e91009c, type: 2}
+  - {fileID: 11400000, guid: 59c183152b181074a98fed8b5edbb43e, type: 2}
+  - {fileID: 11400000, guid: 675741dcab50f99488abc53b3d77e49d, type: 2}
+  - {fileID: 11400000, guid: 38e5fe695d1fd164eafd06ca5bcaa96e, type: 2}
+  - {fileID: 11400000, guid: 74957b31f7b6f444686587c11362b25f, type: 2}
+  - {fileID: 11400000, guid: 258630bf9c44620458d7243795150e4e, type: 2}
+  - {fileID: 11400000, guid: f5d251f75a7f88f4db19e95fd31825cc, type: 2}
+  - {fileID: 11400000, guid: 9d91d9df28c70fa408c297d76e4b06b4, type: 2}
+  - {fileID: 11400000, guid: 41c0b282a75793a4e9261d03388840a4, type: 2}
+  - {fileID: 11400000, guid: f4e58c067c258e349a438ee7c73a4b23, type: 2}
+  - {fileID: 11400000, guid: af4ddf195f527ef41a09f0638d354af3, type: 2}
   BiteSound: {fileID: 4239264379180387482}
+  CollectOrganSound: {fileID: 5646347422989102560}
+--- !u!1001 &1338412175294376512
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8814217113682042982}
+    m_Modifications:
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3962236072097417123, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+      propertyPath: m_Name
+      value: CollectOrganSoundPlayer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+--- !u!4 &2204001000084362066 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 866047871208192274, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+  m_PrefabInstance: {fileID: 1338412175294376512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5646347422989102560 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6685916735592171424, guid: 6385367f598b31f4ba4318f85c0563a3, type: 3}
+  m_PrefabInstance: {fileID: 1338412175294376512}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559c9653b7826a246bd169f5741788bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7358250288941894458
 PrefabInstance:
   m_ObjectHideFlags: 0

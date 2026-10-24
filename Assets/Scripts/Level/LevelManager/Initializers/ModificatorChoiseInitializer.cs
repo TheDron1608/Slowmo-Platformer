@@ -17,6 +17,10 @@ public class ModificatorChoiseInitializer : MonoBehaviour
                 {
                     modificator.OnModificatorChoiseStarted(BlessPickManager.Instance);
                 }
+                else if (MoneyPickManager.Instance != null)
+                {
+                    modificator.OnModificatorChoiseStarted(MoneyPickManager.Instance);
+                }
             }
         }
     }

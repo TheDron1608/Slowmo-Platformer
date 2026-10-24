@@ -159,9 +159,26 @@ MonoBehaviour:
   Stackable: 0
   AllowPermanent: 1
   OverrideModificators: []
-  RestrictModificators: []
-  SynergingModificators: []
-  UnsynergingModificators: []
+  RestrictModificators:
+  - {fileID: 1998567090488563821, guid: 172ebfd33c6f19c4e9f5b0edaa82233f, type: 3}
+  - {fileID: 1998567090488563821, guid: ce80f8dea0ec7ba4cbceef2b014b85fc, type: 3}
+  - {fileID: 1998567090488563821, guid: faa1c07c8df152545bc21d0b3d517661, type: 3}
+  - {fileID: 1998567090488563821, guid: e8ed6670eb16a3441966a003d7b0c8af, type: 3}
+  - {fileID: 8782483865950000017, guid: 45c9bf0057f8400438936dbca41e6235, type: 3}
+  - {fileID: 1998567090488563821, guid: 76264aa86976d3a4b80ae6f1d0038d71, type: 3}
+  - {fileID: 1998567090488563821, guid: 76264aa86976d3a4b80ae6f1d0038d71, type: 3}
+  - {fileID: 1998567090488563821, guid: 2fe5d07d1f496c9458fd9ca85d41e0b8, type: 3}
+  SynergingModificators:
+  - {fileID: 2670556852303785856, guid: 7b3b527486eba624bb18f80676329f90, type: 3}
+  - {fileID: 8538196893023150533, guid: 292584e0a24f2854aae709b3ab0e6632, type: 3}
+  - {fileID: 8538196893023150533, guid: afc06fb1ce832fe40a96f4ff67264813, type: 3}
+  - {fileID: 8538196893023150533, guid: 07530ffccb075894d926b47613de0cdc, type: 3}
+  UnsynergingModificators:
+  - {fileID: 4794591185165762808, guid: 292168c8e305bbd45954b8629d54fb0d, type: 3}
+  - {fileID: 7118010623377188302, guid: c099fca5375f95541ae7110ef01844a6, type: 3}
+  - {fileID: 3971122763726043815, guid: c7901b2e1c438ac4182ce5a2aca8c731, type: 3}
+  - {fileID: -8887920797958706903, guid: 14d8d13b214857a4c95c21db4fabb310, type: 3}
+  - {fileID: -8887920797958706903, guid: 50c815f8aa366964fa6c612c81467570, type: 3}
   HarderVersion: {fileID: 0}
   ModificatorType: 0
   ModificatorTier: 2

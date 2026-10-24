@@ -4,10 +4,10 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class ModificatorCardsCluster : AbstractCardItem
 {
+    const string CARDS_CONTAINER_GO_NAME = "CardsClusterContainer";
     const float CLUSTER_HAND_BASE_ROTATION = 30f;
 
     [SerializeField] private RectTransform _cardsContainer;
@@ -31,7 +31,7 @@ public class ModificatorCardsCluster : AbstractCardItem
 #if UNITY_EDITOR
     protected override void OnValidate()
     {
-
+        _cardsContainer = transform.Find(CARDS_CONTAINER_GO_NAME)?.GetComponent<RectTransform>() ?? throw new UnityException(CARDS_CONTAINER_GO_NAME + " gameObject not found");
         _svEffects = GetComponent<ButtonSoundVisualEffects>();
     }
 #endif
@@ -76,7 +76,7 @@ public class ModificatorCardsCluster : AbstractCardItem
         }
     }
 
-    public void AddModificator(AbstractModificator modificator, Sprite overrideCardsBg = null)
+    public virtual void AddModificator(AbstractModificator modificator, Sprite overrideCardsBg = null)
     {
         ModificatorCard newCard = ModificatorsManager.Instance.CreateModificatorCard(modificator, transform, overrideCardsBg);
         newCard.CurrentCluster = this;
@@ -87,9 +87,9 @@ public class ModificatorCardsCluster : AbstractCardItem
         UpdateCardsPositions();
     }
 
-    public void RemoveModificator(AbstractModificator modificator)
+    public virtual void RemoveModificator(AbstractModificator modificator)
     {
-        ModificatorCard card = Cards.Find(e => 
+        ModificatorCard card = Cards.Find(e =>
         e.ModificatorInstance == modificator ||
         e.ModificatorInstance.OriginalModificator == modificator
         );
@@ -178,7 +178,23 @@ public class ModificatorCardsCluster : AbstractCardItem
             }
 
             container.SpendPicksLeft();
+
+            if (ComboMoneyModificator.Instance != null)
+            {
+                ComboMoneyModificator.Instance.CurrentMoney -= (int)math.round(GetTotalPrice());
+            }
         }
+    }
+
+    public float GetTotalPrice()
+    {
+        float totalPrice = 0;
+        foreach (ModificatorCard card in Cards)
+        {
+            if (card.Type == AbstractModificator.ModificatorTypes.POSITIVE) totalPrice += card.ModificatorPrice;
+            if (card.Type == AbstractModificator.ModificatorTypes.NEGATIVE) totalPrice -= card.ModificatorPrice;
+        }
+        return totalPrice;
     }
 
     protected override void OnDestroy()

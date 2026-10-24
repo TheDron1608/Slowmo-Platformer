@@ -45,6 +45,8 @@ public class ScoreManager : MonoBehaviour
     private float _resetScoreEncountSpeedMultiplier = 1f;
     private int _lastCombo = 0;
     private float _timeSinceLastCombo = 0f;
+    private int _currentMoney = 0;
+    private int _totalMoney = 0;
 
     public event EventHandler OnAddedCombo;
     public event EventHandler OnResetCombo;
@@ -129,6 +131,15 @@ public class ScoreManager : MonoBehaviour
         get => _timeSinceLastCombo;
     }
 
+    public int CurrentMoney
+    {
+        get => _currentMoney;
+    }
+    public int TotalMoney
+    {
+        get => _totalMoney;
+    }
+
     public void AddCombo()
     {
         CurrentCombo = math.max(CurrentCombo + 1, 0);
@@ -154,6 +165,24 @@ public class ScoreManager : MonoBehaviour
                 OnResetCombo?.Invoke(this, EventArgs.Empty);
                 AddScore((int)math.round((oldCombo - CurrentCombo) * oldMult));
             }
+        }
+    }
+
+    public void AddMoney(int addAmount)
+    {
+        _currentMoney += addAmount;
+        _totalMoney += addAmount;
+    }
+    public bool TrySpendMoney(int spendAmount)
+    {
+        if (_currentMoney >= spendAmount)
+        {
+            _currentMoney -= spendAmount;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

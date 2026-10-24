@@ -65,7 +65,10 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
     protected virtual void OnAwake()
     {
         SetDefaultDisplayedInfo();
-        PicksLeftText.text = PicksLeftLocalization.GetLocalizedString() + _picksLeft.ToString();
+        if (PicksLeftText != null)
+        {
+            PicksLeftText.text = PicksLeftLocalization.GetLocalizedString() + _picksLeft.ToString();
+        }
     }
 
     public List<AbstractCardItem> Cards
@@ -86,8 +89,11 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         set
         {
             _picksLeft = value;
-            PicksLeftText.text = PicksLeftLocalization.GetLocalizedString() + _picksLeft.ToString();
-            PicksLeftText.enabled = _picksLeft > 0;
+            if (PicksLeftText != null)
+            {
+                PicksLeftText.text = PicksLeftLocalization.GetLocalizedString() + _picksLeft.ToString();
+                PicksLeftText.enabled = _picksLeft > 0;
+            }
         }
     }
 
@@ -151,7 +157,7 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
         }
     }
 
-    public void SetDefaultDisplayedInfo()
+    public virtual void SetDefaultDisplayedInfo()
     {
         if (_showDefaultDesc)
         {
@@ -160,15 +166,22 @@ public abstract class AbstractModificatorCardsManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
 
-            ModificatorVisualInfo newInfo = Instantiate(_cardInfoInstance, CardsInfoContainer);
-            newInfo.GetComponent<RectTransform>().sizeDelta *= Vector3.right * DEFAULT_INFO_WIDTH_MULT;
-            newInfo.Title.text = StartTitle?.GetLocalizedString() ?? "";
-            newInfo.Description.text = StartDesc?.GetLocalizedString() ?? "";
+            CreateDefaultDisplayInfo();
         }
         else
         {
             SetDisplayedInfo(null);
         }
+    }
+
+    protected virtual ModificatorVisualInfo CreateDefaultDisplayInfo()
+    {
+        ModificatorVisualInfo result = Instantiate(_cardInfoInstance, CardsInfoContainer);
+        result.GetComponent<RectTransform>().sizeDelta *= Vector3.right * DEFAULT_INFO_WIDTH_MULT;
+        result.Title.text = !StartTitle.IsEmpty ? StartTitle.GetLocalizedString() : "";
+        result.Description.text = !StartDesc.IsEmpty ? StartDesc.GetLocalizedString() : "";
+
+        return result;
     }
 
     public void SetClusterDisplayedDescription(ModificatorCardsCluster cluster)

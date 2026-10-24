@@ -7,7 +7,11 @@ public class OnInteractEnterCurse : AbstractLevelFinishDoor
     {
         base.OnFinishInteract(interactor);
 
-        if (ModificatorsManager.Instance.CanPickCurses)
+        if (ComboMoneyModificator.Instance != null)
+        {
+            SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.MONEY_SHOP);
+        }
+        else if (ModificatorsManager.Instance.CanPickCurses)
         {
             SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.CURSE);
         }

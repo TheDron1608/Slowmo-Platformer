@@ -6,6 +6,7 @@ public static class SceneList
     public const string MAIN_MENU = "MainMenu";
     public const string GAMEPLAY = "Gameplay";
     public const string SHOP = "Shop";
+    public const string MONEY_SHOP = "MoneyShop";
     public const string CURSE = "Curse";
     public const string LOOP = "Loop";
     public const string BOSS = "Boss";
@@ -28,6 +29,7 @@ public static class SceneList
 
     private static readonly string[] MODIFICATOR_SCENES = { 
         SHOP,
+        MONEY_SHOP,
         CURSE,
         LOOP,
         MODIFICATOR_DEBUG,
@@ -42,6 +44,6 @@ public static class SceneList
 
     public static bool GetCurrentSceneIsModificatorChoise()
     {
-        return GAMEPLAY_SCENES.Contains(SceneManager.GetActiveScene().name);
+        return MODIFICATOR_SCENES.Contains(SceneManager.GetActiveScene().name);
     }
 }

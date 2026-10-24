@@ -56,7 +56,6 @@ public class UIManager : MonoBehaviour
         protected GameObject _screenOverlayPrefab;
 
         protected ScreenOverlayInstance _currentScreenOverlay;
-        private Transform _screenOverlayContainer;
 
         public void SetShown(bool value)
         {
@@ -73,6 +72,10 @@ public class UIManager : MonoBehaviour
         public virtual void Show()
         {
             if (_currentScreenOverlay != null) return;
+            if (Instance._screenOverlayContainer.IsDestroyed())
+            {
+                Instance._screenOverlayContainer = GameObject.FindGameObjectWithTag("ScreenOverlayContainer") ?? throw new UnityException("Not found any gameObject with \"ScreenOverlayContainer\" tag");
+            }
 
             GameObject currentScreenOverlayGO = Instantiate(_screenOverlayPrefab, Instance._screenOverlayContainer.transform);
             currentScreenOverlayGO.transform.SetSiblingIndex(OverlayOrder);
@@ -369,6 +372,7 @@ public class UIManager : MonoBehaviour
     public BlindScreenOverlay BlindnessOverlay;
     public ScreenOverlay NavPointersScreenOverlay;
     public TextableScreenOverlay FastMessageScreenOverlay;
+    public TextableScreenOverlay MoneyBallanceScreenOverlay;
 
     [Header("Render")]
     [SerializeField] private Renderer2DData _renderData;
@@ -451,7 +455,8 @@ public class UIManager : MonoBehaviour
             UnlockedCharacterMessageOverlay,
             BlindnessOverlay,
             NavPointersScreenOverlay,
-            FastMessageScreenOverlay
+            FastMessageScreenOverlay,
+            MoneyBallanceScreenOverlay
         };
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of UIManager objects");

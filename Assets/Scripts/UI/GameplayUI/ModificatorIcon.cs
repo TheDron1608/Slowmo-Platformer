@@ -207,6 +207,10 @@ public class ModificatorIcon : Selectable, IModificatorInfo
         {
             BlessPickManager.Instance.SetIconDisplayedDescription(this);
         }
+        else if (MoneyPickManager.Instance != null)
+        {
+            MoneyPickManager.Instance.SetIconDisplayedDescription(this);
+        }
         else if (LoopCursePickManager.Instance != null)
         {
             LoopCursePickManager.Instance.SetIconDisplayedDescription(this);

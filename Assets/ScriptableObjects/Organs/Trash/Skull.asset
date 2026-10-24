@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b357d033ddf754aa18a4b1be52cfcd, type: 3}
+  m_Name: Skull
+  m_EditorClassIdentifier: Assembly-CSharp::OrganInfo
+  LocalizedName:
+    m_TableReference:
+      m_TableCollectionName: GUID:3036f81ce5ffc5340be7589fc6efd9e0
+    m_TableEntryReference:
+      m_KeyId: 8621361754112
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  TextColor: {r: 0.45911938, g: 0.45911938, b: 0.45911938, a: 1}
+  Price: 5
+  DropChance: 0.2
+  DropSound: {fileID: 11400000, guid: 8623f22564e618d409d3d3d7d3ab35fc, type: 2}
+  references:
+    version: 2
+    RefIds: []

@@ -14,7 +14,9 @@ public class CannibalRegen : AbstractCharacterEffect, IEntireCharacterEffect
     public float MaxBitesPerCharacterScale = 0.35f;
     public float CameraShakeOnBite = 0.1f;
     public float CorpseAttractForce = 5f;
+    public List<OrganInfo> Organs = new();
     public SoundPlayer BiteSound;
+    public SoundPlayer CollectOrganSound;
 
     private float _timeSinceLastBite = 0f;
     private Healthbar _currentHealthBar = null;
@@ -112,9 +114,22 @@ public class CannibalRegen : AbstractCharacterEffect, IEntireCharacterEffect
                     {
                         nearestCorpse.CharComponents.CharacterHealth.Gib(AffectedCharacter);
                     }
-
-
                     AffectedCharacter.CharacterHealth.ApplyDamage(-HealthPerBite, null, false);
+
+                    if (ComboMoneyModificator.Instance != null)
+                    {
+                        OrganInfo randomOrgan = NumberMath.PickRandomItem(Organs);
+                        if (RandomManager.Instance.ProcRandomGoodChance(randomOrgan?.DropChance ?? 0f))
+                        {
+                            AffectedCharacter.CharacterVisual.PopupText(
+                                randomOrgan.LocalizedName.GetLocalizedString() + " +" + randomOrgan.Price.ToString() + "$",
+                                true,
+                                randomOrgan.TextColor
+                                );
+                            CollectOrganSound.PlaySound(randomOrgan.DropSound);
+                            ComboMoneyModificator.Instance.CurrentMoney += randomOrgan.Price;
+                        }
+                    }
 
                     _timeSinceLastBite = 0f;
                 }

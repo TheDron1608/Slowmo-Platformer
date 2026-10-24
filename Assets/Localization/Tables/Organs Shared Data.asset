@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Organs Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: Organs
+  m_TableCollectionNameGuidString: 3036f81ce5ffc5340be7589fc6efd9e0
+  m_Entries:
+  - m_Id: 903611707392
+    m_Key: Appendix
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7614812680192
+    m_Key: Teeth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8621361754112
+    m_Key: Skull
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5397311488
+    m_Key: Liver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8039723008
+    m_Key: Kidney
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10514362368
+    m_Key: Brain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12162723840
+    m_Key: Eyes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 96371765248
+    m_Key: Intestine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98301145088
+    m_Key: Stomach
+    m_Metadata:
+      m_Items: []
+  - m_Id: 325728890880
+    m_Key: Spleen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 517677019136
+    m_Key: Pancreas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 764029464576
+    m_Key: Heart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 989540413440
+    m_Key: Spine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9122258120704
+    m_Key: AdrenalGlands
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1410220716032
+    m_Key: HugeFuruncle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1554324418560
+    m_Key: BrainTumor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1758893207552
+    m_Key: DoubleLiver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2396242866176
+    m_Key: DefectiveSpine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7726989340672
+    m_Key: Ulcer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7995101835264
+    m_Key: CrazedBrain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8018455719936
+    m_Key: TractialLiver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8038479327232
+    m_Key: PigHeart
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1687311085034537051
+  references:
+    version: 2
+    RefIds:
+    - rid: 1687311085034537051
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1792791921677

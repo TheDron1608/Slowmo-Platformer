@@ -90,7 +90,7 @@ public class ComboEncounter : MonoBehaviour
 
     public void UpdateComboState()
     {
-        if (_oldComboBg.IsDestroyed() || _comboBg.IsDestroyed()) return;
+        if (_oldComboBg.IsDestroyed() || _comboBg.IsDestroyed() || !gameObject.activeSelf) return;
 
         if (_comboBg.sprite != ScoreManager.Instance.CurrentComboState.BgSprite)
         {
@@ -110,8 +110,11 @@ public class ComboEncounter : MonoBehaviour
     {
         _currentAddingScore += score;
 
-        if (_scoreEncountCoroutine != null) StopCoroutine(_scoreEncountCoroutine);
-        _scoreEncountCoroutine = StartCoroutine(ScoreEncount());
+        if (gameObject.activeSelf)
+        {
+            if (_scoreEncountCoroutine != null) StopCoroutine(_scoreEncountCoroutine);
+            _scoreEncountCoroutine = StartCoroutine(ScoreEncount());
+        }
     }
 
     public void ForceSetScore(int score)

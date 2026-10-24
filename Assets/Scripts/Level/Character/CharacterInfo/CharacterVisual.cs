@@ -350,10 +350,13 @@ public class CharacterVisual : AbstractCharacterComponent
         RemovePopupMessage(DEATH_POPUP_PRIORITY);
     }
 
-    public void PopupText(string text)
+    public void PopupText(string text, bool instant = false, Color? color = null)
     {
         if (_targetPopupText != text) RemovePopupText();
         AddPopupMessage(null, text.Length * POPUP_TEXT_APPEAR_DURATION + POPUP_TEXT_REMOVE_DELAY, TEXT_POPUP_PRIORITY, POPUP_ANIMATION_DEFAULT_HEIGHT, text);
+
+        _popupText.color = color.GetValueOrDefault(Color.white);
+        if (instant) _popupText.text = text;
     }
     public void RemovePopupText()
     {
@@ -557,7 +560,7 @@ public class CharacterVisual : AbstractCharacterComponent
         _timeSinceLastPopupFrame += Time.deltaTime;
         _timeSinceLastPopupTextAppear += Time.deltaTime;
 
-        _popupImage.flipX = FlippedH;
+        _popupImage.transform.localScale = new Vector3(FlippedH ? -1f : 1f, 1f, 1f);
         _popupImage.transform.position = math.lerp(
             _popupImage.transform.position,
             CharComponents.Center.transform.position + Vector3.up * (_targetPopupHeight + CharComponents.CharacterRigidBodyCapsuleCollider.size.y / 2f),
@@ -572,12 +575,17 @@ public class CharacterVisual : AbstractCharacterComponent
                 _popupImage.sprite = _currentPopupSprites[_currentPopupFrame];
                 _timeSinceLastPopupFrame = 0f;
             }
+            Color imageColor = _popupImage.color;
+            imageColor.a = math.lerp(_popupImage.color.a, 1f, Time.deltaTime * POPUP_ANIMATION_SPEED_MULT);
+            _popupImage.color = imageColor;
 
-            _popupImage.color = new Color(1f, 1f, 1f, math.lerp(_popupImage.color.a, 1f, Time.deltaTime * POPUP_ANIMATION_SPEED_MULT));
+            Color textColor = _popupText.color;
+            textColor.a = math.lerp(_popupImage.color.a, 1f, Time.deltaTime * POPUP_ANIMATION_SPEED_MULT);
+            _popupText.color = textColor;
+
             _popupImage.enabled = _currentPopupSprites != null;
-            _popupText.enabled = _popupText.text != null;
-            _popupText.transform.localScale = new Vector3(FlippedH ? -1f : 1f, 1f, 1f);
             _popupImage.gameObject.SetActive(true);
+            _popupText.gameObject.SetActive(_targetPopupText != null);
 
             if (_timeSinceLastPopupTextAppear > POPUP_TEXT_APPEAR_DURATION && _popupText.text?.Length < _targetPopupText?.Length)
             {
@@ -588,8 +596,15 @@ public class CharacterVisual : AbstractCharacterComponent
         }
         else
         {
-            _popupImage.color = new Color(1f, 1f, 1f, math.lerp(_popupImage.color.a, 0f, Time.deltaTime * POPUP_HIDE_ANIMATION_SPEED_MULT));
+            Color imageColor = _popupImage.color;
+            imageColor.a = math.lerp(_popupImage.color.a, 0f, Time.deltaTime * POPUP_HIDE_ANIMATION_SPEED_MULT);
+            _popupImage.color = imageColor;
             if (_popupImage.color.a < 0.005f) _popupImage.gameObject.SetActive(false);
+
+            Color textColor = _popupText.color;
+            textColor.a = math.lerp(_popupImage.color.a, 0f, Time.deltaTime * POPUP_HIDE_ANIMATION_SPEED_MULT);
+            _popupText.color = textColor;
+            if (_popupText.color.a < 0.005f) _popupText.gameObject.SetActive(false);
         }
 
     }

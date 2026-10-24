@@ -94,6 +94,10 @@ public class ModificatorsUI : MonoBehaviour
         {
             BlessPickManager.Instance.SetClusterDisplayedDescription(null);
         }
+        if (MoneyPickManager.Instance != null)
+        {
+            MoneyPickManager.Instance.SetClusterDisplayedDescription(null);
+        }
 
         _cardInfo.TargetInfo = icon;
 

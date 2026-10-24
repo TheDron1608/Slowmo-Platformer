@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class OnInteractEnterShopDoor : AbstractLevelFinishDoor
 {
@@ -7,7 +6,11 @@ public class OnInteractEnterShopDoor : AbstractLevelFinishDoor
     {
         base.OnFinishInteract(interactor);
 
-        if (ModificatorsManager.Instance.CanSellCurses)
+        if (ComboMoneyModificator.Instance != null)
+        {
+            SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.MONEY_SHOP);
+        }
+        else if (ModificatorsManager.Instance.CanSellCurses)
         {
             SpawnManager.Instance.FinishGameplay(interactor?.GetComponent<AbstractCharacterComponent>(), SceneList.SHOP);
         }

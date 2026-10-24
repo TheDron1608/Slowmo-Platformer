@@ -7,6 +7,7 @@ public class DebugBootstrapInitializer : MonoBehaviour
     public CharacterComponentsManager StartCharacter;
     public List<AbstractModificator> StartModificators;
     public int StartScore = 0;
+    public int StartMoney = 0;
 
     private void Start()
     {
@@ -18,5 +19,6 @@ public class DebugBootstrapInitializer : MonoBehaviour
             ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.CURSE);
         }
         UIManager.Instance.LoadSceneWithEffect(SceneName);
+        if (ComboMoneyModificator.Instance != null) ComboMoneyModificator.Instance.CurrentMoney = StartMoney;
     }
 }
