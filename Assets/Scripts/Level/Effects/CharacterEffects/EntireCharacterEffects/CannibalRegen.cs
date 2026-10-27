@@ -109,26 +109,25 @@ public class CannibalRegen : AbstractCharacterEffect, IEntireCharacterEffect
                         bittenLimb.CharPartHealth.TryGib(AffectedCharacter);
                     }
 
-                    AffectedCharacter.CharacterHealth.ApplyDamage(-HealthPerBite, null, false);
-
                     nearestCorpse.CharComponents.CharacterHealth.Bites++;
                     if (nearestCorpse.CharComponents.transform.localScale.x < nearestCorpse.CharComponents.CharacterHealth.Bites * MaxBitesPerCharacterScale)
                     {
                         nearestCorpse.CharComponents.CharacterHealth.Gib(AffectedCharacter);
+                    }
+                    AffectedCharacter.CharacterHealth.ApplyDamage(-HealthPerBite, null, false);
 
-                        if (ComboMoneyModificator.Instance != null)
+                    if (ComboMoneyModificator.Instance != null)
+                    {
+                        OrganInfo randomOrgan = NumberMath.PickRandomItem(Organs);
+                        if (RandomManager.Instance.ProcRandomGoodChance(randomOrgan?.DropChance ?? 0f))
                         {
-                            OrganInfo randomOrgan = NumberMath.PickRandomItem(Organs);
-                            if (RandomManager.Instance.ProcRandomGoodChance(randomOrgan?.DropChance ?? 0f))
-                            {
-                                AffectedCharacter.CharacterVisual.PopupText(
-                                    randomOrgan.LocalizedName.GetLocalizedString() + " +" + randomOrgan.Price.ToString() + "$",
-                                    true,
-                                    randomOrgan.TextColor
-                                    );
-                                CollectOrganSound.PlaySound(randomOrgan.DropSound);
-                                ComboMoneyModificator.Instance.CurrentMoney += randomOrgan.Price;
-                            }
+                            AffectedCharacter.CharacterVisual.PopupText(
+                                randomOrgan.LocalizedName.GetLocalizedString() + " +" + randomOrgan.Price.ToString() + "$",
+                                true,
+                                randomOrgan.TextColor
+                                );
+                            CollectOrganSound.PlaySound(randomOrgan.DropSound);
+                            ComboMoneyModificator.Instance.CurrentMoney += randomOrgan.Price;
                         }
                     }
 

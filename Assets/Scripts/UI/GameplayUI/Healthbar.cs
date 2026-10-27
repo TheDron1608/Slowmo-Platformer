@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
@@ -52,7 +51,7 @@ public class Healthbar : MonoBehaviour
             if (value != null) value.OnHitByProjectile += HealthTrackedCharacter_OnHitByProjectile;
 
             _healthTrackedCharacter = value;
-        } 
+        }
     }
 
     public CharacterUITrack UITrackSource
@@ -145,8 +144,8 @@ public class Healthbar : MonoBehaviour
                 math.lerp(HealthbarHealth.fillAmount, targetFillAmount, Time.deltaTime * HEALTH_CHANGE_SPEED_MULTIPLIER
                 );
             HealthbarHealthLoseChange.fillAmount = math.lerp(
-                HealthbarHealthLoseChange.fillAmount, 
-                math.max(HealthbarHealth.fillAmount, HealthbarHealthAddChange.fillAmount), 
+                HealthbarHealthLoseChange.fillAmount,
+                math.max(HealthbarHealth.fillAmount, HealthbarHealthAddChange.fillAmount),
                 Time.deltaTime * HEALTH_CHANGE_SPEED_MULTIPLIER
                 );
             HealthbarHealthAddChange.fillAmount = targetFillAmount;
@@ -155,7 +154,7 @@ public class Healthbar : MonoBehaviour
                 NumberMath.LimitFloatInRange(HealthTrackedCharacter.MaxHealth * (MAX_HEALTHBAR_WIDTH / CHARACTER_HEALTH_AMOUNT_TO_REACH_MAX_HEALTHBAR_WIDTH), MIN_HEALTHBAR_WIDTH, MAX_HEALTHBAR_WIDTH),
                 _selfRectTransform.sizeDelta.y
                 );
-        
+
             if (_selfRectTransform.sizeDelta.x < MIN_HEALTHBAR_WIDTH_TO_SHOW_TEXT)
             {
                 HealthbarText.text = "";
@@ -191,13 +190,13 @@ public class Healthbar : MonoBehaviour
         for (int i = 0; i < _spriteItems.Count; i++)
         {
             _spriteItems[i].transform.localPosition = new Vector3(
-                0f, 
-                math.sin((_waveTime / SPRITE_ITEMS_WAVE_FREQ + i / SPRITE_ITEMS_WAVE_WIDTH) * math.PI) * SPRITE_ITEMS_WAVE_HEIGHT, 
+                0f,
+                math.sin((_waveTime / SPRITE_ITEMS_WAVE_FREQ + i / SPRITE_ITEMS_WAVE_WIDTH) * math.PI) * SPRITE_ITEMS_WAVE_HEIGHT,
                 0f
                 );
 
-            _spriteItems[i].transform.localScale = 
-                _spriteItems[i].sprite.rect.size / _spriteItems[i].sprite.pixelsPerUnit * SPRITE_ITEM_SCALE_MULT * 
+            _spriteItems[i].transform.localScale =
+                _spriteItems[i].sprite.rect.size / _spriteItems[i].sprite.pixelsPerUnit * SPRITE_ITEM_SCALE_MULT *
                 (i == 0 ? (HealthTrackedCharacter.CurrentHealth % SpriteItemPerHealth) / SpriteItemPerHealth : 1f);
         }
     }

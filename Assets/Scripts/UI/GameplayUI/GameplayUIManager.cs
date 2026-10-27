@@ -12,7 +12,7 @@ public class GameplayUIManager : MonoBehaviour
     const float HOLD_OBJECT_HIDE_POS_MULTIPLIER_Y = -1.5f;
     const float DAMAGED_OVERLAY_FILL_SPEED_MULTIPLIER = 5f;
     const float DYING_DAMAGED_OVERLAY_FILL_AMOUNT = 2f;
-    const float UNLIMITED_HEALTH_DAMAGE_OVERLAY_FAKE_MAX_HEALTH = 2f;
+    const float UNLIMITED_HEALTH_DAMAGE_OVERLAY_FAKE_MAX_HEALTH = 6f;
 
     public MultiHealthbarsManager MultiHealthbarsManager;
     public HoldObjectInfo HoldObjectInfo;
