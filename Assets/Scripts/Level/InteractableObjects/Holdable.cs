@@ -43,6 +43,7 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
     public float AimSpeedMultiplier = 1f;
     public List<AbstractEffect> EffectsOnThrowHit = new();
     public List<AbstractEffect> EffectOnHolded = new();
+    public List<AbstractEffect> PermanentEffectOnHolded = new();
     public bool BreakSelfOnCollide = false;
     public float AngleOnHolstered = 0f;
     public HolsteredFlippingModes FlipXOnHolstered;
@@ -419,6 +420,7 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
 
             newHolder.CurrentHoldObject = this;
             newHolder.CharComponents.CharacterEffectsReceiver.ApplyEffect(EffectOnHolded, this);
+            newHolder.CharComponents.CharacterEffectsReceiver.ApplyEffect(PermanentEffectOnHolded, this);
         }
 
         Selected = false;
@@ -506,6 +508,11 @@ public class Holdable : Interactable, IStuckableObject, IRememberPrefab
             {
                 holsterableMeleeWeapon.IsHolstered = !holsterableMeleeWeapon.IsHolstered;
             }
+        }
+
+        if (TryGetComponent(out MeatHook meatHook))
+        {
+            meatHook.NoExtraHook = false;
         }
 
         OnGiven?.Invoke(this, newHolder);

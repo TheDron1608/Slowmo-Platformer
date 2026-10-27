@@ -8,6 +8,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 244860169401269161, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: StickOnWallStringhtMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -48,9 +64,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1541346541774567248, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2178069265768166710, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: AirJumps
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2178069265768166710, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: JumpForce
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5069024044070257946, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: RollSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5069024044070257946, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: ExtraSpeedOnStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5225945479333914668, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
       propertyPath: m_Name
       value: ButcherPlayerCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5271647798526421152, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: Speed
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 5644515783962643202, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -64,6 +104,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a3b4f4104e166d34b8dc119be2942bff, type: 2}
+    - target: {fileID: 9134239791689440758, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: _maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134239791689440758, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}
+      propertyPath: _currentHealth
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7266675056806038998, guid: e95fe7fdab9d7934691580a3cbf1013b, type: 3}

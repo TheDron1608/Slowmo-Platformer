@@ -27,15 +27,23 @@ public class CharacterHook : AbstractCharacterSpecial
 
         _timeSinceHook = 0f;
 
+        _hookProjectile.StuckedToCollider = null;
         _hookTail.gameObject.SetActive(true);
         _hookProjectile.gameObject.SetActive(true);
-        _hookProjectile.transform.position = CharComponents.Center.transform.position;
+        _hookProjectile.transform.position = CharComponents.Center.transform.position + VectorMath.Vec2ToVec3(direction * CharComponents.CharacterRigidBodyCapsuleCollider.size.y);
         _hookProjectile.IsStuck = false;
         _hookProjectile.RigidBodyComponent.linearVelocity = direction.normalized * ThrowVelocity;
+
+        CharComponents.CharacterCollision.CurrentZLayer.UpdateLayerForAllChildren(transform);
 
         _isHooking = true;
 
         InvokeUse();
+
+        if (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out MeatHook meatHook) ?? false)
+        {
+            meatHook.NoExtraHook = true;
+        }
 
         return true;
     }
@@ -48,6 +56,11 @@ public class CharacterHook : AbstractCharacterSpecial
         _hookProjectile.gameObject.SetActive(false);
 
         _isHooking = false;
+
+        if (CharComponents.CharacterHolding.CurrentHoldObject?.TryGetComponent(out MeatHook meatHook) ?? false)
+        {
+            meatHook.NoExtraHook = false;
+        }
 
         return true;
     }
@@ -64,7 +77,14 @@ public class CharacterHook : AbstractCharacterSpecial
             {
                 Vector2 hookalign = (_hookProjectile.transform.position - CharComponents.Center.transform.position).normalized;
                 float hookDistance = Vector2.Distance(_hookProjectile.transform.position, CharComponents.Center.transform.position);
+
                 CharComponents.CharacterRigidBody.linearVelocity += hookalign * math.min(hookDistance, MaxHookDistanceAttracktionVelocity) * HookAttracktionVelocity;
+
+                if (_hookProjectile.StuckToCharacter != null)
+                {
+                    _hookProjectile.StuckToCharacter.CharComponents.CharacterRigidBody.linearVelocity += 
+                        -hookalign * math.min(hookDistance, MaxHookDistanceAttracktionVelocity) * HookAttracktionVelocity;
+                }
             }
         }
     }
@@ -78,6 +98,11 @@ public class CharacterHook : AbstractCharacterSpecial
 
         _hookTail.transform.rotation = VectorMath.Vec2ToQuaternion2DNoMirroring(targetRotation);
         _hookTail.transform.position = VectorMath.Vec2ToVec3(to + (targetRotation * distance / 2f), _hookTail.transform.position.z);
-        _hookTail.size = new Vector2(distance, 1f);
+        _hookTail.size = new Vector2(distance / transform.lossyScale.y, 1f);
+    }
+
+    private void OnDisable()
+    {
+        TryStopHook();
     }
 }

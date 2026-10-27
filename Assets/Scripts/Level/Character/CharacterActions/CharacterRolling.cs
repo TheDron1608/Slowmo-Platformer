@@ -64,7 +64,7 @@ public class CharacterRolling : AbstractCharacterComponent
     public bool TryRoll(float direction)
     {
 
-        if (!IsAbleToRoll || IsRolling || !RollCondition(direction))
+        if (!IsAbleToRoll || IsRolling || !RollCondition(direction) || RollSpeed + ExtraSpeedOnStart < 0.05f)
         {
             return false;
         }

@@ -1,8 +1,10 @@
 ﻿
 using System.Collections.Generic;
+using UnityEngine;
 
-public class GivePlayerHoldableIfUnarmed : AbstractModificator, IInvertableTeamModificator
+public class GivePlayerHoldableModificator : AbstractModificator, IInvertableTeamModificator
 {
+    public bool OverrideCurrentHoldable = false;
     public TeamManager.Teams AffectTeam = TeamManager.Teams.PLAYER;
     public List<Holdable> PossibleHoldables = new();
 
@@ -27,8 +29,9 @@ public class GivePlayerHoldableIfUnarmed : AbstractModificator, IInvertableTeamM
     {
         foreach (var playerCharacter in TeamManager.Instance.GetTeamDataByTeam(InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(AffectTeam) : AffectTeam).GetTeamMembers())
         {
-            if (playerCharacter.CharComponents.CharacterHolding.CurrentHoldObject == null)
+            if (playerCharacter.CharComponents.CharacterHolding.CurrentHoldObject == null || OverrideCurrentHoldable)
             {
+                playerCharacter.CharComponents.CharacterHolding.ForceThrow(Vector2.zero);
                 playerCharacter.CharComponents.CharacterHolding.GiveNewHoldable(NumberMath.PickRandomItem(PossibleHoldables));
             }
         }
