@@ -1173,7 +1173,7 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 49010920923570176
     m_Localized: "\r* You cannot obtain and sell modifiers\r\n* You still receive
-      permanent modifiers over time"
+      permanent modifiers over time\n* The combo does not reset over time"
     m_Metadata:
       m_Items: []
   - m_Id: 49275710807973888
@@ -1181,17 +1181,17 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49275715270713344
-    m_Localized: '* Using the ability exchanges your current combo for an artifact
+    m_Localized: '* Upon taking fatal damage, you exchange your current combo for
+      negative "Artifact" modifiers, with a conversion rate of {ArtifactTradeMult}%
 
       *
-      The higher the combo, the more powerful the artifact
-
-      * Artifacts heal
-      you; the healing depends on the artifact''s strength and decreases over time
+      The artifacts you receive restore your health based on their value
 
       *
-      You can collect up to {ModificatorCapacity} artifacts; exceeding the limit
-      replaces the last artifact with the new one'
+      Existing artifacts are discarded when new ones are acquired
+
+      * You will
+      die if you are unable to exchange artifacts'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657
@@ -1809,8 +1809,8 @@ MonoBehaviour:
       * While you are holding it, using
       your ability launches the hook
 
-      * You cannot pick up anything other
-      than the meat hook'
+      * You cannot pick up anything other than
+      the meat hook'
     m_Metadata:
       m_Items: []
   references:

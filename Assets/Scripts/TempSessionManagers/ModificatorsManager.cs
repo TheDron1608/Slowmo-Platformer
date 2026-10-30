@@ -29,7 +29,6 @@ public class ModificatorsManager : MonoBehaviour
     public bool ResetScoreOnSell = true;
     public float TradeCurseProfitMult = 1f;
     public float TradeBlessProfitMult = 1f;
-    public float ArtifactSpoilDurationSeconds = 60 * 5f;
     public int MultipleModificatorsMaxAmount = 5;
     public float MaxSynergingModificatorTargetPriceDifferece = 100f;
 
@@ -348,15 +347,18 @@ public class ModificatorsManager : MonoBehaviour
         List<AbstractModificator> excludeModificators = null,
         bool singleOnly = false,
         float counterModificatorsRelativePrice = 0f,
-        List<AbstractModificator> restrictOverrideModificators = null
+        List<AbstractModificator> restrictOverrideModificators = null,
+        bool restrictExceedTargetPrice = false
         )
     {
+        if (targetPrice <= 0.05f) return new();
+
         bool forceSynergingModificators = RandomManager.Instance.ProcRandomGoodChance(ForceGiveSynergingModificatorChance);
         float counterPriceMult = type == AbstractModificator.ModificatorTypes.NEUTRAL ? 1f : (1f + counterModificatorsRelativePrice);
         List<AbstractModificator> result = new();
         IEnumerable<AbstractModificator> filteredModificators = null;
 
-        if (forceSynergingModificators)
+        if (forceSynergingModificators && false)
         {
             filteredModificators =
                 AvaibleSynergingValidModificators
@@ -364,7 +366,7 @@ public class ModificatorsManager : MonoBehaviour
                     e.ModificatorType == type &&
                     (allowPermanentIncapable || e.AllowPermanent) &&
                     (excludeModificators == null || !excludeModificators.Contains(e)) &&
-                    Mathf.Abs(targetPrice - e.ModificatorPrice) < MaxSynergingModificatorTargetPriceDifferece &&
+                    (restrictExceedTargetPrice ? e.ModificatorPrice - targetPrice : Mathf.Abs(targetPrice - e.ModificatorPrice)) < MaxSynergingModificatorTargetPriceDifferece &&
                     !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2)) &&
                     (restrictOverrideModificators == null || restrictOverrideModificators.All(e2 => !e.GetIsOverriding(e2) && !e2.GetIsOverriding(e) && !e.GetIsRestrictedWith(e2)))
                 );
@@ -379,7 +381,8 @@ public class ModificatorsManager : MonoBehaviour
                     (allowPermanentIncapable || e.AllowPermanent) &&
                     (excludeModificators == null || !excludeModificators.Contains(e)) &&
                     !CurrentModificators.Any(e2 => e2.ModificatorPrice >= e.ModificatorPrice && e.GetIsOverriding(e2)) &&
-                    (restrictOverrideModificators == null || restrictOverrideModificators.All(e2 => !e.GetIsOverriding(e2) && !e2.GetIsOverriding(e) && !e.GetIsRestrictedWith(e2)))
+                    (restrictOverrideModificators == null || restrictOverrideModificators.All(e2 => !e.GetIsOverriding(e2) && !e2.GetIsOverriding(e) && !e.GetIsRestrictedWith(e2))) &&
+                    (!restrictExceedTargetPrice || e.ModificatorPrice <= targetPrice)
                 );
         }
 
@@ -401,7 +404,16 @@ public class ModificatorsManager : MonoBehaviour
             float totalModificatorsPrice = 0f;
             while (totalModificatorsPrice < minPrice * counterPriceMult && result.Count < MultipleModificatorsMaxAmount)
             {
-                filteredModificators = filteredModificators.Where(e => result.All(e2 => e != e2 && !e.GetIsRestrictedWith(e2) && !e.GetIsOverriding(e2)));
+                filteredModificators = filteredModificators.Where(
+                    e => 
+                    (!restrictExceedTargetPrice || e.ModificatorPrice <= targetPrice) && 
+                    result.All(
+                        e2 => 
+                        e != e2 && 
+                        !e.GetIsRestrictedWith(e2) && 
+                        !e.GetIsOverriding(e2)
+                    )
+                );
                 if (filteredModificators.Count() == 0) break;
 
                 AbstractModificator addModificator = filteredModificators.OrderBy(e => Mathf.Abs(targetPrice - e.ModificatorPrice)).First();

@@ -83,6 +83,7 @@ public class ParticleSpawner : MonoBehaviour
     {
         float particleMultiplier = CalculateParticleAmountGlobalMultiplierByParticle(particles.FirstOrDefault());
         int multipliedAmount = (int)math.round(amount * particleMultiplier);
+        if (multipliedAmount <= 0) return new();
         List<AbstractParticle> result = new(multipliedAmount);
         for (int i = 0; i < multipliedAmount; i++)
         {

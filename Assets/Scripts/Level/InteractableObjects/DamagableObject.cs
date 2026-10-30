@@ -180,9 +180,10 @@ public class DamagableObject : MonoBehaviour, IDamagable
         }
     }
 
-    public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier)
+    public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier, bool restoreAllHealth = false)
     {
         MaxHealth = math.max(newMaxHealth, MinHealth);
+        if (restoreAllHealth) CurrentHealth = MaxHealth;
         if (CurrentHealth > MaxHealth)
         {
             CurrentHealth = MaxHealth;

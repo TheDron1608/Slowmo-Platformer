@@ -10,7 +10,6 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     const string LOCALIZATION_ARTIFACT_KEY = "ModificatorStatusArtifact";
     const string LOCALIZATION_BOSS_KEY = "ModificatorStatusBoss";
     const string LOCALIZATION_PRICE_KEY = "ModificatorPrice";
-    const string LOCALIZATION_SPOILED_KEY = "ModificatorSpoilProgress";
 
     public enum ModificatorTiers
     {
@@ -40,7 +39,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         BOSS
     }
 
-    public static string GetLocalizedStatus(ModificatorTypes? type, ModificatorStatuses status, float price, float? spoilProgress)
+    public static string GetLocalizedStatus(ModificatorTypes? type, ModificatorStatuses status, float price)
     {
         switch (status)
         {
@@ -57,8 +56,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
                     LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + (type == ModificatorTypes.NEUTRAL ? "0" : price.ToString("0"));
             case ModificatorStatuses.ARTIFACT:
                 return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_ARTIFACT_KEY) + "\n" +
-                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + (type == ModificatorTypes.NEUTRAL ? "0" : price.ToString("0")) +
-                    (spoilProgress != null ? "\n" + LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_SPOILED_KEY) + (spoilProgress.Value * 100f).ToString("F0") + "%" : "");
+                    LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_PRICE_KEY) + ": " + (type == ModificatorTypes.NEUTRAL ? "0" : price.ToString("0"));
             case ModificatorStatuses.BOSS:
                 return LocalizationSettings.StringDatabase.GetLocalizedString(LOCALIZATION_TABLE_NAME, LOCALIZATION_BOSS_KEY);
             default:
@@ -89,7 +87,6 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     private ModificatorIcon _currentIcon;
     private AbstractModificator _originalModificator = null;
     private bool _disabledModificator = true;
-    private float _modificatorLivetime = 0f;
 
     public bool Multiplierable
     {
@@ -214,18 +211,6 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         return result;
     }
 
-    public float? GetSpoilProgress()
-    {
-        if (Status == ModificatorStatuses.ARTIFACT)
-        {
-            return NumberMath.LimitFloatBetweenZeroAndOne(_modificatorLivetime / (ModificatorsManager.Instance?.ArtifactSpoilDurationSeconds ?? 1f));
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public void TryTriggerIconAnimation()
     {
         CurrentIcon?.TriggerAnimation();
@@ -275,11 +260,6 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     protected virtual void OnObjectSpawned(object sender, GameObject e)
     {
 
-    }
-
-    private void FixedUpdate()
-    {
-        _modificatorLivetime += Time.fixedDeltaTime;
     }
 
 #if UNITY_EDITOR

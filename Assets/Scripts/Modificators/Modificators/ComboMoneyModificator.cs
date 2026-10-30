@@ -1,7 +1,7 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
 
-public class ComboMoneyModificator : AbstractModificator
+public class ComboMoneyModificator : AbstractModificator, IInvertableTeamModificator
 {
     const float DISPLAY_MONEY_SPEED_MULT = 5f;
 
@@ -9,6 +9,22 @@ public class ComboMoneyModificator : AbstractModificator
 
     private int _currentMoney;
     private float _displayedMoney;
+    private bool _invertTeam = false;
+    public bool InvertTeam
+    {
+        get => _invertTeam;
+        set
+        {
+            if (_invertTeam == value) return;
+            _invertTeam = value;
+
+            if (!DisabledModificator)
+            {
+                OnModificatorRemoved();
+                OnModificatorAdded();
+            }
+        }
+    }
 
     public int CurrentMoney
     {
@@ -36,18 +52,24 @@ public class ComboMoneyModificator : AbstractModificator
     {
         base.OnLevelGenerated();
 
-        GameplayUIManager.GetInstance()?.Combo.gameObject.SetActive(false);
-        UIManager.Instance.MoneyBallanceScreenOverlay.Show();
-        _displayedMoney = _currentMoney;
+        if (!InvertTeam)
+        {
+            GameplayUIManager.GetInstance()?.Combo.gameObject.SetActive(false);
+            UIManager.Instance.MoneyBallanceScreenOverlay.Show();
+            _displayedMoney = _currentMoney;
+        }
     }
 
     private void Update()
     {
-        _displayedMoney = math.lerp(_displayedMoney, _currentMoney, Time.deltaTime * DISPLAY_MONEY_SPEED_MULT);
-
-        if (UIManager.Instance.MoneyBallanceScreenOverlay.IsShown())
+        if (!InvertTeam)
         {
-            UIManager.Instance.MoneyBallanceScreenOverlay.TextContent = _displayedMoney.ToString("0") + "$";
+            _displayedMoney = math.lerp(_displayedMoney, _currentMoney, Time.deltaTime * DISPLAY_MONEY_SPEED_MULT);
+
+            if (UIManager.Instance.MoneyBallanceScreenOverlay.IsShown())
+            {
+                UIManager.Instance.MoneyBallanceScreenOverlay.TextContent = _displayedMoney.ToString("0") + "$";
+            }
         }
     }
 
@@ -57,7 +79,10 @@ public class ComboMoneyModificator : AbstractModificator
 
         Instance = null;
 
-        GameplayUIManager.GetInstance()?.Combo.gameObject.SetActive(true);
-        UIManager.Instance.MoneyBallanceScreenOverlay.Show();
+        if (!InvertTeam)
+        {
+            GameplayUIManager.GetInstance()?.Combo.gameObject.SetActive(true);
+            UIManager.Instance.MoneyBallanceScreenOverlay.Hide();
+        }
     }
 }

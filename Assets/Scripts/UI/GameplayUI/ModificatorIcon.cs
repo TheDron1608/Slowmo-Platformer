@@ -114,11 +114,6 @@ public class ModificatorIcon : Selectable, IModificatorInfo
         get => CurrentModificator.Type;
     }
 
-    public float? GetSpoilProgress()
-    {
-        return CurrentModificator?.GetSpoilProgress();
-    }
-
     protected override void Start()
     {
         _currentModificator.CurrentIcon = this;
@@ -133,10 +128,6 @@ public class ModificatorIcon : Selectable, IModificatorInfo
             math.lerp(_iconContainer.localPosition.y, (_raising ? RAISED_OFFSET : 0f), Time.deltaTime * RAISE_ANIMATION_MULTIPLIER),
             _iconContainer.localPosition.z
             );
-
-        Color newColor = Color.HSVToRGB(0f, 0f, 1f - (GetSpoilProgress() ?? 0f));
-        _bgImage.color = newColor;
-        _titleImage.color = newColor;
     }
 
     public void TriggerAnimation()

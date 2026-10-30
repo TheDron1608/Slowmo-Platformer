@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
 {
@@ -117,8 +116,8 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         {
             DamageVisualEffect(
                 ParticlesOnHit,
-                hitPointPosition, 
-                VectorMath.Quartenion2DToVec2(damager.transform.rotation), 
+                hitPointPosition,
+                VectorMath.Quartenion2DToVec2(damager.transform.rotation),
                 math.max(1, (int)math.floor(damage * ParticlesPerDamage))
                 );
         }
@@ -160,9 +159,9 @@ public class CharacterPartHealth : AbstractCharacterComponent, IDamagable
         CharComponents.CharacterHealth.SetHealth(health, setter);
     }
 
-    public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier)
+    public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier, bool restoreAllHealth = false)
     {
-        CharComponents.CharacterHealth.ApplyMaxHealth(newMaxHealth, applier);
+        CharComponents.CharacterHealth.ApplyMaxHealth(newMaxHealth, applier, restoreAllHealth);
     }
 
     public void ApplyMinHealth(float newMinHealth, MonoBehaviour applier)

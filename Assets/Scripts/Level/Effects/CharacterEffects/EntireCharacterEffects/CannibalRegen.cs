@@ -116,7 +116,7 @@ public class CannibalRegen : AbstractCharacterEffect, IEntireCharacterEffect
                     }
                     AffectedCharacter.CharacterHealth.ApplyDamage(-HealthPerBite, null, false);
 
-                    if (ComboMoneyModificator.Instance != null)
+                    if (ComboMoneyModificator.Instance != null && !ComboMoneyModificator.Instance.InvertTeam)
                     {
                         OrganInfo randomOrgan = NumberMath.PickRandomItem(Organs);
                         if (RandomManager.Instance.ProcRandomGoodChance(randomOrgan?.DropChance ?? 0f))

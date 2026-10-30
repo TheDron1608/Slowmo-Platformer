@@ -46,10 +46,10 @@ public class CharacterSelectContainer : MonoBehaviour
             }
             else
             {
-                _characterName.text = _localizedLockedTitle.GetLocalizedString();
                 _characterDesc.text = info.LocalizedUnlockCondition.GetLocalizedString();
                 _characterDesc.enabled = true;
             }
+            _characterName.text = _localizedLockedTitle.GetLocalizedString();
         }
 
         _currentInfo = info;

@@ -79,11 +79,6 @@ public class ModificatorCard : MonoBehaviour, IModificatorInfo
         get => ModificatorInstance.Type;
     }
 
-    public float? GetSpoilProgress()
-    {
-        return null;
-    }
-
     private void Start()
     {
         _defaultSprite = TitleImage.sprite;

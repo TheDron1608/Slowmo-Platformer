@@ -7,6 +7,7 @@ public class WorldGenRegularDoorsOnlyModificator : AbstractModificator
         base.OnModificatorAdded();
 
         WorldGenerationManager.Instance.RegularExitsOnly = true;
+        ScoreManager.Instance.ResetComboDelay *= 99999f;
     }
 
     public override void OnModificatorRemoved()
@@ -14,6 +15,10 @@ public class WorldGenRegularDoorsOnlyModificator : AbstractModificator
         if (WorldGenerationManager.Instance != null)
         {
             WorldGenerationManager.Instance.RegularExitsOnly = false;
+        }
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.ResetComboDelay /= 99999f;
         }
     }
 }

@@ -27,7 +27,7 @@ public class ModificatorVisualInfo : MonoBehaviour
 
         Title.text = TargetInfo.Localization.LocalizedTitle;
         Description.text = TargetInfo.Localization.LocalizedDescription;
-        Status.text = AbstractModificator.GetLocalizedStatus(TargetInfo.Type, TargetInfo.Status, TargetInfo.ModificatorPrice * TargetInfo.ModificatorMultiplier, TargetInfo.GetSpoilProgress());
+        Status.text = AbstractModificator.GetLocalizedStatus(TargetInfo.Type, TargetInfo.Status, TargetInfo.ModificatorPrice * TargetInfo.ModificatorMultiplier);
         Description.fontStyle = TargetInfo.DisabledModificator ? FontStyles.Strikethrough : FontStyles.Normal;
     }
 }

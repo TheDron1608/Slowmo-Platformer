@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour
     {
         TIME_OUT,
         PROJECTILE_HIT,
-        USED_ABILITY
+        MODIFICATOR_FORCE_RESET
     }
 
     [Serializable]
@@ -213,7 +213,7 @@ public class ScoreManager : MonoBehaviour
 
     private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
     {
-        _comboLastTime = CurrentCombo > MinCombo ? ResetComboDelayOnStartLevel : 0f;
+        _comboLastTime = CurrentCombo > MinCombo ? math.max(ResetComboDelay, ResetComboDelayOnStartLevel) : 0f;
 
         if (UIManager.Instance != null)
         {

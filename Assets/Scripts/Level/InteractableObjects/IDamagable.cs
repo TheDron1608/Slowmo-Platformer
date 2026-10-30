@@ -21,7 +21,7 @@ public interface IDamagable
 
     public event EventHandler<AbstractProjectile> OnHitByProjectile;
 
-    public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier);
+    public void ApplyMaxHealth(float newMaxHealth, MonoBehaviour applier, bool restoreAllHealth = false);
     public void ApplyMinHealth(float newMinHealth, MonoBehaviour applier);
     public void ApplyProjectileHit(AbstractProjectile hitter, bool isBlocked, bool includeSound = true);
 
