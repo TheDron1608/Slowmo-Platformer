@@ -63,7 +63,7 @@ public class CursePickManager : AbstractModificatorCardsManager
         if (ModificatorsManager.Instance.ResetScoreOnSell && !pickNothing)
         {
             ScoreManager.Instance.TradableScore = 0;
-            ScoreManager.Instance.CurrentCombo = 0;
+            if (ModificatorsManager.Instance.ResetComboOnCursePick) ScoreManager.Instance.CurrentCombo = 0;
         }
 
         UIManager.Instance.LoadSceneWithEffect(SceneList.GAMEPLAY);

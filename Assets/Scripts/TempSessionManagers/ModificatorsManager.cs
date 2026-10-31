@@ -31,6 +31,7 @@ public class ModificatorsManager : MonoBehaviour
     public float TradeBlessProfitMult = 1f;
     public int MultipleModificatorsMaxAmount = 5;
     public float MaxSynergingModificatorTargetPriceDifferece = 100f;
+    public bool ResetComboOnCursePick = true;
 
     [Header("Instances")]
     [SerializeField] private ModificatorCardsCluster _clusterInstance;

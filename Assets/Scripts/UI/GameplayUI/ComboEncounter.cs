@@ -11,6 +11,9 @@ public class ComboEncounter : MonoBehaviour
     const float SCORE_ENCOUNT_SPEED_PER_SECOND = 30f;
     const float SCORE_ENCOUNT_PITCH_INCREASE_PER_SECOND = 1f;
     const float SCORE_ENCOUNT_MAX_PITCH = 3f;
+    const int INSTANT_ENCOUNT_MAX_COMBO = 8;
+    const float INTANT_ENCOUNT_MIN_PITCH = 0.25f;
+    const float INSTANT_ENCOUNT_MAX_PITCH = 2f;
 
     private float _currentDisplayedScore = 0;
     private float _currentAddingScore = 0;
@@ -18,6 +21,7 @@ public class ComboEncounter : MonoBehaviour
     private Coroutine _scoreEncountCoroutine = null;
     private Material _defaultBgMaterial = null;
     private Material _overrideBgMaterial = null;
+    private bool _instantComboEncount = false;
 
     public Sound StartEncoundSound;
     public Sound EncoundSound;
@@ -47,6 +51,18 @@ public class ComboEncounter : MonoBehaviour
     public TextMeshProUGUI ExtraInfo
     {
         get => _extraInfo;
+    }
+
+    public bool InstantComboEncount
+    {
+        get => _instantComboEncount;
+        set => _instantComboEncount = value;
+    }
+
+    public float EcnountFinishVolumeMult
+    {
+        get => _encountSoundPlayer.DynamicVolumeMultiplier;
+        set => _encountSoundPlayer.DynamicVolumeMultiplier = value;
     }
 
     private void Awake()
@@ -108,12 +124,22 @@ public class ComboEncounter : MonoBehaviour
 
     public void AddScore(int score)
     {
-        _currentAddingScore += score;
-
-        if (gameObject.activeSelf)
+        if (InstantComboEncount)
         {
-            if (_scoreEncountCoroutine != null) StopCoroutine(_scoreEncountCoroutine);
-            _scoreEncountCoroutine = StartCoroutine(ScoreEncount());
+            _currentDisplayedScore += score;
+            _scoreText.text = _currentDisplayedScore.ToString("00000");
+            _encountSoundPlayer.Pitch = math.lerp(INTANT_ENCOUNT_MIN_PITCH, INSTANT_ENCOUNT_MAX_PITCH, NumberMath.LimitFloatBetweenZeroAndOne((float)ScoreManager.Instance.CurrentCombo / INSTANT_ENCOUNT_MAX_COMBO));
+            _encountSoundPlayer.PlaySound(FinishEncoundSound);
+        }
+        else
+        {
+            _currentAddingScore += score;
+
+            if (gameObject.activeSelf)
+            {
+                if (_scoreEncountCoroutine != null) StopCoroutine(_scoreEncountCoroutine);
+                _scoreEncountCoroutine = StartCoroutine(ScoreEncount());
+            }
         }
     }
 

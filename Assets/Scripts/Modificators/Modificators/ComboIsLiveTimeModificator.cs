@@ -3,10 +3,14 @@ using Unity.Mathematics;
 
 public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamModificator
 {
+    const float COMBO_ENCOUNT_FINISH_VOLUME_MULT = 3f;
+    const int DAMAGED_SCREEN_OVERLAY_MAX_COMBO = 8;
+
     public TeamManager.Teams AffectTeam = TeamManager.Teams.PLAYER;
     public float ResetScoreEncountSpeedMultiplierMultiplier = 1f;
     public float ComboMultiplierOnReset = 0.5f;
     public int MinCombo = -10;
+    public int StartCombo = 10;
     public int SetComboInInvertedTeam = 0;
     public List<AbstractEffect> PlayerCharacterKillEffectsOnReachMinCombo = new();
 
@@ -38,7 +42,22 @@ public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamMo
         ScoreManager.Instance.ResetScoreEncountSpeedMultiplier *= ResetScoreEncountSpeedMultiplierMultiplier;
         ScoreManager.Instance.OverrideResetComboEvent = OverrideScoreEncounterResetComboEvent;
 
-        if (InvertTeam && ScoreManager.Instance.CurrentCombo < SetComboInInvertedTeam) ScoreManager.Instance.CurrentCombo = SetComboInInvertedTeam;
+        if (InvertTeam)
+        {
+            ScoreManager.Instance.CurrentCombo = math.max(ScoreManager.Instance.CurrentCombo, SetComboInInvertedTeam);
+        }
+        else
+        {
+            ScoreManager.Instance.CurrentCombo += StartCombo;
+        }
+
+        if (GameplayUIManager.GetInstance()?.Combo != null)
+        {
+            GameplayUIManager.GetInstance().Combo.InstantComboEncount = true;
+            GameplayUIManager.GetInstance().Combo.EcnountFinishVolumeMult = COMBO_ENCOUNT_FINISH_VOLUME_MULT;
+        }
+
+        ModificatorsManager.Instance.ResetComboOnCursePick = false;
     }
 
     public override void OnModificatorRemoved()
@@ -50,6 +69,28 @@ public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamMo
             ScoreManager.Instance.ResetScoreEncountSpeedMultiplier /= ResetScoreEncountSpeedMultiplierMultiplier;
             ScoreManager.Instance.OverrideResetComboEvent = null;
             ScoreManager.Instance.MinCombo = _oldMinComboValue;
+        }
+
+        if (GameplayUIManager.GetInstance()?.Combo != null)
+        {
+            GameplayUIManager.GetInstance().Combo.InstantComboEncount = false;
+            GameplayUIManager.GetInstance().Combo.EcnountFinishVolumeMult = 1.0f;
+        }
+
+        if (ModificatorsManager.Instance != null)
+        {
+            ModificatorsManager.Instance.ResetComboOnCursePick = true;
+        }
+    }
+
+    public override void OnLevelGenerated()
+    {
+        base.OnLevelGenerated();
+
+        if (GameplayUIManager.GetInstance()?.Combo != null)
+        {
+            GameplayUIManager.GetInstance().Combo.InstantComboEncount = true;
+            GameplayUIManager.GetInstance().Combo.EcnountFinishVolumeMult = COMBO_ENCOUNT_FINISH_VOLUME_MULT;
         }
     }
 
@@ -82,5 +123,13 @@ public class ComboIsLiveTimeModificator : AbstractModificator, IInvertableTeamMo
         }
 
         return true;
+    }
+
+    private void FixedUpdate()
+    {
+        if (UIManager.Instance.DamagedScreenOverlay.IsShown() && ScoreManager.Instance != null)
+        {
+            UIManager.Instance.DamagedScreenOverlay.FillAmount = 1f - NumberMath.LimitFloatBetweenZeroAndOne((float)ScoreManager.Instance.CurrentCombo / COMBO_ENCOUNT_FINISH_VOLUME_MULT);
+        }
     }
 }
