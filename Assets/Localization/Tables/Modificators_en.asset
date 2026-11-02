@@ -1118,17 +1118,18 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 48287512308981760
-    m_Localized: '* You are a sword
+    m_Localized: '* You are a sword.
 
-      * Using the ability converts the dead
-      enemy nearest to the sword to your side
+      * Using your ability converts the enemy
+      nearest to the sword to your side, at the cost of {ConvertCost} combo points.
 
-      * Using the ability costs {ConvertCost}
-      combo; the cost increases after each use and decreases for every {KillToDecreaseCost}
-      kills
+      *
+      If no characters remain on your side in the level, you will automatically convert
+      as many enemies as possible - otherwise, you die.
 
-      * Converted characters cannot survive longer than {ConvertLiveTime}
-      and will die if they are far from the sword'
+      * Converted characters
+      cannot survive longer than {ConvertLiveTime} and will die if they move too
+      far away from the sword.'
     m_Metadata:
       m_Items:
       - rid: 8344437339716845657

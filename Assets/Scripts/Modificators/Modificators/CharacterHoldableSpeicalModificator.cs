@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModificator, IInvertableTeamModificator
 {
-    public int ExtraCostPerConverted = 1;
-    public int RequiredComboToReduceCost = 5;
+    const int MAX_AUTO_CONVERTS_ITERATIONS = 50;
+
+    public static CharacterHoldableSpeicalModificator Instance = null;
+
+    public int ScoreCost = 25;
+    public int StartScore = 100;
     public Holdable SpecialHoldableInstance;
     public List<AbstractEffect> TargetEffects = new();
     public List<AbstractEffect> InvertTargetEffects = new();
@@ -22,9 +24,8 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
     private Holdable _currentSpecialHoldable = null;
     private List<CharacterComponentsManager> _convertedCharacters = new();
-    private int _currentExtraCost = 0;
-    private int _killsToReducePriceLeft = 0;
     private bool _invertTeam = false;
+    private bool _anyConvertedCharacterIsAlive = true;
     public bool InvertTeam
     {
         get => _invertTeam;
@@ -41,22 +42,20 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
         }
     }
 
+    public Holdable CurrentSpecialHoldable
+    {
+        get => _currentSpecialHoldable;
+    }
+
     public override void OnModificatorAdded()
     {
         base.OnModificatorAdded();
 
-        SpawnManager.Instance.KeepHoldableOnFinishLevel = false;
-        ScoreManager.Instance.OnAddedCombo += Instance_OnAddedCombo;
-    }
+        if (Instance != null) throw new UnityException("limit of 1 Instance of CharacterHoldableSpecialModificator");
+        Instance = this;
 
-    private void Instance_OnAddedCombo(object sender, System.EventArgs e)
-    {
-        _killsToReducePriceLeft--;
-        if (_killsToReducePriceLeft <= 0)
-        {
-            _currentExtraCost = math.max(_currentExtraCost - 1, 0);
-            _killsToReducePriceLeft = RequiredComboToReduceCost;
-        }
+        SpawnManager.Instance.KeepHoldableOnFinishLevel = false;
+        ScoreManager.Instance.AddScore(StartScore);
     }
 
     public override void OnModificatorRemoved()
@@ -73,10 +72,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
             SpawnManager.Instance.KeepHoldableOnFinishLevel = true;
         }
 
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.OnAddedCombo += Instance_OnAddedCombo;
-        }
+        Instance = null;
     }
 
     public override void OnLevelGenerated()
@@ -99,10 +95,18 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
             if (_currentSpecialHoldable.TryGetComponent(out CameraTrackObject track)) track.enabled = !InvertTeam;
         }
         _convertedCharacters = new() { targetCharacter.CharComponents };
-
-        _currentExtraCost = 0;
-        _killsToReducePriceLeft = RequiredComboToReduceCost;
     }
+
+    protected override bool SpecialActivateCondition()
+    {
+        return base.SpecialActivateCondition() && GetAvaibleScore() >= ScoreCost;
+    }
+
+    private float GetAvaibleScore()
+    {
+        return ScoreManager.Instance.TradableScore + ScoreManager.Instance.CurrentCombo * ScoreManager.Instance.CurrentMultiplier;
+    }
+
 
     public override bool OnSpecialActivated()
     {
@@ -119,8 +123,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                     currentEnemyDistance < nearestEnemyDistance &&
                     characterTransform.TryGetComponent(out AbstractCharacterComponent character) &&
                     !character.CharComponents.CharacterTeam.GetIsAllyToAnotherTeam(TrackedTeam) &&
-                    !_convertedCharacters.Contains(character.CharComponents) &&
-                    character.CharComponents.CharacterEffectsReceiver.GetHasEffect<ILethalEffect>()
+                    !_convertedCharacters.Contains(character.CharComponents)
                     )
                 {
                     nearestEnemy = character.CharComponents;
@@ -128,8 +131,8 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                 }
 
             }
-            
-            if (nearestEnemy != null )
+
+            if (nearestEnemy != null)
             {
                 nearestEnemy.CharacterEffectsReceiver.ApplyEffect(InvertTeam ? InvertTargetEffects : TargetEffects, _currentSpecialHoldable);
 
@@ -147,18 +150,14 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
                 if (!InvertTeam) TimeManager.Instance.TryTemporalSlowTime(SlowmoOnConvert);
 
-                _currentExtraCost += ExtraCostPerConverted;
+                ScoreManager.Instance.ResetCombo(ScoreManager.ResetComboReasons.MODIFICATOR_FORCE_RESET);
+                ScoreManager.Instance.TradableScore -= ScoreCost;
 
                 return true;
             }
         }
 
         return false;
-    }
-
-    public override int GetTotalComboCost()
-    {
-        return base.GetTotalComboCost() + _currentExtraCost;
     }
 
     public override void OnLevelFinished()
@@ -190,6 +189,24 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
     private void FixedUpdate()
     {
+        _anyConvertedCharacterIsAlive = false;
+        foreach (var character in _convertedCharacters)
+        {
+            if (!character.IsDestroyed() && !character.CharacterHealth.Died)
+            {
+                _anyConvertedCharacterIsAlive = true;
+                break;
+            }
+        }
+
+        if (!_anyConvertedCharacterIsAlive)
+        {
+            for (int i = 0; i < MAX_AUTO_CONVERTS_ITERATIONS; i++)
+            {
+                if (!TryActivateSpecial()) break;
+            }
+        }
+
         if (InvertTeam)
         {
             if (
@@ -232,8 +249,6 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                     _convertedCharacters.Add(nearestEnemy);
 
                     TimeManager.Instance.TryTemporalSlowTime(SlowmoOnConvert);
-
-                    _currentExtraCost += ExtraCostPerConverted;
                 }
 
                 if (BossInitializer.Instance != null) BossInitializer.Instance.Boss = nearestEnemy;
@@ -241,8 +256,8 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
         }
 
         if (
-            SceneList.GetCurrentSceneIsGameplay() && 
-            _currentSpecialHoldable != null && 
+            SceneList.GetCurrentSceneIsGameplay() &&
+            _currentSpecialHoldable != null &&
             !_currentSpecialHoldable.IsDestroyed() &&
             _convertedCharacters.Count > 1
             )
@@ -268,7 +283,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
             {
                 ZIndexLayer specialHoldableLayer = LayerManager.Instance.GetZLayerOfGameObject(_currentSpecialHoldable.gameObject);
 
-                for (int i = 0; i < _convertedCharacters.Count; i++) 
+                for (int i = 0; i < _convertedCharacters.Count; i++)
                 {
                     if (_convertedCharacters[i] == null || _convertedCharacters[i].IsDestroyed())
                     {
@@ -280,7 +295,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
                         (
                             _convertedCharacters[i].CharacterCollision.CurrentZLayer != specialHoldableLayer ||
                             Vector2.Distance(
-                                _convertedCharacters[i].transform.position, 
+                                _convertedCharacters[i].transform.position,
                                 _currentSpecialHoldable.transform.position
                                 ) > MaxCharacterDistanceFromHoldable
                         )
@@ -297,7 +312,7 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
         ComboEncounter combo = UIManager.Instance?.GameplayScreenOverlay.GetGameplayUI()?.Combo;
         if (combo != null)
         {
-            if (ScoreManager.Instance.CurrentCombo >= GetTotalComboCost())
+            if (GetAvaibleScore() >= ScoreCost)
             {
                 combo.OverrideBgMaterial = ComboMaterialOnAbleToUse;
             }
@@ -310,9 +325,9 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
     private bool ExtraGameOverCondition()
     {
-        return 
-            ScoreManager.Instance.CurrentCombo < GetTotalComboCost() || 
-            _currentSpecialHoldable == null || 
+        return
+            (GetAvaibleScore() < ScoreCost && !_anyConvertedCharacterIsAlive) ||
+            _currentSpecialHoldable == null ||
             _currentSpecialHoldable.IsDestroyed();
     }
 }

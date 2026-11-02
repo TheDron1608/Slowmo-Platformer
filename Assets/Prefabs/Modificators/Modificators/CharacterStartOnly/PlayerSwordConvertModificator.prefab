@@ -74,11 +74,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612638396859023492].m_Value
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: managedReferences[6612638396859023493].m_Value
@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].name
-      value: KillToDecreaseCost
+      value: ConvertLiveTime
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[2].name
@@ -114,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[1].variable
-      value: 8419454798216036464
+      value: 6612638396859023493
       objectReference: {fileID: 0}
     - target: {fileID: 4804794711619614396, guid: 3fa2bd6ea8e8cab48b07c8ceb4b2b971, type: 3}
       propertyPath: m_StringReference.m_LocalVariables.Array.data[2].variable
@@ -181,9 +181,8 @@ MonoBehaviour:
   _modificatorPrice: 500
   _localization: {fileID: 2147315170708439846}
   SpecialActionReference: {fileID: 7302821110297656998, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  ComboCost: 1
-  ExtraCostPerConverted: 1
-  RequiredComboToReduceCost: 5
+  ScoreCost: 10
+  StartScore: 100
   SpecialHoldableInstance: {fileID: 5861841258277054220, guid: 0f4036d2a34ec8a4c8c546753dd0d879, type: 3}
   TargetEffects:
   - {fileID: 1124524581939566734, guid: 7dd7368e6cff98a4ea96c9ecc61af068, type: 3}
@@ -200,6 +199,7 @@ MonoBehaviour:
   - {fileID: 1233967932159160897, guid: 713d65a57aecf2848b19798c4dcb72f3, type: 3}
   - {fileID: -8095545692975642676, guid: 0d2319e9fc2eed94e94984f75dd6f0e8, type: 3}
   - {fileID: 7408680817082727320, guid: 421c5b06574d91a409f2988645233f64, type: 3}
+  - {fileID: -956496584889775604, guid: daf8c60704d094c4d970d3aecafb8349, type: 3}
   InvertTargetEffects:
   - {fileID: 1124524581939566734, guid: 51ce00ef7b0826947b0d9ce2cc398b66, type: 3}
   - {fileID: 1074026954555704250, guid: 8e96c3e8defe41c44872040ee864a28d, type: 3}

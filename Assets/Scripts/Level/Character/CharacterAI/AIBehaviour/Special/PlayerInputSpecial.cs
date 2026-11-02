@@ -362,6 +362,7 @@ public class PlayerInputSpecial : AbstractAISpecial
 
     private void OnDisable()
     {
+        SetGamepadTeleportUITarget(null, true);
         SpecialActionReference.action.started -= SpecialActionRereference_OnActionStarted;
         SpecialActionReference.action.canceled -= SpecialActionReference_OnActionCanceled;
     }

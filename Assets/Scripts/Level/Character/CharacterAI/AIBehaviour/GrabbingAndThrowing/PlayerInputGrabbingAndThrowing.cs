@@ -111,6 +111,7 @@ public class PlayerInputGrabbingAndThrowing : AbstractAIGrabbingAndThrowing
 
     private void OnDisable()
     {
+        CurrentSelectedGrabObject = null;
         GrabActionReference.action.started -= GrabActionReference_OnActionStarted;
     }
 }

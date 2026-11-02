@@ -3,7 +3,6 @@
 public abstract class AbstractGlobalSpecialModificator : AbstractModificator
 {
     public InputActionReference SpecialActionReference;
-    public int ComboCost = 0;
 
     public override void OnModificatorAdded()
     {
@@ -21,23 +20,29 @@ public abstract class AbstractGlobalSpecialModificator : AbstractModificator
 
     private void SpecialActionRereference_OnActionStarted(InputAction.CallbackContext context)
     {
+        TryActivateSpecial();
+    }
+
+    public bool TryActivateSpecial()
+    {
         if (
             !DisabledModificator &&
-            !UIManager.GamePaused() && 
+            !UIManager.GamePaused() &&
             SceneList.GetCurrentSceneIsGameplay() &&
-            ScoreManager.Instance.CurrentCombo >= GetTotalComboCost()
+            SpecialActivateCondition()
             )
         {
-            if (OnSpecialActivated())
-            {
-                ScoreManager.Instance.CurrentCombo -= GetTotalComboCost();
-            }
+            return OnSpecialActivated();
+        }
+        else
+        {
+            return false;
         }
     }
 
-    public virtual int GetTotalComboCost()
+    protected virtual bool SpecialActivateCondition()
     {
-        return ComboCost;
+        return true;
     }
 
     public abstract bool OnSpecialActivated();

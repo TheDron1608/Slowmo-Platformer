@@ -30,7 +30,7 @@ public class PlayerInputInteracting : AbstractAIInteracting
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         InteractActionReference.action.started += InteractActionReference_OnActionStarted;
     }
@@ -91,8 +91,9 @@ public class PlayerInputInteracting : AbstractAIInteracting
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
+        CurrentSelectedInteractObject = null;
         InteractActionReference.action.started -= InteractActionReference_OnActionStarted;
     }
 }
