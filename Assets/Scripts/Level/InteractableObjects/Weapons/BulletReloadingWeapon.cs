@@ -96,7 +96,7 @@ public class BulletReloadingWeapon : RangedWeapon
     {
         base.OnLoadFinish();
 
-        int loadAmount = math.min(math.min(AmmoAmountPerReload, MaxLoadedAmmo - LoadedLivingAmmoLeft - LoadedSpentAmmoLeft), AmmoLeft);
+        int loadAmount = math.min(math.min(CalculateAmmoAmountPerReload(), MaxLoadedAmmo - LoadedLivingAmmoLeft - LoadedSpentAmmoLeft), AmmoLeft);
         if (loadAmount > 0)
         {
             AmmoLeft -= loadAmount;
@@ -116,6 +116,11 @@ public class BulletReloadingWeapon : RangedWeapon
         {
             TryFinishReload();
         }
+    }
+
+    protected virtual int CalculateAmmoAmountPerReload()
+    {
+        return AmmoAmountPerReload;
     }
 
     public override void OnUnloadFinish()

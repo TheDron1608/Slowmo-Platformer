@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Unity.Mathematics;
-using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class ArtifactsHealthModificator : AbstractCharactersModificator, IInvertableTeamModificator
 {
@@ -37,11 +35,13 @@ public class ArtifactsHealthModificator : AbstractCharactersModificator, IInvert
     protected override void OnCharacterAffected(CharacterComponentsManager character)
     {
         character.CharacterEffectsReceiver.OnEffectAdded += CharacterEffectsReceiver_OnEffectAdded;
+        character.CharacterHolding.ThrowObjectsOnDeath = false;
     }
 
     protected override void OnCharacterRemovedAffect(CharacterComponentsManager character)
     {
         character.CharacterEffectsReceiver.OnEffectAdded -= CharacterEffectsReceiver_OnEffectAdded;
+        character.CharacterHolding.ThrowObjectsOnDeath = true;
     }
 
     public override void OnLevelGenerated()

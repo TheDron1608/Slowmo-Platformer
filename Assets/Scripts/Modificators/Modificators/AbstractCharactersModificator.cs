@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -36,8 +37,18 @@ public abstract class AbstractCharactersModificator : AbstractModificator, IInve
             RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
             )
         {
-            _affectedCharacters.Add(character.CharComponents);
-            OnCharacterAffected(character.CharComponents);
+            try
+            {
+                OnCharacterAffected(character.CharComponents);
+            }
+            catch (Exception exc)
+            {
+                Debug.LogError("Error when tried to affect character: " + exc.Message);
+            }
+            finally
+            {
+                _affectedCharacters.Add(character.CharComponents);
+            }
         }
     }
 
@@ -58,8 +69,18 @@ public abstract class AbstractCharactersModificator : AbstractModificator, IInve
                         RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
                         )
                     {
-                        _affectedCharacters.Add(character.CharComponents);
-                        OnCharacterAffected(character.CharComponents);
+                        try
+                        {
+                            OnCharacterAffected(character.CharComponents);
+                        }
+                        catch (Exception exc)
+                        {
+                            Debug.LogError("Error when tried to affect character: " + exc.Message);
+                        }
+                        finally
+                        {
+                            _affectedCharacters.Add(character.CharComponents);
+                        }
                     }
                 }
             }

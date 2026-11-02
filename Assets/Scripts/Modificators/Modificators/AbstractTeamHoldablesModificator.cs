@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -35,25 +36,49 @@ public abstract class AbstractTeamHoldablesModificator : AbstractModificator, II
             RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
             )
         {
-            _affectedHoldables.Add(holdable);
-            holdable.OnGiven += AffectedHoldable_OnGiven;
-            holdable.OnThrown += AffectedHoldable_OnThrown;
-            OnHoldableAffected(holdable);
+            try
+            {
+                OnHoldableAffected(holdable);
+            }
+            catch (Exception exc)
+            {
+                Debug.LogError("Error when tried to affect holdable: " + exc.Message);
+            }
+            finally
+            {
+                _affectedHoldables.Add(holdable);
+                holdable.OnGiven += AffectedHoldable_OnGiven;
+                holdable.OnThrown += AffectedHoldable_OnThrown;
+            }
         }
     }
 
     private void AffectedHoldable_OnGiven(object sender, CharacterHoldingObjects e)
     {
-        if (e.CharComponents.CharacterTeam.Team == (InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team))
+        try
         {
-            OnAffectedHoldablePickedUp((Holdable)sender, e);
+            if (e.CharComponents.CharacterTeam.Team == (InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team))
+            {
+                OnAffectedHoldablePickedUp((Holdable)sender, e);
+            }
+        }
+        catch (Exception exc)
+        {
+            Debug.LogError("Error when tried to affect on give for holdable: " + exc.Message);
         }
     }
     private void AffectedHoldable_OnThrown(object sender, Holdable.OnThrownEventArgs e)
     {
-        if (e.Thrower.CharComponents.CharacterTeam.Team == (InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team))
+        try
         {
-            OnAffectedHoldableThrown((Holdable)sender, e.Thrower);
+            if (e.Thrower.CharComponents.CharacterTeam.Team == (InvertTeam ? IInvertableTeamModificator.GetInvertedTeam(Team) : Team))
+            {
+                OnAffectedHoldableThrown((Holdable)sender, e.Thrower);
+            }
+        }
+        catch (Exception exc)
+        {
+            Debug.LogError("Error when tried to affect on thrown for holdable: " + exc.Message);
         }
     }
 
@@ -72,10 +97,20 @@ public abstract class AbstractTeamHoldablesModificator : AbstractModificator, II
                         RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
                         )
                     {
-                        _affectedHoldables.Add(holdable);
-                        holdable.OnGiven += AffectedHoldable_OnGiven;
-                        holdable.OnThrown += AffectedHoldable_OnThrown;
-                        OnHoldableAffected(holdable);
+                        try
+                        {
+                            OnHoldableAffected(holdable);
+                        }
+                        catch (Exception exc)
+                        {
+                            Debug.LogError("Error when tried to affect holdable: " + exc.Message);
+                        }
+                        finally
+                        {
+                            _affectedHoldables.Add(holdable);
+                            holdable.OnGiven += AffectedHoldable_OnGiven;
+                            holdable.OnThrown += AffectedHoldable_OnThrown;
+                        }
                     }
                 }
             }

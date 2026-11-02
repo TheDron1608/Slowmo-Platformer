@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,14 @@ public class BossInitializer : MonoBehaviour
         {
             if (!modificator.DisabledModificator)
             {
-                modificator.OnLevelPreGenerated();
+                try
+                {
+                    modificator.OnLevelPreGenerated();
+                }
+                catch (Exception exc)
+                {
+                    Debug.LogError("OnLevelPreGenerated error for modificator: " + modificator.name + " message: " + exc.Message);
+                }
             }
         }
 
@@ -146,7 +154,14 @@ public class BossInitializer : MonoBehaviour
         {
             if (!modificator.DisabledModificator)
             {
-                modificator.OnLevelGenerated();
+                try
+                {
+                    modificator.OnLevelGenerated();
+                }
+                catch (Exception exc)
+                {
+                    Debug.LogError("OnLevelGenerated error for modificator: " + modificator.name + " message: " + exc.Message);
+                }
             }
         }
     }

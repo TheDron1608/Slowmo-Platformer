@@ -1,5 +1,7 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameplayInitializer : MonoBehaviour
 {
@@ -18,7 +20,14 @@ public class GameplayInitializer : MonoBehaviour
         {
             if (!modificator.DisabledModificator)
             {
-                modificator.OnLevelPreGenerated();
+                try
+                {
+                    modificator.OnLevelPreGenerated();
+                }
+                catch (Exception exc)
+                {
+                    Debug.LogError("OnLevelPreGenerated error for modificator: " + modificator.name + " message: " + exc.Message);
+                }
             }
         }
 
@@ -28,7 +37,15 @@ public class GameplayInitializer : MonoBehaviour
         UIManager.Instance.DifficultyScreenOverlay.Show();
         UIManager.Instance.NavPointersScreenOverlay.Show();
 
-        WorldGenerationManager.Instance?.GenerateLevel();
+        try
+        {
+            WorldGenerationManager.Instance?.GenerateLevel();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("World generation failed");
+            SceneManager.LoadScene(SceneList.GAMEPLAY);
+        }
 
         //spawn player failed, restart level
         if (!SpawnManager.Instance?.SpawnPlayerCharacterAtStartPosition())
@@ -42,7 +59,14 @@ public class GameplayInitializer : MonoBehaviour
         {
             if (!modificator.DisabledModificator)
             {
-                modificator.OnLevelGenerated();
+                try
+                {
+                    modificator.OnLevelGenerated();
+                }
+                catch (Exception exc)
+                {
+                    Debug.LogError("OnLevelGenerated error for modificator: " + modificator.name + " message: " + exc.Message);
+                }
             }
         }
     }

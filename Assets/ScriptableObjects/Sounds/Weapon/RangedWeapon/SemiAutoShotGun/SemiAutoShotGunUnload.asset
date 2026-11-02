@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7293eb3147a4594459313393f5f33fb1, type: 3}
+  m_Name: SemiAutoShotGunUnload
+  m_EditorClassIdentifier: 
+  AudioClips:
+  - {fileID: 8300000, guid: e4abe8ee4d8b69d4ba5ed457793efa16, type: 3}
+  - {fileID: 8300000, guid: 797851a5b4c639443a505295f7663e52, type: 3}
+  - {fileID: 8300000, guid: 2374cd9a833bc4b4ebb9dced5339ab38, type: 3}
+  RandomPitchSpread: 0.05

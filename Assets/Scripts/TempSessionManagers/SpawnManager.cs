@@ -5,7 +5,6 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 [DefaultExecutionOrder(-1)]
 public class SpawnManager : MonoBehaviour
@@ -95,52 +94,59 @@ public class SpawnManager : MonoBehaviour
 
     public void FinishGameplay(AbstractCharacterComponent finishedCharacter, string loadScene)
     {
-        Holdable saveHoldable = finishedCharacter?.CharComponents.CharacterHolding.CurrentHoldObject;
-        Holdable saveHolsteredHoldable = finishedCharacter?.CharComponents.CharacterHolding.CurrentHolsteredHoldObject;
-
-        if (KeepHoldableOnFinishLevel)
+        try
         {
-            if (
-                PlayerCharacterHoldable != null &&
-                PlayerCharacterHoldable?.gameObject.scene.name != null
-                )
+            Holdable saveHoldable = finishedCharacter?.CharComponents.CharacterHolding.CurrentHoldObject;
+            Holdable saveHolsteredHoldable = finishedCharacter?.CharComponents.CharacterHolding.CurrentHolsteredHoldObject;
+
+            if (KeepHoldableOnFinishLevel)
             {
-                Destroy(PlayerCharacterHoldable.gameObject);
+                if (
+                    PlayerCharacterHoldable != null &&
+                    PlayerCharacterHoldable?.gameObject.scene.name != null
+                    )
+                {
+                    Destroy(PlayerCharacterHoldable.gameObject);
+                }
+
+                PlayerCharacterHoldable = saveHoldable;
+                PlayerCharacterHoldable?.transform.SetParent(transform);
+
+                if (
+                    PlayerCharacterHolsteredHoldable != null &&
+                    PlayerCharacterHolsteredHoldable?.gameObject.scene.name != null
+                    )
+                {
+                    Destroy(PlayerCharacterHolsteredHoldable.gameObject);
+                }
+
+                PlayerCharacterHolsteredHoldable = saveHolsteredHoldable;
+                PlayerCharacterHolsteredHoldable?.transform.SetParent(transform);
+            }
+            else if (!KeepHoldableOnFinishLevel)
+            {
+                if (PlayerCharacterHoldable?.gameObject.scene.name != null)
+                {
+                    Destroy(PlayerCharacterHoldable.gameObject);
+                }
+                PlayerCharacterHoldable = null;
+
+                if (PlayerCharacterHolsteredHoldable?.gameObject.scene.name != null)
+                {
+                    Destroy(PlayerCharacterHolsteredHoldable.gameObject);
+                }
+                PlayerCharacterHolsteredHoldable = null;
             }
 
-            PlayerCharacterHoldable = saveHoldable;
-            PlayerCharacterHoldable?.transform.SetParent(transform);
-
-            if (
-                PlayerCharacterHolsteredHoldable != null &&
-                PlayerCharacterHolsteredHoldable?.gameObject.scene.name != null
-                )
+            if (AnalyticsManager.Instance?.TrackedPlayerHealth != null)
             {
-                Destroy(PlayerCharacterHolsteredHoldable.gameObject);
+                AnalyticsManager.Instance.RecordEvent(new LevelFinishAnalyticsEvent());
+                AnalyticsManager.Instance.ResetTrackedInfo();
             }
-
-            PlayerCharacterHolsteredHoldable = saveHolsteredHoldable;
-            PlayerCharacterHolsteredHoldable?.transform.SetParent(transform);
         }
-        else if (!KeepHoldableOnFinishLevel)
+        catch (Exception exc)
         {
-            if (PlayerCharacterHoldable?.gameObject.scene.name != null)
-            {
-                Destroy(PlayerCharacterHoldable.gameObject);
-            }
-            PlayerCharacterHoldable = null;
-
-            if (PlayerCharacterHolsteredHoldable?.gameObject.scene.name != null)
-            {
-                Destroy(PlayerCharacterHolsteredHoldable.gameObject);
-            }
-            PlayerCharacterHolsteredHoldable = null;
-        }
-
-        if (AnalyticsManager.Instance?.TrackedPlayerHealth != null)
-        {
-            AnalyticsManager.Instance.RecordEvent(new LevelFinishAnalyticsEvent());
-            AnalyticsManager.Instance.ResetTrackedInfo();
+            Debug.LogError("error while trying to save holdable and score, message: " + exc.Message);
         }
 
         UIManager.Instance.LoadSceneWithEffect(loadScene);

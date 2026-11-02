@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public abstract class AbstractHoldablesModificator : AbstractModificator
 {
@@ -18,20 +20,44 @@ public abstract class AbstractHoldablesModificator : AbstractModificator
             RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
             )
         {
-            _affectedHoldables.Add(holdable);
-            holdable.OnGiven += AffectedHoldable_OnGiven;
-            holdable.OnThrown += AffectedHoldable_OnThrown;
-            OnHoldableAffected(holdable);
+            try
+            {
+                OnHoldableAffected(holdable);
+            }
+            catch (Exception exc)
+            {
+                Debug.LogError("Error when tried to affect holdable: " + exc.Message);
+            }
+            finally
+            {
+                _affectedHoldables.Add(holdable);
+                holdable.OnGiven += AffectedHoldable_OnGiven;
+                holdable.OnThrown += AffectedHoldable_OnThrown;
+            }
         }
     }
 
     private void AffectedHoldable_OnGiven(object sender, CharacterHoldingObjects e)
     {
-        OnAffectedHoldablePickedUp((Holdable)sender, e);
+        try
+        {
+            OnAffectedHoldablePickedUp((Holdable)sender, e);
+        }
+        catch (Exception exc)
+        {
+            Debug.LogError("Error when tried to affect on give for holdable: " + exc.Message);
+        }
     }
     private void AffectedHoldable_OnThrown(object sender, Holdable.OnThrownEventArgs e)
     {
-        OnAffectedHoldableThrown((Holdable)sender, e.Thrower);
+        try
+        {
+            OnAffectedHoldableThrown((Holdable)sender, e.Thrower);
+        }
+        catch (Exception exc)
+        {
+            Debug.LogError("Error when tried to affect on thrown for holdable: " + exc.Message);
+        }
     }
 
     public override void OnModificatorAdded()
@@ -49,10 +75,20 @@ public abstract class AbstractHoldablesModificator : AbstractModificator
                         RandomManager.Instance.ProcRandomChance(AffectChance, ChanceType)
                         )
                     {
-                        _affectedHoldables.Add(holdable);
-                        holdable.OnGiven += AffectedHoldable_OnGiven;
-                        holdable.OnThrown += AffectedHoldable_OnThrown;
-                        OnHoldableAffected(holdable);
+                        try
+                        {
+                            OnHoldableAffected(holdable);
+                        }
+                        catch (Exception exc)
+                        {
+                            Debug.LogError("Error when tried to affect holdable: " + exc.Message);
+                        }
+                        finally
+                        {
+                            _affectedHoldables.Add(holdable);
+                            holdable.OnGiven += AffectedHoldable_OnGiven;
+                            holdable.OnThrown += AffectedHoldable_OnThrown;
+                        }
                     }
                 }
             }
