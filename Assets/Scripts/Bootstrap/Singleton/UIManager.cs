@@ -152,7 +152,7 @@ public class UIManager : MonoBehaviour
             get => _currentTextContainer?.text;
             set
             {
-                if (_currentScreenOverlay != null) _currentTextContainer.text = value;
+                if (!_currentScreenOverlay.IsDestroyed()) _currentTextContainer.text = value;
             }
         }
 
@@ -373,6 +373,7 @@ public class UIManager : MonoBehaviour
     public ScreenOverlay NavPointersScreenOverlay;
     public TextableScreenOverlay FastMessageScreenOverlay;
     public TextableScreenOverlay MoneyBallanceScreenOverlay;
+    public TextableScreenOverlay SwordPlayerSpecialUsesLeftScreenOverlay;
 
     [Header("Render")]
     [SerializeField] private Renderer2DData _renderData;
@@ -456,7 +457,8 @@ public class UIManager : MonoBehaviour
             BlindnessOverlay,
             NavPointersScreenOverlay,
             FastMessageScreenOverlay,
-            MoneyBallanceScreenOverlay
+            MoneyBallanceScreenOverlay,
+            SwordPlayerSpecialUsesLeftScreenOverlay
         };
 
         if (Instance != null && !Instance.IsDestroyed()) throw new UnityException("Limit of 1 Instance of UIManager objects");

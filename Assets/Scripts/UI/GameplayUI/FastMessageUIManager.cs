@@ -16,9 +16,10 @@ public class FastMessageUIManager : MonoBehaviour
         {
             TextContainer.SetActive(false);
 
-            if (!SoundOnShow.GetIsPlaying())
+            if ((!SoundOnShow?.GetIsPlaying()) ?? true)
             {
                 UIManager.Instance.FastMessageScreenOverlay.Hide();
+                UIManager.Instance.SwordPlayerSpecialUsesLeftScreenOverlay.Hide();
             }
         }
     }
@@ -26,6 +27,6 @@ public class FastMessageUIManager : MonoBehaviour
     private void OnEnable()
     {
         TextContainer.SetActive(true);
-        SoundOnShow.PlaySound();
+        SoundOnShow?.PlaySound();
     }
 }

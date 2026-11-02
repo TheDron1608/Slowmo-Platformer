@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEngine;
 
 public class ArtifactsHealthModificator : AbstractCharactersModificator, IInvertableTeamModificator
 {
@@ -129,7 +131,14 @@ public class ArtifactsHealthModificator : AbstractCharactersModificator, IInvert
                     addedModsPrice += randomMod.ModificatorPrice;
                     totalAddedMods++;
                 }
-                _currentArtifacts.Add(ModificatorsManager.Instance.AddModificator(randomMod, ModificatorStatuses.ARTIFACT));
+                try
+                {
+                    _currentArtifacts.Add(ModificatorsManager.Instance.AddModificator(randomMod, ModificatorStatuses.ARTIFACT));
+                }
+                catch (Exception exc)
+                {
+                    Debug.LogError("add artifact error, message: " + exc.Message);
+                }
             }
 
             if (totalAddedMods >= ArtifactsCapacity || addedModsPrice >= price) break;

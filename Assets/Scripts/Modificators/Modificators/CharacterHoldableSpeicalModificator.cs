@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Localization;
 
 public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModificator, IInvertableTeamModificator
 {
     const int MAX_AUTO_CONVERTS_ITERATIONS = 50;
+    const int MAX_REMAIN_CONVERTS_LEFT_TO_SHOW_MESSAGE = 3;
 
     public static CharacterHoldableSpeicalModificator Instance = null;
 
@@ -21,6 +24,8 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
     public List<AbstractEffect> EffectsOnEnemyHoldingSpecialHoldable = new();
     public float SlowmoOnConvert = 1f;
     public Material ComboMaterialOnAbleToUse;
+
+    [SerializeField] private LocalizedString _usesLeftLocalizedText;
 
     private Holdable _currentSpecialHoldable = null;
     private List<CharacterComponentsManager> _convertedCharacters = new();
@@ -152,6 +157,19 @@ public class CharacterHoldableSpeicalModificator : AbstractGlobalSpecialModifica
 
                 ScoreManager.Instance.ResetCombo(ScoreManager.ResetComboReasons.MODIFICATOR_FORCE_RESET);
                 ScoreManager.Instance.TradableScore -= ScoreCost;
+
+                int convertsLeft = (int)math.floor((float)ScoreManager.Instance.TradableScore / ScoreCost);
+                if (!InvertTeam && convertsLeft <= MAX_REMAIN_CONVERTS_LEFT_TO_SHOW_MESSAGE)
+                {
+                    if (convertsLeft == 0)
+                    {
+                        UIManager.Instance.SwordPlayerSpecialUsesLeftScreenOverlay.Show("!!! " + convertsLeft.ToString("0") + " !!!");
+                    }
+                    else
+                    {
+                        UIManager.Instance.SwordPlayerSpecialUsesLeftScreenOverlay.Show(convertsLeft.ToString("0"));
+                    }
+                }
 
                 return true;
             }
