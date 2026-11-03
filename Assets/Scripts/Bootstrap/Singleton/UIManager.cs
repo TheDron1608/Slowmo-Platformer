@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     const string GLITCH_EFFECT_RENDER_FEATURE_NAME = "GlitchEffect";
     const string GLITCH_EFFECT_MATERIAL_FISH_EYE_INTENCITY_PROP_NAME = "_FishEyeIntencity";
     const string GLITCH_EFFECT_MATERIAL_INTENCITY_PROP_NAME = "_Intencity";
+    const string SCENE_TRANSITION_DEFAULT_FILL_GO_NAME = "SceneTransitionDefaultFill";
     const float GLITCH_EFFECT_CHANGE_SPEED = 25f;
     const float TEMPORAL_GLITCH_EFFECT_REMOVAL_SPEED_MULT = 5f;
 
@@ -499,6 +500,14 @@ public class UIManager : MonoBehaviour
         {
             FPSCountScreenOverlay.Show();
         }
+
+        StartCoroutine(HideSceneTransitionDefaultFillAfterDelay());
+    }
+
+    private IEnumerator HideSceneTransitionDefaultFillAfterDelay()
+    {
+        yield return new WaitForSeconds(.1f);
+        _mainCanvas?.transform.Find(SCENE_TRANSITION_DEFAULT_FILL_GO_NAME)?.gameObject.SetActive(false);
     }
 
     private void Update()

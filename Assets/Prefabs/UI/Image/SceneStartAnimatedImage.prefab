@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3217585899154914791, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
       propertyPath: FPS
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 3217585899154914791, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
       propertyPath: OneShot
@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3217585899154914791, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
       propertyPath: _frames.Array.size
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3217585899154914791, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
       propertyPath: '_frames.Array.data[0]'
@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 3217585899154914791, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
       propertyPath: '_frames.Array.data[13]'
       value: 
-      objectReference: {fileID: -984463242, guid: 0809eb408e9a58f40a5bc184fc7b1c45, type: 3}
+      objectReference: {fileID: 21300000, guid: 4c912d74f8c4e4b4188bb155120c3080, type: 3}
     - target: {fileID: 3735087541871792284, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -195,5 +195,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8827097356347084785, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6197046606353581900}
   m_SourcePrefab: {fileID: 100100000, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
+--- !u!114 &2384194873960569518 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3735087541871792284, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
+  m_PrefabInstance: {fileID: 1352186887644334642}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7513069091723199939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7513069091723199939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8827097356347084785, guid: 3e27cbadcc25b3e41b4af62e7c61bd96, type: 3}
+  m_PrefabInstance: {fileID: 1352186887644334642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6197046606353581900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7513069091723199939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 219ad6fe42353ea4d85bb873fa3856d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionDynamicMaterial
+  _image: {fileID: 2384194873960569518}

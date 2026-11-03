@@ -11,7 +11,7 @@ public class SoundPlayer : AbstractSoundPlayer
 
     public override void PlaySound(Sound sound, bool loop = false, Vector2? audioPoint = null, float? startTime = null, float volumeMult = 1f)
     {
-        if (sound == null || sound.AudioClips.Count == 0 || !_audioSource.enabled || !gameObject.activeSelf) return;
+        if (sound == null || sound.AudioClips.Count == 0 || !_audioSource.enabled || !_audioSource.gameObject.activeSelf) return;
 
         AudioClip randomClip = NumberMath.PickRandomItem(sound.AudioClips);
         _currentVolumeMult = volumeMult;
