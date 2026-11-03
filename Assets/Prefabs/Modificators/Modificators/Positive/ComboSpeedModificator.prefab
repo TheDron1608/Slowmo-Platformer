@@ -111,6 +111,7 @@ MonoBehaviour:
   SynergingModificators:
   - {fileID: 94900200516623785, guid: caeacf784b6e83a4f9673aedcf162335, type: 3}
   UnsynergingModificators: []
+  HarderVersion: {fileID: 0}
   ModificatorType: 0
   ModificatorTier: 1
   IconSprite: {fileID: 21300000, guid: cf606115f1efe334c9c8a07427944829, type: 3}
@@ -118,10 +119,11 @@ MonoBehaviour:
   CustomIconContent: {fileID: 0}
   CustomCardContent: {fileID: 0}
   _multiplierable: 0
-  _modificatorPrice: 15
+  _modificatorPrice: 75
   _localization: {fileID: 2147315170708439846}
   Team: 0
   AffectChance: 1
   ChanceType: 0
   Effects:
   - {fileID: -458579886738842049, guid: a95f32957e0b15f4983d5c11591b961c, type: 3}
+  AltEffectsOnInvertTeam: []
