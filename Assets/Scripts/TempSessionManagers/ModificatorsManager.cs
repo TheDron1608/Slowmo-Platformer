@@ -252,7 +252,11 @@ public class ModificatorsManager : MonoBehaviour
         List<AbstractModificator> overridedModificators = new();
         for (int i = 0; i < CurrentModificators.Count; i++)
         {
-            if (
+            if (modificator.GetIsOverriding(CurrentModificators[i]))
+            {
+                overridedModificators.Add(CurrentModificators[i]);
+            }
+            else if (
                 !(
                     modificator is IInvertableTeamModificator &&
                     CurrentModificators[i] is IInvertableTeamModificator currentInvertableMod &&
@@ -260,15 +264,11 @@ public class ModificatorsManager : MonoBehaviour
                 ) &&
                 (
                     CurrentModificators[i].GetIsOverriding(modificator) ||
-                    CurrentModificators[i].GetIsRestrictedWith(modificator)
+                    (CurrentModificators[i].GetIsRestrictedWith(modificator))
                 )
                 )
             {
                 return null;
-            }
-            else if (modificator.GetIsOverriding(CurrentModificators[i]))
-            {
-                overridedModificators.Add(CurrentModificators[i]);
             }
         }
 

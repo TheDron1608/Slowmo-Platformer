@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using Unity.VisualScripting;
 
 public class SniperModificator : AbstractModificator
 {
@@ -20,7 +17,6 @@ public class SniperModificator : AbstractModificator
     {
         base.OnModificatorAdded();
 
-        Debug.Log(_spawnedSniper);
         if (_spawnedSniper != null && !_spawnedSniper.IsDestroyed()) Destroy(_spawnedSniper.gameObject);
     }
 }

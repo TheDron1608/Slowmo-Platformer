@@ -23,7 +23,7 @@ public class DebugBootstrapInitializer : MonoBehaviour
         }
         foreach (AbstractModificator modificator in StartPermanentModificators)
         {
-            ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT);
+            ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.PERMANENT);
         }
         if (OverrideModsPool) ModificatorsManager.Instance.ModificatorsPool = ModsPool;
         UIManager.Instance.LoadSceneWithEffect(SceneName);
