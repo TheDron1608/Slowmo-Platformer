@@ -1814,6 +1814,18 @@ MonoBehaviour:
       the meat hook'
     m_Metadata:
       m_Items: []
+  - m_Id: 116702961063981056
+    m_Localized: Bleeding
+    m_Metadata:
+      m_Items: []
+  - m_Id: 116702962695565312
+    m_Localized: '* Maximum health is unlimited
+
+      * You lose {HealthLossPrecent}%
+      of your current health per second'
+    m_Metadata:
+      m_Items:
+      - rid: 8344437339716845657
   references:
     version: 2
     RefIds:
@@ -1923,3 +1935,4 @@ MonoBehaviour:
         - id: 28092185828368384
         - id: 87118785731076096
         - id: 87119730904899584
+        - id: 116702962695565312
