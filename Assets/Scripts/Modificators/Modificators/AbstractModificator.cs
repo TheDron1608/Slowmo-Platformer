@@ -87,6 +87,7 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
     private ModificatorIcon _currentIcon;
     private AbstractModificator _originalModificator = null;
     private bool _disabledModificator = true;
+    private AbstractModificator _currentOverridingMod = null;
 
     public bool Multiplierable
     {
@@ -163,6 +164,12 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
         get => ModificatorType;
     }
 
+    public AbstractModificator CurrentOverridingMod
+    {
+        get => _currentOverridingMod;
+        set => _currentOverridingMod = value;
+    }
+
     /// <summary>
     /// returns true 
     /// if any of modificators have restrict relation or
@@ -194,7 +201,18 @@ public abstract class AbstractModificator : MonoBehaviour, IModificatorInfo
 
     public bool GetIsOverriding(AbstractModificator overrideWho)
     {
-        return OriginalOrSelf.OverrideModificators.Contains(overrideWho.OriginalOrSelf);
+        return OriginalOrSelf.OverrideModificators.Contains(overrideWho.OriginalOrSelf) || GetIsHarderVersionOf(overrideWho);
+    }
+
+    public bool GetIsHarderVersionOf(AbstractModificator weakerVersion)
+    {
+        AbstractModificator weakMod = weakerVersion;
+        while (weakMod.HarderVersion != null)
+        {
+            if (weakMod.HarderVersion == this) return true;
+            weakMod = weakMod.HarderVersion;
+        }
+        return false;
     }
 
     public float GetPriceDependedOnOverrides(List<AbstractModificator> possibleOverridedModificators)

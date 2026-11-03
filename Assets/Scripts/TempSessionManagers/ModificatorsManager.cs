@@ -249,6 +249,7 @@ public class ModificatorsManager : MonoBehaviour
 
     public AbstractModificator AddModificator(AbstractModificator modificator, AbstractModificator.ModificatorStatuses modificatorStatus, bool invertTeam = false)
     {
+        List<AbstractModificator> overridedModificators = new();
         for (int i = 0; i < CurrentModificators.Count; i++)
         {
             if (
@@ -264,6 +265,10 @@ public class ModificatorsManager : MonoBehaviour
                 )
             {
                 return null;
+            }
+            else if (modificator.GetIsOverriding(CurrentModificators[i]))
+            {
+                overridedModificators.Add(CurrentModificators[i]);
             }
         }
 
@@ -283,6 +288,12 @@ public class ModificatorsManager : MonoBehaviour
         if (modificator.ModificatorType == AbstractModificator.ModificatorTypes.NEGATIVE && SessionManager.Instance != null)
         {
             SessionManager.Instance.CurrentSession.TotalObtainedCurses++;
+        }
+
+        foreach (AbstractModificator overridedMod in overridedModificators)
+        {
+            overridedMod.DisabledModificator = true;
+            overridedMod.CurrentOverridingMod = newModificator;
         }
 
         _requestUpdateAvaibleModificators = true;
@@ -309,11 +320,21 @@ public class ModificatorsManager : MonoBehaviour
         UIManager.Instance?.ArtifactModificatorsScreenOverlay?.GetModificatorsUI()?.RemoveModificatorIcon(_currentModificators[at]);
         _currentModificators.RemoveAt(at);
 
+        foreach (AbstractModificator mod in _currentModificators)
+        {
+            if (mod.CurrentOverridingMod == removeMod)
+            {
+                mod.CurrentOverridingMod = null;
+                mod.DisabledModificator = false;
+            }
+        }
+
         if (!removeMod.DisabledModificator)
         {
             removeMod.OnModificatorRemoved();
         }
         Destroy(removeMod.gameObject);
+
 
         _requestUpdateAvaibleModificators = true;
     }

@@ -5,7 +5,10 @@ public class DebugBootstrapInitializer : MonoBehaviour
 {
     public string SceneName = SceneList.GAMEPLAY;
     public CharacterComponentsManager StartCharacter;
-    public List<AbstractModificator> StartModificators;
+    public List<AbstractModificator> StartTradableModificators;
+    public List<AbstractModificator> StartPermanentModificators;
+    public bool OverrideModsPool = false;
+    public List<AbstractModificator> ModsPool = new();
     public int StartScore = 0;
     public int StartMoney = 0;
 
@@ -14,10 +17,15 @@ public class DebugBootstrapInitializer : MonoBehaviour
         SessionManager.Instance.CurrentSession = new();
         SpawnManager.Instance.PlayerCharacter = StartCharacter;
         ScoreManager.Instance.TradableScore = StartScore;
-        foreach (AbstractModificator modificator in StartModificators)
+        foreach (AbstractModificator modificator in StartTradableModificators)
         {
             ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.CURSE);
         }
+        foreach (AbstractModificator modificator in StartPermanentModificators)
+        {
+            ModificatorsManager.Instance.AddModificator(modificator, AbstractModificator.ModificatorStatuses.CHARACTER_DEFAULT);
+        }
+        if (OverrideModsPool) ModificatorsManager.Instance.ModificatorsPool = ModsPool;
         UIManager.Instance.LoadSceneWithEffect(SceneName);
         if (ComboMoneyModificator.Instance != null) ComboMoneyModificator.Instance.CurrentMoney = StartMoney;
     }

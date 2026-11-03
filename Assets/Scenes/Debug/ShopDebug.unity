@@ -407,6 +407,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultUnlockedCharacters: []
+  TotalCharacters: []
+  TotalHoldables: []
   _tempSessionManagersPrefab: {fileID: 1590695979345743307, guid: 5a00a0b0f0708d64b851257b1af025ec, type: 3}
 --- !u!4 &292252848
 Transform:
@@ -1088,9 +1090,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName: Shop
   StartCharacter: {fileID: 2886192054720589260, guid: 767e77988a7d34043a0d727145e0f7e6, type: 3}
-  StartModificators:
-  - {fileID: 7749506300840802882, guid: c5cb3c874903f3d4289caab7b2935795, type: 3}
-  StartScore: 50
+  StartTradableModificators:
+  - {fileID: 5562446617061950028, guid: b9ce4f15451fad2488786905b6b6bd51, type: 3}
+  StartPermanentModificators:
+  - {fileID: 7749506300840802882, guid: 90d446a210110524ba4bbc26f6ca15ab, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  - {fileID: 2754937490645494600, guid: 563c35b7112acab488fbb5374b370a2b, type: 3}
+  StartScore: 150
+  StartMoney: 0
 --- !u!4 &2088602313
 Transform:
   m_ObjectHideFlags: 0
