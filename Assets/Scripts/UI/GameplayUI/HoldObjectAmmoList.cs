@@ -47,6 +47,7 @@ public class HoldObjectAmmoList : MonoBehaviour
             {
                 image.sprite = _ammoSprite;
                 image.SetNativeSize();
+                image.transform.localScale = Vector3.one;
             }
             UpdateAmmoOverflow();
         }
@@ -67,6 +68,7 @@ public class HoldObjectAmmoList : MonoBehaviour
             Image newGOImage = newGO.AddComponent<Image>();
             newGOImage.sprite = _ammoSprite;
             newGOImage.SetNativeSize();
+            newGOImage.transform.localScale = Vector3.one;
 
             UIElementTrackTarget.CreateTrackTarget(_trackTargetsContainer, newGOImage.transform);
         }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CursorManager : MonoBehaviour
 {
     const float EXTRA_MIN_DISTANCE_FOR_RANGED_WEAPON = 0.15f;
-    const float CURSOR_POINT_SCALE_FOR_FULL_HD = 3f;
+    const float CURSOR_POINT_SCALE = .5f;
     public static readonly Vector2 CURSOR_HOTSPOT = new(16f, 16f);
 
     public static CursorManager Instance;
@@ -39,7 +39,7 @@ public class CursorManager : MonoBehaviour
             GameObject newCursorGO = new GameObject("CursorDot");
             newCursorGO.transform.SetParent(UIManager.Instance.GetMainCanvas().transform);
             newCursorGO.transform.SetAsLastSibling();
-            newCursorGO.transform.localScale = Vector2.one / CURSOR_POINT_SCALE_FOR_FULL_HD * (Screen.height / 1080f);
+            newCursorGO.transform.localScale = Vector2.one * CURSOR_POINT_SCALE;
             _currentPointSprite = newCursorGO.AddComponent<RawImage>();
         }
 
